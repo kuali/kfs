@@ -18,7 +18,6 @@ package org.kuali.kfs.module.purap.document.validation.event;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 

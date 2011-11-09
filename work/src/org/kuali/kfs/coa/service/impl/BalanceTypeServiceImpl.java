@@ -30,7 +30,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali. It uses the

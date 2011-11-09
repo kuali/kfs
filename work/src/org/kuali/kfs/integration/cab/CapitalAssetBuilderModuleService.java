@@ -17,7 +17,6 @@ package org.kuali.kfs.integration.cab;
 
 import java.util.List;
 
-import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.purap.ExternalPurApItem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;

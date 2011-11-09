@@ -18,13 +18,11 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

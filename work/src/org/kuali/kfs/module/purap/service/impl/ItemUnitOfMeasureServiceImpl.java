@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.service.ItemUnitOfMeasureService;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.rice.krad.service.BusinessObjectService;

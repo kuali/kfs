@@ -20,15 +20,13 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MultiselectableDocSearchConversion;
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
-import org.kuali.rice.kew.docsearch.DocumentSearchContext;
-import org.kuali.rice.kew.framework.document.lookup.SearchableAttributeValue;
+import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.document.Document;
 
 public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer {
 

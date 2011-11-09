@@ -22,8 +22,6 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
-
 
 public interface AccountingLineGroup {
 

@@ -24,10 +24,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.krad.service.DocumentHelperService;
 
 
 /**

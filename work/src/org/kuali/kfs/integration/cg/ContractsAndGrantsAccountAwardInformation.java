@@ -17,9 +17,8 @@ package org.kuali.kfs.integration.cg;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Information about an award associated with an account.

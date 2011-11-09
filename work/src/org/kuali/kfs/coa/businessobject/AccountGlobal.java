@@ -30,13 +30,12 @@ import org.kuali.rice.krad.bo.GlobalBusinessObject;
 import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.postalcode.PostalCode;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
-import java.util.ArrayList;
 
 /**
  * 

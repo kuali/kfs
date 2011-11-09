@@ -15,16 +15,16 @@
  */
 package org.kuali.rice.kim.api.role;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.kim.api.type.KimAttributeField;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 public abstract class PassThruRoleTypeServiceBase implements RoleTypeService {
 

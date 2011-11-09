@@ -16,20 +16,14 @@
 package org.kuali.kfs.sec.identity;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecConstants;
-import org.kuali.kfs.sec.businessobject.options.SecurityDefinitionDocumentTypeFinder;
-import org.kuali.rice.kew.api.docType.DocumentType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.Permission;
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.rice.kim.util.KimCommonUtils;
 
 
 /**

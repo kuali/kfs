@@ -18,10 +18,8 @@ package org.kuali.kfs.sec.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.SecKeyConstants;
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
-import org.kuali.kfs.sec.businessobject.SecurityModel;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;

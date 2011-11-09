@@ -32,8 +32,8 @@ import org.kuali.kfs.pdp.batch.service.ExtractTransactionsService;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.cg.businessobject.defaultvalue;
 
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * Gets the value of the user in the current session.

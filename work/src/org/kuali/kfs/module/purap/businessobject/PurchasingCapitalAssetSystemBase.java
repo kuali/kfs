@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,7 +25,6 @@ import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import java.util.ArrayList;
 
 public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusinessObjectBase implements CapitalAssetSystem {
 

@@ -19,13 +19,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObjectBase{
     

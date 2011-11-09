@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.businessobject.lookup;
 
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * This class overrides the base getActionUrls to set it to an empty string

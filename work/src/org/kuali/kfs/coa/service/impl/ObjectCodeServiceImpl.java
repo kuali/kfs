@@ -31,7 +31,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
  * This class is the service implementation for the ObjectCode structure. This is the default implementation, that is delivered with

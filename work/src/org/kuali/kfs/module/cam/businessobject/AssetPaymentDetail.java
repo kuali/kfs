@@ -25,9 +25,9 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Accounting line for the asset payment document.

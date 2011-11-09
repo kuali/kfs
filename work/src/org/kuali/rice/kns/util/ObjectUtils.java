@@ -35,17 +35,21 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.core.proxy.ProxyHelper;
 import org.hibernate.collection.PersistentBag;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.cache.CopiedObject;
+import org.kuali.rice.core.web.format.CollectionFormatter;
+import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
-import org.kuali.rice.kns.util.cache.CopiedObject;
-import org.kuali.rice.core.web.format.CollectionFormatter;
-import org.kuali.rice.core.web.format.FormatException;
-import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.krad.util.ExternalizableBusinessObjectUtils;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class contains various Object, Proxy, and serialization utilities.

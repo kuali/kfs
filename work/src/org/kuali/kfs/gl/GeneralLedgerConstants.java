@@ -25,12 +25,11 @@ import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
 
 /**

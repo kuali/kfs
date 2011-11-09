@@ -26,8 +26,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.ksb.messaging.ServiceInfo;
-import org.kuali.rice.ksb.messaging.service.ServiceRegistry;
 
 public abstract class KfsService extends Service {
     protected static final Logger LOG = Logger.getLogger(KfsService.class);

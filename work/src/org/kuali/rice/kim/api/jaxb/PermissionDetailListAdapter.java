@@ -15,14 +15,15 @@
  */
 package org.kuali.rice.kim.api.jaxb;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
 
 /**
  * An XML adapter that converts between PermissionDetailList objects and Map<String, String> objects.

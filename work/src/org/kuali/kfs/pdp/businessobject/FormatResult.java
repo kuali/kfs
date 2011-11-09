@@ -28,9 +28,9 @@ import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 
 /**

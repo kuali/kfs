@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**

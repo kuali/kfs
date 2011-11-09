@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.YearEndService;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;

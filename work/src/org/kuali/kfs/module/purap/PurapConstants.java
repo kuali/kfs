@@ -36,8 +36,8 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.util.JSTLConstants;
 
 /**
  * Holds constants for PURAP.

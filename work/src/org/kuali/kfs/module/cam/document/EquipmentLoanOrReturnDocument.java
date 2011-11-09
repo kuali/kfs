@@ -25,19 +25,18 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.postalcode.PostalCode;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase {

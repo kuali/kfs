@@ -21,7 +21,6 @@ import java.util.List;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
  * This class declares the service method for CAB Reconciliation service. Expected to be used by {@link BatchExtractService}. This

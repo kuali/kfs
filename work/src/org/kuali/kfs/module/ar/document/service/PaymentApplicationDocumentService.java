@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;

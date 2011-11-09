@@ -18,9 +18,9 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class KemidHistoricalCash extends PersistableBusinessObjectBase{
     private String kemid;

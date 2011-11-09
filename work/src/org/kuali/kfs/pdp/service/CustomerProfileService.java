@@ -19,9 +19,6 @@
  */
 package org.kuali.kfs.pdp.service;
 
-import java.util.List;
-
-import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 
 public interface CustomerProfileService {

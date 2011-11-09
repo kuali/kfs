@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum ThresholdFixture {
 

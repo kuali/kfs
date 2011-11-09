@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**

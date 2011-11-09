@@ -16,10 +16,6 @@
 package org.kuali.kfs.gl.batch.service;
 
 import java.util.Date;
-import java.util.List;
-
-import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.sys.Message;
 
 /**
  * An interface declaring methods needed by the all files for batch gl processes

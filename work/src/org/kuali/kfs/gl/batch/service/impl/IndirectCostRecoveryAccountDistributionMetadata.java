@@ -17,7 +17,6 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.math.BigDecimal;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 
 public class IndirectCostRecoveryAccountDistributionMetadata {

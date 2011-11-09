@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,10 +27,9 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class CustomerInvoiceWriteoffLookupUtil {
     

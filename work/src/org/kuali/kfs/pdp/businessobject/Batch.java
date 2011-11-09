@@ -25,9 +25,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class Batch extends TimestampedBusinessObjectBase {
     private KualiInteger id; 

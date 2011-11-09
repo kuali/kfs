@@ -15,12 +15,9 @@
  */
 package org.kuali.rice.kim.impl.jaxb;
 
-import org.kuali.rice.core.util.jaxb.NameAndNamespacePair;
-import org.kuali.rice.core.util.jaxb.NameAndNamespacePairValidatingAdapter;
-import org.kuali.rice.core.util.jaxb.StringTrimmingAdapter;
-import org.kuali.rice.kim.api.jaxb.NameAndNamespacePairToPermTemplateIdAdapter;
-import org.kuali.rice.kim.api.jaxb.PermissionDetailListAdapter;
-import org.kuali.rice.kim.api.permission.PermissionContract;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,9 +25,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.kuali.rice.core.util.jaxb.NameAndNamespacePair;
+import org.kuali.rice.core.util.jaxb.NameAndNamespacePairValidatingAdapter;
+import org.kuali.rice.core.util.jaxb.StringTrimmingAdapter;
+import org.kuali.rice.kim.api.jaxb.NameAndNamespacePairToPermTemplateIdAdapter;
+import org.kuali.rice.kim.api.jaxb.PermissionDetailListAdapter;
+import org.kuali.rice.kim.api.permission.PermissionContract;
 
 /**
  * This class represents a &lt;permission&gt; XML element.

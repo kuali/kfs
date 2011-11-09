@@ -17,15 +17,15 @@ package org.kuali.kfs.gl.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.PosterEntriesStep;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

@@ -16,6 +16,7 @@
 package org.kuali.kfs.pdp.service.impl;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -42,17 +43,17 @@ import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.core.mail.MailMessage;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.service.MailService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * @see org.kuali.kfs.pdp.service.PdpEmailService

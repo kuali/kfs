@@ -25,8 +25,8 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class validates if asset is locked by other document, if so return false

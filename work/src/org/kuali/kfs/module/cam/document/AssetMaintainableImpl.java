@@ -27,7 +27,6 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
-import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -39,19 +38,16 @@ import org.kuali.kfs.module.cam.util.MaintainableWorkflowUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.

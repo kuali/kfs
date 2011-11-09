@@ -16,8 +16,6 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,12 +25,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
-import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.document.service.ReportExportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Struts action class for report dumps.

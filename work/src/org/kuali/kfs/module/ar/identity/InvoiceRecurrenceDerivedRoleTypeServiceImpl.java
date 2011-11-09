@@ -17,13 +17,12 @@ package org.kuali.kfs.module.ar.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 public class InvoiceRecurrenceDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {

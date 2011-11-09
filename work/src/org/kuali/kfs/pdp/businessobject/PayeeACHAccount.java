@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class PayeeACHAccount extends PersistableBusinessObjectBase implements Inactivatable {
 

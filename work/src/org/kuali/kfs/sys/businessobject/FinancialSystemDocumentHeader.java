@@ -17,11 +17,9 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.sql.Date;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 /**
  * This class is a custom {@link DocumentHeader} class used by KFS to facilitate custom data fields and a few UI fields

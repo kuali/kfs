@@ -27,7 +27,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.Cached;
 
 /**
  * This class is the service implementation for the SubAccount structure. This is the default implementation that gets delivered

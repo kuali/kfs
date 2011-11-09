@@ -27,8 +27,8 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This class is the OJB implementation of the ChartDao interface.

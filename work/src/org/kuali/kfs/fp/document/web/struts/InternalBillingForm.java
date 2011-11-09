@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.InternalBillingItem;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
-import java.util.ArrayList;
 
 /**
  * This class is the action form for Internal Billing.

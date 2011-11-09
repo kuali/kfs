@@ -25,8 +25,8 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class tests the DisbursementVoucherTax service.

@@ -26,11 +26,9 @@ import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.kew.dto.RouteHeaderDTO;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springmodules.orm.ojb.OjbOperationException;
 
 public class CabActionBase extends KualiAction {

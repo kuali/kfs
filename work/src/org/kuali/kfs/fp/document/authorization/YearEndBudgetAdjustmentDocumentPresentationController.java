@@ -22,8 +22,6 @@ import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.exception.InactiveDocumentTypeAuthorizationException;
 
 /**
  * Document Authorizer for the Year End Budget Adjustment document.

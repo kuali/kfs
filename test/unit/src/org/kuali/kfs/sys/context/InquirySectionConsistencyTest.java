@@ -23,10 +23,10 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.InquiryDefinition;
 import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
 
 @ConfigureContext
 public class InquirySectionConsistencyTest extends KualiTestBase {

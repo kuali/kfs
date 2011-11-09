@@ -26,9 +26,8 @@ import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.FiscalYearMakerFixture;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.KualiModuleService;
 
 @ConfigureContext
 public class FiscalYearMakerServiceImplTest extends KualiTestBase {

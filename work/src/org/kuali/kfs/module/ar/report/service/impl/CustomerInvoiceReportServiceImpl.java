@@ -17,10 +17,8 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.File;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import net.sf.jasperreports.engine.JRParameter;
 

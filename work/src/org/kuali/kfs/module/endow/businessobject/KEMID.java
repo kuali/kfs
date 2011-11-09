@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,9 +25,8 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import java.util.ArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This KEMID class is an identifier for a specific set of Funds held by the institution as an endowment of funds functioning as an

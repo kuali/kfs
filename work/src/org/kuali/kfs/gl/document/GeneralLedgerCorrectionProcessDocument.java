@@ -16,8 +16,6 @@
 
 package org.kuali.kfs.gl.document;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.CorrectionProcessScrubberStep;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
@@ -42,13 +39,9 @@ import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 
 /**
  * The General Ledger Correction Document, a document that allows editing and processing of origin entry groups and the origin

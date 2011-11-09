@@ -24,8 +24,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorContact;
 import org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 
 public class VendorContactLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {

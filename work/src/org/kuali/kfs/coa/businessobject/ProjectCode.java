@@ -16,8 +16,8 @@
 package org.kuali.kfs.coa.businessobject;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**

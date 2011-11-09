@@ -16,7 +16,6 @@
 package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;

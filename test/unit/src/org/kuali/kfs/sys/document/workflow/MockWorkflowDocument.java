@@ -18,11 +18,8 @@ package org.kuali.kfs.sys.document.workflow;
 import java.sql.Timestamp;
 import java.util.Set;
 
-import org.kuali.rice.kew.dto.ReturnPointDTO;
-import org.kuali.rice.kew.dto.RouteHeaderDTO;
-import org.kuali.rice.kew.dto.WorkflowAttributeDefinitionDTO;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This class is the base class for a MockWorkflowDocument. It can be extended by any other kind of mock document that needs to

@@ -34,9 +34,9 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
+import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * A container which holds a single accounting line and the elements which will render it

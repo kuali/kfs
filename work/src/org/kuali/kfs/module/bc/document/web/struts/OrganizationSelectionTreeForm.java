@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -26,9 +27,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.PersistenceService;
-import java.util.ArrayList;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.PersistenceService;
 
 /**
  * ActionForm that supports the Organization Selection Tree page

@@ -22,7 +22,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants.AssetTransferDocument;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
@@ -30,15 +29,15 @@ import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.krad.datadictionary.DataDictionaryEntryBase;
 import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.location.api.state.StateService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationService.class);

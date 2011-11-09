@@ -31,12 +31,12 @@ import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentActionBase {
 

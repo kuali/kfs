@@ -22,9 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class EndowmentReportBaseForm extends KualiForm {
 

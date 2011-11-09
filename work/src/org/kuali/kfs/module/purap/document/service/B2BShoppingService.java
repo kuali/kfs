@@ -18,9 +18,8 @@ package org.kuali.kfs.module.purap.document.service;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
-import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * These items will allow a user to punch out for shopping and will create requisitions from an order.

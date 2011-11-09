@@ -33,8 +33,8 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

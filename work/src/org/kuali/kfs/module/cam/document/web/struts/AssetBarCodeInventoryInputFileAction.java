@@ -15,15 +15,11 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,11 +41,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**

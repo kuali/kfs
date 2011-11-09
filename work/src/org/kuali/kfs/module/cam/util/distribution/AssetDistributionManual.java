@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cam.util.distribution;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 

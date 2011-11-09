@@ -20,11 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.integration.ec.EffortCertificationModuleService;
+import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.module.ec.EffortConstants;
-import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
-import org.kuali.kfs.module.ec.batch.EffortCertificationExtractStep;
 import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
 import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
 import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;

@@ -15,29 +15,14 @@
  */
 package org.kuali.kfs.sec.document.web;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.apache.struts.Globals;
-import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionMessages;
-import org.kuali.kfs.sec.SecConstants;
-import org.kuali.kfs.sec.SecKeyConstants;
-import org.kuali.kfs.sec.service.AccessSecurityService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
-import org.kuali.kfs.sys.document.web.DefaultAccountingLineGroupImpl;
-import org.kuali.kfs.sys.document.web.RenderableAccountingLineContainer;
 import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**

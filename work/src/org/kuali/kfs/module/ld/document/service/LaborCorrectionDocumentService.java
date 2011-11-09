@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ld.document.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;

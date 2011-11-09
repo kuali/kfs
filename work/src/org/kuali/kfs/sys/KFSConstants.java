@@ -21,12 +21,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * This class is used to define global constants.

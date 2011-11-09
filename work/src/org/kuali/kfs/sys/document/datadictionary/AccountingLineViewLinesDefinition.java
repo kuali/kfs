@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.web.AccountingLineViewLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewLineFillingElement;
 import org.kuali.kfs.sys.document.web.AccountingLineViewLines;
 import org.kuali.kfs.sys.document.web.TableJoining;

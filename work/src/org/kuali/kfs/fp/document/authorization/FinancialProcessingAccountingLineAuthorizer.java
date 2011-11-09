@@ -29,10 +29,11 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.api.parameter.ParameterEvaluator;
-import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents

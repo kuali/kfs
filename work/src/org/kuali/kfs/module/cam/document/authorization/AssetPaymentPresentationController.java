@@ -21,8 +21,8 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Presentation Controller for Asset Payment Documents

@@ -20,8 +20,8 @@ import java.util.Set;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class VendorDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {

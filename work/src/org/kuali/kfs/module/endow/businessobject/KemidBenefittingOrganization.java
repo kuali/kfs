@@ -22,9 +22,9 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This KemidBenefittingOrganization class provides the institutional organizations that benefit from the KEMID.

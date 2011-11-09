@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,7 +33,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * This class is used to test the below the line item type rules 

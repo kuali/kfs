@@ -28,16 +28,14 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.kns.service.ConfigurableDateService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.ConfigurableDateService;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springmodules.orm.ojb.OjbOperationException;
-
-import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 /**
  * This class should be extended by all Kuali unit tests.

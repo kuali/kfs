@@ -27,14 +27,13 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.CustomerAgingReportService;
 import org.kuali.kfs.module.ar.report.util.CustomerAgingReportDataHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

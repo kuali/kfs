@@ -37,14 +37,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.datadictionary.DataDictionary;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import java.util.ArrayList;
 
 /**
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase

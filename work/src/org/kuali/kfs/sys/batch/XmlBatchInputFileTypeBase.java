@@ -28,9 +28,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.Rules;
-import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
 import org.springframework.core.io.UrlResource;

@@ -15,20 +15,17 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.Status;
-import org.kuali.kfs.module.purap.util.PurApItemUtils;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.location.api.country.Country;
 
 
 /**

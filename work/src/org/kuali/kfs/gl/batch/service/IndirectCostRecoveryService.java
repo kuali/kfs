@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.service.ReportWriterService;
 

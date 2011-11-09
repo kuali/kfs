@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.validation.event;
 
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.AddBudgetConstructionDocumentRule;
 import org.kuali.kfs.module.bc.document.validation.AddPendingBudgetGeneralLedgerLineRule;

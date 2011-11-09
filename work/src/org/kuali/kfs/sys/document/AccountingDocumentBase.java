@@ -42,12 +42,12 @@ import org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.sys.service.AccountingLineService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Base implementation class for financial edocs.

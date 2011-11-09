@@ -20,9 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class PurApItemUseTaxBase extends PersistableBusinessObjectBase implements PurApItemUseTax {
 

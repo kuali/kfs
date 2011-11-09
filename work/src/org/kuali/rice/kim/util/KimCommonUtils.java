@@ -22,9 +22,10 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.type.KimTypeInfoService; import org.kuali.rice.kim.api.services.IdentityManagementService; import org.kuali.rice.core.api.encryption.EncryptionService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kim.api.KimConstants;
 
 /**
  * This is a description of what this class does - bhargavp don't forget to fill

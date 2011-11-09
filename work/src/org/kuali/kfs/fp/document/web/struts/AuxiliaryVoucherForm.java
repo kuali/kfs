@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
@@ -36,9 +35,10 @@ import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleCon
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.

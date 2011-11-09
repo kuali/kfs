@@ -30,18 +30,19 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.service.BatchMaintenanceService;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.core.web.format.BooleanFormatter;
 
 /**
  * This class allows custom handling of Batches within the lookup framework.

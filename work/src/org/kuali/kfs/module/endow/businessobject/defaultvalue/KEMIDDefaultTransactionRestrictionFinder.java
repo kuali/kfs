@@ -23,8 +23,8 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.AgreementStatus;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 public class KEMIDDefaultTransactionRestrictionFinder implements ValueFinder {
 

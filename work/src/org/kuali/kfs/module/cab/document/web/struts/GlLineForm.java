@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.cab.document.web.struts;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,8 +23,8 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class GlLineForm extends KualiForm {
     private GeneralLedgerEntry generalLedgerEntry;

@@ -27,8 +27,6 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.businessobject.PaymentAccountHistory;
-import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 

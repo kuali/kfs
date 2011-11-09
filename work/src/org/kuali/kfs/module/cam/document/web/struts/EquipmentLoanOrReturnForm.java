@@ -15,11 +15,8 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;

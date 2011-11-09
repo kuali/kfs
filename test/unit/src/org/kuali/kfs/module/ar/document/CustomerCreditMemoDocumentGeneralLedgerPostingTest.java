@@ -17,10 +17,7 @@ package org.kuali.kfs.module.ar.document;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -29,7 +26,6 @@ import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -39,9 +35,9 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext(session = UserNameFixture.khuntley)
 public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTestBase {

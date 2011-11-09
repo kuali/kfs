@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.coa.service;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;

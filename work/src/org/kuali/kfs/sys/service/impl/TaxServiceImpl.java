@@ -26,8 +26,8 @@ import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.service.TaxRegionService;
 import org.kuali.kfs.sys.service.TaxService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 

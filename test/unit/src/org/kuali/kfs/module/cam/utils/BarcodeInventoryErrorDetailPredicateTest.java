@@ -19,17 +19,13 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
-import org.kuali.kfs.module.cam.document.service.AssetBarcodeInventoryLoadServiceTest;
 import org.kuali.kfs.module.cam.fixture.BarcodeInventoryErrorDetailPredicateFixture;
 import org.kuali.kfs.module.cam.util.BarcodeInventoryErrorDetailPredicate;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 
 @ConfigureContext(session = UserNameFixture.kfs)
 public class BarcodeInventoryErrorDetailPredicateTest extends KualiTestBase {

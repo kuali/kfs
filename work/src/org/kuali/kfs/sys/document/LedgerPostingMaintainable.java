@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.sys.document;
 
-import java.util.List;
-
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.document.MaintenanceLock;
 
 /**
  * Marks maintainables that create ledger entries.

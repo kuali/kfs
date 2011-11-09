@@ -21,8 +21,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Map;
 
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -51,10 +51,10 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext(session = appleton)
 public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {

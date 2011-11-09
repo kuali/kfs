@@ -29,8 +29,8 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

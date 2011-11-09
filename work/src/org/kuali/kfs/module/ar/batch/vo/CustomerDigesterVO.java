@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.ar.batch.vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import java.util.ArrayList;
 
 public class CustomerDigesterVO {
 

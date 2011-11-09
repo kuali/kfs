@@ -16,10 +16,12 @@
 package org.kuali.kfs.fp.document.service.impl;
 
 import org.kuali.kfs.fp.document.service.TransferOfFundsService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
-import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * The default implementation of the TransferOfFundsService

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.pdp;
 
-import org.kuali.rice.krad.authorization.AuthorizationConstants.EditMode;
 
 /**
  * Contains property name constants.

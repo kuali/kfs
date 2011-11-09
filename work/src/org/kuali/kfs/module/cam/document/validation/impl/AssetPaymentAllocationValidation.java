@@ -26,8 +26,8 @@ import org.kuali.kfs.module.cam.util.distribution.AssetDistribution;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validate Asset Distribution (allocation) sums

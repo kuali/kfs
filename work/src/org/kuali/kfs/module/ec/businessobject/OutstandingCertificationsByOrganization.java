@@ -19,16 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
  * Business object for the outstanding documents by organization report

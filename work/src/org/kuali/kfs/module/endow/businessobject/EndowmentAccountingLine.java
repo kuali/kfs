@@ -21,8 +21,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * Provides an interface for the accounting lines used in the Transfer of Funds documents in the Endowment module.

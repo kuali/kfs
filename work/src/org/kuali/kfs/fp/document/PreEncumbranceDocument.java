@@ -15,16 +15,13 @@
  */
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.fp.businessobject.PreEncumbranceDocumentAccountingLineParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
@@ -34,9 +31,9 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Copyable;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * The Pre-Encumbrance document provides the capability to record encumbrances independently of purchase orders, travel, or Physical

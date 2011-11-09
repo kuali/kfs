@@ -16,16 +16,11 @@
 package org.kuali.kfs.gl.batch;
 
 import java.io.File;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.springframework.util.StopWatch;
-import org.kuali.kfs.gl.batch.DemergerSortComparator;
 
 /**
  * A step to run the scrubber process.

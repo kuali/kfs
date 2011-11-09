@@ -2,7 +2,6 @@
 package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

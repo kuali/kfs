@@ -16,22 +16,15 @@
 package org.kuali.kfs.module.ec.document.web.struts;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * To define Actions for EffortCertification document.

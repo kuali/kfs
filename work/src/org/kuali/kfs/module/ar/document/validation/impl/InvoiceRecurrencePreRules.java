@@ -23,12 +23,12 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.UnknownDocumentIdException;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class InvoiceRecurrencePreRules extends PromptBeforeValidationBase {

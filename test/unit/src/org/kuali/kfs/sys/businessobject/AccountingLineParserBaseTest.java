@@ -30,8 +30,8 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.CrossSectionSuite;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Test class for testing <code>{@link AccountingLineParserBase}</code>

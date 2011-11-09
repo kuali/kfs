@@ -15,18 +15,13 @@
  */
 package org.kuali.kfs.module.purap.identity;
 
-import java.util.Collection;
-
-import org.kuali.kfs.module.purap.identity.PurapKimAttributes;
-import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.kfs.sys.identity.RoleTestBase;
-import org.kuali.rice.kim.api.role.RoleMembership;
 import java.util.HashMap;
 import java.util.Map;
-import org.kuali.rice.kim.api.identity.PersonService;
+
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.kfs.sys.identity.RoleTestBase;
+import org.kuali.rice.kim.api.KimConstants;
 
 @ConfigureContext
 public class PurapKFSApplicationRoleTest extends RoleTestBase {    

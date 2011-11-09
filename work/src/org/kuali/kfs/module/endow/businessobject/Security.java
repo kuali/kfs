@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -31,7 +32,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import java.util.ArrayList;
 
 /**
  * Business Object for Security table.

@@ -15,19 +15,14 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Group;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.api.KimApiConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 
 public class TicklerRecipientGroup extends PersistableBusinessObjectBase implements Inactivatable
 {

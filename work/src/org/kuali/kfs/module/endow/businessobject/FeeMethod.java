@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -25,9 +26,8 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.krad.bo.KualiCodeBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * Business Object for Fee Method.

@@ -36,8 +36,8 @@ import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFi
 import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * Batch input type for the barcode inventory document.

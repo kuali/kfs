@@ -22,9 +22,9 @@ import java.util.List;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class PooledFundValueLookupableHelperService extends KualiLookupableHelperServiceImpl {

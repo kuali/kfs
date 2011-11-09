@@ -17,8 +17,8 @@ package org.kuali.kfs.sys.businessobject;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * A collection of methods, specifying data that would be necessary to create a GeneralLedgerPendingEntry

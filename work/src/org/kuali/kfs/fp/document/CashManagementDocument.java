@@ -16,8 +16,6 @@
 
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -48,16 +46,15 @@ import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.campus.CampusService;
 
 /**
  * This class represents the CashManagementDocument.

@@ -16,7 +16,6 @@
 package org.kuali.kfs.fp.document.web.struts;
 
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
-import org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument;
 
 /**
  * Struts form for <code>{@link YearEndGeneralErrorCorrectionDocument}</code>. This class is mostly empty because it inherits

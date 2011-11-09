@@ -22,7 +22,6 @@ import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 @NonTransactional
 public class OptionsServiceImpl implements OptionsService {

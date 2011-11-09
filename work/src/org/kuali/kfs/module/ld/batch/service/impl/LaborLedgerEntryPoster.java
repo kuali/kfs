@@ -23,7 +23,6 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
-import org.kuali.kfs.module.ld.service.LaborLedgerEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.springframework.transaction.annotation.Transactional;

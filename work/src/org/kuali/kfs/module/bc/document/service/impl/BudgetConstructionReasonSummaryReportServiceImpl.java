@@ -32,7 +32,6 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalary
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonSummaryReport;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonSummaryReportTotal;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgSalarySummaryReportTotal;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryFunding;
@@ -42,13 +41,12 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySumma
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonSummaryReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
-import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionSalarySummaryReportServiceImpl.OrganizationTotalHolder;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 

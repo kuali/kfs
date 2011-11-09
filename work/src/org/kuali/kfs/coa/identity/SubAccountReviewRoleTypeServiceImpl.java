@@ -16,19 +16,19 @@
 package org.kuali.kfs.coa.identity;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
 public class SubAccountReviewRoleTypeServiceImpl extends RoleTypeServiceBase {

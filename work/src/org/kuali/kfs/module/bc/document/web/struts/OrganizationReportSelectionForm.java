@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
-import java.util.ArrayList;
 
 /**
  * Struts Action Form for the Organization Report Selection Screen.

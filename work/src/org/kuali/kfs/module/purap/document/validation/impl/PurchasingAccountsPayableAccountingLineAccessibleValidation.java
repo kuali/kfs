@@ -18,11 +18,9 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not

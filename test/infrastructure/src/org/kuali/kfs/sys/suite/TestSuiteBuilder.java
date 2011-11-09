@@ -29,8 +29,6 @@ import java.util.LinkedList;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.kuali.rice.kns.util.AssertionUtils;
-
 /**
  * Utility class that builds test suites dynamically.
  * 

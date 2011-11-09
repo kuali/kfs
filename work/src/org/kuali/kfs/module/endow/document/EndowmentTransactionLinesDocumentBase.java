@@ -26,9 +26,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.kfs.module.endow.util.LineParser;
 import org.kuali.kfs.module.endow.util.LineParserBase;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument {
 

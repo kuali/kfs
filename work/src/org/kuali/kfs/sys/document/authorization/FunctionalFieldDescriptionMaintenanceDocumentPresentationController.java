@@ -17,8 +17,6 @@ package org.kuali.kfs.sys.document.authorization;
 
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**

@@ -21,8 +21,8 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
+import org.kuali.rice.krad.document.Document;
 
 public class CustomerInvoiceDocumentPreRules extends PromptBeforeValidationBase {
 

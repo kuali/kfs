@@ -26,8 +26,8 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implements KemidHistoricalCashDao {
     

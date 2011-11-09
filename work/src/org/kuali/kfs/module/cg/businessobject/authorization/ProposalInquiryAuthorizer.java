@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cg.businessobject.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.rice.kns.inquiry.InquiryAuthorizerBase;
 
 public class ProposalInquiryAuthorizer extends InquiryAuthorizerBase{
 

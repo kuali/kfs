@@ -22,10 +22,7 @@ package org.kuali.kfs.pdp.dataaccess;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.businessobject.PaymentAccountHistory;
-import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 
 
 /**

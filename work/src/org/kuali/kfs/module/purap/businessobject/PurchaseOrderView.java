@@ -16,14 +16,13 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.Note;
-import java.util.ArrayList;
 
 /**
  * Purchase Order View Business Object.

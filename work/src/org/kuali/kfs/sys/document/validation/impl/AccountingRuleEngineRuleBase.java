@@ -17,12 +17,7 @@ package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.Map;
 
-import org.kuali.kfs.fp.businessobject.Check;
-import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
-import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
-import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule;
 import org.kuali.kfs.sys.document.validation.Validation;
@@ -34,6 +29,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocum
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.krad.bo.Note;
@@ -42,7 +38,6 @@ import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.DocumentRuleBase;
-import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * A rule that uses the accounting rule engine to perform rule validations.

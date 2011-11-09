@@ -46,13 +46,13 @@ import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=true)
 public class PurchaseOrderServiceTest extends KualiTestBase {

@@ -22,7 +22,6 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewHideShowLinesDefinition;
 import org.kuali.kfs.sys.document.web.renderers.HideShowBlockRenderer;
 import org.kuali.rice.kns.util.WebUtils;

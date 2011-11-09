@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.module.bc.businessobject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,7 +25,6 @@ import java.util.Map;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import java.util.ArrayList;
 
 public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Incumbent, Inactivatable {
 

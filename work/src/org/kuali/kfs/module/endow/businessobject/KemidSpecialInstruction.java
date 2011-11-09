@@ -19,8 +19,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This KemidSpecialInstruction class provides the various special instructions coded by the organization that apply to the KEMID.

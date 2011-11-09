@@ -30,10 +30,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Used to create and test populated Purchase Order Documents of various kinds. 

@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;

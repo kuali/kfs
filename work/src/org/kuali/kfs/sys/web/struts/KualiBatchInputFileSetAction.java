@@ -15,15 +15,9 @@
  */
 package org.kuali.kfs.sys.web.struts;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,20 +35,15 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.util.KimCommonUtils;
-import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class is the struts action for the batch upload screen that supports file sets

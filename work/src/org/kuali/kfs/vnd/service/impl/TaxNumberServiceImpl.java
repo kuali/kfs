@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.vnd.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -22,9 +23,9 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.service.TaxNumberService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TaxNumberServiceImpl implements TaxNumberService {
 

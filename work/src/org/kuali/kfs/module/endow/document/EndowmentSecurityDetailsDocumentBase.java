@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
-import java.util.ArrayList;
 
 
 public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {

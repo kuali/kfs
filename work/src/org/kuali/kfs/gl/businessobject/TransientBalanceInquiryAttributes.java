@@ -18,8 +18,8 @@ package org.kuali.kfs.gl.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.gl.OJBUtility;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * This class represents the transient balance inquiry attributes which is typically used as a "dummy business object"

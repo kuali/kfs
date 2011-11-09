@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao;
-import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * build the set of rows for the salary reason statistics report

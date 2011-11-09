@@ -15,6 +15,9 @@
  */
 package org.kuali.rice.kim.api.services;
 
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.common.assignee.Assignee;
 import org.kuali.rice.kim.api.group.Group;
@@ -29,9 +32,6 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.responsibility.Responsibility;
 import org.kuali.rice.kim.api.responsibility.ResponsibilityAction;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * This is the front end for the KIM module.  Clients of KIM should access this service from

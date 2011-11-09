@@ -27,9 +27,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 @ConfigureContext(session = kfs)

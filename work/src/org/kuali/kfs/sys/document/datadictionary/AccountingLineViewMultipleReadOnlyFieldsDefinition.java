@@ -21,10 +21,10 @@ import java.util.List;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewMultipleReadOnlyFields;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 
 /**
  * The definition for an accounting line component which displays multiple fields from the command line, but

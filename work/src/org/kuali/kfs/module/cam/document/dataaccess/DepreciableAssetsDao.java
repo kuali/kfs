@@ -16,10 +16,7 @@
 package org.kuali.kfs.module.cam.document.dataaccess;
 
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
-
-import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 
 public interface DepreciableAssetsDao {
 

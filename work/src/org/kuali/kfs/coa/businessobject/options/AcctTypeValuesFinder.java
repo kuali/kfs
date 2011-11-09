@@ -16,16 +16,15 @@
 package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountType;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of Account types)

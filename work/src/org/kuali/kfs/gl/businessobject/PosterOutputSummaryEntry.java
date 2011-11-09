@@ -16,15 +16,6 @@
 package org.kuali.kfs.gl.businessobject;
 
 import java.util.LinkedHashMap;
-import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class represents a poster output summary entry

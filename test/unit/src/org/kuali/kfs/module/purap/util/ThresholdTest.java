@@ -31,9 +31,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.krad.service.DocumentService;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=false)
 

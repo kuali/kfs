@@ -20,10 +20,10 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

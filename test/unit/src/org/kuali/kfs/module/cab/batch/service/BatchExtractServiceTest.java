@@ -18,9 +18,7 @@ package org.kuali.kfs.module.cab.batch.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
@@ -34,10 +32,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.parameter.Parameter;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Default implementation

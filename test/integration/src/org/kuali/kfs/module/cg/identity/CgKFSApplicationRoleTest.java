@@ -15,20 +15,14 @@
  */
 package org.kuali.kfs.module.cg.identity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.identity.RoleTestBase;
-import org.kuali.rice.kim.api.common.delegate.DelegateMember;
-import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CgKFSApplicationRoleTest extends RoleTestBase {
 

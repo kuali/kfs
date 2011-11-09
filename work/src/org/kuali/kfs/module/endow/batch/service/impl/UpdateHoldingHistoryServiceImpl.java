@@ -24,8 +24,8 @@ import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.module.endow.util.ValidateLastDayOfMonth;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class UpdateHoldingHistoryServiceImpl implements UpdateHoldingHistoryService {

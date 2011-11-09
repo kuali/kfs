@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.batch.service.impl;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.filefilter.AndFileFilter;

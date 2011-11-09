@@ -17,19 +17,10 @@ package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Accounting line authorizer for Requisition document which allows adding accounting lines at specified nodes

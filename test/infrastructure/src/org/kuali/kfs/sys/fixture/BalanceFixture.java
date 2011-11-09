@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.sys.fixture;
 
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum BalanceFixture {
     BALANCE_PASS1("GF", "ABCD", "1111", "ABCDEF", "", ""), BALANCE_FAIL1("AB", "ABCD", "1111", "ABCDEF", "", ""), BALANCE_FAIL2("GF", "BALS", "1111", "ABCDEF", "", ""), BALANCE_FAIL3("GF", "ABCD", "9890", "ABCDEF", "", ""), BALANCE_FAIL4("GF", "ABCD", "1111", "MPRACT", "", ""), ;

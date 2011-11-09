@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.batch.report;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +23,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
-import java.util.ArrayList;
 
 /**
  * 

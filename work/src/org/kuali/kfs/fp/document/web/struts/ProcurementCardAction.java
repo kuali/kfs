@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,7 +40,6 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import java.util.ArrayList;
 
 /**
  * This class handles specific Actions requests for the ProcurementCard.

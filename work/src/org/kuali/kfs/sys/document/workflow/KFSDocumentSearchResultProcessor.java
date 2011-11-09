@@ -16,30 +16,25 @@
 package org.kuali.kfs.sys.document.workflow;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
-import org.kuali.rice.kew.docsearch.DocSearchDTO;
-import org.kuali.rice.kew.docsearch.DocumentSearchResult;
-import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
-import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.web.KeyValueSort;
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.krad.datadictionary.SearchingAttribute;
 import org.kuali.rice.krad.datadictionary.SearchingTypeDefinition;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.Column;
 
 public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
 

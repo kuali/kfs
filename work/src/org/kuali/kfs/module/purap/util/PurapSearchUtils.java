@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 
 public class PurapSearchUtils {

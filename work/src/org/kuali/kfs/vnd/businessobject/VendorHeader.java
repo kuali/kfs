@@ -17,13 +17,13 @@
 package org.kuali.kfs.vnd.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import java.util.ArrayList;
 
 /**
  * Contains information specific to a parent Vendor, which may be shared by its division Vendors if it has any. Contained by a

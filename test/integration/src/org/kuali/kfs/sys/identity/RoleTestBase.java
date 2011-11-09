@@ -17,15 +17,13 @@ package org.kuali.kfs.sys.identity;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.service.RoleService;
 
 public abstract class RoleTestBase extends KualiTestBase {
 

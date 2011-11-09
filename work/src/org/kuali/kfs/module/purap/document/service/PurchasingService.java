@@ -15,14 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public interface PurchasingService {
 

@@ -16,11 +16,11 @@
 package org.kuali.kfs.sys.monitor;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
 

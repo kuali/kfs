@@ -18,12 +18,9 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Set;
 
-import javax.jws.WebResult;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;

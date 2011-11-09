@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Attribute Reference Dummy Business Object

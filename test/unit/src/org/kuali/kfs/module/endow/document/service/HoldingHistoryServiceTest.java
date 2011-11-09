@@ -33,8 +33,8 @@ import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Contains methods that test the HoldingHistoryService.

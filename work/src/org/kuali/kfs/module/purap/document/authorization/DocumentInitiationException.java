@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.document.authorization;
 import java.text.MessageFormat;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.exception.KualiException;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.exception.KualiException;
 
 public class DocumentInitiationException extends KualiException {
     public DocumentInitiationException(String messageKey, Object[] messageParameters) {

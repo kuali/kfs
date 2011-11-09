@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class gets all the values of a parameter and then builds a list of key label pairs out of them, using each parameter value

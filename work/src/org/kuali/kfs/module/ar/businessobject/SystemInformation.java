@@ -26,14 +26,13 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.location.api.postalcode.PostalCode;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

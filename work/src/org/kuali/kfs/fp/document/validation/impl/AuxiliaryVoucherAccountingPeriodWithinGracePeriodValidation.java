@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
 import static org.kuali.kfs.sys.KFSConstants.DOCUMENT_ERRORS;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
 

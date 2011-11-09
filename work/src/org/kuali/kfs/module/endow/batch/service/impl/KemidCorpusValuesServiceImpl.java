@@ -22,8 +22,8 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.KemidCorpusValueService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentCorpusValues;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

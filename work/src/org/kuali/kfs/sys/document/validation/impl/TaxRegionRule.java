@@ -16,30 +16,27 @@
 package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.rice.location.api.county.County;
-import org.kuali.rice.location.api.postalcode.PostalCode;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionCounty;
 import org.kuali.kfs.sys.businessobject.TaxRegionPostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegionRate;
 import org.kuali.kfs.sys.businessobject.TaxRegionState;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.CountyService;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.county.County;
+import org.kuali.rice.location.api.county.CountyService;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 /**
  * This class implements add collection line business rule for tax district rate.

@@ -17,8 +17,6 @@ package org.kuali.kfs.gl.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
-
 /**
  * A DAO interface declaring methods needed to help SufficientFundBalance records interact with the database
  */

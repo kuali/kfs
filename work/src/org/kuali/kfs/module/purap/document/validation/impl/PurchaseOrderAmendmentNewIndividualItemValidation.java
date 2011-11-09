@@ -24,9 +24,9 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseOrderNewIndividualItemValidation {
 

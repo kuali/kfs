@@ -17,8 +17,6 @@ package org.kuali.kfs.coa.dataaccess;
 
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.SubAccount;
-
 
 /**
  * This interface defines basic methods that SubAccount Dao's must provide

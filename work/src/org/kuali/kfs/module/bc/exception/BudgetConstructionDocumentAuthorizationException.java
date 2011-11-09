@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.bc.exception;
 
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.exception.AuthorizationException;
 
 /**
  * Handles special Budget Construction Document exception processing to display the reason behind the authorization exception

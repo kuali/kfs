@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.pdf;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters;
 
 public interface PurchaseOrderParameters {
    /**

@@ -36,10 +36,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.util.ErrorMessage;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
     protected static final Logger LOG = Logger.getLogger(AssetTransferAction.class);

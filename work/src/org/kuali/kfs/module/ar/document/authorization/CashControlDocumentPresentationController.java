@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,10 +27,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.kfs.gl.service.EntryService;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.krad.document.Document;
 
 public class CashControlDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 

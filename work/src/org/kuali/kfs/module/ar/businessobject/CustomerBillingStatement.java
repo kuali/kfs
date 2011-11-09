@@ -17,16 +17,12 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class CustomerBillingStatement extends PersistableBusinessObjectBase {
 

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.external.kc.document.validation.impl;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class AccountRule extends org.kuali.kfs.coa.document.validation.impl.AccountRule {

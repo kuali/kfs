@@ -37,15 +37,14 @@ import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.dataaccess.BusinessObjectMetaDataDao;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.bo.BusinessObjectRelationship;
-import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.LookupService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 
 @NonTransactional
 public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMetaDataService {

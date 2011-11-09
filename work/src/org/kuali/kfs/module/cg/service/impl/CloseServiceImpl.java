@@ -30,12 +30,12 @@ import org.kuali.kfs.module.cg.dataaccess.ProposalDao;
 import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.module.cg.service.CloseService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 

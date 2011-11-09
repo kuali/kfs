@@ -17,8 +17,8 @@ package org.kuali.kfs.module.purap.document.workflow;
 
 import org.kuali.rice.kew.actionitem.ActionItem;
 import org.kuali.rice.kew.actionlist.CustomActionListAttribute;
-import org.kuali.rice.kew.actionlist.DisplayParameters;
-import org.kuali.rice.kew.actions.ActionSet;
+import org.kuali.rice.kew.api.action.ActionSet;
+import org.kuali.rice.kew.api.actionlist.DisplayParameters;
 import org.kuali.rice.krad.UserSession;
 
 public class PurchaseOrderActionListAttribute implements CustomActionListAttribute {

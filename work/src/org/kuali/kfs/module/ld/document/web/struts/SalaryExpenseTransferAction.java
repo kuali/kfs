@@ -27,20 +27,19 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
-import org.kuali.kfs.module.ld.document.web.struts.SalaryExpenseTransferForm;
 import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.krad.question.ConfirmationQuestion;
 import org.kuali.rice.krad.service.DocumentHelperService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 /**
  * Struts action class for Salary Expense Transfer Document. This class extends the parent FinancialSystemTransactionalDocumentActionBase
  * class, which contains all common action methods. Since the SEP follows the basic transactional document pattern, there are no

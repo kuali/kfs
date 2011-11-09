@@ -15,30 +15,27 @@
  */
 package org.kuali.kfs.sec.document;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityModelMember;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipal;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipalDefinition;
-import org.kuali.kfs.sec.identity.SecKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.kfs.sec.identity.SecKimAttributes;
 import org.kuali.kfs.sec.util.KimUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 

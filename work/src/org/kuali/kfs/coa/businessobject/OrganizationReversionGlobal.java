@@ -32,7 +32,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
-import java.util.ArrayList;
 
 /**
  * The representation of a Global Organization Reversion. A Global Organization Reversion is made up of three sections: 1. The

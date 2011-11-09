@@ -18,9 +18,9 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.dataaccess.FieldMetaData;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 
 public class DataMappingFieldDefinition extends TransientBusinessObjectBase {
     private String namespaceCode;

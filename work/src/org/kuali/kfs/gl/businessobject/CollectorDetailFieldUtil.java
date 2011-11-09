@@ -15,16 +15,9 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.BusinessObjectStringParserFieldUtils;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * This class has utility methods for parsing OriginEntries from Strings

@@ -53,17 +53,16 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
-import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 
 /**
  * Base class for Purchasing-Accounts Payable Documents.

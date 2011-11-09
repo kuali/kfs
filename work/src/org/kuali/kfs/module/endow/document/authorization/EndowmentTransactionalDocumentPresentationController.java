@@ -21,8 +21,8 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.document.UnitsTotaling;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 public class EndowmentTransactionalDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 

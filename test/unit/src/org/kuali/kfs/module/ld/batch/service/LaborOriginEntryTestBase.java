@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ld.batch.service;
 
-import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.sys.context.SpringContext;

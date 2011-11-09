@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sec.identity;
 
-import java.util.HashMap;
 import java.util.Map;
+
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 /**

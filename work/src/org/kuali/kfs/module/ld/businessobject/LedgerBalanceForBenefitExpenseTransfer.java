@@ -21,8 +21,8 @@ import java.util.Collection;
 import org.kuali.kfs.integration.ld.SegmentedBusinessObject;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants.AccountingPeriodProperties;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.KRADUtils;
 
 /**
  * Labor business object for LedgerBalanceForBenefitExpenseTransfer

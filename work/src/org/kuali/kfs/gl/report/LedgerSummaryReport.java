@@ -16,7 +16,6 @@
 package org.kuali.kfs.gl.report;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

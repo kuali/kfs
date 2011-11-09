@@ -17,39 +17,29 @@ package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.FaxService;
 import org.kuali.kfs.module.purap.exception.FaxServerUnavailableError;
 import org.kuali.kfs.module.purap.exception.FaxSubmissionError;
 import org.kuali.kfs.module.purap.exception.PurError;
-import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderParameters;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuotePdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters;
-import org.kuali.kfs.module.purap.service.ImageService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 import org.springframework.transaction.annotation.Transactional;
 
 

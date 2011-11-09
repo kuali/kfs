@@ -16,16 +16,14 @@
 package org.kuali.kfs.sys.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.spring.CacheNoCopy;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 

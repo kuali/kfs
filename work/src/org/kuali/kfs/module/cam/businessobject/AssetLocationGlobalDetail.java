@@ -24,11 +24,11 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.krad.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.campus.CampusService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

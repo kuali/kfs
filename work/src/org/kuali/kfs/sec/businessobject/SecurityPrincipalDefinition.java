@@ -15,14 +15,13 @@
  */
 package org.kuali.kfs.sec.businessobject;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
 /**

@@ -25,9 +25,9 @@ import java.util.List;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.web.util.OriginEntryFileComparator;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Returns list of GL origin entry filenames

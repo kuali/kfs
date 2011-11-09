@@ -23,12 +23,14 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

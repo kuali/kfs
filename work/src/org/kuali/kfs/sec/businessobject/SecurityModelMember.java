@@ -15,22 +15,21 @@
  */
 package org.kuali.kfs.sec.businessobject;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.group.Group;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.group.GroupService;
-import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
 /**

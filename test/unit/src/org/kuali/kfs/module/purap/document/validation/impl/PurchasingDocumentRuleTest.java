@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +23,6 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
@@ -48,8 +46,8 @@ import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class contains tests of the rule validation methods present in PurchasingDocumentRuleBase. These should include any tests

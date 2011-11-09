@@ -15,28 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not

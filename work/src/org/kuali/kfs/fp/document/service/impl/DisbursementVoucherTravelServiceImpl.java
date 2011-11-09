@@ -28,8 +28,8 @@ import org.kuali.kfs.fp.document.dataaccess.TravelMileageRateDao;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * This is the default implementation of the DisbursementVoucherTravelService interface.

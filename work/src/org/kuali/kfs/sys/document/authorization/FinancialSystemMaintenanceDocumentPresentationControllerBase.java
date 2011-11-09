@@ -15,20 +15,14 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.krad.service.PersistenceStructureService;
 
 public class FinancialSystemMaintenanceDocumentPresentationControllerBase extends MaintenanceDocumentPresentationControllerBase {
     

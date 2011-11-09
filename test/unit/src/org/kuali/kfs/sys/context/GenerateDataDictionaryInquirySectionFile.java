@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.context;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Iterator;
@@ -26,10 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.InquiryDefinition;
 import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
 
 @ConfigureContext
 public class GenerateDataDictionaryInquirySectionFile extends KualiTestBase {

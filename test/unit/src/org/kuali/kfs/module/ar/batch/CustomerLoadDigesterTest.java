@@ -18,19 +18,16 @@ package org.kuali.kfs.module.ar.batch;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.Rules;
-import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
-import java.util.ArrayList;
 
 public class CustomerLoadDigesterTest extends TestCase {
 

@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Value Finder for Campus with a blank value.

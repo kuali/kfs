@@ -26,13 +26,12 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
-import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
-import org.kuali.kfs.module.ec.EffortKeyConstants;
-import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.EffortConstants.ExtractProcess;
 import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
+import org.kuali.kfs.module.ec.EffortKeyConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
@@ -48,15 +47,12 @@ import org.kuali.kfs.module.ec.util.LedgerBalanceWithMessage;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

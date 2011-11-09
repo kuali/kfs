@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap;
 
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.krad.authorization.AuthorizationConstants;
 
 /**
  * Defines constants used in authorization-related code.

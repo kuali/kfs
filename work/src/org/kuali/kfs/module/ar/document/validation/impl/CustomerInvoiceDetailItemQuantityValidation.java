@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.math.BigDecimal;
 
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;

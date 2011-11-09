@@ -28,9 +28,9 @@ import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**

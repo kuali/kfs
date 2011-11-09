@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;

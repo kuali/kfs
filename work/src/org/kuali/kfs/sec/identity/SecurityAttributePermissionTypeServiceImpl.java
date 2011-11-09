@@ -17,12 +17,11 @@ package org.kuali.kfs.sec.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.Permission;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase;
 
 /**

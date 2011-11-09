@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -23,7 +24,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.PosterEntriesStep;
-import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
@@ -33,7 +33,7 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 

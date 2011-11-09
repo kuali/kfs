@@ -15,9 +15,10 @@
  */
 package org.kuali.rice.kim.impl.jaxb;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,8 +40,6 @@ import org.kuali.rice.core.util.jaxb.RiceXmlListGetterListener;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 /**
  * Base class representing an unmarshalled &lt;roleMembers&gt; element.

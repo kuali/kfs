@@ -31,9 +31,9 @@ import org.kuali.kfs.gl.businessobject.inquiry.BalanceInquirableImpl;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * An extension of KualiLookupableImpl to support balance lookups

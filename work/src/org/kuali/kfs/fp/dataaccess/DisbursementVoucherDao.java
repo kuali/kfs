@@ -18,8 +18,6 @@ package org.kuali.kfs.fp.dataaccess;
 import java.util.Collection;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public interface DisbursementVoucherDao {
 

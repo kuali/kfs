@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorStep;
@@ -41,20 +40,20 @@ import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.krad.exception.InvalidAddressException;
-import org.kuali.rice.core.mail.MailMessage;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.service.MailService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * The base implementation of the CollectorReportService

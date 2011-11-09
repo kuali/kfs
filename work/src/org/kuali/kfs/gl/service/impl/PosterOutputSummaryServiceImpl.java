@@ -27,7 +27,6 @@ import org.kuali.kfs.gl.businessobject.PosterOutputSummaryAmountHolder;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.service.PosterOutputSummaryService;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**

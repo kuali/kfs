@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document;
 
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 
 /**
  * Any class that implements this interface must provide a method to convert multiselect searchCriteria hierarchy

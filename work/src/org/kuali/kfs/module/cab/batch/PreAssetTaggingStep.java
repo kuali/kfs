@@ -15,13 +15,11 @@
  */
 package org.kuali.kfs.module.cab.batch;
 
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.core.api.datetime.DateTimeService;

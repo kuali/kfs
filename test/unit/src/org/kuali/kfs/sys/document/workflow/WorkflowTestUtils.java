@@ -24,12 +24,12 @@ import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowNodeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowRequestMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class WorkflowTestUtils {
     private static final Log LOG = LogFactory.getLog(WorkflowTestUtils.class);

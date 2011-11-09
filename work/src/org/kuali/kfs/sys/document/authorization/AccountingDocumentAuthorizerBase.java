@@ -28,7 +28,6 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * DocumentAuthorizer containing common, reusable document-level authorization code for financial (i.e. Transactional) documents

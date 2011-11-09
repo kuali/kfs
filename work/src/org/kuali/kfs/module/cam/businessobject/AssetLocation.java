@@ -18,12 +18,12 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.postalcode.PostalCode;
-import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
 
 /**

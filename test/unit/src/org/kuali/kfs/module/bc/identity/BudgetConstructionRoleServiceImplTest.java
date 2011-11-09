@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.identity;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.bc.BCConstants;
@@ -25,11 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kim.service.RoleService;
 
 @ConfigureContext
 public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {

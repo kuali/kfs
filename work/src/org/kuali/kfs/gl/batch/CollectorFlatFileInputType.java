@@ -18,7 +18,6 @@ package org.kuali.kfs.gl.batch;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -44,8 +43,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 
 public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     protected static Logger LOG = Logger.getLogger(CollectorFlatFileInputType.class);

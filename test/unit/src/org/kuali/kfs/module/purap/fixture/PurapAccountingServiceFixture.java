@@ -35,7 +35,6 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
 
 public enum PurapAccountingServiceFixture {
     

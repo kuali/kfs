@@ -26,10 +26,10 @@ import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
 public class CashControlDocumentServiceTest extends KualiTestBase {

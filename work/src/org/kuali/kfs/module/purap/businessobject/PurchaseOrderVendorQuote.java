@@ -22,10 +22,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 
 /**
  * Purchase Order Vendor Quote Business Object.

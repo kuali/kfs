@@ -18,10 +18,10 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of a college or university

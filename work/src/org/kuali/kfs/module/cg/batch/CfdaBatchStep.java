@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cg.batch;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,11 +26,11 @@ import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.krad.exception.InvalidAddressException;
-import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.MailService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 /**
  * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in

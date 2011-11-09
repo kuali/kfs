@@ -15,17 +15,12 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import java.util.ArrayList;
 
 public class ChartOrgHolderImpl implements ChartOrgHolder {
 

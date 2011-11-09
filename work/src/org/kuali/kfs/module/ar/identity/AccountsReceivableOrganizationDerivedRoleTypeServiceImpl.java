@@ -32,12 +32,10 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.api.role.PassThruRoleTypeServiceBase;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
-import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {

@@ -17,16 +17,16 @@
 package org.kuali.rice.core.impl.parameter;
 
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.parameter.EvaluationOperator;
 import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class ParameterEvaluatorServiceImpl implements ParameterEvaluatorService {
 

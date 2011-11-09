@@ -19,8 +19,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * A value finder that returns the current user's default organization code.

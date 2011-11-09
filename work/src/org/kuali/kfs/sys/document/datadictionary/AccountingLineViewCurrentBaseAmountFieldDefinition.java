@@ -22,13 +22,13 @@ import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.AccountingLineViewCurrentBaseAmount;
 import org.kuali.kfs.sys.document.web.TableJoining;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
-import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.FieldBridge;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 
 /**
  * The definition for an amount field which reports both current and base amounts

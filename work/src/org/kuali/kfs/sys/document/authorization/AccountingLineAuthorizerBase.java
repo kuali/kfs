@@ -34,17 +34,16 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.krad.service.DocumentHelperService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * The default implementation of AccountingLineAuthorizer

@@ -22,8 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.ld.LaborAuthorizationConstants;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Document Presentation Controller for the Effort Certification document. allowsErrorCorrection property has been set to false in

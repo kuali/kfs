@@ -41,7 +41,6 @@ import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import java.util.ArrayList;
 
 public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     

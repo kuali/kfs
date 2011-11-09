@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
-import java.util.ArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {

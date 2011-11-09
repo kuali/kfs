@@ -15,11 +15,7 @@
  */
 package org.kuali.kfs.module.cg.document.authorization;
 
-import java.util.Set;
-
-import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.krad.bo.BusinessObject;
 
 public class ProposalMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 

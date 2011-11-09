@@ -16,14 +16,13 @@
 package org.kuali.kfs.module.cam.businessobject;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.api.util.type.KualiPercent;
-import java.util.ArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private String documentNumber;

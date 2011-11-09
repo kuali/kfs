@@ -30,9 +30,9 @@ import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Labor business object for LedgerBalance.

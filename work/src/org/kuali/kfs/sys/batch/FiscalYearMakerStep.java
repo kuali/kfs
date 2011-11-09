@@ -17,7 +17,6 @@ package org.kuali.kfs.sys.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.FiscalYearMakerService;
 
 /**

@@ -23,8 +23,8 @@ import java.util.Map;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 
 public class FunctionalFieldDescriptionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {

@@ -15,21 +15,9 @@
  */
 package org.kuali.rice.kim.impl.jaxb;
 
-import org.apache.commons.lang.StringUtils;
-import org.jacorb.idl.Member;
-import org.joda.time.DateTime;
-import org.kuali.rice.core.api.membership.MemberType;
-import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
-import org.kuali.rice.core.util.jaxb.NameAndNamespacePair;
-import org.kuali.rice.core.util.jaxb.NameAndNamespacePairValidatingAdapter;
-import org.kuali.rice.kim.api.KimConstants.KimUIConstants;
-import org.kuali.rice.kim.api.group.GroupContract;
-import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
-import org.kuali.rice.kim.api.jaxb.QualificationListAdapter;
-import org.kuali.rice.kim.api.role.RoleContract;
-import org.kuali.rice.kim.api.role.RoleMember;
-import org.kuali.rice.kim.api.role.RoleMemberContract;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -39,9 +27,19 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.util.jaxb.NameAndNamespacePair;
+import org.kuali.rice.core.util.jaxb.NameAndNamespacePairValidatingAdapter;
+import org.kuali.rice.kim.api.group.GroupContract;
+import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
+import org.kuali.rice.kim.api.jaxb.QualificationListAdapter;
+import org.kuali.rice.kim.api.role.RoleContract;
+import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 /**
  * Base class representing an unmarshalled &lt;roleMember&gt; element.

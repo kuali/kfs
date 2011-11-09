@@ -16,7 +16,9 @@
 package org.kuali.kfs.sys.batch.service.impl;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
@@ -24,12 +26,9 @@ import org.kuali.kfs.sys.batch.BatchFile;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
 import org.kuali.kfs.sys.batch.service.BatchFileAdminAuthorizationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.api.KimApiConstants;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;

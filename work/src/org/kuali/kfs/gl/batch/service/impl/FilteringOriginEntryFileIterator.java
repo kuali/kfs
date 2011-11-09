@@ -17,8 +17,6 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 

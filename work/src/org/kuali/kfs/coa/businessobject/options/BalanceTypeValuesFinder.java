@@ -17,14 +17,14 @@ package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of balance type value pairs.

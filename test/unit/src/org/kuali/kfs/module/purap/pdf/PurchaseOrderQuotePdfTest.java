@@ -29,12 +29,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 
 @ConfigureContext
 public class PurchaseOrderQuotePdfTest extends KualiTestBase {

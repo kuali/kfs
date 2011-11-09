@@ -32,7 +32,6 @@ import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorize
 import org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.krad.service.DocumentHelperService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class DisbursementVoucherAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineTotalsValidation.class);

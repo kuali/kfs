@@ -39,10 +39,10 @@ import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * This class tests the rules in HoldingTaxLotRebalanceRules

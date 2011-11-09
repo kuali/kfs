@@ -18,7 +18,6 @@ package org.kuali.kfs.gl.batch.service;
 import java.util.Map;
 
 import org.kuali.kfs.gl.batch.BalanceForwardRuleHelper;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 
 /**

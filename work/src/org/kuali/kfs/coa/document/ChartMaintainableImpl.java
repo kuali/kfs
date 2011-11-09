@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.coa.document;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.service.ChartService;
@@ -22,12 +25,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Maintainable implementation for the chart maintenance document

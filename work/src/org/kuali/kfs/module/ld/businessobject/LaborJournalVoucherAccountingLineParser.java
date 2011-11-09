@@ -20,6 +20,22 @@ package org.kuali.kfs.module.ld.businessobject;
  * Labor Base class for parsing serialized AccountingLines for Labor LedgerJournal Voucher
  */
 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.EARN_CODE;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.GRADE;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.HRMS_COMPANY;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAY_GROUP;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAY_PERIOD_END_DATE;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.RUN_IDENTIFIER;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.SET_ID;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.TRANSACTION_TOTAL_HOURS;
 import static org.kuali.kfs.sys.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.ACCOUNT_NUMBER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
@@ -27,6 +43,7 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.CREDIT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DEBIT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.EMPLID;
 import static org.kuali.kfs.sys.KFSPropertyConstants.EMPLOYEE_RECORD;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ENCUMBRANCE_UPDATE_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.OBJECT_TYPE_CODE;
@@ -34,32 +51,12 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.kfs.sys.KFSPropertyConstants.POSITION_NUMBER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.PROJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
-import static org.kuali.kfs.sys.KFSPropertyConstants.ENCUMBRANCE_UPDATE_CODE;
-
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.HRMS_COMPANY;
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.EARN_CODE;
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAY_GROUP;
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.GRADE; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.RUN_IDENTIFIER; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAY_PERIOD_END_DATE; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.TRANSACTION_TOTAL_HOURS; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER;
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE; 
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.kfs.module.ld.LaborPropertyConstants.SET_ID;
 
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.BalanceTypeService;
-import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;

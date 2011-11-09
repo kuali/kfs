@@ -27,7 +27,6 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
-import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.KRADConstants;
 

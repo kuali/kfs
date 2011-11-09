@@ -31,9 +31,8 @@ import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.spring.Cached;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class is the service implementation for the Org structure. This is the default implementation, that is delivered with Kuali.

@@ -19,7 +19,9 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * A generic implementation of OrganizationReversionCategoryLogic; it is completely based off of parameters

@@ -21,8 +21,8 @@ import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.kuali.rice.core.util.jaxb.NameAndNamespacePair;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.common.template.Template;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 /**
  * An XML adapter that converts between a NameAndNamespacePair and a permission template ID.

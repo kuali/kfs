@@ -27,7 +27,6 @@ import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 import org.kuali.kfs.module.purap.service.ImageService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 

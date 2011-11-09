@@ -16,7 +16,7 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -25,7 +25,6 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 
 /**
  * 

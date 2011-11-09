@@ -22,8 +22,8 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * 

@@ -26,10 +26,10 @@ import org.kuali.kfs.sys.businessobject.TaxRegionCounty;
 import org.kuali.kfs.sys.businessobject.TaxRegionPostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegionState;
 import org.kuali.kfs.sys.service.TaxRegionService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

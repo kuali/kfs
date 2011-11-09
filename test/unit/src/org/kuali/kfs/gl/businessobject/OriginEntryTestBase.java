@@ -37,13 +37,12 @@ import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kns.service.ConfigurableDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kns.service.ConfigurableDateService;
 import org.kuali.rice.krad.service.PersistenceService;
 
 /**

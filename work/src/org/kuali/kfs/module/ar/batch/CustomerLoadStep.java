@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.batch;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

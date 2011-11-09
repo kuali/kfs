@@ -37,9 +37,9 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 @ConfigureContext
 public class LaborNightlyOutServiceTest extends KualiTestBase {

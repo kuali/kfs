@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.batch.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.ar.batch.report.CustomerLoadFileResult;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;

@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 
 public class LineItemReceivingDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {

@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * An abstract class that defines methods needed to act on parameter properties for a validation.

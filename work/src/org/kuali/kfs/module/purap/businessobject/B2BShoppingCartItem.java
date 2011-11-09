@@ -21,6 +21,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class B2BShoppingCartItem {

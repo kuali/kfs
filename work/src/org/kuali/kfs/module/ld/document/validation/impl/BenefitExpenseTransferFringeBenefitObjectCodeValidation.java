@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
-import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;

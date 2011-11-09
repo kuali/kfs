@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class HoldingTaxLotRebalanceLookupableHelperService extends KualiLookupableHelperServiceImpl {
 

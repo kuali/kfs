@@ -16,13 +16,15 @@
 package org.kuali.kfs.vnd.service;
 
 
+import java.util.ArrayList;
+
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 @ConfigureContext
 public class TaxNumberServiceTest extends KualiTestBase {

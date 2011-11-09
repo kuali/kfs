@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
@@ -23,9 +24,8 @@ import org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * Provides a base class for the Endowment Transfer of Funds documents.

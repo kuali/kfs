@@ -17,8 +17,8 @@ package org.kuali.kfs.fp.businessobject.defaultvalue;
 
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * Finds the campus of the currently logged in user and uses that as the campus code

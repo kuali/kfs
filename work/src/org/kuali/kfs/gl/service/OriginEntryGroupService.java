@@ -16,11 +16,6 @@
 package org.kuali.kfs.gl.service;
 
 import java.io.File;
-import java.sql.Date;
-import java.util.Collection;
-import java.util.Map;
-
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 /**
  * An interface of methods to interact with Origin Entry Groups

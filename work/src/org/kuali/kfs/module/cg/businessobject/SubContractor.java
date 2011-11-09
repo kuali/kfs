@@ -18,13 +18,13 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.StateService;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 /**
  * Subcontractors are vendors involved with an awarded {@link Proposal}.

@@ -33,10 +33,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
-import org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
@@ -64,8 +64,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportGenerationService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Struts Action Class for the Organization Report Selection Screen.

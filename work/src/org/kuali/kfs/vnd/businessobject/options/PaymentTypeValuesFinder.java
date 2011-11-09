@@ -21,10 +21,10 @@ import java.util.List;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Values finder for <code>PaymentTermsType</code>. Similar to <code>PaymentTermsValuesFinder</code>, except that the list of

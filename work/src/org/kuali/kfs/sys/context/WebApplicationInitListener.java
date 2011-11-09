@@ -22,12 +22,10 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kns.ConfigProperties;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.authorization.AuthorizationConstants;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
-import org.kuali.rice.kns.web.listener.JstlConstantsInitListener;
 import org.kuali.rice.ksb.messaging.MessageFetcher;
 import org.kuali.rice.ksb.messaging.threadpool.KSBThreadPool;
 

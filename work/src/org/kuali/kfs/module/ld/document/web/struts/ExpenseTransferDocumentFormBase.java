@@ -17,8 +17,6 @@ package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborAccountingLineOverride;
 import org.kuali.kfs.sys.KFSPropertyConstants;

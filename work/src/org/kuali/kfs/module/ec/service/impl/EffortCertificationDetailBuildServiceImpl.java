@@ -22,7 +22,6 @@ import java.util.Set;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.module.ec.EffortConstants;
-import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService;

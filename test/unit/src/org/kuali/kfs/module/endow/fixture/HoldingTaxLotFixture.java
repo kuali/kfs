@@ -21,8 +21,8 @@ import java.sql.Date;
 import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum HoldingTaxLotFixture {
     // Holding Tax Lot Fixture

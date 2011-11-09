@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.batch.GenesisBatchStep;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.kfs.module.bc.batch.GenesisBatchStep;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 

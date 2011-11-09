@@ -23,8 +23,8 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 
 /**
  * 

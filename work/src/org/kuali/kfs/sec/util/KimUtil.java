@@ -17,14 +17,13 @@ package org.kuali.kfs.sec.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sec.businessobject.SecurityModelDefinition;
-import org.kuali.kfs.sec.identity.SecKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.kfs.sec.identity.SecKimAttributes;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kim.api.role.RoleService;
 
 

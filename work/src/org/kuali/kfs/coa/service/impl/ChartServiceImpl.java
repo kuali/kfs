@@ -31,14 +31,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.spring.Cached;
 
 /**
  * This class is the service implementation for the Chart structure. This is the default, Kuali delivered implementation.

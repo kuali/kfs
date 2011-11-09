@@ -17,8 +17,8 @@ package org.kuali.kfs.module.endow.fixture;
 
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum CurrentCashFixture {
     // Current Cash Fixture Record

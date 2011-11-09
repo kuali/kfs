@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.bc.identity;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
@@ -24,8 +24,6 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 

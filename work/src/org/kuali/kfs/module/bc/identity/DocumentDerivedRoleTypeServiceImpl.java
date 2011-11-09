@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.bc.identity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl;
@@ -29,14 +31,13 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorServi
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
-import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.PassThruRoleTypeServiceBase;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase implements BudgetConstructionNoAccessMessageSetting {
     private BudgetConstructionProcessorService budgetConstructionProcessorService;

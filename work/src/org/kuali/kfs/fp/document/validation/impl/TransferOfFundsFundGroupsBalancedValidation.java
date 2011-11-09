@@ -23,14 +23,16 @@ import java.util.List;
 
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
-import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validation for Transfer of Funds document that tests if the fund groups represented by a given document are in balance.

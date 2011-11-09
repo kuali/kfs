@@ -16,9 +16,7 @@
 package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
-import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**

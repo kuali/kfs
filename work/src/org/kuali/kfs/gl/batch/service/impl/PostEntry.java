@@ -21,15 +21,12 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Date;
 
-import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.batch.service.PosterService;
-import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.EntryDao;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;

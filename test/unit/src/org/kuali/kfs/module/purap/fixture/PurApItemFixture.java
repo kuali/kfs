@@ -17,9 +17,9 @@ package org.kuali.kfs.module.purap.fixture;
 
 import java.math.BigDecimal;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum PurApItemFixture {
     BASIC_QTY_ITEM_1(null, // itemIdentifier

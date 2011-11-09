@@ -16,6 +16,7 @@
 package org.kuali.kfs.sec.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,21 +24,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType;
-import org.kuali.kfs.sec.identity.SecKimAttributes; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.Permission;
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.rice.kim.service.PermissionUpdateService;
 import org.kuali.rice.kim.service.impl.RoleServiceImpl;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 

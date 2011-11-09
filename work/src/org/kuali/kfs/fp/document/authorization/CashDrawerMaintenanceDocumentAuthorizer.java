@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 /**

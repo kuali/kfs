@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.util.ArrayList;
+
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.kim.group.GroupTypeServiceBase;
 

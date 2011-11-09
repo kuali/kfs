@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.context;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.kuali.rice.core.config.ModuleConfigurer;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
+import org.kuali.rice.core.impl.config.module.ModuleConfigurer;
 
 public class KFSConfigurer extends ModuleConfigurer {
 

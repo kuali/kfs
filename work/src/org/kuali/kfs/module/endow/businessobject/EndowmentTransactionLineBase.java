@@ -16,13 +16,13 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This is the generic class which contains all the elements on a typical Endowment Transaction Line.

@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class TransactionArchiveLookupableHelperService extends KualiLookupableHelperServiceImpl {
 

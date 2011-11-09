@@ -16,19 +16,13 @@
 
 package org.kuali.kfs.fp.document;
 
-import java.util.ArrayList;
-
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.service.YearEndPendingEntryService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the business object that represents the <code>{@link YearEndDocument}</code> version of

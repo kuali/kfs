@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,10 +25,9 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormBase {
     

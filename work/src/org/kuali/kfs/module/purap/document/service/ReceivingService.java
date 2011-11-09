@@ -18,10 +18,10 @@ package org.kuali.kfs.module.purap.document.service;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
-import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface ReceivingService {

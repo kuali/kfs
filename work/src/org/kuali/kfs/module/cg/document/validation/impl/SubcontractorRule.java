@@ -15,21 +15,15 @@
  */
 package org.kuali.kfs.module.cg.document.validation.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kfs.module.cg.businessobject.SubContractor;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.StateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 /**
  * 

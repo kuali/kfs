@@ -15,16 +15,12 @@
  */
 package org.kuali.kfs.fp.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class tests the Check service.

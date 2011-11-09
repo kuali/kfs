@@ -20,9 +20,9 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.NumberUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents a check in the system. It is a generalized check business object that will be used by the Cash Receipts

@@ -23,9 +23,9 @@ import java.util.List;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 public class MonthEndDateValuesFinder extends KeyValuesBase {

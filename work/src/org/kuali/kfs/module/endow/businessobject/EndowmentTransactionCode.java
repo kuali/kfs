@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.krad.bo.KualiCodeBase;
-import java.util.ArrayList;
 
 /**
  * Business Object for Endowment Transaction table.

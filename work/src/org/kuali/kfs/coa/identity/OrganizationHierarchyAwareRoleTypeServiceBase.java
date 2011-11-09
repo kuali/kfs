@@ -17,20 +17,20 @@ package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.rice.kim.framework.type.DelegationTypeService;
+import org.kuali.rice.kim.framework.common.delegate.DelegationTypeService;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends RoleTypeServiceBase implements DelegationTypeService {

@@ -17,8 +17,6 @@ package org.kuali.kfs.sys.batch;
 
 import java.io.File;
 import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
 
 public interface FileManager {
     public String getJobName();

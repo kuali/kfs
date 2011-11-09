@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -26,8 +28,6 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.springframework.transaction.annotation.Transactional;
 

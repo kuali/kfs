@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.cam.document.dataaccess;
 
-import java.util.List;
-
-import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 
 
 public interface AssetPaymentDao {

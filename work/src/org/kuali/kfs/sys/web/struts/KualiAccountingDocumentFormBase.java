@@ -39,13 +39,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.krad.exception.InfrastructureException;
-import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 /**
  * This class is the base action form for all financial documents.

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
@@ -28,7 +28,9 @@ import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
 import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
+import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -37,12 +39,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
-import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 /**
  * check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
  * 

@@ -15,10 +15,8 @@
  */
 package org.kuali.kfs.module.cam.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class AssetDepreciationTransaction extends TransientBusinessObjectBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransientBusinessObjectBase.class);

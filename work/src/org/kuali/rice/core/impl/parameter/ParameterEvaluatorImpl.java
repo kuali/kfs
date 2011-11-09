@@ -15,14 +15,14 @@
  */
 package org.kuali.rice.core.impl.parameter;
 
+import java.util.List;
+
 import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.List;
 
 public class ParameterEvaluatorImpl implements ParameterEvaluator {
 	private static final long serialVersionUID = -758645169354452022L;

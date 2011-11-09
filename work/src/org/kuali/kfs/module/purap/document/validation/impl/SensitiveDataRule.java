@@ -26,7 +26,6 @@ import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * Validates the SensitiveData maintenance document.

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cam.document.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.CamsConstants;

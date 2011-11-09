@@ -23,8 +23,8 @@ import org.kuali.kfs.module.endow.document.CorpusAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {

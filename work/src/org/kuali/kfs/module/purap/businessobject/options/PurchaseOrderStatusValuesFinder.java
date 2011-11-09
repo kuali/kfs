@@ -16,11 +16,9 @@
 package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -28,8 +26,8 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Purchase Order Statuses.

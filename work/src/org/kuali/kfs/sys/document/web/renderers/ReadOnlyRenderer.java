@@ -23,14 +23,12 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.taglib.html.HiddenTag;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.springframework.web.util.HtmlUtils;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * Renderer which displays a read only field

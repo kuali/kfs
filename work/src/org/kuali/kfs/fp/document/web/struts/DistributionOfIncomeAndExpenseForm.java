@@ -15,12 +15,7 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import java.util.List;
-
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
-import java.util.ArrayList;
 
 /**
  * This class is the action form for Distribution of Income and Expense.

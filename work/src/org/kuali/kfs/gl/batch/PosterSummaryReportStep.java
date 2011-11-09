@@ -19,7 +19,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.filefilter.RegexFileFilter;
@@ -33,8 +32,8 @@ import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.gl.service.ReversalService;
 import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
-import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
+import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.FiscalYearAwareReportWriterService;
 import org.kuali.kfs.sys.service.OptionsService;

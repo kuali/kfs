@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.sec.SecConstants.NonSecurityAttributeNames;
 import org.kuali.kfs.sec.SecConstants.SecurityAttributeNames;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 

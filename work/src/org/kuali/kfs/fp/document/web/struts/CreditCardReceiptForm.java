@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,6 @@ import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
-import java.util.ArrayList;
 
 /**
  * This class is the struts form for Credit Card Receipt document.

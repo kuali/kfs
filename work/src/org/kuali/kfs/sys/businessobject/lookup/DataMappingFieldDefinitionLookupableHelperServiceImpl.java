@@ -28,12 +28,12 @@ import org.kuali.kfs.sys.businessobject.BusinessObjectProperty;
 import org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition;
 import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 
 public class DataMappingFieldDefinitionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {

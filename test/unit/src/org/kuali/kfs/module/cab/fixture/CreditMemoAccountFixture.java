@@ -21,10 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum CreditMemoAccountFixture {
     REC1 {

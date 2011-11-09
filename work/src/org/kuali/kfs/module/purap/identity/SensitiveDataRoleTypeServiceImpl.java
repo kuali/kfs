@@ -16,10 +16,9 @@
 package org.kuali.kfs.module.purap.identity;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 

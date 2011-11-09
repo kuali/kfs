@@ -24,7 +24,6 @@ import org.kuali.kfs.gl.batch.service.BalanceCalculator;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;

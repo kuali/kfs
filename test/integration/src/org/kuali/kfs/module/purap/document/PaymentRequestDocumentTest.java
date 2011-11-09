@@ -48,12 +48,12 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class is used to create and test populated Payment Request Documents of various kinds.

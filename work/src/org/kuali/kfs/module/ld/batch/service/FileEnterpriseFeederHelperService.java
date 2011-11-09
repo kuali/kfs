@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ld.batch.service;
 import java.io.File;
 import java.io.PrintStream;
 
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
 

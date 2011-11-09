@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,9 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Default implementation of the <code>BankService</code> interface.

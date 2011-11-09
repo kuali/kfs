@@ -15,15 +15,12 @@
  */
 package org.kuali.kfs.module.cab.document.web;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
-import java.util.ArrayList;
 
 public class PurApLineSession {
     private List<PurchasingAccountsPayableActionHistory> actionsTakenHistory;

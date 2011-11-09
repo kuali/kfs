@@ -16,17 +16,17 @@
 
 package org.kuali.kfs.vnd.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.StateService;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import java.util.ArrayList;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 /**
  * Container for information about how to get in Contact with a person at a Vendor for a particular purpose.

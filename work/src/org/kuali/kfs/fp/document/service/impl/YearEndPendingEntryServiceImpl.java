@@ -29,7 +29,6 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.document.TransactionalDocument;
-import org.kuali.rice.krad.exception.ReferentialIntegrityException;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

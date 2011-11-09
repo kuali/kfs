@@ -18,8 +18,9 @@ package org.kuali.kfs.module.cab.businessobject.defaultvalue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 public class FinancialDocumentTypeCodeValuesFinder extends KeyValuesBase {
     // The list is hard coded to achieve this specific order of display

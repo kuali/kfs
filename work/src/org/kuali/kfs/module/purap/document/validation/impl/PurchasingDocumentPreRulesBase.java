@@ -18,16 +18,13 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 
 public abstract class PurchasingDocumentPreRulesBase extends PurapDocumentPreRulesBase{
 

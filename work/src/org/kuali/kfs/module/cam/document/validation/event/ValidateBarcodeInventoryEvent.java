@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.cam.document.validation.event;
 
-import java.util.List;
-
-import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule;
 import org.kuali.rice.krad.document.Document;

@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import java.util.Collection;
-
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 

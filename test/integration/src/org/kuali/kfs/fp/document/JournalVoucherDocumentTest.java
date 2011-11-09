@@ -42,13 +42,13 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentStatusMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

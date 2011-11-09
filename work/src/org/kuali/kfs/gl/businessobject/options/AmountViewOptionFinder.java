@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.Constant;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * An implementation of ValuesFinder that allows GL inquiries to select either monthly totals or accumulated totals on balance inquiries

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,9 +32,9 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;

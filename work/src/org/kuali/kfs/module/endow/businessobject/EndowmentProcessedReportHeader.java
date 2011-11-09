@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class EndowmentProcessedReportHeader extends TransientBusinessObjectBase {

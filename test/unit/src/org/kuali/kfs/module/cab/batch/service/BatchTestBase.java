@@ -17,11 +17,8 @@ package org.kuali.kfs.module.cab.batch.service;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.kuali.kfs.module.cab.CabConstants;
-import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.fixture.CreditMemoAccountFixture;
 import org.kuali.kfs.module.cab.fixture.CreditMemoAccountRevisionFixture;
 import org.kuali.kfs.module.cab.fixture.CreditMemoDocumentFixture;
@@ -44,9 +41,8 @@ import org.kuali.kfs.module.cab.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.cab.fixture.RequisitionItemFixture;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.parameter.Parameter;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.util.ObjectUtils;

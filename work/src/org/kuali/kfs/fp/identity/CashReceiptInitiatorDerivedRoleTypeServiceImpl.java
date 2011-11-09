@@ -15,13 +15,11 @@
  */
 package org.kuali.kfs.fp.identity;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 

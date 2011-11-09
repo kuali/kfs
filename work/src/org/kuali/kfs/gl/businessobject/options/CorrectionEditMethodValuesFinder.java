@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of GLCP editing methods key value pairs, to populate a dropdown select control

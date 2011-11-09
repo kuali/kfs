@@ -18,13 +18,13 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.StateService;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 public class TaxRegionState extends PersistableBusinessObjectBase implements Inactivatable {
 

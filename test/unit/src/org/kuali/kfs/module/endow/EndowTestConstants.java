@@ -17,12 +17,9 @@ package org.kuali.kfs.module.endow;
 
 import java.math.BigDecimal;
 
-import org.apache.bcel.generic.NEW;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.core.util.JSTLConstants;
 
 public class EndowTestConstants extends JSTLConstants {
     public static final KualiDecimal ZERO_AMOUNT = KualiDecimal.ZERO;

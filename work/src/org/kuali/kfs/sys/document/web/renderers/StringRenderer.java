@@ -21,8 +21,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.springframework.web.util.HtmlUtils;
-
 /**
  * Don't you love it when you've got to write silly code, just because of some arbitrary rule within the
  * system?  Don't you love it even more when _you_ are the one who created that arbitrary rule?  All

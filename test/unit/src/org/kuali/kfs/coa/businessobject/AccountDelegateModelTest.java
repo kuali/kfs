@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;

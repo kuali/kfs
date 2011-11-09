@@ -20,8 +20,8 @@ import java.util.Map;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
  * A special implementation of Maintainable specifically for PurchaseOrderContractLanguage

@@ -20,7 +20,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.rice.core.api.resourceloader.SpringBeanFactoryResourceLoader;
+import org.kuali.rice.core.impl.resourceloader.SpringBeanFactoryResourceLoader;
 
 /**
  * A custom {@link org.kuali.rice.kew.plugin.ResourceLoader} which wraps a Spring BeanFactory and delegates certain service lookups to

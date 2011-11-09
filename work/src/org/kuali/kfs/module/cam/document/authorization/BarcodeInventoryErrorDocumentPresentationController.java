@@ -15,18 +15,11 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Presentation Controller for Barcode Error Documents

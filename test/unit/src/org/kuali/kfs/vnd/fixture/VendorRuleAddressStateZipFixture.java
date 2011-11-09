@@ -22,9 +22,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.fixture.VendorTestConstants.StatesZips;
+import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.state.State;
-import org.kuali.rice.krad.service.KualiModuleService;
 
 public enum VendorRuleAddressStateZipFixture {
 

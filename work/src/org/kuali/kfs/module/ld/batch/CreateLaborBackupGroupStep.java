@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ld.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.context.SpringContext;

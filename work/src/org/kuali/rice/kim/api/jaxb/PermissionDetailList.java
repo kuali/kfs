@@ -15,16 +15,17 @@
  */
 package org.kuali.rice.kim.api.jaxb;
 
-import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
+import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
 
 /**
  * An XML element that can have zero or more StringMapEntry elements. This is similar

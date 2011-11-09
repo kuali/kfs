@@ -19,7 +19,6 @@ import java.util.Date;
 
 import org.kuali.kfs.module.purap.document.service.FaxBatchDocumentsService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.context.SpringContext;
 
 public class FaxPendingDocumentStep extends AbstractStep {
 

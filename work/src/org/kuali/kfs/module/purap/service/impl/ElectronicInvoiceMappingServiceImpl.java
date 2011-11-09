@@ -25,7 +25,6 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoicingDao;
-import org.kuali.kfs.module.purap.dataaccess.impl.ElectronicInvoicingDaoOjb;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.springframework.transaction.annotation.Transactional;
 

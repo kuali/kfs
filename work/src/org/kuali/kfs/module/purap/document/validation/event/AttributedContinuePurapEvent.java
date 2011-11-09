@@ -15,12 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.TransactionalDocument;
-import org.kuali.rice.krad.rule.BusinessRule;
 import org.kuali.rice.krad.rule.event.SaveEvent;
 
 /**

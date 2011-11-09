@@ -34,21 +34,21 @@ import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.XmlObjectSerializerService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.workflow.DocumentInitiator;
-import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.workflow.DocumentInitiator;
+import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 
 
 @ConfigureContext(session = khuntley)

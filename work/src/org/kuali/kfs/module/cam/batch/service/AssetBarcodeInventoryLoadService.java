@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cam.batch.service;
 import java.io.File;
 
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
-import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 import org.kuali.rice.krad.document.Document;
 

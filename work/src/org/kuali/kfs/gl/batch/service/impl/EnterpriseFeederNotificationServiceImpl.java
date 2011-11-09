@@ -17,6 +17,7 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,10 +28,10 @@ import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.krad.service.MailService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 /**
  * The base implementation of EnterpriseFeederNotificationService; performs email-based notifications

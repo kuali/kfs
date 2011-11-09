@@ -19,7 +19,6 @@ package org.kuali.kfs.integration.cg.businessobject;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 
 /**
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This

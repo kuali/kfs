@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.module.bc.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * See BudgetParameterService. This implements value added methods associated with ParameterService that are specific to the budget

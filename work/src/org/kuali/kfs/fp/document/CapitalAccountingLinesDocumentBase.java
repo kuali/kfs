@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.fp.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
-import java.util.ArrayList;
 
 /**
  * class which defines behavior common for capital accounting lines.

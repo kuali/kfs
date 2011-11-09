@@ -15,11 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.defaultvalue;
 
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 
 
 /**

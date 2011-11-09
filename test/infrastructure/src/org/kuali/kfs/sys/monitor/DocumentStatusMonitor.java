@@ -16,10 +16,10 @@
 package org.kuali.kfs.sys.monitor;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * DocumentStatusMonitor

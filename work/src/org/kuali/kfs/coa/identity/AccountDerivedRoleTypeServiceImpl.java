@@ -35,24 +35,22 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.krad.exception.InvalidAddressException;
-import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.MailService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 

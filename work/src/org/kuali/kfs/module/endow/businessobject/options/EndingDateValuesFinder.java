@@ -20,7 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class EndingDateValuesFinder extends KeyValuesBase {

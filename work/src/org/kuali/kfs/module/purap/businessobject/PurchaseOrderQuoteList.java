@@ -16,13 +16,13 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import java.util.ArrayList;
 
 /**
  * Purchase Order Quote List Business Object.

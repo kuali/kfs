@@ -23,9 +23,9 @@ import org.kuali.kfs.module.endow.businessobject.KemidFee;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.KemidFeeService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class is the service implementation for the KemidFeeService. This is the default, Kuali provided implementation.

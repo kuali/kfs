@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cam.businessobject.defaultvalue;
 
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * Returns the next Asset number available.

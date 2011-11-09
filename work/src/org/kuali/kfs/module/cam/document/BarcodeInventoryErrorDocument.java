@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.cam.document;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import java.util.ArrayList;
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDocument.class);
     

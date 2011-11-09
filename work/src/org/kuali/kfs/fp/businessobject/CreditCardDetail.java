@@ -20,8 +20,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents the CreditCardDetail business object, which is a single record on the Credit Card Receipts Document

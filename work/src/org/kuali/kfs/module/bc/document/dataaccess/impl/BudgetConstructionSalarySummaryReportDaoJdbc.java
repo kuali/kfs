@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao;
-import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * builds the underlying data table for the salary summary report in budget construction

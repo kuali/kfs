@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ec.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * returns valid effort reporting fiscal periods 1 - 12

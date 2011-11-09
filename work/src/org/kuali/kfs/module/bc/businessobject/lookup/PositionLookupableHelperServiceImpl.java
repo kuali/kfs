@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.bc.businessobject.lookup;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -28,13 +27,13 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.core.web.format.BooleanFormatter;
 
 /**
  * Lookupable helper service implementation for the position lookup..

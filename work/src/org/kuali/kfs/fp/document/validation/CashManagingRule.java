@@ -17,7 +17,6 @@ package org.kuali.kfs.fp.document.validation;
 
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashieringTransaction;
-import org.kuali.kfs.fp.businessobject.Deposit;
 
 /**
  * Callbacks for rules that the Cash Management document checks

@@ -24,9 +24,8 @@ import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
 

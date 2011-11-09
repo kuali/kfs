@@ -18,8 +18,8 @@ package org.kuali.kfs.module.endow.businessobject.defaultvalue;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * Returns the next Asset number available.

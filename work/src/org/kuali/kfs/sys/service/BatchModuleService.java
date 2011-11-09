@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.service;
 
-import org.kuali.rice.krad.service.ModuleService;
 
 /**
  * This class defines methods needed for batch to run successfully when there are dependencies on jobs that are run on external systems.

@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * An OriginEntryInformation wrapper which helpfully summarizes data for the pending entry report

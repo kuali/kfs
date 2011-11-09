@@ -18,8 +18,8 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.module.endow.businessobject.CashSweepModel;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 
 public class CashSweepModelPreRule extends MaintenancePreRulesBase{

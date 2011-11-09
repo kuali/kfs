@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import java.util.HashMap;
 import java.util.Map;
+
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 
 public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";

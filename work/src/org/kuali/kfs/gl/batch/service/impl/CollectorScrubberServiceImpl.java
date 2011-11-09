@@ -25,8 +25,8 @@ import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 

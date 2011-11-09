@@ -20,13 +20,10 @@ import java.util.List;
 import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.location.framework.campus.CampusValuesFinder;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.ksb.cache.RiceCacheAdministrator;
-
-import com.opensymphony.oscache.general.GeneralCacheAdministrator;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.location.framework.campus.CampusValuesFinder;
 
 /**
  * @see org.kuali.kfs.sys.batch.service.CacheService

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.FileUtil;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.springframework.beans.factory.BeanNameAware;

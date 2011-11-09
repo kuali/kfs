@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document.service;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
@@ -29,7 +30,6 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 
 @ConfigureContext(session = khuntley)
 public class CustomerCreditMemoDocumentServiceTest extends KualiTestBase {

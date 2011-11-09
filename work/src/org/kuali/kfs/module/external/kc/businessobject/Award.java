@@ -16,12 +16,12 @@
 
 package org.kuali.kfs.module.external.kc.businessobject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import java.util.ArrayList;
 
 /**
  * Defines a financial award object.

@@ -21,10 +21,11 @@ import java.util.List;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 public class EndowmentRecurringCashTransferDocumentTypeValuesFinder extends KeyValuesBase {
 

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ld.batch;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
 
 @ConfigureContext
 public class LaborPosterStepTest extends KualiTestBase {

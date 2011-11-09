@@ -20,14 +20,6 @@ import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.ActionTakenEventDTO;
-import org.kuali.rice.kew.dto.AfterProcessEventDTO;
-import org.kuali.rice.kew.dto.BeforeProcessEventDTO;
-import org.kuali.rice.kew.dto.DeleteEventDTO;
-import org.kuali.rice.kew.dto.DocumentLockingEventDTO;
-import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.postprocessor.PostProcessorRemote;
 import org.kuali.rice.krad.service.PostProcessorService;
 
 /**

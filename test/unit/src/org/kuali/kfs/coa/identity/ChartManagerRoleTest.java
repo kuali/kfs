@@ -17,9 +17,10 @@ package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -27,12 +28,9 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 
 @ConfigureContext
 public class ChartManagerRoleTest extends KualiTestBase {

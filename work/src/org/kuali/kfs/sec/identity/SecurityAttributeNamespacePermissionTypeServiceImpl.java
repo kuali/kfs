@@ -17,11 +17,11 @@ package org.kuali.kfs.sec.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.Permission;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Type service for Access Security Permissions that restrict based on property name and namespace

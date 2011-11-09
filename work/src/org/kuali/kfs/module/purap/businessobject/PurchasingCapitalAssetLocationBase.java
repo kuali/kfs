@@ -21,10 +21,10 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusinessObjectBase implements CapitalAssetLocation {

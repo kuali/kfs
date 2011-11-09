@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum CreditMemoItemFixture {
 

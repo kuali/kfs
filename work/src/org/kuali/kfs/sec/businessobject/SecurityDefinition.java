@@ -21,9 +21,8 @@ import java.util.List;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiInteger;
-import java.util.ArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Defines a restriction that can be given to a model or principal. A restriction defines the attribute that is restricted on, and the action(s) that are being restricted. A KIM

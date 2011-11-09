@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.dataaccess;
 
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 
 

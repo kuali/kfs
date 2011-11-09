@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cam.document;
 
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 
 

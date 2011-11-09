@@ -33,8 +33,8 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsService
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionSalaryStatisticsReportService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

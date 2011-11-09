@@ -15,10 +15,11 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 public class ChartDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {

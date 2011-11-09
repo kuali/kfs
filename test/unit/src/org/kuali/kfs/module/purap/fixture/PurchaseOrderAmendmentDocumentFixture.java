@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PO;
 import org.kuali.kfs.sys.context.SpringContext;

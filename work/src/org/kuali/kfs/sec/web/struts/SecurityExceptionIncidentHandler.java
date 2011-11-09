@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sec.web.struts;
 
-import java.text.MessageFormat;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,11 +26,10 @@ import org.apache.struts.config.ExceptionConfig;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.SecKeyConstants;
 import org.kuali.kfs.sec.businessobject.AccessSecurityRestrictionInfo;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler;
 
 
 /**

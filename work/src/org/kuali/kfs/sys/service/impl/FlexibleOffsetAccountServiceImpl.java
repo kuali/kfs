@@ -28,9 +28,9 @@ import org.kuali.kfs.gl.businessobject.FlexibleAccountUpdateable;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This is the default implementation of the FlexibleOffsetAccountService interface.

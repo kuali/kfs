@@ -19,9 +19,8 @@ import java.util.Collection;
 
 import org.kuali.kfs.fp.businessobject.MessageOfTheDay;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.CacheNoCopy;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 public class MessageOfTheDayFinder implements ValueFinder {
 

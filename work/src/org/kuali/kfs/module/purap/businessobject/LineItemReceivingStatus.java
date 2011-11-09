@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
+
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class LineItemReceivingStatus extends PersistableBusinessObjectBase {

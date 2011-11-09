@@ -18,7 +18,6 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTrackerOverride;
 import org.kuali.kfs.module.bc.document.service.CalculatedSalaryFoundationTrackerOverrideService;
-
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;

@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -43,7 +41,6 @@ import org.kuali.kfs.sys.document.web.renderers.CheckboxRenderer;
 import org.kuali.kfs.sys.document.web.renderers.CurrencyRenderer;
 import org.kuali.kfs.sys.document.web.renderers.DateRenderer;
 import org.kuali.kfs.sys.document.web.renderers.DropDownRenderer;
-import org.kuali.kfs.sys.document.web.renderers.DynamicReadOnlyRender;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
 import org.kuali.kfs.sys.document.web.renderers.HiddenRenderer;
 import org.kuali.kfs.sys.document.web.renderers.RadioButtonGroupRenderer;
@@ -51,15 +48,15 @@ import org.kuali.kfs.sys.document.web.renderers.ReadOnlyRenderer;
 import org.kuali.kfs.sys.document.web.renderers.TextAreaRenderer;
 import org.kuali.kfs.sys.document.web.renderers.TextRenderer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
-import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.krad.service.DocumentHelperService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * The default implementation of the AccountingLineRenderingService

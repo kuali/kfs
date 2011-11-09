@@ -19,8 +19,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
-import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;

@@ -15,12 +15,19 @@
  */
 package org.kuali.rice.kim.impl.jaxb;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.bind.UnmarshalException;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.util.jaxb.NameAndNamespacePair;
-import org.kuali.rice.kim.api.KimConstants.KimUIConstants;
 import org.kuali.rice.kim.api.group.GroupContract;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.permission.PermissionContract;
@@ -30,13 +37,6 @@ import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import javax.xml.bind.UnmarshalException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 /**
  * Helper class containing static methods for aiding in parsing role XML.

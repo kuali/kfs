@@ -21,10 +21,10 @@ import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.rice.location.api.country.Country;
 
 
 public interface ReceivingDocument extends TransactionalDocument, PurapItemOperations {

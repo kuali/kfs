@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.cg.document.service;
 
-import java.util.List;
-
-import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
 
 /**
  * This interface defines methods that a BudgetPermissionsService must provide

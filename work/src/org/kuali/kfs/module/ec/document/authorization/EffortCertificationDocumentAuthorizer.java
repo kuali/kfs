@@ -18,17 +18,13 @@ package org.kuali.kfs.module.ec.document.authorization;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.kim.api.identity.Person;
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * Document Authorizer for the Effort Certification document.

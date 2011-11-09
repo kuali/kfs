@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
-import java.util.ArrayList;
 
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.

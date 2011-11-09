@@ -15,14 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.document.TransactionalDocument;
 
 
 public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizerBase {

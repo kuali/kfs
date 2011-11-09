@@ -35,10 +35,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 /**
  * Default implementation of the LaborPendingEntryConverterService

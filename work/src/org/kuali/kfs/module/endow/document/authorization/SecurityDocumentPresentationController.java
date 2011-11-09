@@ -26,8 +26,8 @@ import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class SecurityDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {

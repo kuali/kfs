@@ -19,7 +19,6 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinitio
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * Performs custom population of report definition records for a new year being created in the fiscal year maker process

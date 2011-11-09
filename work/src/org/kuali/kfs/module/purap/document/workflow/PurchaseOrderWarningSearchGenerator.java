@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.workflow;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.document.workflow.DataDictionaryDocumentSearchCustomizer;
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.krad.util.MessageMap;
 
 public class PurchaseOrderWarningSearchGenerator extends DataDictionaryDocumentSearchCustomizer {

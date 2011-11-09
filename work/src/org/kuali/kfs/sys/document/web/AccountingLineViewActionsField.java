@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;

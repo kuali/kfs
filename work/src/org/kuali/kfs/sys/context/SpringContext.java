@@ -37,19 +37,17 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.resourceloader.RiceResourceLoaderFactory;
-import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.impl.resourceloader.RiceResourceLoaderFactory;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import org.directwebremoting.spring.SpringCreator;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @SuppressWarnings("deprecation")
 public class SpringContext {

@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cg;
 import java.util.Calendar;
 
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * Constants specific to the Contracts and Grants module.

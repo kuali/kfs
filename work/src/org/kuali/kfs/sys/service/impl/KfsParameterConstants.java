@@ -20,9 +20,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.kuali.rice.core.framework.parameter.ParameterConstants;
-import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
-import org.kuali.rice.core.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.util.KRADConstants;
 
 

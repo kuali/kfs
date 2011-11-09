@@ -23,12 +23,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
-import java.util.Map;
-
 import org.kuali.kfs.fp.document.InternalBillingDocument;
-import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -39,10 +35,10 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 
 /**
  * This class tests the business rules of the internal billing document. This is not implemented yet and needs to extend

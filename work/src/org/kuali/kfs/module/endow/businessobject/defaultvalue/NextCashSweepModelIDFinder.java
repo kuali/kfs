@@ -18,8 +18,8 @@ package org.kuali.kfs.module.endow.businessobject.defaultvalue;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.CashSweepModel;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 public class NextCashSweepModelIDFinder implements ValueFinder {
 

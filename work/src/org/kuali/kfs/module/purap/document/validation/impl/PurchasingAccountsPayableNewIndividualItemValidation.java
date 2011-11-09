@@ -19,10 +19,9 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class PurchasingAccountsPayableNewIndividualItemValidation extends GenericValidation {
 

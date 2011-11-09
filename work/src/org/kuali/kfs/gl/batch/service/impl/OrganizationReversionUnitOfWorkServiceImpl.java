@@ -19,8 +19,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.collections.Closure;
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.gl.batch.dataaccess.OrganizationReversionUnitOfWorkDao;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
 import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork;

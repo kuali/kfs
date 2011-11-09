@@ -17,16 +17,15 @@ package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 

@@ -19,8 +19,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This KemidReportGroup class provides the report group for consolidated reporting to which the KEMID belongs.

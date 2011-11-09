@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.document.service;
 
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 

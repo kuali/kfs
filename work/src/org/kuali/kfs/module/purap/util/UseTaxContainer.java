@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.purap.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import java.util.ArrayList;
 
 /**
  * .

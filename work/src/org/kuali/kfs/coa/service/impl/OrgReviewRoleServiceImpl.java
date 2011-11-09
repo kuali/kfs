@@ -21,17 +21,13 @@ import java.util.List;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateTypeContract;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityActionInfo;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
 
 public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 

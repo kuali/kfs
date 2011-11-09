@@ -23,11 +23,11 @@ import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.location.api.postalcode.PostalCode;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
 
 /**
  * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,

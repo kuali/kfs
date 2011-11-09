@@ -17,8 +17,8 @@ package org.kuali.kfs.module.ec.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
+import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService;
 import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.sys.MessageBuilder;

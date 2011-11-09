@@ -20,14 +20,11 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kfs.sec.SecConstants;
-import org.kuali.kfs.sec.document.SecurityDefinitionMaintainableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.kew.api.docType.DocumentType;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 
 /**

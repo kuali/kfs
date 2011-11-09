@@ -19,10 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Holds properties necessary for expansion screen handling.

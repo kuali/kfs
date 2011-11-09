@@ -15,21 +15,11 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL;
-
-import java.util.List;
-
-import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
-import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
-import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Fixes the error path in GlobalVariables before other accounting line validation occurs

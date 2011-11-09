@@ -16,14 +16,13 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kim.bo.Group;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import java.util.ArrayList;
 
 public class Tickler extends PersistableBusinessObjectBase implements Inactivatable {
     

@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.identity;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,14 +26,11 @@ import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.bo.entity.dto.EntityDefaultInfo;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 

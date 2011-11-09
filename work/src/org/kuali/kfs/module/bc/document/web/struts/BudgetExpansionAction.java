@@ -29,11 +29,12 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
  * Handles close action to implement Budget return to caller (expansion screen) flow.

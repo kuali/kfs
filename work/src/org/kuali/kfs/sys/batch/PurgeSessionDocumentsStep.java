@@ -19,9 +19,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.SessionDocumentService;
 
 public class PurgeSessionDocumentsStep extends AbstractStep {

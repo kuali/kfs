@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ld.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;

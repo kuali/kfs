@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,11 +31,9 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
 public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Position, Inactivatable {

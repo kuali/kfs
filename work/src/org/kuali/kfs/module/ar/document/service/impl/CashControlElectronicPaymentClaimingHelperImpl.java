@@ -30,16 +30,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
-import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
 
 public class CashControlElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlElectronicPaymentClaimingHelperImpl.class);

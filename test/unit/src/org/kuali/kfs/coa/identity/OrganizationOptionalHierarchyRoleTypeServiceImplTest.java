@@ -15,15 +15,15 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.rice.kim.service.RoleService;
 
 @ConfigureContext//(session=UserNameFixture.hfore)
 public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiTestBase {

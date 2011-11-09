@@ -18,10 +18,7 @@ package org.kuali.kfs.module.cg.document.service.impl;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
 import org.kuali.rice.kew.api.action.ActionRequest;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentPermissionsService {

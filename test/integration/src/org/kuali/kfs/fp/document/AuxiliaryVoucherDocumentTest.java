@@ -15,19 +15,15 @@
  */
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE15;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -36,6 +32,10 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class is used to test NonCheckDisbursementDocumentTest.

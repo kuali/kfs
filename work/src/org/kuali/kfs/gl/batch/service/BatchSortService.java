@@ -16,7 +16,6 @@
 package org.kuali.kfs.gl.batch.service;
 
 import java.util.Comparator;
-import java.util.List;
 
 public interface BatchSortService {
     

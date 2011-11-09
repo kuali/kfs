@@ -25,7 +25,6 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class PurchasingProcessContainsAtLeastOneItemValidation extends GenericValidation {
     

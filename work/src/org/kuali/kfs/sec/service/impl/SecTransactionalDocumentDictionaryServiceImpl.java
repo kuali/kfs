@@ -15,13 +15,14 @@
  */
 package org.kuali.kfs.sec.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.document.validation.impl.AccessSecurityAccountingDocumentRuleBase;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.impl.TransactionalDocumentDictionaryServiceImpl;
 import org.kuali.rice.krad.document.TransactionalDocument;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
-import org.kuali.rice.krad.service.impl.TransactionalDocumentDictionaryServiceImpl;
 
 
 /**

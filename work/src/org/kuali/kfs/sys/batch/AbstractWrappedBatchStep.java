@@ -21,8 +21,6 @@ import java.util.List;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 
-import uk.ltd.getahead.dwr.util.Logger;
-
 
 public abstract class AbstractWrappedBatchStep extends AbstractStep {
     private static final Logger LOG = Logger.getLogger(AbstractWrappedBatchStep.class);

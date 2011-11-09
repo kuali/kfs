@@ -22,8 +22,8 @@ import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

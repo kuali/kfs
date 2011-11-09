@@ -15,14 +15,15 @@
  */
 package org.kuali.kfs.sec.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.document.authorization.SecTransactionalDocumentAuthorizer;
 import org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 
 /**

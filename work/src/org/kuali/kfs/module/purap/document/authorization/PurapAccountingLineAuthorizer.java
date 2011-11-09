@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -37,12 +38,12 @@ import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.krad.document.authorization.DocumentPresentationController;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**

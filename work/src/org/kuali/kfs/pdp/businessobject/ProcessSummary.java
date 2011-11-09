@@ -19,13 +19,8 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;

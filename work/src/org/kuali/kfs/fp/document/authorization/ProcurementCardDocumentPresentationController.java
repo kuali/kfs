@@ -15,15 +15,13 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 public class ProcurementCardDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
 

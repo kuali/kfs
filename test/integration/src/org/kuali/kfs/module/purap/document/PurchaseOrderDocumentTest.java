@@ -38,8 +38,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Used to create and test populated Purchase Order Documents of various kinds. 

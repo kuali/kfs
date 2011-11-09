@@ -30,8 +30,6 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 import org.kuali.kfs.gl.batch.service.FileEnterpriseFeederHelperService;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;

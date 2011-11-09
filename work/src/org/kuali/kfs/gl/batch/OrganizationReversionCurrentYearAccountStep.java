@@ -15,17 +15,14 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
 import org.kuali.kfs.gl.batch.service.YearEndService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.util.StopWatch;
 
 /**

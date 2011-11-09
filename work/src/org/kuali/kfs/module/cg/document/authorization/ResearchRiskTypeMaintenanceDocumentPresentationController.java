@@ -15,15 +15,7 @@
  */
 package org.kuali.kfs.module.cg.document.authorization;
 
-import java.util.Set;
-
-import org.kuali.kfs.module.cg.CGPropertyConstants;
-import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ResearchRiskTypeMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 }

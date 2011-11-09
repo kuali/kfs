@@ -17,9 +17,9 @@ package org.kuali.kfs.module.ld.document.validation.impl;
 
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

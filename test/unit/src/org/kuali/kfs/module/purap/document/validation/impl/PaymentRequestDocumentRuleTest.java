@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -37,15 +38,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.document.workflow.MockWorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-import java.util.ArrayList;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 @ConfigureContext(session = appleton)

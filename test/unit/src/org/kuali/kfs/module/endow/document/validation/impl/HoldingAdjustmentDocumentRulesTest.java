@@ -59,7 +59,6 @@ import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import java.util.ArrayList;
 
 /**
  * This class tests the rules in HoldingAdjustmentDocumentRule

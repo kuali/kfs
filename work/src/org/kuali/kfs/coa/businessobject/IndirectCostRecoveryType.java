@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.KualiCodeBase;
-import java.util.ArrayList;
 
 /**
  * This class...

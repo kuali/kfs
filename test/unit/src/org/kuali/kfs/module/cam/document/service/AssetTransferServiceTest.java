@@ -35,9 +35,9 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class AssetTransferServiceTest extends KualiTestBase {
 

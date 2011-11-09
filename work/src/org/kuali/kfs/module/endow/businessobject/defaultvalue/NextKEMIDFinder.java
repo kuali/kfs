@@ -20,9 +20,9 @@ import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 public class NextKEMIDFinder implements ValueFinder {
 

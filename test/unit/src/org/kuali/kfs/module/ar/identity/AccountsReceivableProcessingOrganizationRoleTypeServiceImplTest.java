@@ -16,17 +16,15 @@
 package org.kuali.kfs.module.ar.identity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kim.service.RoleService;
 
 @ConfigureContext
 public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest extends KualiTestBase {

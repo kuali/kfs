@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.module.ld.document.web.struts;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.kuali.kfs.module.ld.document.web.struts.BenefitExpenseTransferForm;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;

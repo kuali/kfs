@@ -17,8 +17,8 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class BusinessObjectComponent extends TransientBusinessObjectBase {
     private String namespaceCode;

@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.bo.ModuleConfiguration;
-import org.kuali.rice.krad.service.impl.ModuleServiceBase;
 import org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl;
 import org.kuali.kfs.sys.service.BatchModuleService;
+import org.kuali.rice.krad.service.impl.ModuleServiceBase;
 
 /**
  * 

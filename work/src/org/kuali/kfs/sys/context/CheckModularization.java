@@ -39,30 +39,28 @@ import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.endpoint.ServerImpl;
+import org.hibernate.util.DTDEntityResolver;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
-import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.krad.datadictionary.InactivationBlockingDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableItemDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
-import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.InactivationBlockingDefinition;
+import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import uk.ltd.getahead.dwr.impl.DTDEntityResolver;
-import uk.ltd.getahead.dwr.util.LogErrorHandler;
 
 public class CheckModularization {
 

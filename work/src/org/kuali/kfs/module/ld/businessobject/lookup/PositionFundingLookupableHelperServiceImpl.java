@@ -26,11 +26,11 @@ import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquira
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionFundingInquirableImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 
 public class PositionFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {

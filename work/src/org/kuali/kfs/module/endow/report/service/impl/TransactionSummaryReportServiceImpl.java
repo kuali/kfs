@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.EndowConstants.EndowmentTransactionTypeCodes;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;

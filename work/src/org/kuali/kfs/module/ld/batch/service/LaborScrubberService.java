@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ld.batch.service;
 
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**

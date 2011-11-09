@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cg.businessobject.defaultvalue;
 
 import org.kuali.kfs.module.cg.document.CloseDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * Gets the next close sequence number.

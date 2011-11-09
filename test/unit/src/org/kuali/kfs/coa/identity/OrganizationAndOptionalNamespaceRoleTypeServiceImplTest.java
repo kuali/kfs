@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -23,11 +25,9 @@ import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleService;
 
 @ConfigureContext
 public class OrganizationAndOptionalNamespaceRoleTypeServiceImplTest extends KualiTestBase {

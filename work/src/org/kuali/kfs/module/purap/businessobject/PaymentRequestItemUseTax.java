@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class PaymentRequestItemUseTax extends PurApItemUseTaxBase {
 

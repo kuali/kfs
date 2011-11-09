@@ -26,9 +26,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentHelperService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

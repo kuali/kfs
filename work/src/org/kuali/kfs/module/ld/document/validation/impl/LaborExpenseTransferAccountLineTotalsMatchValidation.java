@@ -15,32 +15,19 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
-import static org.kuali.kfs.sys.businessobject.AccountingLineOverride.CODE.EXPIRED_ACCOUNT;
-import static org.kuali.kfs.sys.businessobject.AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED;
-
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.module.ld.LaborConstants ;
-import org.kuali.kfs.module.ld.LaborKeyConstants; 
-import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
-import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * determine whether the given accounting line has already been in the given document

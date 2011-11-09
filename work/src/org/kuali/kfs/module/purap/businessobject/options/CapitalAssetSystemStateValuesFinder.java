@@ -20,11 +20,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Values finder for CapitalAssetSystemStates

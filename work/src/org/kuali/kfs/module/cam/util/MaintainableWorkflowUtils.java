@@ -17,13 +17,12 @@ package org.kuali.kfs.module.cam.util;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 /**
  * In situation where the Maintainable does not have access to the document,  this class is a utility which 

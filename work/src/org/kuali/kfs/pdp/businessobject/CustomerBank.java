@@ -25,8 +25,8 @@ import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class CustomerBank extends PersistableBusinessObjectBase implements Inactivatable {
     private KualiInteger customerId;

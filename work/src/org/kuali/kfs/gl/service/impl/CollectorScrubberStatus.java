@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.gl.service.impl;
 
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 /**
  * This class represents the status for origin entries through the different origin entry groups (i.e. input, valid, error, and expired) 

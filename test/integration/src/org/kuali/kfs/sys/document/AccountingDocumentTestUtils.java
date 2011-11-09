@@ -39,15 +39,14 @@ import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentVersionMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
-import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 

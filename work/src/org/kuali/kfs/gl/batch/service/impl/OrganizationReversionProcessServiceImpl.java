@@ -15,31 +15,22 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
-import org.kuali.kfs.coa.service.OrganizationReversionService;
-import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcess;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
-import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
-import org.kuali.kfs.gl.service.BalanceService;
-import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

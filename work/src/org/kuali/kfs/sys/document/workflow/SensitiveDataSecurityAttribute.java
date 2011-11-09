@@ -20,16 +20,15 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.rice.kew.doctype.SecurityAttribute;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentHelperService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.omg.Security.SecurityAttribute;
 
 /**
  * This class...

@@ -28,11 +28,11 @@ import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not

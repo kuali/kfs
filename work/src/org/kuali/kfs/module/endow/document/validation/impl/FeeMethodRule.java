@@ -36,14 +36,14 @@ import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeServi
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 

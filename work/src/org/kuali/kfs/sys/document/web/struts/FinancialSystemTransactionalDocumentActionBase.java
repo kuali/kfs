@@ -25,10 +25,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * This class...

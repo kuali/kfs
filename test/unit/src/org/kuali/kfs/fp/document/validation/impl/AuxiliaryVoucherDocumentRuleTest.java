@@ -36,7 +36,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;

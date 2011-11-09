@@ -209,10 +209,10 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         UserNameFixture sessionUser = contextConfiguration.session();
         if (sessionUser != UserNameFixture.NO_SESSION) {
             GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
-            org.kuali.rice.kew.web.session.UserSession.setAuthenticatedUser(
-                    new org.kuali.rice.kew.web.session.UserSession(
-                            GlobalVariables.getUserSession().getPrincipalId())
-                    );
+            /* RICE_20_DELETE */ org.kuali.rice.kew.web.session.UserSession.setAuthenticatedUser(
+            /* RICE_20_DELETE */         new org.kuali.rice.kew.web.session.UserSession(
+            /* RICE_20_DELETE */                 GlobalVariables.getUserSession().getPrincipalId())
+            /* RICE_20_DELETE */          );
         }
     }
 

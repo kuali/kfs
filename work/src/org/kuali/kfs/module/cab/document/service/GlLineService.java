@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.document.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
@@ -24,6 +25,8 @@ import org.kuali.rice.kns.document.Document;
 
 public interface GlLineService {
 
+    Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntry(String documentNumber, String chartCode, String accountNumber, String finalcialObjectcode, Integer transactionSequenceNumber);
+    
     List<CapitalAssetInformation> findCapitalAssetInformation(GeneralLedgerEntry entry);
 
     List<CapitalAssetInformation> findAllCapitalAssetInformation(GeneralLedgerEntry entry);
@@ -31,7 +34,7 @@ public interface GlLineService {
     long findUnprocessedCapitalAssetInformation(GeneralLedgerEntry entry);
     
     CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry, Integer capitalAssetLineNumber);
- 
+
     Document createAssetGlobalDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException;
 
     Document createAssetPaymentDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException;

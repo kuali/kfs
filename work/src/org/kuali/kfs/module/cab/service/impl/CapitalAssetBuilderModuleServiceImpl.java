@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
+import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
@@ -2182,16 +2183,82 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
         Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
+
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
+            Integer capitalAssetLineNumber = 0;
+            GeneralLedgerEntry generalLedgerEntry = new GeneralLedgerEntry();
+            
+            //get the capital asset number from these entry asset records...
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
-                GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
-                generalLedgerEntry.setTransactionLedgerSubmitAmount(KualiDecimal.ZERO);
-                generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
-                this.getBusinessObjectService().save(generalLedgerEntry);
-                this.getBusinessObjectService().delete(generalLedgerEntryAsset);
+                capitalAssetLineNumber = generalLedgerEntryAsset.getCapitalAssetBuilderLineNumber();
+                generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
+
+                break;
             }
+            
+            GlLineService glLineService = SpringContext.getBean(GlLineService.class);
+            
+            //get the capital asset information....
+            CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(generalLedgerEntry, capitalAssetLineNumber);
+            
+            List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
+            
+            for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
+                Collection<GeneralLedgerEntry> matchingGLEntries = glLineService.findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getSequenceNumber());
+                for(GeneralLedgerEntry matchingGLEntry : matchingGLEntries) {
+                    reduceTransactionSumbitGlEntryAmount(matchingGLEntry, accountingLine.getAmount());
+                }
+            }
+            //mark the capital asseet processed indicator as false so it can be processed again
+            capitalAssetInformation.setCapitalAssetProcessedIndicator(false);
+            getBusinessObjectService().save(capitalAssetInformation);
         }
     }
+    
+    /**
+     * reduces the submit amount by the amount on the accounting line.  When submit amount equals
+     * transaction ledger amount, the activity status code is marked as in route status.
+     * @param matchingGLEntry
+     * @param accountLineAmount
+     */
+    protected void reduceTransactionSumbitGlEntryAmount(GeneralLedgerEntry matchingGLEntry, KualiDecimal accountLineAmount) {
+        //reduces submitted amount on the gl entry and save the results.
+        KualiDecimal submitTotalAmount = KualiDecimal.ZERO;
+        if (ObjectUtils.isNotNull(matchingGLEntry.getTransactionLedgerSubmitAmount())) {
+            submitTotalAmount = matchingGLEntry.getTransactionLedgerSubmitAmount();
+        }
+        
+        matchingGLEntry.setTransactionLedgerSubmitAmount(submitTotalAmount.subtract(accountLineAmount));
+
+        if (matchingGLEntry.getTransactionLedgerSubmitAmount().isLessThan(matchingGLEntry.getTransactionLedgerEntryAmount())) {
+            matchingGLEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
+        }
+        
+        //save the updated gl entry in CAB.  Remove general ledger entry asset records
+        this.getBusinessObjectService().save(matchingGLEntry);
+        this.getBusinessObjectService().delete(matchingGLEntry.getGeneralLedgerEntryAssets());
+    }
+    
+    
+    /**
+     * Activates CAB GL Lines
+     * 
+     * @param documentNumber String
+     */
+ //   protected void activateCabGlLines(String documentNumber) {
+//        Map<String, String> fieldValues = new HashMap<String, String>();
+//        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
+//        Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
+//        if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
+//            for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
+//                GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
+//                generalLedgerEntry.setTransactionLedgerSubmitAmount(KualiDecimal.ZERO);
+//                generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
+//                this.getBusinessObjectService().save(generalLedgerEntry);
+//                this.getBusinessObjectService().delete(generalLedgerEntryAsset);
+//            }
+//        }
+//    }
 
     /**
      * Activates PO Lines
@@ -2395,7 +2462,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
     
         for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            capitalAAssetTotals = capitalAAssetTotals.add(capitalAsset.getAmount());
+            capitalAAssetTotals = capitalAAssetTotals.add(capitalAsset.getCapitalAssetLineAmount());
         }
         
         if (capitalAccountingLinesTotals.isGreaterThan(capitalAAssetTotals)) {
@@ -2425,7 +2492,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<CapitalAssetInformation> capitalAssetInformation = caldb.getCapitalAssetInformation();
         
         for(CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
-            if (capitalAccountingLine.getAmount().isLessThan(getCapitalAssetsAmountAllocated(capitalAssetInformation, capitalAccountingLine))) {
+            if (capitalAccountingLine.getAmount().isLessThan(getCapitalAccountingLineAmountAllocated(capitalAssetInformation, capitalAccountingLine))) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSETS_AMOUNTS_GREATER_THAN_CAPITAL_ACCOUNTING_LINE, capitalAccountingLine.getSequenceNumber().toString(), capitalAccountingLine.getLineType(), capitalAccountingLine.getChartOfAccountsCode(), capitalAccountingLine.getAccountNumber(), capitalAccountingLine.getFinancialObjectCode());
                 valid = false;
             }
@@ -2441,21 +2508,25 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param existingCapitalAsset
      * @return capitalAssetsAmount amount that has been distributed for the specific capital accounting line
      */
-    protected KualiDecimal getCapitalAssetsAmountAllocated(List<CapitalAssetInformation> currentCapitalAssetInformation, CapitalAccountingLines capitalAccountingLine) {
+    protected KualiDecimal getCapitalAccountingLineAmountAllocated(List<CapitalAssetInformation> currentCapitalAssetInformation, CapitalAccountingLines capitalAccountingLine) {
         //check the capital assets records totals
-        KualiDecimal capitalAssetsAmount = KualiDecimal.ZERO;
+        KualiDecimal capitalAccountingLineAmount = KualiDecimal.ZERO;
 
         for (CapitalAssetInformation capitalAsset : currentCapitalAssetInformation) {
-            if (capitalAsset.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
-                    capitalAsset.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
-                    capitalAsset.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
-                    capitalAsset.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
-                    capitalAsset.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
-                    capitalAssetsAmount = capitalAssetsAmount.add(capitalAsset.getAmount());
+            List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
+            for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+                if (groupAccountLine.getCapitalAssetLineNumber().compareTo(capitalAsset.getCapitalAssetLineNumber()) == 0 &&
+                        groupAccountLine.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&                        
+                        groupAccountLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
+                        groupAccountLine.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
+                        groupAccountLine.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
+                        groupAccountLine.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
+                    capitalAccountingLineAmount = capitalAccountingLineAmount.add(groupAccountLine.getAmount());                    
+                }
             }
         }
         
-        return capitalAssetsAmount;
+        return capitalAccountingLineAmount;
     }
     
     /**
@@ -2515,15 +2586,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         
         for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
-            if (capitalAsset.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
-                    capitalAsset.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
-                    capitalAsset.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
-                    capitalAsset.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
-                    capitalAsset.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
-                return true;
+            List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
+            for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+                if (groupAccountLine.getCapitalAssetLineNumber().compareTo(capitalAsset.getCapitalAssetLineNumber()) == 0 &&
+                        groupAccountLine.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
+                        groupAccountLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
+                        groupAccountLine.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
+                        groupAccountLine.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
+                        groupAccountLine.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
+                     return true;
+                }
             }
         }
-        
+
         return exists;
     }
     
@@ -2535,11 +2610,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
         Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
+            GlLineService glLineService = SpringContext.getBean(GlLineService.class);
+            
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
 
                 // update gl status as processed
-                if (SpringContext.getBean(GlLineService.class).findUnprocessedCapitalAssetInformation(generalLedgerEntry) == 0) {
+                if (glLineService.findUnprocessedCapitalAssetInformation(generalLedgerEntry) == 0) {
                     generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
                 } 
                 else {

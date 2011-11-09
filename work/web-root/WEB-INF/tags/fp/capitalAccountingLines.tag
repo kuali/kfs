@@ -77,6 +77,10 @@
 						useShortLabel="false"
 						/>
 					<kul:htmlAttributeHeaderCell
+						attributeEntry="${capitalAccountingLinesAttributes.accountLinePercent}"
+						useShortLabel="true"
+						/>
+					<kul:htmlAttributeHeaderCell
 						attributeEntry="${capitalAccountingLinesAttributes.financialDocumentLineDescription}"
 						useShortLabel="false"
 						/>
@@ -111,6 +115,11 @@
 			            		<kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.amount}" property="document.capitalAccountingLines[${ctr}].amount" readOnly="true"/>
 							</div>		            		
 			            </td>
+			            <td class="datacell">
+			            	<div align="right">
+			            		<kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.accountLinePercent}" property="document.capitalAccountingLines[${ctr}].accountLinePercent" readOnly="true"/>
+							</div>		            		
+			            </td>
 			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.financialDocumentLineDescription}" property="document.capitalAccountingLines[${ctr}].financialDocumentLineDescription" readOnly="true"/></td>
 	                    <td class="datacell">
 	                    	<div align="center">
@@ -121,7 +130,7 @@
 				</logic:iterate>
 				<c:if test="${!empty KualiForm.document.capitalAccountingLines}" >
 					<tr height="40">
-						<td colSpan="11">
+						<td colSpan="12">
 						<div align="center"><b>Select Amount Distribution Method&nbsp;</b>
 								<kul:htmlControlAttribute
 								attributeEntry="${capitalAccountingLineAttributes.distributionCode}"
@@ -131,7 +140,7 @@
 						</td>
 					</tr>
 					<tr height="40">
-			            <td class="datacell" colSpan="11">
+			            <td class="datacell" colSpan="12">
 			            	<div align="center">
 			            		<c:if test="${KualiForm.capitalAccountingLine.canCreateAsset}">
 			                		<html:image property="methodToCall.createAsset" src="${ConfigProperties.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>

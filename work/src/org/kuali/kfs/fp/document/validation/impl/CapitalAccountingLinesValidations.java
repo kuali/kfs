@@ -117,13 +117,13 @@ public class CapitalAccountingLinesValidations extends GenericValidation {
         }
         
         for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
-            if (capitalAsset.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
-                    capitalAsset.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
-                    capitalAsset.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
-                    capitalAsset.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
-                    capitalAsset.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
+          //  if (capitalAsset.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
+         //           capitalAsset.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
+         //           capitalAsset.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
+         //           capitalAsset.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
+         //           capitalAsset.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
                 return true;
-            }
+          //  }
         }
         
         return exists;
@@ -140,7 +140,7 @@ public class CapitalAccountingLinesValidations extends GenericValidation {
         }
     
         for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            capitalAAssetTotals = capitalAAssetTotals.add(capitalAsset.getAmount());
+            capitalAAssetTotals = capitalAAssetTotals.add(capitalAsset.getCapitalAssetLineAmount());
         }
         
         if (capitalAccountingLinesTotals.isGreaterThan(capitalAAssetTotals)) {

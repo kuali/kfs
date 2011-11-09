@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.cab.document.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.module.cab.CabConstants;
@@ -54,7 +57,6 @@ public class GlLineServiceImpl implements GlLineService {
     protected BusinessObjectService businessObjectService;
     protected AssetGlobalService assetGlobalService;
 
-
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(java.util.List,
      *      org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
@@ -68,8 +70,9 @@ public class GlLineServiceImpl implements GlLineService {
         assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
         assetGlobal.setAcquisitionTypeCode(getAssetGlobalService().getNewAcquisitionTypeCode());
         updatePreTagInformation(primary, document, assetGlobal, capitalAssetLineNumber);
-        assetGlobal.getAssetPaymentDetails().add(createAssetPaymentDetail(primary, document, 0, capitalAssetLineNumber));
-        
+    //    assetGlobal.getAssetPaymentDetails().add(createAssetPaymentDetail(primary, document, 0, capitalAssetLineNumber));
+        assetGlobal.getAssetPaymentDetails().addAll(createAssetPaymentDetails(primary, document, 0, capitalAssetLineNumber));
+
         // save the document
         document.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primary.getDocumentNumber());
@@ -106,16 +109,22 @@ public class GlLineServiceImpl implements GlLineService {
      * @param document Document
      */
     protected void deactivateGLEntries(GeneralLedgerEntry entry, Document document, Integer capitalAssetLineNumber) {
-        //if no more capital assets to be processed...
-        createGeneralLedgerEntryAsset(entry, document, capitalAssetLineNumber);
-        
         //now deactivate the gl line..
-        if (findUnprocessedCapitalAssetInformation(entry) == 0) {
-            entry.setTransactionLedgerSubmitAmount(entry.getTransactionLedgerEntryAmount());
-            entry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
-        }
+        CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry, capitalAssetLineNumber);
         
-        getBusinessObjectService().save(entry);
+        List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
+        for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
+            Collection<GeneralLedgerEntry> matchingGLEntries = findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getSequenceNumber());
+            for(GeneralLedgerEntry matchingGLEntry : matchingGLEntries) {
+                //if no more capital assets to be processed...
+                createGeneralLedgerEntryAsset(matchingGLEntry, document, capitalAssetLineNumber);
+                
+                KualiDecimal lineAmount = accountingLine.getAmount();
+
+                //update submitted amount on the gl entry and save the results.
+                updateTransactionSumbitGlEntryAmount(matchingGLEntry, lineAmount);
+            }
+        }
     }
 
     /**
@@ -175,9 +184,6 @@ public class GlLineServiceImpl implements GlLineService {
     public CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry, Integer capitalAssetLineNumber) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
-        primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.CHART_OF_ACCOUNTS_CODE, entry.getChartOfAccountsCode());
-        primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.ACCOUNT_NUMBER, entry.getAccountNumber());
-        primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.FINANCIAL_OBJECT_CODE, entry.getFinancialObjectCode());
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.ASSET_LINE_NUMBER, capitalAssetLineNumber.toString());
 
         CapitalAssetInformation assetInformation = (CapitalAssetInformation) businessObjectService.findByPrimaryKey(CapitalAssetInformation.class, primaryKeys);
@@ -190,9 +196,6 @@ public class GlLineServiceImpl implements GlLineService {
     public List<CapitalAssetInformation> findAllCapitalAssetInformation(GeneralLedgerEntry entry) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
-        primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.CHART_OF_ACCOUNTS_CODE, entry.getChartOfAccountsCode());
-        primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.ACCOUNT_NUMBER, entry.getAccountNumber());
-        primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.FINANCIAL_OBJECT_CODE, entry.getFinancialObjectCode());
         
         List<CapitalAssetInformation> assetInformation = (List<CapitalAssetInformation>) businessObjectService.findMatchingOrderBy(CapitalAssetInformation.class, primaryKeys, CabPropertyConstants.CapitalAssetInformation.ACTION_INDICATOR, true);
 
@@ -206,9 +209,6 @@ public class GlLineServiceImpl implements GlLineService {
         Map<String, String> fieldValues = new HashMap<String, String>();
 
         fieldValues.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
-        fieldValues.put(CabPropertyConstants.CapitalAssetInformation.CHART_OF_ACCOUNTS_CODE, entry.getChartOfAccountsCode());
-        fieldValues.put(CabPropertyConstants.CapitalAssetInformation.ACCOUNT_NUMBER, entry.getAccountNumber());
-        fieldValues.put(CabPropertyConstants.CapitalAssetInformation.FINANCIAL_OBJECT_CODE, entry.getFinancialObjectCode());
         fieldValues.put(CabPropertyConstants.CapitalAssetInformation.ASSET_PROCESSED_IND, KFSConstants.CapitalAssets.CAPITAL_ASSET_PROCESSED_IND);
         
         List<CapitalAssetInformation> assetInformation = (List<CapitalAssetInformation>) businessObjectService.findMatching(CapitalAssetInformation.class, fieldValues);
@@ -217,6 +217,25 @@ public class GlLineServiceImpl implements GlLineService {
         }
         
         return 0;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.GlLineService#findMatchingGeneralLedgerEntry(java.lang.String, java.lang.String, java.lang.String, java.lang.String, int)
+     */
+    public Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntry(String documentNumber, String chartCode, String accountNumber, String finalcialObjectcode, Integer transactionSequenceNumber) {
+        Collection<GeneralLedgerEntry> matchingGLEntry = new ArrayList<GeneralLedgerEntry>();
+        
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, documentNumber);
+        fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.CHART_OF_ACCOUNTS_CODE, chartCode);
+        fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.ACCOUNT_NUMBER, accountNumber);
+        fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_OBJECT_CODE, finalcialObjectcode);
+        fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER, transactionSequenceNumber.toString());
+
+        matchingGLEntry = (List<GeneralLedgerEntry>) businessObjectService.findMatching(GeneralLedgerEntry.class, fieldValues);
+
+        return matchingGLEntry;
+        
     }
     
     /**
@@ -251,7 +270,9 @@ public class GlLineServiceImpl implements GlLineService {
         return assetGlobal;
     }
 
-
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetPaymentDocument(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry, java.lang.Integer)
+     */
     public Document createAssetPaymentDocument(GeneralLedgerEntry primaryGlEntry, Integer capitalAssetLineNumber) throws WorkflowException {
         // Find out the GL Entry
         // initiate a new document
@@ -262,8 +283,8 @@ public class GlLineServiceImpl implements GlLineService {
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getDocumentNumber());
         updatePreTagInformation(primaryGlEntry, document, capitalAssetLineNumber);
         // Asset Payment Detail
-        AssetPaymentDetail detail = createAssetPaymentDetail(primaryGlEntry, document, 0, capitalAssetLineNumber);
-        document.getSourceAccountingLines().add(detail);
+        document.getSourceAccountingLines().addAll(createAssetPaymentDetails(primaryGlEntry, document, 0, capitalAssetLineNumber));
+        
         // Asset payment asset detail
         // save the document
         documentService.saveDocument(document);
@@ -296,6 +317,75 @@ public class GlLineServiceImpl implements GlLineService {
         }
     }
 
+    /**
+     * Creates asset payment details based on accounting lines distributed
+     * for the given capital asset.
+     * @param entry
+     * @param document
+     * @param seqNo
+     * @param capitalAssetLineNumber
+     * @return List<AssetPaymentDetail>
+     */
+    protected List<AssetPaymentDetail> createAssetPaymentDetails(GeneralLedgerEntry entry, Document document, int seqNo, Integer capitalAssetLineNumber) {
+        List<AssetPaymentDetail> appliedPayments = new ArrayList<AssetPaymentDetail>();
+        CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry, capitalAssetLineNumber);
+        
+        List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
+        Integer paymentSequenceNumber = 0;
+        
+        for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
+            Collection<GeneralLedgerEntry> matchingGLEntries = findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getSequenceNumber());
+            for(GeneralLedgerEntry matchingGLEntry : matchingGLEntries) {
+                AssetPaymentDetail detail = new AssetPaymentDetail();
+                detail.setDocumentNumber(document.getDocumentNumber());
+                detail.setSequenceNumber(paymentSequenceNumber++);
+                detail.setPostingYear(matchingGLEntry.getUniversityFiscalYear());
+                detail.setPostingPeriodCode(matchingGLEntry.getUniversityFiscalPeriodCode());
+                detail.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
+                detail.setAccountNumber(replaceFiller(accountingLine.getAccountNumber()));
+                detail.setSubAccountNumber(replaceFiller(matchingGLEntry.getSubAccountNumber()));
+                detail.setFinancialObjectCode(replaceFiller(accountingLine.getFinancialObjectCode()));
+                detail.setProjectCode(replaceFiller(matchingGLEntry.getProjectCode()));
+                detail.setOrganizationReferenceId(replaceFiller(matchingGLEntry.getOrganizationReferenceId()));
+
+                detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(matchingGLEntry.getTransactionDebitCreditCode()) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
+                detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(matchingGLEntry.getFinancialSystemOriginationCode()));
+                detail.setExpenditureFinancialDocumentNumber(matchingGLEntry.getDocumentNumber());
+                detail.setExpenditureFinancialDocumentTypeCode(replaceFiller(matchingGLEntry.getFinancialDocumentTypeCode()));
+                detail.setExpenditureFinancialDocumentPostedDate(matchingGLEntry.getTransactionDate());
+                detail.setPurchaseOrderNumber(replaceFiller(matchingGLEntry.getReferenceFinancialDocumentNumber()));
+                detail.setTransferPaymentIndicator(false);
+                detail.refreshNonUpdateableReferences();
+                appliedPayments.add(detail);
+            }
+        }
+        
+        return appliedPayments;
+    }
+    
+    /**
+     * updates the submit amount by the amount on the accounting line.  When submit amount equals
+     * transaction ledger amount, the activty status code is marked as in route status.
+     * @param matchingGLEntry
+     * @param accountLineAmount
+     */
+    protected void updateTransactionSumbitGlEntryAmount(GeneralLedgerEntry matchingGLEntry, KualiDecimal accountLineAmount) {
+        //update submitted amount on the gl entry and save the results.
+        KualiDecimal submitTotalAmount = KualiDecimal.ZERO;
+        if (ObjectUtils.isNotNull(matchingGLEntry.getTransactionLedgerSubmitAmount())) {
+            submitTotalAmount = matchingGLEntry.getTransactionLedgerSubmitAmount();
+        }
+        
+        matchingGLEntry.setTransactionLedgerSubmitAmount(submitTotalAmount.add(accountLineAmount));
+
+        if (matchingGLEntry.getTransactionLedgerSubmitAmount().equals(matchingGLEntry.getTransactionLedgerEntryAmount())) {
+            matchingGLEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
+        }
+        
+        //save the updated gl entry in CAB
+        this.getBusinessObjectService().save(matchingGLEntry);
+    }
+    
     /**
      * Creates asset payment detail based on GL line. to CAB
      * 
@@ -336,7 +426,7 @@ public class GlLineServiceImpl implements GlLineService {
     protected KualiDecimal getCapitalAssetAmount(GeneralLedgerEntry entry, Integer capitalAssetLineNumber) {
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry, capitalAssetLineNumber);
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
-            return capitalAssetInformation.getAmount();
+            return capitalAssetInformation.getCapitalAssetLineAmount();
         }
         
         return KualiDecimal.ZERO;

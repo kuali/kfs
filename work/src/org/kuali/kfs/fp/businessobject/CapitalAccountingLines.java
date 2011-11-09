@@ -42,6 +42,9 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
     protected String distributionAmountCode;
     protected boolean amountDistributed;
     
+    //need to show the percentage of the accounts.
+    protected KualiDecimal accountLinePercent;
+    
     /**
      * Default constructor.
      */
@@ -303,25 +306,47 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
     }
 
     /**
+     * Gets the accountLinePercent attribute.
+     * 
+     * @return Returns the accountLinePercent
+     */
+    
+    public KualiDecimal getAccountLinePercent() {
+        return accountLinePercent;
+    }
+
+    /** 
+     * Sets the accountLinePercent attribute.
+     * 
+     * @param accountLinePercent The accountLinePercent to set.
+     */
+    public void setAccountLinePercent(KualiDecimal accountLinePercent) {
+        this.accountLinePercent = accountLinePercent;
+    }
+
+    /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     public LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
+        
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
-        m.put("sequenceNumber", this.getSequenceNumber());
-        m.put("lineType", this.getLineType());
-        m.put("chartOfAccountsCode", this.getChartOfAccountsCode());
-        m.put("accountNumber", this.getAccountNumber());
-        m.put("financialObjectCode", this.getFinancialObjectCode());
-        m.put("subAccountNumber", this.getSubAccountNumber());
-        m.put("financialSubObjectCode", this.getFinancialSubObjectCode());
-        m.put("projectCode", this.getProjectCode());
-        m.put("financialDocumentLineDescription", this.getFinancialDocumentLineDescription());
-        m.put("amount", this.getAmount());
-        m.put("selectLine", this.isSelectLine());
-        m.put("distributionAmountCode", this.getDistributionAmountCode());
-        m.put("amountDistributed", this.isAmountDistributed());
+        m.put(KFSPropertyConstants.SEQUENCE_NUMBER, this.getSequenceNumber());
+        m.put(KFSPropertyConstants.LINE_TYPE, this.getLineType());
+        m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
+        m.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.getAccountNumber());
+        m.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.getFinancialObjectCode());
+        m.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, this.getSubAccountNumber());
+        m.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, this.getFinancialSubObjectCode());
+        m.put(KFSPropertyConstants.PROJECT_CODE, this.getProjectCode());
+
+  //      m.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION, this.getFinancialDocumentLineDescription());
+  //      m.put(KFSPropertyConstants.AMOUNT, this.getAmount());
+  //      m.put(KFSPropertyConstants.SELECT_LINE, this.isSelectLine());
+  //      m.put(KFSPropertyConstants.DISTRIBUTION_AMOUNT_CODE, this.getDistributionAmountCode());
+  //      m.put(KFSPropertyConstants.AMOUNT_DISTRIBUTED, this.isAmountDistributed());
+  //      m.put(KFSPropertyConstants.ACCOUNT_LINE_PERCENT, this.getAccountLinePercent());
         
         return m;
     }

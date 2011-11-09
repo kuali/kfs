@@ -435,6 +435,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateDocumentTypeForNonNew(assetGlobal.getAcquisitionTypeCode(), assetPaymentDetail);
         }
 
+        assetPaymentDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
 
 

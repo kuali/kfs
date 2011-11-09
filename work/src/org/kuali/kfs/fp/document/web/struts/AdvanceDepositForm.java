@@ -84,7 +84,6 @@ public class AdvanceDepositForm extends CapitalAccountingLinesFormBase implement
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        //
         // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getNewAdvanceDeposit());
 

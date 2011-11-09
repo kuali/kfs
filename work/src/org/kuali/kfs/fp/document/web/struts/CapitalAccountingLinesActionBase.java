@@ -67,14 +67,21 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiDocumentFormBase;
         AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
+
         List<CapitalAccountingLines> capitalAccountingLines = new ArrayList();
+        //for every source/target accounting line that has an object code that requires a 
+        //capital asset, creates a capital accounting line that the user can select to
+        //perform create or modify asset functions.
         createCapitalAccountingLines(capitalAccountingLines, tdoc);
         sortCaptitalAccountingLines(capitalAccountingLines);
 
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) tdoc;
         caldb.setCapitalAccountingLines(capitalAccountingLines);
+        //checks capital accounting lines for capital assets and if so checks the select box
+        checkSelectForCapitalAccountingLines(capitalAccountingLinesFormBase);        
         
         checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
+        calculatePercentsForSelectedCapitalAccountingLines(capitalAccountingLinesFormBase);
         
         //setup the initial next sequence number column..
         setupIntialNextCapitalAssetLineNumber(kualiDocumentFormBase);
@@ -126,21 +133,25 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         
         List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
 
+        //create the corresponding capital accounting line and then
+        //sort the capital accounting lines by object code and account number
         createCapitalAccountingLine(capitalAccountingLines, line);
         sortCaptitalAccountingLines(capitalAccountingLines);
         
         KualiForm kualiForm = (KualiForm) financialDocumentForm;
+        //sets the tab states for create/modify capital asset tabs...
         setTabStatesForCapitalAssets(kualiForm);
     }
       
     /**
-     * When user deletes an accounting line to the either source or target, if the corresponding line in
-     * capital accounting line is deleted.
+     * When user deletes an accounting line to the either source or target, the corresponding line in
+     * capital accounting line is deleted and the distributed accounting line under the
+     * created or modified capital asset line.  When a capital asset does not have any
+     * accounting lines, the capital asset is removed.
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#deleteAccountingLine(boolean, org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase, int)
      */
     @Override
     protected void deleteAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, int deleteIndex) {
-
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) financialDocumentForm;
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
         
@@ -163,6 +174,11 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         sortCaptitalAccountingLines(capitalAccountingLines);
         
         KualiForm kualiForm = (KualiForm) financialDocumentForm;
+        
+        //checks capital accounting lines for capital assets and if so checks the select box
+        checkSelectForCapitalAccountingLines(capitalAccountingLinesFormBase);        
+        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
+        calculatePercentsForSelectedCapitalAccountingLines(capitalAccountingLinesFormBase);
         setTabStatesForCapitalAssets(kualiForm);
     }
     
@@ -198,12 +214,14 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         List<SourceAccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
 
         for (SourceAccountingLine line : sourceAccountLines) {
+            //create source capital accounting line
             createCapitalAccountingLine(capitalAccountingLines, line);
         }
         
         List<TargetAccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
 
         for (TargetAccountingLine line : targetAccountLines) {
+            // create target capital accounting line            
             createCapitalAccountingLine(capitalAccountingLines, line);
         }
         
@@ -221,12 +239,14 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         List<SourceAccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
 
         for (SourceAccountingLine line : sourceAccountLines) {
+            //updates source capital accounting line
             updateCapitalAccountingLine(capitalAccountingLines, line);
         }
         
         List<TargetAccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
 
         for (TargetAccountingLine line : targetAccountLines) {
+            //updates source capital accounting line
             updateCapitalAccountingLine(capitalAccountingLines, line);
         }
         
@@ -237,7 +257,8 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
     
     /**
      * updates the capital accounting lines looking at source and/or target accounting lines.
-     * 
+     * Removes any capital accounting line that does not have a corresponding
+     * source or target accounting line.
      * @param capitalAccountingLines
      * @param tdoc
      */
@@ -366,6 +387,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         cal.setProjectCode(line.getProjectCode());
         cal.setFinancialDocumentLineDescription(line.getFinancialDocumentLineDescription());
         cal.setAmount(line.getAmount());
+        cal.setAccountLinePercent(null);
         cal.setSelectLine(false);
         
         return cal;
@@ -410,7 +432,12 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
     }
     
     /**
-     * creates asset for the accounting line to the document
+     * Action "create" creates assets for the selected capital 
+     * accounting lines.  An error message is shown if no capital accounting lines
+     * are selected for processing.  The action checks if the selected
+     * capital accounting lines object sub type cross based on the system paramter
+     * values for the object subtypes and if so prompts the user to confirm to continue
+     * to create the assets for the select capital accounting lines. 
      * 
      * @param mapping
      * @param form
@@ -435,6 +462,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         GlobalVariables.getMessageMap().clearErrorMessages();
         if (!capitalAccountingLinesSelected(calfb)) {
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATAION_REQUIRED_CREATE);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);            
         }
         else {
             calfb.setEditCreateOrModify(false);
@@ -451,18 +479,19 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             }
         }
         else {
-            createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR);
-            checkCapitalAccountingLinesSelected(calfb);
-            
-            KualiForm kualiForm = (KualiForm) form;
-            setTabStatesForCapitalAssets(kualiForm);
+            createCapitalAssetsForSelectedAccountingLines(form , calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR);
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);        
     }
     
     /**
-     * modify asset for the accounting line to the document
+     * Action "modify" creates assets for the selected capital 
+     * accounting lines.  An error message is shown if no capital accounting lines
+     * are selected for processing.  The action checks if the selected
+     * capital accounting lines object sub type cross based on the system paramter
+     * values for the object subtypes and if so prompts the user to confirm to continue
+     * to create the assets for the select capital accounting lines. 
      * 
      * @param mapping
      * @param form
@@ -485,6 +514,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         GlobalVariables.getMessageMap().clearErrorMessages();
         if (!capitalAccountingLinesSelected(calfb)) {
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATAION_REQUIRED_MODIFY);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);            
         }
         else {
             calfb.setEditCreateOrModify(false);
@@ -501,22 +531,41 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             }
         }
         else {
-            createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
-            checkCapitalAccountingLinesSelected(calfb);
-            
-            KualiForm kualiForm = (KualiForm) form;
-            setTabStatesForCapitalAssets(kualiForm);
+            createCapitalAssetsForSelectedAccountingLines(form , calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
+    /**
+     * Helper method to first calculate the percents for the selected capital accounting lines as
+     * the percent is required if the user is distributing the amounts by individual amount
+     * method.  It then populates created or modified assets with asset accounting lines.
+     * 
+     * @param form
+     * @param calfb
+     * @param actionTypeIndicator indicates whether creating an asset for "create" or "modify" actions.
+     */
+    protected void createCapitalAssetsForSelectedAccountingLines(ActionForm form, CapitalAccountingLinesFormBase calfb, String actionTypeIndicator) {
+        calculatePercentsForSelectedCapitalAccountingLines(calfb);
+        createCapitalAssetForGroupAccountingLines(calfb, actionTypeIndicator);
+        checkCapitalAccountingLinesSelected(calfb);
+        
+        KualiForm kualiForm = (KualiForm) form;
+        setTabStatesForCapitalAssets(kualiForm);
+    }
+    
     
     /**
+     * checks the capital accounting lines if any of the lines have been selected for  
+     * further processing.
+     * 
      * @param calfb
-     * @return
+     * @return selected return true if lines have been selected else return false
      */
     protected boolean capitalAccountingLinesSelected(CapitalAccountingLinesFormBase calfb) {
         boolean selected = false;
+        
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) calfb.getFinancialDocument();
         List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
         
@@ -566,9 +615,8 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             // If the user replies 'Yes' the question, proceed..
             if (KFSConstants.OBJECT_SUB_TYPES_DIFFERENT_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                createCapitalAssetInformation(calfb, actionTypeCode);
-                checkCapitalAccountingLinesSelected(calfb);
-                
+                createCapitalAssetsForSelectedAccountingLines(form , calfb, actionTypeCode);
+
                 KualiForm kualiForm = (KualiForm) form;
                 setTabStatesForCapitalAssets(kualiForm);
                 

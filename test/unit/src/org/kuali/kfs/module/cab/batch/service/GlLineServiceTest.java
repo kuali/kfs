@@ -73,12 +73,7 @@ public class GlLineServiceTest extends KualiTestBase {
     private CapitalAssetInformationDetail createNewCapitalAssetInformationDetail() {
         CapitalAssetInformationDetail assetInformationDetail = new CapitalAssetInformationDetail();
         assetInformationDetail.setDocumentNumber("1001");
-        assetInformationDetail.setFinancialDocumentLineTypeCode("F");
-        assetInformationDetail.setChartOfAccountsCode("BL");
-        assetInformationDetail.setAccountNumber("1031400");
-        assetInformationDetail.setFinancialObjectCode("7015");
         assetInformationDetail.setCapitalAssetLineNumber(1);
-        assetInformationDetail.setSequenceNumber(1);
         assetInformationDetail.setItemLineNumber(1);
         assetInformationDetail.setCampusCode("BL");
         assetInformationDetail.setBuildingCode("BL001");
@@ -94,13 +89,8 @@ public class GlLineServiceTest extends KualiTestBase {
     private CapitalAssetInformation createNewCapitalAssetInformation() {
         CapitalAssetInformation assetInformation = new CapitalAssetInformation();
         assetInformation.setDocumentNumber("1001");
-        assetInformation.setFinancialDocumentLineTypeCode("F");
-        assetInformation.setChartOfAccountsCode("BL");
-        assetInformation.setAccountNumber("1031400");
-        assetInformation.setFinancialObjectCode("7015");
-        assetInformation.setSequenceNumber(1);
         assetInformation.setCapitalAssetActionIndicator("C");
-        assetInformation.setAmount(new KualiDecimal(5200.50));
+        assetInformation.setCapitalAssetLineAmount(new KualiDecimal(5200.50));
         assetInformation.setCapitalAssetLineNumber(1);
         assetInformation.setVendorHeaderGeneratedIdentifier(1000);
         assetInformation.setVendorDetailAssignedIdentifier(0);
@@ -235,12 +225,7 @@ public class GlLineServiceTest extends KualiTestBase {
         CapitalAssetInformation assetInformation = new CapitalAssetInformation();
         assetInformation.setDocumentNumber("1001");
         assetInformation.setCapitalAssetNumber(1594L);
-        assetInformation.setFinancialDocumentLineTypeCode("F");
-        assetInformation.setChartOfAccountsCode("BL");
-        assetInformation.setAccountNumber("1031400");
-        assetInformation.setFinancialObjectCode("7015");
-        assetInformation.setSequenceNumber(1);
-        assetInformation.setAmount(new KualiDecimal(5200.50));
+        assetInformation.setCapitalAssetLineAmount(new KualiDecimal(5200.50));
         assetInformation.setCapitalAssetLineNumber(1);
         assetInformation.setCapitalAssetActionIndicator("C");
         businessObjectService.save(assetInformation);

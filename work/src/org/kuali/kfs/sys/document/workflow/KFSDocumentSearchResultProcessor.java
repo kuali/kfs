@@ -60,6 +60,8 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
             return docSearchResult;
         }
         
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        
         for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
             if (keyValueSort.getkey().equalsIgnoreCase(KFSPropertyConstants.PURAP_DOC_ID)) {
                 //KFSMI-4576 masking PO number...
@@ -77,7 +79,6 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
                     permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
                     permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
                     
-                    IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
                     Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
                     //the principalId is not authorized to view the value in purapDocumentIdentifier field...so mask the value...
                     if (!isAuthorized) {

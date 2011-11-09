@@ -20,11 +20,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -42,7 +44,8 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
     
     private VendorService vendorService;
     private ParameterService parameterService;
-    
+    private PostalCodeValidationService postalCodeValidationService;
+
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PurchasingDocument purDocument = (PurchasingDocument) event.getDocument();
@@ -98,6 +101,9 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
         }
 
+        // validate vendor address
+        postalCodeValidationService.validateAddress(purDocument.getVendorCountryCode(), purDocument.getVendorStateCode(), purDocument.getVendorPostalCode(), PurapPropertyConstants.VENDOR_STATE_CODE, PurapPropertyConstants.VENDOR_POSTAL_CODE);
+        
         errorMap.clearErrorPath();
         return valid;
 
@@ -118,5 +124,13 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-        
+       
+    /** 
+     * Sets the postalCodeValidationService attribute.
+     * 
+     * @param postalCodeValidationService The postalCodeValidationService to set.
+     */
+    public void setPostalCodeValidationService(PostalCodeValidationService postalCodeValidationService) {
+        this.postalCodeValidationService = postalCodeValidationService;
+    }
 }

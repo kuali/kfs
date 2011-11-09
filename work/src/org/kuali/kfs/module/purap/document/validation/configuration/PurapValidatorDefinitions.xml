@@ -167,6 +167,7 @@
 	<bean id="Purchasing-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true">
 		<property name="vendorService" ref="vendorService" />
 		<property name="parameterService" ref="parameterService" />
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
 	</bean>
 
 	<bean id="Purchasing-capitalAssetValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetValidation" abstract="true">
@@ -643,7 +644,9 @@
 <!-- Payment Request Definitions -->
     <bean id="PaymentRequest-lineItemQuantityNotZero" class="org.kuali.kfs.module.purap.document.validation.impl.LineItemQuantityNotZero" abstract="true" />
 
-	<bean id="PaymentRequest-nonZeroAccountingLineAmountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestNonZeroAccountingLineAmountValidation" abstract="true"/>
+	<bean id="PaymentRequest-nonZeroAccountingLineAmountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestNonZeroAccountingLineAmountValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
 
 	<bean id="PaymentRequest-invoiceImageAttachmentValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestInvoiceImageAttachmentValidation" abstract="true"/>
 	

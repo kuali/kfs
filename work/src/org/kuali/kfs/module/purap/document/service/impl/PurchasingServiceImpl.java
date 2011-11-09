@@ -42,15 +42,15 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.service.impl.PersistenceServiceStructureImplBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.service.impl.PersistenceServiceStructureImplBase;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import java.util.ArrayList;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -86,7 +86,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     public void setupCapitalAssetItems(PurchasingDocument purDoc) {
 
         List<PurchasingCapitalAssetItem> camsItemsList = purDoc.getPurchasingCapitalAssetItems();
-        List<PurchasingCapitalAssetItem> newCamsItemsList = new TypedArrayList(purDoc.getPurchasingCapitalAssetItemClass());
+        List<PurchasingCapitalAssetItem> newCamsItemsList = new ArrayList();
 
         for (PurApItem purapItem : purDoc.getItems()) {
             if (purapItem.getItemType().isLineItemIndicator() || PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(purapItem.getItemTypeCode())) {
@@ -188,7 +188,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
 
     public String getDefaultAssetTypeCodeNotThisFiscalYear() {
         //FIXME (hjs) is this breaking modularization??
-        return parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR);
+        return parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR);
     }
 
     public boolean checkCapitalAssetLocation(CapitalAssetLocation location) {

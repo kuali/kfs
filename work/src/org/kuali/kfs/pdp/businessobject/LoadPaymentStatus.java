@@ -24,10 +24,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.MessageMap;
 
 
 /**
@@ -240,8 +240,8 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
         this.creationDate = creationDate;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(PdpPropertyConstants.DETAIL_COUNT, this.detailCount);
         m.put(PdpPropertyConstants.BATCH_ID, this.batchId);

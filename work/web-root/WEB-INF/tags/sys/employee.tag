@@ -38,7 +38,7 @@
                     attributeEntry="${DataDictionary['PersonImpl'].attributes.employeeId}" forceRequired="${forceRequired}"
                     onblur="loadEmplInfo( '${userIdFieldName}', '${userNameFieldName}' );${onblur}" readOnly="${readOnly}"/>
 <c:if test="${!readOnly}">
-	<kul:lookup boClassName="org.kuali.rice.kim.bo.Person" 
+	<kul:lookup boClassName="org.kuali.rice.kim.api.identity.Person" 
 		        fieldConversions="${fieldConversions}" 
 				lookupParameters="${lookupParameters}" 
 				fieldLabel="${label}" 

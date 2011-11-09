@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Object that contains properties used on the batch upload screen.
@@ -95,8 +95,8 @@ public class BatchUpload extends TransientBusinessObjectBase {
     }
 
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("batchInputType", this.batchInputTypeName);
         return m;

@@ -19,7 +19,7 @@ import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.service.FiscalYearAwareReportWriterService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Ensures that balance summary reports have the fiscal year included in the filename.

@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 
 /**
  * The DAO interface that declares methods needed to query the database about balances

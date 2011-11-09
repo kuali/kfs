@@ -29,9 +29,9 @@ import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -59,7 +59,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(java.lang.Integer,
-     *      java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     *      java.lang.String, java.lang.String, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
         LaborObject laborObject = new LaborObject();
@@ -75,7 +75,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.LaborObject,
-     *      org.kuali.rice.kns.util.KualiDecimal)
+     *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
         KualiDecimal fringeBenefit = KualiDecimal.ZERO;
@@ -104,7 +104,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit,
-     *      org.kuali.rice.kns.util.KualiDecimal)
+     *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(PositionObjectBenefit positionObjectBenefit, KualiDecimal salaryAmount) {
         if (salaryAmount == null || salaryAmount.isZero() || ObjectUtils.isNull(positionObjectBenefit)) {

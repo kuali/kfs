@@ -31,8 +31,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.util.Guid;
 
 /**
@@ -62,8 +62,8 @@ public class NightlyOutServiceTest extends KualiTestBase {
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         
         date = dateTimeService.getCurrentDate();
-        batchDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory/originEntry";
-        File batchDirectoryFile = new File(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory");
+        batchDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/originEntry";
+        File batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory");
         batchDirectoryFile.mkdir();
         batchDirectoryFile = new File(batchDirectory);
         batchDirectoryFile.mkdir();
@@ -81,7 +81,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
             f.delete();
         }
         batchDirectoryFile.delete();
-        batchDirectoryFile = new File(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory");
+        batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory");
         batchDirectoryFile.delete();
     }
     

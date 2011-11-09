@@ -44,8 +44,8 @@ import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -162,7 +162,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps = createActivityOriginEntryFullStream();
         
-        String combineTransactions = parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.COMBINE_ENDOWMENT_GL_ENTRIES_IND);
+        String combineTransactions = parameterService.getParameterValueAsString(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.COMBINE_ENDOWMENT_GL_ENTRIES_IND);
         java.util.Date postedDate = kemService.getCurrentDate();
         
         Collection<GLInterfaceBatchStatisticsReportDetailTableRow> statisticsReportRows = new ArrayList<GLInterfaceBatchStatisticsReportDetailTableRow>();
@@ -361,7 +361,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         //need to create an net gain/loss entry...if document type name = EAD....
         if (transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
-            oef.setFinancialObjectCode(parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE));
+            oef.setFinancialObjectCode(parameterService.getParameterValueAsString(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE));
             BigDecimal transactionAmount = transactionArchive.getShortTermGainLoss().add(transactionArchive.getLongTermGainLoss());
             oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
             oef.setTransactionDebitCreditCode(getTransactionDebitCreditCodeForOffSetEntry(transactionAmount));
@@ -665,7 +665,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         BigDecimal totalAmount =  BigDecimal.ZERO;
         String debitCreditCode = null;
         
-        String lossGainObjectCode = parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE);
+        String lossGainObjectCode = parameterService.getParameterValueAsString(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE);
         if (transactionArchive.getObjectCode().equalsIgnoreCase(lossGainObjectCode)) {
             totalAmount = transactionArchive.getShortTermGainLoss().add(transactionArchive.getLongTermGainLoss());
             debitCreditCode = getTransactionDebitCreditCodeForOffSetEntry(totalAmount);           

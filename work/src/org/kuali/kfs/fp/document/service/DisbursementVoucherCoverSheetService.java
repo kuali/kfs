@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 import com.lowagie.text.DocumentException;
 

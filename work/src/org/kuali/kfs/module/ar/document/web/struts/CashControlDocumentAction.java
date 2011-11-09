@@ -38,17 +38,17 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.exception.UnknownDocumentIdException;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.exception.UnknownDocumentIdException;
+import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CashControlDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
 
@@ -78,7 +78,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             }
 
             cashControlDetail.setReferenceFinancialDocument(doc);
-            KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
             // KualiDocumentFormBase.populate() needs this updated in the session
             GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
         }
@@ -208,7 +208,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
         CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
         newCashControlDetail.setDocumentNumber(cashControlDocument.getDocumentNumber());
@@ -236,7 +236,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
 
             // add cash control detail. implicitly saves the cash control document
-            cashControlDocumentService.addNewCashControlDetail(kualiConfiguration.getPropertyString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDocument, newCashControlDetail);
+            cashControlDocumentService.addNewCashControlDetail(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDocument, newCashControlDetail);
 
             // set a new blank cash control detail
             cashControlDocForm.setNewCashControlDetail(new CashControlDetail());
@@ -274,7 +274,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         // and then reloads. This will bring the deleted line back on the screen. If they then click
         // the delete line, and this test isnt here, it will try to cancel the already cancelled
         // document, which will throw a workflow error and barf.
-        if (!payAppDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+        if (!payAppDoc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
             documentService.cancelDocument(payAppDoc, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
         }
         cashControlDocument.deleteCashControlDetail(indexOfLineToDelete);

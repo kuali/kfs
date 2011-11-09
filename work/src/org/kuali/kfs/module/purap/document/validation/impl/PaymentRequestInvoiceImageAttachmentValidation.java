@@ -29,14 +29,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class PaymentRequestInvoiceImageAttachmentValidation extends GenericValidation {
 
@@ -50,7 +50,7 @@ public class PaymentRequestInvoiceImageAttachmentValidation extends GenericValid
             valid = false;
             
             //loop through notes looking for a invoice image
-            List boNotes = document.getBoNotes();
+            List boNotes = document.getNotes();
             if (ObjectUtils.isNotNull(boNotes)) {
                 for (Object obj : boNotes) {
                     Note note = (Note) obj;
@@ -64,7 +64,7 @@ public class PaymentRequestInvoiceImageAttachmentValidation extends GenericValid
             }
             
             if(valid == false){
-                GlobalVariables.getMessageMap().putError(KNSConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME, PurapKeyConstants.ERROR_PAYMENT_REQUEST_INVOICE_REQUIRED);
+                GlobalVariables.getMessageMap().putError(KRADConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME, PurapKeyConstants.ERROR_PAYMENT_REQUEST_INVOICE_REQUIRED);
             }
         }
         
@@ -81,7 +81,7 @@ public class PaymentRequestInvoiceImageAttachmentValidation extends GenericValid
      */
     protected boolean isDocumentStoppedInRouteNode(PaymentRequestDocument document, String nodeName) {
         List<String> currentRouteLevels = new ArrayList<String>();
-        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         String[] names = workflowDoc.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         currentRouteLevels = Arrays.asList(names);
         if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {

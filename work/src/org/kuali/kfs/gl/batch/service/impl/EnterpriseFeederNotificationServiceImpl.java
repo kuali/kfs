@@ -27,10 +27,10 @@ import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 /**
  * The base implementation of EnterpriseFeederNotificationService; performs email-based notifications
@@ -39,7 +39,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EnterpriseFeederNotificationServiceImpl.class);
 
     private ParameterService parameterService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private MailService mailService;
 
     /**
@@ -121,7 +121,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      */
     protected Set<String> generateToEmailAddresses(String feederProcessName, EnterpriseFeederStatus status, String doneFileDescription, String dataFileDescription, String reconFileDescription, List<Message> errorMessages) {
         Set<String> addresses = new HashSet<String>();
-        String[] addressesArray = parameterService.getParameterValues(EnterpriseFeedStep.class, KFSConstants.EnterpriseFeederApplicationParameterKeys.TO_ADDRESS).toArray(new String[] {});
+        String[] addressesArray = new ArrayList<String>( parameterService.getParameterValuesAsString(EnterpriseFeedStep.class, KFSConstants.EnterpriseFeederApplicationParameterKeys.TO_ADDRESS).toArray(new String[] {}) );
         for (String address : addressesArray) {
             addresses.add(address);
         }
@@ -187,12 +187,12 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      * @return the String of the subject line
      */
     protected String getSubjectLine(String doneFileDescription, String dataFileDescription, String reconFileDescription, List<Message> errorMessages, String feederProcessName, EnterpriseFeederStatus status) {
-        String subject = configurationService.getPropertyString(KFSKeyConstants.ERROR_ENTERPRISE_FEEDER_RECONCILIATION_OR_LOADING_ERROR);
+        String subject = configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_ENTERPRISE_FEEDER_RECONCILIATION_OR_LOADING_ERROR);
         if (subject == null) {
             return "ERROR in reconciling or loading GL origin entries from file.";
         }
-        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             subject = environmentCode + ": " + subject;
         }
@@ -277,7 +277,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
         this.mailService = mailService;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

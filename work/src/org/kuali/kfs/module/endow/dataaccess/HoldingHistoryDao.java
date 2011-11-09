@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 public interface HoldingHistoryDao {
 

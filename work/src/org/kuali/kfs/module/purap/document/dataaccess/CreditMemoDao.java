@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Credit Memo DAO Interface. Defines DB access methods that a CreditMemoDaoImpl must implement.

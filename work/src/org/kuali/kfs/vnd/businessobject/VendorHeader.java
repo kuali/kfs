@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
 
 /**
  * Contains information specific to a parent Vendor, which may be shared by its division Vendors if it has any. Contained by a
@@ -57,7 +57,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public VendorHeader() {
-        vendorSupplierDiversities = new TypedArrayList(VendorSupplierDiversity.class);
+        vendorSupplierDiversities = new ArrayList<VendorSupplierDiversity>();
     }
 
     public Integer getVendorHeaderGeneratedIdentifier() {
@@ -286,9 +286,9 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());

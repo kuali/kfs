@@ -21,10 +21,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class is the base class for all the ValueFinders for any class extending KualiSystemCode. Subclasses should extend this, but
@@ -46,12 +46,12 @@ public abstract class KualiSystemCodeValuesFinder extends KeyValuesBase {
         List keyLabels = new ArrayList();
 
         // add a blank pair for the first/default key/value pair
-        keyLabels.add(new KeyLabelPair("", ""));
+        keyLabels.add(new ConcreteKeyValue("", ""));
 
         // build the list of code/name combos
         for (Iterator iter = businessObjects.iterator(); iter.hasNext();) {
             KualiCodeBase businessObject = (KualiCodeBase) iter.next();
-            keyLabels.add(new KeyLabelPair(businessObject.getCode(), businessObject.getCodeAndDescription()));
+            keyLabels.add(new ConcreteKeyValue(businessObject.getCode(), businessObject.getCodeAndDescription()));
         }
 
         return keyLabels;

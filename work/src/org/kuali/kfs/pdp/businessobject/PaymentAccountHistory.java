@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
 
@@ -171,10 +171,10 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         
         m.put(KFSPropertyConstants.ID, this.id);

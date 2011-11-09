@@ -37,8 +37,8 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsService
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -48,7 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionPositionFundingDetailReportServiceImpl implements BudgetConstructionPositionFundingDetailReportService {
 
     private BudgetConstructionPositionFundingDetailReportDao budgetConstructionPositionFundingDetailReportDao;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
     private SalarySettingService salarySettingService;
 
@@ -107,7 +107,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         orgPositionFundingDetailReportEntry.setOrganizationCode(positionFundingDetail.getSelectedOrganizationCode());
 
         if (orgName == null) {
-            orgPositionFundingDetailReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            orgPositionFundingDetailReportEntry.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgPositionFundingDetailReportEntry.setOrganizationName(orgName);
@@ -115,7 +115,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
 
         orgPositionFundingDetailReportEntry.setOrgChartOfAccountsCode(positionFundingDetail.getSelectedOrganizationChartOfAccountsCode());
         if (chartDesc == null) {
-            orgPositionFundingDetailReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgPositionFundingDetailReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgPositionFundingDetailReportEntry.setOrgChartOfAccountDescription(chartDesc);
@@ -424,7 +424,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         this.budgetConstructionPositionFundingDetailReportDao = budgetConstructionPositionFundingDetailReportDao;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

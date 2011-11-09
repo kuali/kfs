@@ -34,9 +34,9 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * The Pre-Encumbrance document provides the capability to record encumbrances independently of purchase orders, travel, or Physical
@@ -112,8 +112,8 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      * @return True if the accounting line given is a debit accounting line, false otherwise.
      * 
      * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
@@ -135,8 +135,8 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      * @param accountingLine The accounting line the explicit entry is generated from.
      * @param explicitEntry The explicit entry being updated.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {

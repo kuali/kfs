@@ -19,12 +19,12 @@ import java.util.Set;
 
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class ProposalMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getSecurePotentiallyHiddenSectionIds()
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase#getSecurePotentiallyHiddenSectionIds()
      */
     @Override
     public Set<String> getSecurePotentiallyHiddenSectionIds() {        

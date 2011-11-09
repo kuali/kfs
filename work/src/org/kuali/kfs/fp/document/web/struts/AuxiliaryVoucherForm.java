@@ -36,9 +36,9 @@ import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleCon
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
@@ -128,7 +128,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
             getAuxiliaryVoucherDocument().setReversalDate(null);
         }
         else if (getAuxiliaryVoucherDocument().getTypeCode().equals(RECODE_DOC_TYPE)) {
-            getAuxiliaryVoucherDocument().setReversalDate(new java.sql.Date(getDocument().getDocumentHeader().getWorkflowDocument().getCreateDate().getTime()));
+            getAuxiliaryVoucherDocument().setReversalDate(new java.sql.Date(getDocument().getDocumentHeader().getWorkflowDocument().getDateCreated().getTime()));
         }
     }
 
@@ -233,7 +233,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
             boolean result = false;
             if (o instanceof AccountingPeriod) {
                 AccountingPeriod period = (AccountingPeriod) o;
-                result = parameterService.getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode()).evaluationSucceeds();
+                result = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode()).evaluationSucceeds();
                 if (result) {
                     result = (period.getUniversityFiscalYear().equals( currentFiscalYear ));
                     if (result) {

@@ -59,7 +59,7 @@
 			<bean parent="TextControlDefinition" p:size="8" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.IntegerFormatter" />
+			value="org.kuali.rice.core.web.format.IntegerFormatter" />
 	</bean>
 
 	<bean id="AccrualsProcessingTotalReportLine-totalAccrualAmount"

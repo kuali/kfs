@@ -68,5 +68,5 @@
   <!-- workflow attributes -->
   <bean id="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes" parent="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

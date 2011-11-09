@@ -333,7 +333,7 @@
 		abstract="true" p:name="delegate" p:label="Delegate" />
 
 	<bean id="OrgReviewRole-delegationTypeCode" parent="OrgReviewRole-delegationTypeCode-parentBean" />
-	<bean id="OrgReviewRole-delegationTypeCode-parentBean" parent="KimDelegationImpl-delegationTypeCode"
+	<bean id="OrgReviewRole-delegationTypeCode-parentBean" parent="DelegateType-delegationTypeCode"
 		abstract="true" p:name="delegationTypeCode" />
 
 	<bean id="OrgReviewRole-delegationTypeCodeDescription" parent="OrgReviewRole-delegationTypeCode"

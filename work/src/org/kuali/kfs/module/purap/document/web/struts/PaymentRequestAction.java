@@ -48,15 +48,15 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -148,7 +148,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             paymentRequestDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
             //check to see if user is allowed to initiate doc based on PO sensitive data
-            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequestDocument).isAuthorizedByTemplate(paymentRequestDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequestDocument).isAuthorizedByTemplate(paymentRequestDocument, KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
                 throw buildAuthorizationException("initiate document", paymentRequestDocument);
             }
         } 
@@ -227,7 +227,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         if (question == null) {
             // perform encumber next fiscal year check and prompt warning message if needs
             if (isEncumberNextFiscalYear(paymentRequestDocument)) {
-                String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.WARNING_ENCUMBER_NEXT_FY);
+                String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.WARNING_ENCUMBER_NEXT_FY);
                 return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
             }
             else {

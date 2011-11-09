@@ -50,12 +50,12 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This is a transactional document that will
@@ -218,7 +218,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         LOG.debug("In doRouteStatusChange() for AV documents");
         super.doRouteStatusChange(statusChangeEvent);
 
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) { // only do this stuff if the document has been
+        if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) { // only do this stuff if the document has been
             // processed and approved
             // update the reversal data accoringdingly
             updateReversalDate();
@@ -314,8 +314,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * 
      * @param financialDocument submitted accounting document
      * @param accounttingLine accounting line being tested if it is a debit or not
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         String debitCreditCode = ((AccountingLine)postable).getDebitCreditCode();
@@ -335,8 +335,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      *        set
      * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.rice.kns.bo.AccountingLine,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processExplicitGeneralLedgerPendingEntry(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.rice.krad.bo.AccountingLine,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
@@ -365,8 +365,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * @param accountingLine accounting line from accounting document
      * @param explicitEntry represents explicit entry
      * @param offsetEntry represents offset entry
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
@@ -383,7 +383,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         // now set the offset entry to the specific offset object code for the AV generated offset fund balance; only if it's an
         // accrual or adjustment
         if (isAccrualType() || isAdjustmentType()) {
-            String glpeOffsetObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(this.getClass(), getGeneralLedgerPendingEntryOffsetObjectCode());
+            String glpeOffsetObjectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(this.getClass(), getGeneralLedgerPendingEntryOffsetObjectCode());
             offsetEntry.setFinancialObjectCode(glpeOffsetObjectCode);
 
             // set the posting period
@@ -448,8 +448,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * @param explicitEntry represents explicit entry
      * @param offsetEntry represents offset entry
      * @return true if general ledger pending entry is processed successfully for accurals, adjustments, and recodes
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.rice.kns.bo.AccountingLine,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.rice.krad.bo.AccountingLine,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
@@ -620,7 +620,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         final int todayAsComparableDate = comparableDateForm(today);
         final int periodClose = new Integer(comparableDateForm(periodToCheck.getUniversityFiscalPeriodEndDate()));
         final int periodBegin = comparableDateForm(calculateFirstDayOfMonth(periodToCheck.getUniversityFiscalPeriodEndDate()));
-        final int gracePeriodClose = periodClose + new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
+        final int gracePeriodClose = periodClose + new Integer(SpringContext.getBean(ParameterService.class).getParameterValueAsString(getClass(), AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
         return (todayAsComparableDate >= periodBegin && todayAsComparableDate <= gracePeriodClose);
     }
     

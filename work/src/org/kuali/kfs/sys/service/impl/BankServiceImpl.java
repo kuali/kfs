@@ -24,9 +24,9 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 /**
  * Default implementation of the <code>BankService</code> interface.
@@ -55,7 +55,7 @@ public class BankServiceImpl implements BankService {
      */
     public Bank getDefaultBankByDocType(String documentTypeCode) {
         if (parameterService.parameterExists(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE)) {
-            List<String> parmValues = parameterService.getParameterValues(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
+            List<String> parmValues = new ArrayList<String>( parameterService.getParameterValuesAsString(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode) );
             if (parmValues != null && !parmValues.isEmpty()) {
                 String defaultBankCode = parmValues.get(0);
                 
@@ -88,7 +88,7 @@ public class BankServiceImpl implements BankService {
      * @see org.kuali.kfs.sys.service.BankService#isBankSpecificationEnabled()
      */
     public boolean isBankSpecificationEnabled() {
-        return parameterService.getIndicatorParameter(Bank.class, KFSParameterKeyConstants.ENABLE_BANK_SPECIFICATION_IND);
+        return parameterService.getParameterValueAsBoolean(Bank.class, KFSParameterKeyConstants.ENABLE_BANK_SPECIFICATION_IND);
     }
 
     /**

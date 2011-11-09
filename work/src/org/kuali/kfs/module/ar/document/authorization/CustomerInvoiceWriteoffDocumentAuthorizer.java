@@ -25,7 +25,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
@@ -53,8 +53,8 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
 
 //TODO Dont remove this until we're sure the FAU stuff is really in KIM
 //    /**
-//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
-//     *      org.kuali.rice.kim.bo.Person)
+//     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
+//     *      org.kuali.rice.kim.api.identity.Person)
 //     */
 //    @Override
 //    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
@@ -68,7 +68,7 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
 //        // if writeoff option is set up for to use organization accounting default FAU, those values must exist before a writeoff
 //        // document can be initiated
 //        /*
-//        String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+//        String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
 //        boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffGenerationOption);
 //        if (isUsingOrgAcctDefaultWriteoffFAU) {
 //

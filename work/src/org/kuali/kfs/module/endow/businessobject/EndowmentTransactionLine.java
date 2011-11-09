@@ -18,8 +18,8 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface EndowmentTransactionLine extends PersistableBusinessObject {
 

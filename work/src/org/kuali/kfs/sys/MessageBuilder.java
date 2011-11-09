@@ -20,16 +20,16 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * This class provides a set of utilities that can be used to build error message
  */
 public class MessageBuilder {
-    private static KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+    private static ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
     private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
     private static DataDictionary dataDictionary = dataDictionaryService.getDataDictionary();
 
@@ -99,7 +99,7 @@ public class MessageBuilder {
      * @return the message from application resource properties with the given key
      */
     public static String getPropertyString(String messageKey) {
-        return kualiConfigurationService.getPropertyString(messageKey);
+        return kualiConfigurationService.getPropertyValueAsString(messageKey);
     }
 
     /**

@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class TaxDetail extends TransientBusinessObjectBase {
 
@@ -101,8 +101,8 @@ public class TaxDetail extends TransientBusinessObjectBase {
         this.typeCode = typeCode;
     }    
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }

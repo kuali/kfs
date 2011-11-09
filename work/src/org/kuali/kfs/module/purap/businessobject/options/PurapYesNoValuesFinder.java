@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 public class PurapYesNoValuesFinder extends KeyValuesBase {
 
@@ -28,8 +28,8 @@ public class PurapYesNoValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("Y", "Yes"));
-        keyValues.add(new KeyLabelPair("N", "No"));
+        keyValues.add(new ConcreteKeyValue("Y", "Yes"));
+        keyValues.add(new ConcreteKeyValue("N", "No"));
         
         return keyValues;
     }

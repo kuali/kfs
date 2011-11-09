@@ -18,8 +18,8 @@ package org.kuali.kfs.module.endow.document.validation.event;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.validation.RefreshTransactionLineRule;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rule.BusinessRule;
+import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
 
 public class RefreshTransactionLineEvent extends KualiDocumentEventBase {
     private EndowmentTransactionLine line;
@@ -40,7 +40,7 @@ public class RefreshTransactionLineEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
@@ -49,7 +49,7 @@ public class RefreshTransactionLineEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((RefreshTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine, Number>) rule).processRefreshTransactionLineRules((EndowmentTransactionLinesDocument) document, line, index);

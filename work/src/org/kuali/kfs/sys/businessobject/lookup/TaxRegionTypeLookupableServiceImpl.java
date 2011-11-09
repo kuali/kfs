@@ -22,13 +22,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class TaxRegionTypeLookupableServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -38,7 +38,7 @@ public class TaxRegionTypeLookupableServiceImpl extends KualiLookupableHelperSer
      * exists, that means that the lookup is coming from the "create new" button on the tax region lookup.
      * If so, create customer link to tax region maint doc. Otherwise, just use the normal returnUrl.
      * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.Map, java.lang.String, java.util.List)
      */
     @SuppressWarnings("rawtypes")
@@ -56,7 +56,7 @@ public class TaxRegionTypeLookupableServiceImpl extends KualiLookupableHelperSer
             
             final String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
             final String returnUrlAnchorLabel =
-                SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TITLE_RETURN_URL_PREPENDTEXT_PROPERTY);
+                SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TITLE_RETURN_URL_PREPENDTEXT_PROPERTY);
             AnchorHtmlData anchor = new AnchorHtmlData(href, HtmlData.getTitleText(returnUrlAnchorLabel, businessObject, returnKeys, restrictions));
             anchor.setDisplayText(returnUrlAnchorLabel);
            return anchor;

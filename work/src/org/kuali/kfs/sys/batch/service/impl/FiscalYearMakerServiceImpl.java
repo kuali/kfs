@@ -33,10 +33,10 @@ import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMakersDao;
 import org.kuali.kfs.sys.batch.service.FiscalYearMakerService;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -56,13 +56,13 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * @see org.kuali.kfs.coa.batch.service.FiscalYearMakerService#runProcess()
      */
     public void runProcess() {
-        String parmBaseYear = parameterService.getParameterValue(FiscalYearMakerStep.class, KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR);
+        String parmBaseYear = parameterService.getParameterValueAsString(FiscalYearMakerStep.class, KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR);
         if (StringUtils.isBlank(parmBaseYear)) {
             throw new RuntimeException("Required fiscal year parameter " + KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR + " has not been set.");
         }
 
         Integer baseYear = Integer.parseInt(parmBaseYear);
-        boolean replaceMode = parameterService.getIndicatorParameter(FiscalYearMakerStep.class, KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_REPLACE_MODE);
+        boolean replaceMode = parameterService.getParameterValueAsBoolean(FiscalYearMakerStep.class, KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_REPLACE_MODE);
 
         if (fiscalYearMakers == null || fiscalYearMakers.isEmpty()) {
             this.initialize();

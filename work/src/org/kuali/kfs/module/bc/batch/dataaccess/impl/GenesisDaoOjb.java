@@ -67,15 +67,15 @@ import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.TransactionalServiceUtils;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 
 public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GenesisDao {

@@ -60,19 +60,19 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -895,10 +895,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         return m;
@@ -950,7 +950,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
 
         addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
@@ -1089,7 +1089,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         super.doRouteStatusChange(statusChangeEvent);
         
         //  fast-exit if status != P
-        if (!getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (!getDocumentHeader().getWorkflowDocument().isProcessed()) {
             return;
         }
         
@@ -1555,7 +1555,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @return
      */
     public List<CustomerInvoiceDetail> getCustomerInvoiceDetailsWithoutDiscounts() {
-        List<CustomerInvoiceDetail> customerInvoiceDetailsWithoutDiscounts = new TypedArrayList(CustomerInvoiceDetail.class);
+        List<CustomerInvoiceDetail> customerInvoiceDetailsWithoutDiscounts = new ArrayList<CustomerInvoiceDetail>();
 
         updateDiscountAndParentLineReferences();
 
@@ -1598,7 +1598,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @return
      */
     public List<CustomerInvoiceDetail> getDiscounts() {
-        List<CustomerInvoiceDetail> discounts = new TypedArrayList(CustomerInvoiceDetail.class);
+        List<CustomerInvoiceDetail> discounts = new ArrayList<CustomerInvoiceDetail>();
 
         updateDiscountAndParentLineReferences();
 

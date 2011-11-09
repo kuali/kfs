@@ -76,7 +76,7 @@
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusState">
         	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="offCampusStateCode" target="postalStateCode"/>            
+            <dd:primitiveAttribute source="offCampusStateCode" target="stateCode"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusCountry">
             <dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode"/>
@@ -280,6 +280,6 @@
     <property name="name" value="separateSourceAmount"/>
     <property name="label" value="Separate Source Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>  
 </beans>

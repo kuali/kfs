@@ -33,8 +33,8 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Purchase Order Void Document
@@ -54,12 +54,12 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
      * General Ledger pending entries are not created on save for this document. They are created when the document has been finally
      * processed. Overriding this method so that entries are not created yet.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-       KualiWorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
-       if (workFlowDocument.stateIsCanceled()) {
+       WorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
+       if (workFlowDocument.isCanceled()) {
            setSourceAccountingLines(new ArrayList());
            setGeneralLedgerPendingEntries(new ArrayList());        
        }
@@ -81,7 +81,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
         super.doRouteStatusChange(statusChangeEvent);
 
         // DOCUMENT PROCESSED
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesVoidPurchaseOrder(this);
            
@@ -94,11 +94,11 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
 
         }
         // DOCUMENT DISAPPROVED
-        else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+        else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
         }
         // DOCUMENT CANCELED
-        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+        else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
         } 
     }

@@ -23,8 +23,8 @@ import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Presentation Controller for Equipment Loan Or Return Documents
@@ -52,9 +52,9 @@ public class EquipmentLoanOrReturnDocumentPresentationController extends Financi
     
     @Override
     protected boolean canEdit(Document document) {
-        KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = (WorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
 
-        if (workflowDocument.stateIsEnroute()) {
+        if (workflowDocument.isEnroute()) {
             List<String> nodeNames = SpringContext.getBean(AssetService.class).getCurrentRouteLevels(workflowDocument);
 
             if (nodeNames.contains(CamsConstants.RouteLevelNames.BORROWER)) {

@@ -40,8 +40,8 @@ import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 
 // @latex.ClassSignatureStart
 /**
@@ -143,10 +143,10 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             changeLedgerPendingEntriesApprovedStatusCode();
         }
-        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+        else if (getDocumentHeader().getWorkflowDocument().isCanceled() || getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             removeLedgerPendingEntries();
         }
     }
@@ -223,7 +223,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     /**
      * If the document has a total amount, call method on document to get the total and set in doc header.
      * 
-     * @see org.kuali.rice.kns.document.Document#prepareForSave()
+     * @see org.kuali.rice.krad.document.Document#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -236,7 +236,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

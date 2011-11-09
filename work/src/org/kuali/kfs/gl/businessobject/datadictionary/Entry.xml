@@ -214,7 +214,7 @@
 		<property name="label" value="Transaction Ledger Entry Amount" />
 		<property name="shortLabel" value="Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="Entry-transactionDebitCreditCode" parent="Entry-transactionDebitCreditCode-parentBean" />
 

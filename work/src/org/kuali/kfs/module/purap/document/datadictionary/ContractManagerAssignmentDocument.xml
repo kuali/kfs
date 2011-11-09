@@ -161,7 +161,7 @@
   <!-- workflow attributes -->
   <bean id="ContractManagerAssignmentDocument-workflowAttributes" parent="ContractManagerAssignmentDocument-workflowAttributes-parentBean"/>
   
-  <bean id="ContractManagerAssignmentDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="ContractManagerAssignmentDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 
 </beans>

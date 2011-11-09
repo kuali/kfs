@@ -26,7 +26,7 @@ import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.dataaccess.LaborObjectDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
  * This is the data access object for Labor Object

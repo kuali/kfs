@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportAggregatorService;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class ReportAggregatorServiceTextImpl implements ReportAggregatorService {
     protected String newLineCharacter;

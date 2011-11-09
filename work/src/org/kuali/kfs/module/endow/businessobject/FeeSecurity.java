@@ -38,10 +38,10 @@ public class FeeSecurity extends FeeMethodCodeBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
         m.put(EndowPropertyConstants.FEE_METHOD_CODE, super.getFeeMethodCode());
         m.put(EndowPropertyConstants.FEE_SECURITY_CODE, this.getSecurityCode());        

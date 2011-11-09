@@ -22,7 +22,7 @@ import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.kuali.kfs.sys.batch.service.FilePurgeService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * A customized age for a file prefix.

@@ -22,15 +22,15 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 
 /**
@@ -173,13 +173,13 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
                 }
             }
             else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)) {
-                KimRoleInfo roleInfo = SpringContext.getBean(RoleManagementService.class).getRole(memberId);
+                Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
                 if (roleInfo != null) {
-                    return roleInfo.getRoleName();
+                    return roleInfo.getName();
                 }
             }
             else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)) {
-                GroupInfo groupInfo = SpringContext.getBean(GroupService.class).getGroupInfo(memberId);
+                Group groupInfo = SpringContext.getBean(GroupService.class).getGroup(memberId);
                 if (groupInfo != null) {
                     return groupInfo.getGroupName();
                 }
@@ -260,10 +260,10 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(SecPropertyConstants.MODEL_ID, this.modelId);

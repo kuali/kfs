@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
-import org.kuali.rice.kns.util.TypedArrayList;
+import java.util.ArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
@@ -29,7 +29,7 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
     private boolean sentToBatch;
     
     public CustomerInvoiceWriteoffLookupSummaryForm(){
-        customerInvoiceWriteoffLookupResults = new TypedArrayList(CustomerInvoiceWriteoffLookupResult.class);
+        customerInvoiceWriteoffLookupResults = new ArrayList<CustomerInvoiceWriteoffLookupResult>();
         sentToBatch = false;
     }
 

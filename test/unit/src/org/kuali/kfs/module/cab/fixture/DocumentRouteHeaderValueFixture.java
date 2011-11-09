@@ -20,14 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.docType.DocumentType;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public enum DocumentRouteHeaderValueFixture {
     
@@ -419,7 +419,7 @@ public enum DocumentRouteHeaderValueFixture {
 
     public static Long docTypeId(String documentTypeName) {
         try {
-            DocumentTypeDTO docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(documentTypeName);
+            DocumentType docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(documentTypeName);
             if (docType != null) {
                 return docType.getDocTypeId();
             }

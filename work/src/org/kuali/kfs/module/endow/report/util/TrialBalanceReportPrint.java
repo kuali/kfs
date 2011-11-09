@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;

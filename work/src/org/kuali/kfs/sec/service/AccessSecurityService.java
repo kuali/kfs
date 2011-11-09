@@ -20,9 +20,10 @@ import java.util.List;
 import org.kuali.kfs.sec.businessobject.AccessSecurityRestrictionInfo;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 
 /**
@@ -67,7 +68,7 @@ public interface AccessSecurityService {
      * @param templateId KIM template id for permissions to check
      * @param additionalPermissionDetails Any additional details that should be matched on when retrieving permissions
      */
-    public void applySecurityRestrictions(List<? extends BusinessObject> results, Person person, String templateId, AttributeSet additionalPermissionDetails);
+    public void applySecurityRestrictions(List<? extends BusinessObject> results, Person person, String templateId, Map<String,String> additionalPermissionDetails);
 
     /**
      * Retrieves any access security permissions that are assigned to the user and applicable for the given business object, then

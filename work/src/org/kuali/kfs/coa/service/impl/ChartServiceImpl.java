@@ -31,12 +31,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -47,8 +48,8 @@ public class ChartServiceImpl implements ChartService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartServiceImpl.class);
 
     private ChartDao chartDao;
-    private RoleManagementService roleManagementService;
-    private PersonService<Person> personService;
+    private RoleService roleManagementService;
+    private PersonService personService;
     protected ParameterService parameterService;
 
     /**
@@ -63,7 +64,7 @@ public class ChartServiceImpl implements ChartService {
      */
     public Chart getUniversityChart() {
         // 1. find the organization with the type which reports to itself
-        final String organizationReportsToSelfParameterValue = parameterService.getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+        final String organizationReportsToSelfParameterValue = parameterService.getParameterValueAsString(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
         return chartDao.getUniversityChart(organizationReportsToSelfParameterValue);
     }
 
@@ -104,7 +105,7 @@ public class ChartServiceImpl implements ChartService {
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.rice.kns.bo.user.KualiUser)
+     * @see org.kuali.kfs.coa.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.rice.krad.bo.user.KualiUser)
      */
     public List getChartsThatUserIsResponsibleFor(Person person) {
         if (LOG.isDebugEnabled()) {
@@ -145,10 +146,10 @@ public class ChartServiceImpl implements ChartService {
         String chartManagerId = null;
         Person chartManager = null;
 
-        AttributeSet qualification = new AttributeSet();
+        Map<String,String> qualification = new HashMap<String,String>();
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
 
-        Collection<String> chartManagerList = roleManagementService.getRoleMemberPrincipalIds(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
+        Collection<String> chartManagerList = roleManagementService.getRoleMemberPrincipalIds(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
 
         if (!chartManagerList.isEmpty()) {
             chartManagerId = chartManagerList.iterator().next();
@@ -180,7 +181,7 @@ public class ChartServiceImpl implements ChartService {
      * 
      * @return Returns the roleManagementService.
      */
-    public RoleManagementService getRoleManagementService() {
+    public RoleService getRoleService() {
         return roleManagementService;
     }
 
@@ -189,14 +190,14 @@ public class ChartServiceImpl implements ChartService {
      * 
      * @param roleManagementService The roleManagementService to set.
      */
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
+    public void setRoleService(RoleService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
 
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if (personService == null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

@@ -24,11 +24,11 @@ import org.kuali.kfs.module.ld.businessobject.inquiry.BaseFundsInquirableImpl;
 import org.kuali.kfs.module.ld.service.LaborBaseFundsService;
 import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.kns.web.ui.Row;
 
 /**
@@ -41,7 +41,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
     private LaborInquiryOptionsService laborInquiryOptionsService;
 
     /**
-     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject, java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {

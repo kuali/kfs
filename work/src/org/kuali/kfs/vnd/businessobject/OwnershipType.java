@@ -18,16 +18,16 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.document.DocumentBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.document.DocumentBase;
 /**
  * Exclusive kinds of basic business organization that a vendor may have. Other broad exclusive categories for vendors can be
  * instances of <code>OwnershipCategory</code>.
  * 
  * @see org.kuali.kfs.vnd.businessobject.OwnershipCategory
  */
-public class OwnershipType extends DocumentBase implements Inactivateable{
+public class OwnershipType extends DocumentBase implements Inactivatable{
 
     protected String vendorOwnershipCode;
     protected String vendorOwnershipDescription;
@@ -78,9 +78,9 @@ public class OwnershipType extends DocumentBase implements Inactivateable{
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("vendorOwnershipCode", this.vendorOwnershipCode);
 

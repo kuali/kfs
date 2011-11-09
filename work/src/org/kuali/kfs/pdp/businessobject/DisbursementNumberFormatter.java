@@ -18,12 +18,12 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.web.format.FormatException;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.core.web.format.Formatter;
 
 public class DisbursementNumberFormatter extends CurrencyFormatter {
     /*

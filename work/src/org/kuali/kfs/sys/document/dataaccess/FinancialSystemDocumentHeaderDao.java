@@ -19,8 +19,8 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.dao.DocumentHeaderDao;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.dao.DocumentHeaderDao;
 
 /**
  * This class...

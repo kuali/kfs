@@ -37,16 +37,16 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 /**
@@ -133,7 +133,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
             GlobalVariables.getMessageMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
         }
         else {
-            GlobalVariables.getMessageMap().clear();
+            GlobalVariables.getMessageMap().clearErrorMessages();
 
             // Adding the selected asset.
             super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
@@ -161,7 +161,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
         else if (CamsConstants.AssetRetirementGlobal.ASSET_LOOKUPABLE_ID.equalsIgnoreCase(refreshCaller)) {
             // Set non-persistent values in the result from asset lookup. So the screen can show them when return from single asset
             // lookup.
-            String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
+            String referencesToRefresh = (String) fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH);
             if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET.equals(referencesToRefresh)) {
                 assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
             }
@@ -171,14 +171,14 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
 
-        if (documentHeader.getWorkflowDocument().stateIsEnroute()) {
+        if (documentHeader.getWorkflowDocument().isEnroute()) {
             // display a message for asset not generating ledger entries when it is federally owned
             boolean allPaymentsFederalOwned = true;
             List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
@@ -191,12 +191,12 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
             }
 
             if (allPaymentsFederalOwned) {
-                GlobalVariables.getMessageList().add(CamsKeyConstants.Retirement.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_RETIREMENT);
+                KNSGlobalVariables.getMessageList().add(CamsKeyConstants.Retirement.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_RETIREMENT);
             }
 
         }
         // all approvals have been processed, the retirement date is set to the approval date
-        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
+        if (documentHeader.getWorkflowDocument().isProcessed()) {
             assetRetirementGlobal.setRetirementDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal);
 
@@ -209,9 +209,9 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
         new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).doRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
 
         // release the lock when document status changed as following...
-        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
-        if (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal()) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        if (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed() || workflowDoc.isFinal()) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
         }
     }
 

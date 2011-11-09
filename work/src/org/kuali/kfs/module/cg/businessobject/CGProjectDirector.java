@@ -16,7 +16,7 @@
 
 package org.kuali.kfs.module.cg.businessobject;
 
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 
 /**

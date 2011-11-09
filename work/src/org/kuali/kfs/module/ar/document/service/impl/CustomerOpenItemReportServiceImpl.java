@@ -48,17 +48,17 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.exception.UnknownDocumentIdException;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.exception.UnknownDocumentIdException;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -96,7 +96,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         List unappliedHoldingIds = new ArrayList();
 
         Hashtable details = new Hashtable();
-        KualiWorkflowDocument workflowDocument;
+        WorkflowDocument workflowDocument;
 
 
         for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
@@ -112,13 +112,13 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             }
 
             // do not display not approved documents
-            Date approvedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            Date approvedDate = getSqlDate(workflowDocument.getDateApproved());
             if (ObjectUtils.isNull(approvedDate)) {
                 continue;
             }
 
             // Document Type
-            String documentType = workflowDocument.getDocumentType();
+            String documentType = workflowDocument.getDocumentTypeName();
             detail.setDocumentType(documentType);
 
             // Document Number
@@ -153,7 +153,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             detail.setDocumentType("APP");
             detail.setDocumentNumber(nonAppliedHolding.getReferenceFinancialDocumentNumber());
-            Date documentApprovedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            Date documentApprovedDate = getSqlDate(workflowDocument.getDateApproved());
             detail.setDueApprovedDate(documentApprovedDate);
             details.put(nonAppliedHolding.getReferenceFinancialDocumentNumber(), detail);
             unappliedHoldingIds.add(nonAppliedHolding.getReferenceFinancialDocumentNumber());
@@ -580,7 +580,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             // Document Type
-            detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentType());
+            detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
             // Document Number
             detail.setDocumentNumber(documentNumber);
             // Document Description
@@ -605,7 +605,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         for (CustomerInvoiceDocument invoice:invoices) {
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             // Document Type
-            detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentType());
+            detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
             // Document Number
             detail.setDocumentNumber(invoice.getDocumentNumber());
             // Document Description
@@ -639,7 +639,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         List creditMemoIds = new ArrayList();
         List writeOffIds = new ArrayList();
         
-        KualiWorkflowDocument workflowDocument;
+        WorkflowDocument workflowDocument;
 
         for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
             AccountsReceivableDocumentHeader documentHeader = (AccountsReceivableDocumentHeader) itr.next();
@@ -653,13 +653,13 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             }
 
             // do not display not approved documents
-            Date approvedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            Date approvedDate = getSqlDate(workflowDocument.getDateApproved());
             if (ObjectUtils.isNull(approvedDate)) {
                 continue;
             }
 
             // Document Type
-            String documentType = workflowDocument.getDocumentType();
+            String documentType = workflowDocument.getDocumentTypeName();
 
             // Document Number
             String documentNumber = documentHeader.getDocumentNumber();
@@ -714,7 +714,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         List creditMemoIds = new ArrayList();
         List writeOffIds = new ArrayList();
         
-        KualiWorkflowDocument workflowDocument;
+        WorkflowDocument workflowDocument;
 
         for (AccountsReceivableDocumentHeader documentHeader : arDocumentHeaders) {
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
@@ -727,13 +727,13 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             }
 
             // do not display not approved documents
-            Date approvedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            Date approvedDate = getSqlDate(workflowDocument.getDateApproved());
             if (ObjectUtils.isNull(approvedDate)) {
                 continue;
             }
 
             // Document Type
-            String documentType = workflowDocument.getDocumentType();
+            String documentType = workflowDocument.getDocumentTypeName();
             detail.setDocumentType(documentType);
             
             // Document Number

@@ -16,13 +16,13 @@
 
 package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * This class is used to represent a payment reason code.
  */
-public class PaymentReasonCode extends KualiCodeBase implements Inactivateable {
+public class PaymentReasonCode extends KualiCodeBase implements Inactivatable {
 
     private String description;
 

@@ -39,8 +39,8 @@ public class ServiceBillingDocument extends InternalBillingDocument implements C
      * @param accountingLine The accounting line to be analyzed.
      * @return True if the accounting line passed in is an expense or income accounting line and meets the rules defined by
      *         super.isDebit() method.
-     * @see org.kuali.kfs.fp.document.validation.impl.InternalBillingDocumentRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.kfs.fp.document.validation.impl.InternalBillingDocumentRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine)
      */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {

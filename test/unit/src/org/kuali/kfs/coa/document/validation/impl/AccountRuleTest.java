@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapSize;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Date;
@@ -41,14 +41,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 import org.mortbay.log.Log;
 
 @ConfigureContext(session = khuntley)
@@ -201,7 +201,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "organizationCode", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -214,7 +214,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "organizationCode", true);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -226,7 +226,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "accountPhysicalCampusCode", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -238,7 +238,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "accountPhysicalCampusCode", true);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -250,7 +250,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "accountStateCode", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -262,7 +262,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "accountStateCode", true);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -274,7 +274,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "accountZipCode", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -286,7 +286,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "accountZipCode", true);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -298,7 +298,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "accountTypeCode", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -310,7 +310,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccount, "accountTypeCode", true);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -568,7 +568,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkFringeBenefitAccountRule(newAccount);
         assertEquals("FringeBenefit ChartCode missing causes error.", false, result);
         assertFieldErrorExists("reportsToChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -586,7 +586,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkFringeBenefitAccountRule(newAccount);
         assertEquals("FringeBenefit AccountNumber missing causes error.", false, result);
         assertFieldErrorExists("reportsToAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -604,7 +604,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkFringeBenefitAccountRule(newAccount);
         assertEquals("FringeBenefit doesnt exist causes error.", false, result);
         assertFieldErrorExists("reportsToAccountNumber", KFSKeyConstants.ERROR_EXISTENCE);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -622,7 +622,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkFringeBenefitAccountRule(newAccount);
         assertEquals("FringeBenefit Closed causes error.", false, result);
         assertFieldErrorExists("reportsToAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -639,7 +639,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setReportsToAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.checkFringeBenefitAccountRule(newAccount);
         assertEquals("Good FringeBenefit Account should not fail.", true, result);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -730,7 +730,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
         assertEquals("Null expiration date should fail.", false, result);
         assertFieldErrorExists("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -753,7 +753,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountExpirationDate(testTimestamp);
         result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
         assertEquals("Arbitrarily early date should fail.", true, result);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -776,7 +776,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountExpirationDate(testTimestamp);
         result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
         assertEquals("Today's date should pass.", true, result);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -800,7 +800,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
         assertEquals("Arbitrarily late date should pass.", false, result);
         assertFieldErrorExists("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -831,7 +831,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkCloseAccount(maintDoc);
         assertEquals("Null continuation coa code should fail with one error.", false, result);
         assertFieldErrorExists("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -856,7 +856,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkCloseAccount(maintDoc);
         assertEquals("Null continuation account number should fail with one error.", false, result);
         assertFieldErrorExists("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -878,7 +878,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.checkCloseAccount(maintDoc);
         assertEquals("Valid continuation account info should not fail.", true, result);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -914,7 +914,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
         assertEquals("Rule should return false with missing fields.", false, result);
-        assertGlobalErrorMapSize(3);
+        assertGlobalMessageMapSize(3);
         assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_REQUIRED);
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_REQUIRED);
         assertFieldErrorExists(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY);
@@ -950,7 +950,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         rule.setActiveIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
         
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         assertEquals("Rule should return true with no missing fields.", true, result);
     }
     
@@ -1044,7 +1044,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // run the rule
         rule.setActiveIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         assertTrue("Rule should allow new account to be the contract control account.", result);
 
         newAccount.setChartOfAccountsCode(oldNewAccountChart);
@@ -1109,7 +1109,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // run the rule
         result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("Non-applicable accounts should not fail.", true, result);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -1140,7 +1140,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // run the rule
         result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("GF MPRACT account should not fail.", true, result);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -1173,7 +1173,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertEquals("CG Account with no Income Stream data should fail.", false, result);
         assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
         assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY);
-        assertGlobalErrorMapSize(2);
+        assertGlobalMessageMapSize(2);
 
     }
 
@@ -1207,7 +1207,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("CG Account with invalid Income Stream data should fail.", false, result);
         assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_EXISTENCE);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
 
     }
 
@@ -1240,7 +1240,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertEquals("GF Account with no Income Stream data should fail.", false, result);
         assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
         assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY);
-        assertGlobalErrorMapSize(2);
+        assertGlobalMessageMapSize(2);
 
     }
 
@@ -1269,7 +1269,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkUniqueAccountNumber(maintDoc);
         assertEquals("Accounts should be allowed to cross charts with current settings", true, result);
         this.assertFieldErrorDoesNotExist("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_UNIQUE);
-        assertGlobalErrorMapSize(0);
+        assertGlobalMessageMapSize(0);
     }
 
     @SuppressWarnings("deprecation")
@@ -1297,7 +1297,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         result = rule.checkUniqueAccountNumber(maintDoc);
         assertEquals("Accounts shouldn't be allowed to cross charts with current settings", false, result);
         assertFieldErrorExists("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_UNIQUE);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
     }
 
     public void testIsUpdateExpirationDateInvalid_BothExpirationDatesNull() {

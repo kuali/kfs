@@ -32,19 +32,19 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorTaxChange;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorMaintainableImpl.class);
@@ -55,7 +55,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
 	@Override
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
-        if (this.getBusinessObject().getBoNotes().isEmpty()) {
+        if (this.getBusinessObject().getNotes().isEmpty()) {
             setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
         }
     }
@@ -69,7 +69,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     public String getDocumentTitle(MaintenanceDocument document) {
         String documentTitle = "";
         // Check if we are choosing to override the Kuali default document title.
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(VendorDetail.class, VendorParameterConstants.OVERRIDE_VENDOR_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorDetail.class, VendorParameterConstants.OVERRIDE_VENDOR_DOC_TITLE)) {
             // We are overriding the standard with a Vendor-specific document title style.
             if (document.isOldBusinessObjectInDocument()) {
                 documentTitle = "Edit Vendor - ";
@@ -79,7 +79,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             }
 
             try {
-                Person initUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+                Person initUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
                 documentTitle += initUser.getCampusCode();
             }
             catch (Exception e) {
@@ -125,10 +125,10 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     public void doRouteStatusChange(DocumentHeader header) {
         super.doRouteStatusChange(header);
         VendorDetail vendorDetail = (VendorDetail) getBusinessObject();
-        KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
+        WorkflowDocument workflowDoc = header.getWorkflowDocument();
 
         // This code is only executed when the final approval occurs
-        if (workflowDoc.stateIsProcessed()) {
+        if (workflowDoc.isProcessed()) {
             // This id and versionNumber null check is needed here since those fields are always null for a fresh maintenance doc.
             if (vendorDetail.isVendorParentIndicator() && vendorDetail.getVendorHeaderGeneratedIdentifier() != null) { 
                 VendorDetail previousParent = SpringContext.getBean(VendorService.class).getParentVendor(vendorDetail.getVendorHeaderGeneratedIdentifier());
@@ -166,7 +166,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
                 }
             }
 
-        }//endif stateIsProcessed()
+        }//endif isProcessed()
     }
     
     /**
@@ -174,7 +174,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * 
      * @param newVendorDetail The current vendor
      * @param oldVendorDetail The parent vendor of the current vendor prior to this change.
-     * @param documentNumber The document number of the document where we're attempting the parent vendor indicator change.
+     * @param getDocumentNumber() The document number of the document where we're attempting the parent vendor indicator change.
      */
     private void addNoteForParentIndicatorChange(VendorDetail newVendorDetail, VendorDetail oldVendorDetail, String docNumber) {
         String noteText = VendorUtils.buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, docNumber, newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");   
@@ -188,7 +188,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         catch (Exception e) {
             throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
         }
-        oldVendorDetail.getBoNotes().add(newBONote);
+        oldVendorDetail.getNotes().add(newBONote);
         
     }
     
@@ -276,23 +276,23 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         boolean shouldAddNote = true;
         if (prefix.equals(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE)) {
             // Check whether the previous note was an "Add" with the same document number as this one
-            if (!this.getBusinessObject().getBoNotes().isEmpty()) {
-                Note previousNote = this.getBusinessObject().getBoNote(this.getBusinessObject().getBoNotes().size() - 1);
-                if (previousNote.getNoteText().contains(this.documentNumber)) {
+            if (!this.getBusinessObject().getNotes().isEmpty()) {
+                Note previousNote = this.getBusinessObject().getNote(this.getBusinessObject().getNotes().size() - 1);
+                if (previousNote.getNoteText().contains(getDocumentNumber())) {
                     shouldAddNote = false;
                 }
             }
         }
         if (shouldAddNote) {
             Note newBONote = new Note();
-            newBONote.setNoteText(prefix + " vendor document ID " + this.documentNumber);
+            newBONote.setNoteText(prefix + " vendor document ID " + getDocumentNumber());
             try {
                 newBONote = SpringContext.getBean(NoteService.class).createNote(newBONote, this.getBusinessObject());
             }
             catch (Exception e) {
                 throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
             }
-            this.getBusinessObject().getBoNotes().add(newBONote);
+            this.getBusinessObject().getNotes().add(newBONote);
         }
     }
 
@@ -424,7 +424,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals("RequiresApproval")) return SpringContext.getBean(VendorService.class).shouldVendorRouteForApproval(this.documentNumber);
+        if (nodeName.equals("RequiresApproval")) return SpringContext.getBean(VendorService.class).shouldVendorRouteForApproval(getDocumentNumber());
         return super.answerSplitNodeQuestion(nodeName);
     }
 }

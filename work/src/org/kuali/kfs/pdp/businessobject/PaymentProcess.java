@@ -25,10 +25,10 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 
 /**
@@ -59,7 +59,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
      * 
      * @param userService
      */
-    public void updateUser(org.kuali.rice.kim.service.PersonService userService) {
+    public void updateUser(org.kuali.rice.kim.api.identity.PersonService userService) {
         Person u = userService.getPerson(processUserId);
         setProcessUser(u);
     }
@@ -124,7 +124,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
      * @return processUser
      */
     public Person getProcessUser() {
-        processUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(processUserId, processUser);
+        processUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(processUserId, processUser);
         return processUser;
     }
 
@@ -197,10 +197,10 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(KFSPropertyConstants.ID, this.id);
@@ -214,7 +214,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
      * @return campus
      */
     public Campus getCampus() {
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
     }
 
     /**

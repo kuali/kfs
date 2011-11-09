@@ -17,7 +17,7 @@ package org.kuali.kfs.gl.batch.dataaccess;
 
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * A DAO interface.  This one seems to refer to an old FIS issue, M113, which was: "On account sufficient funds checking, what needs to be done between beginning of fiscal year and loading of beginning balances?"

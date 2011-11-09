@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
 
         socChangeDocument.setChartOfAccountsCode(SOCDocument.ChartCode.GOOD1);
         testDefaultExistenceCheck(socChangeDocument, "chartOfAccountsCode", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     public void testDefaultExistenceChecks_Chart_KnownBad() {
@@ -65,7 +65,7 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(socChangeDocument, "chartOfAccountsCode", true);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
     }
 
     public void testDefaultExistenceChecks_FiscalYear_KnownGood() {
@@ -75,7 +75,7 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
 
         socChangeDocument.setUniversityFiscalYear(SOCDocument.FiscalYear.getFiscalYear_GOOD1());
         testDefaultExistenceCheck(socChangeDocument, "universityFiscalYear", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     public void testDefaultExistenceChecks_FiscalYear_KnownBad() {
@@ -87,7 +87,7 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(socChangeDocument, "universityFiscalYear", true);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
     }
 
     public void testSubObjCdGlobalDetail_InDocument() {

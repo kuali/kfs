@@ -25,9 +25,9 @@ import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CollectorScrubberServiceImpl implements CollectorScrubberService {
     private DateTimeService dateTimeService;
     private UniversityDateDao universityDateDao;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private PersistenceService persistenceService;
     private ScrubberService scrubberService;
     private String batchFileDirectoryName;
@@ -102,7 +102,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
      * 
      * @return Returns the kualiConfigurationService.
      */
-    public KualiConfigurationService getKualiConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return kualiConfigurationService;
     }
 
@@ -111,7 +111,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

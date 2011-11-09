@@ -22,14 +22,14 @@ import java.util.Map;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Group;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
 
-public class TicklerRecipientGroup extends PersistableBusinessObjectBase implements Inactivateable
+public class TicklerRecipientGroup extends PersistableBusinessObjectBase implements Inactivatable
 {
     private String number;
     private boolean active;
@@ -40,10 +40,10 @@ public class TicklerRecipientGroup extends PersistableBusinessObjectBase impleme
     protected String assignedToGroupNameForLookup;
     protected Group assignedToGroup;
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() 
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() 
     {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.TICKLER_NUMBER,getNumber());

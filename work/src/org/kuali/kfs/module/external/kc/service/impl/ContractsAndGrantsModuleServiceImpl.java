@@ -33,10 +33,10 @@ import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
@@ -85,7 +85,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         String projectDirectorId = awardAccount.getPrincipalId();
         LOG.debug("getProjectDirectorForAccount Web Service sent " + chartOfAccountsCode + "/" + accountNumber + " got " + projectDirectorId);
         if (projectDirectorId != null) {
-            Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(projectDirectorId);
+            Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(projectDirectorId);
             return projectDirector;
         }
         return null;
@@ -251,7 +251,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @return the maxium account responsiblity id from system parameter
      */
     protected int getMaxiumAccountResponsibilityId() {
-        String maxResponsibilityId = getParameterService().getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_ALL.class, KcConstants.MAXIMUM_ACCOUNT_RESPONSIBILITY_ID);
+        String maxResponsibilityId = getParameterService().getParameterValueAsString(KfsParameterConstants.CONTRACTS_AND_GRANTS_ALL.class, KcConstants.MAXIMUM_ACCOUNT_RESPONSIBILITY_ID);
         return Integer.valueOf(maxResponsibilityId);
     }
 

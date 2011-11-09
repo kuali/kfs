@@ -38,7 +38,7 @@
 	    <property name="name" value="previousTotalCostAmount"/>
 	    <property name="label" value="Previous Cost"/>
 	    <property name="shortLabel" value="Previous Cost"/>
-	    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+	    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   	</bean>    
 
  	<bean id="AssetPaymentAssetDetail-allocatedAmount" parent="AssetPaymentAssetDetail-allocatedAmount-parentBean"/>
@@ -46,7 +46,7 @@
 	    <property name="name" value="allocatedAmount"/>
 	    <property name="label" value="Allocated Amount"/>
 	    <property name="shortLabel" value="Allocated Amount"/>
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>	
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>	
 	</bean>
 	    
 	<bean id="AssetPaymentAssetDetail-allocatedUserValue" parent="AssetPaymentAssetDetail-allocatedUserValue-parentBean"/>

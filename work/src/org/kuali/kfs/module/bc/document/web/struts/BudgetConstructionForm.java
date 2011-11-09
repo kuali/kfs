@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
+import org.kuali.kfs.module.bc.businessobject.BCKeyValue;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -38,13 +38,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import java.util.ArrayList;
 
 
 public class BudgetConstructionForm extends FinancialSystemTransactionalDocumentFormBase {
@@ -65,8 +65,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     protected KualiDecimal revenueAdjustmentAmount;
     protected KualiDecimal expenditureAdjustmentAmount;
 
-    protected List<BCKeyLabelPair> pushdownLevelKeyLabels;
-    protected List<BCKeyLabelPair> pullupLevelKeyLabels;
+    protected List<BCKeyValue> pushdownLevelKeyLabels;
+    protected List<BCKeyValue> pullupLevelKeyLabels;
     protected String pushdownKeyCode;
     protected String pullupKeyCode;
     protected List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHierLevels;
@@ -101,9 +101,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         // create objects used to hold data filled later either from this.populate or Action.loadDocument
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
-        this.setAccountOrgHierLevels(new TypedArrayList(BudgetConstructionAccountOrganizationHierarchy.class));
-        this.setPullupLevelKeyLabels(new TypedArrayList(BCKeyLabelPair.class));
-        this.setPushdownLevelKeyLabels(new TypedArrayList(BCKeyLabelPair.class));
+        this.setAccountOrgHierLevels(new ArrayList<BudgetConstructionAccountOrganizationHierarchy>());
+        this.setPullupLevelKeyLabels(new ArrayList<BCKeyValue>());
+        this.setPushdownLevelKeyLabels(new ArrayList<BCKeyValue>());
 
         LOG.debug("creating BudgetConstructionForm");
     }
@@ -240,7 +240,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                                     if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
                                         BudgetConstructionAccountOrganizationHierarchy level = rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode());
                                         SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(level, "organization");
-                                        pullupLevelKeyLabels.add(new BCKeyLabelPair(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + level.getOrganization().getOrganizationName()));
+                                        pullupLevelKeyLabels.add(new BCKeyValue(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + level.getOrganization().getOrganizationName()));
                                     }
                                 }
                             }
@@ -259,10 +259,10 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                         SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(level, "organization");
                         if (level.getOrganizationLevelCode() == 0) {
                             // push list level zero case needs special desc
-                            pushdownLevelKeyLabels.add(new BCKeyLabelPair(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + "Fiscal Officer Access Level"));
+                            pushdownLevelKeyLabels.add(new BCKeyValue(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + "Fiscal Officer Access Level"));
                         }
                         else {
-                            pushdownLevelKeyLabels.add(new BCKeyLabelPair(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + level.getOrganization().getOrganizationName()));
+                            pushdownLevelKeyLabels.add(new BCKeyValue(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + level.getOrganization().getOrganizationName()));
                         }
                     }
                 }
@@ -791,7 +791,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * 
      * @return Returns the pullupLevelKeyLabels.
      */
-    public List<BCKeyLabelPair> getPullupLevelKeyLabels() {
+    public List<BCKeyValue> getPullupLevelKeyLabels() {
         return pullupLevelKeyLabels;
     }
 
@@ -800,7 +800,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * 
      * @param pullupLevelKeyLabels The pullupLevelKeyLabels to set.
      */
-    public void setPullupLevelKeyLabels(List<BCKeyLabelPair> pullupLevelKeyLabels) {
+    public void setPullupLevelKeyLabels(List<BCKeyValue> pullupLevelKeyLabels) {
         this.pullupLevelKeyLabels = pullupLevelKeyLabels;
     }
 
@@ -845,7 +845,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * 
      * @return Returns the pushdownLevelKeyLabels.
      */
-    public List<BCKeyLabelPair> getPushdownLevelKeyLabels() {
+    public List<BCKeyValue> getPushdownLevelKeyLabels() {
         return pushdownLevelKeyLabels;
     }
 
@@ -854,7 +854,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * 
      * @param pushdownLevelKeyLabels The pushdownLevelKeyLabels to set.
      */
-    public void setPushdownLevelKeyLabels(List<BCKeyLabelPair> pushdownLevelKeyLabels) {
+    public void setPushdownLevelKeyLabels(List<BCKeyValue> pushdownLevelKeyLabels) {
         this.pushdownLevelKeyLabels = pushdownLevelKeyLabels;
     }
 
@@ -923,7 +923,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * Helper method to check document actions Map for can edit entry
      */
     public boolean isEditAllowed() {
-        return getDocumentActions().keySet().contains(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        return getDocumentActions().keySet().contains(KRADConstants.KUALI_ACTION_CAN_EDIT);
     }
 
     /**

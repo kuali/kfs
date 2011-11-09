@@ -21,8 +21,8 @@ import java.util.List;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewMultipleReadOnlyFields;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Field;
 
@@ -35,7 +35,7 @@ public class AccountingLineViewMultipleReadOnlyFieldsDefinition extends DataDict
 
     /**
      * Makes sure that the number of fields set is greater than 0
-     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.krad.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if (fieldNames.isEmpty()) {

@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public interface FinancialSystemUserService {
     boolean isActiveFinancialSystemUser(String principalId);

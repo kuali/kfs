@@ -18,22 +18,22 @@ package org.kuali.kfs.module.purap.document.authorization;
 import java.text.MessageFormat;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.exception.KualiException;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.exception.KualiException;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 public class DocumentInitiationException extends KualiException {
     public DocumentInitiationException(String messageKey, Object[] messageParameters) {
-        super(MessageFormat.format(getConfigurationService().getPropertyString(messageKey), messageParameters));
+        super(MessageFormat.format(getConfigurationService().getPropertyValueAsString(messageKey), messageParameters));
     }
     
     public DocumentInitiationException(String messageKey, Object[] messageParameters, boolean hideIncidentReport) {
-        super(MessageFormat.format(getConfigurationService().getPropertyString(messageKey), messageParameters), hideIncidentReport);
+        super(MessageFormat.format(getConfigurationService().getPropertyValueAsString(messageKey), messageParameters), hideIncidentReport);
     }
     
-    private static KualiConfigurationService configurationService;
-    private static KualiConfigurationService getConfigurationService() {
+    private static ConfigurationService configurationService;
+    private static ConfigurationService getConfigurationService() {
         if (configurationService == null) {
-            configurationService = SpringContext.getBean(KualiConfigurationService.class);
+            configurationService = SpringContext.getBean(ConfigurationService.class);
         }
         return configurationService;
     }

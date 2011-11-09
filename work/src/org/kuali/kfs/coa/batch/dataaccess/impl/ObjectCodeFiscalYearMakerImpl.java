@@ -20,7 +20,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * Performs custom criteria of object code records for a new year being created in the fiscal year maker process

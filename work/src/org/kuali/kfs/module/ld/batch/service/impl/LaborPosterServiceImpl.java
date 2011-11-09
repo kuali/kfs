@@ -50,9 +50,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -402,7 +402,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return a set of the balance type codes that are bypassed by Labor Poster
      */
     public List<String> getBalanceTypesNotProcessed() {
-        return parameterService.getParameterValues(LaborPosterStep.class, Poster.BALANCE_TYPES_NOT_PROCESSED);
+        return parameterService.getParameterValuesAsString(LaborPosterStep.class, Poster.BALANCE_TYPES_NOT_PROCESSED);
     }
 
     /**
@@ -411,7 +411,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return a set of the fiscal period codes that are bypassed by Labor Poster
      */
     public List<String> getPeriodCodesNotProcessed() {
-        return parameterService.getParameterValues(LaborPosterStep.class, Poster.PERIOD_CODES_NOT_PROCESSED);
+        return parameterService.getParameterValuesAsString(LaborPosterStep.class, Poster.PERIOD_CODES_NOT_PROCESSED);
     }
 
     /**

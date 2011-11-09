@@ -29,10 +29,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class OrganizationOptionsMaintainableImpl extends FinancialSystemMaintainable {
 
@@ -45,7 +45,7 @@ public class OrganizationOptionsMaintainableImpl extends FinancialSystemMaintain
      */
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> maintenanceLocks = super.generateMaintenanceLocks();
-        maintenanceLocks.addAll(CustomerInvoiceItemCodeMaintainableImplUtil.generateCustomerInvoiceItemCodeMaintenanceLocks(getBusinessObject(), documentNumber));
+        maintenanceLocks.addAll(CustomerInvoiceItemCodeMaintainableImplUtil.generateCustomerInvoiceItemCodeMaintenanceLocks(getBusinessObject(), getDocumentNumber()));
         return maintenanceLocks;
     }
     

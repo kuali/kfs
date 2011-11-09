@@ -17,19 +17,19 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Used to represent a dynamic options selection using explicitly typed key/label pair
  */
-public class BCKeyLabelPair extends TransientBusinessObjectBase {
+public class BCKeyValue extends TransientBusinessObjectBase {
     public String key;
     public String label;
 
-    public BCKeyLabelPair() {
+    public BCKeyValue() {
     }
 
-    public BCKeyLabelPair(String key, String label) {
+    public BCKeyValue(String key, String label) {
         this.key = key;
         this.label = label;
     }
@@ -51,10 +51,10 @@ public class BCKeyLabelPair extends TransientBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("useThreshold", this.key);
         m.put("thresholdPercent", this.label);

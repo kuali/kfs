@@ -20,13 +20,13 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.ConfigProperties;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.krad.authorization.AuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.kns.web.listener.JstlConstantsInitListener;
 import org.kuali.rice.ksb.messaging.MessageFetcher;
 import org.kuali.rice.ksb.messaging.threadpool.KSBThreadPool;
@@ -60,25 +60,25 @@ public class WebApplicationInitListener implements ServletContextListener {
         ServletContext context = sce.getServletContext();
 
         // publish application constants into JSP app context with name "Constants"
-        context.setAttribute("Constants", new KNSConstants());
+        context.setAttribute("Constants", new KRADConstants());
 
         // publish application constants into JSP app context with name "Constants"
         context.setAttribute("RiceConstants", new RiceConstants());
 
         // publish application constants into JSP app context with name "Constants"
-        context.setAttribute("KEWConstants", new KEWConstants());
+        context.setAttribute("KewApiConstants", new KewApiConstants());
 
         // publish configuration properties into JSP app context with name "ConfigProperties"
         context.setAttribute("ConfigProperties", new ConfigProperties());
 
         // publish dataDictionary property Map into JSP app context with name "DataDictionary"
-        context.setAttribute("DataDictionary", KNSServiceLocator.getDataDictionaryService().getDataDictionaryMap());
+        context.setAttribute("DataDictionary", SpringContext.getBean(DataDictionaryService.class).getDataDictionaryMap());
 
         // public AuthorizationConstants property Map into JSP app context with name "AuthorizationConstants"
         context.setAttribute("AuthorizationConstants", new AuthorizationConstants());
 
         // publish property constants into JSP app context with name "PropertyConstants"
-        context.setAttribute("PropertyConstants", new KNSPropertyConstants());
+        context.setAttribute("PropertyConstants", new KRADPropertyConstants());
         LOG.info("Finished web application context initialization");
     }
 

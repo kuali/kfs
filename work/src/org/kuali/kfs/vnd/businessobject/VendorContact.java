@@ -19,19 +19,19 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.state.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
 
 /**
  * Container for information about how to get in Contact with a person at a Vendor for a particular purpose.
  */
-public class VendorContact extends PersistableBusinessObjectBase implements Inactivateable {
+public class VendorContact extends PersistableBusinessObjectBase implements Inactivatable {
 
     private Integer vendorContactGeneratedIdentifier;
     private Integer vendorHeaderGeneratedIdentifier;
@@ -66,7 +66,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
      * Default constructor.
      */
     public VendorContact() {
-        vendorContactPhoneNumbers = new TypedArrayList(VendorContactPhoneNumber.class);
+        vendorContactPhoneNumbers = new ArrayList<VendorContactPhoneNumber>();
     }
 
     public Integer getVendorContactGeneratedIdentifier() {
@@ -220,7 +220,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
+        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode): vendorCountry;
         return vendorCountry;
     }
 
@@ -235,7 +235,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     }
 
     public State getVendorState() {
-        vendorState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorStateCode, vendorState);
+        vendorState = (StringUtils.isBlank(vendorCountryCode) || StringUtils.isBlank( vendorStateCode))?null:( vendorState == null || !StringUtils.equals( vendorState.getCountryCode(),vendorCountryCode)|| !StringUtils.equals( vendorState.getCode(), vendorStateCode))?SpringContext.getBean(StateService.class).getState(vendorCountryCode, vendorStateCode): vendorState;
         return vendorState;
     }
 
@@ -274,9 +274,9 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.vendorContactGeneratedIdentifier != null) {
             m.put("vendorContactGeneratedIdentifier", this.vendorContactGeneratedIdentifier.toString());

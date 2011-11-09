@@ -16,13 +16,13 @@
 package org.kuali.kfs.sys.service.impl;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class PostProcessorServiceImpl extends org.kuali.rice.kns.service.impl.PostProcessorServiceImpl {
+public class PostProcessorServiceImpl extends org.kuali.rice.krad.service.impl.PostProcessorServiceImpl {
     protected void establishGlobalVariables() throws WorkflowException {
         if (GlobalVariables.getUserSession() == null) {
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));

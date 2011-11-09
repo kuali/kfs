@@ -27,9 +27,9 @@ import org.apache.struts.taglib.html.HiddenTag;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.springframework.web.util.HtmlUtils;
 
 /**
@@ -107,7 +107,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
         if (getField().getInquiryURL() instanceof AnchorHtmlData) {
             AnchorHtmlData htmlData = (AnchorHtmlData) getField().getInquiryURL();
             beginInquiryLink.append("<a href=\"");
-            beginInquiryLink.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY));
+            beginInquiryLink.append(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY));
             beginInquiryLink.append("/kr/");
             beginInquiryLink.append(htmlData.getHref());
             beginInquiryLink.append("\" title=\"");
@@ -162,7 +162,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
      */
     protected String getValueForDropDown() {
         for (Object keyLabelPairAsObject : getField().getFieldValidValues()) {
-            final KeyLabelPair keyLabelPair = (KeyLabelPair)keyLabelPairAsObject;
+            final KeyValue keyLabelPair = (KeyValue)keyLabelPairAsObject;
             if (getField().getPropertyValue().equalsIgnoreCase(keyLabelPair.getKey().toString())) {
                 return keyLabelPair.getLabel();
             }

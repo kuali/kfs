@@ -60,5 +60,5 @@
   <!-- workflow attributes -->
   <bean id="ACHTransactionTypeMaintenanceDocument-workflowAttributes" parent="ACHTransactionTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="ACHTransactionTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="ACHTransactionTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

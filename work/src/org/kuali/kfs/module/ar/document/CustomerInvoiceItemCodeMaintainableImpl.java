@@ -18,14 +18,14 @@ package org.kuali.kfs.module.ar.document;
 import java.util.List;
 
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.krad.document.MaintenanceLock;
 
 public class CustomerInvoiceItemCodeMaintainableImpl extends FinancialSystemMaintainable {
     
     public List<MaintenanceLock> generateMaintenanceLocks() {
         
         List<MaintenanceLock> maintenanceLocks = super.generateMaintenanceLocks();
-        maintenanceLocks.addAll(CustomerInvoiceItemCodeMaintainableImplUtil.generateCustomerInvoiceItemCodeMaintenanceLocks(getBusinessObject(), documentNumber));
+        maintenanceLocks.addAll(CustomerInvoiceItemCodeMaintainableImplUtil.generateCustomerInvoiceItemCodeMaintenanceLocks(getBusinessObject(), getDocumentNumber()));
         return maintenanceLocks;
     }
 }

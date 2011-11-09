@@ -36,18 +36,18 @@ import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
 
-    protected transient KualiConfigurationService configService;
+    protected transient ConfigurationService configService;
 
     protected CustomerInvoiceDetail newCustomerInvoiceDetail;
 
@@ -109,7 +109,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
      * No data dictionary is involved here. 
      */
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         getDocInfo().add(new HeaderField("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal())));
         getDocInfo().add(new HeaderField("DataDictionary.CustomerInvoiceDocument.attributes.openAmount", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getOpenAmount())));
@@ -199,9 +199,9 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         extraButtons.add(newButton);
     }
 
-    protected KualiConfigurationService getConfigService() {
+    protected ConfigurationService getConfigService() {
         if (configService == null) {
-            configService = SpringContext.getBean(KualiConfigurationService.class);
+            configService = SpringContext.getBean(ConfigurationService.class);
         }
         return configService;
     }
@@ -211,7 +211,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
      */
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && "printInvoicePDF".equals(methodToCallParameterValue)) {
+        if (KRADConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && "printInvoicePDF".equals(methodToCallParameterValue)) {
             return true;
         }
         return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);

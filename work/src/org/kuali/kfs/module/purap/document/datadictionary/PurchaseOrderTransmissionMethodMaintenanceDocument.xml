@@ -61,5 +61,5 @@
   <!-- workflow attributes -->
   <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes" parent="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

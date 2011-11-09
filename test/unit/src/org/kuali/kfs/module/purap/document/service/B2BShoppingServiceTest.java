@@ -30,11 +30,11 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Unit tests for B2BShoppingService.
@@ -48,7 +48,7 @@ public class B2BShoppingServiceTest extends KualiTestBase {
     public void testCreateRequisitionsFromCxml() {
         // create b2b req using either vendorID or DUNS, depending on the parameter 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        boolean enableB2bByDuns = parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND);
+        boolean enableB2bByDuns = parameterService.getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND);
         RequisitionDocument req = createRequisitionFromCxml(enableB2bByDuns);
         B2BShoppingCartItemFixture b2bItem = null;
         

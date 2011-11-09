@@ -15,9 +15,9 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<%-- JSTLConstants magic doesn't work for nested class KNSConstants.DetailTypes, hence the following uglyness: --%>
-<c:set var="backdoorDetailType" value="<%=org.kuali.rice.kns.util.KNSConstants.DetailTypes.BACKDOOR_DETAIL_TYPE%>"/>
-<c:if test="${kfunc:getKNSParameterValue(KEWConstants.KEW_NAMESPACE, backdoorDetailType, KEWConstants.SHOW_BACK_DOOR_LOGIN_IND) == 'Y'}">
+<%-- JSTLConstants magic doesn't work for nested class KRADConstants.DetailTypes, hence the following uglyness: --%>
+<c:set var="backdoorDetailType" value="<%=org.kuali.rice.krad.util.KRADConstants.DetailTypes.BACKDOOR_DETAIL_TYPE%>"/>
+<c:if test="${kfunc:getKNSParameterValue(KewApiConstants.KEW_NAMESPACE, backdoorDetailType, KewApiConstants.SHOW_BACK_DOOR_LOGIN_IND) == 'Y'}">
 	<c:choose> 
 		<c:when test="${empty UserSession.loggedInUserPrincipalName}" > 
 			<c:set var="backdoorIdUrl" value=""/> 			
@@ -57,7 +57,7 @@
       	  </html:form>
     </c:when>
     <c:otherwise> 
-      <c:if test="${kfunc:getKNSParameterValue(KEWConstants.KEW_NAMESPACE, backdoorDetailType, KEWConstants.SHOW_BACK_DOOR_LOGIN_IND) == 'Y'}">
+      <c:if test="${kfunc:getKNSParameterValue(KewApiConstants.KEW_NAMESPACE, backdoorDetailType, KewApiConstants.SHOW_BACK_DOOR_LOGIN_IND) == 'Y'}">
         <html:form action="/backdoorlogin.do" method="post" style="margin:0; display:inline">
           <input name="backdoorId" type="text" class="searchbox" size="10" title="Enter your backdoor ID here.">
           <input name="imageField" type="submit" value="Login" class="go" title="Click to login.">

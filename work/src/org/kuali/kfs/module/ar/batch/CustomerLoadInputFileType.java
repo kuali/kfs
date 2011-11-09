@@ -26,8 +26,8 @@ import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class CustomerLoadInputFileType extends XmlBatchInputFileTypeBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadInputFileType.class);
@@ -39,7 +39,7 @@ public class CustomerLoadInputFileType extends XmlBatchInputFileTypeBase {
     
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.api.identity.Person, java.lang.Object, java.lang.String)
      */
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
         return customerLoadService.getFileName(principalName, fileUserIdentifer, FILE_NAME_PREFIX, FILE_NAME_DELIM);

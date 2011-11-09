@@ -24,8 +24,8 @@ import org.kuali.kfs.fp.businessobject.CreditCardDetail;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import java.util.ArrayList;
 
 /**
  * This class is the struts form for Credit Card Receipt document.
@@ -41,7 +41,7 @@ public class CreditCardReceiptForm extends CapitalAccountingLinesFormBase implem
         super();
         
         setNewCreditCardReceipt(new CreditCardDetail());
-        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
+        capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
         this.capitalAccountingLine.setCanCreateAsset(false); //This document can only edit asset information
     }
 

@@ -164,8 +164,8 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
     /**
      * @see org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap stringMapper = super.toStringMapper();
         stringMapper.put("financialBalanceTypeCode", this.getFinancialBalanceTypeCode());
         stringMapper.put("financialSystemOriginationCode", this.getFinancialSystemOriginationCode());

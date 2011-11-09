@@ -49,15 +49,15 @@ import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * This class represents the CashManagementDocument.
@@ -229,9 +229,9 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.document.DocumentBase#buildListOfDeletionAwareLists()
      */
-    @Override
+    
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
 
@@ -306,47 +306,47 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        KualiWorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
 
         if (LOG.isDebugEnabled()) {
             logState();
         }
 
-        if (kwd.stateIsProcessed()) {
+        if (kwd.isProcessed()) {
             // all approvals have been processed, finalize everything
             SpringContext.getBean(CashManagementService.class).finalizeCashManagementDocument(this);
         }
-        else if (kwd.stateIsCanceled() || kwd.stateIsDisapproved()) {
+        else if (kwd.isCanceled() || kwd.isDisapproved()) {
             // document has been canceled or disapproved
             SpringContext.getBean(CashManagementService.class).cancelCashManagementDocument(this);
         }
     }
 
     protected void logState() {
-        KualiWorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
 
-        if (kwd.stateIsInitiated()) {
-            LOG.debug("CMD stateIsInitiated");
+        if (kwd.isInitiated()) {
+            LOG.debug("CMD isInitiated");
         }
-        if (kwd.stateIsProcessed()) {
-            LOG.debug("CMD stateIsProcessed");
+        if (kwd.isProcessed()) {
+            LOG.debug("CMD isProcessed");
         }
-        if (kwd.stateIsCanceled()) {
-            LOG.debug("CMD stateIsCanceled");
+        if (kwd.isCanceled()) {
+            LOG.debug("CMD isCanceled");
         }
-        if (kwd.stateIsDisapproved()) {
-            LOG.debug("CMD stateIsDisapproved");
+        if (kwd.isDisapproved()) {
+            LOG.debug("CMD isDisapproved");
         }
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#processAfterRetrieve()
+     * @see org.kuali.rice.krad.document.DocumentBase#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -362,10 +362,10 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /* utility methods */
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         m.put("campusCode", getCampusCode());
@@ -523,7 +523,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -541,7 +541,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      * @return the campus associated with this cash drawer
      */
     public Campus getCampus() {
-        if (campusCode != null && (campus == null || !campus.getCampusCode().equals(campusCode))) {
+        if (campusCode != null && (campus == null || !campus.getCode().equals(campusCode))) {
             campus = retrieveCampus();
         }
         return campus;
@@ -549,8 +549,8 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     
     protected Campus retrieveCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+        criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
+        return campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
     }
 
 

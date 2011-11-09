@@ -37,16 +37,16 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class provides a set of utilities that can be used to validate a transaction in the field level.
  */
 public class TransactionFieldValidator {
     private static LaborAccountingCycleCachingService accountingCycleCachingService;
-    private static KualiConfigurationService kualiConfigurationService;
+    private static ConfigurationService kualiConfigurationService;
     
     /**
      * Checks if the given transaction contains valid university fiscal year
@@ -299,7 +299,7 @@ public class TransactionFieldValidator {
         if (debitCreditCode == null || !ArrayUtils.contains(validDebitCreditCode, debitCreditCode)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DEDIT_CREDIT_CODE_NOT_BE_NULL, Message.TYPE_FATAL);
         } else if (transaction.getBalanceType().isFinancialOffsetGenerationIndicator() && !KFSConstants.GL_DEBIT_CODE.equals(transaction.getTransactionDebitCreditCode()) && !KFSConstants.GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
-            return new Message(getKualiConfigurationService().getPropertyString(KFSKeyConstants.MSG_DEDIT_CREDIT_CODE_MUST_BE) + " '" + KFSConstants.GL_DEBIT_CODE + " or " + KFSConstants.GL_CREDIT_CODE + getKualiConfigurationService().getPropertyString(KFSKeyConstants.MSG_FOR_BALANCE_TYPE), Message.TYPE_FATAL);
+            return new Message(getConfigurationService().getPropertyValueAsString(KFSKeyConstants.MSG_DEDIT_CREDIT_CODE_MUST_BE) + " '" + KFSConstants.GL_DEBIT_CODE + " or " + KFSConstants.GL_CREDIT_CODE + getConfigurationService().getPropertyValueAsString(KFSKeyConstants.MSG_FOR_BALANCE_TYPE), Message.TYPE_FATAL);
         }
         return null;
     }
@@ -398,9 +398,9 @@ public class TransactionFieldValidator {
         return accountingCycleCachingService;        
     }
     
-    static KualiConfigurationService getKualiConfigurationService() {
+    static ConfigurationService getConfigurationService() {
         if (kualiConfigurationService == null) {
-            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+            kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         }
         return kualiConfigurationService;        
     }

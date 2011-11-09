@@ -36,17 +36,18 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PurApRelatedViews {
     private String documentNumber;
@@ -120,16 +121,16 @@ public class PurApRelatedViews {
         String poIDstr = view.getPurapDocumentIdentifier().toString();
         
         if (document != null) {
-            if (!document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+            if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
                 String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
                 String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
                 String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
                 
-                AttributeSet roleQualifiers = new AttributeSet();
+                Map<String,String> roleQualifiers = new HashMap<String,String>();
                 
-                AttributeSet permissionDetails = new AttributeSet();
-                permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
-                permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
+                Map<String,String> permissionDetails = new HashMap<String,String>();
+                permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
+                permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
                 
                 IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
                 Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);

@@ -23,9 +23,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class TimestampedBusinessObjectBase extends PersistableBusinessObjectBase implements TimestampedBusinessObject {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TimestampedBusinessObjectBase.class);
@@ -46,7 +46,7 @@ public abstract class TimestampedBusinessObjectBase extends PersistableBusinessO
     public Person getLastUpdateUser() {
         Person user = null;
         if (StringUtils.isNotBlank(lastUpdateUserId)) {
-            user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(lastUpdateUserId);
+            user = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(lastUpdateUserId);
         }
 
         return user;
@@ -73,15 +73,15 @@ public abstract class TimestampedBusinessObjectBase extends PersistableBusinessO
         this.lastUpdate = lastUpdate;
     }
 
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        super.beforeInsert(broker);
+    @Override protected void prePersist() {
+        super.prePersist();
 
         lastUpdate = new Timestamp((new Date()).getTime());
         lastUpdateUserId = GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
 
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        super.beforeUpdate(broker);
+    @Override protected void preUpdate() {
+        super.preUpdate();
 
         lastUpdate = new Timestamp((new Date()).getTime());
         lastUpdateUserId = GlobalVariables.getUserSession().getPerson().getPrincipalName();

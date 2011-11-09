@@ -18,8 +18,8 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Address Types for Vendor Addresses. Used to distinguish the intended use of this address among the various addresses that a
@@ -27,7 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * 
  * @see org.kuali.kfs.vnd.businessobject.VendorAddress
  */
-public class AddressType extends PersistableBusinessObjectBase implements Inactivateable{
+public class AddressType extends PersistableBusinessObjectBase implements Inactivatable{
 
     private String vendorAddressTypeCode;
     private String vendorAddressTypeDescription;
@@ -69,9 +69,9 @@ public class AddressType extends PersistableBusinessObjectBase implements Inacti
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("vendorAddressTypeCode", this.vendorAddressTypeCode);
 

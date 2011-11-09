@@ -25,8 +25,8 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
 import org.kuali.kfs.module.endow.dataaccess.KemidGeneralLedgerAccountDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class KemidGeneralLedgerAccountDaoOjb extends PlatformAwareDaoBaseOjb implements KemidGeneralLedgerAccountDao {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KemidGeneralLedgerAccountDaoOjb.class);

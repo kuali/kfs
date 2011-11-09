@@ -27,13 +27,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 /**
@@ -61,7 +61,7 @@ public class SecTransactionalDocumentAuthorizer implements TransactionalDocument
     /**
      * If user has open permission then does further checks to verify there are no access security restriction setup that prevents the user from opening the document
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canOpen(Document document, Person user) {
         AccessSecurityService securityService = SpringContext.getBean(AccessSecurityService.class);
@@ -90,7 +90,7 @@ public class SecTransactionalDocumentAuthorizer implements TransactionalDocument
      * If user has permission to view notes/attachments then does further checks to verify there are no access security restriction setup that prevents the user from viewing the
      * notes/attachments
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canViewNoteAttachment(org.kuali.rice.kns.document.Document, java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizer#canViewNoteAttachment(org.kuali.rice.krad.document.Document, java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, Person user) {
         AccessSecurityService securityService = SpringContext.getBean(AccessSecurityService.class);
@@ -111,14 +111,14 @@ public class SecTransactionalDocumentAuthorizer implements TransactionalDocument
      * If there are line restrictions and the initiator override flag is turned on, we need to disable the copy and error correct buttons since those would result in documents
      * displaying the restricted lines
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActions(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizer#getDocumentActions(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
         Set<String> documentActionsToReturn = documentAuthorizer.getDocumentActions(document, user, documentActions);
 
         AccessSecurityService securityService = SpringContext.getBean(AccessSecurityService.class);
 
-        boolean alwaysAllowInitiatorAccess = SpringContext.getBean(ParameterService.class).getIndicatorParameter(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ALWAYS_ALLOW_INITIATOR_LINE_ACCESS_IND);
+        boolean alwaysAllowInitiatorAccess = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ALWAYS_ALLOW_INITIATOR_LINE_ACCESS_IND);
         if (alwaysAllowInitiatorAccess) {
             // determine if any lines are view restricted
             boolean hasViewRestrictions = false;
@@ -144,8 +144,8 @@ public class SecTransactionalDocumentAuthorizer implements TransactionalDocument
 
             // if we have restrictions then disable copy and error correction
             if (hasViewRestrictions) {
-                if (documentActionsToReturn.contains(KNSConstants.KUALI_ACTION_CAN_COPY)) {
-                    documentActionsToReturn.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
+                if (documentActionsToReturn.contains(KRADConstants.KUALI_ACTION_CAN_COPY)) {
+                    documentActionsToReturn.remove(KRADConstants.KUALI_ACTION_CAN_COPY);
                     GlobalVariables.getMessageMap().putInfo(KFSConstants.GLOBAL_ERRORS, SecKeyConstants.MESSAGE_DOCUMENT_COPY_RESTRICTED, (String) null);
                 }
 

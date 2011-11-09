@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 
 public class PurchasingPaymentDetailLookupableHelperService extends PaymentDetailLookupableHelperService {

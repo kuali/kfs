@@ -91,7 +91,7 @@ public interface AccountingDocumentRuleHelperService {
     public abstract String getObjectCodeTypeCodeWithoutSideEffects(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
-     * Gets the named property from KualiConfigurationService (i.e., from ApplicationResources.properties) and formats it with the
+     * Gets the named property from ConfigurationService (i.e., from ApplicationResources.properties) and formats it with the
      * given arguments (if any).
      * 
      * @param propertyName

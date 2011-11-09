@@ -24,12 +24,12 @@ import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectServ
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
@@ -72,7 +72,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     /**
      * Gets primary key fields from the Datadictionary entries for the object.
      * 
-     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#listPrimaryKeyFieldNames(java.lang.Class)
+     * @see org.kuali.rice.krad.service.impl.ModuleServiceBase#listPrimaryKeyFieldNames(java.lang.Class)
      */
     public List listPrimaryKeyFieldNames(Class businessObjectInterfaceClass) {
         Class clazz = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);
@@ -86,21 +86,21 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     /**
      * Changing the base url to KC url
      * 
-     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getInquiryUrl(java.lang.Class)
+     * @see org.kuali.rice.krad.service.impl.ModuleServiceBase#getInquiryUrl(java.lang.Class)
      */
     protected String getInquiryUrl(Class inquiryBusinessObjectClass){
-        String baseUrl = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
+        String baseUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.KC_APPLICATION_URL_KEY);
         String inquiryUrl = baseUrl;
         if (!inquiryUrl.endsWith("/")) {
             inquiryUrl = inquiryUrl + "/";
         }
-        return inquiryUrl + "kr/" + KNSConstants.INQUIRY_ACTION;
+        return inquiryUrl + "kr/" + KRADConstants.INQUIRY_ACTION;
     }
 
     /**
      * Mapping the kfs classes and parameters over to KC equivalents
      * 
-     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getUrlParameters(java.lang.String, java.util.Map)
+     * @see org.kuali.rice.krad.service.impl.ModuleServiceBase#getUrlParameters(java.lang.String, java.util.Map)
      */
     protected Properties getUrlParameters(String businessObjectClassAttribute, Map<String, String[]> parameters){
         Properties urlParameters = new Properties();
@@ -122,9 +122,9 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
             }
         }
         
-        urlParameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, kfsToKcInquiryUrlClassMapping.get(businessObjectClassAttribute));
-        urlParameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, 
-                KNSConstants.CONTINUE_WITH_INQUIRY_METHOD_TO_CALL);
+        urlParameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, kfsToKcInquiryUrlClassMapping.get(businessObjectClassAttribute));
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, 
+                KRADConstants.CONTINUE_WITH_INQUIRY_METHOD_TO_CALL);
         return urlParameters;
     }
         

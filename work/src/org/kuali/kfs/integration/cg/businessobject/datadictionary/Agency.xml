@@ -108,7 +108,7 @@
     <property name="control">
       <bean parent="CurrencyControlDefinition" p:formattedMaxLength="12" p:size="20"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="Agency-reportsToAgencyNumber" parent="Agency-reportsToAgencyNumber-parentBean"/>
 

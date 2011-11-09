@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.document.service.impl;
 import org.kuali.kfs.fp.document.service.TransferOfFundsService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * The default implementation of the TransferOfFundsService
@@ -52,7 +52,7 @@ public class TransferOfFundsServiceImpl implements TransferOfFundsService {
         if (objectSubTypeCode == null) {
             throw new IllegalArgumentException("An illegal argument has been passed. Cannot allow (null) subtypes.");
         }
-        ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, objectSubTypeCode);
+        ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, objectSubTypeCode);
         boolean returnboolean = evaluator.evaluationSucceeds();
         return returnboolean;
     }

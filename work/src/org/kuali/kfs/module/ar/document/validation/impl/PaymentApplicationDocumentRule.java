@@ -22,13 +22,13 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
     
@@ -145,7 +145,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
     }
     
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         
@@ -162,7 +162,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
             if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getUnallocatedBalance())) {
                 isValid &= false;
                 errorMap.putError(
-                    KNSConstants.GLOBAL_ERRORS,
+                    KRADConstants.GLOBAL_ERRORS,
                     ArKeyConstants.PaymentApplicationDocumentErrors.FULL_AMOUNT_NOT_APPLIED);
                 LOG.info("The payment application document was not fully applied.");
             }
@@ -181,7 +181,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.krad.rule.event.ApproveDocumentEvent)
      */
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);

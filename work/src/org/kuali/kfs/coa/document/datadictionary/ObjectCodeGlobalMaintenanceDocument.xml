@@ -129,14 +129,14 @@
 		</property>
 	</bean>
 	
-	<bean id="ObjectCodeGlobalMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+	<bean id="ObjectCodeGlobalMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
    	
-   	<bean id="ObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   	<bean id="ObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
-    		<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+    		<bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
     			<property name="collectionPath" value="newMaintainableObject.businessObject.objectCodeGlobalDetails"/>
     			<property name="documentValues">
 			   		<list>
@@ -147,7 +147,7 @@
     	</property>
    	</bean>  
    	
-	<bean id="ObjectCodeGlobalMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="ObjectCodeGlobalMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="ObjectCodeGlobalMaintenanceDocument-RoutingAttribute-Chart"/>

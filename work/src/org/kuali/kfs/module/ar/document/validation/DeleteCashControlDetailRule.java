@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ar.document.validation;
 
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.krad.document.TransactionalDocument;
 
 public interface DeleteCashControlDetailRule <F extends TransactionalDocument > extends CashControlDetailRule {
 

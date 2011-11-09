@@ -29,9 +29,9 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * A validation which uses parameters to determine if a value on an accounting line is valid.
@@ -93,7 +93,7 @@ public class PurchasingAccountsPayableObjectCodeOverrideBranchingValidation exte
         try {
             String propertyValue = (String) PropertyUtils.getProperty(accountingLine, propertyName);
             if (getParameterService().parameterExists(documentClass, parameterName)) {
-                isAllowed = getParameterService().getParameterEvaluator(documentClass, parameterName, propertyValue).evaluationSucceeds();
+                isAllowed = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(documentClass, parameterName, propertyValue).evaluationSucceeds();
             }
         }
         catch (IllegalAccessException e) {

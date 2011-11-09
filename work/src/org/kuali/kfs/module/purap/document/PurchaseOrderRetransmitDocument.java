@@ -25,9 +25,9 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Purchase Order Retransmit Document
@@ -47,7 +47,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
     /**
      * General Ledger pending entries are not created for this document. Overriding this method so that entries are not created.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
@@ -117,17 +117,17 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
         super.doRouteStatusChange(statusChangeEvent);
 
         // DOCUMENT PROCESSED
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
             setPurchaseOrderLastTransmitTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN);
         }
         // DOCUMENT DISAPPROVED
-        else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+        else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
         }
         // DOCUMENT CANCELED
-        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+        else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
         }
 

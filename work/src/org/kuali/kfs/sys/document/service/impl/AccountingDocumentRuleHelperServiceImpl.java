@@ -29,13 +29,13 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The default implementation of the AccountingDocumentRuleHelperService
@@ -48,7 +48,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
      * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isExpense(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     public boolean isExpense(GeneralLedgerPendingEntrySourceDetail postable) {
-        // return SpringContext.getBean(KualiConfigurationService.class).succeedsRule(KFSConstants.FINANCIAL_NAMESPACE,
+        // return SpringContext.getBean(ConfigurationService.class).succeedsRule(KFSConstants.FINANCIAL_NAMESPACE,
         // KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, APPLICATION_PARAMETER.EXPENSE_OBJECT_TYPE_CODES,
         // getObjectCodeTypeCodeWithoutSideEffects(accountingLine) );
         List<String> expenseObjectTypes = objectTypeService.getCurrentYearBasicExpenseObjectTypes();
@@ -162,7 +162,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * Gets the named property from KualiConfigurationService (i.e., from ApplicationResources.properties) and formats it with the
+     * Gets the named property from ConfigurationService (i.e., from ApplicationResources.properties) and formats it with the
      * given arguments (if any).
      * 
      * @param propertyName
@@ -171,7 +171,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
      *         second argument, etc.
      */
     public String formatProperty(String propertyName, Object... arguments) {
-        return MessageFormat.format(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(propertyName), arguments);
+        return MessageFormat.format(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(propertyName), arguments);
     }
 
     /**

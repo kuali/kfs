@@ -36,8 +36,8 @@ import org.kuali.kfs.module.endow.report.service.AssetStatementReportService;
 import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder.ReportGroupData;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

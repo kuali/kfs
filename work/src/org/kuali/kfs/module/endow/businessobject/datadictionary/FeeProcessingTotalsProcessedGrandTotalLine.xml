@@ -55,14 +55,14 @@
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-totalIncomeAmount-parentBean" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalIncomeAmount"/>
     <property name="maxLength" value="22"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-totalPrincipalAmount" parent="FeeProcessingTotalsProcessedGrandTotalLine-totalPrincipalAmount-parentBean"/>    
 
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-totalPrincipalAmount-parentBean" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalPrincipalAmount"/>
 	<property name="maxLength" value="22"/>    
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
 
 </beans>

@@ -31,12 +31,12 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.RiceConstants;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
@@ -118,8 +118,8 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
 
             // build the parameters for the refresh url
             Properties parameters = new Properties();
-            parameters.put(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, multipleValueLookupForm.getLookupResultsSequenceNumber());
-            parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, ArConstants.CUSTOMER_INVOICE_WRITEOFF_SUMMARY_ACTION);
+            parameters.put(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, multipleValueLookupForm.getLookupResultsSequenceNumber());
+            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, ArConstants.CUSTOMER_INVOICE_WRITEOFF_SUMMARY_ACTION);
 
             String customerInvoiceWriteoffLookupSummaryUrl = UrlFactory.parameterizeUrl("arCustomerInvoiceWriteoffLookupSummary.do", parameters);
             return new ActionForward(customerInvoiceWriteoffLookupSummaryUrl, true);

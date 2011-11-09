@@ -17,10 +17,10 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapNotContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapSize;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
@@ -61,9 +61,9 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedVali
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @ConfigureContext(session = dfogle)
 public class JournalVoucherDocumentRuleTest extends KualiTestBase {
@@ -87,8 +87,8 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         line.setReferenceNumber("");
         line.setReferenceTypeCode("");
         testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_REQUIRED);
-        assertGlobalErrorMapContains(KFSKeyConstants.ERROR_REQUIRED+"."+KFSPropertyConstants.REFERENCE_NUMBER, KFSKeyConstants.ERROR_REQUIRED);
-        assertGlobalErrorMapContains(KFSKeyConstants.ERROR_REQUIRED+"."+KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
+        assertGlobalMessageMapContains(KFSKeyConstants.ERROR_REQUIRED+"."+KFSPropertyConstants.REFERENCE_NUMBER, KFSKeyConstants.ERROR_REQUIRED);
+        assertGlobalMessageMapContains(KFSKeyConstants.ERROR_REQUIRED+"."+KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
     }
 
     public void testProcessAddAccountingLineBusinessRules_validReferences() throws Exception {
@@ -105,23 +105,23 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine();
         line.setReferenceTypeCode("42");
         testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE);
-        assertGlobalErrorMapNotContains(line.toString(), KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
-        assertGlobalErrorMapSize(line.toString(), 1);
+        assertGlobalMessageMapNotContains(line.toString(), KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
+        assertGlobalMessageMapSize(line.toString(), 1);
     }
 
     private void testProcessAddAccountingLineBusinessRules(AccountingLine line, String expectedErrorFieldName, String expectedErrorKey) throws Exception {
         line.refresh();
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         boolean wasValid = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(expectedErrorKey, createDocumentUnbalanced(), line));
         if (LOG.isDebugEnabled()) {
             LOG.debug(StringUtils.join(GlobalVariables.getMessageMap().keySet(),", ")+"; "+StringUtils.join(GlobalVariables.getMessageMap().getPropertiesWithErrors(), ", "));
         }
         if (expectedErrorFieldName == null) {
-            assertGlobalErrorMapEmpty(line.toString()); // fail printing error map for debugging before failing on simple result
+            assertGlobalMessageMapEmpty(line.toString()); // fail printing error map for debugging before failing on simple result
             assertEquals("wasValid " + line, true, wasValid);
         }
         else {
-            assertGlobalErrorMapContains(line.toString(), expectedErrorKey+"."+expectedErrorFieldName, expectedErrorKey);
+            assertGlobalMessageMapContains(line.toString(), expectedErrorKey+"."+expectedErrorFieldName, expectedErrorKey);
             assertEquals("wasValid " + line, false, wasValid);
         }
     }

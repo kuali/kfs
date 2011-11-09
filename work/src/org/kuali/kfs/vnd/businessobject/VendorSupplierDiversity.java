@@ -20,16 +20,16 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Relationship between a Vendor and a <code>SupplierDiversity</code>.
  * 
  * @see org.kuali.kfs.vnd.businessobject.SupplierDiversity
  */
-public class VendorSupplierDiversity extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
+public class VendorSupplierDiversity extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivatable {
     private static Logger LOG = Logger.getLogger(VendorSupplierDiversity.class);
 
     private Integer vendorHeaderGeneratedIdentifier;
@@ -105,9 +105,9 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         if (this.vendorHeaderGeneratedIdentifier != null) {
@@ -141,7 +141,7 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
      * @return A String rendition of this object.
      */
     @Override
-    public String toStringBuilder(LinkedHashMap mapper) {
+    public String toStringBuilder_RICE20_REFACTORME(LinkedHashMap mapper) {
         if (vendorSupplierDiversity != null) {
 
             return vendorSupplierDiversity.getVendorSupplierDiversityDescription();

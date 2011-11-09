@@ -20,7 +20,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.service.AccessPermissionEvaluator;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 
 /**
@@ -185,7 +185,7 @@ public class AccessPermissionEvaluatorImpl implements AccessPermissionEvaluator 
     }
 
     /**
-     * @see org.kuali.kfs.sec.service.AccessPermissionEvaluator#setPerson(org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sec.service.AccessPermissionEvaluator#setPerson(org.kuali.rice.kim.api.identity.Person)
      */
     public void setPerson(Person person) {
         this.person = person;

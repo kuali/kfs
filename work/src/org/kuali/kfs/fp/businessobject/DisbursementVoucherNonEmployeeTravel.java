@@ -24,11 +24,11 @@ import java.util.List;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * This class is used to represent a non-employee trip for a disbursement voucher .
@@ -74,8 +74,8 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * Default no-arg constructor.
      */
     public DisbursementVoucherNonEmployeeTravel() {
-        dvNonEmployeeExpenses = new TypedArrayList(DisbursementVoucherNonEmployeeExpense.class);
-        dvPrePaidEmployeeExpenses = new TypedArrayList(DisbursementVoucherNonEmployeeExpense.class);
+        dvNonEmployeeExpenses = new ArrayList<DisbursementVoucherNonEmployeeExpense>();
+        dvPrePaidEmployeeExpenses = new ArrayList<DisbursementVoucherNonEmployeeExpense>();
         financialDocumentNextLineNbr = new Integer(1);
     }
 
@@ -798,10 +798,10 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;

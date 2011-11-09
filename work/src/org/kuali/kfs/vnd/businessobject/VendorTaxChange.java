@@ -21,8 +21,8 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Records any changes to a Vendor's Tax Number or Type. Not shown on the screen.
@@ -111,7 +111,7 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
     }
 
     public Person getVendorTaxChangePerson() {
-        vendorTaxChangePerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(vendorTaxChangePersonIdentifier, vendorTaxChangePerson);
+        vendorTaxChangePerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(vendorTaxChangePersonIdentifier, vendorTaxChangePerson);
         return vendorTaxChangePerson;
     }
 
@@ -140,9 +140,9 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.vendorTaxChangeGeneratedIdentifier != null) {
             m.put("vendorTaxChangeGeneratedIdentifier", this.vendorTaxChangeGeneratedIdentifier.toString());

@@ -32,20 +32,20 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.rule.event.SendAdHocRequestsEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.rule.event.SendAdHocRequestsEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -191,7 +191,7 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
         document.getOldMaintainableObject().setBoClass(ticklerBo.getClass());
         document.setNewMaintainableObject(new KualiMaintainableImpl(ticklerBo));        
         document.getNewMaintainableObject().setBoClass(ticklerBo.getClass());
-        document.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_EDIT_ACTION);
+        document.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_EDIT_ACTION);
         document.getNewMaintainableObject().setDocumentNumber(document.getDocumentNumber());
         
         return document;
@@ -213,7 +213,7 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
                 if(principal.isActive()){
                     person = new AdHocRoutePerson();
                     person.setId(principal.getContact().getPrincipalName());
-                    person.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);                    
+                    person.setActionRequested(KewApiConstants.ACTION_REQUEST_FYI_REQ);                    
                     personList.add(person);
                 }
             }
@@ -240,7 +240,7 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
                     workgroup.setId(group.getGroupId());
                     workgroup.setRecipientName(group.getAssignedToGroup().getGroupName());
                     workgroup.setRecipientNamespaceCode(group.getAssignedToGroup().getNamespaceCode());
-                    workgroup.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
+                    workgroup.setActionRequested(KewApiConstants.ACTION_REQUEST_FYI_REQ);
                     
                     groupList.add(workgroup);
                 }

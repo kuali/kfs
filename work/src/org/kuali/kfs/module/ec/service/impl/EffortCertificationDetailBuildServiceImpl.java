@@ -28,8 +28,8 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinitio
 import org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService;
 import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

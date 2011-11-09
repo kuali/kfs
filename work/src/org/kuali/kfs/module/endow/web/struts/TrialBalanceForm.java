@@ -19,7 +19,7 @@ import java.sql.Date;
 
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class TrialBalanceForm extends EndowmentReportBaseForm {
 

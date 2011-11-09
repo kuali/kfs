@@ -29,10 +29,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**

@@ -21,10 +21,10 @@ import java.util.List;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
@@ -34,7 +34,7 @@ public class CustomerOpenItemReportInquirableImpl extends KfsInquirableImpl {
     /**
      * Show the Customer Open Item Report tab. This is Customer History Report.
      * 
-     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#addAdditionalSections(java.util.List, org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#addAdditionalSections(java.util.List, org.kuali.rice.krad.bo.BusinessObject)
      * 
      * KRAD Conversion: Inquirable performs adding a new field and adding a new section to the sections.
      * 
@@ -53,7 +53,7 @@ public class CustomerOpenItemReportInquirableImpl extends KfsInquirableImpl {
             f.setFieldLabel("History Report");
             f.setPropertyValue("Click here to view the history report for this customer.");
             f.setFieldType(Field.TEXT);
-            HtmlData hRef = new AnchorHtmlData("../arCustomerOpenItemReportLookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&docFormKey=88888888&returnLocation=&hideReturnLink=true&reportName=" + KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME + "&customerNumber=" + customer.getCustomerNumber() + "&customerName="+customer.getCustomerName(),KNSConstants.EMPTY_STRING, "view open item report");
+            HtmlData hRef = new AnchorHtmlData("../arCustomerOpenItemReportLookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&docFormKey=88888888&returnLocation=&hideReturnLink=true&reportName=" + KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME + "&customerNumber=" + customer.getCustomerNumber() + "&customerName="+customer.getCustomerName(),KRADConstants.EMPTY_STRING, "view open item report");
             f.setInquiryURL(hRef);
             rows.add(new Row(f));
 

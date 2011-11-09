@@ -20,16 +20,16 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class InvoiceRecurrence extends PersistableBusinessObjectBase implements Inactivateable {
+public class InvoiceRecurrence extends PersistableBusinessObjectBase implements Inactivatable {
 
 	protected String invoiceNumber;
 	protected String customerNumber;
@@ -204,7 +204,7 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
 
 
     public Person getDocumentInitiatorUser() {
-        documentInitiatorUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(documentInitiatorUserIdentifier, documentInitiatorUser);
+        documentInitiatorUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(documentInitiatorUserIdentifier, documentInitiatorUser);
         return documentInitiatorUser;
     }
 
@@ -286,10 +286,10 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
     
 
     /**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
 	@SuppressWarnings("rawtypes")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", this.invoiceNumber);
 	    return m;

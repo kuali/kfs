@@ -39,15 +39,15 @@ import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class AssetServiceImpl implements AssetService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetServiceImpl.class);
@@ -90,11 +90,11 @@ public class AssetServiceImpl implements AssetService {
     }
 
     public boolean isCapitalAsset(Asset asset) {
-        return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).contains(asset.getInventoryStatusCode());
+        return parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).contains(asset.getInventoryStatusCode());
     }
 
     public boolean isAssetRetired(Asset asset) {
-        return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode());
+        return parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode());
     }
 
     public boolean isInServiceDateChanged(Asset oldAsset, Asset newAsset) {
@@ -202,10 +202,10 @@ public class AssetServiceImpl implements AssetService {
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isMovableFinancialObjectSubtypeCode(java.lang.String)
      */
     public boolean isAssetMovableCheckByPayment(String financialObjectSubTypeCode) {
-        if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
+        if (parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
             return true;
         }
-        else if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
+        else if (parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
             return false;
         }
         else {
@@ -251,7 +251,7 @@ public class AssetServiceImpl implements AssetService {
             return true;
         }
 
-        List<String> subTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
+        List<String> subTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS) );
         String firstObjectSubType = (String) financialObjectSubTypeCode.get(0);
         List<String> validObjectSubTypes = new ArrayList<String>();
 
@@ -349,9 +349,9 @@ public class AssetServiceImpl implements AssetService {
 
 
     /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetService#getCurrentRouteLevels(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#getCurrentRouteLevels(org.kuali.rice.kew.api.WorkflowDocument)
      */
-    public List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+    public List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
         String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         return Arrays.asList(names);
     }
@@ -360,7 +360,7 @@ public class AssetServiceImpl implements AssetService {
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isMaintenanceDocumentEnroute(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     public boolean isDocumentEnrouting(Document document) {
-        return document.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+        return document.getDocumentHeader().getWorkflowDocument().isEnroute();
     }
 
 }

@@ -43,10 +43,10 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -67,7 +67,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     private static final String BATCH_FILE_KEY = "BATCH-FILE";
     private static final String WORKFLOW_DOC_ID_PREFIX = " - WITH WORKFLOW DOCID: ";
 
-    private PersonService<Person> personService;
+    private PersonService personService;
     private CustomerService customerService;
     private CustomerInvoiceDocumentService invoiceDocumentService;
     private DateTimeService dateTimeService;
@@ -561,7 +561,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

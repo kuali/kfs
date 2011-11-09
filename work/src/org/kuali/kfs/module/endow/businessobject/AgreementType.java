@@ -20,22 +20,22 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 public class AgreementType extends KualiCodeBase {
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.KUALICODEBASE_CODE, super.code);
         return m;
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#getCodeAndDescription()
+     * @see org.kuali.rice.krad.bo.KualiCodeBase#getCodeAndDescription()
      */
     @Override
     public String getCodeAndDescription() {

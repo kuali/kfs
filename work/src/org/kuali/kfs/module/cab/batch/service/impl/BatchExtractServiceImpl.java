@@ -65,13 +65,13 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -161,12 +161,12 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected BatchParameters createCabBatchParameters() {
         BatchParameters parameters = new BatchParameters();
         parameters.setLastRunTime(getCabLastRunTimestamp());
-        parameters.setIncludedFinancialBalanceTypeCodes(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.BALANCE_TYPES));
-        parameters.setIncludedFinancialObjectSubTypeCodes(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.OBJECT_SUB_TYPES));
-        parameters.setExcludedChartCodes(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS));
-        parameters.setExcludedDocTypeCodes(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.DOCUMENT_TYPES));
-        parameters.setExcludedFiscalPeriods(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.FISCAL_PERIODS));
-        parameters.setExcludedSubFundCodes(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS));
+        parameters.setIncludedFinancialBalanceTypeCodes(parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.BALANCE_TYPES));
+        parameters.setIncludedFinancialObjectSubTypeCodes(parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.OBJECT_SUB_TYPES));
+        parameters.setExcludedChartCodes(parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS));
+        parameters.setExcludedDocTypeCodes(parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.DOCUMENT_TYPES));
+        parameters.setExcludedFiscalPeriods(parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.FISCAL_PERIODS));
+        parameters.setExcludedSubFundCodes(parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS));
         return parameters;
     }
 
@@ -178,10 +178,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected BatchParameters createPreTagBatchParameters() {
         BatchParameters parameters = new BatchParameters();
         parameters.setLastRunDate(getPreTagLastRunDate());
-        parameters.setIncludedFinancialObjectSubTypeCodes(parameterService.getParameterValues(PreAssetTaggingStep.class, CabConstants.Parameters.OBJECT_SUB_TYPES));
-        parameters.setExcludedChartCodes(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS));
-        parameters.setExcludedSubFundCodes(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS));
-        parameters.setCapitalizationLimitAmount(new BigDecimal(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT)));
+        parameters.setIncludedFinancialObjectSubTypeCodes(parameterService.getParameterValuesAsString(PreAssetTaggingStep.class, CabConstants.Parameters.OBJECT_SUB_TYPES));
+        parameters.setExcludedChartCodes(parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS));
+        parameters.setExcludedSubFundCodes(parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS));
+        parameters.setCapitalizationLimitAmount(new BigDecimal(parameterService.getParameterValueAsString(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT)));
         return parameters;
     }
 
@@ -245,7 +245,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      */
     protected Timestamp getCabLastRunTimestamp() {
         Timestamp lastRunTime;
-        String lastRunTS = parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
+        String lastRunTS = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
         java.util.Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
         try {
             lastRunTime = lastRunTS == null ? new Timestamp(yesterday.getTime()) : new Timestamp(DateUtils.parseDate(lastRunTS, new String[] { CabConstants.DateFormats.MONTH_DAY_YEAR + " " + CabConstants.DateFormats.MILITARY_TIME }).getTime());
@@ -263,7 +263,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      */
     protected java.sql.Date getPreTagLastRunDate() {
         java.sql.Date lastRunDt;
-        String lastRunTS = parameterService.getParameterValue(PreAssetTaggingStep.class, CabConstants.Parameters.LAST_EXTRACT_DATE);
+        String lastRunTS = parameterService.getParameterValueAsString(PreAssetTaggingStep.class, CabConstants.Parameters.LAST_EXTRACT_DATE);
         java.util.Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
         try {
             lastRunDt = lastRunTS == null ? new java.sql.Date(yesterday.getTime()) : new java.sql.Date(DateUtils.parseDate(lastRunTS, new String[] { CabConstants.DateFormats.MONTH_DAY_YEAR }).getTime());
@@ -734,11 +734,11 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR + " " + CabConstants.DateFormats.MILITARY_TIME);
-            /* RICE_20_DELETE */ parameter.setParameterValue(format.format(time));
-            /* RICE_20_DELETE */ businessObjectService.save(parameter);
-            // RICE_20_INSERT Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
-            // RICE_20_INSERT updatedParameter.setValue(format.format(time));
-            // RICE_20_INSERT parameterService.updateParameter(parameter);
+            
+            
+            Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
+            updatedParameter.setValue(format.format(time));
+            parameterService.updateParameter(parameter);
         }
     }
 
@@ -787,11 +787,11 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR);
-            /* RICE_20_DELETE */ parameter.setParameterValue(format.format(dt));
-            /* RICE_20_DELETE */ businessObjectService.save(parameter);
-            // RICE_20_INSERT Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
-            // RICE_20_INSERT updatedParameter.setValue(format.format(dt));
-            // RICE_20_INSERT parameterService.updateParameter(parameter);
+            
+            
+            Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
+            updatedParameter.setValue(format.format(dt));
+            parameterService.updateParameter(parameter);
         }
     }
 

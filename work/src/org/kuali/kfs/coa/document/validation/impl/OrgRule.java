@@ -30,16 +30,17 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class implements the business rules specific to the {@link Org} Maintenance Document.
@@ -382,7 +383,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * @return true if it does
      */
     protected boolean getOrgMustReportToSelf(Organization organization) {
-        return SpringContext.getBean(ParameterService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode()).evaluationSucceeds();
+        return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode()).evaluationSucceeds();
     }
 
     /**
@@ -481,7 +482,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                             continueSearch = false;
                         }
                         // stop the search if we reach an org that must report to itself
-                        if (continueSearch && SpringContext.getBean(ParameterService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
+                        if (continueSearch && /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
                             continueSearch = false;
                         }
 
@@ -494,7 +495,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                     success = false;
                 }
                 // org must be the only one of that type
-                String topLevelOrgTypeCode = SpringContext.getBean(ParameterService.class).getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+                String topLevelOrgTypeCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
                 List<Organization> topLevelOrgs = orgService.getActiveOrgsByType(topLevelOrgTypeCode);
                 if (!topLevelOrgs.isEmpty()) {
                     // is the new org in the topLevelOrgs list? If not, then there's an error; if so, we're editing the top level
@@ -526,7 +527,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         if (ObjectUtils.isNotNull(newOrg.getOrganizationTypeCode())) {
             String organizationTypeCode = newOrg.getOrganizationTypeCode();
-            if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
+            if (/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
                 exemptOrganizationTypeCode = true;
             }
         }
@@ -579,7 +580,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * @return true or false depending on the app configuration
      */
     protected boolean isHrmsOrgActivated() {
-        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(Organization.class, KFSConstants.ChartApcParms.APC_HRMS_ACTIVE_KEY);
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(Organization.class, KFSConstants.ChartApcParms.APC_HRMS_ACTIVE_KEY);
     }
 
     /**
@@ -609,12 +610,12 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
         String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
 
-        AttributeSet roleQualifiers = new AttributeSet();
+        Map<String,String> roleQualifiers = new HashMap<String,String>();
         roleQualifiers.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, newOrg.getChartOfAccountsCode());
 
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, Organization.class.getSimpleName());
-        permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_CHART_CODE);
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, Organization.class.getSimpleName());
+        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_CHART_CODE);
 
         IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
         Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
@@ -623,7 +624,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             return false;
         }
 
-        permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER);
+        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER);
         isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
         if (!isAuthorized) {
             LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant account.");

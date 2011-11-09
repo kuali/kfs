@@ -22,10 +22,10 @@ import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

@@ -51,15 +51,15 @@ import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -68,7 +68,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     private B2BDao b2bDao;
     private BusinessObjectService businessObjectService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private DocumentService documentService;
     private ParameterService parameterService;
     private PersistenceService persistenceService;
@@ -97,7 +97,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.B2BService#getPunchOutUrl(org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.module.purap.document.service.B2BService#getPunchOutUrl(org.kuali.rice.kim.api.identity.Person)
      */
     public String getPunchOutUrl(Person user) {
         // retrieve info for punchout (url, password, etc)
@@ -118,7 +118,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.B2BService#createRequisitionsFromCxml(org.kuali.kfs.module.purap.util.cxml.B2BParserHelper,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     public List createRequisitionsFromCxml(B2BShoppingCart message, Person user) throws WorkflowException {
         LOG.debug("createRequisitionsFromCxml() started");
@@ -203,7 +203,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setVendorName(vendor.getVendorName());
             req.setVendorRestrictedIndicator(vendor.getVendorRestrictedIndicator());
             req.setItems(itemsForVendor);
-            req.setDocumentFundingSourceCode(parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
+            req.setDocumentFundingSourceCode(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
             req.setRequisitionSourceCode(PurapConstants.RequisitionSources.B2B);
             req.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
             req.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.ELECTRONIC);
@@ -244,7 +244,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * traditional internal vendor numbers.
      */
     private boolean isDunsNumberEnabled() {
-        return parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND);
+        return parameterService.getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND);
     }
     
     /**
@@ -409,7 +409,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         this.purchasingService = purchasingService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

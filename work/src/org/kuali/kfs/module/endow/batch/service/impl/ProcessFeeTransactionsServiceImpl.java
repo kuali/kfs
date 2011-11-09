@@ -58,19 +58,19 @@ import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -91,7 +91,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected KualiRuleService kualiRuleService;
     protected NoteService noteService;
     protected PersonService personService;
-    protected KualiConfigurationService configService;
+    protected ConfigurationService configService;
     protected CurrentTaxLotService currentTaxLotService;
     protected DataDictionaryService dataDictionaryService;
     protected HoldingHistoryService holdingHistoryService;
@@ -1321,7 +1321,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if (personService == null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
@@ -1440,7 +1440,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * 
      * @return Returns the configService.
      */
-    protected KualiConfigurationService getConfigService() {
+    protected ConfigurationService getConfigService() {
         return configService;
     }
 
@@ -1449,7 +1449,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * 
      * @param configService
      */
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 

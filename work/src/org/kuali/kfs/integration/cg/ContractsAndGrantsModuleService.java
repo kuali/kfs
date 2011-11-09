@@ -18,7 +18,7 @@ package org.kuali.kfs.integration.cg;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public interface ContractsAndGrantsModuleService {
 

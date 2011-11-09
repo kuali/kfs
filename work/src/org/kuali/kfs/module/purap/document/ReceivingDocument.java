@@ -21,10 +21,10 @@ import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 public interface ReceivingDocument extends TransactionalDocument, PurapItemOperations {
@@ -193,7 +193,7 @@ public interface ReceivingDocument extends TransactionalDocument, PurapItemOpera
     
     public void setPurchaseOrderDocument(PurchaseOrderDocument po);
     
-    public void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException;
+    public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException;
 
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier();
 

@@ -24,21 +24,22 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sec.businessobject.SecurityAttributeMetadata;
-import org.kuali.kfs.sec.identity.SecKimAttributes;
+import org.kuali.kfs.sec.identity.SecKimAttributes; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.Row;
 
@@ -70,14 +71,14 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
         String attributeName = fieldValues.get(SecPropertyConstants.ATTRIBUTE_NAME);
         String templateId = fieldValues.get(SecPropertyConstants.TEMPLATE_ID);
 
-        AttributeSet additionalPermissionDetails = new AttributeSet();
+        Map<String,String> additionalPermissionDetails = new HashMap<String,String>();
         if (accessSecurityService.getInquiryWithFieldValueTemplateId().equals(templateId)) {
             String namespaceCode = fieldValues.get(SecPropertyConstants.INQUIRY_NAMESPACE_CODE);
-            additionalPermissionDetails.put(SecKimAttributes.NAMESPACE_CODE, namespaceCode);
+            additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
         }
         else if (!accessSecurityService.getLookupWithFieldValueTemplateId().equals(templateId)) {
             String documentTypeCode = fieldValues.get(SecPropertyConstants.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
-            additionalPermissionDetails.put(SecKimAttributes.DOCUMENT_TYPE_NAME, documentTypeCode);
+            additionalPermissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeCode);
         }
 
         return runSimulation(person, attributeName, templateId, additionalPermissionDetails);
@@ -94,7 +95,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
      * by retrieving the columns using data dictionary service.
      * 
      */
-    protected List<? extends BusinessObject> runSimulation(Person person, String attributeName, String templateId, AttributeSet additionalPermissionDetails) {
+    protected List<? extends BusinessObject> runSimulation(Person person, String attributeName, String templateId, Map<String,String> additionalPermissionDetails) {
         List<BusinessObject> resultRecords = new ArrayList<BusinessObject>();
 
         if (!SecConstants.ATTRIBUTE_SIMULATION_MAP.containsKey(attributeName)) {
@@ -177,7 +178,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
         }
 
         if (numCols == 0)
-            numCols = KNSConstants.DEFAULT_NUM_OF_COLUMNS;
+            numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS;
 
         rows = FieldUtils.wrapFields(fields, numCols);
     }
@@ -221,7 +222,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
             Integer fieldDefinedMaxLength = getBusinessObjectDictionaryService().getLookupResultFieldMaxLength(attributeClass, attributeName);
             if (fieldDefinedMaxLength == null) {
                 try {
-                    fieldDefinedMaxLength = Integer.valueOf(getParameterService().getParameterValue(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE, KNSConstants.RESULTS_DEFAULT_MAX_COLUMN_LENGTH));
+                    fieldDefinedMaxLength = Integer.valueOf(getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE, KRADConstants.RESULTS_DEFAULT_MAX_COLUMN_LENGTH));
                 }
                 catch (NumberFormatException ex) {
                     LOG.error("Lookup field max length parameter not found and unable to parse default set in system parameters (RESULTS_DEFAULT_MAX_COLUMN_LENGTH).");

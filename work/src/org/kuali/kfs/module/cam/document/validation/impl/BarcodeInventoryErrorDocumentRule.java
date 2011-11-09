@@ -40,17 +40,17 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business rule(s) applicable to Asset Barcode Inventory upload and Barcode inventory error document.
@@ -59,7 +59,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDocumentRule.class);
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -188,7 +188,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         Campus campus;
         HashMap<String, Object> fields = new HashMap<String, Object>();
         fields.put(KFSPropertyConstants.CAMPUS_CODE, detail.getCampusCode());
-        campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, fields);
+        campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  fields */);
 
         if (ObjectUtils.isNull(campus)) {
             GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
@@ -304,7 +304,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
 
         // Getting system parameter in order to determine whether or not the asset locks will be ignored.
         if (getParameterService().parameterExists(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS)) {
-            skipAssetLockValidation = getParameterService().getParameterValue(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS);
+            skipAssetLockValidation = getParameterService().getParameterValueAsString(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS);
         }
         else {
             LOG.warn("CAMS Parameter '" + CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS + "' not found! - Setting default value to 'N' ");
@@ -354,7 +354,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             String propertyName = errorPath + "." + fields[i];
             if (GlobalVariables.getMessageMap().containsKey(propertyName)) {
                 for (Object errorMessage : GlobalVariables.getMessageMap().getMessages(propertyName)) {
-                    String errorMsg = getKualiConfigurationService().getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
+                    String errorMsg = getConfigurationService().getPropertyValueAsString(((ErrorMessage) errorMessage).getErrorKey());
                     message += ", " + MessageFormat.format(errorMsg, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
                 }
             }

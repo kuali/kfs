@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.EXPENSE_LINE;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.PFIP_SUB_FUND_LINE;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
@@ -40,9 +40,9 @@ import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 
 /**
  * This class tests the business rules of the internal billing document. This is not implemented yet and needs to extend
@@ -72,18 +72,18 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
     public final void testIsSubFundGroupAllowed_true() throws Exception {
         AccountingLine line = EXPENSE_LINE.createSourceAccountingLine();
         line.refresh();
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         boolean actual = isSubFundGroupAllowed(new InternalBillingDocument(), line);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         assertEquals(true, actual);
     }
 
     public final void testIsSubFundGroupAllowed_false() throws Exception {
         AccountingLine line = PFIP_SUB_FUND_LINE.createSourceAccountingLine();
         line.refresh();
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         boolean actual = isSubFundGroupAllowed(new InternalBillingDocument(), line);
-        assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, RiceKeyConstants.ERROR_DOCUMENT_INVALID_VALUE_DENIED_VALUES_PARAMETER, new String[] { null, "PFIP", null, "PFRI, PFIP", null });
+        assertGlobalMessageMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, RiceKeyConstants.ERROR_DOCUMENT_INVALID_VALUE_DENIED_VALUES_PARAMETER, new String[] { null, "PFIP", null, "PFRI, PFIP", null });
         assertEquals(false, actual);
     }
     

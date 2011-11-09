@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+import java.util.ArrayList;
 
 /**
  * Business Object for Endowment Transaction table.
@@ -38,14 +38,14 @@ public class EndowmentTransactionCode extends KualiCodeBase {
      * Constructs a EndowmentTransactionCode.
      */
     public EndowmentTransactionCode() {
-        glLinks = new TypedArrayList(GLLink.class);
+        glLinks = new ArrayList<GLLink>();
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("code", this.code);
         return m;

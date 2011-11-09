@@ -25,11 +25,11 @@ import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 /**
  * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in
@@ -43,7 +43,7 @@ public class CfdaBatchStep extends AbstractStep {
     private CfdaService cfdaService;
     private MailService mailService;
     private ParameterService parameterService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     /**
      * See the class description.
      * 
@@ -55,7 +55,7 @@ public class CfdaBatchStep extends AbstractStep {
         try {
             CfdaUpdateResults results = cfdaService.update();
 
-            List<String> listservAddresses = parameterService.getParameterValues(CfdaBatchStep.class, CGConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES);
+            List<String> listservAddresses = new ArrayList<String>( parameterService.getParameterValuesAsString(CfdaBatchStep.class, CGConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES) );
             if (listservAddresses == null || listservAddresses.size() == 0) {
                 LOG.fatal("Couldn't find address to send notification to.");
                 return true;
@@ -100,7 +100,7 @@ public class CfdaBatchStep extends AbstractStep {
             builder.append(" - Message\n");
             builder.append(null != results.getMessage() ? results.getMessage() : "");
 
-            message.setSubject(getConfigurationService().getPropertyString(KFSKeyConstants.CFDA_UPDATE_EMAIL_SUBJECT_LINE));
+            message.setSubject(getConfigurationService().getPropertyValueAsString(KFSKeyConstants.CFDA_UPDATE_EMAIL_SUBJECT_LINE));
             message.setMessage(builder.toString());
             mailService.sendMessage(message);
 
@@ -148,7 +148,7 @@ public class CfdaBatchStep extends AbstractStep {
      * Gets the configurationService attribute. 
      * @return Returns the configurationService.
      */
-    public KualiConfigurationService getConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return configurationService;
     }
 
@@ -156,7 +156,7 @@ public class CfdaBatchStep extends AbstractStep {
      * Sets the configurationService attribute value.
      * @param configurationService The configurationService to set.
      */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

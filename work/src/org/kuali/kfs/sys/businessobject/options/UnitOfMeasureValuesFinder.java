@@ -22,9 +22,9 @@ import java.util.List;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Value Finder for Units Of Measure.
@@ -38,11 +38,11 @@ public class UnitOfMeasureValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         Collection<UnitOfMeasure> results = SpringContext.getBean(KeyValuesService.class).findAllOrderBy(UnitOfMeasure.class, KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_DESCRIPTION, true);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
         for (UnitOfMeasure uom : results) {
             if(uom.isActive()) {
-                labels.add(new KeyLabelPair(uom.getItemUnitOfMeasureCode(), uom.getItemUnitOfMeasureDescription()));
+                labels.add(new ConcreteKeyValue(uom.getItemUnitOfMeasureCode(), uom.getItemUnitOfMeasureDescription()));
             }
         }
         return labels;

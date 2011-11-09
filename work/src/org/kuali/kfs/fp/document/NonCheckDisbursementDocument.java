@@ -37,9 +37,9 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This is the business object that represents the NonCheckDisbursementDocument in Kuali. The "Non-Check Disbursement" document is
@@ -126,8 +126,8 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      * @return True if the accounting line given is a debit accounting line, false otherwise.
      * @throws IllegalStateException Thrown if accounting line attributes are invalid.
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
@@ -176,7 +176,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
 
         final KualiDecimal bankOffsetAmount = glpeService.getOffsetToCashAmount(this).negated();
         GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-        success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KNSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE);
+        success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KRADConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE);
 
         if (success) {
             AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);

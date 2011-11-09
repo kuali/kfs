@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.document.validation;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
 import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rule.BusinessRule;
 
 public interface AddEndowmentAccountingLineRule<E extends EndowmentAccountingLinesDocument, D extends EndowmentAccountingLine> extends BusinessRule {
 

@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
     
@@ -31,8 +31,8 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
     private KualiDecimal documentPaymentAmount;
     private KualiDecimal unpaidUnappliedAmount;
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
 

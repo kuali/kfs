@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
 /**
  * Specialization of HashMap to facilitate web services and simplify API definitions.

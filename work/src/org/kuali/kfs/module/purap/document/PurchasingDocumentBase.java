@@ -57,16 +57,16 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * Base class for Purchasing Documents.
@@ -176,8 +176,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public PurchasingDocumentBase() {
         super();
         
-        purchasingCapitalAssetItems = new TypedArrayList(getPurchasingCapitalAssetItemClass());
-        purchasingCapitalAssetSystems = new TypedArrayList(getPurchasingCapitalAssetSystemClass());
+        purchasingCapitalAssetItems = new ArrayList();
+        purchasingCapitalAssetSystems = new ArrayList();
     }
 
     public abstract PurchasingDocumentSpecificService getDocumentSpecificService();
@@ -355,7 +355,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getBillingCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getBillingCountryCode());
+        Country country = SpringContext.getBean(CountryService.class).getCountry(getBillingCountryCode());
         //if (country == null)
         //    country = SpringContext.getBean(CountryService.class).getDefaultCountry();
         if (country != null)
@@ -428,7 +428,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getReceivingCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getReceivingCountryCode());
+        Country country = SpringContext.getBean(CountryService.class).getCountry(getReceivingCountryCode());
         //if (country == null)
         //    country = SpringContext.getBean(CountryService.class).getDefaultCountry();
         if (country != null)
@@ -561,7 +561,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getDeliveryCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getDeliveryCountryCode());
+        Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
         if (country != null)
             return country.getPostalCountryName();
         return null;
@@ -1204,7 +1204,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      * Overrides the method in PurchasingAccountsPayableDocumentBase to remove the
      * purchasingCapitalAssetSystem when the system type is either ONE or MULT.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -1229,8 +1229,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public void clearCapitalAssetFields() {
-        this.setPurchasingCapitalAssetItems(new TypedArrayList(getPurchasingCapitalAssetItemClass()));
-        this.setPurchasingCapitalAssetSystems(new TypedArrayList(getPurchasingCapitalAssetSystemClass()));
+        this.setPurchasingCapitalAssetItems(new ArrayList(getPurchasingCapitalAssetItemClass()));
+        this.setPurchasingCapitalAssetSystems(new ArrayList(getPurchasingCapitalAssetSystemClass()));
         this.setCapitalAssetSystemStateCode(null);
         this.setCapitalAssetSystemTypeCode(null);
         this.setCapitalAssetSystemState(null);

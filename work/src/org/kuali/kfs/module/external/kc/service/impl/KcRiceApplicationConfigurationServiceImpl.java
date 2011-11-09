@@ -18,6 +18,6 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import org.kuali.kfs.module.external.kc.service.KcRiceApplicationConfigurationService;
 
 
-public class KcRiceApplicationConfigurationServiceImpl extends org.kuali.rice.kns.service.impl.RiceApplicationConfigurationServiceImpl implements KcRiceApplicationConfigurationService {
+public class KcRiceApplicationConfigurationServiceImpl extends org.kuali.rice.krad.service.impl.RiceApplicationConfigurationServiceImpl implements KcRiceApplicationConfigurationService {
 
 }

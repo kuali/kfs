@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.exception;
 /**
  * this class represents an exception that is thrown when a piece of the <code>AccountingLineParser</code> fails
  * 
- * @see org.kuali.rice.kns.bo.AccountingLineParser
+ * @see org.kuali.rice.krad.bo.AccountingLineParser
  */
 public class AccountingLineParserException extends RuntimeException {
 

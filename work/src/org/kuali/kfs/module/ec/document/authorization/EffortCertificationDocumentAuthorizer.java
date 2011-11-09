@@ -20,13 +20,14 @@ import java.util.Set;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.kim.api.identity.Person;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -37,8 +38,8 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
     /**
      * Overridden to check if document error correction can be allowed here.
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document,
+     *      org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
@@ -46,12 +47,12 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
         
         String principalId = UserSession.getAuthenticatedUser().getPrincipalId();
         try {
-            if (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+            if (document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
                 Set<Person> priorApprovers = document.getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
                 for (Person priorApprover : priorApprovers) {
                     if (principalId.equals(priorApprover.getPrincipalId())) {
-                        documentActionsToReturn.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
-                        documentActionsToReturn.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
+                        documentActionsToReturn.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+                        documentActionsToReturn.add(KRADConstants.KUALI_ACTION_CAN_SAVE);
                     }
                  }
             }

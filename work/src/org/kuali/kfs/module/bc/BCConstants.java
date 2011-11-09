@@ -549,7 +549,7 @@ public class BCConstants extends JSTLConstants {
         public static final String SYSTEM_VIEW_ONLY = "systemViewOnly";
     }
     
-    public class KimConstants {
+    public class KimApiConstants {
         public static final String BC_PROCESSOR_ROLE_NAME = "Processor";
         public static final String USE_ORG_SALARY_SETTING_PERMISSION_NAME = "Use Organization Salary Setting";
         public static final String EDIT_BCAF_PERMISSION_NAME = "Edit Appointment Funding";

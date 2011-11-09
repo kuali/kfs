@@ -21,12 +21,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Base lookupable helper service for budget selection lookups.
@@ -62,13 +62,13 @@ public class SelectLookupableHelperServiceImpl extends KualiLookupableHelperServ
      * will not have the Rice context (kr/) and be invalid. This override adds the Rice context to the inquiry Url to working
      * around the issue.
      * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         AnchorHtmlData inquiryHref = (AnchorHtmlData)super.getInquiryUrl(bo, propertyName);
-        inquiryHref.setHref(StringUtils.replace(inquiryHref.getHref(), KNSConstants.INQUIRY_ACTION, KFSConstants.INQUIRY_ACTION));
+        inquiryHref.setHref(StringUtils.replace(inquiryHref.getHref(), KRADConstants.INQUIRY_ACTION, KFSConstants.INQUIRY_ACTION));
 
         return inquiryHref;
     }

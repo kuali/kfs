@@ -33,10 +33,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 public class PaymentRequestDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
@@ -96,13 +96,13 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canEdit(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         boolean fullDocEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
         //  fiscal officer review gets the doc editable once its enroute, but no one else does
         if (fullDocEntryCompleted) {
@@ -118,7 +118,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         }
 
         //  in general, the doc should not be editable once its enroute
-        if (workflowDocument.stateIsEnroute() || workflowDocument.stateIsException()) {
+        if (workflowDocument.isEnroute() || workflowDocument.isException()) {
             return false; 
         }
         return super.canEdit(document);
@@ -126,12 +126,12 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
     /**
      * 
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
         
         if (canProcessorCancel(paymentRequestDocument)) {
@@ -179,7 +179,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         }
 
         // See if purap tax is enabled
-        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             editModes.add(PaymentRequestEditMode.PURAP_TAX_ENABLED);
 

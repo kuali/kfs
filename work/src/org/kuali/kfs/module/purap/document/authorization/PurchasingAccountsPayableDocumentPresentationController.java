@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.document.authorization;
 
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 
 public class PurchasingAccountsPayableDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
@@ -24,7 +24,7 @@ public class PurchasingAccountsPayableDocumentPresentationController extends Fin
     /**
      * None of the PURAP documents allowing editing by adhoc requests
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canEdit(Document document) {

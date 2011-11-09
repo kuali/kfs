@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewOverrideField
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.kfs.sys.document.web.renderers.OverrideFieldRenderer;
 import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**

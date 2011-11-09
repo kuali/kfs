@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class AssetDepreciationTransaction extends TransientBusinessObjectBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransientBusinessObjectBase.class);
@@ -36,20 +36,20 @@ public class AssetDepreciationTransaction extends TransientBusinessObjectBase {
     protected KualiDecimal transactionAmount;
     protected String transactionLedgerEntryDescription;
 
-    /* RICE_20_DELETE */ @Override
-    /* RICE_20_DELETE */ protected LinkedHashMap<String, Object> toStringMapper() {
-        /* RICE_20_DELETE */ LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        /* RICE_20_DELETE */ m.put("AssetNumber", this.capitalAssetNumber);
-        /* RICE_20_DELETE */ m.put("accountNumber", this.accountNumber);
-        /* RICE_20_DELETE */ m.put("subAccountNumber", this.subAccountNumber);
-        /* RICE_20_DELETE */ m.put("financialObjectCode", this.financialObjectCode);
-        /* RICE_20_DELETE */ m.put("financialSubObjectCode", this.financialSubObjectCode);
-        /* RICE_20_DELETE */ m.put("financialObjectTypeCode", this.financialObjectTypeCode);
-        /* RICE_20_DELETE */ m.put(" projectCode", this.projectCode);
-        /* RICE_20_DELETE */ m.put("transactionType", this.transactionType);
-        /* RICE_20_DELETE */ m.put("transactionAmount", this.transactionAmount);
-        /* RICE_20_DELETE */ return m;
-    /* RICE_20_DELETE */ }
+    
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
 
 
     public Long getCapitalAssetNumber() {

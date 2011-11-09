@@ -36,11 +36,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.web.format.SimpleBooleanFormatter;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 /**
  * This class is the action form for the Disbursement Voucher.
@@ -163,7 +163,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      * @return the per diem link message from the parameters table.
      */
     public String getTravelPerDiemLinkPageMessage() {
-        return SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
     }
 
     /**
@@ -401,7 +401,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      */
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER)) {
+        if (StringUtils.equals(methodToCallParameterName, KRADConstants.DISPATCH_REQUEST_PARAMETER)) {
             if (this.getExcludedmethodToCall().contains(methodToCallParameterValue)) {
                 return true;
             }

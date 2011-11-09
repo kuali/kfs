@@ -90,7 +90,7 @@
     <property name="name" value="targetAmount"/>
     <property name="label" value="Target Amount"/>
     <property name="required" value="false"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
 
   <bean id="EndowmentRecurringCashTransferKEMIDTarget-targetPercent" parent="EndowmentRecurringCashTransferKEMIDTarget-targetPercent-parentBean"/>

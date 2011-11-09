@@ -75,6 +75,6 @@
   <!-- workflow attributes -->
   <bean id="OffsetDefinitionMaintenanceDocument-workflowAttributes" parent="OffsetDefinitionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="OffsetDefinitionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="OffsetDefinitionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
   
 </beans>

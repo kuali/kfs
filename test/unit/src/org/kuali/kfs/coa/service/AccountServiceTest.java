@@ -19,7 +19,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This class tests the Account service.
@@ -62,10 +62,10 @@ public class AccountServiceTest extends KualiTestBase {
      */
     // TODO this test uses hardcoded tests...how do we move to fixtures
     public void testAccountResponsibility() {
-            Person rorenfro = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName("rorenfro");
-            Person jaraujo = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName("jaraujo");
-            Person rmunroe = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName("rmunroe");
-            Person kcopley = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName("kcopley");
+            Person rorenfro = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName("rorenfro");
+            Person jaraujo = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName("jaraujo");
+            Person rmunroe = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName("rmunroe");
+            Person kcopley = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName("kcopley");
 
             Account bl1031400 = SpringContext.getBean(AccountService.class).getByPrimaryId("BL", "1031400");
             Account ba9021104 = SpringContext.getBean(AccountService.class).getByPrimaryId("BA", "9021104");

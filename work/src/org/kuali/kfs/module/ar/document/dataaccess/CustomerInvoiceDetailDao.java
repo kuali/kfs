@@ -22,8 +22,8 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.springframework.dao.DataAccessException;
 
 public interface CustomerInvoiceDetailDao {

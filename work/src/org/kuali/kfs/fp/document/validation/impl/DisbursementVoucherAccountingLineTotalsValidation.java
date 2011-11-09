@@ -27,12 +27,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class DisbursementVoucherAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineTotalsValidation.class);
@@ -65,7 +65,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
                     return true;
                 }
                 // KFSMI- 5183
-                if (persistedDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved() && persistedDocument.getDisbVchrCheckTotalAmount().isZero()) return true;
+                if (persistedDocument.getDocumentHeader().getWorkflowDocument().isSaved() && persistedDocument.getDisbVchrCheckTotalAmount().isZero()) return true;
                                    
                 // check total cannot decrease
                 if (persistedDocument.getDisbVchrCheckTotalAmount().isLessThan(dvDocument.getDisbVchrCheckTotalAmount())) {

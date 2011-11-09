@@ -19,8 +19,8 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 
 public interface PurApWorkflowIntegrationService {
 

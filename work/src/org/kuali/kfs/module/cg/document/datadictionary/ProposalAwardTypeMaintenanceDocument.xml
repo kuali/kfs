@@ -61,5 +61,5 @@
     <!-- workflow attributes -->
   <bean id="ProposalAwardTypeMaintenanceDocument-workflowAttributes" parent="ProposalAwardTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="ProposalAwardTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="ProposalAwardTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * returns valid effort reporting fiscal periods 1 - 12
@@ -33,9 +33,9 @@ public class AchBankTypeCodeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List keyValues = new ArrayList();
         
-        keyValues.add(new KeyLabelPair(PdpConstants.AchBankTypeCodes.AchBankTypeCode_0, PdpConstants.AchBankTypeCodes.AchBankTypeCode_0));
-        keyValues.add(new KeyLabelPair(PdpConstants.AchBankTypeCodes.AchBankTypeCode_1, PdpConstants.AchBankTypeCodes.AchBankTypeCode_1));
-        keyValues.add(new KeyLabelPair(PdpConstants.AchBankTypeCodes.AchBankTypeCode_2, PdpConstants.AchBankTypeCodes.AchBankTypeCode_2));
+        keyValues.add(new ConcreteKeyValue(PdpConstants.AchBankTypeCodes.AchBankTypeCode_0, PdpConstants.AchBankTypeCodes.AchBankTypeCode_0));
+        keyValues.add(new ConcreteKeyValue(PdpConstants.AchBankTypeCodes.AchBankTypeCode_1, PdpConstants.AchBankTypeCodes.AchBankTypeCode_1));
+        keyValues.add(new ConcreteKeyValue(PdpConstants.AchBankTypeCodes.AchBankTypeCode_2, PdpConstants.AchBankTypeCodes.AchBankTypeCode_2));
         
         return keyValues;
     }

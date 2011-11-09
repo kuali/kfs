@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CreditCardType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class...
@@ -48,12 +48,12 @@ public class CreditCardTypeValuesFinder extends KeyValuesBase {
         Collections.sort(codes, new CreditCardTypeComparator());
 
         // create a new list (code, name)
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", "")); // blank first entry
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", "")); // blank first entry
 
         for (CreditCardType creditCardType : codes) {
             if(creditCardType.isActive()) {
-                labels.add(new KeyLabelPair(creditCardType.getFinancialDocumentCreditCardTypeCode(), creditCardType.getFinancialDocumentCreditCardTypeCode() + "-" + creditCardType.getFinancialDocumentCreditCardCompanyName()));
+                labels.add(new ConcreteKeyValue(creditCardType.getFinancialDocumentCreditCardTypeCode(), creditCardType.getFinancialDocumentCreditCardTypeCode() + "-" + creditCardType.getFinancialDocumentCreditCardCompanyName()));
             }
         }
 

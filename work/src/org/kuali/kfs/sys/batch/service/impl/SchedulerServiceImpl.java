@@ -39,11 +39,11 @@ import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BatchModuleService;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.ObjectAlreadyExistsException;
@@ -221,7 +221,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             else {
                 scheduleCutoffTime = dateTimeService.getCalendar(scheduleCutoffTimeTemp);
             }
-            String[] scheduleStepCutoffTime = StringUtils.split(parameterService.getParameterValue(ScheduleStep.class, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME), ":");
+            String[] scheduleStepCutoffTime = StringUtils.split(parameterService.getParameterValueAsString(ScheduleStep.class, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME), ":");
             scheduleCutoffTime.set(Calendar.HOUR, Integer.parseInt(scheduleStepCutoffTime[0]));
             scheduleCutoffTime.set(Calendar.MINUTE, Integer.parseInt(scheduleStepCutoffTime[1]));
             scheduleCutoffTime.set(Calendar.SECOND, Integer.parseInt(scheduleStepCutoffTime[2]));
@@ -231,7 +231,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             else {
                 scheduleCutoffTime.set(Calendar.AM_PM, Calendar.PM);
             }
-            if (parameterService.getIndicatorParameter(ScheduleStep.class, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY)) {
+            if (parameterService.getParameterValueAsBoolean(ScheduleStep.class, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY)) {
                 scheduleCutoffTime.add(Calendar.DAY_OF_YEAR, 1);
             }
             boolean isPastScheduleCutoffTime = dateTime.after(scheduleCutoffTime);

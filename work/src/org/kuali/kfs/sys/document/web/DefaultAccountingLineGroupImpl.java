@@ -33,8 +33,8 @@ import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.GroupTitleLineRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
 import org.kuali.kfs.sys.document.web.renderers.RepresentedCellCurious;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * This represents an accounting line group in renderable state
@@ -348,9 +348,9 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
      * Determines if the current document is enrouted
      */
     private boolean isDocumentEnrouted() {
-        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
 
-        return !workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved();
+        return !workflowDocument.isInitiated() && !workflowDocument.isSaved();
     }
     
     /**

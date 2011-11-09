@@ -24,7 +24,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.dataaccess.ObjectTypeDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class ObjectTypeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectTypeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectTypeDaoOjb.class);

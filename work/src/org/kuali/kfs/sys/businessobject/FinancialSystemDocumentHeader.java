@@ -19,9 +19,9 @@ import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class is a custom {@link DocumentHeader} class used by KFS to facilitate custom data fields and a few UI fields
@@ -45,9 +45,9 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
 //    /**
 //     * @return null if {@link #getDocumentTemplateNumber()} returns a non-blank value
 //     */
-//    public KeyLabelPair getAdditionalDocId1() {
+//    public KeyValue getAdditionalDocId1() {
 //        if (StringUtils.isNotBlank(getFinancialDocumentInErrorNumber())) {
-//            return new KeyLabelPair("DataDictionary.FinancialSystemDocumentHeader.attributes.financialDocumentInErrorNumber", getFinancialDocumentInErrorNumber());
+//            return new ConcreteKeyValue("DataDictionary.FinancialSystemDocumentHeader.attributes.financialDocumentInErrorNumber", getFinancialDocumentInErrorNumber());
 //        }
 //        return super.getAdditionalDocId1();
 //    }
@@ -55,9 +55,9 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
 //    /**
 //     * @return null
 //     */
-//    public KeyLabelPair getAdditionalDocId2() {
+//    public KeyValue getAdditionalDocId2() {
 //        if (StringUtils.isNotBlank(getCorrectedByDocumentId())) {
-//            return new KeyLabelPair("DataDictionary.FinancialSystemDocumentHeader.attributes.correctedByDocumentId", getCorrectedByDocumentId());
+//            return new ConcreteKeyValue("DataDictionary.FinancialSystemDocumentHeader.attributes.correctedByDocumentId", getCorrectedByDocumentId());
 //        }
 //        return super.getAdditionalDocId2();
 //    }
@@ -131,7 +131,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
      * @return Returns the documentFinalDate.
      */
     public Date getDocumentFinalDate() {
-        return  new java.sql.Date(this.getWorkflowDocument().getRouteHeader().getDateFinalized().getTime().getTime());
+        return  new java.sql.Date(this.getWorkflowDocument().getDateFinalized().getTime().getTime());
     }
 
 }

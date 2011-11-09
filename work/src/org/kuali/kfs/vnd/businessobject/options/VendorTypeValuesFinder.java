@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Values Finder for <code>VendorType</code>.
@@ -32,22 +32,22 @@ import org.kuali.rice.core.util.KeyLabelPair;
  */
 public class VendorTypeValuesFinder extends KeyValuesBase {
 
-    private static List<KeyLabelPair> labels = null;
+    private static List<KeyValue> labels = null;
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         if (labels == null) {
             synchronized (this.getClass()) {
                 if (labels == null) {
                     KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
                     Collection<VendorType> codes = boService.findAll(VendorType.class);
-                    List<KeyLabelPair> tempLabels = new ArrayList<KeyLabelPair>();
-                    tempLabels.add(new KeyLabelPair("", ""));
+                    List<KeyValue> tempLabels = new ArrayList<KeyValue>();
+                    tempLabels.add(new ConcreteKeyValue("", ""));
                     for (VendorType vt : codes) {
                         if (vt.isActive()) {
-                            tempLabels.add(new KeyLabelPair(vt.getVendorTypeCode(), vt.getVendorTypeDescription()));
+                            tempLabels.add(new ConcreteKeyValue(vt.getVendorTypeCode(), vt.getVendorTypeDescription()));
                         }
                     }
                     labels = tempLabels;

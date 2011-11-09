@@ -37,8 +37,8 @@ import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.report.service.TransactionStatementReportService;
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder.TransactionArchiveInfo;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

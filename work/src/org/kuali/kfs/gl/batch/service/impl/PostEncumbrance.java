@@ -32,9 +32,9 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -162,7 +162,7 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
      */
     public void updateEncumbrance(Transaction t, Encumbrance enc) {
         //KFSMI-1571 - check parameter encumbranceOpenAmountOeverridingDocTypes
-        String[] encumbranceOpenAmountOeverridingDocTypes = parameterService.getParameterValues(PosterEntriesStep.class, GeneralLedgerConstants.PosterService.ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES).toArray(new String[] {});
+        String[] encumbranceOpenAmountOeverridingDocTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(PosterEntriesStep.class, GeneralLedgerConstants.PosterService.ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES).toArray(new String[] {}) );
 
         if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()) && !ArrayUtils.contains(encumbranceOpenAmountOeverridingDocTypes, t.getFinancialDocumentTypeCode())) {
             // If using referring doc number, add or subtract transaction amount from

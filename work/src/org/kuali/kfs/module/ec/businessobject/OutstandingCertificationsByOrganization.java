@@ -24,10 +24,10 @@ import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
@@ -73,7 +73,7 @@ public class OutstandingCertificationsByOrganization extends EffortCertification
         try {
             List<String> approverUUIDs = SpringContext.getBean(KualiWorkflowInfo.class).getApprovalRequestedUsers(Long.valueOf(getDocumentHeader().getDocumentNumber()));
             for (String approverUUID : approverUUIDs) {
-                Person approveUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(approverUUID);
+                Person approveUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(approverUUID);
                 if (approveUser == null) {
                     LOG.error("User information not found for UUID: " + approverUUID);
                 }

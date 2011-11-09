@@ -33,9 +33,9 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
@@ -100,15 +100,15 @@ public class TestUtils {
         }
         
         // Rice 1.0.3.3
-        /* RICE_20_DELETE */ Parameter parameter = getParameterService().retrieveParameter(getParameterService().getNamespace(componentClass), getParameterService().getDetailType(componentClass), parameterName);
-        /* RICE_20_DELETE */ parameter.setParameterValue(parameterText);
-        /* RICE_20_DELETE */ SpringContext.getBean(BusinessObjectService.class).save(parameter);
-        /* RICE_20_DELETE */ getParameterService().clearCache();        
+        
+        
+        
+        
         // Rice 2.0
-        // RICE_20_INSERT Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
-        // RICE_20_INSERT Parameter.Builder pb = Parameter.Builder.create(parameter);
-        // RICE_20_INSERT pb.setValue(parameterText);
-        // RICE_20_INSERT getParameterService().updateParameter(parameter);
+        Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
+        Parameter.Builder pb = Parameter.Builder.create(parameter);
+        pb.setValue(parameterText);
+        getParameterService().updateParameter(parameter);
     }
     
     /**

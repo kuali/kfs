@@ -52,11 +52,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -85,7 +85,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance()
      */
     public void forwardBalance() {
-        Integer fiscalYear = Integer.valueOf(parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, YearEnd.OLD_FISCAL_YEAR));
+        Integer fiscalYear = Integer.valueOf(parameterService.getParameterValueAsString(LaborYearEndBalanceForwardStep.class, YearEnd.OLD_FISCAL_YEAR));
         this.forwardBalance(fiscalYear);
     }
 
@@ -277,7 +277,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the fund group codes that are acceptable by year-end process
      */
     protected List<String> getFundGroupProcessed() {
-        return parameterService.getParameterValues(LaborYearEndBalanceForwardStep.class, YearEnd.FUND_GROUP_PROCESSED);
+        return parameterService.getParameterValuesAsString(LaborYearEndBalanceForwardStep.class, YearEnd.FUND_GROUP_PROCESSED);
     }
 
     /**
@@ -286,7 +286,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the fund group codes that are acceptable by year-end process
      */
     protected List<String> getSubFundGroupProcessed() {
-        return parameterService.getParameterValues(LaborYearEndBalanceForwardStep.class, YearEnd.SUB_FUND_GROUP_PROCESSED);
+        return parameterService.getParameterValuesAsString(LaborYearEndBalanceForwardStep.class, YearEnd.SUB_FUND_GROUP_PROCESSED);
     }
 
     /**
@@ -376,7 +376,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the document type code of the transaction posted by year-end process
      */
     protected String getDocumentTypeCode() {
-        return parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
+        return parameterService.getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
     }
 
     /**
@@ -385,7 +385,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the origination code of the transaction posted by year-end process
      */
     protected String getOriginationCode() {
-        return parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, YearEnd.ORIGINATION_CODE);
+        return parameterService.getParameterValueAsString(LaborYearEndBalanceForwardStep.class, YearEnd.ORIGINATION_CODE);
     }
 
     /**
@@ -394,7 +394,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the description of the transaction posted by year-end process
      */
     protected String getDescription() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(LaborKeyConstants.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(LaborKeyConstants.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
     }
 
     /**

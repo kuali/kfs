@@ -23,12 +23,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This lookupable helper service is used to support lookups on the Threshold BO because it deals with the vendor number,
@@ -149,9 +149,9 @@ public class ThresholdLookupableHelperService extends AbstractLookupableHelperSe
 
         boolean searchUsingOnlyPrimaryKeyValues = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
 
-        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
         List searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
         // sort list if default sort column given
         List defaultSortColumns = getDefaultSortColumns();

@@ -25,11 +25,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class PaymentRequestPayDateNotPastValidation extends GenericValidation {
 
@@ -50,8 +50,8 @@ public class PaymentRequestPayDateNotPastValidation extends GenericValidation {
         java.sql.Date paymentRequestPayDate = document.getPaymentRequestPayDate();
         if (ObjectUtils.isNotNull(paymentRequestPayDate) && purapService.isDateInPast(paymentRequestPayDate)) {
             // the pay date is in the past, now we need to check whether given the state of the document to determine whether a past pay date is allowed
-            KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument(); 
-            if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument(); 
+            if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
                 // past pay dates are not allowed if the document has never been routed (i.e. in saved or initiated state)
                 // (note that this block will be run when a document is being routed, or re-saved after being routed
                 valid &= false;

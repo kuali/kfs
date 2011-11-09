@@ -25,11 +25,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 

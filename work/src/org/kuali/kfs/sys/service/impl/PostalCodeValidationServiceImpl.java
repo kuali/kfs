@@ -21,10 +21,10 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.PostalCodeValidationService;
-import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Service implementation for the PostalCodeBase structure. This is the default implementation, that is delivered with Kuali.
@@ -33,12 +33,12 @@ import org.kuali.rice.kns.util.GlobalVariables;
 @NonTransactional
 public class PostalCodeValidationServiceImpl implements PostalCodeValidationService {
 
-    public boolean validateAddress(String postalCountryCode, String postalStateCode, String postalCode, String statePropertyConstant, String postalCodePropertyConstant) {
+    public boolean validateAddress(String postalCountryCode, String stateCode, String postalCode, String statePropertyConstant, String postalCodePropertyConstant) {
         boolean valid = true;
 
         if (StringUtils.equals(KFSConstants.COUNTRY_CODE_UNITED_STATES, postalCountryCode)) {
 
-            if (StringUtils.isBlank(postalStateCode)) {
+            if (StringUtils.isBlank(stateCode)) {
                 valid &= false;
                 if (StringUtils.isNotBlank(statePropertyConstant)) {
                     GlobalVariables.getMessageMap().putError(statePropertyConstant, KFSKeyConstants.ERROR_US_REQUIRES_STATE);
@@ -64,10 +64,10 @@ public class PostalCodeValidationServiceImpl implements PostalCodeValidationServ
         }
 
         // verify state code exist
-        if (StringUtils.isNotBlank(postalCountryCode) && StringUtils.isNotBlank(postalStateCode)) {
-            State state = SpringContext.getBean(StateService.class).getByPrimaryId(postalCountryCode, postalStateCode);
+        if (StringUtils.isNotBlank(postalCountryCode) && StringUtils.isNotBlank(stateCode)) {
+            State state = SpringContext.getBean(StateService.class).getState(postalCountryCode, stateCode);
             if (state == null) {
-                GlobalVariables.getMessageMap().putError(statePropertyConstant, KFSKeyConstants.ERROR_STATE_CODE_INVALID, postalStateCode);
+                GlobalVariables.getMessageMap().putError(statePropertyConstant, KFSKeyConstants.ERROR_STATE_CODE_INVALID, stateCode);
             }
         }
         

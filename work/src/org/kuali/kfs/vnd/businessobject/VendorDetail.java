@@ -28,12 +28,12 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.LookupService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * Contains all data for a specific parent or division Vendor, including a link to the <code>VendorHeader</code>, which only
@@ -108,14 +108,14 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
      */
     public VendorDetail() {
         vendorHeader = new VendorHeader();
-        vendorAddresses = new TypedArrayList(VendorAddress.class);
-        vendorAliases = new TypedArrayList(VendorAlias.class);
-        vendorContacts = new TypedArrayList(VendorContact.class);
-        vendorContracts = new TypedArrayList(VendorContract.class);
-        vendorCustomerNumbers = new TypedArrayList(VendorCustomerNumber.class);
-        vendorPhoneNumbers = new TypedArrayList(VendorPhoneNumber.class);
-        vendorShippingSpecialConditions = new TypedArrayList(VendorShippingSpecialCondition.class);
-        vendorCommodities = new TypedArrayList(VendorCommodityCode.class);
+        vendorAddresses = new ArrayList<VendorAddress>();
+        vendorAliases = new ArrayList<VendorAlias>();
+        vendorContacts = new ArrayList<VendorContact>();
+        vendorContracts = new ArrayList<VendorContract>();
+        vendorCustomerNumbers = new ArrayList<VendorCustomerNumber>();
+        vendorPhoneNumbers = new ArrayList<VendorPhoneNumber>();
+        vendorShippingSpecialConditions = new ArrayList<VendorShippingSpecialCondition>();
+        vendorCommodities = new ArrayList<VendorCommodityCode>();
         vendorParentIndicator = true;
 
     }
@@ -601,7 +601,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public Person getVendorRestrictedPerson() {
-        vendorRestrictedPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
+        vendorRestrictedPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
         return vendorRestrictedPerson;
     }
 
@@ -763,9 +763,9 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());

@@ -28,8 +28,8 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl;
-import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.impl.ParameterServiceImpl;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class PaymentSummaryServiceTest extends KualiTestBase {
 
@@ -49,7 +49,7 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
         paymentSummaryService.setParameterService(new ParameterServiceImpl() {
             @SuppressWarnings("unchecked")
             @Override
-            public List<String> getParameterValues(Class componentClass, String parameterName) {
+            public List<String> getParameterValuesAsString(Class componentClass, String parameterName) {
                 List<String> list = new ArrayList<String>();
                 list.add("BF");
                 return list;

@@ -29,13 +29,13 @@ import org.kuali.kfs.pdp.businessobject.ACHPayee;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.util.KIMPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
@@ -87,7 +87,7 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
     /**
      * Override to set entity id as the payee id and set the pdp payee type
      * 
-     * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getPayeeFromPerson(org.kuali.rice.kim.bo.Person,
+     * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getPayeeFromPerson(org.kuali.rice.kim.api.identity.Person,
      *      java.util.Map)
      */
     @Override

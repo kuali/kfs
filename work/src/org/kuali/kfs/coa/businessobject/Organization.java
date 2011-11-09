@@ -25,24 +25,24 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * 
  */
-public class Organization extends PersistableBusinessObjectBase implements Inactivateable {
+public class Organization extends PersistableBusinessObjectBase implements Inactivatable {
     private static final Logger LOG = Logger.getLogger(Organization.class);
 
     private static final long serialVersionUID = 121873645110037203L;
@@ -290,7 +290,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     }
 
     public Person getOrganizationManagerUniversal() {
-        organizationManagerUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
+        organizationManagerUniversal = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
         return organizationManagerUniversal;
     }
 
@@ -329,7 +329,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @return Returns the organizationPhysicalCampus
      */
     public Campus getOrganizationPhysicalCampus() {
-        return organizationPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, organizationPhysicalCampus, "organizationPhysicalCampus");
+        return organizationPhysicalCampus = StringUtils.isBlank( organizationPhysicalCampusCode)?null:((organizationPhysicalCampus!=null && organizationPhysicalCampus.getCode().equals( organizationPhysicalCampusCode))?organizationPhysicalCampus:SpringContext.getBean(CampusService.class).getCampus( organizationPhysicalCampusCode));
     }
 
     /**
@@ -481,7 +481,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @return Returns the organizationCountry.
      */
     public Country getOrganizationCountry() {
-        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(organizationCountryCode, organizationCountry);
+        organizationCountry = (organizationCountryCode == null)?null:( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode))?SpringContext.getBean(CountryService.class).getCountry(organizationCountryCode): organizationCountry;
         return organizationCountry;
     }
 
@@ -677,7 +677,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @return Returns the postalZip.
      */
     public PostalCode getPostalZip() {
-        postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(organizationCountryCode, organizationZipCode, postalZip);
+        postalZip = (StringUtils.isBlank(organizationCountryCode) || StringUtils.isBlank( organizationZipCode))?null:( postalZip == null || !StringUtils.equals( postalZip.getCountryCode(),organizationCountryCode)|| !StringUtils.equals( postalZip.getCode(), organizationZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(organizationCountryCode, organizationZipCode): postalZip;
         return postalZip;
     }
 
@@ -745,9 +745,9 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
@@ -866,7 +866,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
         params.put("active_ind", "true");
         params.put("ruleTemplateName", "KualiOrgReviewTemplate");
 
-        return UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
+        return UrlFactory.parameterizeUrl(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
     }
 
     /**
@@ -940,7 +940,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
      */
     @Override
     public void refreshReferenceObject(String referenceObjectName) {

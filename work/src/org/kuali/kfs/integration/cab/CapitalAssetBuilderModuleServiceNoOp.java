@@ -26,7 +26,7 @@ import org.kuali.kfs.integration.purap.ExternalPurApItem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilderModuleService {
 

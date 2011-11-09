@@ -61,6 +61,6 @@
   <!-- workflow attributes -->
   <bean id="BalanceTypeMaintenanceDocument-workflowAttributes" parent="BalanceTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="BalanceTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="BalanceTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

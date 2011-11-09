@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ld;
 
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
+import org.kuali.rice.krad.authorization.AuthorizationConstants.EditMode;
 
 public class LaborAuthorizationConstants extends JSTLConstants {
 

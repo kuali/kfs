@@ -70,7 +70,7 @@
         </dd:relationship>
         <dd:relationship objectAttribute="retirementState">
             <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="retirementStateCode" target="postalStateCode"/>            
+            <dd:primitiveAttribute source="retirementStateCode" target="stateCode"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="retirementCountry">
             <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode"/>
@@ -210,7 +210,7 @@
     <property name="label" value="State Code"/>
     <property name="shortLabel" value="Code"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.StateValuesFinder"/>
     </property>
   </bean>
   
@@ -226,7 +226,7 @@
     <property name="name" value="retirementCountryCode"/>
     <property name="label" value="Country Code"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryValuesFinder"/>
     </property>
   </bean>
   
@@ -241,7 +241,7 @@
     <property name="name" value="estimatedSellingPrice"/>
     <property name="label" value="Estimated Selling Price"/>
     <property name="shortLabel" value="Price"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-salePrice" parent="AssetRetirementGlobal-salePrice-parentBean"/>
@@ -249,7 +249,7 @@
     <property name="name" value="salePrice"/>
     <property name="label" value="Sale Price"/>
     <property name="shortLabel" value="Price"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-cashReceiptFinancialDocumentNumber" parent="AssetRetirementGlobal-cashReceiptFinancialDocumentNumber-parentBean"/>
@@ -264,7 +264,7 @@
     <property name="name" value="handlingFeeAmount"/>
     <property name="label" value="Handling Fee Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-preventiveMaintenanceAmount" parent="AssetRetirementGlobal-preventiveMaintenanceAmount-parentBean"/>
@@ -272,7 +272,7 @@
     <property name="name" value="preventiveMaintenanceAmount"/>
     <property name="label" value="Preventive Maintenance Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-calculatedTotal" parent="AssetRetirementGlobal-calculatedTotal-parentBean"/>
@@ -280,7 +280,7 @@
     <property name="name" value="calculatedTotal"/>
     <property name="label" value="Calculated Total"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-buyerDescription" parent="AssetRetirementGlobal-buyerDescription-parentBean"/>

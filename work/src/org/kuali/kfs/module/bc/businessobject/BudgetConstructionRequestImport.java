@@ -17,7 +17,7 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class BudgetConstructionRequestImport extends TransientBusinessObjectBase {
     private String fileName;
@@ -135,8 +135,8 @@ public class BudgetConstructionRequestImport extends TransientBusinessObjectBase
         this.otherTextFieldDelimiter = otherTextFieldDelimiter;
     }
     
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         
         m.put("fileName", fileName);

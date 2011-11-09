@@ -52,11 +52,11 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.spring.Logged;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -87,7 +87,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract()
      */
-    @Logged
+    
     public void extract() {
         Integer fiscalYear = EffortCertificationParameterFinder.getExtractReportFiscalYear();
         String reportNumber = EffortCertificationParameterFinder.getExtractReportNumber();
@@ -98,7 +98,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract(java.lang.Integer, java.lang.String)
      */
-    @Logged
+    
     public void extract(Integer fiscalYear, String reportNumber) {
         Map<String, String> fieldValues = EffortCertificationReportDefinition.buildKeyMap(fiscalYear, reportNumber);
 
@@ -129,7 +129,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract(java.lang.String,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    @Logged
+    
     public EffortCertificationDocumentBuild extract(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, List<String>> parameters = this.getSystemParameters();
         parameters.put(ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(reportDefinition.getUniversityFiscalYear()));
@@ -145,7 +145,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#isEmployeesEligibleForEffortCertification(java.lang.String,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    @Logged
+    
     public boolean isEmployeeEligibleForEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Set<String>> earnCodePayGroups = effortCertificationReportDefinitionService.findReportEarnCodePayGroups(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
@@ -157,7 +157,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#findEmployeesEligibleForEffortCertification(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    @Logged
+    
     public List<String> findEmployeesEligibleForEffortCertification(EffortCertificationReportDefinition reportDefinition) {
         Map<String, Set<String>> earnCodePayGroups = effortCertificationReportDefinitionService.findReportEarnCodePayGroups(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;

@@ -20,12 +20,12 @@ import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.AssetCondition;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class AssetConditionValuesFinder extends KeyValuesBase {
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<AssetCondition> assetConditions = (List<AssetCondition>) SpringContext.getBean(KeyValuesService.class).findAll(AssetCondition.class);
         // copy the list of codes before sorting, since we can't modify the results from this method
         if ( assetConditions == null ) {
@@ -34,12 +34,12 @@ public class AssetConditionValuesFinder extends KeyValuesBase {
             assetConditions = new ArrayList<AssetCondition>(assetConditions);
         }
 
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
 
         for (AssetCondition assetCondition : assetConditions) {
             if(assetCondition.isActive()) {
-                labels.add(new KeyLabelPair(assetCondition.getAssetConditionCode(), assetCondition.getAssetConditionName()));
+                labels.add(new ConcreteKeyValue(assetCondition.getAssetConditionCode(), assetCondition.getAssetConditionName()));
             }
         }
 

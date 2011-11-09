@@ -30,8 +30,8 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Defines methods that must be implemented by classes providing a PurchaseOrderService.

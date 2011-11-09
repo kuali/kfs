@@ -36,12 +36,12 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 /**
  * Base implementation to manipulate batch input file sets from the batch upload screen
@@ -49,7 +49,7 @@ import org.kuali.rice.kns.service.ParameterService;
 public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implements BatchInputFileSetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchInputFileSetServiceImpl.class);
 
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
 
     /**
      * Generates the file name of a file (not the done file)
@@ -106,7 +106,7 @@ public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implemen
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
-        List<String> activeInputTypes = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        List<String> activeInputTypes = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME) );
         
         boolean activeBatchType = false;
         if (activeInputTypes.size() > 0 && activeInputTypes.contains(batchInputFileSetType.getFileSetTypeIdentifer())) {
@@ -117,7 +117,7 @@ public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implemen
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#save(org.kuali.rice.kim.bo.Person,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#save(org.kuali.rice.kim.api.identity.Person,
      *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String, java.util.Map)
      */
     public Map<String, String> save(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap) throws AuthorizationException, FileStorageException {
@@ -223,7 +223,7 @@ public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implemen
     }
     
     protected String getTempDirectoryName() {
-        String tempDirectoryName = getKualiConfigurationService().getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY);
+        String tempDirectoryName = getConfigurationService().getPropertyValueAsString(KFSConstants.TEMP_DIRECTORY_KEY);
         return tempDirectoryName;
     }
 
@@ -244,11 +244,11 @@ public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implemen
         return true;
     }
 
-    protected KualiConfigurationService getKualiConfigurationService() {
+    protected ConfigurationService getConfigurationService() {
         return kualiConfigurationService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
     

@@ -22,15 +22,15 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 
  */
-public class AccountDelegateModelDetail extends PersistableBusinessObjectBase implements Inactivateable {
+public class AccountDelegateModelDetail extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -144,7 +144,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
      * @return Returns the accountDelegate.
      */
     public Person getAccountDelegate() {
-        accountDelegate = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountDelegateUniversalId, accountDelegate);
+        accountDelegate = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountDelegateUniversalId, accountDelegate);
         return accountDelegate;
     }
 
@@ -296,9 +296,9 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);

@@ -96,7 +96,7 @@ public interface DisbursementVoucherPaymentReasonService {
 
     /**
      * determine whether the given payment reason is of type that is specified by the given type parameter name. The type parameter
-     * must be defined as an application parameter(@see org.kuali.rice.kns.bo.Parameter)
+     * must be defined as an application parameter(@see org.kuali.rice.core.api.parameter.Parameter)
      * 
      * @param typeParameterName the given type parameter name
      * @param paymentReasonCode the given reason code

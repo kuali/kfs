@@ -19,13 +19,13 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Item Type Business Object. Defines various types of items.
  */
-public class ItemType extends PersistableBusinessObjectBase implements Inactivateable{
+public class ItemType extends PersistableBusinessObjectBase implements Inactivatable{
 
     private String itemTypeCode;
     private String itemTypeDescription;
@@ -117,9 +117,9 @@ public class ItemType extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("itemTypeCode", this.itemTypeCode);
         return m;

@@ -21,21 +21,21 @@ import java.util.List;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Role;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
-import org.kuali.rice.kim.bo.role.dto.DelegateTypeInfo;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
+import org.kuali.rice.kim.api.common.delegate.DelegateTypeContract;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityActionInfo;
-import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
-import org.kuali.rice.kim.service.KimTypeInfoService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kim.api.type.KimType;
+import org.kuali.rice.kim.api.type.KimTypeInfoService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
 
 public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
-    protected RoleManagementService roleManagementService;
+    protected RoleService roleManagementService;
     protected KimTypeInfoService kimTypeInfoService;
     
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
@@ -47,8 +47,8 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         orr.setRoleMemberId(roleMember.getRoleMemberId());
         orr.setKimDocumentRoleMember(roleMember);
 
-        KimRoleInfo roleInfo = roleManagementService.getRole(roleMember.getRoleId());
-        KimTypeInfo typeInfo = kimTypeInfoService.getKimType(roleInfo.getKimTypeId());
+        Role roleInfo = roleManagementService.getRole(roleMember.getRoleId());
+        KimType typeInfo = kimTypeInfoService.getKimType(roleInfo.getKimTypeId());
         List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(typeInfo, roleMember.getQualifier());
         orr.setAttributes(attributes);
         orr.setRoleRspActions(getRoleRspActions(roleMember.getRoleMemberId()));
@@ -60,9 +60,9 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     public void populateOrgReviewRoleFromDelegationMember(OrgReviewRole orr, String delegationMemberId) {
         DelegateMemberCompleteInfo delegationMember = roleManagementService.getDelegationMemberById(delegationMemberId);
-        DelegateTypeInfo delegation = roleManagementService.getDelegateTypeInfoById(delegationMember.getDelegationId());
-        KimRoleInfo roleInfo = roleManagementService.getRole(delegation.getRoleId());
-        KimTypeInfo typeInfo = kimTypeInfoService.getKimType(roleInfo.getKimTypeId());
+        DelegateTypeContract delegation = roleManagementService.getDelegateTypeContractById(delegationMember.getDelegationId());
+        Role roleInfo = roleManagementService.getRole(delegation.getRoleId());
+        KimType typeInfo = kimTypeInfoService.getKimType(roleInfo.getKimTypeId());
         orr.setDelegationMemberId(delegationMember.getDelegationMemberId());
         orr.setRoleMemberId(delegationMember.getRoleMemberId());
         orr.setRoleRspActions(getRoleRspActions(delegationMember.getRoleMemberId()));
@@ -76,7 +76,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     protected void populateObjectExtras( OrgReviewRole orr ) {
         Role role = orr.getRole(orr.getRoleId());
         //Set the role details
-        orr.setRoleName(role.getRoleName());
+        orr.setRoleName(role.getName());
         orr.setNamespaceCode(role.getNamespaceCode());
         
         orr.setChartOfAccountsCode(orr.getAttributeValue(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
@@ -84,7 +84,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         orr.setOverrideCode(orr.getAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
         orr.setFromAmount(orr.getAttributeValue(KfsKimAttributes.FROM_AMOUNT));
         orr.setToAmount(orr.getAttributeValue(KfsKimAttributes.TO_AMOUNT));
-        orr.setFinancialSystemDocumentTypeCode(orr.getAttributeValue(KfsKimAttributes.DOCUMENT_TYPE_NAME));
+        orr.setFinancialSystemDocumentTypeCode(orr.getAttributeValue(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
         
         orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
         orr.getOrganization().setOrganizationCode(orr.getOrganizationCode());
@@ -115,7 +115,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         return roleManagementService.getRoleMemberResponsibilityActionInfo(roleMemberId);
     }
 
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
+    public void setRoleService(RoleService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
 

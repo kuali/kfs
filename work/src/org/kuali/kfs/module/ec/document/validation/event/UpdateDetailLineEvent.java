@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ec.document.validation.event;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.validation.UpdateDetailLineRule;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rule.BusinessRule;
+import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
 
 public class UpdateDetailLineEvent extends KualiDocumentEventBase {
     private EffortCertificationDocument effortCertificationDocument;
@@ -40,7 +40,7 @@ public class UpdateDetailLineEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
@@ -48,7 +48,7 @@ public class UpdateDetailLineEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>) rule).processUpdateDetailLineRules(effortCertificationDocument, effortCertificationDetail);

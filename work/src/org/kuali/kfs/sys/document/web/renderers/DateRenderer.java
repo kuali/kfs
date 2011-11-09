@@ -23,7 +23,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * Renders a field as a text field with a date picker
@@ -41,7 +41,7 @@ public class DateRenderer extends TextRenderer {
 
     /**
      * 
-     * @see org.kuali.kfs.sys.document.web.renderers.TextRenderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.TextRenderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.krad.bo.BusinessObject)
      */
     @Override
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
@@ -64,7 +64,7 @@ public class DateRenderer extends TextRenderer {
     protected String buildDateImage() {
         StringBuilder dateImage = new StringBuilder();
         dateImage.append("<img src=\"");
-        dateImage.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url")); 
+        dateImage.append(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kr.externalizable.images.url")); 
         dateImage.append("cal.gif\" ");
         dateImage.append("id=\"");
         dateImage.append(getFieldName());
@@ -107,7 +107,7 @@ public class DateRenderer extends TextRenderer {
 
     /**
      * Overridden to do nothing - date fields never need quick finders
-     * @see org.kuali.kfs.sys.document.web.renderers.FieldRendererBase#renderQuickFinderIfNecessary(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.FieldRendererBase#renderQuickFinderIfNecessary(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.krad.bo.BusinessObject)
      */
     @Override
     protected void renderQuickFinderIfNecessary(PageContext pageContext, Tag parentTag) throws JspException {

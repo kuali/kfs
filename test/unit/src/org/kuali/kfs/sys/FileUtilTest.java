@@ -22,7 +22,7 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 @ConfigureContext
 public class FileUtilTest extends KualiTestBase {
@@ -39,8 +39,8 @@ public class FileUtilTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class); 
-        stagingDirectory = kualiConfigurationService.getPropertyString("staging.directory") + "/";
+        ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class); 
+        stagingDirectory = kualiConfigurationService.getPropertyValueAsString("staging.directory") + "/";
     }
     
     public void testGetNewestDataFile() {

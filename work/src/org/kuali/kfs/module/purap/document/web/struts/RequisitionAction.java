@@ -31,11 +31,11 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -69,7 +69,7 @@ public class RequisitionAction extends PurchasingActionBase {
             
             defaultPrincipalAddress.setDefaultBuilding(req.getDeliveryCampusCode(), req.getDeliveryBuildingCode(), req.getDeliveryBuildingRoomNumber());
             SpringContext.getBean(BusinessObjectService.class).save(defaultPrincipalAddress);
-            GlobalVariables.getMessageList().add(PurapKeyConstants.DEFAULT_BUILDING_SAVED);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.DEFAULT_BUILDING_SAVED);
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -117,7 +117,7 @@ public class RequisitionAction extends PurchasingActionBase {
         loadDocument(reqForm);
         String multipleB2BReqs = (String) request.getSession().getAttribute("multipleB2BRequisitions");
         if (StringUtils.isNotEmpty(multipleB2BReqs)) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.B2B_MULTIPLE_REQUISITIONS);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.B2B_MULTIPLE_REQUISITIONS);
         }
         request.getSession().removeAttribute("docId");
         request.getSession().removeAttribute("multipleB2BRequisitions");

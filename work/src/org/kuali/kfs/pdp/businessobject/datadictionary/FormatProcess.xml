@@ -53,7 +53,7 @@
     <property name="name" value="beginFormat"/>
     <property name="label" value="Begin Process Date"/>
     <property name="shortLabel" value="Begin Process Date"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
   </bean>
   <bean id="FormatProcess-paymentProcIdentifier" parent="FormatProcess-paymentProcIdentifier-parentBean"/>
   

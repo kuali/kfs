@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.CFDA;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Allows some information about persisted {@link Cfda} instances to be looked up.
@@ -41,14 +41,14 @@ public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends K
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(CFDA.class);
 
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
 
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             CFDA cfdaReference = (CFDA) iter.next();
 
             if (!isDuplicateValue(labels, cfdaReference.getCfdaMaintenanceTypeId())) {
-                labels.add(new KeyLabelPair(cfdaReference.getCfdaMaintenanceTypeId(), cfdaReference.getCfdaMaintenanceTypeId()));
+                labels.add(new ConcreteKeyValue(cfdaReference.getCfdaMaintenanceTypeId(), cfdaReference.getCfdaMaintenanceTypeId()));
             }
         }
 
@@ -62,10 +62,10 @@ public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends K
      * @param value The value to be added to the collection if it does not already exist within it.
      * @return True if the value passed in already exists in the collection, false otherwise.
      */
-    private boolean isDuplicateValue(List<KeyLabelPair> collection, String value) {
+    private boolean isDuplicateValue(List<KeyValue> collection, String value) {
         boolean duplicate = false;
 
-        for (KeyLabelPair klp : collection) {
+        for (KeyValue klp : collection) {
             String klpLabel = klp.getLabel();
             if (klpLabel != null) {
                 duplicate |= klpLabel.trim().equalsIgnoreCase(value.trim());

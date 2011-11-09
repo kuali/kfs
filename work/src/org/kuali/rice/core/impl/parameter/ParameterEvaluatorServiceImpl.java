@@ -134,17 +134,17 @@ public class ParameterEvaluatorServiceImpl implements ParameterEvaluatorService 
 			String constrainingValue, String constrainedValue) {
 			    Parameter allowParameter = parameterService.getParameter(componentClass, allowParameterName);
 			    Parameter denyParameter = parameterService.getParameter(componentClass, denyParameterName);
-			    if (!getParameterValues(allowParameter, constrainingValue).isEmpty() && !getParameterValues(denyParameter, constrainingValue).isEmpty()) {
+			    if (!getParameterValuesAsString(allowParameter, constrainingValue).isEmpty() && !getParameterValuesAsString(denyParameter, constrainingValue).isEmpty()) {
 			        throw new IllegalArgumentException("The getParameterEvaluator(Class componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue) method of ParameterServiceImpl does not facilitate evaluation of combination allow and deny parameters that both have values for the constraining value: " + allowParameterName + " / " + denyParameterName + " / " + constrainingValue);
 			    }
-			    if (getParameterValues(allowParameter, constrainingValue).isEmpty() && getParameterValues(denyParameter, constrainingValue).isEmpty()) {
+			    if (getParameterValuesAsString(allowParameter, constrainingValue).isEmpty() && getParameterValuesAsString(denyParameter, constrainingValue).isEmpty()) {
 			        return AlwaysSucceedParameterEvaluatorImpl.getInstance();
 			    }
-			    return getParameterEvaluator(getParameterValues(denyParameter, constrainingValue).isEmpty() ? allowParameter : denyParameter, constrainingValue, constrainedValue);
+			    return getParameterEvaluator(getParameterValuesAsString(denyParameter, constrainingValue).isEmpty() ? allowParameter : denyParameter, constrainingValue, constrainedValue);
 	}
 
-    protected List<String> getParameterValues(Parameter parameter, String constrainingValue) {
-	    List<String> constraintValuePairs = getParameterValues(parameter);
+    protected List<String> getParameterValuesAsString(Parameter parameter, String constrainingValue) {
+	    List<String> constraintValuePairs = getParameterValuesAsString(parameter);
 	    for (String pair : constraintValuePairs) {
 	        if (StringUtils.equals(constrainingValue, StringUtils.substringBefore(pair, "="))) {
 	            return Arrays.asList(StringUtils.substringAfter(pair, "=").split(","));
@@ -153,7 +153,7 @@ public class ParameterEvaluatorServiceImpl implements ParameterEvaluatorService 
 	    return Collections.emptyList();
 	}
 
-    private List<String> getParameterValues(Parameter parameter) {
+    private List<String> getParameterValuesAsString(Parameter parameter) {
 	    if (parameter == null || StringUtils.isBlank(parameter.getValue())) {
 	        return Collections.emptyList();
 	    }
@@ -164,7 +164,7 @@ public class ParameterEvaluatorServiceImpl implements ParameterEvaluatorService 
 	    ParameterEvaluatorImpl parameterEvaluator = new ParameterEvaluatorImpl();
 	    parameterEvaluator.setParameter(parameter);
 	    parameterEvaluator.setConstraintIsAllow(constraintIsAllow(parameter));
-	    parameterEvaluator.setValues(getParameterValues(parameter));
+	    parameterEvaluator.setValues(getParameterValuesAsString(parameter));
 	    return parameterEvaluator;
 	}
 
@@ -177,7 +177,7 @@ public class ParameterEvaluatorServiceImpl implements ParameterEvaluatorService 
 	protected ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter, String constrainingValue,
 			String constrainedValue) {
 	    ParameterEvaluatorImpl parameterEvaluator = getParameterEvaluator(parameter, constrainedValue);
-	    parameterEvaluator.setValues(getParameterValues(parameter, constrainingValue));
+	    parameterEvaluator.setValues(getParameterValuesAsString(parameter, constrainingValue));
 	    return parameterEvaluator;
 	}
 

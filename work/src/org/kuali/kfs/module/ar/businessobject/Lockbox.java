@@ -19,9 +19,9 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -317,10 +317,10 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
     }
 
     /**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
     @SuppressWarnings("unchecked")
-	protected LinkedHashMap toStringMapper() {
+	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         if (this.invoiceSequenceNumber != null) {
             m.put("invoiceSequenceNumber", this.invoiceSequenceNumber.toString());

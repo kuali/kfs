@@ -23,8 +23,8 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of balance type value pairs.
@@ -38,12 +38,12 @@ public class BalanceTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         Collection<BalanceType> balanceTypeCodeCollection = SpringContext.getBean(BalanceTypeService.class).getAllBalanceTypes();
-        List<KeyLabelPair> balanceTypeCodes = new ArrayList<KeyLabelPair>();
-        balanceTypeCodes.add(new KeyLabelPair("", ""));
+        List<KeyValue> balanceTypeCodes = new ArrayList<KeyValue>();
+        balanceTypeCodes.add(new ConcreteKeyValue("", ""));
 
         for (BalanceType balanceType : balanceTypeCodeCollection) {
             if(balanceType.isActive()) {
-                balanceTypeCodes.add(new KeyLabelPair(balanceType.getCode(), balanceType.getCodeAndDescription()));
+                balanceTypeCodes.add(new ConcreteKeyValue(balanceType.getCode(), balanceType.getCodeAndDescription()));
             }
         }
         return balanceTypeCodes;

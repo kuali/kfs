@@ -32,7 +32,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsService
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -42,7 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetConstructionObjectSummaryReportService {
 
     private BudgetConstructionObjectSummaryReportDao budgetConstructionObjectSummaryReportDao;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     /**
@@ -115,7 +115,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         orgObjectSummaryReportEntry.setOrgChartOfAccountsCode(objectSummary.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
-            orgObjectSummaryReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgObjectSummaryReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgObjectSummaryReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
@@ -123,7 +123,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
         orgObjectSummaryReportEntry.setOrganizationCode(objectSummary.getOrganizationCode());
         if (orgName == null) {
-            orgObjectSummaryReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            orgObjectSummaryReportEntry.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgObjectSummaryReportEntry.setOrganizationName(orgName);
@@ -131,7 +131,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
         orgObjectSummaryReportEntry.setChartOfAccountsCode(objectSummary.getChartOfAccountsCode());
         if (chartDesc == null) {
-            orgObjectSummaryReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgObjectSummaryReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgObjectSummaryReportEntry.setChartOfAccountDescription(chartDesc);
@@ -139,7 +139,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
         orgObjectSummaryReportEntry.setFundGroupCode(objectSummary.getSubFundGroup().getFundGroupCode());
         if (fundGroupDes == null) {
-            orgObjectSummaryReportEntry.setFundGroupName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
+            orgObjectSummaryReportEntry.setFundGroupName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
         }
         else {
             orgObjectSummaryReportEntry.setFundGroupName(fundGroupDes);
@@ -147,7 +147,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
         orgObjectSummaryReportEntry.setSubFundGroupCode(objectSummary.getSubFundGroupCode());
         if (subFundGroupDes == null) {
-            orgObjectSummaryReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
+            orgObjectSummaryReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
         }
         else {
             orgObjectSummaryReportEntry.setSubFundGroupDescription(subFundGroupDes);
@@ -163,8 +163,8 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         orgObjectSummaryReportEntry.setHeader31("FTE");
         orgObjectSummaryReportEntry.setHeader40("FTE");
         orgObjectSummaryReportEntry.setHeader4("Amount");
-        orgObjectSummaryReportEntry.setHeader5(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
-        orgObjectSummaryReportEntry.setHeader6(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
+        orgObjectSummaryReportEntry.setHeader5(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
+        orgObjectSummaryReportEntry.setHeader6(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
         orgObjectSummaryReportEntry.setConsHdr("");
 
         // For page break for objectObjectCode
@@ -188,12 +188,12 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         String objectName = null;
 
         if (objectCode == null) {
-            orgObjectSummaryReportEntry.setFinancialObjectName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_CODE));
+            orgObjectSummaryReportEntry.setFinancialObjectName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_CODE));
         }
         else {
             objectName = objectCode.getFinancialObjectCodeName();
             if (objectName == null) {
-                orgObjectSummaryReportEntry.setFinancialObjectName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_NAME));
+                orgObjectSummaryReportEntry.setFinancialObjectName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_NAME));
             }
             else {
                 orgObjectSummaryReportEntry.setFinancialObjectName(objectName);
@@ -272,10 +272,10 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
                 orgObjectSummaryReportEntry.setGrossPercentChange(BudgetConstructionReportHelper.calculatePercent(grossAmountChange, gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount()));
 
                 if (objectSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
-                    orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_UPPERCASE_REVENUE));
+                    orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_UPPERCASE_REVENUE));
                 }
                 else {
-                    orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE_NET_TRNFR));
+                    orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE_NET_TRNFR));
                 }
                 orgObjectSummaryReportEntry.setTypePositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(gexpAndTypeTotal.getTypePositionCsfLeaveFteQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setTypePositionCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(gexpAndTypeTotal.getTypePositionCsfFullTimeEmploymentQuantity(), 2, true));
@@ -571,7 +571,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         return returnList;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

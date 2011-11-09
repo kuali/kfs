@@ -34,22 +34,22 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -100,8 +100,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Default constructor.
      */
     public AssetRetirementGlobal() {
-        this.assetRetirementGlobalDetails = new TypedArrayList(AssetRetirementGlobalDetail.class);
-        this.generalLedgerPendingEntries = new TypedArrayList(GeneralLedgerPendingEntry.class);
+        this.assetRetirementGlobalDetails = new ArrayList<AssetRetirementGlobalDetail>();
+        this.generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
     }
 
 
@@ -110,7 +110,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         AssetRetirementService retirementService = SpringContext.getBean(AssetRetirementService.class);
@@ -128,7 +128,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         return persistables;
     }
 
-    @Override
+    
     public List buildListOfDeletionAwareLists() {
         List<List> managedList = super.buildListOfDeletionAwareLists();
 
@@ -397,9 +397,9 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         return m;
@@ -573,7 +573,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @return Returns the postalZipCode
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementZipCode, postalZipCode);
+        postalZipCode = (StringUtils.isBlank(retirementCountryCode) || StringUtils.isBlank( retirementZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),retirementCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), retirementZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(retirementCountryCode, retirementZipCode): postalZipCode;
         return postalZipCode;
     }
 
@@ -821,7 +821,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @return Returns the retirementCountry.
      */
     public Country getRetirementCountry() {
-        retirementCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementCountry);
+        retirementCountry = (retirementCountryCode == null)?null:( retirementCountry == null || !StringUtils.equals( retirementCountry.getCode(),retirementCountryCode))?SpringContext.getBean(CountryService.class).getCountry(retirementCountryCode): retirementCountry;
         return retirementCountry;
     }
 
@@ -841,7 +841,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @return Returns the retirementState.
      */
     public State getRetirementState() {
-        retirementState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementStateCode, retirementState);
+        retirementState = (StringUtils.isBlank(retirementCountryCode) || StringUtils.isBlank( retirementStateCode))?null:( retirementState == null || !StringUtils.equals( retirementState.getCountryCode(),retirementCountryCode)|| !StringUtils.equals( retirementState.getCode(), retirementStateCode))?SpringContext.getBean(StateService.class).getState(retirementCountryCode, retirementStateCode): retirementState;
         return retirementState;
     }
 

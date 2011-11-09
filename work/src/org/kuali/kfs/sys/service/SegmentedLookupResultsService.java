@@ -19,9 +19,9 @@ package org.kuali.kfs.sys.service;
 import java.util.Collection;
 import java.util.Set;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * Used for segemented lookup results

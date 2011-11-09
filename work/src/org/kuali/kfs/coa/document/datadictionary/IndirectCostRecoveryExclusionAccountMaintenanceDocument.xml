@@ -86,5 +86,5 @@
     <!-- workflow attributes -->
   <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

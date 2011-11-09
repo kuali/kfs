@@ -57,19 +57,19 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypeUtils;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.TypeUtils;
 
 public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBase implements AddBudgetConstructionDocumentRule<BudgetConstructionDocument>, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument>, SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly> {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocumentRules.class);
@@ -137,7 +137,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         if (!isValid) {
 
             // tell the user we can't create a new BC document along with the error reasons
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_NOCREATE_DOCUMENT);
+            KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_NOCREATE_DOCUMENT);
         }
 
         LOG.debug("processAddBudgetConstructionDocumentRules(Document) - end");
@@ -152,7 +152,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * benefits calculated, etc. Each of these operations require the document's data be in a consistent state with respect to
      * business rules before the operation be performed.
      * 
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processSaveDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processSaveDocument(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processSaveDocument(Document document) {
@@ -213,7 +213,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
 
-        errors.addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        errors.addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
 
         if (monthSpreadDeleteType == MonthSpreadDeleteType.REVENUE) {
             doRevMonthRICheck = false;
@@ -232,7 +232,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         // iterate and validate expenditure lines
         isValid &= this.checkPendingBudgetConstructionGeneralLedgerLines(budgetConstructionDocument, errors, false, doExpMonthRICheck);
 
-        errors.removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        errors.removeFromErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
 
         return isValid;
     }
@@ -644,7 +644,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     protected boolean validatePBGLLine(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isAdd) {
         if (pendingBudgetConstructionGeneralLedger == null) {
-            throw new IllegalStateException(getKualiConfigurationService().getPropertyString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
+            throw new IllegalStateException(getConfigurationService().getPropertyValueAsString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
         }
 
         // grab the service instance that will be needed by all the validate methods

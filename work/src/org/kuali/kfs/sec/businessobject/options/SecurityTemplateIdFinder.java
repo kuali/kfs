@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 
 /**
@@ -35,13 +35,13 @@ public class SecurityTemplateIdFinder extends KeyValuesBase {
     public List getKeyValues() {
         List activeLabels = new ArrayList();
 
-        activeLabels.add(new KeyLabelPair(SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId(), "Balance Inquiry"));
-        activeLabels.add(new KeyLabelPair(SpringContext.getBean(AccessSecurityService.class).getEditAccountingLineWithFieldValueTemplateId(), "Edit Accounting Line"));
-        activeLabels.add(new KeyLabelPair(SpringContext.getBean(AccessSecurityService.class).getEditDocumentWithFieldValueTemplateId(), "Edit Document"));
-        activeLabels.add(new KeyLabelPair(SpringContext.getBean(AccessSecurityService.class).getLookupWithFieldValueTemplateId(), "Lookup Records"));
-        activeLabels.add(new KeyLabelPair(SpringContext.getBean(AccessSecurityService.class).getViewAccountingLineWithFieldValueTemplateId(), "View Accounting Line"));
-        activeLabels.add(new KeyLabelPair(SpringContext.getBean(AccessSecurityService.class).getViewDocumentWithFieldValueTemplateId(), "View Document"));
-        activeLabels.add(new KeyLabelPair(SpringContext.getBean(AccessSecurityService.class).getViewNotesAttachmentsWithFieldValueTemplateId(), "View Notes/Attachments"));
+        activeLabels.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId(), "Balance Inquiry"));
+        activeLabels.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getEditAccountingLineWithFieldValueTemplateId(), "Edit Accounting Line"));
+        activeLabels.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getEditDocumentWithFieldValueTemplateId(), "Edit Document"));
+        activeLabels.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getLookupWithFieldValueTemplateId(), "Lookup Records"));
+        activeLabels.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getViewAccountingLineWithFieldValueTemplateId(), "View Accounting Line"));
+        activeLabels.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getViewDocumentWithFieldValueTemplateId(), "View Document"));
+        activeLabels.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getViewNotesAttachmentsWithFieldValueTemplateId(), "View Notes/Attachments"));
 
         return activeLabels;
     }

@@ -18,8 +18,8 @@ package org.kuali.kfs.integration.cg;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 public interface ContractAndGrantsProposal extends ExternalizableBusinessObject {

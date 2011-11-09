@@ -23,13 +23,13 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.exception.WorkflowRuntimeException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.TransactionalDocumentBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.WorkflowRuntimeException;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.TransactionalDocumentBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class is a KFS specific TransactionalDocumentBase class
@@ -47,7 +47,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentHeader()
+     * @see org.kuali.rice.krad.document.DocumentBase#getDocumentHeader()
      */
     @Override
     public FinancialSystemDocumentHeader getDocumentHeader() {
@@ -55,7 +55,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#setDocumentHeader(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.krad.document.DocumentBase#setDocumentHeader(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void setDocumentHeader(DocumentHeader documentHeader) {
@@ -68,7 +68,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     /**
      * If the document has a total amount, call method on document to get the total and set in doc header.
      * 
-     * @see org.kuali.rice.kns.document.Document#prepareForSave()
+     * @see org.kuali.rice.krad.document.Document#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -81,7 +81,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     /**
      * This is the default implementation which ensures that document note attachment references are loaded.
      * 
-     * @see org.kuali.rice.kns.document.Document#processAfterRetrieve()
+     * @see org.kuali.rice.krad.document.Document#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -104,20 +104,20 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     /**
      * This is the default implementation which checks for a different workflow statuses, and updates the Kuali status accordingly.
      * 
-     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.Document#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+        if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         }
-        else if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+        else if (getDocumentHeader().getWorkflowDocument().isEnroute()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
-        if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+        if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
         }
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         if ( LOG.isInfoEnabled() ) {

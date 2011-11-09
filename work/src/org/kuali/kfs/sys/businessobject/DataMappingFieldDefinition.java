@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.dataaccess.FieldMetaData;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 
 public class DataMappingFieldDefinition extends TransientBusinessObjectBase {
@@ -150,8 +150,8 @@ public class DataMappingFieldDefinition extends TransientBusinessObjectBase {
         this.functionalFieldDescription = functionalFieldDescription;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return new LinkedHashMap();
     }
 }

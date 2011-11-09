@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public final class AttributedAssignSensitiveDataEvent extends AttributedDocumentEventBase {    
 

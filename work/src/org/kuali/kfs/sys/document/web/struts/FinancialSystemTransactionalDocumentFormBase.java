@@ -22,11 +22,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * This class is a Financial System specific transactional document form base
@@ -41,12 +41,12 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kew.api.WorkflowDocument)
 
      * KRAD Conversion: Customizing the header fields - Uses data dictionary
      */
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (getDocument().getDocumentHeader() instanceof FinancialSystemDocumentHeader) {
             FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader)getDocument().getDocumentHeader();
@@ -124,7 +124,7 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
             ExtraButton button = new ExtraButton();
             button.setExtraButtonAltText("Create error correction document from current document");
             button.setExtraButtonProperty("methodToCall.correct");
-            button.setExtraButtonSource(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url")+"buttonsmall_errcorr.gif");
+            button.setExtraButtonSource(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kr.externalizable.images.url")+"buttonsmall_errcorr.gif");
             errorCorrectionButton = button;
         }
         return errorCorrectionButton;

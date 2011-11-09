@@ -60,22 +60,22 @@ import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 /**
  * Document class for the Requisition.
@@ -108,7 +108,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         return SpringContext.getBean(RequisitionService.class);
     }
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
     @Override
     public boolean isBoNotesSupport() {
@@ -162,7 +162,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             LOG.error("Exception while attempting to retrieve all prior approvers from workflow: " + we);
         }
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
+        KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
         // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
         KualiDecimal totalAmount = documentHeader.getFinancialDocumentTotalAmount();
         if (ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {
@@ -201,7 +201,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
-        this.setDocumentFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValue(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
+        this.setDocumentFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
         this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
             
         Person currentUser = GlobalVariables.getUserSession().getPerson();
@@ -269,7 +269,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     protected String determinePurchaseOrderTransmissionMethod() {
         
-        return SpringContext.getBean(ParameterService.class).getParameterValue(RequisitionDocument.class, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
     }
 
     /**
@@ -277,7 +277,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * a set number of days have passed since the document's creation.
      * 
      * @return True if copying of this requisition is allowed.
-     * @see org.kuali.rice.kns.document.Document#getAllowsCopy()
+     * @see org.kuali.rice.krad.document.Document#getAllowsCopy()
      */
     @Override
     public boolean getAllowsCopy() {
@@ -287,9 +287,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             Calendar c = Calendar.getInstance();
 
             // The allowed copy date is the document creation date plus a set number of days.
-            Date createDate = getDocumentHeader().getWorkflowDocument().getCreateDate();
+            Date createDate = getDocumentHeader().getWorkflowDocument().getDateCreated();
             c.setTime(createDate);
-            String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValue(RequisitionDocument.class, PurapParameterConstants.B2B_ALLOW_COPY_DAYS);
+            String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.B2B_ALLOW_COPY_DAYS);
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
             Date allowedCopyDate = c.getTime();
             Date currentDate = dateTimeService.getCurrentDate();
@@ -303,7 +303,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * Performs logic needed to copy Requisition Document.
      * 
-     * @see org.kuali.rice.kns.document.Document#toCopy()
+     * @see org.kuali.rice.krad.document.Document#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException, ValidationException {
@@ -404,7 +404,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         docIdStrings.add(getDocumentNumber());
         
         //  PROCESSED
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             // creates a new PO but no way to know what the docID will be ahead of time
         }
         
@@ -417,7 +417,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
@@ -425,7 +425,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         super.doRouteStatusChange(statusChangeEvent);
         try {
             // DOCUMENT PROCESSED
-            if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
                 String newRequisitionStatus = PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN;
                 if (SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(this)) {
                     newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
@@ -434,7 +434,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 updateStatusAndSave(newRequisitionStatus);
             }
             // DOCUMENT DISAPPROVED
-            else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
@@ -446,7 +446,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED
-            else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            else if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                 updateStatusAndSave(RequisitionStatuses.CANCELLED);
             }
         }
@@ -457,7 +457,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
     public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
@@ -468,7 +468,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             if (StringUtils.isNotBlank(newNodeName)) {
                 ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(getDocumentNumber()));
                 reportCriteriaDTO.setTargetNodeName(newNodeName);
-                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
+                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
                     NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
                     if (ObjectUtils.isNotNull(currentNode)) {
                         if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {
@@ -604,12 +604,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.rice.kns.document.Document#getDocumentTitle()
+     * @see org.kuali.rice.krad.document.Document#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
         String title = "";
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapParameterConstants.PURAP_OVERRIDE_REQ_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(RequisitionDocument.class, PurapParameterConstants.PURAP_OVERRIDE_REQ_DOC_TITLE)) {
             String docIdStr = "";
             if ((this.getPurapDocumentIdentifier() != null) && (StringUtils.isNotBlank(this.getPurapDocumentIdentifier().toString()))) {
                 docIdStr = "Requisition: " + this.getPurapDocumentIdentifier().toString();
@@ -644,11 +644,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     public Date getCreateDate() {
-        return this.getDocumentHeader().getWorkflowDocument().getCreateDate();
+        return this.getDocumentHeader().getWorkflowDocument().getDateCreated();
     }
 
     public String getUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
     }
 
     /**
@@ -697,7 +697,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
     
     public Date getCreateDateForResult() {
-        return this.getDocumentHeader().getWorkflowDocument().getCreateDate();
+        return this.getDocumentHeader().getWorkflowDocument().getDateCreated();
     }
 
     /**
@@ -722,7 +722,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * value for account distribution method property on the document.
      */
     public void setupAccountDistributionMethod() {
-        String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
+        String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
         String defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE;
         
         if (PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod) || PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {

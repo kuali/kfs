@@ -22,10 +22,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Purchase Order Vendor Quote Business Object.
@@ -83,7 +83,7 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
+        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode): vendorCountry;
         return vendorCountry;
     }
 
@@ -307,9 +307,9 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         if (this.purchaseOrderVendorQuoteIdentifier != null) {

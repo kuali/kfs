@@ -21,7 +21,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.util.TypedArrayList;
+import java.util.ArrayList;
 
 /**
  * .
@@ -35,15 +35,15 @@ public class UseTaxContainer {
     
     public UseTaxContainer() {
         super();
-        accounts = new TypedArrayList(SourceAccountingLine.class);
-        items = new TypedArrayList(PurApItemBase.class);
+        accounts = new ArrayList<SourceAccountingLine>();
+        items = new ArrayList<PurApItemBase>();
     }
 
     public UseTaxContainer(PurApItemUseTax useTax,PurApItem item) {
         super();
         this.useTax = useTax;
-        accounts = new TypedArrayList(SourceAccountingLine.class);
-        items = new TypedArrayList(PurApItemBase.class);
+        accounts = new ArrayList<SourceAccountingLine>();
+        items = new ArrayList<PurApItemBase>();
         items.add(item);
     }
     

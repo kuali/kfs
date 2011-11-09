@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * This class tests the GLPE Helper for the Customer Invoice Document
@@ -149,7 +149,7 @@ public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBa
      */
     public void checkBasicGeneralLedgerPendingEntries(CustomerInvoiceDocument doc, CustomerInvoiceDetail testCustomerInvoiceDetail) {        
         
-        String receivableOffsetGenerationMethod = TestUtils.getParameterService().getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetGenerationMethod = TestUtils.getParameterService().getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         int index = receivableOffsetGenerationMethod.equals(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)? 2 : 1; 
         GeneralLedgerPendingEntry income = (GeneralLedgerPendingEntry) doc.getGeneralLedgerPendingEntries().get(index);
         

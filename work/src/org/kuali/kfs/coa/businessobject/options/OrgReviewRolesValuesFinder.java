@@ -23,9 +23,9 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.BasicAccountingCategory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link BasicAccountingCategory})
@@ -39,11 +39,11 @@ public class OrgReviewRolesValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
-        labels.add(new KeyLabelPair(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE, KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_TEXT));
-        labels.add(new KeyLabelPair(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE, KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_TEXT));
-        labels.add(new KeyLabelPair(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE, KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_BOTH_TEXT));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
+        labels.add(new ConcreteKeyValue(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE, KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_TEXT));
+        labels.add(new ConcreteKeyValue(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE, KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_TEXT));
+        labels.add(new ConcreteKeyValue(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE, KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_BOTH_TEXT));
         return labels;
     }
 

@@ -19,7 +19,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BenefitsCalculationServiceImpl implements BenefitsCalculationService {
 
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private BenefitsCalculationDao benefitsCalculationDao;
     private OptionsService optionsService;
 
@@ -116,7 +116,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
      * 
      * @return Returns the kualiConfigurationService.
      */
-    public KualiConfigurationService getKualiConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return kualiConfigurationService;
     }
 
@@ -125,7 +125,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

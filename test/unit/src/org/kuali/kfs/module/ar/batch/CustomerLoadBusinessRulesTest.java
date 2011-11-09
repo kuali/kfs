@@ -28,8 +28,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
 public class CustomerLoadBusinessRulesTest extends KualiTestBase {
@@ -53,12 +53,12 @@ public class CustomerLoadBusinessRulesTest extends KualiTestBase {
         boolean result = false;
         List<MaintenanceDocument> customerMaintDocs = new ArrayList<MaintenanceDocument>();
         
-        assertTrue("GlobalVariables MessageMap should be empty.", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("GlobalVariables MessageMap should be empty.", GlobalVariables.getMessageMap().hasErrors());
         
         result = customerLoadService.validateAndPrepare(customerVOs, customerMaintDocs, true);
-        showErrorMap();
+        showMessageMap();
         
-        assertTrue("The Validation should have produced no error messages.", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("The Validation should have produced no error messages.", GlobalVariables.getMessageMap().hasErrors());
         
     }
     
@@ -68,9 +68,9 @@ public class CustomerLoadBusinessRulesTest extends KualiTestBase {
      * application in normal circumstances at all.
      * 
      */
-    private void showErrorMap() {
+    private void showMessageMap() {
 
-        if (GlobalVariables.getMessageMap().isEmpty()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             return;
         }
 

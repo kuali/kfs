@@ -28,11 +28,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Contains assertion related convenience methods for testing (not for production use).
@@ -106,31 +106,31 @@ public class KualiTestAssertionUtils {
         }
     }
 
-    public static void assertGlobalErrorMapContains(String expectedFieldName, String expectedErrorKey) {
-        assertGlobalErrorMapContains("", expectedFieldName, expectedErrorKey, null, true);
+    public static void assertGlobalMessageMapContains(String expectedFieldName, String expectedErrorKey) {
+        assertGlobalMessageMapContains("", expectedFieldName, expectedErrorKey, null, true);
     }
 
-    public static void assertGlobalErrorMapContains(String message, String expectedFieldName, String expectedErrorKey) {
-        assertGlobalErrorMapContains(message, expectedFieldName, expectedErrorKey, null, true);
+    public static void assertGlobalMessageMapContains(String message, String expectedFieldName, String expectedErrorKey) {
+        assertGlobalMessageMapContains(message, expectedFieldName, expectedErrorKey, null, true);
     }
 
-    public static void assertGlobalErrorMapContains(String expectedFieldName, String expectedErrorKey, String[] expectedErrorParameters) {
-        assertGlobalErrorMapContains("", expectedFieldName, expectedErrorKey, expectedErrorParameters, true);
+    public static void assertGlobalMessageMapContains(String expectedFieldName, String expectedErrorKey, String[] expectedErrorParameters) {
+        assertGlobalMessageMapContains("", expectedFieldName, expectedErrorKey, expectedErrorParameters, true);
     }
 
-    public static void assertGlobalErrorMapContains(String message, String expectedFieldName, String expectedErrorKey, String[] expectedErrorParameters) {
-        assertGlobalErrorMapContains(message, expectedFieldName, expectedErrorKey, expectedErrorParameters, true);
+    public static void assertGlobalMessageMapContains(String message, String expectedFieldName, String expectedErrorKey, String[] expectedErrorParameters) {
+        assertGlobalMessageMapContains(message, expectedFieldName, expectedErrorKey, expectedErrorParameters, true);
     }
 
-    public static void assertGlobalErrorMapNotContains(String expectedFieldName, String expectedErrorKey) {
-        assertGlobalErrorMapContains("", expectedFieldName, expectedErrorKey, null, false);
+    public static void assertGlobalMessageMapNotContains(String expectedFieldName, String expectedErrorKey) {
+        assertGlobalMessageMapContains("", expectedFieldName, expectedErrorKey, null, false);
     }
 
-    public static void assertGlobalErrorMapNotContains(String message, String expectedFieldName, String expectedErrorKey) {
-        assertGlobalErrorMapContains(message, expectedFieldName, expectedErrorKey, null, false);
+    public static void assertGlobalMessageMapNotContains(String message, String expectedFieldName, String expectedErrorKey) {
+        assertGlobalMessageMapContains(message, expectedFieldName, expectedErrorKey, null, false);
     }
 
-    private static void assertGlobalErrorMapContains(String message, String expectedFieldName, String expectedErrorKey, String[] expectedErrorParameters, boolean contains) {
+    private static void assertGlobalMessageMapContains(String message, String expectedFieldName, String expectedErrorKey, String[] expectedErrorParameters, boolean contains) {
         String header = message.length() == 0 ? "" : message + ": ";
         MessageMap map = GlobalVariables.getMessageMap();
         assertEquals(header + "no error path (global error map path size)", 0, map.getErrorPath().size());
@@ -166,22 +166,22 @@ public class KualiTestAssertionUtils {
         return true;
     }
 
-    public static void assertGlobalErrorMapEmpty() {
-        assertGlobalErrorMapSize("", 0);
+    public static void assertGlobalMessageMapEmpty() {
+        assertGlobalMessageMapSize("", 0);
     }
 
-    public static void assertGlobalErrorMapEmpty(String message) {
-        assertGlobalErrorMapSize(message, 0);
+    public static void assertGlobalMessageMapEmpty(String message) {
+        assertGlobalMessageMapSize(message, 0);
     }
 
-    public static void assertGlobalErrorMapSize(int expectedSize) {
-        assertGlobalErrorMapSize("", expectedSize);
+    public static void assertGlobalMessageMapSize(int expectedSize) {
+        assertGlobalMessageMapSize("", expectedSize);
     }
 
-    public static void assertGlobalErrorMapSize(String message, int expectedSize) {
+    public static void assertGlobalMessageMapSize(String message, int expectedSize) {
         String header = message.length() == 0 ? "" : message + ": ";
         MessageMap map = GlobalVariables.getMessageMap();
-        assertEquals(header + "ThreadLocal ErrorMap size: " + map, expectedSize, map.getNumberOfPropertiesWithErrors());
+        assertEquals(header + "ThreadLocal MessageMap size: " + map, expectedSize, map.getNumberOfPropertiesWithErrors());
     }
 
     /**

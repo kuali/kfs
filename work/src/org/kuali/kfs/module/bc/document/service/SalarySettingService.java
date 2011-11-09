@@ -24,8 +24,8 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * This class defines methods a Salary Setting Service must provide The Salary Setting Service supports functionality associated

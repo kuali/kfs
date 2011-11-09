@@ -25,16 +25,16 @@ import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
@@ -56,12 +56,12 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
      * specified parameter: DISTRIBUTION_TIMES_PER_YEAR stored in the KFS parameter table) and the result is copied to END_SEC_T:
      * SEC_RT for the Pooled Fund SEC_ID.
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader header) {
         super.doRouteStatusChange(header);
-        KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
+        WorkflowDocument workflowDoc = header.getWorkflowDocument();
 
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         try {
@@ -69,8 +69,8 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
 
             initializeAttributes(maintDoc);
 
-            // Use the stateIsFinal() method so this code is only executed when the final approval occurs
-            if (workflowDoc.stateIsFinal()) {
+            // Use the isFinal() method so this code is only executed when the final approval occurs
+            if (workflowDoc.isFinal()) {
                 BigDecimal oldUnitValue = null;
                 BigDecimal oldDistributionPerUnit = null;
                 BigDecimal newUnitValue = newPooledFundValue.getUnitValue();
@@ -88,7 +88,7 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
                 Security theSecurity = securityService.getByPrimaryKey(pooledSecurityID);
 
                 ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-                BigDecimal numOfDistributions = new BigDecimal(new Double(parameterService.getParameterValue(PooledFundValue.class, EndowParameterKeyConstants.DISTRIBUTION_TIMES_PER_YEAR)).doubleValue());
+                BigDecimal numOfDistributions = new BigDecimal(new Double(parameterService.getParameterValueAsString(PooledFundValue.class, EndowParameterKeyConstants.DISTRIBUTION_TIMES_PER_YEAR)).doubleValue());
                 BigDecimal interestRate = newDistributionPerUnit.multiply(numOfDistributions);
 
                 /*
@@ -97,7 +97,7 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
                  * class code type equals to Pooled Investment, the unit value can't be modify directly through Security maintenance
                  * doc.
                  */
-                if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction())) {
+                if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction())) {
                     oldUnitValue = oldPooledFundValue.getUnitValue();
                     oldDistributionPerUnit = oldPooledFundValue.getIncomeDistributionPerUnit();
                     if (newUnitValue.compareTo(oldUnitValue) != 0) {
@@ -110,7 +110,7 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
                         updateIncomeChangeDate(theSecurity);    
                     }
                 }
-                else if (KNSConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction()) || KNSConstants.MAINTENANCE_NEW_ACTION.equals(getMaintenanceAction())) {
+                else if (KRADConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction()) || KRADConstants.MAINTENANCE_NEW_ACTION.equals(getMaintenanceAction())) {
                     oldUnitValue = theSecurity.getUnitValue();
                     compareAndUpdateUnitValue(oldUnitValue, newUnitValue, theSecurity, newValueDate, newUnitValueSource);
                     updateInterestRate(theSecurity, interestRate);

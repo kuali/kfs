@@ -52,20 +52,20 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -146,24 +146,24 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         Person user = GlobalVariables.getUserSession().getPerson();
 
         // get parameter to see if fiscal officers may see the continuation account warning
-        String showContinuationAccountWaringFO = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS);
+        String showContinuationAccountWaringFO = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS);
 
         // get parameter to see if ap users may see the continuation account warning
-        String showContinuationAccountWaringAP = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS);
+        String showContinuationAccountWaringAP = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS);
 
         // versus doing it in their respective documents (preq, credit memo)
         // document is past full entry and
         // user is a fiscal officer and a system parameter is set to allow viewing
         // and if the continuation account indicator is set
         if (isFiscalUser(document, user) && "Y".equals(showContinuationAccountWaringFO) && (document.isContinuationAccountIndicator())) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
         }
 
         // document is past full entry and
         // user is an AP User and a system parameter is set to allow viewing
         // and if the continuation account indicator is set
         if (isAPUser(document, user) && "Y".equals(showContinuationAccountWaringAP) && (document.isContinuationAccountIndicator())) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
         }
 
     }
@@ -299,7 +299,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             // 2. if the account is C&G and is expired for more than 90 days, get the continuation account as replacement
             else if (account.isExpired()) {
                 // retrieve extension limit (grace period)
-                String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                String expirationExtensionDays = parameterService.getParameterValueAsString(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                 int expirationExtensionDaysInt = 90; // default to 90 days (approximately 3 months)
                 if (expirationExtensionDays.trim().length() > 0) {
                     expirationExtensionDaysInt = new Integer(expirationExtensionDays).intValue();
@@ -385,7 +385,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 }
                 else if (account.isExpired()) {
                     Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
-                    String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                    String expirationExtensionDays = parameterService.getParameterValueAsString(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                     int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
 
                     if (expirationExtensionDays.trim().length() > 0) {
@@ -505,16 +505,16 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         }
         else {
             UserSession originalUserSession = GlobalVariables.getUserSession();
-            KualiWorkflowDocument originalWorkflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument originalWorkflowDocument = document.getDocumentHeader().getWorkflowDocument();
             //any other time, perform special logic to cancel the document
-            if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            if (!document.getDocumentHeader().getWorkflowDocument().isFinal()) {
                 try {
                     // person canceling may not have an action requested on the document
                     Person userRequestedCancel = SpringContext.getBean(PersonService.class).getPerson(document.getLastActionPerformedByPersonId());
                     GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
                     
                     WorkflowDocumentService workflowDocumentService =  SpringContext.getBean(WorkflowDocumentService.class);
-                    KualiWorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+                    WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
                     document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
                     documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
                 }
@@ -741,7 +741,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         boolean canCopyLine = false;
         
         // get parameter to see if accounting line with zero dollar amount can be copied from PO to PREQ.
-        String copyZeroAmountLine = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND);
+        String copyZeroAmountLine = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND);
         
         if ("Y".equalsIgnoreCase(copyZeroAmountLine)) {
             return true;

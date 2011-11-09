@@ -36,12 +36,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.RiceResourceLoaderFactory;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.aop.support.AopUtils;
@@ -49,7 +49,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import uk.ltd.getahead.dwr.create.SpringCreator;
+import org.directwebremoting.spring.SpringCreator;
 
 @SuppressWarnings("deprecation")
 public class SpringContext {
@@ -296,8 +296,8 @@ public class SpringContext {
         
         SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
         
-        if (Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
-            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)));
+        if (Double.valueOf((getBean(ConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
+            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(ConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)));
             MemoryMonitor memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
             memoryMonitor.addListener(new MemoryMonitor.Listener() {
                 org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
@@ -321,7 +321,7 @@ public class SpringContext {
                 }
             });
         }
-        if (getBean(KualiConfigurationService.class).getPropertyAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
+        if (getBean(ConfigurationService.class).getPropertyAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
             try {
                 if (initializeSchedule) {
                     LOG.info("Attempting to initialize the scheduler");
@@ -342,9 +342,9 @@ public class SpringContext {
             }
         }
         
-        if ( getBean(KualiConfigurationService.class).getPropertyAsBoolean( "periodic.thread.dump" ) ) {
-            final long sleepPeriod = Long.parseLong( getBean(KualiConfigurationService.class).getPropertyString("periodic.thread.dump.seconds") ) * 1000;
-            final File logDir = new File( getBean(KualiConfigurationService.class).getPropertyString( "logs.directory" ) );
+        if ( getBean(ConfigurationService.class).getPropertyAsBoolean( "periodic.thread.dump" ) ) {
+            final long sleepPeriod = Long.parseLong( getBean(ConfigurationService.class).getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
+            final File logDir = new File( getBean(ConfigurationService.class).getPropertyValueAsString( "logs.directory" ) );
             final File monitoringLogDir = new File( logDir, "monitoring" );
             if ( !monitoringLogDir.exists() ) {
                 monitoringLogDir.mkdir();

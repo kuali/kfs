@@ -88,9 +88,9 @@
     
     <property name="searchingTypeDefinitions">
         <list>
-          <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+          <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
             <property name="searchingAttribute">
-              <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+              <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount"/>
                 <property name="attributeName" value="payeeIdentifierTypeCode"/>
               </bean>
@@ -101,9 +101,9 @@
               </list>
             </property>
           </bean>
-          <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+          <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
             <property name="searchingAttribute">
-              <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+              <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount"/>
                 <property name="attributeName" value="payeeIdNumber"/>
               </bean>
@@ -114,9 +114,9 @@
               </list>
             </property>
           </bean>
-          <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+          <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
             <property name="searchingAttribute">
-              <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+              <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount"/>
                 <property name="attributeName" value="payeeName"/>
               </bean>

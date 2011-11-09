@@ -25,11 +25,11 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceDueDateValidation extends GenericValidation {
     
@@ -49,7 +49,7 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
         }
         else {
             long diffInDays = getDifferenceInDays(billingDateTimestamp, dueDateTimestamp); //DateUtils.getDifferenceInDays(billingDateTimestamp, dueDateTimestamp);
-            int maxNumOfDaysAfterCurrentDateForInvoiceDueDate = Integer.parseInt(parameterService.getParameterValue(CustomerInvoiceDocument.class, ArConstants.MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE));
+            int maxNumOfDaysAfterCurrentDateForInvoiceDueDate = Integer.parseInt(parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE));
             if (diffInDays >= maxNumOfDaysAfterCurrentDateForInvoiceDueDate) {
                 GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_MORE_THAN_X_DAYS, maxNumOfDaysAfterCurrentDateForInvoiceDueDate + "");
                 return false;

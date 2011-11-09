@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.report.util;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Used to hold the KEMIDs with multiple BenefittingOrganizations data for report

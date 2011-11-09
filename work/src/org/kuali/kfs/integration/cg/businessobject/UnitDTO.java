@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "unitDTO", propOrder = {
     "organizationId",
@@ -90,9 +90,9 @@ public class UnitDTO extends BusinessObjectBase implements ContractsAndGrantsUni
     public void refresh() {}
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("UnitDTO", this.unitNumber);
         return m;

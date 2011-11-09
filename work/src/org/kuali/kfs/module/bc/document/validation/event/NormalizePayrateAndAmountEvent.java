@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.validation.event;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rule.BusinessRule;
 
 /**
  * Event triggered when normalizing the pay rate and salary amount.

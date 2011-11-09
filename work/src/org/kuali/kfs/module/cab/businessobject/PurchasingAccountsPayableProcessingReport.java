@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cab.businessobject;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class PurchasingAccountsPayableProcessingReport extends GeneralLedgerEntry {
     private Integer purapDocumentIdentifier;

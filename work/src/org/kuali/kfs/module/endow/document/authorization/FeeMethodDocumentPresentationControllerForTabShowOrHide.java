@@ -60,7 +60,7 @@ public class FeeMethodDocumentPresentationControllerForTabShowOrHide extends Fin
     }
     
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {

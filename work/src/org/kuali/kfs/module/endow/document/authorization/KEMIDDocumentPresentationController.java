@@ -24,32 +24,32 @@ import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class KEMIDDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
 
         Set<String> fields = super.getConditionallyReadOnlyPropertyNames(document);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-        String kemidValueSystemParam = parameterService.getParameterValue(KEMID.class, EndowParameterKeyConstants.KEMID_VALUE);
+        String kemidValueSystemParam = parameterService.getParameterValueAsString(KEMID.class, EndowParameterKeyConstants.KEMID_VALUE);
 
         if (EndowConstants.KemidValueOptions.AUTOMATIC.equalsIgnoreCase(kemidValueSystemParam)) {
             fields.add(EndowPropertyConstants.KEMID);
         }
 
-        if (KNSConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (KRADConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KRADConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
             fields.add(EndowPropertyConstants.KEMID_DORMANT_IND);
             fields.add(EndowPropertyConstants.KEMID_CLOSED_IND);
 
         }
-        if (KNSConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (KRADConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
 
             fields.add(EndowPropertyConstants.KEMID_CLOSED_TO_KEMID);
             fields.add(EndowPropertyConstants.KEMID_CLOSE_CODE);

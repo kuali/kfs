@@ -49,7 +49,7 @@ public class ConfigurableSequenceManager implements SequenceManager {
             return (SequenceManager) sequenceManagerObject;
         }
         catch (Exception e) {
-            String message = "Unable to configure SequenceManager specified by " + SEQUENCE_MANAGER_CLASS_NAME_PROPERTY + " KualiConfigurationService property";
+            String message = "Unable to configure SequenceManager specified by " + SEQUENCE_MANAGER_CLASS_NAME_PROPERTY + " ConfigurationService property";
             LOG.fatal(message, e);
             throw new RuntimeException(message, e);
         }

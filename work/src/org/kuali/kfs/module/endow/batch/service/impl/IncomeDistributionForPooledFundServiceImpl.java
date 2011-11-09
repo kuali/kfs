@@ -46,16 +46,16 @@ import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEv
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -174,7 +174,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         }
 
         // add the doc description and security
-        cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_DESCRIPTION));
+        cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValueAsString(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_DESCRIPTION));
         cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
         addSecurityDetailToECI(cashIncreaseDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, securityId, registrationCode);
 
@@ -256,7 +256,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                                 }
                                 else {
                                     // add the doc description and security detail
-                                    cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_DESCRIPTION));
+                                    cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValueAsString(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_DESCRIPTION));
                                     cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
                                     addSecurityDetailToECI(cashIncreaseDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
                                     // reset reports
@@ -322,7 +322,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
 
         CashTransferDocument cashTransferDocument = initializeCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, EndowConstants.MAXMUM_NUMBER_OF_EDOC_INITIALIZATION_TRY);
         if (ObjectUtils.isNotNull(cashTransferDocument)) {
-            cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_DESCRIPTION));
+            cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValueAsString(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_DESCRIPTION));
             cashTransferDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
             // add security
             addSecurityDetailToECT(cashTransferDocument, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
@@ -359,7 +359,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                 }
                 else {
                     // add the doc description and security
-                    cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_DESCRIPTION));
+                    cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValueAsString(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_DESCRIPTION));
                     cashTransferDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
                     // populate security
                     addSecurityDetailToECT(cashTransferDocument, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());                    
@@ -373,7 +373,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
             // add a source transaction line
             EndowmentSourceTransactionLine sourceTransactionLine = new EndowmentSourceTransactionLine();
             sourceTransactionLine.setKemid(holdingTaxLot.getKemid());
-            sourceTransactionLine.setEtranCode(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE));
+            sourceTransactionLine.setEtranCode(parameterService.getParameterValueAsString(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE));
             sourceTransactionLine.setTransactionLineDescription("To <" + kemidPayoutInstruction.getPayIncomeToKemid() + ">");
             sourceTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
             sourceTransactionLine.setTransactionAmount(toalTransactionAmount.multiply(kemidPayoutInstruction.getPercentOfIncomeToPayToKemid()));
@@ -381,7 +381,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
             // add a target transaction line
             EndowmentTargetTransactionLine targetTransactionLine = new EndowmentTargetTransactionLine();
             targetTransactionLine.setKemid(holdingTaxLot.getKemid());
-            targetTransactionLine.setEtranCode(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE));
+            targetTransactionLine.setEtranCode(parameterService.getParameterValueAsString(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE));
             targetTransactionLine.setTransactionLineDescription("From <" + kemidPayoutInstruction.getPayIncomeToKemid() + ">");
             targetTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
             targetTransactionLine.setTransactionAmount(toalTransactionAmount.multiply(kemidPayoutInstruction.getPercentOfIncomeToPayToKemid()));
@@ -601,7 +601,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      * @return boolean
      */
     public boolean isNoRoute(String paramNoRouteInd) {
-        return parameterService.getIndicatorParameter(IncomeDistributionForPooledFundStep.class, paramNoRouteInd);
+        return parameterService.getParameterValueAsBoolean(IncomeDistributionForPooledFundStep.class, paramNoRouteInd);
     }
 
     /**

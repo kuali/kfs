@@ -20,7 +20,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 
 public class PurchaseOrderRetransmitDocumentPresentationController extends PurchaseOrderDocumentPresentationController {

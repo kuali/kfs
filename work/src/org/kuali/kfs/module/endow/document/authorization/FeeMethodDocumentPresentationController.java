@@ -32,7 +32,7 @@ import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class FeeMethodDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
@@ -58,7 +58,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
 
         String feeMethodCode = feeMethod.getCode();
         // the frequency code on a Fee Method cannot be changed if that Fee Method is used on at least one KEMID
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) && StringUtils.isNotEmpty(feeMethodCode)) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) && StringUtils.isNotEmpty(feeMethodCode)) {
             FeeMethodService feeMethodService = SpringContext.getBean(FeeMethodService.class);
             if (feeMethodService.isFeeMethodUsedOnAnyKemid(feeMethodCode)) {
                 readOnlyPropertyNames.add(EndowPropertyConstants.FEE_METHOD_FREQUENCY_CODE);
@@ -69,7 +69,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {

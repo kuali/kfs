@@ -36,9 +36,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class is used to create and test populated CreditMemo Documents of various kinds.
@@ -108,7 +108,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
         creditMemoDocument.prepareForSave();       
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(creditMemoDocument, "saving copy source docu ament", null, documentService);
         WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), "F");    
         return creditMemoDocument;
@@ -139,14 +139,14 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         //SpringContext.getBean(AccountsPayableService.class).updateItemList(creditMemoDocument);
         SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(creditMemoDocument);
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
-        assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         
         // Route and test.
         AccountingDocumentTestUtils.routeDocument(creditMemoDocument, "routing document", null, SpringContext.getBean(DocumentService.class));
-        WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
         final String docId = creditMemoDocument.getDocumentNumber();
         creditMemoDocument = (CreditMemoDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", creditMemoDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", creditMemoDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
     */
 
@@ -173,11 +173,11 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        //assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        //assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isFinal());
         // get related POs, if count = 1 then all is well
         Integer linkIdentifier = requisitionDocument.getAccountsPayablePurchasingDocumentLinkIdentifier();
         List<PurchaseOrderView> relatedPOs = SpringContext.getBean(PurapService.class).getRelatedViews(PurchaseOrderView.class, linkIdentifier);

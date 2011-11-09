@@ -55,7 +55,7 @@
   <bean id="Room-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
   	<property name="forceUppercase" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="Room-buildingCode" parent="Room-buildingCode-parentBean"/>

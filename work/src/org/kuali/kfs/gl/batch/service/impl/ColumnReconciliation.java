@@ -16,7 +16,7 @@
 package org.kuali.kfs.gl.batch.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Data for reconciliation of columns

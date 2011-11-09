@@ -36,19 +36,19 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.XmlObjectSerializerService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.XmlObjectSerializerService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.workflow.DocumentInitiator;
 import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 @ConfigureContext(session = khuntley)
@@ -175,9 +175,9 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
     public final void testRouting() throws Exception {
         EffortCertificationDocument document = buildDocument();
         System.out.println("EffortCertificationDocument doc# " + document.getDocumentNumber());
-        KualiWorkflowDocument testDoc = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument testDoc = document.getDocumentHeader().getWorkflowDocument();
         testDoc.blanketApprove("Approved by unit test");
-        assertTrue("Document didn't route!", testDoc.stateIsProcessed() || testDoc.stateIsFinal());
+        assertTrue("Document didn't route!", testDoc.isProcessed() || testDoc.isFinal());
 
         List<ActionRequestValue> tempValues = SpringContext.getBean(ActionRequestService.class).findByRouteHeaderIdIgnoreCurrentInd(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
         Set<String> serviceNodes = new HashSet<String>();

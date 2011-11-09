@@ -37,9 +37,9 @@ import org.kuali.kfs.module.ld.dataaccess.LaborDao;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * OJB Implementation of Labor Distribution DAO database queries.
@@ -164,7 +164,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#insert(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#insert(org.kuali.rice.krad.bo.BusinessObject)
      */
     public void insert(BusinessObject businessObject) {
         getPersistenceBroker(true).store(businessObject, ObjectModification.INSERT);

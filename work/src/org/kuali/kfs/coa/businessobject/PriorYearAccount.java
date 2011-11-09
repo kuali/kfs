@@ -26,22 +26,22 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import java.util.ArrayList;
 
 /**
  * 
  */
-public class PriorYearAccount extends PersistableBusinessObjectBase implements AccountIntf, Inactivateable {
+public class PriorYearAccount extends PersistableBusinessObjectBase implements AccountIntf, Inactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PriorYearAccount.class);
 
     private String chartOfAccountsCode;
@@ -134,7 +134,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * Default no-arg constructor.
      */
     public PriorYearAccount() {
-        indirectCostRecoveryAccounts = new TypedArrayList(PriorYearIndirectCostRecoveryAccount.class);
+        indirectCostRecoveryAccounts = new ArrayList<PriorYearIndirectCostRecoveryAccount>();
     }
 
     /**
@@ -728,7 +728,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @return Returns the accountPhysicalCampus
      */
     public Campus getAccountPhysicalCampus() {
-        return accountPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, accountPhysicalCampus, "accountPhysicalCampus");
+        return accountPhysicalCampus = StringUtils.isBlank( accountPhysicalCampusCode)?null:((accountPhysicalCampus!=null && accountPhysicalCampus.getCode().equals( accountPhysicalCampusCode))?accountPhysicalCampus:SpringContext.getBean(CampusService.class).getCampus( accountPhysicalCampusCode));
     }
 
     /**
@@ -747,7 +747,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @return Returns the accountState
      */
     public State getAccountState() {
-        accountState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary( accountStateCode, accountState);
+        accountState = (StringUtils.isBlank( accountStateCode))?null:( accountState == null||!StringUtils.equals( accountState.getCode(), accountStateCode))?SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/, accountStateCode): accountState;
         return accountState;
     }
 
@@ -896,7 +896,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     public Person getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
 
@@ -910,7 +910,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     public Person getAccountManagerUser() {
-        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
 
@@ -924,7 +924,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
 
 
     public Person getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 
@@ -1294,7 +1294,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @return Returns the postalZipCode.
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(accountZipCode, postalZipCode);
+        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode): postalZipCode;
         return postalZipCode;
     }
 
@@ -1345,9 +1345,9 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("chartCode", this.chartOfAccountsCode);

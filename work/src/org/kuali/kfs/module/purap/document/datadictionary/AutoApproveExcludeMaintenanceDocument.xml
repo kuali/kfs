@@ -76,5 +76,5 @@
   <!-- workflow attributes -->
   <bean id="AutoApproveExcludeMaintenanceDocument-workflowAttributes" parent="AutoApproveExcludeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="AutoApproveExcludeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="AutoApproveExcludeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertSparselyEqualBean;
 
 import java.util.ArrayList;
@@ -32,11 +32,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.RouteDocumentRule;
-import org.kuali.rice.kns.rule.SaveDocumentRule;
+import org.kuali.rice.krad.rule.BusinessRule;
+import org.kuali.rice.krad.rule.RouteDocumentRule;
+import org.kuali.rice.krad.rule.SaveDocumentRule;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.service.KualiRuleService;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
 
@@ -48,7 +48,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
         allLines.addAll(document.getSourceAccountingLines());
         allLines.addAll(document.getTargetAccountingLines());
 
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         for (AccountingLine accountingLine : allLines) {
             String collectionName = null;
             if(accountingLine instanceof SourceAccountingLine){
@@ -58,7 +58,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
             }
             boolean ruleResult = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSPropertyConstants.SOURCE_ACCOUNTING_LINE, document, accountingLine));
             if (expected) {
-                assertGlobalErrorMapEmpty(accountingLine.toString());
+                assertGlobalMessageMapEmpty(accountingLine.toString());
             }
             assertEquals(expected, ruleResult);
         }
@@ -68,7 +68,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
         SaveDocumentRule rule = getBusinessRule(document.getClass(), SaveDocumentRule.class);
         boolean rulePassed = rule.processSaveDocument(document);
         if (expected) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
         assertEquals(expected, rulePassed);
     }
@@ -77,7 +77,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
         RouteDocumentRule rule = getBusinessRule(document.getClass(), RouteDocumentRule.class);
         boolean rulePassed = rule.processRouteDocument(document);
         if (expected) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
         assertEquals(expected, rulePassed);
     }

@@ -28,10 +28,10 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.kns.service.ConfigurableDateService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -209,8 +209,8 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         UserNameFixture sessionUser = contextConfiguration.session();
         if (sessionUser != UserNameFixture.NO_SESSION) {
             GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
-            org.kuali.rice.kew.web.session.UserSession.setAuthenticatedUser(
-                    new org.kuali.rice.kew.web.session.UserSession(
+            org.kuali.rice.krad.UserSession.setAuthenticatedUser(
+                    new org.kuali.rice.krad.UserSession(
                             GlobalVariables.getUserSession().getPrincipalId())
                     );
         }

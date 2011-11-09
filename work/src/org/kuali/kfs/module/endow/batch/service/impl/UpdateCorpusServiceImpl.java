@@ -24,8 +24,8 @@ import org.kuali.kfs.module.endow.dataaccess.UpdateCorpusDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -128,7 +128,7 @@ public class UpdateCorpusServiceImpl implements UpdateCorpusService {
      * @return
      */
     protected int getMaxNumberOfTransactionLines() {
-        return Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.MAXIMUM_TRANSACTION_LINES));
+        return Integer.parseInt(parameterService.getParameterValueAsString(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.MAXIMUM_TRANSACTION_LINES));
     }
     
     /**

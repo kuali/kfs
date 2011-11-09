@@ -32,8 +32,8 @@ import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.document.dataaccess.CashManagementDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.TransactionalServiceUtils;
 import org.springframework.dao.DataAccessException;
 
 public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements CashManagementDao {

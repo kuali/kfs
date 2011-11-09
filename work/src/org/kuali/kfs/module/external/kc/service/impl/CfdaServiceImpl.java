@@ -37,8 +37,8 @@ import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.CfdaNumberService;
 import org.kuali.kfs.module.external.kc.webService.CfdaNumberSoapService;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CfdaServiceImpl implements ExternalizableBusinessObjectService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CfdaServiceImpl.class);

@@ -41,14 +41,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Used to create and test populated Requisition Documents of various kinds.
@@ -167,7 +167,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         changeCurrentUser(sterner);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ACCOUNT_REVIEW));
-        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
         assertTrue("sterner should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as sterner", null);
 
@@ -175,11 +175,11 @@ public class RequisitionDocumentTest extends KualiTestBase {
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
         
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
     @ConfigureContext(session = rorenfro, shouldCommitTransactions = true)
@@ -199,7 +199,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         changeCurrentUser(sterner);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ACCOUNT_REVIEW));
-        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
         assertTrue("sterner should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as sterner", null);
 
@@ -207,9 +207,9 @@ public class RequisitionDocumentTest extends KualiTestBase {
         // we'll use jkitchen as the user.
         changeCurrentUser(jkitchen);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        KualiWorkflowDocument workflowDocument = requisitionDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = requisitionDocument.getDocumentHeader().getWorkflowDocument();
         //assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, COMMODITY_CODE_REVIEW));
-        //assertTrue("Document should be enroute.", workflowDocument.stateIsEnroute());
+        //assertTrue("Document should be enroute.", workflowDocument.isEnroute());
         //assertTrue("jkitchen should have an approve request.", workflowDocument.isApprovalRequested());
         //SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as jkitchen", null);
         
@@ -217,11 +217,11 @@ public class RequisitionDocumentTest extends KualiTestBase {
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
         
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
     
     private RequisitionDocument buildSimpleDocument() throws Exception {
@@ -237,7 +237,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
     public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() {
         requisitionDocument = RequisitionDocumentFixture.REQ_INVALID_ITEM_QUANTITY_BASED_NO_QUANTITY.createRequisitionDocument();
         SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(requisitionDocument));
-        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        assertFalse(GlobalVariables.getMessageMap().hasErrors());
     }
     
     private UserNameFixture getInitialUserName() {

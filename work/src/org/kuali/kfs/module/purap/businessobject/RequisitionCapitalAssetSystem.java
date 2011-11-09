@@ -32,7 +32,7 @@ public class RequisitionCapitalAssetSystem extends PurchasingCapitalAssetSystemB
 	    super();
 	}
 
-    @Override
+    
     public Class getCapitalAssetLocationClass() {
         return RequisitionCapitalAssetLocation.class;
     }
@@ -51,7 +51,7 @@ public class RequisitionCapitalAssetSystem extends PurchasingCapitalAssetSystemB
     }
 
     @Override
-	protected LinkedHashMap toStringMapper() {
+	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         if (this.purapDocumentIdentifier != null) {
             m.put("purapDocumentIdentifier", this.purapDocumentIdentifier.toString());

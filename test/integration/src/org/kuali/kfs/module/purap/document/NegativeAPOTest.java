@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * This class is used to create and test populated Requisition Documents
@@ -47,7 +47,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 public class NegativeAPOTest extends KualiTestBase {
 
     private RequisitionService reqService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private PurapService purapService;
     
     private RequisitionDocument requisitionDocument = null;
@@ -58,7 +58,7 @@ public class NegativeAPOTest extends KualiTestBase {
             reqService = SpringContext.getBean(RequisitionService.class);
         }
         if (null == kualiConfigurationService) {
-            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+            kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         }
         if (null == purapService) {
             purapService = SpringContext.getBean(PurapService.class);
@@ -75,9 +75,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }
      }
      
@@ -86,9 +86,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_TOTAL_NOT_GREATER_THAN_ZERO.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));      
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }
      }
      
@@ -97,9 +97,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_CONTAINS_RESTRICTED_ITEM.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));       
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_RESTRICTED_ITEM);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_RESTRICTED_ITEM);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }         
      }
      
@@ -108,9 +108,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));    
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_VENDOR_NOT_SELECTED_FROM_VENDOR_DATABASE);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_VENDOR_NOT_SELECTED_FROM_VENDOR_DATABASE);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }             
      }
      
@@ -120,9 +120,9 @@ public class NegativeAPOTest extends KualiTestBase {
          requisitionDocument.setVendorCityName(null);
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));    
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_SOME_VENDOR_ADDRESS_FIELDS);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_SOME_VENDOR_ADDRESS_FIELDS);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }    
      }
      
@@ -131,9 +131,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_ERROR_RETRIEVING_VENDOR_FROM_DATABASE.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));                 
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_ERROR_RETRIEVING_VENDOR_FROM_DATABASE);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_ERROR_RETRIEVING_VENDOR_FROM_DATABASE);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
@@ -142,9 +142,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_WITH_RESTRICTED_VENDOR.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));   
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_SELECTED_VENDOR_IS_RESTRICTED);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_SELECTED_VENDOR_IS_RESTRICTED);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
@@ -153,9 +153,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_PAYMENT_TYPE_RECURRING.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));      
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_PAYMENT_TYPE_IS_RECURRING);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_PAYMENT_TYPE_IS_RECURRING);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
@@ -164,9 +164,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_PO_TOTAL_LIMIT_NON_ZERO.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument)); 
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_PO_TOTAL_LIMIT_IS_NOT_EMPTY);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_PO_TOTAL_LIMIT_IS_NOT_EMPTY);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
@@ -176,9 +176,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_ALTERNATE_VENDOR_NAMES.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));        
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_ALTERNATE_VENDOR_NAMES);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_ALTERNATE_VENDOR_NAMES);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }           
      }
 
@@ -186,9 +186,9 @@ public class NegativeAPOTest extends KualiTestBase {
      public void testInvalidAPOCapitalAssetFailure() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_FAILS_CAPITAL_ASSET_RULE.createRequisitionDocument();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument)); 
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_ACCT_LINE_CAPITAL_OBJ_LEVEL);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_ACCT_LINE_CAPITAL_OBJ_LEVEL);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
@@ -203,9 +203,9 @@ public class NegativeAPOTest extends KualiTestBase {
          // range of dates during which the next fiscal year is acceptable.
          if (!purapService.isTodayWithinApoAllowedRange()) {
              assertFalse(apoAllowed); 
-             if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-                 String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_OUTSIDE_NEXT_FY_APPROVAL_RANGE);
-                 assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+             if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+                 String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_OUTSIDE_NEXT_FY_APPROVAL_RANGE);
+                 assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
              }
          }
          else {
@@ -219,9 +219,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_APO_INACTIVE_COMMODITY_CODE;
          RequisitionDocument requisitionDocument = fixture.createRequisitionDocument();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_INACTIVE_COMMODITY_CODE);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_INACTIVE_COMMODITY_CODE);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
@@ -231,9 +231,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_APO_COMMODITY_CODE_WITH_SENSITIVE_DATA;
          RequisitionDocument requisitionDocument = fixture.createRequisitionDocument();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_RESTRICTED_COMMODITY_CODE);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_RESTRICTED_COMMODITY_CODE);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
@@ -246,9 +246,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = fixture.createRequisitionDocument();
          requisitionDocument.refreshReferenceObject("vendorDetail");
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_COMMODITY_CODE);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         if (requisitionDocument.getNotes() != null && requisitionDocument.getNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_COMMODITY_CODE);
+             assertTrue(requisitionDocument.getNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      

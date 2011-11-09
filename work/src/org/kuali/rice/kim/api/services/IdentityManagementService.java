@@ -68,7 +68,7 @@ public interface IdentityManagementService {
 
     EntityDefaultQueryResults findEntityDefaults(QueryByCriteria queryByCriteria);
 
-	//KimEntityPrivacyPreferencesInfo getEntityPrivacyPreferences(String entityId);
+	//EntityPrivacyPreferencesInfo getEntityPrivacyPreferences(String entityId);
 
 	Entity getEntity( String entityId);
 	Entity getEntityByPrincipalId( String principalId);

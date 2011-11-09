@@ -81,7 +81,7 @@
 		<property name="label" value="Campus" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
+				p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum AccountingLineFixture {
     LINE(1, "BL", "1031400", "AC", "ADV", "5000", "SSS", "KUL", "Y", "ONE", "01", "1", "blah", GL_DEBIT_CODE, "2.50"), 

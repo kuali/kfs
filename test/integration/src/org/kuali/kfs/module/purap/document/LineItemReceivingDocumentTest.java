@@ -28,12 +28,12 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Used to create and test populated Receiving Line Documents of various kinds. 
@@ -71,11 +71,11 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
             rli.setItemReceivedTotalQuantity( rli.getItemOrderedQuantity());
         }
         receivingLineDocument.prepareForSave();
-        assertFalse("R".equals(receivingLineDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse("R".equals(receivingLineDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         routeDocument(receivingLineDocument, "routing line item receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(receivingLineDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);        
+        WorkflowTestUtils.waitForStatusChange(receivingLineDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);        
         Document document = documentService.getByDocumentHeaderId(receivingLineDocument.getDocumentNumber());
-        assertTrue("Document should now be final.", receivingLineDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", receivingLineDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
     /**

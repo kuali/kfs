@@ -21,7 +21,7 @@ import java.util.Set;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**

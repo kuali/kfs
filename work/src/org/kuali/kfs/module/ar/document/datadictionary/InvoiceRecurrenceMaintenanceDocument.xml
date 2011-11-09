@@ -88,7 +88,7 @@
     	</property>
 	</bean>  
 	
-	 <bean id="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	 <bean id="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
@@ -102,7 +102,7 @@
     	</property>
     </bean>
     
-	<bean id="DocumentValuePathGroup-InvoiceRecurrenceMaintenanceDocument-Account-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+	<bean id="DocumentValuePathGroup-InvoiceRecurrenceMaintenanceDocument-Account-sourceAccountingLines" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentCollectionPath">
 			<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
 				<property name="collectionPath" value="newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines"/>
@@ -110,7 +110,7 @@
 		</property>
 	</bean>
 	<!-- 
-	<bean id="SearchingType-InvoiceRecurrenceMaintenanceDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<bean id="SearchingType-InvoiceRecurrenceMaintenanceDocument-chartOfAccountsCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
         <property name="documentValues">
         	<list>
@@ -118,7 +118,7 @@
         	</list>
         </property>
     </bean>
-    <bean id="SearchingType-InvoiceRecurrenceMaintenanceDocument-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="SearchingType-InvoiceRecurrenceMaintenanceDocument-accountNumber" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-accountNumber"/>
         <property name="documentValues">
         	<list>
@@ -128,7 +128,7 @@
     </bean>     
  -->
   <bean id="InvoiceRecurrenceMaintenanceDocument-DocumentValuePathGroup-billingChartOrg" parent="InvoiceRecurrenceMaintenanceDocument-DocumentValuePathGroup-billingChartOrg-parentBean"/>
-  <bean id="InvoiceRecurrenceMaintenanceDocument-DocumentValuePathGroup-billingChartOrg-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+  <bean id="InvoiceRecurrenceMaintenanceDocument-DocumentValuePathGroup-billingChartOrg-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 			<list>
 				<value>newMaintainableObject.businessObject.customerInvoiceDocument.billByChartOfAccountCode</value>
@@ -137,7 +137,7 @@
 		</property>
   </bean>
 
-  <bean id="InvoiceRecurrenceMaintenanceDocument-RoutingType-BillingChartOrg" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+  <bean id="InvoiceRecurrenceMaintenanceDocument-RoutingType-BillingChartOrg" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
 	<property name="routingAttributes">
 		<list>
 	     	<ref bean="RoutingAttribute-chartOfAccountsCode"/>

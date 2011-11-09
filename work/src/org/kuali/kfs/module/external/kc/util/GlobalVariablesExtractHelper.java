@@ -27,10 +27,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class will help extract the error messages from GlobalVariables object and creates a list of string.
@@ -65,7 +65,7 @@ public class GlobalVariablesExtractHelper {
             errorMessages = (List<ErrorMessage>) errorMap.getErrorMessagesForProperty(errorProperty);
 
             for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(errorMessage.getErrorKey());
+                errorKeyString = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(errorMessage.getErrorKey());
                 messageParams = errorMessage.getMessageParameters();
 
                 // MessageFormat.format only seems to replace one

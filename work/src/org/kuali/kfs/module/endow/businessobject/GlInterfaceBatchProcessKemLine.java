@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class GlInterfaceBatchProcessKemLine extends TransientBusinessObjectBase {
     
@@ -320,10 +320,10 @@ public class GlInterfaceBatchProcessKemLine extends TransientBusinessObjectBase 
 
     /**
      * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap pks = new LinkedHashMap<String, Object>();
         
         pks.put("documentNumber", this.getDocumentNumber());

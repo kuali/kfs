@@ -51,16 +51,16 @@ import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Struts Action for Purchasing and Accounts Payable documents
@@ -79,7 +79,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         // refresh the account summary (note this also updates the account amounts)
         purapForm.refreshAccountSummmary();
 
-        for (org.kuali.rice.kns.bo.Note note : (java.util.List<org.kuali.rice.kns.bo.Note>) document.getDocumentBusinessObject().getBoNotes()) {
+        for (org.kuali.rice.krad.bo.Note note : (java.util.List<org.kuali.rice.krad.bo.Note>) document.getDocumentBusinessObject().getNotes()) {
             note.refreshReferenceObject("attachment");
         }
 
@@ -337,7 +337,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     public ActionForward downloadBOAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) ((PurchasingAccountsPayableFormBase) form).getDocument();
 
-        for (org.kuali.rice.kns.bo.Note note : (java.util.List<org.kuali.rice.kns.bo.Note>) document.getDocumentBusinessObject().getBoNotes()) {
+        for (org.kuali.rice.krad.bo.Note note : (java.util.List<org.kuali.rice.krad.bo.Note>) document.getDocumentBusinessObject().getNotes()) {
             note.refreshReferenceObject("attachment");
         }
 
@@ -456,9 +456,9 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     @Override
     public ActionForward insertBONote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) ((PurchasingAccountsPayableFormBase) form).getDocument();
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if (workflowDocument.stateIsInitiated()) {
+        if (workflowDocument.isInitiated()) {
             SpringContext.getBean(DocumentService.class).saveDocument(document);
         }
 

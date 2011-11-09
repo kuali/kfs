@@ -45,11 +45,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 
 /**
@@ -136,7 +136,7 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_VALIDATION_ERROR);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
+        KNSGlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
@@ -165,11 +165,11 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
 
         BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
 
-        List<KeyLabelPair> fileTypes = new ArrayList<KeyLabelPair>();
-        fileTypes.add(new KeyLabelPair("", "Select a file type to download"));
+        List<KeyValue> fileTypes = new ArrayList<KeyValue>();
+        fileTypes.add(new ConcreteKeyValue("", "Select a file type to download"));
         
         for (String fileAlias : batchInputFileSetType.getFileTypes()) {
-            fileTypes.add(new KeyLabelPair(fileAlias, batchInputFileSetType.getFileTypeDescription().get(fileAlias)));
+            fileTypes.add(new ConcreteKeyValue(fileAlias, batchInputFileSetType.getFileTypeDescription().get(fileAlias)));
         }
         form.setFileTypes(fileTypes);
         

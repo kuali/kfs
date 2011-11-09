@@ -16,7 +16,8 @@
 package org.kuali.kfs.coa.identity;
 
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
@@ -24,11 +25,11 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends Organizati
     private boolean qualificationDeterminesDescendHierarchy;
 
     /***
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
      *      org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         // if no qualification is passed, then we have no basis to reject this
         // (if a null is let through, then we get an NPE below) 
         if ( qualification == null || qualification.isEmpty() || roleQualifier == null || roleQualifier.isEmpty() ) {

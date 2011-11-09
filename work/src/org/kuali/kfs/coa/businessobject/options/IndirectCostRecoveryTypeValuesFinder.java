@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link ICRTypeCode}s)
@@ -47,12 +47,12 @@ public class IndirectCostRecoveryTypeValuesFinder extends KeyValuesBase {
         // sort using comparator.
         Collections.sort(codes, new IndirectCostRecoveryTypeCodeComparator());
 
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
 
         for (IndirectCostRecoveryType icrType : codes) {
             if(icrType.isActive()) {
-                labels.add(new KeyLabelPair(icrType.getCode(), icrType.getCodeAndDescription()));
+                labels.add(new ConcreteKeyValue(icrType.getCode(), icrType.getCodeAndDescription()));
             }
         }
 

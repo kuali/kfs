@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.Constant;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * An implmentation of ValueFinder that allows the balance inquiries to choose whether to show blank entries
@@ -31,7 +31,7 @@ public class BlankLineOptionFinder extends KeyValuesBase implements ValueFinder 
     /**
      * Returns the default value for this ValueFinder, in this case, exclude cost share entries
      * @return a String with the default key
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return Constant.NOT_SHOW_BLANK_LINE;
@@ -42,10 +42,10 @@ public class BlankLineOptionFinder extends KeyValuesBase implements ValueFinder 
      * @return a List of key/value pairs to populate radio buttons
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair(Constant.NOT_SHOW_BLANK_LINE, Constant.NOT_SHOW_BLANK_LINE));
-        labels.add(new KeyLabelPair(Constant.SHOW_BLANK_LINE, Constant.SHOW_BLANK_LINE));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue(Constant.NOT_SHOW_BLANK_LINE, Constant.NOT_SHOW_BLANK_LINE));
+        labels.add(new ConcreteKeyValue(Constant.SHOW_BLANK_LINE, Constant.SHOW_BLANK_LINE));
         return labels;
     }
 }

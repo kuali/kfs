@@ -20,11 +20,12 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.businessobject.SecurityModelDefinition;
-import org.kuali.kfs.sec.identity.SecKimAttributes;
+import org.kuali.kfs.sec.identity.SecKimAttributes; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.role.RoleService;
 
 
 public class KimUtil {
@@ -35,18 +36,18 @@ public class KimUtil {
      * @param roleId id of role to find member for
      * @param memberRoleId id of member role
      * @param membershipQualifications Qualifications to match role membership
-     * @return RoleMembershipInfo containing information on the member record, or null if the member id is not assigned to the role
+     * @return RoleMembership containing information on the member record, or null if the member id is not assigned to the role
      */
-    public static RoleMembershipInfo getRoleMembershipInfoForMemberType(String roleId, String memberRoleId, String memberType, AttributeSet membershipQualifications) {
-        RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
+    public static RoleMembership getRoleMembershipForMemberType(String roleId, String memberRoleId, String memberType, Map<String,String> membershipQualifications) {
+        RoleService roleService = SpringContext.getBean(RoleService.class);
 
         List<String> roleIds = new ArrayList<String>();
         roleIds.add(roleId);
 
-        List<RoleMembershipInfo> roleMembers = roleService.getFirstLevelRoleMembers(roleIds);
+        List<RoleMembership> roleMembers = roleService.getFirstLevelRoleMembers(roleIds);
 
-        RoleMembershipInfo modelMembershipInfo = null;
-        for (RoleMembershipInfo roleMembershipInfo : roleMembers) {
+        RoleMembership modelMembershipInfo = null;
+        for (RoleMembership roleMembershipInfo : roleMembers) {
             if (roleMembershipInfo.getMemberTypeCode().equals(memberType) && roleMembershipInfo.getMemberId().equals(memberRoleId)) {
                 if (membershipQualifications != null) {
                     boolean qualficationsMatch = doQualficationsMatch(membershipQualifications, roleMembershipInfo.getQualifier());
@@ -67,13 +68,13 @@ public class KimUtil {
     }
 
     /**
-     * Determines whether an AttributeSet has the same keys and values as another AttributeSet
+     * Determines whether an Map<String,String> has the same keys and values as another Map<String,String>
      * 
-     * @param qualfiicationToMatch AttributeSet to match keys and values
-     * @param qualfication AttributeSet for matching
-     * @return boolean if second AttributeSet has same keys and values as first
+     * @param qualfiicationToMatch Map<String,String> to match keys and values
+     * @param qualfication Map<String,String> for matching
+     * @return boolean if second Map<String,String> has same keys and values as first
      */
-    public static boolean doQualficationsMatch(AttributeSet qualfiicationToMatch, AttributeSet qualfication) {
+    public static boolean doQualficationsMatch(Map<String,String> qualfiicationToMatch, Map<String,String> qualfication) {
         boolean qualficationsMatch = true;
 
         for (String key : qualfiicationToMatch.keySet()) {
@@ -95,18 +96,18 @@ public class KimUtil {
     }
 
     /**
-     * Determines whether each of the qualifying values in the given qualification (AttributeSet) match the given corresponding values
+     * Determines whether each of the qualifying values in the given qualification (Map<String,String>) match the given corresponding values
      * 
-     * @param membershipQualifications AttributeSet containing qualifying values to check
+     * @param membershipQualifications Map<String,String> containing qualifying values to check
      * @param constraintCode constraint code value to match
      * @param operator operator value to match
      * @param attributeValue attribute value to match
      * @return boolean true if all qualifying values match the given values, false if at least one qualifying value does not match
      */
-    public static boolean doMembershipQualificationsMatchValues(AttributeSet membershipQualifications, String constraintCode, String operator, String attributeValue) {
+    public static boolean doMembershipQualificationsMatchValues(Map<String,String> membershipQualifications, String constraintCode, String operator, String attributeValue) {
         String constraintQualifyValue = membershipQualifications.get(SecKimAttributes.CONSTRAINT_CODE);
         String operatorQualifyValue = membershipQualifications.get(SecKimAttributes.OPERATOR);
-        String propertyValueQualifyValue = membershipQualifications.get(SecKimAttributes.PROPERTY_VALUE);
+        String propertyValueQualifyValue = membershipQualifications.get(KimConstants.AttributeConstants.PROPERTY_VALUE);
 
         if (!StringUtils.equals(constraintQualifyValue, constraintCode)) {
             return false;

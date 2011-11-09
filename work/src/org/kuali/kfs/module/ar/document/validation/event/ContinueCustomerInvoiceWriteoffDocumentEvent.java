@@ -16,10 +16,10 @@
 package org.kuali.kfs.module.ar.document.validation.event;
 
 import org.kuali.kfs.module.ar.document.validation.ContinueCustomerInvoiceWriteoffDocumentRule;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.rice.krad.rule.BusinessRule;
+import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
 
 public class ContinueCustomerInvoiceWriteoffDocumentEvent extends KualiDocumentEventBase {
 

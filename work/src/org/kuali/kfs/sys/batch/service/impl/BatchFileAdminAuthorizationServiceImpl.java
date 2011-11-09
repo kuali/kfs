@@ -24,15 +24,16 @@ import org.kuali.kfs.sys.batch.BatchFile;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
 import org.kuali.kfs.sys.batch.service.BatchFileAdminAuthorizationService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.ModuleConfiguration;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.krad.bo.ModuleConfiguration;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAuthorizationService {
 
@@ -41,13 +42,13 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
     
     public boolean canDownload(BatchFile batchFile, Person user) {
         return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
-                KNSConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
+                KRADConstants.KRAD_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
     }
 
     public boolean canDelete(BatchFile batchFile, Person user) {
         return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
-                KNSConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
+                KRADConstants.KRAD_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
     }
     
@@ -67,31 +68,31 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
         return null;
     }
 
-    protected AttributeSet generateDownloadCheckPermissionDetails(BatchFile batchFile, Person user) {
+    protected Map<String,String> generateDownloadCheckPermissionDetails(BatchFile batchFile, Person user) {
         return generatePermissionDetails(batchFile, user);
     }
     
-    protected AttributeSet generateDownloadCheckRoleQualifiers(BatchFile batchFile, Person user) {
+    protected Map<String,String> generateDownloadCheckRoleQualifiers(BatchFile batchFile, Person user) {
         return generateRoleQualifiers(batchFile, user);
     }
 
-    protected AttributeSet generateDeleteCheckPermissionDetails(BatchFile batchFile, Person user) {
+    protected Map<String,String> generateDeleteCheckPermissionDetails(BatchFile batchFile, Person user) {
         return generatePermissionDetails(batchFile, user);
     }
     
-    protected AttributeSet generateDeleteCheckRoleQualifiers(BatchFile batchFile, Person user) {
+    protected Map<String,String> generateDeleteCheckRoleQualifiers(BatchFile batchFile, Person user) {
         return generateRoleQualifiers(batchFile, user);
     }
 
-    protected AttributeSet generatePermissionDetails(BatchFile batchFile, Person user) {
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KimAttributes.NAMESPACE_CODE, determineNamespaceCode(batchFile));
+    protected Map<String,String> generatePermissionDetails(BatchFile batchFile, Person user) {
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, determineNamespaceCode(batchFile));
         permissionDetails.put("filePath", batchFile.retrieveFile().getAbsolutePath());
         return permissionDetails;
     }
     
-    protected AttributeSet generateRoleQualifiers(BatchFile batchFile, Person user) {
-        return new AttributeSet();
+    protected Map<String,String> generateRoleQualifiers(BatchFile batchFile, Person user) {
+        return new HashMap<String,String>();
     }
     
     protected IdentityManagementService getIdentityManagementService() {

@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.HideShowBlock;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.taglib.html.KNSImageTag;
 
 /**
@@ -141,7 +141,7 @@ public class HideShowBlockRenderer implements Renderer {
         showHideButton.setStyleId("tab-"+hideShowBlock.getTabKey()+"-imageToggle");
         showHideButton.setOnclick("javascript: return toggleTab(document, '"+hideShowBlock.getTabKey()+"'); ");
         
-        String riceImageDir = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(riceImageURLProperty);
+        String riceImageDir = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(riceImageURLProperty);
         if (hideShowBlock.isShowing()) {
             showHideButton.setSrc(riceImageDir+"tinybutton-hide.gif");
             showHideButton.setAlt("Hide "+hideShowBlock.getFullLabel());

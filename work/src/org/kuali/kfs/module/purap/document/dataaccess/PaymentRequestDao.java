@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Payment Request DAO Interface.

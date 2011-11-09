@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 public interface PaymentGroupService {
     /**

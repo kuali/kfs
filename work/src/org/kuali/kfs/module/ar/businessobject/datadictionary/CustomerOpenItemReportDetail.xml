@@ -81,7 +81,7 @@
 		<property name="name" value="documentPaymentAmount" />
 		<property name="label" value="Original Document Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
 	<bean id="CustomerOpenItemReportDetail-unpaidUnappliedAmount"
@@ -91,7 +91,7 @@
 		<property name="name" value="unpaidUnappliedAmount" />
 		<property name="label" value="Unpaid/Unapplied Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

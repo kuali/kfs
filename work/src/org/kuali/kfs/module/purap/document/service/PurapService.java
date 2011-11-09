@@ -26,10 +26,10 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Defines methods that must be implemented by classes providing a PurapService. 

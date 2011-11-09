@@ -21,11 +21,11 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kim.bo.Group;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
 
-public class Tickler extends PersistableBusinessObjectBase implements Inactivateable {
+public class Tickler extends PersistableBusinessObjectBase implements Inactivatable {
     
     private String number;
     private String typeCode;
@@ -53,10 +53,10 @@ public class Tickler extends PersistableBusinessObjectBase implements Inactivate
     public Tickler()
     {
         super();
-        kemIds = new TypedArrayList(TicklerKEMID.class);
-        securities = new TypedArrayList(TicklerSecurity.class);
-        recipientPrincipals = new TypedArrayList(TicklerRecipientPrincipal.class);
-        recipientGroups = new TypedArrayList(TicklerRecipientGroup.class);
+        kemIds = new ArrayList<TicklerKEMID>();
+        securities = new ArrayList<TicklerSecurity>();
+        recipientPrincipals = new ArrayList<TicklerRecipientPrincipal>();
+        recipientGroups = new ArrayList<TicklerRecipientGroup>();
     }
     
     public String getNumber() {
@@ -172,9 +172,9 @@ public class Tickler extends PersistableBusinessObjectBase implements Inactivate
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.TICKLER_NUMBER, getNumber());
         return m;

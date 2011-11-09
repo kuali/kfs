@@ -46,18 +46,18 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.spring.Logged;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -78,9 +78,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#processApprovedEffortCertificationDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
     public void processApprovedEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
-        KualiWorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
 
-        if (workflowDocument.stateIsFinal()) {
+        if (workflowDocument.isFinal()) {
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
             this.generateSalaryExpenseTransferDocument(effortCertificationDocument);
         }
@@ -89,7 +89,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#createAndRouteEffortCertificationDocument(org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild)
      */
-    @Logged
+    
     public boolean createAndRouteEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
         try {
             EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) documentService.getNewDocument(EffortConstants.EffortDocumentTypes.EFFORT_CERTIFICATION_DOCUMENT);
@@ -108,7 +108,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#populateEffortCertificationDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild)
      */
-    @Logged
+    
     public boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument, EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
         // populate the fields of the docuemnt
         effortCertificationDocument.setUniversityFiscalYear(effortCertificationDocumentBuild.getUniversityFiscalYear());
@@ -136,7 +136,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#resetEffortCertificationDetailLines(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
-    @Logged
+    
     public void removeEffortCertificationDetailLines(EffortCertificationDocument effortCertificationDocument) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, effortCertificationDocument.getDocumentNumber());
@@ -147,7 +147,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#generateSalaryExpenseTransferDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
-    @Logged
+    
     public boolean generateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
         List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines = this.buildSourceAccountingLines(effortCertificationDocument);
         List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines = this.buildTargetAccountingLines(effortCertificationDocument);
@@ -176,12 +176,12 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#addRouteLooping(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
-    @Logged
+    
     public void addRouteLooping(EffortCertificationDocument effortCertificationDocument) {
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         List<AdHocRoutePerson> adHocRoutePersonList = effortCertificationDocument.getAdHocRoutePersons();
 
-        KualiWorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
         String routeLevelName = workflowDocument.getCurrentRouteNodeNames();
         Set<Person> priorApprovers = getPriorApprovers(workflowDocument);
 
@@ -196,7 +196,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             if (StringUtils.isNotEmpty(accountFiscalOfficerPersonUserId)) {
                 //KULEFR-206
                 //String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);                
-                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, KEWConstants.ACTION_REQUEST_APPROVE_REQ);
+                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
 
                 this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
             }
@@ -206,7 +206,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
                 String accountProjectDirectorPersonUserId = projectDirector.getPrincipalName();
                 //KULEFR-206
                 //String actionRequestOfDirector = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.PROJECT_MANAGEMENT);                 
-                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, KEWConstants.ACTION_REQUEST_APPROVE_REQ);
+                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
 
                 this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
             }
@@ -255,7 +255,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         return isSameAdHocRoutePerson;
     }
 
-    protected Set<Person> getPriorApprovers(KualiWorkflowDocument workflowDocument) {
+    protected Set<Person> getPriorApprovers(WorkflowDocument workflowDocument) {
         Set<Person> priorApprovers = null;
         try {
             priorApprovers = workflowDocument.getAllPriorApprovers();
@@ -276,7 +276,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     protected String getActionRequest(String routeLevelName, String expectedRouteLevelName) {
         boolean isExpectedRouteLevel = StringUtils.equals(routeLevelName, expectedRouteLevelName);
-        return isExpectedRouteLevel ? KEWConstants.ACTION_REQUEST_APPROVE_REQ : KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ;
+        return isExpectedRouteLevel ? KewApiConstants.ACTION_REQUEST_APPROVE_REQ : KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ;
     }
 
     /**

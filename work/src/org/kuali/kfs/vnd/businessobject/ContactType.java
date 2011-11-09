@@ -18,8 +18,8 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Types of Contacts for Vendor Contacts. Typically, these types reflect the Contact's position and/or function within the Vendor's
@@ -27,7 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * 
  * @see org.kuali.kfs.vnd.businessobject.VendorContact
  */
-public class ContactType extends PersistableBusinessObjectBase implements Inactivateable{
+public class ContactType extends PersistableBusinessObjectBase implements Inactivatable{
 
     private String vendorContactTypeCode;
     private String vendorContactTypeDescription;
@@ -68,9 +68,9 @@ public class ContactType extends PersistableBusinessObjectBase implements Inacti
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("vendorContactTypeCode", this.vendorContactTypeCode);
 

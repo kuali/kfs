@@ -65,21 +65,21 @@ import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService; import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -93,7 +93,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     private CreditMemoDao creditMemoDao;
     private DataDictionaryService dataDictionaryService;
     private DocumentService documentService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private NoteService noteService;
     private PaymentRequestService paymentRequestService;
     private PurapAccountingService purapAccountingService;
@@ -120,7 +120,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         this.documentService = documentService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
@@ -202,12 +202,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         if (StringUtils.isNotEmpty(vendorNumber)) {
             // check for existence of another credit memo with the same vendor and vendor credit memo number
             if (creditMemoDao.duplicateExists(VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber), cmDocument.getCreditMemoNumber())) {
-                duplicateMessage = kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER);
+                duplicateMessage = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER);
             }
 
             // check for existence of another credit memo with the same vendor and credit memo date
             if (creditMemoDao.duplicateExists(VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber), cmDocument.getCreditMemoDate(), cmDocument.getCreditMemoAmount())) {
-                duplicateMessage = kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT);
+                duplicateMessage = kualiConfigurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT);
             }
         }
 
@@ -622,7 +622,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         
         boolean hasActiveCreditMemos = false;
         List<String> docNumbers= null;
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
         
         docNumbers= creditMemoDao.getActiveCreditMemoDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
         
@@ -634,9 +634,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             }
             
             //if the document is not in a non-active status then return true and stop evaluation
-            if(!(workflowDocument.stateIsCanceled() ||
-                    workflowDocument.stateIsException() ||
-                    workflowDocument.stateIsFinal()) ){
+            if(!(workflowDocument.isCanceled() ||
+                    workflowDocument.isException() ||
+                    workflowDocument.isFinal()) ){
                 hasActiveCreditMemos = true;
                 break;
             }
@@ -765,7 +765,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             cmDocument.setVendorPostalCode(purchaseOrderDocument.getVendorPostalCode());
             cmDocument.setVendorCountryCode(purchaseOrderDocument.getVendorCountryCode());
             
-            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
+            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
             if (blankAttentionLine){
                 cmDocument.setVendorAttentionName(StringUtils.EMPTY);
             }else{
@@ -849,7 +849,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
 
         // trim description if longer than whats specified in the data dictionary
-        int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class, KRADPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength < description.length()) {
             description = description.substring(0, noteTextMaxLength);
         }

@@ -33,11 +33,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class represents a customer invoice detail on the customer invoice document. This class extends SourceAccountingLine since
@@ -558,10 +558,10 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", getDocumentNumber());
         if (this.getSequenceNumber() != null) {
@@ -822,7 +822,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     
     /**
      * 
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refresh()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refresh()
      */
     public void refresh() {
         super.refresh();

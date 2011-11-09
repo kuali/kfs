@@ -21,10 +21,10 @@ import java.util.Iterator;
 
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentAdHocService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentAdHocService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

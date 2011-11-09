@@ -34,7 +34,7 @@ import org.kuali.kfs.module.purap.document.service.ThresholdService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * A helper class to decide whether to set the receiving document required flag for a purchasing document or not.

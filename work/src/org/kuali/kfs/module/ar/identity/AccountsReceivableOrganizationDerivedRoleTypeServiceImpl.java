@@ -32,20 +32,21 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     protected static final String PROCESSOR_ROLE_NAME = "Processor";
 
     private BusinessObjectService businessObjectService;
     private FinancialSystemUserService financialSystemUserService;
 
-    protected ChartOrgHolder getProcessingChartOrg( AttributeSet qualification ) {
+    protected ChartOrgHolder getProcessingChartOrg( Map<String,String> qualification ) {
         ChartOrgHolderImpl chartOrg = null;
         if ( qualification != null && !qualification.isEmpty() ) {
             chartOrg = new ChartOrgHolderImpl();
@@ -75,7 +76,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
         return chartOrg;
     }
 
-    public boolean hasProcessorRole(ChartOrgHolder userOrg, AttributeSet qualification) {
+    public boolean hasProcessorRole(ChartOrgHolder userOrg, Map<String,String> qualification) {
         ChartOrgHolder processingOrg = getProcessingChartOrg(qualification);
         // if no org passed, check if their primary org is a processing org
         if ( processingOrg == null ) {
@@ -90,7 +91,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
         }        
     }
 
-    public boolean hasBillerRole(ChartOrgHolder userOrg, AttributeSet qualification) {
+    public boolean hasBillerRole(ChartOrgHolder userOrg, Map<String,String> qualification) {
         ChartOrgHolderImpl billingOrg = new ChartOrgHolderImpl();
         if ( qualification != null && !qualification.isEmpty()) {
             billingOrg.setChartOfAccountsCode( qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );
@@ -108,7 +109,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
     
     
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
+    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         if (getFinancialSystemUserService().isActiveFinancialSystemUser(principalId)) {
             ChartOrgHolder userOrg = getFinancialSystemUserService().getPrimaryOrganization(principalId, ArConstants.AR_NAMESPACE_CODE);
@@ -122,9 +123,9 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
     }
     
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
-        List<RoleMembershipInfo> results = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> results = new ArrayList<RoleMembership>();
         Set<String> principalIds = new HashSet<String>();
         if (PROCESSOR_ROLE_NAME.equals(roleName)) {
             ChartOrgHolder processingOrg = getProcessingChartOrg(qualification);
@@ -139,11 +140,11 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
                                     namespaceCode, 
                                     new ChartOrgHolderImpl( oo.getProcessingChartOfAccountCode(), oo.getProcessingOrganizationCode() )));
                     if ( !principalIds.isEmpty() ) {
-                        AttributeSet roleQualifier = new AttributeSet(2);
+                        Map<String,String> roleQualifier = new HashMap<String,String>(2);
                         roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, oo.getProcessingChartOfAccountCode());
                         roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, oo.getProcessingOrganizationCode());
                         for ( String principalId : principalIds ) {
-                            results.add( new RoleMembershipInfo( null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                            results.add( new RoleMembership( null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
                         }
                     }
                 }
@@ -151,11 +152,11 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
                 // get all users for the given org
                 principalIds.addAll( getFinancialSystemUserService().getPrincipalIdsForFinancialSystemOrganizationUsers(ArConstants.AR_NAMESPACE_CODE, processingOrg) );
                 if ( !principalIds.isEmpty() ) {
-                    AttributeSet roleQualifier = new AttributeSet(2);
+                    Map<String,String> roleQualifier = new HashMap<String,String>(2);
                     roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, processingOrg.getChartOfAccountsCode());
                     roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, processingOrg.getOrganizationCode());
                     for ( String principalId : principalIds ) {
-                        results.add( new RoleMembershipInfo( null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                        results.add( new RoleMembership( null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
                     }
                 }
             }
@@ -175,11 +176,11 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
                                     namespaceCode, 
                                     new ChartOrgHolderImpl( oo.getChartOfAccountsCode(), oo.getOrganizationCode() )));
                     if ( !principalIds.isEmpty() ) {
-                        AttributeSet roleQualifier = new AttributeSet(2);
+                        Map<String,String> roleQualifier = new HashMap<String,String>(2);
                         roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, oo.getChartOfAccountsCode());
                         roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, oo.getOrganizationCode());
                         for ( String principalId : principalIds ) {
-                            results.add( new RoleMembershipInfo( null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                            results.add( new RoleMembership( null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
                         }
                     }
                 }
@@ -187,11 +188,11 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
                 // get all users for given org
                 principalIds.addAll( getFinancialSystemUserService().getPrincipalIdsForFinancialSystemOrganizationUsers(ArConstants.AR_NAMESPACE_CODE, billingOrg) );
                 if ( !principalIds.isEmpty() ) {
-                    AttributeSet roleQualifier = new AttributeSet(2);
+                    Map<String,String> roleQualifier = new HashMap<String,String>(2);
                     roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, billingOrg.getChartOfAccountsCode());
                     roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, billingOrg.getOrganizationCode());
                     for ( String principalId : principalIds ) {
-                        results.add( new RoleMembershipInfo( null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                        results.add( new RoleMembership( null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
                     }
                 }
             }

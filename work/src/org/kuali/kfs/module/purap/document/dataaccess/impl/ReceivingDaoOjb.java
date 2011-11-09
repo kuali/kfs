@@ -31,9 +31,9 @@ import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.exception.InfrastructureException;
 
 
 /**

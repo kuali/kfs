@@ -24,7 +24,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.document.web.util.RendererUtil;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This renders a drop down field to JSP
@@ -96,7 +96,7 @@ public class DropDownRenderer extends FieldRendererBase {
         StringBuilder options = new StringBuilder();
         
         for (Object keyLabelPairAsObj : getField().getFieldValidValues()) {
-            options.append(buildOption((KeyLabelPair)keyLabelPairAsObj));
+            options.append(buildOption((KeyValue)keyLabelPairAsObj));
         }
         
         return options.toString();
@@ -107,7 +107,7 @@ public class DropDownRenderer extends FieldRendererBase {
      * @param keyLabelPair the key label pair to create an option tag from
      * @return the String with the option tag in it
      */
-    protected String buildOption(KeyLabelPair keyLabelPair) {
+    protected String buildOption(KeyValue keyLabelPair) {
         StringBuilder option = new StringBuilder();
         
         option.append("<option value=\"");

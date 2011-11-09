@@ -26,8 +26,8 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
@@ -101,8 +101,8 @@ public class TempListLookupForm extends LookupForm {
      */
     @Override
     public void populate(HttpServletRequest request) {
-        String refreshCaller = getParameter(request, KNSConstants.REFRESH_CALLER);
-        if (StringUtils.isNotBlank(refreshCaller) && KNSConstants.QUESTION_REFRESH.equals(refreshCaller) ) {
+        String refreshCaller = getParameter(request, KRADConstants.REFRESH_CALLER);
+        if (StringUtils.isNotBlank(refreshCaller) && KRADConstants.QUESTION_REFRESH.equals(refreshCaller) ) {
             setMethodToCall(WebUtils.parseMethodToCall(this, request));
             if (BCConstants.TEMP_LIST_UNLOCK_METHOD.equals(getMethodToCall())) {
                 String lookupImplID = SpringContext.getBean(BusinessObjectDictionaryService.class).getLookupableID(BudgetConstructionLockSummary.class);

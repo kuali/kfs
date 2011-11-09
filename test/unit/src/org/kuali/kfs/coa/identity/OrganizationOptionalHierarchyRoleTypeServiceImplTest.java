@@ -21,7 +21,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import java.util.HashMap;
+import java.util.Map;
 import org.kuali.rice.kim.service.RoleService;
 
 @ConfigureContext//(session=UserNameFixture.hfore)
@@ -35,12 +36,12 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiT
         OrganizationOptionalHierarchyRoleTypeServiceImpl roleTypeService = new OrganizationOptionalHierarchyRoleTypeServiceImpl();
         roleTypeService.setOrganizationService(SpringContext.getBean(OrganizationService.class));
         
-        AttributeSet roleQualifier = new AttributeSet();
+        Map<String,String> roleQualifier = new HashMap<String,String>();
         roleQualifier.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
         roleQualifier.put(KFSPropertyConstants.ORGANIZATION_CODE, "PHYS");
         roleQualifier.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");
         
-        AttributeSet qualification = new AttributeSet();
+        Map<String,String> qualification = new HashMap<String,String>();
         qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
         qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, "PHYS");
         qualification.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");
@@ -57,7 +58,7 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiT
 //        ArrayList<String> roleIds = new ArrayList<String>( 1 );
 //        roleIds.add( "28" );
 //
-//        AttributeSet qualification = new AttributeSet();
+//        Map<String,String> qualification = new HashMap<String,String>();
 //        qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
 //        qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, "PHYS");
 //        qualification.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");

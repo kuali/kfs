@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Purchase Order Headers.
@@ -31,8 +31,8 @@ public class PurchaseOrderHeaderValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("Retransmission of Purchase Order", "Retransmission of Purchase Order"));
-        keyValues.add(new KeyLabelPair("Purchase Order", "Purchase Order"));
+        keyValues.add(new ConcreteKeyValue("Retransmission of Purchase Order", "Retransmission of Purchase Order"));
+        keyValues.add(new ConcreteKeyValue("Purchase Order", "Purchase Order"));
         return keyValues;
     }
 }

@@ -31,8 +31,8 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * A class that reads fixtures as property files and then sets the fields of

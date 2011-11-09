@@ -28,12 +28,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.quartz.InterruptableJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -153,7 +153,7 @@ public class Job implements StatefulJob, InterruptableJob {
             
             String stepUserName = KFSConstants.SYSTEM_USER;
             if (parameterService.parameterExists(stepClass, STEP_USER_PARM_NM)) {
-                stepUserName = parameterService.getParameterValue(stepClass, STEP_USER_PARM_NM);
+                stepUserName = parameterService.getParameterValueAsString(stepClass, STEP_USER_PARM_NM);
             }
             if (LOG.isInfoEnabled()) {
                 LOG.info(new StringBuffer("Creating user session for step: ").append(step.getName()).append("=").append(stepUserName));
@@ -196,17 +196,17 @@ public class Job implements StatefulJob, InterruptableJob {
         Class stepClass = unProxiedStep.getClass();
         
         DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
-        String dateFormat = parameterService.getParameterValue(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.ALL_DETAIL_TYPE, KNSConstants.SystemGroupParameterNames.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
+        String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
         
         //RUN_IND takes priority: when RUN_IND exists and RUN_IND=Y always run the Step
         //RUN_DATE: when RUN_DATE exists, but the value is empty run the Step
         
         boolean runIndExists = parameterService.parameterExists(stepClass, STEP_RUN_PARM_NM);
-        boolean runInd = (runIndExists ? parameterService.getIndicatorParameter(stepClass, STEP_RUN_PARM_NM) : true);
+        boolean runInd = (runIndExists ? parameterService.getParameterValueAsBoolean(stepClass, STEP_RUN_PARM_NM) : true);
         
         boolean runDateExists = parameterService.parameterExists(stepClass, STEP_RUN_ON_DATE_PARM_NM);
-        boolean runDateIsEmpty = (runDateExists ? StringUtils.isEmpty(parameterService.getParameterValue(stepClass, STEP_RUN_ON_DATE_PARM_NM)) : true);
-        boolean runDateContainsTodaysDate = (runDateExists ? parameterService.getParameterValues(stepClass, STEP_RUN_ON_DATE_PARM_NM).contains(dTService.toString(jobRunDate, dateFormat)): true);
+        boolean runDateIsEmpty = (runDateExists ? StringUtils.isEmpty(parameterService.getParameterValueAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM)) : true);
+        boolean runDateContainsTodaysDate = new ArrayList<String>( (runDateExists ? parameterService.getParameterValuesAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM).contains(dTService.toString(jobRunDate, dateFormat)): true) );
 
         if (!runInd && !runDateExists) {
             if (LOG.isInfoEnabled()) {

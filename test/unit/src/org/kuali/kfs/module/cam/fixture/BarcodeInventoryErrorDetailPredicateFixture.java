@@ -22,7 +22,7 @@ import java.util.Properties;
 
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum BarcodeInventoryErrorDetailPredicateFixture {
     DATA();

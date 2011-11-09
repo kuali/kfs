@@ -25,9 +25,9 @@ import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * A value finder that returns all balance type, but selects the actual balance type
@@ -38,7 +38,7 @@ public class ActualBalanceTypeOptionFinder extends KeyValuesBase implements Valu
      * Returns the value to select: here the value of the actual balance type
      * 
      * @return the balance type code for actual balances
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         OptionsService os = SpringContext.getBean(OptionsService.class);
@@ -61,7 +61,7 @@ public class ActualBalanceTypeOptionFinder extends KeyValuesBase implements Valu
 
         for (Iterator iter = c.iterator(); iter.hasNext();) {
             BalanceType bt = (BalanceType) iter.next();
-            labels.add(new KeyLabelPair(bt.getCode(), bt.getCode() + " - " + bt.getName()));
+            labels.add(new ConcreteKeyValue(bt.getCode(), bt.getCode() + " - " + bt.getName()));
         }
 
         return labels;

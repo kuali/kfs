@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants.BudgetAdjustmentDocumentConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of ba fund restriction levels.
@@ -34,10 +34,10 @@ public class BudgetAdjustmentFundRestrictionsValuesFinder extends KeyValuesBase 
     public List getKeyValues() {
         List keyValues = new ArrayList();
         
-        keyValues.add(new KeyLabelPair(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_FUND, "Fund"));
-        keyValues.add(new KeyLabelPair(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_CHART, "Chart"));
-        keyValues.add(new KeyLabelPair(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_ORGANIZATION, "Organization"));
-        keyValues.add(new KeyLabelPair(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_ACCOUNT, "Account"));
+        keyValues.add(new ConcreteKeyValue(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_FUND, "Fund"));
+        keyValues.add(new ConcreteKeyValue(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_CHART, "Chart"));
+        keyValues.add(new ConcreteKeyValue(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_ORGANIZATION, "Organization"));
+        keyValues.add(new ConcreteKeyValue(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_ACCOUNT, "Account"));
 
         return keyValues;
     }

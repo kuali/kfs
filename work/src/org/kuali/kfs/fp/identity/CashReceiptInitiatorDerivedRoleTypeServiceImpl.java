@@ -20,16 +20,17 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 /**
  * A role which determines membership in role for people who can initiate Cash Receipts.  Members are those 
  * users which belong to KFS-SYS User but NOT KFS-FP Cash Manager.
  */
-public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
-    private RoleManagementService roleManagementService;
+public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
+    private RoleService roleManagementService;
     
     private static final String SYS_USER_ROLE_NAMESPACE = "KFS-SYS";
     private static final String SYS_USER_ROLE_NAME = "User";
@@ -38,10 +39,10 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRo
     
     /**
      * Overridden to check principal id is in KFS-SYS User and not in KFS-FP Cash Manager
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
+    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         if (principalMemberOfSysUsers(principalId, qualification)) {
             if (!principalMemberOfCashManagers(principalId, qualification)) {
                 return true;
@@ -56,7 +57,7 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRo
      * @param qualification the qualification of said shmoe
      * @return true if the said shmoe is indeed a member of KFS-SYS User; false otherwise
      */
-    protected boolean principalMemberOfSysUsers(String principalId, AttributeSet qualification) {
+    protected boolean principalMemberOfSysUsers(String principalId, Map<String,String> qualification) {
         return hasRoleMembership(principalId, qualification, SYS_USER_ROLE_NAMESPACE, SYS_USER_ROLE_NAME);
     }
     
@@ -66,7 +67,7 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRo
      * @param qualification the qualification of said principal
      * @return true if principal is a member of KFS-FP Cash Manager, false otherwise
      */
-    protected boolean principalMemberOfCashManagers(String principalId, AttributeSet qualification) {
+    protected boolean principalMemberOfCashManagers(String principalId, Map<String,String> qualification) {
         return hasRoleMembership(principalId, qualification, CASH_MANAGER_ROLE_NAMESPACE, CASH_MANAGER_ROLE_NAME);
     }
     
@@ -78,18 +79,18 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRo
      * @param roleName the name of the role
      * @return true if the principal is a member of the role, false otherwise
      */
-    protected boolean hasRoleMembership(String principalId, AttributeSet qualification, String namespaceCode, String roleName) {
-        String roleId = getRoleManagementService().getRoleIdByName(namespaceCode, roleName);        
-        return getRoleManagementService().principalHasRole(principalId, Collections.singletonList(roleId), qualification);
+    protected boolean hasRoleMembership(String principalId, Map<String,String> qualification, String namespaceCode, String roleName) {
+        String roleId = getRoleService().getRoleIdByName(namespaceCode, roleName);        
+        return getRoleService().principalHasRole(principalId, Collections.singletonList(roleId), qualification);
     }
 
     /**
      * Gets the roleManagementService attribute. 
      * @return Returns the roleManagementService.
      */
-    protected RoleManagementService getRoleManagementService() {
+    protected RoleService getRoleService() {
         if ( roleManagementService == null) {
-            roleManagementService = SpringContext.getBean(RoleManagementService.class);
+            roleManagementService = SpringContext.getBean(RoleService.class);
         }
         return roleManagementService;
     }

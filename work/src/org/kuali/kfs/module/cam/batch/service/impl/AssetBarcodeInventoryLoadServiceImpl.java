@@ -39,20 +39,20 @@ import org.kuali.kfs.module.cam.document.validation.event.ValidateBarcodeInvento
 import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 /**
  * Implementation of the AssetBarcodeInventoryLoadService interface. Handles loading, parsing, and storing of incoming barcode
@@ -99,7 +99,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     }
 
     /**
-     * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#isCurrentUserInitiator(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#isCurrentUserInitiator(org.kuali.rice.krad.document.Document)
      */
     public boolean isCurrentUserInitiator(Document document) {
         if (document != null) {
@@ -430,7 +430,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
         try {
             if (parameterService.parameterExists(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.MAX_NUMBER_OF_RECORDS_PER_DOCUMENT)) {
-                maxNumberRecordsPerDocument = new Integer(parameterService.getParameterValue(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.MAX_NUMBER_OF_RECORDS_PER_DOCUMENT)).intValue();
+                maxNumberRecordsPerDocument = new Integer(parameterService.getParameterValueAsString(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.MAX_NUMBER_OF_RECORDS_PER_DOCUMENT)).intValue();
             }
 
             while (true) {
@@ -544,7 +544,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      */
     protected AdHocRouteRecipient buildApprovePersonRecipient(String userId) {
         AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
-        adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_APPROVE_REQ);
+        adHocRouteRecipient.setActionRequested(KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
         adHocRouteRecipient.setId(userId);
         return adHocRouteRecipient;
     }

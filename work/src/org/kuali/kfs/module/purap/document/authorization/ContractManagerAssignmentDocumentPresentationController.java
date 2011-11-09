@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.authorization;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 
 public class ContractManagerAssignmentDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
@@ -33,7 +33,7 @@ public class ContractManagerAssignmentDocumentPresentationController extends Pur
      * assign contract manager, an error message will be displayed, instead of creating an
      * ContractManagerAssignmentDocument.
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
      */
     @Override
     public boolean canInitiate(String documentTypeName) {

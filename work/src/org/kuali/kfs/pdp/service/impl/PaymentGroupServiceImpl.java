@@ -33,12 +33,12 @@ import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -178,7 +178,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
      * @see org.kuali.kfs.pdp.service.PaymentGroupService#getSortGroupId(org.kuali.kfs.pdp.businessobject.PaymentGroup)
      */
     public int getSortGroupId(PaymentGroup paymentGroup) {      
-        String DEFAULT_SORT_GROUP_ID_PARAMETER = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.DEFAULT_SORT_GROUP_ID_PARAMETER);
+        String DEFAULT_SORT_GROUP_ID_PARAMETER = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PdpKeyConstants.DEFAULT_SORT_GROUP_ID_PARAMETER);
 
         for (Integer sortGroupId : getSortGroupSelectionParameters().keySet()) {         
             List<String> parameterValues = Arrays.asList(StringUtils.substringAfter(getSortGroupSelectionParameters().get(sortGroupId).getValue(), "=").split(";"));         
@@ -189,17 +189,17 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
             }           
         }
         
-        return new Integer(parameterService.getParameterValue(PaymentGroup.class, DEFAULT_SORT_GROUP_ID_PARAMETER));            
+        return new Integer(parameterService.getParameterValueAsString(PaymentGroup.class, DEFAULT_SORT_GROUP_ID_PARAMETER));            
     }       
        
     /**
      * @see org.kuali.kfs.pdp.service.PaymentGroupService#getSortGroupName(int)
      */
     public String getSortGroupName(int sortGroupId) {      
-        String DEFAULT_SORT_GROUP_ID_PARAMETER = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.DEFAULT_SORT_GROUP_ID_PARAMETER);
+        String DEFAULT_SORT_GROUP_ID_PARAMETER = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PdpKeyConstants.DEFAULT_SORT_GROUP_ID_PARAMETER);
 
-        if ((sortGroupId + "").equals(parameterService.getParameterValue(PaymentGroup.class, DEFAULT_SORT_GROUP_ID_PARAMETER))) {           
-            return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.DEFAULT_GROUP_NAME_OTHER);         
+        if ((sortGroupId + "").equals(parameterService.getParameterValueAsString(PaymentGroup.class, DEFAULT_SORT_GROUP_ID_PARAMETER))) {           
+            return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PdpKeyConstants.DEFAULT_GROUP_NAME_OTHER);         
         }       
         
         return dataDictionaryService.getAttributeLabel(PaymentGroup.class, StringUtils.substringBefore(getSortGroupSelectionParameters().get(sortGroupId).getValue(), "="));         
@@ -218,7 +218,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
      * @return
      */
     protected Map<Integer,ParameterEvaluator> getSortGroupSelectionParameters() {
-        String SORT_GROUP_SELECTION_PARAMETER_PREFIX = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.SORT_GROUP_SELECTION_PARAMETER_PREFIX);
+        String SORT_GROUP_SELECTION_PARAMETER_PREFIX = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PdpKeyConstants.SORT_GROUP_SELECTION_PARAMETER_PREFIX);
         
         if (sortGroupSelectionParameters == null) {         
             sortGroupSelectionParameters = new TreeMap<Integer,ParameterEvaluator>();           
@@ -226,7 +226,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
             int i = 1;          
             while (moreParameters) {            
                 if (parameterService.parameterExists(PaymentGroup.class, SORT_GROUP_SELECTION_PARAMETER_PREFIX + i)) {          
-                    sortGroupSelectionParameters.put(i, parameterService.getParameterEvaluator(PaymentGroup.class, SORT_GROUP_SELECTION_PARAMETER_PREFIX + i, null));           
+                    sortGroupSelectionParameters.put(i, /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(PaymentGroup.class, SORT_GROUP_SELECTION_PARAMETER_PREFIX + i, null));           
                     i++;            
                 }           
                 else {          

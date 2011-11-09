@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Returns list of inquiry namespaces
@@ -35,9 +35,9 @@ public class SecurityInquiryNamespaceFinder extends KeyValuesBase {
     public List getKeyValues() {
         List activeLabels = new ArrayList();
 
-        activeLabels.add(new KeyLabelPair("",""));
-        activeLabels.add(new KeyLabelPair(KFSConstants.ParameterNamespaces.GL, KFSConstants.ParameterNamespaces.GL));
-        activeLabels.add(new KeyLabelPair(SecConstants.LABOR_MODULE_NAMESPACE_CODE, SecConstants.LABOR_MODULE_NAMESPACE_CODE));
+        activeLabels.add(new ConcreteKeyValue("",""));
+        activeLabels.add(new ConcreteKeyValue(KFSConstants.ParameterNamespaces.GL, KFSConstants.ParameterNamespaces.GL));
+        activeLabels.add(new ConcreteKeyValue(SecConstants.LABOR_MODULE_NAMESPACE_CODE, SecConstants.LABOR_MODULE_NAMESPACE_CODE));
 
         return activeLabels;
     }

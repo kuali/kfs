@@ -46,17 +46,17 @@ import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.service.SearchableAttributeProcessingService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Chunk;
@@ -80,7 +80,7 @@ import com.lowagie.text.pdf.PdfWriter;
 public class LockboxServiceImpl implements LockboxService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(LockboxServiceImpl.class);;
 
-    private PersonService<Person> personService;
+    private PersonService personService;
     private DocumentService documentService;
     private SystemInformationService systemInformationService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
@@ -654,7 +654,7 @@ public class LockboxServiceImpl implements LockboxService {
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

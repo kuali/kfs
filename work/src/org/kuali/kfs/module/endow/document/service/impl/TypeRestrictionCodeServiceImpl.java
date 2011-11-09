@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode;
 import org.kuali.kfs.module.endow.document.service.TypeRestrictionCodeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class TypeRestrictionCodeServiceImpl implements TypeRestrictionCodeService {
 

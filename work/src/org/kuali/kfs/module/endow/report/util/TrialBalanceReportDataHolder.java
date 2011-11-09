@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.report.util;
 
 import java.math.BigDecimal;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * The data holder for Trial Balance report

@@ -26,19 +26,19 @@ import org.kuali.kfs.module.endow.businessobject.TypeCode;
 import org.kuali.kfs.module.endow.businessobject.TypeFeeMethod;
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TypeCodeRule extends MaintenanceDocumentRuleBase {
     
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule#processRouteDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.MaintenanceDocumentRule#processRouteDocument(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processRouteDocument(Document document) {
@@ -55,7 +55,7 @@ public class TypeCodeRule extends MaintenanceDocumentRuleBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule#processApproveDocument(ApproveDocumentEvent)
+     * @see org.kuali.rice.kns.rules.MaintenanceDocumentRule#processApproveDocument(ApproveDocumentEvent)
      */
     @Override
     public boolean processApproveDocument(ApproveDocumentEvent approveEvent) {
@@ -103,7 +103,7 @@ public class TypeCodeRule extends MaintenanceDocumentRuleBase {
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {

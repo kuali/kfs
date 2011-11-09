@@ -36,14 +36,14 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.rules.DocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.rice.krad.rules.DocumentRuleBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LineItemReceivingDocumentRule extends DocumentRuleBase implements ContinuePurapRule, AddReceivingItemRule{
 

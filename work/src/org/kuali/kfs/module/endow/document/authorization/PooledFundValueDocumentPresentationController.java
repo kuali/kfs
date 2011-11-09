@@ -26,13 +26,13 @@ import org.kuali.kfs.module.endow.document.service.PooledFundControlService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PooledFundValueDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
@@ -41,7 +41,7 @@ public class PooledFundValueDocumentPresentationController extends FinancialSyst
         PooledFundControlService pooledFundControlService = SpringContext.getBean(PooledFundControlService.class);
 
         // Make Valuation Date gray out (can't edit) when editing a maintenance doc
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
             fields.add(EndowPropertyConstants.VALUATION_DATE);
 
             PooledFundValue oldPooledFundValue = (PooledFundValue) document.getOldMaintainableObject().getBusinessObject();
@@ -81,7 +81,7 @@ public class PooledFundValueDocumentPresentationController extends FinancialSyst
          * Rule: In the pooled fund control, if the Distribute Gains And Losses = "N", LT_GAIN_LOSS / LT_PROC_ON_DT and ST_GAIN_LOSS
          * / ST_PROC_ON_DT fields in the PooledFundValue should be read only in the create/copy mode.
          */
-        if (KNSConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (KRADConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KRADConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
             PooledFundValue newPooledFundValue = (PooledFundValue) document.getNewMaintainableObject().getBusinessObject();
             if (ObjectUtils.isNotNull(newPooledFundValue)) {
                 String pooledSecurityID = newPooledFundValue.getPooledSecurityID();

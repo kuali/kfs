@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.pdp.util;
 
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * PDP Batch Question Callback defines a callback method for post processing handling in the question interface.

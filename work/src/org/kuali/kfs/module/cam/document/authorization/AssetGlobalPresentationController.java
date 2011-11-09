@@ -27,7 +27,7 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
@@ -77,7 +77,7 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
                 fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE);
 
                 // Hiding some fields when the status of the document is not final.
-                if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                if (!document.getDocumentHeader().getWorkflowDocument().isFinal()) {
                     fields.addAll(getAssetGlobalPaymentsHiddenFields(assetGlobal));
                 }
             }

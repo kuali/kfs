@@ -29,11 +29,11 @@ import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * 
@@ -130,7 +130,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link OrganizationReversionGlobalRule#checkOrganizationIsNotAmongOrgRevOrganizations(OrganizationReversionGlobal, OrganizationReversionGlobalOrganization)</li>
      * </ul>
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
@@ -330,7 +330,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
             // is in the lookup class, so I've got to use a web-based class to actually
             // search through the values. Is that right good & healthy?
             for (Object kvPairObj : new OrganizationReversionCodeValuesFinder().getKeyValues()) {
-                KeyLabelPair kvPair = (KeyLabelPair) kvPairObj;
+                KeyValue kvPair = (KeyValue) kvPairObj;
                 if (kvPair.getKey().toString().equals(detail.getOrganizationReversionCode())) {
                     foundInList = true;
                     break;

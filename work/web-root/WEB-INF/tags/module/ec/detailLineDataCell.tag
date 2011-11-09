@@ -77,8 +77,8 @@
 </c:if>              
               
 <c:set var="inquirable" value="${not empty inquirableUrl}" />  
-<c:set var="currencyFormatter" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-<c:set var="integerFormatter" value="org.kuali.rice.kns.web.format.IntegerFormatter"/> 
+<c:set var="currencyFormatter" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+<c:set var="integerFormatter" value="org.kuali.rice.core.web.format.IntegerFormatter"/> 
 
 <c:set var="entryFormatter" value="${attributeEntry.formatterClass}" /> 
 <c:set var="isCurrency" value="${not empty entryFormatter && fn:contains(currencyFormatter, entryFormatter)}" />

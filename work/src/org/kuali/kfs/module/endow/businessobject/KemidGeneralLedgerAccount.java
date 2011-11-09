@@ -20,14 +20,14 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This KemidGeneralLedgerAccount class provides the general ledger account to which transaction information will be interfaced.
  * Also controls etran code use.
  */
-public class KemidGeneralLedgerAccount extends PersistableBusinessObjectBase implements Inactivateable{
+public class KemidGeneralLedgerAccount extends PersistableBusinessObjectBase implements Inactivatable{
 
     private String kemid;
     private String incomePrincipalIndicatorCode;
@@ -41,10 +41,10 @@ public class KemidGeneralLedgerAccount extends PersistableBusinessObjectBase imp
     private boolean active;
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.KEMID, this.kemid);
         m.put(EndowPropertyConstants.KEMID_GL_ACCOUNT_IP_INDICATOR_CD, this.incomePrincipalIndicatorCode);
@@ -196,14 +196,14 @@ public class KemidGeneralLedgerAccount extends PersistableBusinessObjectBase imp
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

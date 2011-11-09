@@ -39,13 +39,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 /**
  * This class is the base action form for all financial documents.
@@ -360,7 +360,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * @return the URL to the accounting line import instructions
      */
     public String getAccountingLineImportInstructionsUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
     }
 
     /**
@@ -433,12 +433,12 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     /**
      * Adds the accounting line file size to the list of max file sizes.
      * 
-     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#customInitMaxUploadSizes()
+     * @see org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#customInitMaxUploadSizes()
      */
     @Override
     protected void customInitMaxUploadSizes() {
         super.customInitMaxUploadSizes();
-        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
+        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
     }
     
     /**
@@ -446,7 +446,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      */
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {                
-        if(StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER)) {
+        if(StringUtils.equals(methodToCallParameterName, KRADConstants.DISPATCH_REQUEST_PARAMETER)) {
             if(this.getExcludedmethodToCall().contains(methodToCallParameterValue)) {
                 return true;
             }

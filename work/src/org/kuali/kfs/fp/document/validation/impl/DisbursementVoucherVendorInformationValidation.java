@@ -28,17 +28,17 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.bo.entity.dto.EntityInfo;
+import org.kuali.rice.kim.bo.entity.dto.EntityNameInfo;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.KimApiConstants.PersonExternalIdentifierTypes;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class DisbursementVoucherVendorInformationValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonValidation.class);
@@ -61,7 +61,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
         if (!payeeDetail.isVendor()) {
             
             String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-            final KimEntityInfo entityInfo= SpringContext.getBean(IdentityManagementService.class).getEntityInfoByPrincipalId(initiator);
+            final EntityInfo entityInfo= SpringContext.getBean(IdentityManagementService.class).getEntityInfoByPrincipalId(initiator);
             String originatorId = entityInfo.getEmploymentInformation().get(0).getEmployeeId();
             String employeeId = payeeDetail.getDisbVchrEmployeeIdNumber();
             // verify that originator does not equal payee
@@ -102,11 +102,11 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
         if (TAX_TYPE_SSN.equals(vendor.getVendorHeader().getVendorTaxTypeCode())) {
             if (isActiveEmployeeSSN(vendor.getVendorHeader().getVendorTaxNumber())) {
                 // determine if the rule is flagged off in the param setting
-                boolean performPrepaidEmployeeInd = parameterService.getIndicatorParameter(DisbursementVoucherDocument.class, PERFORM_PREPAID_EMPL_PARM_NM);
+                boolean performPrepaidEmployeeInd = parameterService.getParameterValueAsBoolean(DisbursementVoucherDocument.class, PERFORM_PREPAID_EMPL_PARM_NM);
 
                 if (performPrepaidEmployeeInd) {
                     /* active vendor employees cannot be paid for prepaid travel */
-                    ParameterEvaluator travelPrepaidPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
+                    ParameterEvaluator travelPrepaidPaymentReasonCodeEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
                     if (travelPrepaidPaymentReasonCodeEvaluator.evaluationSucceeds()) {
                         errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_ACTIVE_EMPLOYEE_PREPAID_TRAVEL);
                         isValid = false;
@@ -117,7 +117,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
            
             else if (isEmployeeSSN(vendor.getVendorHeader().getVendorTaxNumber())) {
                 // check param setting for paid outside payroll check
-                boolean performPaidOutsidePayrollInd = parameterService.getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherConstants.CHECK_EMPLOYEE_PAID_OUTSIDE_PAYROLL_PARM_NM);
+                boolean performPaidOutsidePayrollInd = parameterService.getParameterValueAsBoolean(DisbursementVoucherDocument.class, DisbursementVoucherConstants.CHECK_EMPLOYEE_PAID_OUTSIDE_PAYROLL_PARM_NM);
 
                 if (performPaidOutsidePayrollInd) {
                     /* If vendor is type employee, vendor record must be flagged as paid outside of payroll */

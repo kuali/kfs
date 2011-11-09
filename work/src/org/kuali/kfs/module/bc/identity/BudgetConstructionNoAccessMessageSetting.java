@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.bc.identity;
 
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Interface for role types services that can set no access messages for budget construction.

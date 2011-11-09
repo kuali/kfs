@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cam.utils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class KualiDecimalUtilsTest extends KualiTestBase {
 

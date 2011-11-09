@@ -26,8 +26,8 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Defines methods that must be implemented by a PaymentRequestService implementation.

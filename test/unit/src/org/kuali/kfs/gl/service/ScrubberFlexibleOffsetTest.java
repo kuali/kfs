@@ -27,9 +27,9 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.Guid;
 
 /**
@@ -177,7 +177,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     private void updateDocTypeForScrubberOffsetGeneration() {
         String docTypeCode = "DI";
         final ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        final ParameterEvaluator evaluator = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, docTypeCode);
+        final ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, docTypeCode);
         final String parameterValue = evaluator.getValue();
         if (evaluator.constraintIsAllow()) {
             if (!parameterValue.matches("^"+docTypeCode+"$|^"+docTypeCode+";|;"+docTypeCode+";|;"+docTypeCode+"$")) {

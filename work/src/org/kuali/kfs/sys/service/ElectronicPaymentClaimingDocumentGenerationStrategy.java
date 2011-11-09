@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.service;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * A set of methods that help the ElectronicPaymentClaimingService turn a list of ElectronicPaymentClaim records into a document

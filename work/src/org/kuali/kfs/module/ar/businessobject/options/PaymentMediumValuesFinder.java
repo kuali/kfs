@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 /**
  * 
  * This class returns the list of payment medium value pairs.
@@ -33,12 +33,12 @@ public class PaymentMediumValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<PaymentMedium> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(PaymentMedium.class);
-        List<KeyLabelPair> keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList();
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (PaymentMedium element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCustomerPaymentMediumCode(), element.getCustomerPaymentMediumDescription()));
+            keyValues.add(new ConcreteKeyValue(element.getCustomerPaymentMediumCode(), element.getCustomerPaymentMediumDescription()));
         }
 
         return keyValues;

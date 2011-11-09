@@ -26,14 +26,14 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implements KemidHistoricalCashDao {
     
     /**
      * 
-     * @see org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao#getHistoricalCashRecords(java.util.List, org.kuali.rice.kns.util.KualiInteger)
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao#getHistoricalCashRecords(java.util.List, org.kuali.rice.core.api.util.type.KualiInteger)
      */
     public List<KemidHistoricalCash> getHistoricalCashRecords(List<String> kemids, KualiInteger medId) {
         Criteria criteria = new Criteria();
@@ -46,7 +46,7 @@ public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao#getHistoricalCashRecords(java.util.List, org.kuali.rice.kns.util.KualiInteger, org.kuali.rice.kns.util.KualiInteger)
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao#getHistoricalCashRecords(java.util.List, org.kuali.rice.core.api.util.type.KualiInteger, org.kuali.rice.core.api.util.type.KualiInteger)
      */
     public List<KemidHistoricalCash> getHistoricalCashRecords(List<String> kemids, KualiInteger beginningMed, KualiInteger endingMed) {
         Criteria criteria = new Criteria();
@@ -76,7 +76,7 @@ public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implement
     
     /**
      * 
-     * @see org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao#getKemidsFromHistoryCash(org.kuali.rice.kns.util.KualiInteger, org.kuali.rice.kns.util.KualiInteger)
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao#getKemidsFromHistoryCash(org.kuali.rice.core.api.util.type.KualiInteger, org.kuali.rice.core.api.util.type.KualiInteger)
      */
     public List<KemidHistoricalCash> getKemidsFromHistoryCash(KualiInteger beginningMed, KualiInteger endingMed) {
         return getKemidsFromHistoryCash("", beginningMed, endingMed);
@@ -84,7 +84,7 @@ public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implement
    
     /**
      * 
-     * @see org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao#getKemidsFromHistoryCash(java.lang.String, org.kuali.rice.kns.util.KualiInteger, org.kuali.rice.kns.util.KualiInteger)
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao#getKemidsFromHistoryCash(java.lang.String, org.kuali.rice.core.api.util.type.KualiInteger, org.kuali.rice.core.api.util.type.KualiInteger)
      */
     public List<KemidHistoricalCash> getKemidsFromHistoryCash(String kemid, KualiInteger beginningMed, KualiInteger endingMed) {
         Criteria criteria = new Criteria();

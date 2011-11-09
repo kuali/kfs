@@ -21,8 +21,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Provides an interface for the accounting lines used in the Transfer of Funds documents in the Endowment module.
@@ -212,12 +212,12 @@ public interface EndowmentAccountingLine extends PersistableBusinessObject {
     public String getSubAccountNumber();
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isSourceAccountingLine()
+     * @see org.kuali.rice.krad.bo.AccountingLine#isSourceAccountingLine()
      */
     public boolean isSourceAccountingLine();
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isTargetAccountingLine()
+     * @see org.kuali.rice.krad.bo.AccountingLine#isTargetAccountingLine()
      */
     public boolean isTargetAccountingLine();
 

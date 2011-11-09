@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * An interface of methods to run the Poster

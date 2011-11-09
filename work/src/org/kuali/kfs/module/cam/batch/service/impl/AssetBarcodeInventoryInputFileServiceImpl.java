@@ -37,11 +37,11 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSetServiceImpl implements  AssetBarcodeInventoryInputFileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryInputFileServiceImpl.class);

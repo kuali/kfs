@@ -23,22 +23,23 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType;
-import org.kuali.kfs.sec.identity.SecKimAttributes;
+import org.kuali.kfs.sec.identity.SecKimAttributes; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.permission.Permission;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kim.service.PermissionUpdateService;
-import org.kuali.rice.kim.service.impl.RoleManagementServiceImpl;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kim.service.impl.RoleServiceImpl;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 /**
@@ -57,13 +58,13 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
 
-        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
+        if (documentHeader.getWorkflowDocument().isProcessed()) {
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             try {
                 MaintenanceDocument document = (MaintenanceDocument) documentService.getByDocumentHeaderId(documentHeader.getDocumentNumber());
@@ -73,7 +74,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
                 oldSecurityDefinition.refreshNonUpdateableReferences();
                 newSecurityDefinition.refreshNonUpdateableReferences();
 
-                boolean newMaintenanceAction = getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION) || getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION);
+                boolean newMaintenanceAction = getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION) || getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_COPY_ACTION);
 
                 createOrUpdateDocumentPermissions(oldSecurityDefinition, newSecurityDefinition, newMaintenanceAction);
                 createOrUpdateLookupPermission(oldSecurityDefinition, newSecurityDefinition, newMaintenanceAction);
@@ -98,7 +99,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
      * @param newSecurityDefinition SecurityDefinition after updates
      */
     protected void createOrUpdateDefinitionRole(SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition) {
-        RoleManagementServiceImpl roleService = SpringContext.getBean(RoleManagementServiceImpl.class);
+        RoleServiceImpl roleService = SpringContext.getBean(RoleServiceImpl.class);
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
         
         String roleId = oldSecurityDefinition.getRoleId();
@@ -117,11 +118,11 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
         }
 
         // assign all permissions for definition to role (have same name as role)
-        List<KimPermissionInfo> permissions = permissionService.getPermissionsByName(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, roleName);
-        for (KimPermissionInfo kimPermissionInfo : permissions) {
-            List<String> permissionRoleIds = permissionService.getRoleIdsForPermissionId(kimPermissionInfo.getPermissionId());
+        List<Permission> permissions = permissionService.getPermissionsByName(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, roleName);
+        for (Permission kimPermissionInfo : permissions) {
+            List<String> permissionRoleIds = permissionService.getRoleIdsForPermissionId(kimPermissionInfo.getId());
             if (!permissionRoleIds.contains(roleId)) {
-                roleService.assignPermissionToRole(kimPermissionInfo.getPermissionId(), roleId);
+                roleService.assignPermissionToRole(kimPermissionInfo.getId(), roleId);
             }
         }
     }
@@ -158,15 +159,15 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
      * @param newMaintenanceAction Indicates whether this is a new maintenance record (old side in empty)
      */
     protected void createOrUpdateLookupPermission(SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition, boolean newMaintenanceAction) {
-        AttributeSet permissionDetails = populateLookupPermissionDetails(newSecurityDefinition);
+        Map<String,String> permissionDetails = populateLookupPermissionDetails(newSecurityDefinition);
 
         String permissionId = "";
         if (!newMaintenanceAction) {
             // find old Lookup permission
-            List<KimPermissionInfo> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(), SpringContext.getBean(AccessSecurityService.class).getLookupWithFieldValueTemplateId());
+            List<Permission> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(), SpringContext.getBean(AccessSecurityService.class).getLookupWithFieldValueTemplateId());
             if (permissions != null && !permissions.isEmpty()) {
-                KimPermissionInfo oldPermission = permissions.get(0);
-                permissionId = oldPermission.getPermissionId();
+                Permission oldPermission = permissions.get(0);
+                permissionId = oldPermission.getId();
             }
         }
 
@@ -191,15 +192,15 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
         String ldPermissionId = "";
         if (!newMaintenanceAction) {
             // find old inquiry permissions
-            List<KimPermissionInfo> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(),SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId());
+            List<Permission> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(),SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId());
             if (permissions != null) {
-                for (KimPermissionInfo permissionInfo : permissions) {
-                    String namespaceCode = permissionInfo.getDetails().get(SecKimAttributes.NAMESPACE_CODE);
+                for (Permission permissionInfo : permissions) {
+                    String namespaceCode = permissionInfo.getDetails().get(KimConstants.AttributeConstants.NAMESPACE_CODE);
                     if (StringUtils.equals(KFSConstants.ParameterNamespaces.GL, namespaceCode)) {
-                        glPermissionId = permissionInfo.getPermissionId();
+                        glPermissionId = permissionInfo.getId();
                     }
                     else if (StringUtils.equals(SecConstants.LABOR_MODULE_NAMESPACE_CODE, namespaceCode)) {
-                        ldPermissionId = permissionInfo.getPermissionId();
+                        ldPermissionId = permissionInfo.getId();
                     }
                 }
             }
@@ -207,13 +208,13 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
 
         // need to save gl inquiry permission if new side indicator is true or already has a permission in which case we need to update details and active indicator
         if (newSecurityDefinition.isRestrictGLInquiry() || StringUtils.isNotBlank(glPermissionId)) {
-            AttributeSet permissionDetails = populateInquiryPermissionDetails(KFSConstants.ParameterNamespaces.GL, newSecurityDefinition);
+            Map<String,String> permissionDetails = populateInquiryPermissionDetails(KFSConstants.ParameterNamespaces.GL, newSecurityDefinition);
             savePermission(newSecurityDefinition, glPermissionId, SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId(), newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictGLInquiry(), permissionDetails);
         }
 
         // need to save ld inquiry permission if new side indicator is true or already has a permission in which case we need to update details and active indicator
         if (newSecurityDefinition.isRestrictLaborInquiry() || StringUtils.isNotBlank(ldPermissionId)) {
-            AttributeSet permissionDetails = populateInquiryPermissionDetails(SecConstants.LABOR_MODULE_NAMESPACE_CODE, newSecurityDefinition);
+            Map<String,String> permissionDetails = populateInquiryPermissionDetails(SecConstants.LABOR_MODULE_NAMESPACE_CODE, newSecurityDefinition);
             savePermission(newSecurityDefinition, ldPermissionId, SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId(), newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictLaborInquiry(), permissionDetails);
         }
     }
@@ -226,7 +227,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
      * @param newSecurityDefinition SecurityDefintion which contains values for the permissions
      */
     protected void createNewDocumentTypePermissions(String documentType, boolean active, SecurityDefinition newSecurityDefinition) {
-        AttributeSet permissionDetails = populateDocumentTypePermissionDetails(documentType, newSecurityDefinition);
+        Map<String,String> permissionDetails = populateDocumentTypePermissionDetails(documentType, newSecurityDefinition);
 
         if (newSecurityDefinition.isRestrictViewDocument()) {
             savePermission(newSecurityDefinition, "", SpringContext.getBean(AccessSecurityService.class).getViewDocumentWithFieldValueTemplateId(), active, permissionDetails);
@@ -286,56 +287,56 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
      * @param templateId KIM template id for the permission record that is should be created or updated
      */
     protected void createOrUpdateDocumentTypePermission(String documentType, boolean active, SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition, String templateId) {
-        AttributeSet permissionDetails = populateDocumentTypePermissionDetails(documentType, newSecurityDefinition);
+        Map<String,String> permissionDetails = populateDocumentTypePermissionDetails(documentType, newSecurityDefinition);
 
-        KimPermissionInfo oldPermission = findDocumentPermission(oldSecurityDefinition, templateId, documentType);
+        Permission oldPermission = findDocumentPermission(oldSecurityDefinition, templateId, documentType);
         String permissionId = "";
         if (oldPermission != null) {
-            permissionId = oldPermission.getPermissionId();
+            permissionId = oldPermission.getId();
         }
 
         savePermission(newSecurityDefinition, permissionId, templateId, active, permissionDetails);
     }
 
     /**
-     * Builds an AttributeSet populated from the given method parameters. Details are set based on the KIM 'Security Document Permission' type.
+     * Builds an Map<String,String> populated from the given method parameters. Details are set based on the KIM 'Security Document Permission' type.
      * 
      * @param documentType workflow document type name
      * @param securityDefinition SecurityDefiniton record
-     * @return AttributeSet populated with document type name, property name, operator, and property value details
+     * @return Map<String,String> populated with document type name, property name, operator, and property value details
      */
-    protected AttributeSet populateDocumentTypePermissionDetails(String documentType, SecurityDefinition securityDefinition) {
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(SecKimAttributes.DOCUMENT_TYPE_NAME, documentType);
-        permissionDetails.put(SecKimAttributes.PROPERTY_NAME, securityDefinition.getSecurityAttribute().getName());
+    protected Map<String,String> populateDocumentTypePermissionDetails(String documentType, SecurityDefinition securityDefinition) {
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentType);
+        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, securityDefinition.getSecurityAttribute().getName());
 
         return permissionDetails;
     }
 
     /**
-     * Builds an AttributeSet populated from the given method parameters. Details are set based on the KIM 'Security Lookup Permission' type.
+     * Builds an Map<String,String> populated from the given method parameters. Details are set based on the KIM 'Security Lookup Permission' type.
      * 
      * @param securityDefinition SecurityDefiniton record
-     * @return AttributeSet populated with property name, operator, and property value details
+     * @return Map<String,String> populated with property name, operator, and property value details
      */
-    protected AttributeSet populateLookupPermissionDetails(SecurityDefinition securityDefinition) {
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(SecKimAttributes.PROPERTY_NAME, securityDefinition.getSecurityAttribute().getName());
+    protected Map<String,String> populateLookupPermissionDetails(SecurityDefinition securityDefinition) {
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, securityDefinition.getSecurityAttribute().getName());
 
         return permissionDetails;
     }
 
     /**
-     * Builds an AttributeSet populated from the given method parameters. Details are set based on the KIM 'Security Inquiry Permission' type.
+     * Builds an Map<String,String> populated from the given method parameters. Details are set based on the KIM 'Security Inquiry Permission' type.
      * 
      * @param namespaceCode KIM namespace code
      * @param securityDefinition SecurityDefiniton record
-     * @return AttributeSet populated with namespace, property name, operator, and property value details
+     * @return Map<String,String> populated with namespace, property name, operator, and property value details
      */
-    protected AttributeSet populateInquiryPermissionDetails(String namespaceCode, SecurityDefinition securityDefinition) {
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(SecKimAttributes.NAMESPACE_CODE, namespaceCode);
-        permissionDetails.put(SecKimAttributes.PROPERTY_NAME, securityDefinition.getSecurityAttribute().getName());
+    protected Map<String,String> populateInquiryPermissionDetails(String namespaceCode, SecurityDefinition securityDefinition) {
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
+        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, securityDefinition.getSecurityAttribute().getName());
 
         return permissionDetails;
     }
@@ -347,16 +348,16 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
      * @param securityDefinition SecurityDefiniton record for permission
      * @param templateId KIM template ID for permission
      * @param documentType KEW document type name for permission detail
-     * @return KimPermissionInfo provides information on the matching permission
+     * @return Permission provides information on the matching permission
      */
-    protected KimPermissionInfo findDocumentPermission(SecurityDefinition securityDefinition, String templateId, String documentType) {
+    protected Permission findDocumentPermission(SecurityDefinition securityDefinition, String templateId, String documentType) {
         // get all the permissions for the definition record and template
-        List<KimPermissionInfo> permissions = findSecurityPermissionsByNameAndTemplate(securityDefinition.getName(), templateId);
+        List<Permission> permissions = findSecurityPermissionsByNameAndTemplate(securityDefinition.getName(), templateId);
 
         // iterate through permission list finding permissions that have the document type detail
-        KimPermissionInfo foundPermission = null;
-        for (KimPermissionInfo permissionInfo : permissions) {
-            String permissionDocType = permissionInfo.getDetails().get(SecKimAttributes.DOCUMENT_TYPE_NAME);
+        Permission foundPermission = null;
+        for (Permission permissionInfo : permissions) {
+            String permissionDocType = permissionInfo.getDetails().get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
             if (StringUtils.equalsIgnoreCase(documentType, permissionDocType)) {
                 foundPermission = permissionInfo;
                 break;
@@ -371,17 +372,17 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
      * 
      * @param permissionName name of permission to find
      * @param templateId KIM template ID of permission to find
-     * @return List<KimPermissionInfo> List of matching permissions
+     * @return List<Permission> List of matching permissions
      * @see org.kuali.rice.kim.service.PermissionService#getPermissionsByName()
      */
-    protected List<KimPermissionInfo> findSecurityPermissionsByNameAndTemplate(String permissionName, String templateId) {
+    protected List<Permission> findSecurityPermissionsByNameAndTemplate(String permissionName, String templateId) {
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
 
         // get all the permissions for the given name
-        List<KimPermissionInfo> permissions = permissionService.getPermissionsByNameIncludingInactive(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, permissionName);
+        List<Permission> permissions = permissionService.getPermissionsByNameIncludingInactive(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, permissionName);
 
-        List<KimPermissionInfo> templatePermissions = new ArrayList<KimPermissionInfo>();
-        for (KimPermissionInfo permissionInfo : permissions) {
+        List<Permission> templatePermissions = new ArrayList<Permission>();
+        for (Permission permissionInfo : permissions) {
             if (StringUtils.equals(templateId, permissionInfo.getTemplateId())) {
                 templatePermissions.add(permissionInfo);
             }
@@ -415,10 +416,10 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
      * @param permissionId ID for the permission being saved, or empty for new permission
      * @param permissionTemplateId KIM template ID for permission to save
      * @param active boolean indicating whether the permission should be set to active (true) or non-active (false)
-     * @param permissionDetails AttributeSet representing the permission details
+     * @param permissionDetails Map<String,String> representing the permission details
      * @see org.kuali.rice.kim.service.PermissionUpdateService#savePermission()
      */
-    protected void savePermission(SecurityDefinition securityDefinition, String permissionId, String permissionTemplateId, boolean active, AttributeSet permissionDetails) {
+    protected void savePermission(SecurityDefinition securityDefinition, String permissionId, String permissionTemplateId, boolean active, Map<String,String> permissionDetails) {
         LOG.info(String.format("saving permission with id: %s, template ID: %s, name: %s, active: %s", permissionId, permissionTemplateId, securityDefinition.getName(), active));
 
         PermissionUpdateService permissionUpdateService = SpringContext.getBean(PermissionUpdateService.class);

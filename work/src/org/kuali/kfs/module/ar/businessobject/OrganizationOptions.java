@@ -20,13 +20,13 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.Country;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -533,7 +533,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
      * @return Returns the organizationRemitToState.
      */
     public State getOrganizationRemitToState() {
-        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(organizationRemitToStateCode, organizationRemitToState);
+        organizationRemitToState = (StringUtils.isBlank(organizationRemitToStateCode))?null:( organizationRemitToState == null||!StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode))?SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,organizationRemitToStateCode): organizationRemitToState;
         return organizationRemitToState;
     }
 
@@ -547,9 +547,9 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
     }    
     
 	/**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
-	protected LinkedHashMap toStringMapper() {
+	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
@@ -601,7 +601,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 
     public PostalCode getOrgPostalZipCode() {
         if(ObjectUtils.isNull(orgPostalZipCode)) {
-            orgPostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountry(organizationPostalZipCode);
+            orgPostalZipCode = SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, organizationPostalZipCode );
         }
         return orgPostalZipCode;
     }
@@ -612,7 +612,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 
     public PostalCode getOrgRemitToZipCode() {
         if(ObjectUtils.isNull(orgRemitToZipCode)) {
-            orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountry(organizationRemitToZipCode);
+            orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, organizationRemitToZipCode );
         }
         return orgRemitToZipCode;
     }

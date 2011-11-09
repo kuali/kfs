@@ -28,8 +28,8 @@ import org.kuali.kfs.module.ar.document.validation.event.ContinueCustomerInvoice
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class CustomerInvoiceWriteoffDocumentAction extends FinancialSystemTransactionalDocumentActionBase {

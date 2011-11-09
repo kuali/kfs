@@ -28,7 +28,7 @@ import org.kuali.kfs.module.cab.batch.service.BatchExtractReportService;
 import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class ExtractStep extends AbstractStep {
     private static final Logger LOG = Logger.getLogger(ExtractStep.class);

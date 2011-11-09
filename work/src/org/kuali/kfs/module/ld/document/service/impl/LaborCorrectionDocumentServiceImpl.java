@@ -52,13 +52,13 @@ import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.web.comparator.NumericValueComparator;
-import org.kuali.rice.kns.web.comparator.StringValueComparator;
-import org.kuali.rice.kns.web.comparator.TemporalValueComparator;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.comparator.NumericValueComparator;
+import org.kuali.rice.krad.comparator.StringValueComparator;
+import org.kuali.rice.krad.comparator.TemporalValueComparator;
 import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -190,8 +190,8 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
      *      java.util.Iterator)
      */
     public void persistInputOriginEntriesForInitiatedOrSavedDocument(LaborCorrectionDocument document, Iterator<LaborOriginEntry> entries) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (!workflowDocument.isInitiated() && !workflowDocument.isSaved()) {
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
         }
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
@@ -207,8 +207,8 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
      *      java.util.Iterator)
      */
     public void persistOutputLaborOriginEntriesForInitiatedOrSavedDocument(LaborCorrectionDocument document, Iterator<LaborOriginEntry> entries) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (!workflowDocument.isInitiated() && !workflowDocument.isSaved()) {
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
         }
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -503,8 +503,8 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
         // reload the group from the origin entry service
         Iterator<LaborOriginEntry> inputGroupEntries;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if ((workflowDocument.stateIsSaved() && !(correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad() != null && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputFileName()))) || workflowDocument.stateIsInitiated()) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if ((workflowDocument.isSaved() && !(correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad() != null && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputFileName()))) || workflowDocument.isInitiated()) {
             // we haven't saved the origin entry group yet, so let's load the entries from the DB and persist them for the document
             // this could be because we've previously saved the doc, but now we are now using a new input group, so we have to
             // repersist the input group
@@ -520,7 +520,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             // reload the iterator from the file
             inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
         }
-        else if (workflowDocument.stateIsSaved() && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputFileName())) {
+        else if (workflowDocument.isSaved() && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputFileName())) {
             // we've saved the origin entries before, so just retrieve them
             inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
         }
@@ -642,7 +642,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
      * 
      * @return Returns the kualiConfigurationService.
      */
-    public KualiConfigurationService getKualiConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return kualiConfigurationService;
     }
 
@@ -651,7 +651,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

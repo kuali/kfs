@@ -16,7 +16,7 @@
 package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc;
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 
 /**
  * This class performs actions against the database through direct SQL command calls.

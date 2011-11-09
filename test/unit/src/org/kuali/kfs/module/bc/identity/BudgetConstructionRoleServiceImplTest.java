@@ -24,10 +24,11 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.api.identity.Person;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.service.RoleService;
 
 @ConfigureContext
@@ -37,7 +38,7 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     protected Person universityAdministrationBudgetManager;
     protected Person bothManager;
     protected Person nonProcessor;
-    protected RoleManagementService roleService;
+    protected RoleService roleService;
     @SuppressWarnings("unchecked")
     protected PersonService personService;
     
@@ -49,17 +50,17 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
         // hsoucy is a regional budget manager, a role assigned to the BC Processor role
         bothManager = UserNameFixture.hsoucy.getPerson();
         nonProcessor = UserNameFixture.appleton.getPerson();
-        roleService = SpringContext.getBean( RoleManagementService.class );
+        roleService = SpringContext.getBean( RoleService.class );
         personService = SpringContext.getBean(PersonService.class);
     }
     
     
     public void testRegionalBudgetManagerQualifications() {
-        List<AttributeSet> roleQualifiers = 
+        List<Map<String,String>> roleQualifiers = 
                 roleService.getRoleQualifiersForPrincipalIncludingNested(
                         regionalBudgetManager.getPrincipalId(), 
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, 
-                        BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME, 
+                        BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, 
                         null);
         assertNotNull( "roleQualifiers should not have returned null", roleQualifiers );
         assertFalse( "roleQualifiers should not be empty", roleQualifiers.isEmpty() );
@@ -69,11 +70,11 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     }
 
     public void testUABudgetManagerQualifications() {
-        List<AttributeSet> roleQualifiers = 
+        List<Map<String,String>> roleQualifiers = 
                 roleService.getRoleQualifiersForPrincipalIncludingNested(
                         universityAdministrationBudgetManager.getPrincipalId(), 
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, 
-                        BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME, 
+                        BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, 
                         null);
         assertNotNull( "roleQualifiers should not have returned null", roleQualifiers );
         assertFalse( "roleQualifiers should not be empty", roleQualifiers.isEmpty() );
@@ -83,11 +84,11 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     }
 
     public void testBothBudgetManagerQualifications() {
-        List<AttributeSet> roleQualifiers = 
+        List<Map<String,String>> roleQualifiers = 
                 roleService.getRoleQualifiersForPrincipalIncludingNested(
                         bothManager.getPrincipalId(), 
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, 
-                        BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME, 
+                        BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, 
                         null);
         assertNotNull( "roleQualifiers should not have returned null", roleQualifiers );
         assertFalse( "roleQualifiers should not be empty", roleQualifiers.isEmpty() );
@@ -97,20 +98,20 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     }
     
     public void testNonProcessorQualifications() {
-        List<AttributeSet> roleQualifiers = 
+        List<Map<String,String>> roleQualifiers = 
                 roleService.getRoleQualifiersForPrincipalIncludingNested(
                         nonProcessor.getPrincipalId(), 
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, 
-                        BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME, 
+                        BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, 
                         null);
         assertNotNull( "roleQualifiers should not have returned null", roleQualifiers );
         System.out.println( roleQualifiers );
         assertTrue( "roleQualifiers should have been empty", roleQualifiers.isEmpty() );
     }
     
-    private boolean checkForChartOrg( List<AttributeSet> roleQualifiers, String chart, String org ) {
+    private boolean checkForChartOrg( List<Map<String,String>> roleQualifiers, String chart, String org ) {
         boolean found = false;
-        for ( AttributeSet q : roleQualifiers ) {
+        for ( Map<String,String> q : roleQualifiers ) {
             if ( StringUtils.equals( q.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), chart )
                     && StringUtils.equals( q.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), org ) ) {
                 found = true;

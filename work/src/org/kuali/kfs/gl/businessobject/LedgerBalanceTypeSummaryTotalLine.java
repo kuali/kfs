@@ -19,7 +19,7 @@ import java.text.MessageFormat;
 
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * Holds summary information for the Ledger report
@@ -47,7 +47,7 @@ public class LedgerBalanceTypeSummaryTotalLine extends LedgerSummaryTotalLine {
      * @return the summary for this balance type summary total line
      */
     public String getSummary() {
-        final String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_BALANCE_TYPE_TOTAL);
+        final String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_BALANCE_TYPE_TOTAL);
         return MessageFormat.format(message, financialBalanceTypeCode);
     }
 }

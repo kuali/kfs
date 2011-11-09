@@ -30,12 +30,12 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePu
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -50,10 +50,10 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
      */
     public LineItemReceivingDocument() {
         super();
-        items = new TypedArrayList(getItemClass());
+        items = new ArrayList();
     }
 
-    @Override
+    
     public void initiateDocument(){
         super.initiateDocument();
         this.setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.IN_PROCESS);
@@ -154,7 +154,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         // DOCUMENT CANCELED
         // If the document is canceled then set the line item receiving 
         // status code to CANC.
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+        if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
             setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.CANCELLED);
         }
     }
@@ -175,9 +175,9 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
         return m;
@@ -211,7 +211,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
 
     protected void populateDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
-        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KRADPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength < description.length()) {
             description = description.substring(0, noteTextMaxLength);
         }

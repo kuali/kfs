@@ -24,8 +24,8 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
 
 public class ChartOrgHolderImpl implements ChartOrgHolder {
 

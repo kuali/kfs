@@ -54,7 +54,7 @@
         </dd:relationship>
         <dd:relationship objectAttribute="disbVchrPayeeState">
             <dd:primitiveAttribute source="disbVchrPayeeCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="disbVchrPayeeStateCode" target="postalStateCode"/>            
+            <dd:primitiveAttribute source="disbVchrPayeeStateCode" target="stateCode"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="disbVchrPayeeCountry">
             <dd:primitiveAttribute source="disbVchrPayeeCountryCode" target="postalCountryCode"/>
@@ -200,7 +200,7 @@
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean"/>
 
-  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode" p:sourceAttributeName="postalCode">
     <property name="name" value="disbVchrSpecialHandlingZipCode"/>
     <property name="label" value="Special Handling Postal Code"/>
     <property name="shortLabel" value="Special Handling Postal"/>

@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.type.KimTypeInfoService; import org.kuali.rice.kim.api.services.IdentityManagementService; import org.kuali.rice.core.api.encryption.EncryptionService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 
@@ -73,31 +73,31 @@ public class KimCommonUtils {
                 || (requestedDetailsPropertyName.startsWith(permissionDetailsPropertyName+"."));
     }
 
-//    public static AttributeSet getNamespaceAndComponentSimpleName( Class<? extends Object> clazz) {
-//        AttributeSet attributeSet = new AttributeSet();
-//        attributeSet.put(KimAttributes.NAMESPACE_CODE, getNamespaceCode(clazz));
-//        attributeSet.put(KimAttributes.COMPONENT_NAME, getComponentSimpleName(clazz));
+//    public static Map<String,String> getNamespaceAndComponentSimpleName( Class<? extends Object> clazz) {
+//        Map<String,String> attributeSet = new HashMap<String,String>();
+//        attributeSet.put(KimConstants.AttributeConstants.NAMESPACE_CODE, getNamespaceCode(clazz));
+//        attributeSet.put(KimConstants.AttributeConstants.COMPONENT_NAME, getComponentSimpleName(clazz));
 //        return attributeSet;
 //    }
 //
-//    public static AttributeSet getNamespaceAndComponentFullName( Class<? extends Object> clazz) {
-//        AttributeSet attributeSet = new AttributeSet();
-//        attributeSet.put(KimAttributes.NAMESPACE_CODE, getNamespaceCode(clazz));
-//        attributeSet.put(KimAttributes.COMPONENT_NAME, getComponentFullName(clazz));
+//    public static Map<String,String> getNamespaceAndComponentFullName( Class<? extends Object> clazz) {
+//        Map<String,String> attributeSet = new HashMap<String,String>();
+//        attributeSet.put(KimConstants.AttributeConstants.NAMESPACE_CODE, getNamespaceCode(clazz));
+//        attributeSet.put(KimConstants.AttributeConstants.COMPONENT_NAME, getComponentFullName(clazz));
 //        return attributeSet;
 //    }
 //
-//    public static AttributeSet getNamespaceAndActionClass( Class<? extends Object> clazz) {
-//        AttributeSet attributeSet = new AttributeSet();
-//        attributeSet.put(KimAttributes.NAMESPACE_CODE, getNamespaceCode(clazz));
-//        attributeSet.put(KimAttributes.ACTION_CLASS, clazz.getName());
+//    public static Map<String,String> getNamespaceAndActionClass( Class<? extends Object> clazz) {
+//        Map<String,String> attributeSet = new HashMap<String,String>();
+//        attributeSet.put(KimConstants.AttributeConstants.NAMESPACE_CODE, getNamespaceCode(clazz));
+//        attributeSet.put(KimConstants.AttributeConstants.ACTION_CLASS, clazz.getName());
 //        return attributeSet;
 //    }
 //
 //    public static String getNamespaceCode(Class<? extends Object> clazz) {
 //        ModuleService moduleService = getKualiModuleService().getResponsibleModuleService(clazz);
 //        if (moduleService == null) {
-//            return KimConstants.KIM_TYPE_DEFAULT_NAMESPACE;
+//            return KimApiConstants.KIM_TYPE_DEFAULT_NAMESPACE;
 //        }
 //        return moduleService.getModuleConfiguration().getNamespaceCode();
 //    }
@@ -110,35 +110,35 @@ public class KimCommonUtils {
         return clazz.getName();
     }
 
-//    public static boolean isAttributeSetEntryEquals( AttributeSet map1, AttributeSet map2, String key ) {
+//    public static boolean isAttributeSetEntryEquals( Map<String,String> map1, Map<String,String> map2, String key ) {
 //        return StringUtils.equals( map1.get( key ), map2.get( key ) );
 //    }
 
     /**
      * Resolves the given kim type service name represented as a String to the appropriate QName.
-     * If the value given is empty or null, then it will resolve to the default KimTypeService name.
+     * If the value given is empty or null, then it will resolve to the default KimTypeInfoService name.
      */
-    public static QName resolveKimTypeServiceName(String kimTypeServiceName) {
+    public static QName resolveKimTypeInfoServiceName(String kimTypeServiceName) {
         if (StringUtils.isBlank(kimTypeServiceName)) {
-            return resolveKimTypeServiceName(KimConstants.DEFAULT_KIM_TYPE_SERVICE);
+            return resolveKimTypeInfoServiceName(KimApiConstants.DEFAULT_KIM_TYPE_SERVICE);
         }
         return QName.valueOf(kimTypeServiceName);
     }
 
 //    /**
-//     * @deprecated Please use KIMServiceLocator.getKimTypeService(KimType) instead
+//     * @deprecated Please use KIMServiceLocator.getKimTypeInfoService(KimType) instead
 //     */
 //    @Deprecated
-//    public static KimTypeService getKimTypeService(KimType kimType){
-//        return KIMServiceLocator.getKimTypeService(kimType);
+//    public static KimTypeInfoService getKimTypeInfoService(KimType kimType){
+//        return KIMServiceLocator.getKimTypeInfoService(kimType);
 //    }
 //
 //    /**
-//     * @deprecated Please use KIMServiceLocator.getKimTypeService(QName) instead
+//     * @deprecated Please use KIMServiceLocator.getKimTypeInfoService(QName) instead
 //     */
 //    @Deprecated
-//    public static KimTypeService getKimTypeService( String serviceName ) {
-//        return KIMServiceLocator.getKimTypeService(resolveKimTypeServiceName(serviceName));
+//    public static KimTypeInfoService getKimTypeInfoService( String serviceName ) {
+//        return KIMServiceLocator.getKimTypeInfoService(resolveKimTypeInfoServiceName(serviceName));
 //    }
 
     public static void copyProperties(Object targetToCopyTo, Object sourceToCopyFrom){
@@ -151,7 +151,7 @@ public class KimCommonUtils {
     }
 
     public static String getKimBasePath(){
-        String kimBaseUrl = SpringContext.getBean(ConfigurationService.class).getPropertyString(KimConstants.KimUIConstants.KIM_URL_KEY);
+        String kimBaseUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KimConstants.KimUIConstants.KIM_URL_KEY);
         if (!kimBaseUrl.endsWith(KimConstants.KimUIConstants.URL_SEPARATOR)) {
             kimBaseUrl = kimBaseUrl + KimConstants.KimUIConstants.URL_SEPARATOR;
         }
@@ -184,14 +184,14 @@ public class KimCommonUtils {
 //        return getIdentityManagementService().isAuthorized(
 //                GlobalVariables.getUserSession().getPrincipalId(),
 //                KimConstants.NAMESPACE_CODE,
-//                KimConstants.PermissionNames.OVERRIDE_ENTITY_PRIVACY_PREFERENCES,
+//                KimApiConstants.PermissionNames.OVERRIDE_ENTITY_PRIVACY_PREFERENCES,
 //                null,
-//                new AttributeSet(KimAttributes.PRINCIPAL_ID, principalId) );
+//                new HashMap<String,String>(KimConstants.AttributeConstants.PRINCIPAL_ID, principalId) );
 //    }
 //
 //    public static boolean isSuppressName(String entityId) {
-//        KimEntityPrivacyPreferences privacy = null;
-//        KimEntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
+//        EntityPrivacyPreferences privacy = null;
+//        EntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
 //        if (entityInfo != null) {
 //            privacy = entityInfo.getPrivacyPreferences();
 //        }
@@ -208,8 +208,8 @@ public class KimCommonUtils {
 //    }
 //
 //    public static boolean isSuppressEmail(String entityId) {
-//        KimEntityPrivacyPreferences privacy = null;
-//        KimEntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
+//        EntityPrivacyPreferences privacy = null;
+//        EntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
 //        if (entityInfo != null) {
 //            privacy = entityInfo.getPrivacyPreferences();
 //        }
@@ -226,8 +226,8 @@ public class KimCommonUtils {
 //    }
 //
 //    public static boolean isSuppressAddress(String entityId) {
-//        KimEntityPrivacyPreferences privacy = null;
-//        KimEntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
+//        EntityPrivacyPreferences privacy = null;
+//        EntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
 //        if (entityInfo != null) {
 //            privacy = entityInfo.getPrivacyPreferences();
 //        }
@@ -244,8 +244,8 @@ public class KimCommonUtils {
 //    }
 //
 //    public static boolean isSuppressPhone(String entityId) {
-//        KimEntityPrivacyPreferences privacy = null;
-//        KimEntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
+//        EntityPrivacyPreferences privacy = null;
+//        EntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
 //        if (entityInfo != null) {
 //            privacy = entityInfo.getPrivacyPreferences();
 //        }
@@ -262,8 +262,8 @@ public class KimCommonUtils {
 //    }
 //
 //    public static boolean isSuppressPersonal(String entityId) {
-//        KimEntityPrivacyPreferences privacy = null;
-//        KimEntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
+//        EntityPrivacyPreferences privacy = null;
+//        EntityDefaultInfo entityInfo = getIdentityManagementService().getEntityDefaultInfo(entityId);
 //        if (entityInfo != null) {
 //            privacy = entityInfo.getPrivacyPreferences();
 //        }
@@ -286,7 +286,7 @@ public class KimCommonUtils {
 //        if( externalIdentifierTypeObject!= null && externalIdentifierTypeObject.isEncryptionRequired()){
 //            if(StringUtils.isNotEmpty(externalIdentifier)){
 //                try{
-//                    return KNSServiceLocator.getEncryptionService().encrypt(externalIdentifier);
+//                    return SpringContext.getBean(EncryptionService.class).encrypt(externalIdentifier);
 //                }catch (GeneralSecurityException e) {
 //                    LOG.info("Unable to encrypt value : " + e.getMessage() + " or it is already encrypted");
 //                }
@@ -302,7 +302,7 @@ public class KimCommonUtils {
 //        if( externalIdentifierTypeObject!= null && externalIdentifierTypeObject.isEncryptionRequired()){
 //            if(StringUtils.isNotEmpty(externalIdentifier)){
 //                try{
-//                    return KNSServiceLocator.getEncryptionService().decrypt(externalIdentifier);
+//                    return SpringContext.getBean(EncryptionService.class).decrypt(externalIdentifier);
 //                }catch (GeneralSecurityException e) {
 //                    LOG.info("Unable to decrypt value : " + e.getMessage() + " or it is already decrypted");
 //                }
@@ -313,7 +313,7 @@ public class KimCommonUtils {
 //
 //    public static IdentityManagementService getIdentityManagementService() {
 //        if ( identityManagementService == null ) {
-//            identityManagementService = KIMServiceLocator.getIdentityManagementService();
+//            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
 //        }
 //        return identityManagementService;
 //    }
@@ -340,10 +340,10 @@ public class KimCommonUtils {
 //
 //    public static List<GroupAttributeDataImpl> copyInfoAttributesToGroupAttributes(Map<String, String> infoMap, String groupId, String kimTypeId) {
 //        List<GroupAttributeDataImpl> attrList = new ArrayList<GroupAttributeDataImpl>(infoMap.size());
-//        List<KimTypeAttributeInfo> attributeInfoList = KIMServiceLocator.getTypeInfoService().getKimType(kimTypeId).getAttributeDefinitions();
+//        List<KimTypeAttribute> attributeInfoList = SpringContext.getBean(KimTypeInfoService.class).getKimType(kimTypeId).getAttributeDefinitions();
 //
 //        for (String key : infoMap.keySet()) {
-//            KimTypeAttributeInfo typeAttributeInfo = getAttributeInfo(attributeInfoList, key);
+//            KimTypeAttribute typeAttributeInfo = getAttributeInfo(attributeInfoList, key);
 //
 //            if (typeAttributeInfo != null) {
 //                GroupAttributeDataImpl groupAttribute = new GroupAttributeDataImpl();
@@ -359,9 +359,9 @@ public class KimCommonUtils {
 //        return attrList;
 //    }
 //
-//    private static KimTypeAttributeInfo getAttributeInfo(List<KimTypeAttributeInfo> attributeInfoList, String attributeName) {
-//        KimTypeAttributeInfo kRet = null;
-//        for (KimTypeAttributeInfo attributeInfo : attributeInfoList) {
+//    private static KimTypeAttribute getAttributeInfo(List<KimTypeAttribute> attributeInfoList, String attributeName) {
+//        KimTypeAttribute kRet = null;
+//        for (KimTypeAttribute attributeInfo : attributeInfoList) {
 //            if (attributeInfo.getAttributeName().equals(attributeName)) {
 //                kRet = attributeInfo;
 //                break;

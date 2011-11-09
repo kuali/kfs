@@ -26,8 +26,8 @@ import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Returns a list of done files in batch origin entry directory
@@ -37,8 +37,8 @@ public class ProcessingCorrectionLaborGroupEntriesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> activeLabels = new ArrayList<KeyValue>();
 
         LaborOriginEntryGroupService originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class);;
         File[] fileList = originEntryGroupService.getAllFileInBatchDirectory();
@@ -46,7 +46,7 @@ public class ProcessingCorrectionLaborGroupEntriesFinder extends KeyValuesBase {
             for (File file : fileList) {
                 String fileName = file.getName();
                 if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)) {
-                    activeLabels.add(new KeyLabelPair(fileName, fileName));
+                    activeLabels.add(new ConcreteKeyValue(fileName, fileName));
                 }
             }
         }

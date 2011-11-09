@@ -152,7 +152,7 @@
       <bean parent="AnyCharacterValidationPattern" p:maxLength="2"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="OrganizationExtension-hrmsIuCampusBuilding" parent="OrganizationExtension-hrmsIuCampusBuilding-parentBean"/>

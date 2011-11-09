@@ -22,11 +22,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Maintainable implementation for the chart maintenance document
@@ -36,27 +37,27 @@ public class ChartMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * Override to push chart manager id into KIM
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
-        KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
+        WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
 
-        if (workflowDocument.stateIsProcessed()) {
+        if (workflowDocument.isProcessed()) {
             Chart chart = (Chart) getBusinessObject();
 
-            RoleManagementService roleManagementService = SpringContext.getBean(RoleManagementService.class);
+            RoleService roleManagementService = SpringContext.getBean(RoleService.class);
 
-            AttributeSet qualification = new AttributeSet();
+            Map<String,String> qualification = new HashMap<String,String>();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart.getChartOfAccountsCode());
 
             Person oldChartManager = SpringContext.getBean(ChartService.class).getChartManager(chart.getChartOfAccountsCode());
             if (oldChartManager != null) {
-                roleManagementService.removePrincipalFromRole(oldChartManager.getPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
+                roleManagementService.removePrincipalFromRole(oldChartManager.getPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
             }
 
             if (StringUtils.isNotBlank(chart.getFinCoaManagerPrincipalId())) {
-                roleManagementService.assignPrincipalToRole(chart.getFinCoaManagerPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
+                roleManagementService.assignPrincipalToRole(chart.getFinCoaManagerPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
             }
             
             roleManagementService.flushRoleCaches();

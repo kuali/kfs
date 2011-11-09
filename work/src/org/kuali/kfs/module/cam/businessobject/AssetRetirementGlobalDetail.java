@@ -17,9 +17,9 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -115,9 +115,9 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
 
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         if (this.capitalAssetNumber != null) {

@@ -22,7 +22,7 @@ import org.kuali.kfs.module.bc.batch.dataaccess.GeneralLedgerBudgetLoadDao;
 import org.kuali.kfs.module.bc.batch.service.GLBudgetLoadService;
 import org.kuali.kfs.module.bc.batch.service.GenesisService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

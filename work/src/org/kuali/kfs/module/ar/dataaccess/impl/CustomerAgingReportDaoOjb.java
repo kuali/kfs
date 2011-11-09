@@ -25,8 +25,8 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerAgingReportDao {
     

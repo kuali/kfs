@@ -17,7 +17,7 @@ package org.kuali.kfs.fp.businessobject.lookup;
 
 import java.util.List;
 
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 

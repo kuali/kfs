@@ -43,10 +43,10 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext; import java.util.ArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -521,9 +521,9 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year) {
         List<String> cumulativeForwardBalanceObjectTypes = objectTypeService.getCumulativeForwardBalanceObjectTypes(year);
         List<String> contractsAndGrantsDenotingValues = subFundGroupService.getContractsAndGrantsDenotingValues();
-        final String[] subFundGroupsForCumulativeBalanceForwardingArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {});
-        String[] cumulativeBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE).toArray(new String[] {});
-        boolean fundGroupDenotesCGInd = parameterService.getIndicatorParameter(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
+        final String[] subFundGroupsForCumulativeBalanceForwardingArray = new ArrayList<String>( parameterService.getParameterValuesAsString(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {}) );
+        String[] cumulativeBalanceForwardBalanceTypesArray = new ArrayList<String>( parameterService.getParameterValuesAsString(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE).toArray(new String[] {}) );
+        boolean fundGroupDenotesCGInd = parameterService.getParameterValueAsBoolean(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
         Iterator<Balance> balances = balanceDao.findCumulativeBalancesToForwardForFiscalYear(year, cumulativeForwardBalanceObjectTypes, contractsAndGrantsDenotingValues, subFundGroupsForCumulativeBalanceForwardingArray, cumulativeBalanceForwardBalanceTypesArray, fundGroupDenotesCGInd);
 
         FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, "glBalanceAnnualAndCGTotalNotZeroIterator");
@@ -541,7 +541,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
         List<String> generalForwardBalanceObjectTypes = objectTypeService.getGeneralForwardBalanceObjectTypes(year);
-        String[] generalBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {});
+        String[] generalBalanceForwardBalanceTypesArray = new ArrayList<String>( parameterService.getParameterValuesAsString(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {}) );
         Iterator<Balance> balances = balanceDao.findGeneralBalancesToForwardForFiscalYear(year, generalForwardBalanceObjectTypes, generalBalanceForwardBalanceTypesArray);
 
         Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
@@ -568,7 +568,7 @@ public class BalanceServiceImpl implements BalanceService {
         boolean moreParams = true;
         while (moreParams) {
             if (parameterService.parameterExists(OrganizationReversion.class, PARAMETER_PREFIX + i)) {
-                ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(OrganizationReversion.class, PARAMETER_PREFIX + i);
+                ParameterEvaluator parameterEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(OrganizationReversion.class, PARAMETER_PREFIX + i);
                 parameterEvaluators.add(parameterEvaluator);
             }
             else {

@@ -24,13 +24,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.derviedvaluesetter.DerivedValuesSetter;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kns.web.derivedvaluesetter.DerivedValuesSetter;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
@@ -48,19 +48,19 @@ public class OrgDerivedValuesSetter implements DerivedValuesSetter {
 	    String organizationZipCode = newOrg.getOrganizationZipCode();
 	    String organizationCountryCode = newOrg.getOrganizationCountryCode();
 	    if (StringUtils.isNotBlank(organizationZipCode) && StringUtils.isNotBlank(organizationCountryCode)) {
-	        PostalCode postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(organizationCountryCode, organizationZipCode);
+	        PostalCode postalZipCode = SpringContext.getBean(PostalCodeService.class).getPostalCode(organizationCountryCode, organizationZipCode);
 	        if (ObjectUtils.isNotNull(postalZipCode)) {
-	            newOrg.setOrganizationCityName(postalZipCode.getPostalCityName());
-	            newOrg.setOrganizationStateCode(postalZipCode.getPostalStateCode());
+	            newOrg.setOrganizationCityName(postalZipCode.getCityName());
+	            newOrg.setOrganizationStateCode(postalZipCode.getStateCode());
 	        }
 	        else {
-	            newOrg.setOrganizationCityName(KNSConstants.EMPTY_STRING);
-                newOrg.setOrganizationStateCode(KNSConstants.EMPTY_STRING);
+	            newOrg.setOrganizationCityName(KRADConstants.EMPTY_STRING);
+                newOrg.setOrganizationStateCode(KRADConstants.EMPTY_STRING);
 	        }
 	    }
 	    else {
-            newOrg.setOrganizationCityName(KNSConstants.EMPTY_STRING);
-            newOrg.setOrganizationStateCode(KNSConstants.EMPTY_STRING);
+            newOrg.setOrganizationCityName(KRADConstants.EMPTY_STRING);
+            newOrg.setOrganizationStateCode(KRADConstants.EMPTY_STRING);
 	    }
 	}
 }

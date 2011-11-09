@@ -49,7 +49,7 @@ public class CustomerLoadCSVInputFileType extends CsvBatchInputFileTypeBase<Cust
     
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.api.identity.Person, java.lang.Object, java.lang.String)
      */
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
         return customerLoadService.getFileName(principalName, fileUserIdentifer, FILE_NAME_PREFIX, FILE_NAME_DELIM);

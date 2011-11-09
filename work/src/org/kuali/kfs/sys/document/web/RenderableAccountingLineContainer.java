@@ -30,12 +30,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**
@@ -361,7 +361,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     public boolean isFieldModifyable(String fieldName) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        final boolean pageIsEditable = getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        final boolean pageIsEditable = getForm().getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);
         return accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, fieldName, editableLine, pageIsEditable, currentUser);
     }
 

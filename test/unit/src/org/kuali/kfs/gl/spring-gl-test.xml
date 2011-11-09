@@ -325,7 +325,7 @@
 	            
     <bean id="mockMailService" class="org.kuali.kfs.gl.batch.service.impl.MockMailServiceImpl"/>     
 
-	<bean id="testDateTimeService" class="org.kuali.rice.kns.service.impl.ConfigurableDateTimeServiceImpl">
+	<bean id="testDateTimeService" class="org.kuali.rice.krad.service.impl.ConfigurableDateTimeServiceImpl">
 		<!-- just need to make sure this property is not null -->
 		<property name="currentDate" value="2010-01-01" />
 	</bean>

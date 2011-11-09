@@ -43,16 +43,16 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Business rules applicable to AssetLocationGlobal documents.
@@ -161,9 +161,9 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = super.processCustomRouteDocumentBusinessRules(document);
 
-        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         // adding asset locks
-        if (!GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
+        if (!GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.isInitiated() || workflowDoc.isSaved())) {
             valid &= setAssetLocks(document);
 
         }
@@ -253,7 +253,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         }
         if (assetPaymentService.isPaymentEligibleForOffsetGLPosting(assetPayment)) {
             // check for offset financial object code existing.
-            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), SpringContext.getBean(ParameterService.class).getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE), getAssetRetirementService().getOffsetFinancialObject(asset.getOrganizationOwnerChartOfAccountsCode()), CamsConstants.GLPostingObjectCodeType.OFFSET_AMOUNT);
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), SpringContext.getBean(ParameterService.class).getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE), getAssetRetirementService().getOffsetFinancialObject(asset.getOrganizationOwnerChartOfAccountsCode()), CamsConstants.GLPostingObjectCodeType.OFFSET_AMOUNT);
         }
         return valid;
     }
@@ -315,7 +315,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {

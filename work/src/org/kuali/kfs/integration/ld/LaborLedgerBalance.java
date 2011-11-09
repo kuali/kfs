@@ -26,10 +26,10 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface LaborLedgerBalance extends PersistableBusinessObject, ExternalizableBusinessObject{
 

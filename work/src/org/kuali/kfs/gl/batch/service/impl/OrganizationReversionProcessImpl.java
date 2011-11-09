@@ -54,12 +54,12 @@ import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,7 +81,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
     private OrganizationReversionUnitOfWorkService orgReversionUnitOfWorkService;
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private ParameterService parameterService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
 
     private String batchFileDirectoryName;
     private String outputFileName;
@@ -125,19 +125,19 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
     public void afterPropertiesSet() throws Exception {
-        this.CARRY_FORWARD_OBJECT_CODE = getParameterService().getParameterValue(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE);
-        this.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
-        this.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE = getParameterService().getParameterValue(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        this.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE = getParameterService().getParameterValue(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
-        this.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END = getParameterService().getParameterValue(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END);
-        this.DEFAULT_DOCUMENT_NUMBER_PREFIX = getParameterService().getParameterValue(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.DEFAULT_DOCUMENT_NUMBER_PREFIX);
-        this.CASH_REVERTED_TO_MESSAGE = getConfigurationService().getPropertyString(KFSKeyConstants.OrganizationReversionProcess.CASH_REVERTED_TO);
-        this.FUND_BALANCE_REVERTED_TO_MESSAGE = getConfigurationService().getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_TO);
-        this.CASH_REVERTED_FROM_MESSAGE = getConfigurationService().getPropertyString(KFSKeyConstants.OrganizationReversionProcess.CASH_REVERTED_FROM);
-        this.FUND_BALANCE_REVERTED_FROM_MESSAGE = getConfigurationService().getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_FROM);
-        this.FUND_CARRIED_MESSAGE = getConfigurationService().getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_CARRIED);
-        this.FUND_REVERTED_TO_MESSAGE = getConfigurationService().getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_TO);
-        this.FUND_REVERTED_FROM_MESSAGE = getConfigurationService().getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_FROM);
+        this.CARRY_FORWARD_OBJECT_CODE = getParameterService().getParameterValueAsString(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE);
+        this.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = getParameterService().getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
+        this.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE = getParameterService().getParameterValueAsString(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        this.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE = getParameterService().getParameterValueAsString(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
+        this.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END = getParameterService().getParameterValueAsString(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END);
+        this.DEFAULT_DOCUMENT_NUMBER_PREFIX = getParameterService().getParameterValueAsString(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.DEFAULT_DOCUMENT_NUMBER_PREFIX);
+        this.CASH_REVERTED_TO_MESSAGE = getConfigurationService().getPropertyValueAsString(KFSKeyConstants.OrganizationReversionProcess.CASH_REVERTED_TO);
+        this.FUND_BALANCE_REVERTED_TO_MESSAGE = getConfigurationService().getPropertyValueAsString(KFSKeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_TO);
+        this.CASH_REVERTED_FROM_MESSAGE = getConfigurationService().getPropertyValueAsString(KFSKeyConstants.OrganizationReversionProcess.CASH_REVERTED_FROM);
+        this.FUND_BALANCE_REVERTED_FROM_MESSAGE = getConfigurationService().getPropertyValueAsString(KFSKeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_FROM);
+        this.FUND_CARRIED_MESSAGE = getConfigurationService().getPropertyValueAsString(KFSKeyConstants.OrganizationReversionProcess.FUND_CARRIED);
+        this.FUND_REVERTED_TO_MESSAGE = getConfigurationService().getPropertyValueAsString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_TO);
+        this.FUND_REVERTED_FROM_MESSAGE = getConfigurationService().getPropertyValueAsString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_FROM);
         
         outputFileName = getBatchFileDirectoryName() + File.separator + (usePriorYearInformation ? GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_CLOSING_FILE : GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_PRE_CLOSING_FILE) + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
     }
@@ -1153,7 +1153,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
      * Gets the configurationService attribute. 
      * @return Returns the configurationService.
      */
-    public KualiConfigurationService getConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return configurationService;
     }
 
@@ -1161,7 +1161,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
      * Sets the configurationService attribute value.
      * @param configurationService The configurationService to set.
      */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

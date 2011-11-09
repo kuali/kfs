@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.FeeTypeCode;
 import org.kuali.kfs.module.endow.document.service.FeeTypeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class is the service implementation for the Fee Type. This is the default, Kuali provided implementation.

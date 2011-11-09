@@ -18,8 +18,8 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Generic Phone Numbers for Vendors, as opposed to <code>VendorContactPhoneNumber</code> instances, which are specific to the
@@ -27,7 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * 
  * @see org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber
  */
-public class VendorPhoneNumber extends PersistableBusinessObjectBase implements Inactivateable {
+public class VendorPhoneNumber extends PersistableBusinessObjectBase implements Inactivatable {
 
     private Integer vendorPhoneGeneratedIdentifier;
     private Integer vendorHeaderGeneratedIdentifier;
@@ -173,9 +173,9 @@ public class VendorPhoneNumber extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.vendorPhoneGeneratedIdentifier != null) {
             m.put("vendorPhoneGeneratedIdentifier", this.vendorPhoneGeneratedIdentifier.toString());

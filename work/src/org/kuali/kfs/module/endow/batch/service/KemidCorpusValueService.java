@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.batch.service;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface KemidCorpusValueService {
 

@@ -196,7 +196,7 @@
     <property name="name" value="componentReplacementAmount"/>
     <property name="label" value="Replacement Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetComponent-componentSerialNumber" parent="AssetComponent-componentSerialNumber-parentBean"/>

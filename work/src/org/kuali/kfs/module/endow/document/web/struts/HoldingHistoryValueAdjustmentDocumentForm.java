@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
 
 public class HoldingHistoryValueAdjustmentDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
 

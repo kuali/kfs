@@ -83,7 +83,7 @@
 
 					<c:forEach items="${row.columns}" var="column">
 						<c:choose>
-							<c:when test="${column.formatter.implementationClass == 'org.kuali.rice.kns.web.format.CurrencyFormatter'}">
+							<c:when test="${column.formatter.implementationClass == 'org.kuali.rice.core.web.format.CurrencyFormatter'}">
 								<display:column class="numbercell"
 												sortable="true"
 												decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"

@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class...
@@ -39,7 +39,7 @@ public class PositionNumberValuesFinder extends KeyValuesBase {
         List keyValues = new ArrayList();
         List<String> positionNumberList = document.getPositionList();
         for (String positionNumber : positionNumberList) {
-            keyValues.add(new KeyLabelPair(positionNumber, positionNumber));
+            keyValues.add(new ConcreteKeyValue(positionNumber, positionNumber));
         }
         
         return keyValues;

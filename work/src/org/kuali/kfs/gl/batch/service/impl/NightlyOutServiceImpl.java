@@ -41,10 +41,10 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -423,7 +423,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
             /**
              * Overridden to automagically udpate the entry count
-             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addBudgetAmount(org.kuali.rice.kns.util.KualiDecimal)
+             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addBudgetAmount(org.kuali.rice.core.api.util.type.KualiDecimal)
              */
             @Override
             public void addBudgetAmount(KualiDecimal budgetAmount) {
@@ -433,7 +433,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
             /**
              * Overridden to automagically update the entry count
-             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addCreditAmount(org.kuali.rice.kns.util.KualiDecimal)
+             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addCreditAmount(org.kuali.rice.core.api.util.type.KualiDecimal)
              */
             @Override
             public void addCreditAmount(KualiDecimal creditAmount) {
@@ -443,7 +443,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
             /**
              * Overridden to automagically update the entry count
-             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addDebitAmount(org.kuali.rice.kns.util.KualiDecimal)
+             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addDebitAmount(org.kuali.rice.core.api.util.type.KualiDecimal)
              */
             @Override
             public void addDebitAmount(KualiDecimal debitAmount) {
@@ -483,7 +483,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
             /**
              * Overridden to automagically udpate the entry count
-             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addBudgetAmount(org.kuali.rice.kns.util.KualiDecimal)
+             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addBudgetAmount(org.kuali.rice.core.api.util.type.KualiDecimal)
              */
             @Override
             public void addBudgetAmount(KualiDecimal budgetAmount) {
@@ -493,7 +493,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
             /**
              * Overridden to automagically update the entry count
-             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addCreditAmount(org.kuali.rice.kns.util.KualiDecimal)
+             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addCreditAmount(org.kuali.rice.core.api.util.type.KualiDecimal)
              */
             @Override
             public void addCreditAmount(KualiDecimal creditAmount) {
@@ -503,7 +503,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
             /**
              * Overridden to automagically update the entry count
-             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addDebitAmount(org.kuali.rice.kns.util.KualiDecimal)
+             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addDebitAmount(org.kuali.rice.core.api.util.type.KualiDecimal)
              */
             @Override
             public void addDebitAmount(KualiDecimal debitAmount) {

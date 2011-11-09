@@ -18,8 +18,8 @@ package org.kuali.kfs.module.bc.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Holds threshold settings for object code report selection screen.
@@ -109,8 +109,8 @@ public class BudgetConstructionReportThresholdSettings extends TransientBusiness
         this.useThreshold = useThreshold;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("useThreshold", this.useThreshold);
         m.put("thresholdPercent", this.thresholdPercent);

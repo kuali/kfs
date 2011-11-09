@@ -175,7 +175,7 @@
 			<ref bean="organizationService" />
 		</property>
 		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
+			<ref bean="kimRoleService" />
 		</property>
 	</bean>
 
@@ -1083,7 +1083,7 @@
 	<bean name="budgetConstructionDocumentDerivedRoleTypeService"
 		class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl" >
 		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
+			<ref bean="kimRoleService" />
 		</property>
 		<property name="budgetConstructionProcessorService">
 			<ref bean="budgetConstructionProcessorService" />

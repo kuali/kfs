@@ -45,12 +45,12 @@ import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * the base struts action for the detail salary setting
@@ -149,7 +149,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
         if (savableAppointmentFundings == null || savableAppointmentFundings.isEmpty()) {
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+            KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -198,7 +198,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         this.clearPurgedAppointmentFundings(appointmentFundings);
 
-        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

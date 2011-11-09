@@ -36,15 +36,15 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public abstract class ReceivingDocumentBase extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument {
@@ -309,7 +309,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
 
     public String getDeliveryCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getDeliveryCountryCode());
+        Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
         if (country != null)
             return country.getPostalCountryName();
         return null;
@@ -397,7 +397,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
+        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode): vendorCountry;
         return vendorCountry;
     }
 
@@ -486,7 +486,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if(!(this instanceof BulkReceivingDocument)){
-            if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            if(this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
                 //delete unentered items and update po totals and save po
                 SpringContext.getBean(ReceivingService.class).completeReceivingDocument(this);
             }
@@ -555,13 +555,13 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
      * @param responsibility the responsibility specified in the request.
      * @throws WorkflowException
      */
-    public void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
+    public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
         if (ObjectUtils.isNotNull(workflowDocument)) {
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            KimPrincipal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(userNetworkId);
-            workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, annotationNote, principal.getPrincipalId(), responsibilityNote, true);
+            Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(userNetworkId);
+            workflowDocument.adHocRouteDocumentToPrincipal(KewApiConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, annotationNote, principal.getPrincipalId(), responsibilityNote, true);
         }
     }
     /**
@@ -572,7 +572,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
      * @return the name of the current route node.
      * @throws WorkflowException
      */
-    protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+    protected String getCurrentRouteNodeName(WorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;
@@ -659,11 +659,11 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
     
     public java.util.Date getCreateDateForResult() {
-        return new java.util.Date(getDocumentHeader().getWorkflowDocument().getCreateDate().getTime());
+        return new java.util.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getTime());
     }
     
     public String getDocumentTitleForResult() throws WorkflowException{
-        return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentType()).getDocTypeLabel();
+        return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()).getLabel();
     }
     
     /**

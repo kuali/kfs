@@ -22,9 +22,9 @@ import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Option Finder for Labor Balance Type Code.
@@ -36,15 +36,15 @@ public class BalanceTypeCodeOptionFinder extends KeyValuesBase implements ValueF
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(BALANCE_TYPE_ACTUAL, "Actual"));
-        labels.add(new KeyLabelPair(BALANCE_TYPE_AC_AND_A21, "A21"));
-        labels.add(new KeyLabelPair(BALANCE_TYPE_INTERNAL_ENCUMBRANCE, "Internal Encumbrance"));
+        labels.add(new ConcreteKeyValue(BALANCE_TYPE_ACTUAL, "Actual"));
+        labels.add(new ConcreteKeyValue(BALANCE_TYPE_AC_AND_A21, "A21"));
+        labels.add(new ConcreteKeyValue(BALANCE_TYPE_INTERNAL_ENCUMBRANCE, "Internal Encumbrance"));
 
         return labels;
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return BALANCE_TYPE_ACTUAL;

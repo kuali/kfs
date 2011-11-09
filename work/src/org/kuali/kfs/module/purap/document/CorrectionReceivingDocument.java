@@ -30,9 +30,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -50,7 +50,7 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
      */
     public CorrectionReceivingDocument() {
         super();
-        items = new TypedArrayList(getItemClass());
+        items = new ArrayList();
     }
 
     public void populateCorrectionReceivingFromReceivingLine(LineItemReceivingDocument rlDoc){
@@ -69,10 +69,10 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
         
     }
     
-    @Override
+    
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         
-        if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if(this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
             SpringContext.getBean(ReceivingService.class).completeCorrectionReceivingDocument(this);
         }
         super.doRouteStatusChange(statusChangeEvent);
@@ -146,9 +146,9 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
         return m;

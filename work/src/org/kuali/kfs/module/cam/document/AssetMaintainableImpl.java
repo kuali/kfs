@@ -39,18 +39,18 @@ import org.kuali.kfs.module.cam.util.MaintainableWorkflowUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.krad.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
@@ -89,15 +89,15 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
-        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         // release lock for asset edit...
-        if ((this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal())) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        if ((this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) && (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed() || workflowDoc.isFinal())) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
         }
     }
 
@@ -193,7 +193,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     public void processAfterRetrieve() {
         
         //Asset only
-        if (this.getBusinessObject() instanceof Asset && MaintainableWorkflowUtils.isDocumentSavedOrEnroute(documentNumber)) {
+        if (this.getBusinessObject() instanceof Asset && MaintainableWorkflowUtils.isDocumentSavedOrEnroute(getDocumentNumber())) {
 
             Asset asset = (Asset)getBusinessObject();
             asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
@@ -229,7 +229,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
             asset.setVendorName(CamsConstants.Asset.VENDOR_NAME_CONSTRUCTED);
             asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
             asset.setPrimaryDepreciationMethodCode(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
-            asset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
+            asset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
             getAssetService().setFiscalPeriod(asset);
         }
         // setup offCampusLocation
@@ -262,7 +262,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
             String aDocumentNumber = fpDocumentNumbers.next();
             KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
             try {
-                String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(aDocumentNumber).getDocumentHeader().getWorkflowDocument().getDocumentType();
+                String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(aDocumentNumber).getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
                 documentInfo.add(FINANCIAL_DOC_NAME_MAP.get(docTypeName) + "-" + aDocumentNumber);
             }
             catch (WorkflowException e) {

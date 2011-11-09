@@ -60,12 +60,12 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -626,7 +626,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
 
         // when we return from the lookup, our next request's method to call is going to be refresh
-        etlForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        etlForm.registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
         EndowmentTransactionLine etLine;
         if (isSource) {
@@ -637,7 +637,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
 
         // build out base path for return location, use config service
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
 
         // this hack sets the return anchor we want to return too after the inquiry
         // do this here so it gets into the session stored form version

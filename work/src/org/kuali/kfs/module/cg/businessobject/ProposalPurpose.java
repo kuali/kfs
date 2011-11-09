@@ -18,13 +18,13 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * A generalized purpose for a proposal.
  */
-public class ProposalPurpose extends PersistableBusinessObjectBase implements Inactivateable {
+public class ProposalPurpose extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String proposalPurposeCode;
     private String proposalPurposeDescription;
@@ -92,9 +92,9 @@ public class ProposalPurpose extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalPurposeCode", this.proposalPurposeCode);
         return m;

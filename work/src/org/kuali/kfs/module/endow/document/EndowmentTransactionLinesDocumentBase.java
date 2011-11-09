@@ -26,9 +26,9 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.kfs.module.endow.util.LineParser;
 import org.kuali.kfs.module.endow.util.LineParserBase;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument {
 
@@ -44,8 +44,8 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         super();
         this.nextSourceLineNumber = new Integer(1);
         this.nextTargetLineNumber = new Integer(1);
-        sourceTransactionLines = new TypedArrayList(EndowmentSourceTransactionLine.class);
-        targetTransactionLines = new TypedArrayList(EndowmentTargetTransactionLine.class);
+        sourceTransactionLines = new ArrayList<EndowmentSourceTransactionLine>();
+        targetTransactionLines = new ArrayList<EndowmentTargetTransactionLine>();
     }
     
     /**
@@ -411,7 +411,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -425,7 +425,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
 
     /**
      * 
-     * @see org.kuali.rice.kns.document.DocumentBase#toCopy()
+     * @see org.kuali.rice.krad.document.DocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException {

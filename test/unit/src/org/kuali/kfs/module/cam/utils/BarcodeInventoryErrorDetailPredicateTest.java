@@ -28,8 +28,8 @@ import org.kuali.kfs.module.cam.util.BarcodeInventoryErrorDetailPredicate;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 @ConfigureContext(session = UserNameFixture.kfs)
 public class BarcodeInventoryErrorDetailPredicateTest extends KualiTestBase {

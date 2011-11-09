@@ -47,17 +47,17 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -86,7 +86,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     public CustomerCreditMemoDocument() {
         super();
         setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
-        creditMemoDetails = new TypedArrayList(CustomerCreditMemoDetail.class);
+        creditMemoDetails = new ArrayList<CustomerCreditMemoDetail>();
         setGeneralLedgerPendingEntries(new ArrayList<GeneralLedgerPendingEntry>());
     }
 
@@ -429,7 +429,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     /**
      * do all the calculations before the document gets saved
      * gets called for 'Submit', 'Save', and 'Blanket Approved'
-     * @see org.kuali.rice.kns.document.Document#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.krad.document.Document#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     public void prepareForSave(KualiDocumentEvent event) {
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)event.getDocument();
@@ -534,7 +534,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
         super.doRouteStatusChange(statusChangeEvent);
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             
             //have to populate because not all the customer credit memo details are populated while doc is in workflow
             populateCustomerCreditMemoDetailsAfterLoad();
@@ -560,7 +560,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
 
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
         
         addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);

@@ -104,7 +104,7 @@
     <property name="name" value="currentBudgetLineBalanceAmount"/>
     <property name="label" value="Budget Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="AccountBalanceByConsolidation-accountLineActualsBalanceAmount" parent="AccountBalanceByConsolidation-accountLineActualsBalanceAmount-parentBean"/>
 
@@ -112,7 +112,7 @@
     <property name="name" value="accountLineActualsBalanceAmount"/>
     <property name="label" value="Actuals Amount"/>
     <property name="shortLabel" value="Actuals Balance Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="AccountBalanceByConsolidation-accountLineEncumbranceBalanceAmount" parent="AccountBalanceByConsolidation-accountLineEncumbranceBalanceAmount-parentBean"/>
 
@@ -120,7 +120,7 @@
     <property name="name" value="accountLineEncumbranceBalanceAmount"/>
     <property name="label" value="Encumbrance Amount"/>
     <property name="shortLabel" value="Encumbrance Balance"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="AccountBalanceByConsolidation-timestamp" parent="AccountBalanceByConsolidation-timestamp-parentBean"/>
 
@@ -150,7 +150,7 @@
     <property name="name" value="dummyBusinessObject.genericAmount"/>
     <property name="label" value="Variance"/>
     <property name="shortLabel" value="Variance"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode" parent="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode-parentBean"/>
 

@@ -97,7 +97,7 @@
             <dd:primitiveAttribute source="accountZipCode" target="postalCode"/>
         </dd:relationship>
         <dd:relationship objectAttribute="accountState">
-            <dd:primitiveAttribute source="accountStateCode" target="postalStateCode"/>
+            <dd:primitiveAttribute source="accountStateCode" target="stateCode"/>
         </dd:relationship> 
       </list>
     </property>

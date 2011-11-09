@@ -47,7 +47,7 @@
 					<dd:primitiveAttribute source="subcontractorCountryCode"
 						target="postalCountryCode" />
 					<dd:primitiveAttribute source="subcontractorStateCode"
-						target="postalStateCode" />
+						target="stateCode" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="subcontractorCountry">
 					<dd:primitiveAttribute source="subcontractorCountryCode"
@@ -142,8 +142,8 @@
 
 	<bean id="SubContractor-subcontractorStateCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
+		p:sourceAttributeName="stateCode">
 		<property name="name" value="subcontractorStateCode" />
 		<property name="label" value="State Code" />
 		<property name="shortLabel" value="State" />
@@ -152,7 +152,7 @@
 
 	<bean id="SubContractor-subcontractorZipCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
 		p:sourceAttributeName="postalCode">
 		<property name="name" value="subcontractorZipCode" />
 		<property name="required" value="true" />
@@ -161,7 +161,7 @@
 
 	<bean id="SubContractor-subcontractorCountryCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country"
 		p:sourceAttributeName="postalCountryCode">
 		<property name="name" value="subcontractorCountryCode" />
 		<property name="shortLabel" value="Country" />

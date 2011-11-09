@@ -54,7 +54,7 @@
 			<list>
 				<dd:relationship objectAttribute="vendorState">
 					<dd:primitiveAttribute source="vendorStateCode"
-						target="postalStateCode" />
+						target="stateCode" />
 					<dd:primitiveAttribute source="vendorCountryCode"
 						target="postalCountryCode" />
 				</dd:relationship>

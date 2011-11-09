@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class PaymentApplicationInvoiceDetailApply implements Serializable {
 

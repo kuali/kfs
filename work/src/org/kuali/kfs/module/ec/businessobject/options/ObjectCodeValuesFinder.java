@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class...
@@ -35,10 +35,10 @@ public class ObjectCodeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         CertificationReportForm form = (CertificationReportForm) GlobalVariables.getKualiForm();
         EffortCertificationDocument document = (EffortCertificationDocument)form.getDocument();
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         List<String> objectCodeList = document.getObjectCodeList();
         for (String objectCode : objectCodeList) {
-            keyValues.add(new KeyLabelPair(objectCode, objectCode));
+            keyValues.add(new ConcreteKeyValue(objectCode, objectCode));
         }
         
         return keyValues;

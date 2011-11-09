@@ -43,7 +43,7 @@ public class PurApAccountingLineParser extends AccountingLineParserBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
+     * @see org.kuali.rice.krad.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
@@ -51,7 +51,7 @@ public class PurApAccountingLineParser extends AccountingLineParserBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#getSourceAccountingLineClass(org.kuali.rice.kns.document.AccountingDocument)
+     * @see org.kuali.rice.krad.bo.AccountingLineParser#getSourceAccountingLineClass(org.kuali.rice.krad.document.AccountingDocument)
      */
     @Override
     protected Class getSourceAccountingLineClass(final AccountingDocument accountingDocument) {

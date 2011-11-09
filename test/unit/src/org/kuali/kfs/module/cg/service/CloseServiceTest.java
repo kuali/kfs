@@ -30,14 +30,14 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
 public class CloseServiceTest extends KualiTestBase {
@@ -439,7 +439,7 @@ public class CloseServiceTest extends KualiTestBase {
         final String FINAL_STATUS = "F";
 
         // Verify that the doc isn't yet routed.
-        assertFalse(ENROUTE_STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse(ENROUTE_STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
 
         // Route the doc.
         try {
@@ -450,7 +450,7 @@ public class CloseServiceTest extends KualiTestBase {
         }
 
         // Routing should be configured to go straight to final.
-      //  assertTrue(FINAL_STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+      //  assertTrue(FINAL_STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
     }
 
     public static void saveDocument(Document document, DocumentService documentService) throws WorkflowException {

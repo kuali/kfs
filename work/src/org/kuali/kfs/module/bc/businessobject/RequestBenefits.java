@@ -18,9 +18,9 @@ package org.kuali.kfs.module.bc.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.KualiPercent;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiPercent;
 
 /**
  * Holds the single line benefits impact screen detail information for a particular request amount
@@ -205,7 +205,7 @@ public class RequestBenefits extends TransientBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {

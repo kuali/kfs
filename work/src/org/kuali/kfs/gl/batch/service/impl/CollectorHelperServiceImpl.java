@@ -61,14 +61,14 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The base implementation of CollectorHelperService
@@ -83,7 +83,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private ParameterService parameterService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private DateTimeService dateTimeService;
     private BatchInputFileService batchInputFileService;
     private CollectorScrubberService collectorScrubberService;
@@ -339,7 +339,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         
         performUppercasing(batch);
 
-        boolean performDuplicateHeaderCheck = parameterService.getIndicatorParameter(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
+        boolean performDuplicateHeaderCheck = parameterService.getParameterValueAsBoolean(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
         if (valid && performDuplicateHeaderCheck) {
             valid = duplicateHeaderCheck(batch, MessageMap);
         }
@@ -648,7 +648,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
 
         // retrieve document types that balance by equal debits and credits
-        Collection<String> documentTypes = parameterService.getParameterValues(CollectorStep.class, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES);
+        Collection<String> documentTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(CollectorStep.class, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES) );
 
         boolean equalDebitCreditTotal = false;
         for ( String documentType : documentTypes ) {
@@ -698,7 +698,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @return the name of the staging directory
      */
     public String getStagingDirectory() {
-        return configurationService.getPropertyString(KFSConstants.GL_COLLECTOR_STAGING_DIRECTORY);
+        return configurationService.getPropertyValueAsString(KFSConstants.GL_COLLECTOR_STAGING_DIRECTORY);
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -718,7 +718,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         this.collectorScrubberService = collectorScrubberService;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

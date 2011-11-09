@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ar.batch.service;
 
 import org.kuali.kfs.module.ar.batch.vo.CustomerInvoiceWriteoffBatchVO;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * 

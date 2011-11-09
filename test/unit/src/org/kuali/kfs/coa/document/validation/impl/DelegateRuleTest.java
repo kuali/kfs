@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Date;
@@ -28,8 +28,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class...
@@ -270,11 +270,11 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -292,11 +292,11 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -319,11 +319,11 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     public void testCheckSimpleRulesStartDateRule_startDateYesterday() {
@@ -345,11 +345,11 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     public void testCheckSimpleRulesStartDateRule_invalidFromAmt() {
@@ -366,11 +366,11 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalFromThisAmt", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE);
+        assertGlobalMessageMapContains(ERROR_PREFIX + "finDocApprovalFromThisAmt", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE);
     }
 
     public void testCheckSimpleRulesStartDateRule_invalidToAmt() {
@@ -387,11 +387,11 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+        assertGlobalMessageMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
     }
 
     public void testCheckSimpleRulesStartDateRule_validFromAmtLessThanToAmt() {
@@ -408,11 +408,11 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+        assertGlobalMessageMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
     }
 
 
@@ -430,9 +430,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -447,9 +447,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION);
+        assertGlobalMessageMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION);
     }
 
     public void testcheckDelegateUserRules_badDelegate2() {
@@ -463,9 +463,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -480,9 +480,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION);
+        assertGlobalMessageMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION);
     }
 
     /**
@@ -500,9 +500,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         rule.checkOnlyOnePrimaryRoute(maintDoc);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     /**
@@ -521,9 +521,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         rule.checkOnlyOnePrimaryRoute(maintDoc);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     /**
@@ -542,9 +542,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         rule.checkOnlyOnePrimaryRoute(maintDoc);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     /**
@@ -562,9 +562,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         rule.checkOnlyOnePrimaryRoute(maintDoc);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     /**
@@ -582,9 +582,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.setupConvenienceObjects(maintDoc);
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         rule.checkOnlyOnePrimaryRoute(maintDoc);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 }
 

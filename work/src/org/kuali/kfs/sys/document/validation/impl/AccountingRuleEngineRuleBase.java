@@ -34,14 +34,14 @@ import org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocum
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.rice.kns.rules.DocumentRuleBase;
+import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.bo.AdHocRouteWorkgroup;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.krad.rules.DocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
@@ -58,7 +58,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule#validateForEvent(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule#validateForEvent(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     public boolean validateForEvent(AttributedDocumentEvent event) {
         final FinancialSystemTransactionalDocumentEntry documentEntry = getDataDictionaryEntryForDocument((TransactionalDocument)event.getDocument());
@@ -85,7 +85,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomAddAdHocRoutePersonBusinessRules(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.AdHocRoutePerson)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomAddAdHocRoutePersonBusinessRules(org.kuali.rice.krad.document.Document, org.kuali.rice.krad.bo.AdHocRoutePerson)
      */
     @Override
     protected boolean processCustomAddAdHocRoutePersonBusinessRules(Document document, AdHocRoutePerson person) {
@@ -97,7 +97,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomAddAdHocRouteWorkgroupBusinessRules(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.AdHocRouteWorkgroup)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomAddAdHocRouteWorkgroupBusinessRules(org.kuali.rice.krad.document.Document, org.kuali.rice.krad.bo.AdHocRouteWorkgroup)
      */
     @Override
     protected boolean processCustomAddAdHocRouteWorkgroupBusinessRules(Document document, AdHocRouteWorkgroup workgroup) {
@@ -109,7 +109,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomAddNoteBusinessRules(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.Note)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomAddNoteBusinessRules(org.kuali.rice.krad.document.Document, org.kuali.rice.krad.bo.Note)
      */
     @Override
     protected boolean processCustomAddNoteBusinessRules(Document document, Note note) {
@@ -121,7 +121,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.krad.rule.event.ApproveDocumentEvent)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
@@ -137,7 +137,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -150,7 +150,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -162,7 +162,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     }
     
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#isDocumentAttributesValid(org.kuali.rice.kns.document.Document, boolean)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#isDocumentAttributesValid(org.kuali.rice.krad.document.Document, boolean)
      */
     @Override
     public boolean isDocumentAttributesValid(Document document, boolean validateRequired) {

@@ -20,11 +20,11 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
@@ -40,10 +40,10 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
     private Person rolePrincipal;
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.KEMID, this.kemid);
         m.put(EndowPropertyConstants.KEMID_AUTHORIZATIONS_ROLE_SEQ_NBR, String.valueOf(this.roleSequenceNumber));
@@ -184,7 +184,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
      * @return role
      */
     public Role getRole() {
-        role = SpringContext.getBean(RoleManagementService.class).getRole(roleId);
+        role = SpringContext.getBean(RoleService.class).getRole(roleId);
         return role;
     }
 
@@ -203,7 +203,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
      * @return rolePrincipal
      */
     public Person getRolePrincipal() {
-        rolePrincipal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(rolePrincipalId, rolePrincipal);
+        rolePrincipal = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(rolePrincipalId, rolePrincipal);
         return rolePrincipal;
     }
 

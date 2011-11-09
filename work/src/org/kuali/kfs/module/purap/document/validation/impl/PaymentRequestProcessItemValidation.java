@@ -37,10 +37,10 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedVal
 import org.kuali.kfs.sys.document.validation.impl.BusinessObjectDataDictionaryValidation;
 import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PaymentRequestProcessItemValidation extends GenericValidation {
 
@@ -266,7 +266,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         boolean canApproveLine = false;
         
         // get parameter to see if accounting line with zero dollar amount can be approved.
-        String approveZeroAmountLine = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND);
+        String approveZeroAmountLine = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND);
         
         if ("Y".equalsIgnoreCase(approveZeroAmountLine)) {
             return true;

@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceItemCodeMaintainableImplUtil {
     
@@ -38,18 +38,18 @@ public class CustomerInvoiceItemCodeMaintainableImplUtil {
 
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
         StringBuilder lockRepresentation = new StringBuilder(CustomerInvoiceItemCode.class.getName());
-        lockRepresentation.append(KNSConstants.Maintenance.AFTER_CLASS_DELIM);
+        lockRepresentation.append(KRADConstants.Maintenance.LOCK_AFTER_CLASS_DELIM);
         
         //get chart of accounts code locking representation
         String chartOfAccountsCode = String.valueOf(ObjectUtils.getPropertyValue(bo, CHART_OF_ACCOUNTS_CODE_FIELD));
         lockRepresentation.append(CHART_OF_ACCOUNTS_CODE_FIELD);
-        lockRepresentation.append(KNSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+        lockRepresentation.append(KRADConstants.Maintenance.LOCK_AFTER_FIELDNAME_DELIM);
         lockRepresentation.append(chartOfAccountsCode);
         
         //get organization code locking representation
         String organizationCode = String.valueOf(ObjectUtils.getPropertyValue(bo, ORGANIZATION_CODE_FIELD));
         lockRepresentation.append(ORGANIZATION_CODE_FIELD);
-        lockRepresentation.append(KNSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+        lockRepresentation.append(KRADConstants.Maintenance.LOCK_AFTER_FIELDNAME_DELIM);
         lockRepresentation.append(organizationCode);
 
         MaintenanceLock maintenanceLock = new MaintenanceLock();

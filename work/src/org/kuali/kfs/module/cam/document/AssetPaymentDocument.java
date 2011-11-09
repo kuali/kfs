@@ -41,14 +41,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Capital assets document class for the asset payment document
@@ -65,7 +65,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	public AssetPaymentDocument() {
 		super();
 		assetPaymentAllocationTypeCode = CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE;
-		this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));		
+		this.setAssetPaymentAssetDetail(new ArrayList<AssetPaymentAssetDetail>());		
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	 * Lock on purchase order document since post processor will update PO
 	 * document by adding notes.
 	 * 
-	 * @see org.kuali.rice.kns.document.DocumentBase#getWorkflowEngineDocumentIdsToLock()
+	 * @see org.kuali.rice.krad.document.DocumentBase#getWorkflowEngineDocumentIdsToLock()
 	 */
 	@Override
 	public List<Long> getWorkflowEngineDocumentIdsToLock() {
@@ -158,7 +158,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	}
 
 	/**
-	 * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+	 * @see org.kuali.rice.krad.document.DocumentBase#postProcessSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
 	 */
 	@Override
 	public void postProcessSave(KualiDocumentEvent event) {
@@ -194,16 +194,16 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	@Override
 	public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
 		super.doRouteStatusChange(statusChangeEvent);
-		KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+		WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
 
 		// Update asset payment table with the approved asset detail records.
-		if (workflowDocument.stateIsProcessed()) {
+		if (workflowDocument.isProcessed()) {
 			SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
 		}
 
 		// Remove asset lock when doc status change. We don't include
-		// stateIsFinal since document always go to 'processed' first.
-		if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
+		// isFinal since document always go to 'processed' first.
+		if (workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isProcessed()) {
 			this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
 		}
 
@@ -213,7 +213,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	}
 
 	/**
-	 * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+	 * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
 	 */
 	@Override
 	public void prepareForSave(KualiDocumentEvent event) {

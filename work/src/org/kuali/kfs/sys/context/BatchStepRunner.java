@@ -29,11 +29,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.batch.Step;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 
@@ -111,7 +111,7 @@ public class BatchStepRunner {
     }
     
     protected static String getLogFileName(String nestedDiagnosticContext) {
-        return SpringContext.getBean( KualiConfigurationService.class ).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY) 
+        return SpringContext.getBean( ConfigurationService.class ).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY) 
                 + File.separator 
                 + nestedDiagnosticContext + ".log";
     }

@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.document.datadictionary;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewActionsField;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
 
 /**
  * The data dictionary definition of an element of an accounting line view that shows the actions available on the given line.
@@ -27,7 +27,7 @@ public class AccountingLineViewActionsDefinition extends DataDictionaryDefinitio
 
     /**
      * Since this metadata definition has no children, there's nothing to validate and this method checks nothing.
-     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.krad.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         // not checkin' nothing

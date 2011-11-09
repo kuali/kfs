@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.rice.core.config.ModuleConfigurer;
-import org.kuali.rice.core.lifecycle.Lifecycle;
+import org.kuali.rice.core.api.lifecycle.Lifecycle;
 
 public class KFSConfigurer extends ModuleConfigurer {
 

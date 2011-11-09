@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.QuoteTypeDescriptions;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Purchase Order Quote Types.
@@ -35,8 +35,8 @@ public class PurchaseOrderQuoteTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteTypes.COMPETITIVE, QuoteTypeDescriptions.COMPETITIVE));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteTypes.PRICE_CONFIRMATION, QuoteTypeDescriptions.PRICE_CONFIRMATION));
+        keyValues.add(new ConcreteKeyValue(PurapConstants.QuoteTypes.COMPETITIVE, QuoteTypeDescriptions.COMPETITIVE));
+        keyValues.add(new ConcreteKeyValue(PurapConstants.QuoteTypes.PRICE_CONFIRMATION, QuoteTypeDescriptions.PRICE_CONFIRMATION));
         return keyValues;
     }
 }

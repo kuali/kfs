@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * This class is the action form for Indirect Cost Adjustment Document
@@ -64,7 +64,7 @@ public class IndirectCostAdjustmentForm extends KualiAccountingDocumentFormBase 
     @Override
     public SourceAccountingLine createNewSourceAccountingLine(AccountingDocument financialDocument) {
         SourceAccountingLine sourceAccountingLine = super.createNewSourceAccountingLine(financialDocument);
-        String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
+        String objectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
 
         sourceAccountingLine.setFinancialObjectCode(objectCode);
         return sourceAccountingLine;
@@ -76,7 +76,7 @@ public class IndirectCostAdjustmentForm extends KualiAccountingDocumentFormBase 
     @Override
     public TargetAccountingLine createNewTargetAccountingLine(AccountingDocument financialDocument) {
         TargetAccountingLine targetAccountingLine = super.createNewTargetAccountingLine(financialDocument);
-        String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
+        String objectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
 
         targetAccountingLine.setFinancialObjectCode(objectCode);
         return targetAccountingLine;

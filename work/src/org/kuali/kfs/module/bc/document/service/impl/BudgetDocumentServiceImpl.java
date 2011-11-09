@@ -60,25 +60,25 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,7 +113,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocument(org.kuali.rice.krad.document.Document)
      *      similar to DocumentService.saveDocument()
      */
     @Transactional
@@ -131,18 +131,18 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // that is PostProcessorServiceImpl.doActionTaken(ActionTakenEventDTO), establishGlobalVariables(), which does
         // GlobalVariables.clear()
         // not sure why this doesn't trash the GlobalVariables.getMessageMap()
-        MessageList messagesSoFar = GlobalVariables.getMessageList();
+        MessageList messagesSoFar = KNSGlobalVariables.getMessageList();
 
         budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
 
         // putting messages back in
-        GlobalVariables.getMessageList().addAll(messagesSoFar);
+        KNSGlobalVariables.getMessageList().addAll(messagesSoFar);
 
         return budgetConstructionDocument;
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocumentNoWorkflow(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocumentNoWorkflow(org.kuali.rice.krad.document.Document)
      */
     @Transactional
     public Document saveDocumentNoWorkflow(BudgetConstructionDocument bcDoc) throws ValidationException {
@@ -204,7 +204,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#callForBenefitsCalcIfNeeded(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
-     *      org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly, org.kuali.rice.kns.util.KualiInteger)
+     *      org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly, org.kuali.rice.core.api.util.type.KualiInteger)
      */
     @Transactional
     public void callForBenefitsCalcIfNeeded(BudgetConstructionDocument bcDoc, BudgetConstructionMonthly budgetConstructionMonthly, KualiInteger pbglChangeAmount) {
@@ -268,7 +268,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
 
             // write global message on calc success
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
+            KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
         }
     }
 
@@ -286,7 +286,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
 
             // write global message on calc success
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
+            KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
         }
     }
 
@@ -344,7 +344,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#validateDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#validateDocument(org.kuali.rice.krad.document.Document)
      */
     @Transactional
     public void validateDocument(Document document) throws ValidationException {
@@ -722,7 +722,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#updatePendingBudgetGeneralLedger(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kns.util.KualiInteger)
+     *      org.kuali.rice.core.api.util.type.KualiInteger)
      */
     @Transactional
     public void updatePendingBudgetGeneralLedger(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount) {
@@ -737,7 +737,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#updatePendingBudgetGeneralLedgerPlug(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kns.util.KualiInteger)
+     *      org.kuali.rice.core.api.util.type.KualiInteger)
      */
     @Transactional
     public void updatePendingBudgetGeneralLedgerPlug(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount) {
@@ -767,7 +767,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#updatePendingBudgetGeneralLedgerPlug(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
-     *      org.kuali.rice.kns.util.KualiInteger)
+     *      org.kuali.rice.core.api.util.type.KualiInteger)
      */
     @Transactional
     public PendingBudgetConstructionGeneralLedger updatePendingBudgetGeneralLedgerPlug(BudgetConstructionDocument bcDoc, KualiInteger updateAmount) {
@@ -1081,7 +1081,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getPushPullLevelList(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional
     public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, Person person) {

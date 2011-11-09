@@ -27,12 +27,12 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class DisbursementVoucherAccountingLineAccessibleValidation extends AccountingLineAccessibleValidation {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineAccessibleValidation.class);
@@ -58,8 +58,8 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
 
         // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
         // but only if the document is enroute
-        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
-        if (!isAccessible && workflowDocument.stateIsEnroute()) {
+        WorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        if (!isAccessible && workflowDocument.isEnroute()) {
         	
         	if (oldAccountingLineForValidation == null || accountUnchanged(accountingLineForValidation, oldAccountingLineForValidation)) {
         		isAccessible = true;

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.bc.document.service.impl;
 
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao;
 import org.kuali.kfs.module.bc.document.service.BudgetPushPullService;
-import org.kuali.rice.kns.util.spring.Logged;
+
 import org.springframework.transaction.annotation.Transactional;
 
 /**

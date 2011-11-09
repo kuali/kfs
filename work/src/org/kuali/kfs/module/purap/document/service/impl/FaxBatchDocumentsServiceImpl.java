@@ -26,10 +26,10 @@ import org.kuali.kfs.module.purap.document.service.FaxService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class FaxBatchDocumentsServiceImpl implements FaxBatchDocumentsService {
    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FaxBatchDocumentsServiceImpl.class);
@@ -63,10 +63,10 @@ public class FaxBatchDocumentsServiceImpl implements FaxBatchDocumentsService {
              }
          }
          
-         GlobalVariables.getMessageMap().clear();
+         GlobalVariables.getMessageMap().clearErrorMessages();
          faxService.faxPurchaseOrderPdf(po,false);
        
-         if (GlobalVariables.getMessageMap().isEmpty()){
+         if (GlobalVariables.getMessageMap().hasErrors()){
              po.setStatusCode(PurapConstants.PurchaseOrderStatuses.OPEN);
              po.setPurchaseOrderInitialOpenTimestamp(dateTimeService.getCurrentTimestamp());
              po.setPurchaseOrderLastTransmitTimestamp(dateTimeService.getCurrentTimestamp());

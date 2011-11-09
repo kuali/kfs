@@ -114,7 +114,7 @@
 	
 
 
-	<bean id="RoutingType-CustomerCreditMemoDocument-Account-sourceOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="RoutingType-CustomerCreditMemoDocument-Account-sourceOnly" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
@@ -128,7 +128,7 @@
     		</list>
     	</property>
     </bean>
-	<bean id="DocumentValuePathGroup-CustomerCreditMemoDocument-Account-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+	<bean id="DocumentValuePathGroup-CustomerCreditMemoDocument-Account-sourceAccountingLines" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 	<property name="documentCollectionPath">
 		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
 			<property name="collectionPath" value="invoice.sourceAccountingLines"/>
@@ -136,7 +136,7 @@
 	</property>
 	</bean>
 
-    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
    		<property name="qualificationAttributeName" value="crmTotalAmount"/>
     </bean>
     

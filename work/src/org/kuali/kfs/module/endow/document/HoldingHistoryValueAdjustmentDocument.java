@@ -22,8 +22,8 @@ import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityValuationMethod;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * This is the transactional document that is used to record a modification to the 

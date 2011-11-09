@@ -21,9 +21,9 @@ import java.util.Date;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.service.RollProcessDateService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -46,7 +46,7 @@ public class RollProcessDateServiceImpl implements RollProcessDateService {
         Parameter theCurrentProcessDate = parameterService.retrieveParameter("KFS-ENDOW", "All", EndowParameterKeyConstants.CURRENT_PROCESS_DATE);
         theCurrentProcessDate.setParameterValue(nextDate); 
         businessObjectService.save(theCurrentProcessDate);
-        LOG.info("Roll the value of CURRENT_PROCESS_DATE to " + theCurrentProcessDate.getParameterValue());
+        LOG.info("Roll the value of CURRENT_PROCESS_DATE to " + theCurrentProcessDate.getParameterValueAsString());
         return success;
     }
     

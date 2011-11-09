@@ -29,10 +29,10 @@ import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class IndirectCostAdjustmentDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
 
@@ -90,7 +90,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
                 throw new InfrastructureException("unable to create a target accounting line", e);
             }
             // get apc object code value
-            String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
+            String objectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
             targetAccountingLine.setFinancialObjectCode(objectCode);
             targetAccountingLine.setAccountNumber(icrAccount.getIndirectCostRecoveryAccountNumber());
             targetAccountingLine.setChartOfAccountsCode(icrAccount.getIndirectCostRecoveryFinCoaCode());
@@ -125,8 +125,8 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
      * or is a target accounting line representing an income.
      * 
      * @see IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         AccountingLine accountingLine = (AccountingLine)postable;

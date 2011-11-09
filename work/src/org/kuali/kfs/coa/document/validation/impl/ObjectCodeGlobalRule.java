@@ -37,19 +37,19 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.datadictionary.InactivationBlockingMetadata;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.InactivationBlockingDetectionService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.InactivationBlockingDetectionService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class represents the business rules for the maintenance of {@link ObjectCodeGlobal} business objects
@@ -171,12 +171,12 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         String objectCodeSummaryString = objectCode.getUniversityFiscalYear() + " - " + objectCode.getChartOfAccountsCode() + " - " + objectCode.getFinancialObjectCode();
         
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, inactivationBlockingMetadata.getBlockedBusinessObjectClass().getName());        
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.METHOD_DISPLAY_ALL_INACTIVATION_BLOCKERS);
+        parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, inactivationBlockingMetadata.getBlockedBusinessObjectClass().getName());        
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.METHOD_DISPLAY_ALL_INACTIVATION_BLOCKERS);
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, objectCode.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectCode.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCode());
-        String blockingUrl = UrlFactory.parameterizeUrl(KNSConstants.DISPLAY_ALL_INACTIVATION_BLOCKERS_ACTION, parameters);
+        String blockingUrl = UrlFactory.parameterizeUrl(KRADConstants.DISPLAY_ALL_INACTIVATION_BLOCKERS_ACTION, parameters);
         
         String errorPropertyPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSPropertyConstants.OBJECT_CODE_GLOBAL_DETAILS + "[" + index + "]." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
         
@@ -305,7 +305,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * <li>valid fiscal year</li>
      * <li>unique identifiers (not currently implemented)</li>
      * </ul>
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {

@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * This class represents an <code>IndirectCostAdjustmentDocument</code> accounting line parser.
@@ -43,7 +43,7 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
     protected static final String[] ICA_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
+     * @see org.kuali.rice.krad.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
@@ -51,7 +51,7 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getTargetAccountingLineFormat()
+     * @see org.kuali.rice.krad.bo.AccountingLineParserBase#getTargetAccountingLineFormat()
      */
     @Override
     public String[] getTargetAccountingLineFormat() {
@@ -59,24 +59,24 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map,
-     *      org.kuali.rice.kns.bo.SourceAccountingLine, java.lang.String)
+     * @see org.kuali.rice.krad.bo.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map,
+     *      org.kuali.rice.krad.bo.SourceAccountingLine, java.lang.String)
      */
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
         super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
-        String financialObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
+        String financialObjectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
         sourceAccountingLine.setFinancialObjectCode(financialObjectCode);
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#performCustomTargetAccountingLinePopulation(java.util.Map,
-     *      org.kuali.rice.kns.bo.TargetAccountingLine, java.lang.String)
+     * @see org.kuali.rice.krad.bo.AccountingLineParserBase#performCustomTargetAccountingLinePopulation(java.util.Map,
+     *      org.kuali.rice.krad.bo.TargetAccountingLine, java.lang.String)
      */
     @Override
     protected void performCustomTargetAccountingLinePopulation(Map<String, String> attributeValueMap, TargetAccountingLine targetAccountingLine, String accountingLineAsString) {
         super.performCustomTargetAccountingLinePopulation(attributeValueMap, targetAccountingLine, accountingLineAsString);
-        String financialObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
+        String financialObjectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
         targetAccountingLine.setFinancialObjectCode(financialObjectCode);
     }
 

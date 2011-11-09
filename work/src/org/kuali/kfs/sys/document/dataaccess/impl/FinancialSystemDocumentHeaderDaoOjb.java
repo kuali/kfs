@@ -25,8 +25,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.dao.impl.DocumentHeaderDaoOjb;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.dao.impl.DocumentHeaderDaoOjb;
 
 /**
  * This class is the financial system document header dao ojb implementation
@@ -54,7 +54,7 @@ public class FinancialSystemDocumentHeaderDaoOjb extends DocumentHeaderDaoOjb im
     }
 
     /**
-     * @see org.kuali.rice.kns.dao.DocumentHeaderDao#getByDocumentFinalDate(Date documentFinalDate)
+     * @see org.kuali.rice.krad.dao.DocumentHeaderDao#getByDocumentFinalDate(Date documentFinalDate)
      */
     public Collection getByDocumentFinalDate(Date documentFinalDate) {
         Criteria criteria = new Criteria();

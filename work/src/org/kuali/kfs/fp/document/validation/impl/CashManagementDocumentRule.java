@@ -44,11 +44,11 @@ import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Business rule(s) applicable to Cash Management Document.
@@ -63,7 +63,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * 
      * @param document submitted cash management document
      * @return true if there are no issues processing rules associated with saving a cash management document
-     * @see org.kuali.rice.kns.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -85,7 +85,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * 
      * @param document submitted cash management document
      * @return true if there are no issues processing rules associated with routing a cash management document
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -119,8 +119,8 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * @param cmd submitted cash management document
      */
     protected void verifyCashDrawerForVerificationUnitIsOpenForPostInitiationSaves(CashManagementDocument cmd) {
-        if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null && cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
-            if (cmd.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+        if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
+            if (cmd.getDocumentHeader().getWorkflowDocument().isSaved()) {
                 // now verify that the associated cash drawer is in the appropriate state
                 CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmd.getCampusCode());
                 if (cd == null) {
@@ -150,7 +150,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      */
     protected boolean validateDeposits(CashManagementDocument cmd) {
         boolean isValid = true;
-        boolean isInitiated = cmd.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+        boolean isInitiated = cmd.getDocumentHeader().getWorkflowDocument().isInitiated();
 
         GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 

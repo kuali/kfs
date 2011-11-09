@@ -33,7 +33,7 @@
       <list>
         <dd:relationship objectAttribute="state">
         	<dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="stateCode" target="postalStateCode"/>
+            <dd:primitiveAttribute source="stateCode" target="stateCode"/>
         </dd:relationship>
         <dd:relationship objectAttribute="country">
             <dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
@@ -45,14 +45,14 @@
 <!-- Attribute Definitions -->
   <bean id="TaxRegionState-postalCountryCode" parent="TaxRegionState-postalCountryCode-parentBean"/>
   
-  <bean id="TaxRegionState-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
+  <bean id="TaxRegionState-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country" p:sourceAttributeName="postalCountryCode">
 	<property name="name" value="postalCountryCode"/>
 	<property name="forceUppercase" value="true"/>
   </bean>	
   
   <bean id="TaxRegionState-stateCode" parent="TaxRegionState-stateCode-parentBean"/>
 
-  <bean id="TaxRegionState-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
+  <bean id="TaxRegionState-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State" p:sourceAttributeName="stateCode">
     <property name="name" value="stateCode"/>
     <property name="forceUppercase" value="true"/>
   </bean>

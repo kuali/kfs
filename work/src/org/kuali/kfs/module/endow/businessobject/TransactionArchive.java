@@ -26,11 +26,11 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * Business Object for Holding Tax Lot table
@@ -69,14 +69,14 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     
     public TransactionArchive()
     {
-        archiveSecurities   = new TypedArrayList(TransactionArchiveSecurity.class);
+        archiveSecurities   = new ArrayList<TransactionArchiveSecurity>();
         principalCashAmount = new BigDecimal(BigInteger.ZERO, 2);
         incomeCashAmount    = new BigDecimal(BigInteger.ZERO, 2);
         corpusAmount        = new BigDecimal(BigInteger.ZERO, 2);
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {

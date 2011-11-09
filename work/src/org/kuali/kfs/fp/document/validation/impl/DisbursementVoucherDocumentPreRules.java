@@ -32,14 +32,14 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Checks warnings and prompt conditions for dv document.
@@ -108,7 +108,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
         }
 
         String paymentReasonCode = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
-        List<String> nonEmpltravelPaymentReasonCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
+        List<String> nonEmpltravelPaymentReasonCodes = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM) );
 
         if (nonEmpltravelPaymentReasonCodes == null || !nonEmpltravelPaymentReasonCodes.contains(paymentReasonCode) || dvDocument.getDvPayeeDetail().isEmployee()) {
             String nonEmplTravReasonStr = getValidPaymentReasonsAsString(nonEmpltravelPaymentReasonCodes);
@@ -116,7 +116,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
             String paymentReasonName = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonName();
             Object[] args = { "payment reason", "'" + paymentReasonName + "'", "Non-Employee Travel", nonEmplTravReasonStr };
 
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
             questionText = MessageFormat.format(questionText, args);
 
             boolean clearTab = super.askOrAnalyzeYesNoQuestion(KFSConstants.DisbursementVoucherDocumentConstants.CLEAR_NON_EMPLOYEE_TAB_QUESTION_ID, questionText);
@@ -211,7 +211,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
         // if payment method is CHECK and wire tab contains data, ask user to clear tab
         if ((StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_WIRE, dvDocument.getDisbVchrPaymentMethodCode())) && hasForeignDraftValues(dvForeignDraft)) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
 
             Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Foreign Draft", DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT };
             questionText = MessageFormat.format(questionText, args);
@@ -271,7 +271,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
         // if payment method is CHECK and wire tab contains data, ask user to clear tab
         if ((StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT, dvDocument.getDisbVchrPaymentMethodCode())) && hasWireTransferValues(dvWireTransfer)) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
 
             Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Wire Transfer", DisbursementVoucherConstants.PAYMENT_METHOD_WIRE };
             questionText = MessageFormat.format(questionText, args);
@@ -311,7 +311,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
         // if bank is inactive and continuation is active, prompt user to use continuation bank
         if (bank != null && !bank.isActive() && bank.getContinuationBank().isActive()) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_BANK_INACTIVE);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_BANK_INACTIVE);
             questionText = MessageFormat.format(questionText, dvDocument.getDisbVchrBankCode(), bank.getContinuationBankCode());
 
             boolean useContinuation = super.askOrAnalyzeYesNoQuestion(KFSConstants.USE_CONTINUATION_BANK_QUESTION, questionText);
@@ -380,8 +380,8 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
             return StringUtils.EMPTY;
         }
 
-        List<KeyLabelPair> reasons = new PaymentReasonValuesFinder().getKeyValues();
-        for (KeyLabelPair reason : reasons) {
+        List<KeyValue> reasons = new PaymentReasonValuesFinder().getKeyValues();
+        for (KeyValue reason : reasons) {
             if (validPaymentReasonCodes.contains(reason.getKey())) {
                 payementReasonString.add(reason.getLabel());
             }

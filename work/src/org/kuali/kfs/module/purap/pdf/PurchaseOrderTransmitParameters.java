@@ -31,9 +31,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * Contains the parameters needed for creating a purchase order pdf document.
@@ -77,12 +77,12 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          String campusCode = po.getDeliveryCampusCode().toLowerCase();
          boolean useImage = true;
          if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
-             useImage = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
+             useImage = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
          }
          // We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the
          // images as blank space
          if (useImage) {
-             this.imageTempLocation = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
+             this.imageTempLocation = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
 
              if (imageTempLocation == null) {
                  throw new PurapConfigurationException("IMAGE_TEMP_PATH is missing");
@@ -104,7 +104,7 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
          this.campusParameter = (CampusParameter) ((List) SpringContext.getBean(BusinessObjectService.class).findMatching(CampusParameter.class, criteria)).get(0);
 
-        this. statusInquiryUrl = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
+        this. statusInquiryUrl = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
          if (this.statusInquiryUrl == null) {
              LOG.debug("generatePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting INVOICE_STATUS_INQUIRY_URL is missing.");
@@ -125,13 +125,13 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          
          this.contractLanguage = contractLanguage.toString();
          
-         this.pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+         this.pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
          if (pdfFileLocation == null) {
              LOG.debug("savePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
          }
          
-         String environment = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+         String environment = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
          
           this.pdfFileName = povq != null ? "PURAP_PO_" + po.getPurapDocumentIdentifier().toString() + "_Quote" + povq.getPurchaseOrderVendorQuoteIdentifier().toString()+ "_"  +  environment + "_" + System.currentTimeMillis() + ".pdf" :
                                "PURAP_PO_" + po.getPurapDocumentIdentifier().toString() + "_" + environment + "_" + System.currentTimeMillis() + ".pdf";
@@ -147,7 +147,7 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          // get parameters to send fax 
          
       
-         this.pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+         this.pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
          if (this.pdfFileLocation == null) {
              LOG.debug("savePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
@@ -161,8 +161,8 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
           this.faxDescription =  povq != null ? "PO: " + po.getPurapDocumentIdentifier() + " Quote ID: " + povq.getPurchaseOrderVendorQuoteIdentifier():   
                                                   "PO: " + po.getPurapDocumentIdentifier() + " Cntrct Mgr: " + po.getContractManager().getContractManagerCode(); 
           
-          String productionEnvironmentCode = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-          String environmentCode           = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+          String productionEnvironmentCode = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+          String environmentCode           = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
          
           if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
               this.faxDescription = environmentCode + " TEST - " + this.faxDescription;
@@ -192,12 +192,12 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
        //  String contractManagerSignatureImage = "";
          boolean useImage = true;
          if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
-             useImage = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
+             useImage = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
          }
          // We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the
          // images as blank space
          if (useImage) {
-             this.imageTempLocation = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
+             this.imageTempLocation = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
 
              if (this.imageTempLocation == null) {
                  throw new PurapConfigurationException("IMAGE_TEMP_PATH is missing");
@@ -219,7 +219,7 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
          this.campusParameter = (CampusParameter) ((List) SpringContext.getBean(BusinessObjectService.class).findMatching(CampusParameter.class, criteria)).get(0);
 
-          this.statusInquiryUrl = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
+          this.statusInquiryUrl = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
          if (this.statusInquiryUrl == null) {
              LOG.debug("generatePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting INVOICE_STATUS_INQUIRY_URL is missing.");
@@ -240,7 +240,7 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          
          this.contractLanguage = contractLanguage.toString();
          
-         this.pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+         this.pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
          if (pdfFileLocation == null) {
              LOG.debug("savePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
@@ -257,8 +257,8 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
           this.faxDescription =  povq != null ? "PO: " + po.getPurapDocumentIdentifier() + " Quote ID: " + povq.getPurchaseOrderVendorQuoteIdentifier():   
                                                   "PO: " + po.getPurapDocumentIdentifier() + " Cntrct Mgr: " + po.getContractManager().getContractManagerCode(); 
           
-          String productionEnvironmentCode = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-          String environmentCode           = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+          String productionEnvironmentCode = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+          String environmentCode           = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
          
           if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
               this.faxDescription = environmentCode + " TEST - " + this.faxDescription;

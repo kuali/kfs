@@ -43,6 +43,6 @@
   
   <bean id="SecurityAttributeMaintenanceDocument-workflowAttributes" parent="SecurityAttributeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="SecurityAttributeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="SecurityAttributeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 	
 </beans>

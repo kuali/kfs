@@ -115,7 +115,7 @@
 				</dd:relationship>
 				<dd:relationship objectAttribute="accountState">
 					<dd:primitiveAttribute source="accountStateCode"
-						target="postalStateCode" />
+						target="stateCode" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="accountPhysicalCampus">
 					<dd:primitiveAttribute source="accountPhysicalCampusCode"

@@ -22,18 +22,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * 
  */
-public class PriorYearOrganization extends PersistableBusinessObjectBase implements Inactivateable {
+public class PriorYearOrganization extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -596,8 +596,8 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      */
     public Campus getOrganizationPhysicalCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KNSPropertyConstants.CAMPUS_CODE, organizationPhysicalCampusCode);
-        return organizationPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+        criteria.put(KRADPropertyConstants.CAMPUS_CODE, organizationPhysicalCampusCode);
+        return organizationPhysicalCampus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
     }
 
     /**
@@ -730,7 +730,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * @return Returns the organizationCountry.
      */
     public Country getOrganizationCountry() {
-        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(organizationCountryCode, organizationCountry);
+        organizationCountry = (organizationCountryCode == null)?null:( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode))?SpringContext.getBean(CountryService.class).getCountry(organizationCountryCode): organizationCountry;
         return organizationCountry;
     }
 
@@ -745,9 +745,9 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);

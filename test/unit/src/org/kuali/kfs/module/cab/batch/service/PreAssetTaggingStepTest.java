@@ -27,8 +27,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class PreAssetTaggingStepTest extends BatchTestBase {
     private PreAssetTaggingStep preAssetTaggingStep;
@@ -56,7 +56,7 @@ public class PreAssetTaggingStepTest extends BatchTestBase {
 
         // assert the extract date value
         SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
-        assertEquals(fmt.format(currentSqlDate), findPretagExtractDateParam().getParameterValue());
+        assertEquals(fmt.format(currentSqlDate), findPretagExtractDateParam().getParameterValueAsString());
     }
 
     private Collection<Pretag> findByPO(String poNumber) {

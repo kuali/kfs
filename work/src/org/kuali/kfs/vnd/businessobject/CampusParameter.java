@@ -19,19 +19,19 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.location.api.state.StateService;
 
 /**
  * Campus Parameter Business Object. Maintenance document for campus parameters.
  */
-public class CampusParameter extends PersistableBusinessObjectBase implements Inactivateable{
+public class CampusParameter extends PersistableBusinessObjectBase implements Inactivatable{
 
     private String campusCode;
     private String campusPurchasingDirectorName;
@@ -59,7 +59,7 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
     }
 
     public Campus getCampus() {
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
     }
 
     /**
@@ -110,7 +110,7 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
     }
 
     public Country getPurchasingDepartmentCountry() {
-        purchasingDepartmentCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(purchasingDepartmentCountryCode, purchasingDepartmentCountry);
+        purchasingDepartmentCountry = (purchasingDepartmentCountryCode == null)?null:( purchasingDepartmentCountry == null || !StringUtils.equals( purchasingDepartmentCountry.getCode(),purchasingDepartmentCountryCode))?SpringContext.getBean(CountryService.class).getCountry(purchasingDepartmentCountryCode): purchasingDepartmentCountry;
         return purchasingDepartmentCountry;
     }
 
@@ -154,7 +154,7 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
     }
 
     public State getPurchasingDepartmentState() {
-        purchasingDepartmentState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(purchasingDepartmentCountryCode, purchasingDepartmentStateCode, purchasingDepartmentState);
+        purchasingDepartmentState = (StringUtils.isBlank(purchasingDepartmentCountryCode) || StringUtils.isBlank( purchasingDepartmentStateCode))?null:( purchasingDepartmentState == null || !StringUtils.equals( purchasingDepartmentState.getCountryCode(),purchasingDepartmentCountryCode)|| !StringUtils.equals( purchasingDepartmentState.getCode(), purchasingDepartmentStateCode))?SpringContext.getBean(StateService.class).getState(purchasingDepartmentCountryCode, purchasingDepartmentStateCode): purchasingDepartmentState;
         return purchasingDepartmentState;
     }
 
@@ -190,9 +190,9 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("campusCode", this.campusCode);
         return m;

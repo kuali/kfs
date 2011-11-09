@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class ContractsAndGrantsModuleServiceNoOp implements ContractsAndGrantsModuleService {
 

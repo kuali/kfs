@@ -18,15 +18,15 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 /**
  * Reporting Codes Business Object
  */
-public class ReportingCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class ReportingCode extends PersistableBusinessObjectBase implements Inactivatable {
 
     private static final long serialVersionUID = -1585612121519839488L;
     private String chartOfAccountsCode;
@@ -157,7 +157,7 @@ public class ReportingCode extends PersistableBusinessObjectBase implements Inac
     }
 
     public Person getPerson() {
-        person = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(financialReportingCodeMgrId, person);
+        person = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(financialReportingCodeMgrId, person);
         return person;
     }
 
@@ -185,9 +185,9 @@ public class ReportingCode extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);

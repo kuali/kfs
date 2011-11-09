@@ -21,13 +21,13 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Purchase Order Quote List Vendor Business Object.
  */
-public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase implements Inactivateable {
+public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase implements Inactivatable {
 
     protected Integer purchaseOrderQuoteListIdentifier;
     protected Integer vendorHeaderGeneratedIdentifier;
@@ -94,9 +94,9 @@ public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase 
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.purchaseOrderQuoteListIdentifier != null) {
             m.put("purchaseOrderQuoteListIdentifier", this.purchaseOrderQuoteListIdentifier.toString());

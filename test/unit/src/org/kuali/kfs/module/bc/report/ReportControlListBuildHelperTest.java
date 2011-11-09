@@ -30,7 +30,7 @@ import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper.BuildState;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 @ConfigureContext(session = khuntley)
 public class ReportControlListBuildHelperTest extends KualiTestBase {

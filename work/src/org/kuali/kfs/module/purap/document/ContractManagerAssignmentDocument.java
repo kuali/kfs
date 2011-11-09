@@ -33,13 +33,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class ContractManagerAssignmentDocument extends FinancialSystemTransactionalDocumentBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentDocument.class);
@@ -113,23 +113,23 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
 
         super.doRouteStatusChange(statusChangeEvent);
 
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
             boolean isSuccess = true;
             StringBuffer failedReqs = new StringBuffer();
             SpringContext.getBean(PurchaseOrderService.class).processACMReq(this);
 
             if (!isSuccess) {
                 failedReqs.deleteCharAt(failedReqs.lastIndexOf(","));
-                KualiWorkflowDocument workflowDoc = this.getDocumentHeader().getWorkflowDocument();
+                WorkflowDocument workflowDoc = this.getDocumentHeader().getWorkflowDocument();
                 String currentNodeName = null;
                 try {
                     currentNodeName = PurapWorkflowConstants.DOC_ADHOC_NODE_NAME;
-                    if (!(KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getDocRouteStatus()))) {
+                    if (!(KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getStatus()))) {
                         if (this.getCurrentRouteNodeName(workflowDoc) != null) {
                             currentNodeName = this.getCurrentRouteNodeName(workflowDoc);
                         }
                     }
-                    workflowDoc.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, workflowDoc.getRouteHeader().getInitiatorPrincipalId(), "Initiator", true);
+                    workflowDoc.adHocRouteDocumentToPrincipal(KewApiConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, workflowDoc.getRouteHeader().getInitiatorPrincipalId(), "Initiator", true);
                 }
                 catch (WorkflowException e) {
                     // do nothing; document should have processed successfully and problem is with sending FYI
@@ -145,7 +145,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
      * @return
      * @throws WorkflowException
      */
-    protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+    protected String getCurrentRouteNodeName(WorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;
@@ -156,12 +156,12 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
     }
 
     /**
-     * @see org.kuali.rice.kns.document.Document#getDocumentTitle()
+     * @see org.kuali.rice.krad.document.Document#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
         String title = "";
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ContractManagerAssignmentDocument.class, PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(ContractManagerAssignmentDocument.class, PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE)) {
             title = PurapWorkflowConstants.ContractManagerAssignmentDocument.WORKFLOW_DOCUMENT_TITLE;
         }
         else {

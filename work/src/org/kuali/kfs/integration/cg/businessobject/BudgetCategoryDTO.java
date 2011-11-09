@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 
 /**
@@ -174,11 +174,11 @@ public class BudgetCategoryDTO extends BusinessObjectBase implements ContractsAn
 
     public void refresh() {}
 
-    /* RICE_20_DELETE */@Override
-    /* RICE_20_DELETE */protected LinkedHashMap toStringMapper() {
-        /* RICE_20_DELETE */LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
-        /* RICE_20_DELETE */m.put("BudgetCategoryDTO", this.budgetCategoryCode);
-        /* RICE_20_DELETE */return m;
-    /* RICE_20_DELETE */}
+    
+    
+        
+        
+        
+    
 
 }

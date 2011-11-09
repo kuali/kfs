@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 

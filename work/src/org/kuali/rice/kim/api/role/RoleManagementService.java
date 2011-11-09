@@ -20,7 +20,7 @@ package org.kuali.rice.kim.api.role;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public interface RoleManagementService extends RoleService, RoleUpdateService {
+public interface RoleService extends RoleService, RoleUpdateService {
 
 	/**
 	 * Flush all of the role-related caches.

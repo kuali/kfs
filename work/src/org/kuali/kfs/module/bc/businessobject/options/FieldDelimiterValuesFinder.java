@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * returns field delimeter vaules
@@ -32,9 +32,9 @@ public class FieldDelimiterValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator(), BCConstants.RequestImportFieldSeparator.COMMA.toString()));
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportFieldSeparator.TAB.toString(), BCConstants.RequestImportFieldSeparator.TAB.toString()));
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportFieldSeparator.OTHER.getSeparator(), BCConstants.RequestImportFieldSeparator.OTHER.toString()));
+        keyValues.add(new ConcreteKeyValue(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator(), BCConstants.RequestImportFieldSeparator.COMMA.toString()));
+        keyValues.add(new ConcreteKeyValue(BCConstants.RequestImportFieldSeparator.TAB.toString(), BCConstants.RequestImportFieldSeparator.TAB.toString()));
+        keyValues.add(new ConcreteKeyValue(BCConstants.RequestImportFieldSeparator.OTHER.getSeparator(), BCConstants.RequestImportFieldSeparator.OTHER.toString()));
         
         return keyValues;
     }

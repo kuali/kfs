@@ -17,10 +17,10 @@ package org.kuali.kfs.sys.monitor;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 /**
  * Watches the workflow document and indicates valueChanged when either the status or the current node changes.
@@ -31,14 +31,14 @@ public class DocumentWorkflowNodeMonitor extends ChangeMonitor {
     private String initiatorPrincipalIdId;
     private String desiredNodeName;
 
-    public DocumentWorkflowNodeMonitor(KualiWorkflowDocument document, String desiredNodeName) throws WorkflowException {
+    public DocumentWorkflowNodeMonitor(WorkflowDocument document, String desiredNodeName) throws WorkflowException {
         this.docHeaderId = document.getRouteHeaderId();
         this.initiatorPrincipalIdId = document.getInitiatorPrincipalId();
         this.desiredNodeName = desiredNodeName;
     }
 
     public boolean valueChanged() throws Exception {
-        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(PersonService.class).getPerson(initiatorPrincipalIdId));
+        WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(PersonService.class).getPerson(initiatorPrincipalIdId));
         String currentNodeName = document.getCurrentRouteNodeNames();
         // currently in Kuali there is no parallel branching so we can only ever be at one node
         return StringUtils.equals( desiredNodeName, currentNodeName);

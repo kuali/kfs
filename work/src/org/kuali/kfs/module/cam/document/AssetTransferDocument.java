@@ -41,24 +41,24 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
@@ -139,7 +139,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the assetRepresentative
      */
     public Person getAssetRepresentative() {
-        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 
@@ -207,8 +207,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public Campus getCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+        criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
+        return campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
     }
 
     /**
@@ -276,7 +276,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the offCampusState.
      */
     public State getOffCampusState() {
-        offCampusState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusStateCode, offCampusState);
+        offCampusState = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusStateCode))?null:( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode))?SpringContext.getBean(StateService.class).getState(offCampusCountryCode, offCampusStateCode): offCampusState;
         return offCampusState;
     }
 
@@ -305,7 +305,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the postalZipCode
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusZipCode, postalZipCode);
+        postalZipCode = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), offCampusZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(offCampusCountryCode, offCampusZipCode): postalZipCode;
         return postalZipCode;
     }
 
@@ -315,7 +315,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the offCampusCountry.
      */
     public Country getOffCampusCountry() {
-        offCampusCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusCountry);
+        offCampusCountry = (offCampusCountryCode == null)?null:( offCampusCountry == null || !StringUtils.equals( offCampusCountry.getCode(),offCampusCountryCode))?SpringContext.getBean(CountryService.class).getCountry(offCampusCountryCode): offCampusCountry;
         return offCampusCountry;
     }
 
@@ -447,9 +447,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.krad.document.DocumentBase#postProcessSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
-    @Override
+    
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
 
@@ -476,13 +476,13 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsProcessed()) {
+        WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isProcessed()) {
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
         }
 
-        // Remove asset lock when doc status change. We don't include stateIsFinal since document always go to 'processed' first.
-        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
+        // Remove asset lock when doc status change. We don't include isFinal since document always go to 'processed' first.
+        if (workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isProcessed()) {
             getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
     }
@@ -788,9 +788,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;

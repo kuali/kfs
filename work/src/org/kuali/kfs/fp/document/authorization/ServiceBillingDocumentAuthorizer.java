@@ -23,11 +23,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.DocumentAuthorizerBase;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The customized document authorizer for the Service Billing document
@@ -37,17 +37,17 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
 
     /**
      * Overridden to only allow error correction and copy actions if the current user has Modify Accounting Document permission on every accounting line on the document
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase#getDocumentActions(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
         Set<String> documentActions = super.getDocumentActions(document, user, documentActionsFromPresentationController);
         
-        boolean canCopyOrErrorCorrect = (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_COPY) || documentActions.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) ? canModifyAllSourceAccountingLines(document, user) : true;
+        boolean canCopyOrErrorCorrect = (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_COPY) || documentActions.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) ? canModifyAllSourceAccountingLines(document, user) : true;
         
-        if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_COPY)) {
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_COPY)) {
             if (!canCopyOrErrorCorrect) {
-                documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
+                documentActions.remove(KRADConstants.KUALI_ACTION_CAN_COPY);
             }
         }
         if (documentActions.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
@@ -89,9 +89,9 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      */
     protected Map<String, String> buildPermissionDetails(Document document) {
         Map<String, String> permissionDetails = new HashMap<String, String>();
-        permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, getDocumentTypeName(document)); // document type name
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName(document)); // document type name
         permissionDetails.put(KfsKimAttributes.ROUTE_NODE_NAME, DocumentAuthorizerBase.PRE_ROUTING_ROUTE_NAME); // route node = PreRoute
-        permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, "sourceAccountingLines"); // property = sourceAccountingLines
+        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, "sourceAccountingLines"); // property = sourceAccountingLines
         return permissionDetails;
     }
     

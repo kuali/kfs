@@ -24,7 +24,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.bean.WriteTag;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * The standard renderer of totals for an accounting line group
@@ -107,7 +107,7 @@ public class GroupTotalRenderer extends TotalRendererBase {
             
             out.write("<strong>");
             
-            out.write(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(totalLabelProperty));
+            out.write(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(totalLabelProperty));
             out.write("&nbsp;");
             
             writeTag.setPageContext(pageContext);

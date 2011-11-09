@@ -65,7 +65,7 @@
   <bean id="TransactionDocumentTotalReportLine-totalNumberOfTransactionLines-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
   	<property name="name" value="totalNumberOfTransactionLines"/>
   	<property name="maxLength" value="11"/>
-  	<property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/> 
+  	<property name="formatterClass" value="org.kuali.rice.core.web.format.IntegerFormatter"/> 
   </bean>
   
   <bean id="TransactionDocumentTotalReportLine-incomeAmount" parent="TransactionDocumentTotalReportLine-incomeAmount-parentBean"/>

@@ -30,8 +30,8 @@ import org.kuali.kfs.pdp.batch.service.DailyReportService;
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -54,7 +54,7 @@ public class DailyReportServiceImpl implements DailyReportService {
     private DateTimeService dateTimeService;
     private String directoryName;
     private PaymentGroupService paymentGroupService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
 
     private Font headerFont;
     private Font textFont;
@@ -77,10 +77,10 @@ public class DailyReportServiceImpl implements DailyReportService {
         Date today = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
-        String reportFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_FILE_PREFIX);
+        String reportFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.DAILY_REPORT_SERVICE_FILE_PREFIX);
         reportFilePrefix = MessageFormat.format(reportFilePrefix, new Object[] { null });
 
-        String reportTitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_REPORT_TITLE);
+        String reportTitle = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.DAILY_REPORT_SERVICE_REPORT_TITLE);
         reportTitle = MessageFormat.format(reportTitle, new Object[] { sdf.format(today) });
 
         Document document = openPdfWriter(directoryName, reportFilePrefix, dateTimeService.getCurrentDate(), reportTitle);
@@ -97,9 +97,9 @@ public class DailyReportServiceImpl implements DailyReportService {
             DailyReport total = new DailyReport();
             DailyReport dr = new DailyReport();
 
-            String totalForSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_TOTAL_FOR_SUBTITLE);
+            String totalForSubtitle = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.DAILY_REPORT_SERVICE_TOTAL_FOR_SUBTITLE);
 
-            String totalSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_TOTAL_SUBTITLE);
+            String totalSubtitle = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.DAILY_REPORT_SERVICE_TOTAL_SUBTITLE);
             totalSubtitle = MessageFormat.format(totalSubtitle, new Object[] { null });
 
 
@@ -144,33 +144,33 @@ public class DailyReportServiceImpl implements DailyReportService {
     }
 
     protected void addHeader(PdfPTable dataTable) {
-        String sortOrderSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_SORT_ORDER_SUBTITLE);
+        String sortOrderSubtitle = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.DAILY_REPORT_SERVICE_SORT_ORDER_SUBTITLE);
         sortOrderSubtitle = MessageFormat.format(sortOrderSubtitle, new Object[] { null });
 
         PdfPCell cell = new PdfPCell(new Phrase(sortOrderSubtitle, headerFont));
         dataTable.addCell(cell);
 
-        String customerSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_CUSTOMER_SUBTITLE);
+        String customerSubtitle = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.DAILY_REPORT_SERVICE_CUSTOMER_SUBTITLE);
         customerSubtitle = MessageFormat.format(customerSubtitle, new Object[] { null });
 
         cell = new PdfPCell(new Phrase(customerSubtitle, headerFont));
         dataTable.addCell(cell);
 
-        String amountOfPaymentsSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_AMOUNT_OF_PAYMENTS_SUBTITLE);
+        String amountOfPaymentsSubtitle = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.DAILY_REPORT_SERVICE_AMOUNT_OF_PAYMENTS_SUBTITLE);
         amountOfPaymentsSubtitle = MessageFormat.format(amountOfPaymentsSubtitle, new Object[] { null });
 
         cell = new PdfPCell(new Phrase(amountOfPaymentsSubtitle, headerFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         dataTable.addCell(cell);
 
-        String numberOfPaymentRecordsSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_NUMBER_OF_PAYMENT_RECORDS_SUBTITLE);
+        String numberOfPaymentRecordsSubtitle = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.DAILY_REPORT_SERVICE_NUMBER_OF_PAYMENT_RECORDS_SUBTITLE);
         numberOfPaymentRecordsSubtitle = MessageFormat.format(numberOfPaymentRecordsSubtitle, new Object[] { null });
 
         cell = new PdfPCell(new Phrase(numberOfPaymentRecordsSubtitle, headerFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         dataTable.addCell(cell);
 
-        String numberOfPayeesSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_NUMBER_OF_PAYEES_SUBTITLE);
+        String numberOfPayeesSubtitle = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.DAILY_REPORT_SERVICE_NUMBER_OF_PAYEES_SUBTITLE);
         numberOfPayeesSubtitle = MessageFormat.format(numberOfPayeesSubtitle, new Object[] { null });
 
         cell = new PdfPCell(new Phrase(numberOfPayeesSubtitle, headerFont));
@@ -287,7 +287,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         this.paymentGroupService = paymentGroupService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 }

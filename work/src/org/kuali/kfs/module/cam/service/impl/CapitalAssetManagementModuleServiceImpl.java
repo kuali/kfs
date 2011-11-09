@@ -32,11 +32,11 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetManagementModuleService {
     /**
@@ -76,7 +76,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
     }
 
     /**
-     * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#generateCapitalAssetLock(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#generateCapitalAssetLock(org.kuali.rice.krad.document.Document)
      */
     public void generateCapitalAssetLock(Document document, String documentTypeName) {
         List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
@@ -116,15 +116,15 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
         // get the system parameter values first so we don't need to repeat this step for each accounting line check
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-        List<String> excludedDocTypeCodes = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.DOCUMENT_TYPES);
+        List<String> excludedDocTypeCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.DOCUMENT_TYPES) );
         // check with the docTypeCodes system parameter
         if (!excludedDocTypeCodes.isEmpty() && excludedDocTypeCodes.contains(documentType)) {
             return false;
         }
 
-        List<String> includedFinancialObjectSubTypeCodes = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.OBJECT_SUB_TYPES);
-        List<String> excludedChartCodes = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS);
-        List<String> excludedSubFundCodes = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS);
+        List<String> includedFinancialObjectSubTypeCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.OBJECT_SUB_TYPES) );
+        List<String> excludedChartCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS) );
+        List<String> excludedSubFundCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS) );
 
         List<SourceAccountingLine> sAccountingLines = accountingDocument.getSourceAccountingLines();
         for (SourceAccountingLine sourceAccountingLine : sAccountingLines) {
@@ -176,16 +176,16 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
 
 
     /**
-     * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#deleteDocumentAssetLocks(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#deleteDocumentAssetLocks(org.kuali.rice.krad.document.Document)
      */
     public void deleteDocumentAssetLocks(Document document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
         
         for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
             // Deleting document lock
-            if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
+            if (workflowDocument.isCanceled() || workflowDocument.isDisapproved()) {
                 if (ObjectUtils.isNotNull(capitalAssetInformation) && isAssetLockedByCurrentDocument(document.getDocumentNumber(), null)) {
                     this.deleteAssetLocks(document.getDocumentNumber(), null);
                 }

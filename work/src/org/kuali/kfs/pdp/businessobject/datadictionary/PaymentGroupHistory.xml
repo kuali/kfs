@@ -138,7 +138,7 @@
 
   <bean id="PaymentGroupHistory-origDisburseDate-parentBean" abstract="true" parent="PaymentGroup-disbursementDate">
     <property name="name" value="origDisburseDate"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
     <property name="label" value="Original Disbursement Date"/>
     <property name="shortLabel" value="Disbursement Date"/>
   </bean>
@@ -156,7 +156,7 @@
 
   <bean id="PaymentGroupHistory-origPaymentDate-parentBean" abstract="true" parent="PaymentGroup-paymentDate">
     <property name="name" value="origPaymentDate"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
   </bean>
   <bean id="PaymentGroupHistory-id" parent="PaymentGroupHistory-id-parentBean"/>
 
@@ -190,7 +190,7 @@
     <property name="name" value="changeTime"/>
     <property name="label" value="Change Time"/>
     <property name="shortLabel" value="Change Time"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
   </bean>
   <bean id="PaymentGroupHistory-paymentChange.code" parent="PaymentGroupHistory-paymentChange.code-parentBean"/>
 
@@ -260,7 +260,7 @@
     <property name="name" value="pmtCancelExtractDate"/>
     <property name="label" value="Cancel Extract Date"/>
     <property name="shortLabel" value="Cancel Extract Date"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
   </bean>
   <bean id="PaymentGroupHistory-changeNoteText" parent="PaymentGroupHistory-changeNoteText-parentBean"/>
 

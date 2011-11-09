@@ -45,14 +45,14 @@ import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEv
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -64,7 +64,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
     private HoldingTaxLotService holdingTaxLotService;
     private DocumentService documentService;
     private ParameterService parameterService;
-    private KualiConfigurationService configService;
+    private ConfigurationService configService;
     private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
     private UpdateHoldingAdjustmentDocumentTaxLotsService updateHoldingAdjustmentDocumentTaxLotsService;
@@ -247,10 +247,10 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         String documentDescription = "";
 
         if (isShortTerm) {
-            documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.SHORT_TERM_GAIN_LOSS_DESCRIPTION);
+            documentDescription = parameterService.getParameterValueAsString(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.SHORT_TERM_GAIN_LOSS_DESCRIPTION);
         }
         else {
-            documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.LONG_TERM_GAIN_LOSS_DESCRIPTION);
+            documentDescription = parameterService.getParameterValueAsString(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.LONG_TERM_GAIN_LOSS_DESCRIPTION);
         }
 
         try {
@@ -478,7 +478,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
 
         if (rulesPassed) {
 
-            String noRouteIndVal = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND);
+            String noRouteIndVal = parameterService.getParameterValueAsString(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND);
             boolean noRouteIndicator = EndowConstants.YES.equalsIgnoreCase(noRouteIndVal) ? true : false;
 
             try {
@@ -587,7 +587,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * 
      * @param configService
      */
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 

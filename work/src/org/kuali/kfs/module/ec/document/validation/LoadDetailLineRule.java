@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ec.document.validation;
 
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rule.BusinessRule;
 
 public interface LoadDetailLineRule<E extends EffortCertificationDocument> extends BusinessRule {
 

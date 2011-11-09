@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.document.validation.event;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class ReviewAccountingLineEvent extends AttributedDocumentEventBase implements AccountingLineEvent {
     private AccountingLine accountingLine;
@@ -34,7 +34,7 @@ public class ReviewAccountingLineEvent extends AttributedDocumentEventBase imple
     }
     
     /**
-     * @see org.kuali.rice.kns.rule.event.AccountingLineEvent#getAccountingLine()
+     * @see org.kuali.rice.krad.rule.event.AccountingLineEvent#getAccountingLine()
      */
     public AccountingLine getAccountingLine() {
         return accountingLine;

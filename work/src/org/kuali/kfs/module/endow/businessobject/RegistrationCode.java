@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * Business Object from Registration Code table.
@@ -28,17 +28,17 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 public class RegistrationCode extends KualiCodeBase {
   
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(EndowPropertyConstants.KUALICODEBASE_CODE, this.code);
         return m;
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#getCodeAndDescription()
+     * @see org.kuali.rice.krad.bo.KualiCodeBase#getCodeAndDescription()
      */
     @Override
     public String getCodeAndDescription() {

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class EndowmentProcessedReportHeader extends TransientBusinessObjectBase {
     
@@ -171,20 +171,20 @@ public class EndowmentProcessedReportHeader extends TransientBusinessObjectBase 
 
     /**
      * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    /* RICE_20_DELETE */@Override
-    /* RICE_20_DELETE */protected LinkedHashMap<String, Object> toStringMapper() {
-        /* RICE_20_DELETE */LinkedHashMap<String, Object> pks = new LinkedHashMap<String, Object>();
-        /* RICE_20_DELETE */pks.put("columnHeading1",this.getColumnHeading1());
-        /* RICE_20_DELETE */pks.put("columnHeading2",this.getColumnHeading2());
-        /* RICE_20_DELETE */pks.put("columnHeading3",this.getColumnHeading3());
-        /* RICE_20_DELETE */pks.put("columnHeading4",this.getColumnHeading4());
-        /* RICE_20_DELETE */pks.put("columnHeading5",this.getColumnHeading5());
-        /* RICE_20_DELETE */pks.put("columnHeading6",this.getColumnHeading6());
-        /* RICE_20_DELETE */pks.put("columnHeading7",this.getColumnHeading7());
-        /* RICE_20_DELETE */pks.put("columnHeading8",this.getColumnHeading8());
-        /* RICE_20_DELETE */
-        /* RICE_20_DELETE */return pks;
-    /* RICE_20_DELETE */}
+    
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
 }

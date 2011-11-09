@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 
 /**

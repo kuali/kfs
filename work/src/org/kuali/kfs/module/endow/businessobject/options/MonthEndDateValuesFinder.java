@@ -23,10 +23,10 @@ import java.util.List;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class MonthEndDateValuesFinder extends KeyValuesBase {
 
@@ -42,7 +42,7 @@ public class MonthEndDateValuesFinder extends KeyValuesBase {
 
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             MonthEndDate monthEndDate = (MonthEndDate) iter.next();
-            labels.add(new KeyLabelPair(monthEndDate.getMonthEndDateId(), dateTimeService.toDateString(monthEndDate.getMonthEndDate())));
+            labels.add(new ConcreteKeyValue(monthEndDate.getMonthEndDateId(), dateTimeService.toDateString(monthEndDate.getMonthEndDate())));
         }
 
         return labels;

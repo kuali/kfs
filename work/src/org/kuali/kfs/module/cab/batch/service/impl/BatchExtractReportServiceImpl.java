@@ -29,7 +29,7 @@ import org.kuali.kfs.module.cab.batch.service.BatchExtractReportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class BatchExtractReportServiceImpl implements BatchExtractReportService {
     protected ReportGenerationService reportGenerationService;

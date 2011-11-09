@@ -36,11 +36,11 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * IsDebitTestUtils

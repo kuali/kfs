@@ -35,13 +35,13 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -89,7 +89,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private Integer paymentRequestIdentifier;
 
     public PurchasingAccountsPayableItemAsset() {
-        this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
+        this.purchasingAccountsPayableLineAssetAccounts = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
         this.selectedValue = false;
         this.createAssetIndicator = false;
         this.applyPaymentIndicator = false;
@@ -107,7 +107,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.tradeInAllowance = initialItemAsset.isTradeInAllowance();
         this.itemAssignedToTradeInIndicator = initialItemAsset.isItemAssignedToTradeInIndicator();
         this.additionalChargeNonTradeInIndicator = initialItemAsset.isAdditionalChargeNonTradeInIndicator();
-        this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
+        this.purchasingAccountsPayableLineAssetAccounts = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
         this.selectedValue = false;
         this.createAssetIndicator = initialItemAsset.isCreateAssetIndicator();
         this.applyPaymentIndicator = initialItemAsset.isApplyPaymentIndicator();
@@ -485,9 +485,9 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         m.put("accountsPayableLineItemIdentifier", this.accountsPayableLineItemIdentifier);

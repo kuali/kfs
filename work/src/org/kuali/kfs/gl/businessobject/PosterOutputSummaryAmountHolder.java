@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Interface for any class which holds a set of poster output summary amounts

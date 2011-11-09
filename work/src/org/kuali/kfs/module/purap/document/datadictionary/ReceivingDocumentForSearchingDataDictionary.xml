@@ -29,12 +29,12 @@
   
   <bean id="ReceivingDocumentForSearching-workflowAttributes" parent="ReceivingDocumentForSearching-workflowAttributes-parentBean"/>
   
-  <bean id="ReceivingDocumentForSearching-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="ReceivingDocumentForSearching-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
       <property name="searchingTypeDefinitions">
           <list>
-              <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">                    
+              <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">                    
                   <property name="searchingAttribute">
-                      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
                           <property name="attributeName" value="sensitive"/>
                           <property name="showAttributeInSearchCriteria" value="false"/>
@@ -47,9 +47,9 @@
                       </list>
                   </property>
               </bean>
-      	      <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+      	      <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="vendorName"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>
@@ -62,9 +62,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="vendorNumber"/>
     				  </bean>
@@ -75,9 +75,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="purchaseOrderIdentifier"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -90,9 +90,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="shipmentBillOfLadingNumber"/>
     				  </bean>
@@ -103,9 +103,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="shipmentPackingSlipNumber"/>
     				  </bean>
@@ -116,9 +116,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="shipmentReferenceNumber"/>
     				  </bean>
@@ -129,9 +129,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="carrierCode"/>
     				  </bean>
@@ -142,9 +142,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="workflowStatusForResult"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>
@@ -157,9 +157,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     						<property name="attributeName" value="createDateForResult"/>
     						<property name="showAttributeInSearchCriteria" value="false"/>
@@ -172,9 +172,9 @@
     					</list>
     				</property>
     			</bean>   		
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="documentTitleForResult"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>

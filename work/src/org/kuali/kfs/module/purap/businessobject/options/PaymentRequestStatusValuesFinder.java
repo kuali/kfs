@@ -23,8 +23,8 @@ import java.util.List;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Payment Request Statuses.
@@ -52,7 +52,7 @@ public class PaymentRequestStatusValuesFinder extends PurApStatusKeyValuesBase {
         // generate output
         List labels = new ArrayList();
         for (Status status : sortStatuses) {
-            labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
+            labels.add(new ConcreteKeyValue(status.getStatusCode(), status.getStatusDescription()));
         }
         return labels;
     }

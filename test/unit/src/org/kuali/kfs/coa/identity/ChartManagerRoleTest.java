@@ -26,12 +26,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.service.RoleService;
 
 @ConfigureContext
 public class ChartManagerRoleTest extends KualiTestBase {
@@ -39,10 +40,10 @@ public class ChartManagerRoleTest extends KualiTestBase {
 
     public void testGettingPersonForChartManagers() {
         IdentityManagementService idm = SpringContext.getBean(IdentityManagementService.class);
-        RoleManagementService rms = SpringContext.getBean(RoleManagementService.class);
+        RoleService rms = SpringContext.getBean(RoleService.class);
         List<String> roleIds = new ArrayList<String>();
 
-        AttributeSet qualification = new AttributeSet();
+        Map<String,String> qualification = new HashMap<String,String>();
         
         for ( String chart : SpringContext.getBean(ChartService.class).getAllChartCodes() ) {
         
@@ -50,12 +51,12 @@ public class ChartManagerRoleTest extends KualiTestBase {
             
 //            System.out.println( chart );
             roleIds.add(rms.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, "Chart Manager"));
-            Collection<RoleMembershipInfo> chartManagers = rms.getRoleMembers(roleIds, qualification);
+            Collection<RoleMembership> chartManagers = rms.getRoleMembers(roleIds, qualification);
 //            System.out.println( chartManagers );
 
             assertEquals( "There should be only one chart manager per chart: " + chart, 1, chartManagers.size() );
             
-            for ( RoleMembershipInfo rmi : chartManagers ) {
+            for ( RoleMembership rmi : chartManagers ) {
                 Person chartManager = SpringContext.getBean(PersonService.class).getPerson( rmi.getMemberId() );
                 System.out.println( chartManager );                
                 assertNotNull( "unable to retrieve person object for principalId: " + rmi.getMemberId(), chartManager );

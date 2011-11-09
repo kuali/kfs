@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.ProposalPurpose;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Gets a custom-formatted list of {@link ProposalPurpose} values.
@@ -37,12 +37,12 @@ public class ProposalPurposeValuesFinder extends KeyValuesBase {
 
         Collection<ProposalPurpose> codes = SpringContext.getBean(KeyValuesService.class).findAll(ProposalPurpose.class);
 
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
 
         for (ProposalPurpose proposalPurpose : codes) {
             if (proposalPurpose.isActive()) {
-                labels.add(new KeyLabelPair(proposalPurpose.getProposalPurposeCode(), proposalPurpose.getProposalPurposeCode() + "-" + proposalPurpose.getProposalPurposeDescription()));
+                labels.add(new ConcreteKeyValue(proposalPurpose.getProposalPurposeCode(), proposalPurpose.getProposalPurposeCode() + "-" + proposalPurpose.getProposalPurposeDescription()));
             }
         }
 

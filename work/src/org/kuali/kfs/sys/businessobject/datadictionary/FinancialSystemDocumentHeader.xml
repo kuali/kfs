@@ -112,7 +112,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="shortLabel" value="Total Amount"/>
     <property name="maxLength" value="19"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/> 
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/> 
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern" p:precision="19" p:allowNegative="true" p:scale="2"/>
     </property>

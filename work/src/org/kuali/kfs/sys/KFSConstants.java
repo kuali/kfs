@@ -22,11 +22,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * This class is used to define global constants.
@@ -44,7 +44,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String GL = "KFS-GL";
         public static final String VENDOR = "KFS-VND";
         public static final String PDP = "KFS-PDP";
-        public static final String KNS = KNSConstants.KNS_NAMESPACE;
+        public static final String KNS = KRADConstants.KRAD_NAMESPACE;
         public static final String ACCESS_SECURITY = "KFS-SEC";
     }
 
@@ -55,7 +55,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String GL = "KFS-GL";
         public static final String VENDOR = "KFS-VND";
         public static final String PDP = "KFS-PDP";
-        public static final String KNS = KNSConstants.KNS_NAMESPACE;
+        public static final String KNS = KRADConstants.KRAD_NAMESPACE;
         public static final String ACCESS_SECURITY = "KFS-SEC";
     }
     
@@ -565,7 +565,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
     // Workflow constants
     @Deprecated
-    public static final String WORKFLOW_FYI_REQUEST = KEWConstants.ACTION_REQUEST_FYI_REQ;
+    public static final String WORKFLOW_FYI_REQUEST = KewApiConstants.ACTION_REQUEST_FYI_REQ;
     
     @Deprecated
     public static final String WORKFLOW_DOCUMENT_SAVE = "Save";
@@ -1146,7 +1146,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String OTHER = "N";
     }
     
-    public static class SysKimConstants{
+    public static class SysKimApiConstants{
         public static final String ACCOUNT_SUPERVISOR_KIM_ROLE_NAME = "Account Supervisor";
         public static final String CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR = "Contracts & Grants Project Director";
         public static final String FISCAL_OFFICER_KIM_ROLE_NAME = "Fiscal Officer";

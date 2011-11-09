@@ -37,13 +37,13 @@ import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
+import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.krad.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
@@ -109,7 +109,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     }
     
     /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
@@ -237,7 +237,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
             return true;
         }
         
-        Collection<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        Collection<String> restrictedItemTypesList = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT) );
 
         // This call determines a new special case in which an item marked for trade-in cannot have editable accounting lines
         // once the calculate button image is clicked, even if the accounting line has not been saved yet.

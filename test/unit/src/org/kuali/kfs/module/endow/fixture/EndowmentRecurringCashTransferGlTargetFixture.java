@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.endow.fixture;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum EndowmentRecurringCashTransferGlTargetFixture {
     VALID_GL_TARGET_1("1", // Target Sequence Number     

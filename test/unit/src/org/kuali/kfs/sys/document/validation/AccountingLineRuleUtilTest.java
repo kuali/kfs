@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.document.validation;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 import static org.kuali.kfs.sys.fixture.AccountFixture.ACCOUNT_NON_PRESENCE_ACCOUNT;
 import static org.kuali.kfs.sys.fixture.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED;
 import static org.kuali.kfs.sys.fixture.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_WITH_EXPIRED;
@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
@@ -77,15 +77,15 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
     }
 
     private void testIsValidAccount(Account account, String expectedErrorKey) {
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
         boolean actual = accountingLineRuleUtil.isValidAccount(account, SpringContext.getBean(DataDictionaryService.class).getDataDictionary());
         assertEquals("isValidAccount result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
         else {
-            assertGlobalErrorMapContains(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey);
+            assertGlobalMessageMapContains(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey);
         }
     }
 
@@ -162,15 +162,15 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
         AccountingLine line = new SourceAccountingLine();
         line.setAccount(account);
 
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
         boolean actual = accountingLineRuleUtil.hasRequiredOverrides(line, overrideCode);
         assertEquals("hasRequiredOverrides result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
         else {
-            assertGlobalErrorMapContains(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey, expectedErrorParameters);
+            assertGlobalMessageMapContains(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey, expectedErrorParameters);
         }
     }
 
@@ -180,15 +180,15 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
         line.setAccount(account);
         line.setObjectCode(objectCode);
 
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
         boolean actual = accountingLineRuleUtil.hasRequiredOverrides(line, overrideCode);
         assertEquals("hasRequiredOverrides result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
         else {
-            assertGlobalErrorMapContains(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, expectedErrorKey);
+            assertGlobalMessageMapContains(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, expectedErrorKey);
         }
     }
 

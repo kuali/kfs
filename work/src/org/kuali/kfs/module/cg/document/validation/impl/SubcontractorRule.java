@@ -22,14 +22,14 @@ import java.util.Map;
 
 import org.kuali.kfs.module.cg.businessobject.SubContractor;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.state.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.StateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -43,7 +43,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
      * 
      * @param maintenanceDocument - document to be tested
      * @return whether maintenance doc passes
-     * @throws org.kuali.rice.kns.exception.ValidationException
+     * @throws org.kuali.rice.krad.exception.ValidationException
      */
     @Override
     protected boolean validateMaintenanceDocument(MaintenanceDocument maintenanceDocument) {
@@ -70,7 +70,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
 
         // Perform lookup for state code provided
-        State state = SpringContext.getBean(StateService.class).getByPrimaryId(countryCode, stateCode);
+        State state = SpringContext.getBean(StateService.class).getState(countryCode, stateCode);
 
         // If no values returned, state code is invalid, throw error
         if (state== null) {
@@ -91,7 +91,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
     protected boolean validateCountryCode(String countryCode) {
         boolean valid = true;
 
-        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(countryCode);
+        Country country = SpringContext.getBean(CountryService.class).getCountry(countryCode);
 
         // If no values returned, country code is invalid, throw error
         if (country == null) {

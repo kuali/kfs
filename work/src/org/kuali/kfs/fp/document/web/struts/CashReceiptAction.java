@@ -38,11 +38,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.Timer;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -99,7 +99,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
         CashReceiptForm crForm = (CashReceiptForm) form;
         
         // get directory of tempate
-        String directory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
+        String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
 
         // retrieve document
         String documentNumber = request.getParameter(KFSPropertyConstants.DOCUMENT_NUMBER);
@@ -142,7 +142,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
                     crDoc.setTotalCheckAmount(crDoc.calculateCheckTotal());
 
                     // notify user
-                    GlobalVariables.getMessageList().add(KFSKeyConstants.CashReceipt.MSG_CHECK_ENTRY_INDIVIDUAL);
+                    KNSGlobalVariables.getMessageList().add(KFSKeyConstants.CashReceipt.MSG_CHECK_ENTRY_INDIVIDUAL);
                 }
                 else {
                     // restore saved checkTotal
@@ -152,7 +152,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
                     crDoc.setCheckEntryMode(formMode);
 
                     // notify user
-                    GlobalVariables.getMessageList().add(KFSKeyConstants.CashReceipt.MSG_CHECK_ENTRY_TOTAL);
+                    KNSGlobalVariables.getMessageList().add(KFSKeyConstants.CashReceipt.MSG_CHECK_ENTRY_TOTAL);
                 }
             }
         }
@@ -344,7 +344,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
                     crDoc.setTotalCheckAmount(crDoc.calculateCheckTotal());
 
                     // notify user
-                    GlobalVariables.getMessageList().add(KFSKeyConstants.CashReceipt.MSG_CHECK_ENTRY_INDIVIDUAL);
+                    KNSGlobalVariables.getMessageList().add(KFSKeyConstants.CashReceipt.MSG_CHECK_ENTRY_INDIVIDUAL);
                 }
                 else {
                     // restore saved checkTotal
@@ -354,7 +354,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
                     crDoc.setCheckEntryMode(formMode);
 
                     // notify user
-                    GlobalVariables.getMessageList().add(KFSKeyConstants.CashReceipt.MSG_CHECK_ENTRY_TOTAL);
+                    KNSGlobalVariables.getMessageList().add(KFSKeyConstants.CashReceipt.MSG_CHECK_ENTRY_TOTAL);
                 }
             }
         }

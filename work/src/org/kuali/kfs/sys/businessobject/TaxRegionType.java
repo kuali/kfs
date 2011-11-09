@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class TaxRegionType extends PersistableBusinessObjectBase {
 
@@ -40,8 +40,8 @@ public class TaxRegionType extends PersistableBusinessObjectBase {
         this.taxRegionTypeName = taxRegionTypeName;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }

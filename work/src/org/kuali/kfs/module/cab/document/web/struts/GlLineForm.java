@@ -26,7 +26,7 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class GlLineForm extends KualiForm {
@@ -39,7 +39,7 @@ public class GlLineForm extends KualiForm {
     
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER) && (StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.PROCESS) || StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.VIEW_DOC))) {
+        if (StringUtils.equals(methodToCallParameterName, KRADConstants.DISPATCH_REQUEST_PARAMETER) && (StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.PROCESS) || StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.VIEW_DOC))) {
             return true;
         }
         return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);

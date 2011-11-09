@@ -20,10 +20,10 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
  * 
@@ -918,7 +918,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
     }
 
     public Person getHrmsPersonnelApproverUniversal() {
-        hrmsPersonnelApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(hrmsPersonnelApproverUniversalId, hrmsPersonnelApproverUniversal);
+        hrmsPersonnelApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(hrmsPersonnelApproverUniversalId, hrmsPersonnelApproverUniversal);
         return hrmsPersonnelApproverUniversal;
     }
 
@@ -938,7 +938,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * @return Returns the hrmsIuCampus
      */
     public Campus getHrmsIuCampus() {
-        return hrmsIuCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, hrmsIuCampus, "hrmsIuCampus");
+        return hrmsIuCampus = StringUtils.isBlank( hrmsIuCampusCode)?null:((hrmsIuCampus!=null && hrmsIuCampus.getCode().equals( hrmsIuCampusCode))?hrmsIuCampus:SpringContext.getBean(CampusService.class).getCampus( hrmsIuCampusCode));
     }
 
     /**
@@ -952,7 +952,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
     }
 
     public Person getFiscalApproverUniversal() {
-        fiscalApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(fiscalApproverUniversalId, fiscalApproverUniversal);
+        fiscalApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(fiscalApproverUniversalId, fiscalApproverUniversal);
         return fiscalApproverUniversal;
     }
 
@@ -967,9 +967,9 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);

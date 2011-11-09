@@ -23,14 +23,14 @@ import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is used to represent a disbursement voucher payee detail.
@@ -768,7 +768,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the disbVchrPayeeState.
      */
     public State getDisbVchrPayeeState() {
-        disbVchrPayeeState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary( disbVchrPayeeCountryCode, disbVchrPayeeStateCode, disbVchrPayeeState);
+        disbVchrPayeeState = (StringUtils.isBlank( disbVchrPayeeCountryCode) || StringUtils.isBlank( disbVchrPayeeStateCode))?null:( disbVchrPayeeState == null || !StringUtils.equals( disbVchrPayeeState.getCountryCode(), disbVchrPayeeCountryCode)|| !StringUtils.equals( disbVchrPayeeState.getCode(), disbVchrPayeeStateCode))?SpringContext.getBean(StateService.class).getState( disbVchrPayeeCountryCode, disbVchrPayeeStateCode): disbVchrPayeeState;
         return disbVchrPayeeState;
     }
 
@@ -785,7 +785,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the disbVchrPayeeCountry.
      */
     public Country getDisbVchrPayeeCountry() {
-        disbVchrPayeeCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(disbVchrPayeeCountryCode, disbVchrPayeeCountry);
+        disbVchrPayeeCountry = (disbVchrPayeeCountryCode == null)?null:( disbVchrPayeeCountry == null || !StringUtils.equals( disbVchrPayeeCountry.getCode(),disbVchrPayeeCountryCode))?SpringContext.getBean(CountryService.class).getCountry(disbVchrPayeeCountryCode): disbVchrPayeeCountry;
         return disbVchrPayeeCountry;
     }
 
@@ -802,7 +802,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the disbVchrPayeePostalZipCode.
      */
     public PostalCode getDisbVchrPayeePostalZipCode() {
-        disbVchrPayeePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(disbVchrPayeeCountryCode, disbVchrPayeeZipCode, disbVchrPayeePostalZipCode);
+        disbVchrPayeePostalZipCode = (StringUtils.isBlank(disbVchrPayeeCountryCode) || StringUtils.isBlank( disbVchrPayeeZipCode))?null:( disbVchrPayeePostalZipCode == null || !StringUtils.equals( disbVchrPayeePostalZipCode.getCountryCode(),disbVchrPayeeCountryCode)|| !StringUtils.equals( disbVchrPayeePostalZipCode.getCode(), disbVchrPayeeZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(disbVchrPayeeCountryCode, disbVchrPayeeZipCode): disbVchrPayeePostalZipCode;
         return disbVchrPayeePostalZipCode;
     }
 
@@ -830,9 +830,9 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;

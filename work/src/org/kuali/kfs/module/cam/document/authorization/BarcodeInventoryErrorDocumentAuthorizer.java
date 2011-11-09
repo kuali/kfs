@@ -23,11 +23,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.actionrequest.dao.ActionRequestDAO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Barcode Inventory Error Document Authorizer to edit.
@@ -37,8 +37,8 @@ public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTran
     /**
      * Overridden to check if document error correction can be allowed here.
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document,
+     *      org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
@@ -54,7 +54,7 @@ public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTran
         
         String principalId = UserSession.getAuthenticatedUser().getPrincipalId();
         
-        if (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+        if (document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
             //retrieve all future actions records sitting in table: KREW_ACTN_RQST_T
             List<ActionRequestValue> futureActions = SpringContext.getBean(ActionRequestDAO.class).findAllByDocId(routeHeaderId);
            
@@ -62,7 +62,7 @@ public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTran
                 //if logged in principal id is same as the one in future actions record then add the edit permission
                 // check jira: KFSMI-5698
                 if (futureAction.next().getPrincipalId().equals(principalId)) {
-                    documentActionsToReturn.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
+                    documentActionsToReturn.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
                 }
             }
         }

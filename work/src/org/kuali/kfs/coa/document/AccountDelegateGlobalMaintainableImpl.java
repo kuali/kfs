@@ -33,13 +33,13 @@ import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class overrides the base {@link FinancialSystemGlobalMaintainable} to generate the specific maintenance locks for Global delegates
@@ -93,7 +93,7 @@ public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobal
            return lock;
        else {
            AccountDelegateService accountDelegateService = SpringContext.getBean(AccountDelegateService.class);
-           lock = accountDelegateService.getLockingDocumentId(this, this.documentNumber);
+           lock = accountDelegateService.getLockingDocumentId(this, getDocumentNumber());
            return lock;
        }
     }

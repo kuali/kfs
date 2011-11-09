@@ -23,11 +23,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class represents a cash drawer used in cash management document. It contains amounts for 
@@ -1073,7 +1073,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      * @return the campus associated with this cash drawer
      */
     public Campus getCampus() {
-        if (campusCode != null && (campus == null || !campus.getCampusCode().equals(campusCode))) {
+        if (campusCode != null && (campus == null || !campus.getCode().equals(campusCode))) {
             campus = retrieveCampus();
         }
         return campus;
@@ -1081,14 +1081,14 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     
     private Campus retrieveCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+        criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
+        return campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         @SuppressWarnings("rawtypes")
         LinkedHashMap m = new LinkedHashMap();
         m.put("campusCode", this.campusCode);

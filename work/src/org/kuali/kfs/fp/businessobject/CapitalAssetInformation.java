@@ -28,11 +28,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 
@@ -70,10 +70,10 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     public CapitalAssetInformation() {
         super();
         setAmount(KualiDecimal.ZERO);
-        capitalAssetInformationDetails = new TypedArrayList(CapitalAssetInformationDetail.class);
+        capitalAssetInformationDetails = new ArrayList<CapitalAssetInformationDetail>();
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("documentNumber", getDocumentNumber());

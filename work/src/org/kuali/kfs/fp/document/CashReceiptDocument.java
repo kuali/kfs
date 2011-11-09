@@ -38,18 +38,18 @@ import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
@@ -789,7 +789,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#prepareForSave()
+     * @see org.kuali.rice.krad.document.DocumentBase#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -806,7 +806,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#processAfterRetrieve()
+     * @see org.kuali.rice.krad.document.DocumentBase#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -830,15 +830,15 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * is associated with is FINAL approved, this status will be set to APPROVED ("A") to be picked up by the GL for processing.
      * That's done in the doRouteStatusChange() method in the CashManagementDocument.
      * 
-     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.Document#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);        
-        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         
         // Workflow Status of PROCESSED --> Kuali Doc Status of Verified
-        if (workflowDocument.stateIsProcessed()) {
+        if (workflowDocument.isProcessed()) {
             this.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
             LOG.info("Adding Cash to Cash Drawer");
             SpringContext.getBean(CashReceiptService.class).addCashDetailsToCashDrawer(this);
@@ -848,7 +848,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
     
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.krad.document.DocumentBase#postProcessSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
@@ -1014,7 +1014,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

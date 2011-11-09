@@ -29,10 +29,10 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
@@ -59,7 +59,7 @@ public class BudgetExpansionAction extends KualiAction {
                 if (form instanceof SalarySettingBaseForm){
                     SalarySettingBaseForm salarySettingBaseForm = (SalarySettingBaseForm) form;
                     if (!salarySettingBaseForm.isBudgetByAccountMode()){
-                        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
                         return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
                     }
                 }
@@ -72,7 +72,7 @@ public class BudgetExpansionAction extends KualiAction {
                     return new ActionForward(lookupUrl, true);
                 }
                 else {
-                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                    KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
                     return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
                 }
             }
@@ -158,7 +158,7 @@ public class BudgetExpansionAction extends KualiAction {
     public void moveCallBackMessagesInPlace() {
         MessageList messagesList = (MessageList) GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_MESSAGES);
         if (messagesList != null) {
-            GlobalVariables.getMessageList().addAll(messagesList);
+            KNSGlobalVariables.getMessageList().addAll(messagesList);
         }
 
         MessageMap messageMap = (MessageMap) GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_ERRORS);

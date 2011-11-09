@@ -25,19 +25,19 @@ import java.util.Map;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import java.util.ArrayList;
 
 /**
  * 
  */
-public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject, Inactivateable {
+public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject, Inactivatable {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubObjectCodeGlobal.class);
 
@@ -62,8 +62,8 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
     public SubObjectCodeGlobal() {
 
 
-        subObjCdGlobalDetails = new TypedArrayList(SubObjectCodeGlobalDetail.class);
-        accountGlobalDetails = new TypedArrayList(AccountGlobalDetail.class);
+        subObjCdGlobalDetails = new ArrayList<SubObjectCodeGlobalDetail>();
+        accountGlobalDetails = new ArrayList<AccountGlobalDetail>();
 
     }
 
@@ -259,9 +259,9 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
@@ -284,7 +284,7 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
@@ -293,7 +293,7 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
     /**
      * This returns a list of Sub Object Codes to Update and/or Add
      * 
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#applyGlobalChanges()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#applyGlobalChanges()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         LOG.debug("applyGlobalChanges");
@@ -372,7 +372,7 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

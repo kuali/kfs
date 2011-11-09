@@ -19,7 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.service.AttachmentService;
+import org.kuali.rice.krad.service.AttachmentService;
 
 
 /**
@@ -31,7 +31,7 @@ import org.kuali.rice.kns.service.AttachmentService;
  * the file's last modified time to determine which pending attachments should be deleted. If the modified time is older than the
  * SYSTEM parameter "pendingAssignmentMaxAge", then it will be deleted.
  * 
- * @see org.kuali.rice.kns.service.impl.AttachmentServiceImpl
+ * @see org.kuali.rice.krad.service.impl.AttachmentServiceImpl
  * @see KFSConstants.SystemGroupParameterNames#PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE
  */
 public class PurgePendingAttachmentsStep extends AbstractStep {
@@ -45,7 +45,7 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
      */
     public boolean execute(String jobName, Date jobRunDate) {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
-        String maxAgeInSecondsStr = getParameterService().getParameterValue(PurgePendingAttachmentsStep.class, KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
+        String maxAgeInSecondsStr = getParameterService().getParameterValueAsString(PurgePendingAttachmentsStep.class, KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
         int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);
         calendar.add(Calendar.SECOND, -maxAgeInSeconds);
         getAttachmentService().deletePendingAttachmentsModifiedBefore(calendar.getTimeInMillis());

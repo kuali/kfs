@@ -48,8 +48,8 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.FiscalYearAwareReportWriterService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * Implements a set of methods that can generate labor balance summary reports
@@ -86,9 +86,9 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
     public void generateBalanceSummaryReports(Date runDate) {
         LOG.debug("generateBalanceSummaryReports(Date) started");
 
-        String yearEndPeriodLowerBound = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_YEAR_LOWER);
-        String lastDayOfFiscalYear = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_AND_LAST_YEAR);
-        String yearEndPeriodUpperBound = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_YEAR_UPPER);
+        String yearEndPeriodLowerBound = parameterService.getParameterValueAsString(PosterSummaryReportStep.class, CURRENT_YEAR_LOWER);
+        String lastDayOfFiscalYear = parameterService.getParameterValueAsString(PosterSummaryReportStep.class, CURRENT_AND_LAST_YEAR);
+        String yearEndPeriodUpperBound = parameterService.getParameterValueAsString(PosterSummaryReportStep.class, CURRENT_YEAR_UPPER);
 
         Integer currentYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
         this.generateBalanceSummaryReports(currentYear, runDate);

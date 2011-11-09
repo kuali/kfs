@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class FormatSelection extends TransientBusinessObjectBase {
     String campus;
@@ -64,8 +64,8 @@ public class FormatSelection extends TransientBusinessObjectBase {
         this.startDate = startDate;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap(); 
         
         m.put(PdpPropertyConstants.FormatSelection.CAMPUS, this.campus);

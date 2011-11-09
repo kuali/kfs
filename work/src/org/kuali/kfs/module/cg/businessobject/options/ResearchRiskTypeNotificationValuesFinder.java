@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 public class ResearchRiskTypeNotificationValuesFinder extends KeyValuesBase {
 
@@ -35,17 +35,17 @@ public class ResearchRiskTypeNotificationValuesFinder extends KeyValuesBase {
      * Builds a collection of possible values to be selected from. These values are used to build out a drop down list for user
      * selection.
      * 
-     * @return A list of KeyLabelPair objects.
+     * @return A list of KeyValue objects.
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 
-        List<KeyLabelPair> notificationValuesPairList = new ArrayList(4);
+        List<KeyValue> notificationValuesPairList = new ArrayList(4);
 
-        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.YES, ResearchRiskType.YES + " (Yes)"));
-        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.NO, ResearchRiskType.NO + " (No)"));
-        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.ALL, ResearchRiskType.ALL + " (All)"));
-        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.NEVER, ResearchRiskType.NEVER + " (Never)"));
+        notificationValuesPairList.add(new ConcreteKeyValue(ResearchRiskType.YES, ResearchRiskType.YES + " (Yes)"));
+        notificationValuesPairList.add(new ConcreteKeyValue(ResearchRiskType.NO, ResearchRiskType.NO + " (No)"));
+        notificationValuesPairList.add(new ConcreteKeyValue(ResearchRiskType.ALL, ResearchRiskType.ALL + " (All)"));
+        notificationValuesPairList.add(new ConcreteKeyValue(ResearchRiskType.NEVER, ResearchRiskType.NEVER + " (Never)"));
 
         return notificationValuesPairList;
     }

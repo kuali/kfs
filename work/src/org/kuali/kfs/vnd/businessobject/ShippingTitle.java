@@ -18,13 +18,13 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Title to identify the method of dividing ownership during the process of shipment of packages from a particular Vendor.
  */
-public class ShippingTitle extends PersistableBusinessObjectBase implements Inactivateable{
+public class ShippingTitle extends PersistableBusinessObjectBase implements Inactivatable{
 
     private String vendorShippingTitleCode;
     private String vendorShippingTitleDescription;
@@ -65,9 +65,9 @@ public class ShippingTitle extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("vendorShippingTitleCode", this.vendorShippingTitleCode);
 

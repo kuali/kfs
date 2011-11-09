@@ -32,15 +32,15 @@ import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationSe
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -51,8 +51,8 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     private EffortCertificationModuleService effortCertificationService;
     private DocumentService documentService;
     private NoteService noteService;
-    private KualiConfigurationService kualiConfigurationService;
-    private PersonService<Person> personService;
+    private ConfigurationService kualiConfigurationService;
+    private PersonService personService;
 
     /**
      * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService#validateTransfers(org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument)
@@ -127,7 +127,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     public void disapproveSalaryExpenseDocument(SalaryExpenseTransferDocument document) throws Exception {
         // create note explaining why the document was disapproved
         Note cancelNote = noteService.createNote(new Note(), document.getDocumentHeader());
-        cancelNote.setNoteText(kualiConfigurationService.getPropertyString(LaborKeyConstants.EFFORT_AUTO_DISAPPROVE_MESSAGE));
+        cancelNote.setNoteText(kualiConfigurationService.getPropertyValueAsString(LaborKeyConstants.EFFORT_AUTO_DISAPPROVE_MESSAGE));
 
         Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
@@ -339,14 +339,14 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

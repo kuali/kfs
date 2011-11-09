@@ -25,13 +25,13 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class PurapDocumentPreRulesBase extends PromptBeforeValidationBase {
 
@@ -64,14 +64,14 @@ public abstract class PurapDocumentPreRulesBase extends PromptBeforeValidationBa
         if (StringUtils.isBlank(event.getQuestionContext())) {
             if (!SpringContext.getBean(CapitalAssetBuilderModuleService.class).warningObjectLevelCapital(purapDocument)) {
                 proceed &= false;
-                questionText.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
+                questionText.append(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(
                         PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS));
 
-                MessageList warnings =  GlobalVariables.getMessageList();
+                MessageList warnings =  KNSGlobalVariables.getMessageList();
                 if ( !warnings.isEmpty() ) {
                     questionText.append("[p]");
                     for ( ErrorMessage warning :  warnings ) {
-                        // the following two lines should be used but org.kuali.rice.kns.util.ErrorMessage (line 83) has a bug
+                        // the following two lines should be used but org.kuali.rice.krad.util.ErrorMessage (line 83) has a bug
                         //questionText.append(warning);
                         //questionText.append("[br]");                        
                         // so, to remove parenthesis in case no params exist   
@@ -100,7 +100,7 @@ public abstract class PurapDocumentPreRulesBase extends PromptBeforeValidationBa
         event.setQuestionContext(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS);
         event.setActionForwardName(KFSConstants.MAPPING_BASIC);
         if (!proceed) {
-            GlobalVariables.getMessageList().clear();
+            KNSGlobalVariables.getMessageList().clear();
         }
     
         return proceed;

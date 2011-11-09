@@ -30,16 +30,16 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 public class BulkReceivingDocument extends ReceivingDocumentBase{
 
@@ -142,7 +142,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
         
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(po.getRequisitionIdentifier());
         if (reqDoc != null){ // reqDoc is null when called from unit test
-            String requisitionPreparer = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+            String requisitionPreparer = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             /**
              * This is to get the user name for display
              */
@@ -238,7 +238,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
         setCarrierCode(null);        
     }
 
-    @Override
+    
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         refreshNonUpdateableReferences();
@@ -267,7 +267,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
     
     protected void populateDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
-        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KRADPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength < description.length()) {
             description = description.substring(0, noteTextMaxLength);
         }
@@ -275,7 +275,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
     }
 
     public String getDeliveryCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getDeliveryCountryCode());
+        Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
         if (country != null)
             return country.getPostalCountryName();
         return null;
@@ -454,7 +454,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
         return true;
     }
     
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
         m.put("PO", getPurchaseOrderIdentifier());

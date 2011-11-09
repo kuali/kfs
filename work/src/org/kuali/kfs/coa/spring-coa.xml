@@ -142,7 +142,7 @@
 			<ref bean="chartDao" />
 		</property>
 		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
+			<ref bean="kimRoleService" />
 		</property>
 		<property name="parameterService" ref="parameterService" />
 	</bean>
@@ -645,7 +645,7 @@
 
 	<bean id="orgReviewRoleService"  parent="orgReviewRoleService-parentBean"/>
 	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" >
-		<property name="roleManagementService" ref="kimRoleManagementService" />
+		<property name="roleManagementService" ref="kimRoleService" />
 		<property name="kimTypeInfoService" ref="kimTypeInfoService" />
 	</bean>
 	 

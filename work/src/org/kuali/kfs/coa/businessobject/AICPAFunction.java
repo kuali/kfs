@@ -18,13 +18,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Business object for American Institute of Certified Public Accountants (AICPA) function
  */
-public class AICPAFunction extends PersistableBusinessObjectBase implements Inactivateable {
+public class AICPAFunction extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String financialAicpaFunctionCode;
     private String financialAicpaFunctionName;
@@ -76,9 +76,9 @@ public class AICPAFunction extends PersistableBusinessObjectBase implements Inac
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialAicpaFunctionCode", this.financialAicpaFunctionCode);
         return m;

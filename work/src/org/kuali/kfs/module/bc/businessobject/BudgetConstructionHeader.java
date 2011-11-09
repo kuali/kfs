@@ -28,10 +28,10 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 /**
  * 
@@ -298,7 +298,7 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
 
     public Person getBudgetLockUser() {
         if (budgetLockUserIdentifier != null){
-            budgetLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetLockUserIdentifier, budgetLockUser);
+            budgetLockUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(budgetLockUserIdentifier, budgetLockUser);
         }
         return budgetLockUser;
     }
@@ -333,7 +333,7 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
 
     public Person getBudgetTransactionLockUser() {
         if (budgetTransactionLockUserIdentifier != null){
-            budgetTransactionLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
+            budgetTransactionLockUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
         }
         return budgetTransactionLockUser;
     }
@@ -440,9 +440,9 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.universityFiscalYear != null) {

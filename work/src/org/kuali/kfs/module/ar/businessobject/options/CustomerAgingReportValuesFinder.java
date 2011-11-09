@@ -21,9 +21,9 @@ import java.util.List;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.VendorConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Option Finder for Report Option in Customer Aging Report
@@ -35,14 +35,14 @@ public class CustomerAgingReportValuesFinder extends KeyValuesBase implements Va
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(ArConstants.CustomerAgingReportFields.PROCESSING_ORG, ArConstants.CustomerAgingReportFields.PROCESSING_ORG));
-        keyValues.add(new KeyLabelPair(ArConstants.CustomerAgingReportFields.BILLING_ORG, ArConstants.CustomerAgingReportFields.BILLING_ORG));
-        keyValues.add(new KeyLabelPair(ArConstants.CustomerAgingReportFields.ACCT, ArConstants.CustomerAgingReportFields.ACCT));
+        keyValues.add(new ConcreteKeyValue(ArConstants.CustomerAgingReportFields.PROCESSING_ORG, ArConstants.CustomerAgingReportFields.PROCESSING_ORG));
+        keyValues.add(new ConcreteKeyValue(ArConstants.CustomerAgingReportFields.BILLING_ORG, ArConstants.CustomerAgingReportFields.BILLING_ORG));
+        keyValues.add(new ConcreteKeyValue(ArConstants.CustomerAgingReportFields.ACCT, ArConstants.CustomerAgingReportFields.ACCT));
         return keyValues;
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return ArConstants.CustomerAgingReportFields.PROCESSING_ORG;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * Business Object for Income Principal Indicator table.

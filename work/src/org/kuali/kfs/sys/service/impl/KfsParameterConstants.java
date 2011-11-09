@@ -20,15 +20,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.framework.parameter.ParameterConstants;
+import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.core.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 public class KfsParameterConstants {
 
-    public static final String NERVOUS_SYSTEM_NAMESPACE = KNSConstants.KNS_NAMESPACE;
+    public static final String NERVOUS_SYSTEM_NAMESPACE = KRADConstants.KRAD_NAMESPACE;
     public static final String ALL_COMPONENT = "All";
     public static final String DOCUMENT_COMPONENT = "Document";
     public static final String LOOKUP_COMPONENT = "Lookup";

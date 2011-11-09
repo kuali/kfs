@@ -29,11 +29,11 @@ import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -124,7 +124,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
         String parameterName = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD;
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String parameterValue = parameterService.getParameterValue(CustomerInvoiceDocument.class, parameterName);
+        String parameterValue = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, parameterName);
 
         ObjectCode objectCode = null;
         if ("1".equals(parameterValue) || "2".equals(parameterValue)) {
@@ -322,10 +322,10 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         if (this.paidAppliedItemNumber != null) {

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.document.service;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * This interface provides utility methods for the KEM module like mod10 calculation.

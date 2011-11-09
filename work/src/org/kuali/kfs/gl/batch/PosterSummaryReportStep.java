@@ -220,21 +220,21 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
      * @return current year lower parameter for inner class
      */
     public String getCurrentYearLowerParameter() {
-        return getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_LOWER);
+        return getParameterService().getParameterValueAsString(getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_LOWER);
     }
     
     /**
      * @return current year upper parameter for inner class
      */
     public String getCurrentYearUpperParameter() {
-        return getParameterService().getParameterValue(PosterSummaryReportStep.this.getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_UPPER);
+        return getParameterService().getParameterValueAsString(PosterSummaryReportStep.this.getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_UPPER);
     }
     
     /**
      * @return current and last year parameter for inner class
      */
     public String getCurrentAndLastYearParameter() {
-        return getParameterService().getParameterValue(PosterSummaryReportStep.this.getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR);
+        return getParameterService().getParameterValueAsString(PosterSummaryReportStep.this.getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR);
     }
 
     /**

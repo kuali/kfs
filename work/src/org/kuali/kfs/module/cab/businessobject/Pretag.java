@@ -24,17 +24,17 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Pretag extends PersistableBusinessObjectBase implements Inactivateable {
+public class Pretag extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String purchaseOrderNumber;
     private Integer itemLineNumber;
@@ -67,7 +67,7 @@ public class Pretag extends PersistableBusinessObjectBase implements Inactivatea
      * Default constructor.
      */
     public Pretag() {
-        pretagDetails = new TypedArrayList(PretagDetail.class);
+        pretagDetails = new ArrayList<PretagDetail>();
     }
 
     /**
@@ -258,7 +258,7 @@ public class Pretag extends PersistableBusinessObjectBase implements Inactivatea
     }
 
     public Person getPersonUniversal() {
-        personUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, personUniversal);
+        personUniversal = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, personUniversal);
         return personUniversal;
     }
 
@@ -435,9 +435,9 @@ public class Pretag extends PersistableBusinessObjectBase implements Inactivatea
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("purchaseOrderNumber", this.purchaseOrderNumber);
         if (this.itemLineNumber != null) {

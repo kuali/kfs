@@ -28,12 +28,12 @@ import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionServic
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -82,13 +82,13 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
         String fiscalYears = KFSConstants.EMPTY_STRING;
         String expenseObjectTypeCodes = KFSConstants.EMPTY_STRING;
         for (Integer fiscalYear : reportDefiniton.getReportPeriods().keySet()) {
-            fiscalYears += fiscalYear + KNSConstants.OR_LOGICAL_OPERATOR;
-            expenseObjectTypeCodes += optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd() + KNSConstants.OR_LOGICAL_OPERATOR;
+            fiscalYears += fiscalYear + KRADConstants.OR_LOGICAL_OPERATOR;
+            expenseObjectTypeCodes += optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd() + KRADConstants.OR_LOGICAL_OPERATOR;
         }
         searchFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYears);
         searchFieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCodes);
 
-        String balanceTypeCodes = KFSConstants.BALANCE_TYPE_ACTUAL + KNSConstants.OR_LOGICAL_OPERATOR + KFSConstants.BALANCE_TYPE_A21;
+        String balanceTypeCodes = KFSConstants.BALANCE_TYPE_ACTUAL + KRADConstants.OR_LOGICAL_OPERATOR + KFSConstants.BALANCE_TYPE_A21;
         searchFieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCodes);
 
         return searchFieldValues;

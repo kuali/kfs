@@ -127,7 +127,7 @@
 		<property name="label" value="Beginning Balance Line Amount" />
 		<property name="shortLabel" value="Beginning Balance Line Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountStatusCurrentFunds-annualActualAmount" parent="AccountStatusCurrentFunds-annualActualAmount-parentBean" />
 
@@ -136,7 +136,7 @@
 		<property name="name" value="annualActualAmount" />
 		<property name="label" value="YTD Actual" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountStatusCurrentFunds-outstandingEncum" parent="AccountStatusCurrentFunds-outstandingEncum-parentBean" />
 
@@ -146,7 +146,7 @@
 		<property name="label" value="Outstanding Encum" />
 		<property name="shortLabel" value="Outstanding Encum" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountStatusCurrentFunds-july1BudgetAmount" parent="AccountStatusCurrentFunds-july1BudgetAmount-parentBean" />
 
@@ -161,7 +161,7 @@
 		<property name="label" value="Variance" />
 		<property name="shortLabel" value="Variance" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount"
 		parent="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount-parentBean" />
@@ -173,7 +173,7 @@
 		<property name="label" value="Year End Close" />
 		<property name="shortLabel" value="Year End Close" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean
 		id="AccountStatusCurrentFunds-dummyBusinessObject.consolidationOption"

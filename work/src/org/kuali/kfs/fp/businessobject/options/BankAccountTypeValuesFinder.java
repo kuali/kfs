@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of bank account type value pairs.
@@ -31,8 +31,8 @@ public class BankAccountTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("C", "Checking"));
-        keyValues.add(new KeyLabelPair("S", "Savings"));
+        keyValues.add(new ConcreteKeyValue("C", "Checking"));
+        keyValues.add(new ConcreteKeyValue("S", "Savings"));
 
         return keyValues;
     }

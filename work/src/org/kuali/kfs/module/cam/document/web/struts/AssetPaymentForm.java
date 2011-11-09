@@ -32,8 +32,8 @@ import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 	protected static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
@@ -189,7 +189,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 	@Override
 	public void addRequiredNonEditableProperties() {
 		super.addRequiredNonEditableProperties();
-		registerRequiredNonEditableProperty(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+		registerRequiredNonEditableProperty(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
 	}
 
 	/**

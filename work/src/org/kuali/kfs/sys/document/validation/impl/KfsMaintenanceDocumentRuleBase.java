@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class KfsMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {

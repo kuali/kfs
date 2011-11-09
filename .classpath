@@ -66,10 +66,8 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/FastInfoset-1.2.2.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/c1searchengine.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-digester-1.7.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-net-ftp-2.0.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/db-ojb-1.0.4-patch8.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/dwr-1.1.4.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/fop-0.20.5.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/itext-1.4.8.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jasperreports-2.0.4.jar" /><!-- KFS lib -->
@@ -172,45 +170,19 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xstream-1.2.2.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/server-lib/jsp-api.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/server-lib/servlet-api.jar" /><!-- KFS lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/carol-3.0.6.jar" /><!-- KFS lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/carol-interceptors-1.0.1.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/commons-cli-1.0.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/commons-logging-1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/connector-1_5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/howl.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/jta-spec1_0_1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/objectweb-datasource.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/ow_carol.jar" /><!-- KFS lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/howl-1.0.1-1.jar" /><!-- KFS lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/jta-1.1.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/cobertura.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/jakarta-oro-2.0.8.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/jetty-6.1.1.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/jetty-util-6.1.1.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/junit-3.8.1.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/log4j-1.2.16.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/avalon-framework-cvs-20020806.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/backport-util-concurrent-2.1.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/batik-1.6.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-dbcp-1.4.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-pool-1.5.4.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/geronimo-annotation_1.0_spec-1.1.1.jar"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
@@ -236,11 +208,6 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/taglibs-standard-1.1.2.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/xalan-serializer-2.7.0.jar"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
@@ -365,17 +332,12 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm-2.0.10.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/connector-api-1.5.jar"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm_iiop_stubs.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm_jrmp_stubs.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm-core-2.1.9.jar"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

@@ -116,7 +116,7 @@
 		<property name="label" value="Budget Amount" />
 		<property name="shortLabel" value="Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountBalance-accountLineActualsBalanceAmount"
 		parent="AccountBalance-accountLineActualsBalanceAmount-parentBean" />
@@ -127,7 +127,7 @@
 		<property name="label" value="Actuals Amount" />
 		<property name="shortLabel" value="Actuals Balance Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountBalance-accountLineEncumbranceBalanceAmount"
 		parent="AccountBalance-accountLineEncumbranceBalanceAmount-parentBean" />
@@ -138,7 +138,7 @@
 		<property name="label" value="Encumbrance Amount" />
 		<property name="shortLabel" value="Encumbrance Balance" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountBalance-timestamp" parent="AccountBalance-timestamp-parentBean" />
 
@@ -173,7 +173,7 @@
 		<property name="label" value="Variance" />
 		<property name="shortLabel" value="Variance" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountBalance-dummyBusinessObject.linkButtonOption"
 		parent="AccountBalance-dummyBusinessObject.linkButtonOption-parentBean" />

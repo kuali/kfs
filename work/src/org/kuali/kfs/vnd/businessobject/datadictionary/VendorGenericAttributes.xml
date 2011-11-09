@@ -48,7 +48,7 @@
 
   <bean id="VendorGenericAttributes-stateCode" parent="VendorGenericAttributes-stateCode-parentBean"/>
 
-  <bean id="VendorGenericAttributes-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
+  <bean id="VendorGenericAttributes-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State" p:sourceAttributeName="stateCode">
     <property name="name" value="stateCode"/>
     <property name="label" value="State"/>
     <property name="shortLabel" value="State"/>
@@ -56,7 +56,7 @@
   </bean>
   
   <bean id="VendorGenericAttributes-campusCode" parent="VendorGenericAttributes-campusCode-parentBean"/>
-  <bean id="VendorGenericAttributes-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Campus" p:sourceAttributeName="campusCode">
+  <bean id="VendorGenericAttributes-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Campus" p:sourceAttributeName="campusCode">
     <property name="name" value="campusCode"/>
     <property name="label" value="Campus"/>
     <property name="shortLabel" value="Campus"/>
@@ -75,7 +75,7 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
   <bean id="VendorGenericAttributes-yesNoWithoutBlankIndicator" parent="VendorGenericAttributes-yesNoWithoutBlankIndicator-parentBean"/>
 
@@ -88,7 +88,7 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
   <bean id="VendorGenericAttributes-hiddenIndicator" parent="VendorGenericAttributes-hiddenIndicator-parentBean"/>
 
@@ -150,7 +150,7 @@
   </bean>
 
   <bean id="VendorGenericAttributes-zipCode" parent="VendorGenericAttributes-zipCode-parentBean"/>
-  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
+  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode" p:sourceAttributeName="postalCode">
     <property name="name" value="zipCode"/>
     <property name="required" value="false"/>
     <property name="validationPattern">
@@ -166,12 +166,12 @@
   </bean>
 
   <bean id="VendorGenericAttributes-countryCode" parent="VendorGenericAttributes-countryCode-parentBean"/>
-  <bean id="VendorGenericAttributes-countryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
+  <bean id="VendorGenericAttributes-countryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country" p:sourceAttributeName="postalCountryCode">
     <property name="name" value="countryCode"/>
     <property name="label" value="Country"/>
     <property name="shortLabel" value="Country"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   

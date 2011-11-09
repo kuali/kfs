@@ -35,15 +35,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.batch.BatchFile;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
 import org.kuali.kfs.sys.batch.service.BatchFileAdminAuthorizationService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
@@ -272,7 +272,7 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
     protected HtmlData getDownloadUrl(BatchFile batchFile) {
         Properties parameters = new Properties();
         parameters.put("filePath", BatchFileUtils.pathRelativeToRootDirectory(batchFile.retrieveFile().getAbsolutePath()));
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "download");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "download");
         String href = UrlFactory.parameterizeUrl("../batchFileAdmin.do", parameters);
         return new AnchorHtmlData(href, "download", "Download");
     }
@@ -280,7 +280,7 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
     protected HtmlData getDeleteUrl(BatchFile batchFile) {
         Properties parameters = new Properties();
         parameters.put("filePath", BatchFileUtils.pathRelativeToRootDirectory(batchFile.retrieveFile().getAbsolutePath()));
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "delete");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "delete");
         String href = UrlFactory.parameterizeUrl("../batchFileAdmin.do", parameters);
         return new AnchorHtmlData(href, "delete", "Delete");
     }

@@ -40,14 +40,14 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.CrossSectionSuite;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.DocumentAuthorizationException;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.DocumentAuthorizationException;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class is used to test InternalBillingDocument.

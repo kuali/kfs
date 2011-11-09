@@ -243,7 +243,7 @@
 	</bean>
 	<bean id="Organization-organizationPhysicalCampusCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Campus"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Campus"
 		p:sourceAttributeName="campusCode">
 		<property name="name" value="organizationPhysicalCampusCode" />
 		<property name="label" value="Organization Physical Campus Code" />
@@ -294,7 +294,7 @@
 
 	<bean id="Organization-organizationZipCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
 		p:sourceAttributeName="postalCode">
 		<property name="name" value="organizationZipCode" />
 		<property name="label" value="Organization Postal Code" />
@@ -305,8 +305,8 @@
 
 	<bean id="Organization-organizationStateCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
+		p:sourceAttributeName="stateCode">
 		<property name="name" value="organizationStateCode" />
 		<property name="label" value="Organization State/Province Code" />
 		<property name="shortLabel" value="St Cd" />
@@ -323,7 +323,7 @@
 
 	<bean id="Organization-organizationCountryCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country"
 		p:sourceAttributeName="postalCountryCode">
 		<property name="name" value="organizationCountryCode" />
 		<property name="label" value="Organization Country Code" />
@@ -334,7 +334,7 @@
 		</property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

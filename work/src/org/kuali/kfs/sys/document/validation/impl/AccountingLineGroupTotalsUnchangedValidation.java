@@ -22,11 +22,11 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 /**
  * A validation, used on accounting document approval, that accounting line totals are unchanged
@@ -43,7 +43,7 @@ public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidat
     public boolean validate(AttributedDocumentEvent event) {
         AccountingDocument persistedDocument = null;
         
-        if (event instanceof AttributedSaveDocumentEvent && !accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+        if (event instanceof AttributedSaveDocumentEvent && !accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument().isEnroute()) {
             return true; // only check save document events if the document is enroute
         }
 
@@ -121,7 +121,7 @@ public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidat
      */
     protected final void handleNonExistentDocumentWhenApproving(AccountingDocument accountingDocument) {
         // check to make sure this isn't an initiated document being blanket approved
-        if (!accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+        if (!accountingDocument.getDocumentHeader().getWorkflowDocument().isInitiated()) {
             throw new IllegalStateException("Document " + accountingDocument.getDocumentNumber() + " is not a valid document that currently exists in the system.");
         }
     }

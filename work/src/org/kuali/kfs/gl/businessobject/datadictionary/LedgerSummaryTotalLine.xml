@@ -46,7 +46,7 @@
 
   <bean id="LedgerSummaryTotalLine-recordCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
   	<property name="name" value="recordCount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>  
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.IntegerFormatter"/>  
   </bean>
 
   <bean id="LedgerSummaryTotalLine-debitAmount" parent="LedgerSummaryTotalLine-debitAmount-parentBean"/>
@@ -59,7 +59,7 @@
 
   <bean id="LedgerSummaryTotalLine-debitCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
   	<property name="name" value="debitCount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>  
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.IntegerFormatter"/>  
   </bean>
 
   <bean id="LedgerSummaryTotalLine-creditAmount" parent="LedgerSummaryTotalLine-creditAmount-parentBean"/>
@@ -72,7 +72,7 @@
 
   <bean id="LedgerSummaryTotalLine-creditCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
   	<property name="name" value="creditCount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>  
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.IntegerFormatter"/>  
   </bean>
 
   <bean id="LedgerSummaryTotalLine-budgetAmount" parent="LedgerSummaryTotalLine-budgetAmount-parentBean"/>
@@ -85,6 +85,6 @@
 
   <bean id="LedgerSummaryTotalLine-budgetCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
   	<property name="name" value="budgetCount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>  
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.IntegerFormatter"/>  
   </bean>
 </beans>

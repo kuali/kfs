@@ -22,10 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.web.format.DateFormatter;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.DateFormatter;
 
 
 /**

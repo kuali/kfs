@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionDefinition;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.taglib.html.KNSFileTag;
 import org.kuali.rice.kns.web.taglib.html.KNSImageTag;
 
@@ -60,10 +60,10 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
         scriptFileTag.setSize("30");
         noscriptFileTag.setSize("30");
         noscriptFileTag.setStyle("font:10px;height:16px;");
-        uploadButtonTag.setSrc(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url") + "tinybutton-add1.gif");
+        uploadButtonTag.setSrc(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("externalizable.images.url") + "tinybutton-add1.gif");
         uploadButtonTag.setStyleClass("tinybutton");
         cancelButtonTag.setProperty("methodToCall.cancel");
-        cancelButtonTag.setSrc(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url") + "tinybutton-cancelimport.gif");
+        cancelButtonTag.setSrc(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("externalizable.images.url") + "tinybutton-cancelimport.gif");
         cancelButtonTag.setStyleClass("tinybutton");
     }
 
@@ -242,7 +242,7 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
         for (AccountingLineViewActionDefinition action : accountingLineGroupActions) {
             String actionMethod = action.getActionMethod();
             String actionLabel = action.getActionLabel();
-            String imageName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url") + action.getImageName();
+            String imageName = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("externalizable.images.url") + action.getImageName();
 
             AccountingLineViewAction viewAction = new AccountingLineViewAction(actionMethod, actionLabel, imageName);
             viewActions.add(viewAction);
@@ -299,7 +299,7 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
                 out.write("\t}\n");
                 out.write("\tdocument.write(\n");
                 out.write("\t\t'<a id=\"" + showLink + "\" href=\"#\" onclick=\"" + showImport + "();return false;\">' +\n");
-                out.write("\t\t'<img src=\"" + SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url") + "tinybutton-importlines.gif\" title=\"import file\" alt=\"import file\"' +\n");
+                out.write("\t\t'<img src=\"" + SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("externalizable.images.url") + "tinybutton-importlines.gif\" title=\"import file\" alt=\"import file\"' +\n");
                 out.write("\t\t'width=\"72\" border=\"0\">' +\n");
                 out.write("\t\t'</a>' +\n");
                 out.write("\t\t'<div id=\"" + uploadDiv + "\" style=\"display:none;\" >' +\n");

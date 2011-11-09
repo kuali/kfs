@@ -22,9 +22,9 @@ import java.util.List;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Item Types.
@@ -44,7 +44,7 @@ public class ItemTypeValuesFinder extends KeyValuesBase {
             ItemType it = (ItemType) code;
             //exclude certain item types from the list
             if (it.isLineItemIndicator() && !PurapConstants.ItemTypeCodes.EXCLUDED_ITEM_TYPES.contains(it.getItemTypeCode()) ) {
-                labels.add(new KeyLabelPair(it.getItemTypeCode(), it.getItemTypeDescription()));
+                labels.add(new ConcreteKeyValue(it.getItemTypeCode(), it.getItemTypeDescription()));
             }
         }
 

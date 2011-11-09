@@ -25,8 +25,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * 
@@ -155,8 +155,8 @@ public class BatchSearch extends TransientBusinessObjectBase {
         this.subUnitCode = subUnitCode;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         
         m.put(PdpPropertyConstants.BATCH_ID, this.batchId);                  

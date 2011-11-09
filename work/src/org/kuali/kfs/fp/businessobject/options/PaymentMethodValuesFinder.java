@@ -18,25 +18,25 @@ package org.kuali.kfs.fp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of payment method key value pairs.
  */
 public class PaymentMethodValuesFinder extends KeyValuesBase {
 
-    static List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
+    static List<KeyValue> activeLabels = new ArrayList<KeyValue>();
     static {
-        activeLabels.add(new KeyLabelPair("", ""));
-        activeLabels.add(new KeyLabelPair("P", "P - Check/ACH"));
-        activeLabels.add(new KeyLabelPair("F", "F - Foreign Draft"));
-        activeLabels.add(new KeyLabelPair("W", "W - Wire Transfer"));
+        activeLabels.add(new ConcreteKeyValue("", ""));
+        activeLabels.add(new ConcreteKeyValue("P", "P - Check/ACH"));
+        activeLabels.add(new ConcreteKeyValue("F", "F - Foreign Draft"));
+        activeLabels.add(new ConcreteKeyValue("W", "W - Wire Transfer"));
     }
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         return activeLabels;
     }
 

@@ -26,10 +26,10 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 public class CustomerInvoiceWriteoffLookupUtil {
     
@@ -39,7 +39,7 @@ public class CustomerInvoiceWriteoffLookupUtil {
      * @return
      */
     public static Collection<CustomerInvoiceWriteoffLookupResult> getPopulatedCustomerInvoiceWriteoffLookupResults(Collection<CustomerInvoiceDocument> customerInvoiceDocuments){
-        Collection<CustomerInvoiceWriteoffLookupResult> populatedCustomerInvoiceWriteoffLookupResults = new TypedArrayList(CustomerInvoiceWriteoffLookupResult.class);
+        Collection<CustomerInvoiceWriteoffLookupResult> populatedCustomerInvoiceWriteoffLookupResults = new ArrayList<CustomerInvoiceWriteoffLookupResult>();
         
         if (customerInvoiceDocuments.size() == 0)
             return populatedCustomerInvoiceWriteoffLookupResults;
@@ -88,7 +88,7 @@ public class CustomerInvoiceWriteoffLookupUtil {
             if( customerInvoiceDocumentsByCustomerNumberMap.containsKey(customerNumber) ){
                 ((List<CustomerInvoiceDocument>)customerInvoiceDocumentsByCustomerNumberMap.get(customerNumber)).add(customerInvoiceDocument);
             } else {
-                List<CustomerInvoiceDocument> customerInvoiceDocumentsForCustomerNumber = new TypedArrayList(CustomerInvoiceDocument.class);
+                List<CustomerInvoiceDocument> customerInvoiceDocumentsForCustomerNumber = new ArrayList<CustomerInvoiceDocument>();
                 customerInvoiceDocumentsForCustomerNumber.add(customerInvoiceDocument);
                 customerInvoiceDocumentsByCustomerNumberMap.put(customerNumber, customerInvoiceDocumentsForCustomerNumber);
             }
@@ -98,7 +98,7 @@ public class CustomerInvoiceWriteoffLookupUtil {
     }
     
     public static Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
-        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new TypedArrayList(CustomerInvoiceDocument.class);
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         try {
             for (PersistableBusinessObject obj : SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, CustomerInvoiceDocument.class, personId)) {
                 customerInvoiceDocuments.add((CustomerInvoiceDocument) obj);

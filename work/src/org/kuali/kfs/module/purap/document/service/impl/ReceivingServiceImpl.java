@@ -48,18 +48,18 @@ import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -70,7 +70,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     private ReceivingDao receivingDao;
     private DocumentService documentService;
     private WorkflowDocumentService workflowDocumentService;
-    private KualiConfigurationService configurationService;    
+    private ConfigurationService configurationService;    
     private PurapService purapService;
     private NoteService noteService;
 
@@ -90,7 +90,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         this.workflowDocumentService = workflowDocumentService;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 
@@ -211,7 +211,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     public boolean canCreateCorrectionReceivingDocument(LineItemReceivingDocument rl, String receivingCorrectionDocNumber) throws RuntimeException {
 
         boolean canCreate = false;
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
         
         try{
             workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rl.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
@@ -219,7 +219,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             throw new RuntimeException(we);
         }
 
-        if( workflowDocument.stateIsFinal() &&
+        if( workflowDocument.isFinal() &&
             !isCorrectionReceivingDocumentInProcessForReceivingLine(rl.getDocumentNumber(), receivingCorrectionDocNumber)){            
             canCreate = true;
         }
@@ -236,7 +236,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         
         List<String> inProcessDocNumbers = new ArrayList<String>();
         List<String> docNumbers = receivingDao.getDocumentNumbersByPurchaseOrderId(poId);
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
                 
         for (String docNumber : docNumbers) {
         
@@ -246,9 +246,9 @@ public class ReceivingServiceImpl implements ReceivingService {
                 throw new RuntimeException(we);
             }
             
-            if(!(workflowDocument.stateIsCanceled() ||
-                 workflowDocument.stateIsException() ||
-                 workflowDocument.stateIsFinal()) &&
+            if(!(workflowDocument.isCanceled() ||
+                 workflowDocument.isException() ||
+                 workflowDocument.isFinal()) &&
                  docNumber.equals(receivingDocumentNumber) == false ){
                 inProcessDocNumbers.add(docNumber);
             }
@@ -261,7 +261,7 @@ public class ReceivingServiceImpl implements ReceivingService {
 
         List<String> finalDocNumbers = new ArrayList<String>();
         List<String> docNumbers = receivingDao.getDocumentNumbersByPurchaseOrderId(poId);
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
 
         for (String docNumber : docNumbers) {
 
@@ -272,7 +272,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                 throw new RuntimeException(we);
             }
 
-            if (workflowDocument.stateIsFinal()) {
+            if (workflowDocument.isFinal()) {
                 finalDocNumbers.add(docNumber);
             }
         }
@@ -302,7 +302,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         
         List<String> inProcessDocNumbers = new ArrayList<String>();
         List<String> docNumbers = receivingDao.getCorrectionReceivingDocumentNumbersByPurchaseOrderId(poId);
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
                 
         for (String docNumber : docNumbers) {
         
@@ -312,9 +312,9 @@ public class ReceivingServiceImpl implements ReceivingService {
                 throw new RuntimeException(we);
             }
             
-            if(!(workflowDocument.stateIsCanceled() ||
-                 workflowDocument.stateIsException() ||
-                 workflowDocument.stateIsFinal()) &&
+            if(!(workflowDocument.isCanceled() ||
+                 workflowDocument.isException() ||
+                 workflowDocument.isFinal()) &&
                  docNumber.equals(receivingDocumentNumber) == false ){
                 inProcessDocNumbers.add(docNumber);
             }
@@ -329,7 +329,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         boolean isInProcess = false;
         
         List<String> docNumbers = receivingDao.getCorrectionReceivingDocumentNumbersByReceivingLineNumber(receivingDocumentNumber);
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
                 
         for (String docNumber : docNumbers) {
         
@@ -339,9 +339,9 @@ public class ReceivingServiceImpl implements ReceivingService {
                 throw new RuntimeException(we);
             }
             
-            if(!(workflowDocument.stateIsCanceled() ||
-                 workflowDocument.stateIsException() ||
-                 workflowDocument.stateIsFinal()) &&
+            if(!(workflowDocument.isCanceled() ||
+                 workflowDocument.isException() ||
+                 workflowDocument.isFinal()) &&
                  docNumber.equals(receivingCorrectionDocNumber) == false ){
                      
                 isInProcess = true;
@@ -409,7 +409,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     protected boolean hasDuplicateEntry(List<String> docNumbers){
         
         boolean isDuplicate = false;
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
         
         for (String docNumber : docNumbers) {
         
@@ -420,7 +420,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             }
             
             //if the doc number exists, and is in final status, consider this a dupe and return
-            if(workflowDocument.stateIsFinal()){
+            if(workflowDocument.isFinal()){
                 isDuplicate = true;
                 break;
             }
@@ -433,14 +433,14 @@ public class ReceivingServiceImpl implements ReceivingService {
         
         //append prefix if this is first call
         if(currentMessage.length() == 0){
-            String messageText = configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_RECEIVING_LINE_PREFIX);
+            String messageText = configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_RECEIVING_LINE_PREFIX);
             String prefix = MessageFormat.format(messageText, poId.toString() );
             
             currentMessage.append(prefix);
         }
         
         //append message
-        currentMessage.append( configurationService.getPropertyString(duplicateMessageKey) );                
+        currentMessage.append( configurationService.getPropertyValueAsString(duplicateMessageKey) );                
     }
     
     public void completeCorrectionReceivingDocument(ReceivingDocument correctionDocument){
@@ -500,7 +500,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             if(!StringUtils.equalsIgnoreCase(item.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
                 if (item.getItemReturnedTotalQuantity() != null && item.getItemReturnedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)){
                     try{
-                        String noteString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.MESSAGE_RECEIVING_LINEITEM_RETURN_NOTE_TEXT);
+                        String noteString = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.MESSAGE_RECEIVING_LINEITEM_RETURN_NOTE_TEXT);
                         noteString = item.getItemReturnedTotalQuantity().intValue() + " " + noteString + " " + item.getItemLineNumber();
                         addNoteToReceivingDocument(recDoc, noteString);
                     }catch (Exception e){
@@ -511,7 +511,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                 
                 if (item.getItemDamagedTotalQuantity() != null && item.getItemDamagedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)){
                     try{
-                        String noteString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.MESSAGE_RECEIVING_LINEITEM_DAMAGE_NOTE_TEXT);
+                        String noteString = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.MESSAGE_RECEIVING_LINEITEM_DAMAGE_NOTE_TEXT);
                         noteString = item.getItemDamagedTotalQuantity().intValue() + " " + noteString + " " + item.getItemLineNumber();
                         addNoteToReceivingDocument(recDoc, noteString);
                     }catch (Exception e){
@@ -800,7 +800,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         String latestDocumentNumber = "";
                         
         List<LineItemReceivingView> rViews = null;
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
         Timestamp latestCreateDate = null;
         
         //get related views
@@ -816,8 +816,8 @@ public class ReceivingServiceImpl implements ReceivingService {
                     workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rView.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
                     
                     //if latest create date is null or the latest is before the current, current is newer
-                    if( ObjectUtils.isNull(latestCreateDate) || latestCreateDate.before(workflowDocument.getCreateDate()) ){
-                        latestCreateDate = workflowDocument.getCreateDate();
+                    if( ObjectUtils.isNull(latestCreateDate) || latestCreateDate.before(workflowDocument.getDateCreated()) ){
+                        latestCreateDate = workflowDocument.getDateCreated();
                         latestDocumentNumber = workflowDocument.getRouteHeaderId().toString();
                     }
                 }catch(WorkflowException we){
@@ -847,7 +847,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         boolean isGenerated = false;
         
         List<String> docNumbers = receivingDao.getDocumentNumbersByPurchaseOrderId(poId);
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
                 
         for (String docNumber : docNumbers) {
         
@@ -857,7 +857,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                 throw new RuntimeException(we);
             }
             
-            if(workflowDocument.stateIsFinal()){                     
+            if(workflowDocument.isFinal()){                     
                 isGenerated = true;
                 break;
             }
@@ -877,7 +877,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         }     
         if (docs != null){
             for (LineItemReceivingDocument receivingDoc: docs) {
-                if (StringUtils.equals(receivingDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(),
+                if (StringUtils.equals(receivingDoc.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(),
                     PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS)){
                         approveReceivingDoc(receivingDoc);
                     }

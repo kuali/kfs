@@ -21,15 +21,15 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * This KemidBenefittingOrganization class provides the institutional organizations that benefit from the KEMID.
  */
-public class KemidBenefittingOrganization extends PersistableBusinessObjectBase implements Inactivateable {
+public class KemidBenefittingOrganization extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String kemid;
     private KualiInteger benefittingOrgSeqNumber;
@@ -46,10 +46,10 @@ public class KemidBenefittingOrganization extends PersistableBusinessObjectBase 
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.KEMID, this.kemid);
         m.put(EndowPropertyConstants.KEMID_BENE_ORG_CD, this.benefittingOrgCode);
@@ -59,14 +59,14 @@ public class KemidBenefittingOrganization extends PersistableBusinessObjectBase 
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

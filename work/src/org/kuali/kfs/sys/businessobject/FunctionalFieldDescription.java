@@ -20,10 +20,10 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class FunctionalFieldDescription extends PersistableBusinessObjectBase implements Inactivateable {
+public class FunctionalFieldDescription extends PersistableBusinessObjectBase implements Inactivatable {
     private String namespaceCode;
     private String componentClass;
     private String propertyName;
@@ -40,7 +40,7 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase im
         setPropertyName(propertyName);
     }
         
-    @Override
+    
     public void refreshNonUpdateableReferences() {
         if (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()) && ((businessObjectProperty == null) || !getPropertyName().equals(businessObjectProperty.getPropertyName()) || (businessObjectProperty.getBusinessObjectComponent() == null) || !getComponentClass().equals(businessObjectProperty.getBusinessObjectComponent().getComponentClass()))) {
             setBusinessObjectProperty(SpringContext.getBean(KfsBusinessObjectMetaDataService.class).getBusinessObjectProperty(getComponentClass(), getPropertyName()));
@@ -98,7 +98,7 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase im
     }
 
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         if (businessObjectProperty != null) {
             return businessObjectProperty.toStringMapper();
         }

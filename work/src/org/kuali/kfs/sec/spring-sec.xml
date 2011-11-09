@@ -61,7 +61,7 @@
 			<ref bean="kimPermissionService" />
 		</property>
 		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
+			<ref bean="kimRoleService" />
 		</property>		
 		<property name="contractsAndGrantsModuleService">
 			<ref bean="contractsAndGrantsModuleService" />
@@ -141,7 +141,7 @@
 	
 	<bean id="modelMemberLookupableHelperService-parent" abstract="true" class="org.kuali.kfs.sec.businessobject.lookup.ModelMemberLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="roleService">
-			<ref bean="kimRoleManagementService" />
+			<ref bean="kimRoleService" />
 		</property>	
 		<property name="groupSevice">
 			<ref bean="kimGroupService" />

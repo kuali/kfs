@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.Formatter;
 
 public class CashReceiptDepositTypeFormatter extends Formatter {
     private final String INTERIM_CD;
@@ -31,10 +31,10 @@ public class CashReceiptDepositTypeFormatter extends Formatter {
 
     public CashReceiptDepositTypeFormatter() {
         INTERIM_CD = KFSConstants.DepositConstants.DEPOSIT_TYPE_INTERIM;
-        INTERIM_MSG = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.Deposit.DEPOSIT_TYPE_INTERIM);
+        INTERIM_MSG = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.Deposit.DEPOSIT_TYPE_INTERIM);
 
         FINAL_CD = KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL;
-        FINAL_MSG = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.Deposit.DEPOSIT_TYPE_FINAL);
+        FINAL_MSG = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.Deposit.DEPOSIT_TYPE_FINAL);
     }
 
 

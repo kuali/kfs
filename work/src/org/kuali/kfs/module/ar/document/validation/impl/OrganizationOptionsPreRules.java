@@ -19,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * This class is used to ensure that default values are set accordingly if blank
@@ -34,7 +34,7 @@ public class OrganizationOptionsPreRules extends PromptBeforeValidationBase {
 
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         OrganizationOptions organizationOptions = (OrganizationOptions) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-        String institutionName = SpringContext.getBean(ParameterService.class).getParameterValue(OrganizationOptions.class, ArConstants.INSTITUTION_NAME);
+        String institutionName = SpringContext.getBean(ParameterService.class).getParameterValueAsString(OrganizationOptions.class, ArConstants.INSTITUTION_NAME);
 
         // If university name is not provided, default to institution name
         if (StringUtils.isBlank(organizationOptions.getUniversityName())) {

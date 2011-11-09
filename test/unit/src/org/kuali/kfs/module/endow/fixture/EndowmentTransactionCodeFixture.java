@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.fixture;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum EndowmentTransactionCodeFixture {
     INCOME_TRANSACTION_CODE("TST123",// code

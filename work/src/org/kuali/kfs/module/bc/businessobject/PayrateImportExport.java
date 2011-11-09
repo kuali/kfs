@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.businessobject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class PayrateImportExport extends TransientBusinessObjectBase {
     private String positionUnionCode;
@@ -76,8 +76,8 @@ public class PayrateImportExport extends TransientBusinessObjectBase {
         this.positionUnionCode = positionUnionCode;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         
         m.put("positionUnionCode", positionUnionCode);

@@ -23,12 +23,12 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -51,7 +51,7 @@ public class AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl extend
                 AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = (AccountsReceivableDocumentHeader) iter.next();
                 Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(accountsReceivableDocumentHeader.getDocumentNumber());                
                 
-                String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+                String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
                 if (!documentTypeName.equals(dataDictionaryService.getDocumentTypeNameByClass(CustomerInvoiceDocument.class))) {
                     iter.remove();
                 }

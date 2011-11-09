@@ -20,9 +20,9 @@ import java.util.Map;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase;
 
 public class OrganizationOptionsMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     @Override

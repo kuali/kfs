@@ -27,14 +27,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 /**
  * This class simply acts as a container to hold the List of Delegate Changes and the list of Account entries, for the Global
@@ -58,8 +58,8 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
      */
     public AccountDelegateGlobal() {
         super();
-        accountGlobalDetails = new TypedArrayList(AccountGlobalDetail.class);
-        delegateGlobals = new TypedArrayList(AccountDelegateGlobalDetail.class);
+        accountGlobalDetails = new ArrayList<AccountGlobalDetail>();
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
     }
 
     /**
@@ -121,7 +121,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
@@ -147,7 +147,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.rice.krad.bo.BusinessObject)
      */
     @SuppressWarnings("deprecation")
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
@@ -222,10 +222,10 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 
         LinkedHashMap m = new LinkedHashMap();
 
@@ -234,14 +234,14 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getDocumentNumber()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#getDocumentNumber()
      */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#setDocumentNumber(java.lang.String)
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#setDocumentNumber(java.lang.String)
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -285,7 +285,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#isPersistable()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#isPersistable()
      */
     public boolean isPersistable() {
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
@@ -362,7 +362,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

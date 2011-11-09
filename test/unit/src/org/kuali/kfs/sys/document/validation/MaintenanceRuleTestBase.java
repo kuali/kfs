@@ -23,18 +23,18 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule;
+import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import java.util.ArrayList;
 
 @ConfigureContext
 public abstract class MaintenanceRuleTestBase extends KualiTestBase {
@@ -238,7 +238,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
      * This method is used during debugging to dump the contents of the error map, including the key names. It is not used by the
      * application in normal circumstances at all.
      */
-    protected void showErrorMap() {
+    protected void showMessageMap() {
 
         if (GlobalVariables.getMessageMap().hasNoErrors()) {
             return;

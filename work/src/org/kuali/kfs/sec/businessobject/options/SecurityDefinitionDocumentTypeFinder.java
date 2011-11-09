@@ -22,12 +22,12 @@ import java.util.List;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.document.SecurityDefinitionMaintainableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.kew.api.docType.DocumentType;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 
 /**
@@ -43,18 +43,18 @@ public class SecurityDefinitionDocumentTypeFinder extends KeyValuesBase {
         List activeLabels = new ArrayList();
 
         // add option to include all document types
-        activeLabels.add(new KeyLabelPair(SecConstants.ALL_DOCUMENT_TYPE_NAME, SecConstants.ALL_DOCUMENT_TYPE_NAME));
+        activeLabels.add(new ConcreteKeyValue(SecConstants.ALL_DOCUMENT_TYPE_NAME, SecConstants.ALL_DOCUMENT_TYPE_NAME));
 
-        WorkflowInfo workflowInfo = new WorkflowInfo();
+//        WorkflowInfo workflowInfo = new WorkflowInfo();
 
-        List<String> documentTypes = SpringContext.getBean(ParameterService.class).getParameterValues(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ACCESS_SECURITY_DOCUMENT_TYPES);
+        List<String> documentTypes = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ACCESS_SECURITY_DOCUMENT_TYPES) );
      
         // copy list so it can be sorted (since it is unmodifiable)
         List<String> sortedDocumentTypes = new ArrayList<String>(documentTypes);
         Collections.sort(sortedDocumentTypes);
         
         for (String documentTypeName : sortedDocumentTypes) {
-            DocumentTypeDTO documentType = null;
+            DocumentType documentType = null;
             try {
                 documentType = workflowInfo.getDocType(documentTypeName);
             }
@@ -64,7 +64,7 @@ public class SecurityDefinitionDocumentTypeFinder extends KeyValuesBase {
             }
 
             if (documentType != null) {
-                activeLabels.add(new KeyLabelPair(documentTypeName, documentType.getDocTypeLabel()));
+                activeLabels.add(new ConcreteKeyValue(documentTypeName, documentType.getLabel()));
             }
         }
 

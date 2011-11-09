@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.document.validation;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rule.BusinessRule;
 
 public interface DeleteTransactionLineRule<E extends EndowmentTransactionLinesDocument, D extends EndowmentTransactionLine> extends BusinessRule {
 

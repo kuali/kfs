@@ -35,13 +35,13 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * An extension of KualiLookupableImpl to support entry lookups
@@ -108,14 +108,14 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
      * @param bo the business object with a property being drilled down on
      * @param propertyName the name of the property being drilled down on
      * @return a String with the URL of the property
-     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject, java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject businessObject, String propertyName) {
         if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName)) {
             if (businessObject instanceof Entry) {
                 Entry entry = (Entry) businessObject;
-                return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(entry), KNSConstants.EMPTY_STRING, "view entry "+entry.toString());
+                return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(entry), KRADConstants.EMPTY_STRING, "view entry "+entry.toString());
             }
         }
         return (new EntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);

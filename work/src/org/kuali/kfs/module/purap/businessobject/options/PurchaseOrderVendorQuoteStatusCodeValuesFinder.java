@@ -22,8 +22,8 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Purchase Order Vendor Quote Statuses.
@@ -37,10 +37,10 @@ public class PurchaseOrderVendorQuoteStatusCodeValuesFinder extends KeyValuesBas
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         ArrayList<PurchaseOrderQuoteStatus> poQuoteStatuses = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderQuoteStatusCodes();
         for (PurchaseOrderQuoteStatus status : poQuoteStatuses) {
-            keyValues.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
+            keyValues.add(new ConcreteKeyValue(status.getStatusCode(), status.getStatusDescription()));
         }
         return keyValues;
     }

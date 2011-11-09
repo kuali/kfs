@@ -21,9 +21,9 @@ import java.util.List;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 public class PaymentStatusValuesFinder extends KeyValuesBase {
 
@@ -31,14 +31,14 @@ public class PaymentStatusValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<PaymentStatus> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(PaymentStatus.class);
-        List<KeyLabelPair> keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList();
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (PaymentStatus element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getCode()));
+            keyValues.add(new ConcreteKeyValue(element.getCode(), element.getCode()));
         }
-        keyValues.add(new KeyLabelPair(PdpConstants.PaymentStatusCodes.HELD_TAX_ALL, PdpConstants.PaymentStatusCodes.HELD_TAX_ALL));
+        keyValues.add(new ConcreteKeyValue(PdpConstants.PaymentStatusCodes.HELD_TAX_ALL, PdpConstants.PaymentStatusCodes.HELD_TAX_ALL));
 
         return keyValues;
     }

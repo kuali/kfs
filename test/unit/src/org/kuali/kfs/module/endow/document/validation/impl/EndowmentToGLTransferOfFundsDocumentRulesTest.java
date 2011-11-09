@@ -45,8 +45,8 @@ import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
 public class EndowmentToGLTransferOfFundsDocumentRulesTest extends KualiTestBase {

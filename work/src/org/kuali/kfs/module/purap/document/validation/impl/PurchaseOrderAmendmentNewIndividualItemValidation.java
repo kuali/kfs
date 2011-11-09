@@ -24,9 +24,9 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseOrderNewIndividualItemValidation {
 
@@ -62,10 +62,10 @@ public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseO
         }
         
         PurchaseOrderAmendmentDocument document = (PurchaseOrderAmendmentDocument)event.getDocument();
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
         // run additional accounting line check for items added to POA via receiving line, only after document in enroute
-        if ( !(workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && purchaseOrderService.isNewUnorderedItem(item) ) {
+        if ( !(workflowDocument.isInitiated() || workflowDocument.isSaved()) && purchaseOrderService.isNewUnorderedItem(item) ) {
             
             // check to see if the account lines are empty
             if (item.getSourceAccountingLines() == null || item.getSourceAccountingLines().size() == 0) {            

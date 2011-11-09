@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class AssetTransferForm extends FinancialSystemTransactionalDocumentFormBase {

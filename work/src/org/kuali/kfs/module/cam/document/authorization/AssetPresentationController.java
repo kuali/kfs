@@ -25,13 +25,13 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Presentation Controller for Asset Maintenance Documents
@@ -87,7 +87,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
             AssetAuthorizer documentAuthorizer = (AssetAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
             boolean isAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.EDIT_WHEN_TAGGED_PRIOR_FISCAL_YEAR, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             if (!isAuthorized) {
-                fields.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR));
+                fields.addAll(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR));
             }                
         }
         
@@ -154,8 +154,8 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
 
         // for fabrication document, disallow edit when document routing to the 'Management' FYI users.
         if (assetService.isAssetFabrication((MaintenanceDocument) document)) {
-            KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
-            if (workflowDocument.stateIsEnroute()) {
+            WorkflowDocument workflowDocument = (WorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
+            if (workflowDocument.isEnroute()) {
                 List<String> nodeNames = assetService.getCurrentRouteLevels(workflowDocument);
 
                 if (nodeNames.contains(CamsConstants.RouteLevelNames.MANAGEMENT) && !workflowDocument.isApprovalRequested()) {

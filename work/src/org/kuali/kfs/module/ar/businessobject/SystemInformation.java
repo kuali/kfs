@@ -26,19 +26,19 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class SystemInformation extends PersistableBusinessObjectBase implements Inactivateable, FiscalYearBasedBusinessObject {
+public class SystemInformation extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
 
 	protected Integer universityFiscalYear;
 	protected String processingChartOfAccountCode;
@@ -88,7 +88,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     protected PostalCode orgRemitToZipCode;
     
 	public Person getFinancialDocumentInitiator() {
-	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
+	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
         return financialDocumentInitiator;
     }
 
@@ -770,7 +770,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @return Returns the organizationRemitToState.
      */
     public State getOrganizationRemitToState() {
-        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(organizationRemitToStateCode, organizationRemitToState);
+        organizationRemitToState = (StringUtils.isBlank(organizationRemitToStateCode))?null:( organizationRemitToState == null||!StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode))?SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,organizationRemitToStateCode): organizationRemitToState;
         return organizationRemitToState;
     }
 
@@ -869,9 +869,9 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    }
 
     /**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
-	protected LinkedHashMap toStringMapper() {
+	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
@@ -927,7 +927,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @return Returns the orgRemitToZipCode.
      */
     public PostalCode getOrgRemitToZipCode() {
-        orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(organizationRemitToZipCode, orgRemitToZipCode);
+        orgRemitToZipCode = (organizationRemitToZipCode == null)?null:( orgRemitToZipCode == null || !StringUtils.equals( orgRemitToZipCode.getCode(),organizationRemitToZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,organizationRemitToZipCode): orgRemitToZipCode;
         return orgRemitToZipCode;
     }
 

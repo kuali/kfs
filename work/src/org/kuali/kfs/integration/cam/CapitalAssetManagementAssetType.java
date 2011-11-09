@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.integration.cam;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * An interface that declares methods to retrieve information about asset type data collected by FP documents.

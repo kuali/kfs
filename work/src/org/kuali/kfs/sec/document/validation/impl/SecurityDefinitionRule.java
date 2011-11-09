@@ -26,9 +26,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 /**
@@ -99,7 +99,7 @@ public class SecurityDefinitionRule extends MaintenanceDocumentRuleBase {
         boolean isValid = true;
 
         if (!isMaintenanceEdit) {
-            boolean validDefinitionName = verifyDefinitionNameIsUnique(newSecurityDefinition, KNSConstants.MAINTENANCE_NEW_MAINTAINABLE);
+            boolean validDefinitionName = verifyDefinitionNameIsUnique(newSecurityDefinition, KRADConstants.MAINTENANCE_NEW_MAINTAINABLE);
             if (!validDefinitionName) {
                 isValid = false;
             }

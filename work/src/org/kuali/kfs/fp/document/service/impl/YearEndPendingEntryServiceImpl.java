@@ -28,9 +28,9 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.exception.ReferentialIntegrityException;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.rice.krad.exception.ReferentialIntegrityException;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The default implementation of the YearEndPendingEntryService
@@ -45,7 +45,7 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
     protected OffsetDefinitionService offsetDefinitionService;
 
     /**
-     * @see org.kuali.kfs.fp.document.service.YearEndPendingEntryService#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.TransactionalDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     * @see org.kuali.kfs.fp.document.service.YearEndPendingEntryService#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.krad.document.TransactionalDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     public void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         if (!YearEndDocument.class.isAssignableFrom(transactionalDocument.getClass())) {
@@ -57,7 +57,7 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
     }
 
     /**
-     * @see org.kuali.kfs.fp.document.service.YearEndPendingEntryService#customizeOffsetGeneralLedgerPendingEntry(org.kuali.rice.kns.document.TransactionalDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     * @see org.kuali.kfs.fp.document.service.YearEndPendingEntryService#customizeOffsetGeneralLedgerPendingEntry(org.kuali.rice.krad.document.TransactionalDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     public boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         if (!(transactionalDocument instanceof YearEndDocument)) {

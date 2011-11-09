@@ -38,13 +38,13 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.util.KimCommonUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -112,7 +112,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.AccountService#hasResponsibilityOnAccount(org.kuali.rice.kim.bo.Person,
+     * @see org.kuali.kfs.coa.service.AccountService#hasResponsibilityOnAccount(org.kuali.rice.kim.api.identity.Person,
      *      org.kuali.kfs.coa.businessobject.Account)
      */
     public boolean hasResponsibilityOnAccount(Person kualiUser, Account account) {
@@ -299,7 +299,7 @@ public class AccountServiceImpl implements AccountService {
      * @see org.kuali.kfs.coa.service.AccountService#accountsCanCrossCharts()
      */
     public boolean accountsCanCrossCharts() {
-        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
     }
 
     /**

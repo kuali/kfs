@@ -17,9 +17,9 @@ package org.kuali.kfs.module.endow;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 public class EndowConstants extends JSTLConstants {
 

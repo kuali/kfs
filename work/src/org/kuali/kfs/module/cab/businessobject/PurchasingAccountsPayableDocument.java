@@ -33,10 +33,10 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -62,7 +62,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private String capitalAssetSystemTypeCodeFromPurAp;
 
     public PurchasingAccountsPayableDocument() {
-        this.purchasingAccountsPayableItemAssets = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+        this.purchasingAccountsPayableItemAssets = new ArrayList<PurchasingAccountsPayableItemAsset>();
     }
 
 
@@ -344,9 +344,9 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     /**
      * Need to override this method, so we can save item assets, the framework can delete the allocated item assets.
      * 
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    @Override
+    
     public List buildListOfDeletionAwareLists() {
         List<List> managedLists = new ArrayList<List>();
 
@@ -355,9 +355,9 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         return m;

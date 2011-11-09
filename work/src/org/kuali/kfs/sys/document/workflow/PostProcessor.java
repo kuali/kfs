@@ -28,7 +28,7 @@ import org.kuali.rice.kew.dto.DocumentLockingEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.postprocessor.PostProcessorRemote;
-import org.kuali.rice.kns.service.PostProcessorService;
+import org.kuali.rice.krad.service.PostProcessorService;
 
 /**
  * This class is the public entry point by which workflow communicates status changes, level changes, and other useful changes. Note

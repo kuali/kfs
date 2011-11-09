@@ -32,15 +32,15 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Effort Certification Document Class.
@@ -80,8 +80,8 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     public EffortCertificationDocument() {
         super();
         
-        effortCertificationDetailLines = new TypedArrayList(EffortCertificationDetail.class);
-        summarizedDetailLines = new TypedArrayList(EffortCertificationDetail.class);
+        effortCertificationDetailLines = new ArrayList<EffortCertificationDetail>();
+        summarizedDetailLines = new ArrayList<EffortCertificationDetail>();
     }
 
     /**
@@ -294,10 +294,10 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
@@ -315,15 +315,15 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         LOG.debug("doRouteStatusChange() start...");
 
         super.doRouteStatusChange(statusChangeEvent);
-        KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsFinal()) {
+        WorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isFinal()) {
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
             SpringContext.getBean(EffortCertificationDocumentService.class).generateSalaryExpenseTransferDocument(this);
         }
@@ -632,7 +632,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#processAfterRetrieve()
+     * @see org.kuali.rice.krad.document.DocumentBase#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -704,7 +704,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
+     * @see org.kuali.rice.krad.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {

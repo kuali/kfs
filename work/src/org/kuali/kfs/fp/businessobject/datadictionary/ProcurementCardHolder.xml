@@ -159,8 +159,8 @@
 
 	<bean id="ProcurementCardHolder-cardHolderStateCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
+		p:sourceAttributeName="stateCode">
 		<property name="name" value="cardHolderStateCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Card Holder State Code" />
@@ -188,7 +188,7 @@
 
 	<bean id="ProcurementCardHolder-cardHolderZipCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
 		p:sourceAttributeName="postalCode">
 		<property name="name" value="cardHolderZipCode" />
 		<property name="label" value="Card Holder Postal (ZIP) Code" />

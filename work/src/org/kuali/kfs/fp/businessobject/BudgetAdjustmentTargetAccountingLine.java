@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * This class represents a target accounting line for budget adjustment
@@ -50,7 +50,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineBase#getValuesMap()
+     * @see org.kuali.rice.krad.bo.AccountingLineBase#getValuesMap()
      */
     @Override
     public Map getValuesMap() {
@@ -61,7 +61,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineBase#copyFrom(org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.bo.AccountingLineBase#copyFrom(org.kuali.rice.krad.bo.AccountingLine)
      */
     @Override
     public void copyFrom(AccountingLine other) {

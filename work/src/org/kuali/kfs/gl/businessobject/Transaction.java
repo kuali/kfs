@@ -30,8 +30,8 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This interface represents a financial transaction

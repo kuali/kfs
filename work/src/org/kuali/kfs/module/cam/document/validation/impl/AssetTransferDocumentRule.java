@@ -49,15 +49,15 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
     private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
@@ -81,7 +81,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     protected AssetLockService assetLockService;
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -226,7 +226,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -359,7 +359,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getAssetRepresentative().getPrincipalName())) {
-            PersonService personService = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class);
+            PersonService personService = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class);
             Person person = personService.getPersonByPrincipalName(assetTransferDocument.getAssetRepresentative().getPrincipalName());
             if (person != null) {
                 assetTransferDocument.setAssetRepresentative(person);
@@ -399,7 +399,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
         // KFSMI-6169 - Not check permission for Transfer Non-Movable Assets when user approve the doc.
-        if (!assetTransferDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().isApproveRequested()){
+        if (!assetTransferDocument.getDocumentHeader().getWorkflowDocument().isApproveRequested()){
             if (!assetMovable && !isAuthorizedTransferMovable) {
                 GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
                 valid &= false;
@@ -458,7 +458,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     /**
      * Convenience method to append the path prefix
      */
-    public TypedArrayList putError(String propertyName, String errorKey, String... errorParameters) {
+    public ArrayList putError(String propertyName, String errorKey, String... errorParameters) {
         return GlobalVariables.getMessageMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
     }
 
@@ -467,11 +467,11 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         
         List<String> capitalAssetAquisitionTypeCodes = new ArrayList<String>();
         
-        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACQUISITION_CODE_PARAM));
-        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM));
-        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.NEW_ACQUISITION_CODE_PARAM));
-        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.AssetGlobal.FABRICATED_ACQUISITION_CODE));
-        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.PRE_TAGGING_ACQUISITION_CODE));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(AssetGlobal.class, CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACQUISITION_CODE_PARAM));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(AssetGlobal.class, CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(AssetGlobal.class, CamsConstants.AssetGlobal.NEW_ACQUISITION_CODE_PARAM));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Asset.class, CamsConstants.AssetGlobal.FABRICATED_ACQUISITION_CODE));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(AssetGlobal.class, CamsConstants.AssetGlobal.PRE_TAGGING_ACQUISITION_CODE));
         
         if( ObjectUtils.isNotNull(asset.getAcquisitionTypeCode()) &&
                 capitalAssetAquisitionTypeCodes.contains(asset.getAcquisitionTypeCode()) ) isNonCapitalAsset = false;

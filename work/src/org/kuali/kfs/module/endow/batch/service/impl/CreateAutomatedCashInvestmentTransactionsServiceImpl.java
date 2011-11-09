@@ -58,16 +58,16 @@ import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTa
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -85,7 +85,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private AutomatedCashInvestmentModelDao automatedCashInvestmentModelDao;
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
-    private KualiConfigurationService configService;
+    private ConfigurationService configService;
     private KualiRuleService kualiRuleService;
     private ParameterService parameterService;
     private DocumentService documentService;
@@ -689,7 +689,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return
      */
     private boolean getPurchaseNoRouteIndicator() {
-        String noRouteIndicator = parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_NO_ROUTE_IND);
+        String noRouteIndicator = parameterService.getParameterValueAsString(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_NO_ROUTE_IND);
         return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
 
@@ -699,7 +699,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return
      */
     private boolean getSaleNoRouteIndicator() {
-        String noRouteIndicator = parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.SALE_NO_ROUTE_IND);
+        String noRouteIndicator = parameterService.getParameterValueAsString(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.SALE_NO_ROUTE_IND);
         return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
 
@@ -1101,7 +1101,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return
      */
     private String getPurchaseDescription() {
-        return parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_DESCRIPTION);
+        return parameterService.getParameterValueAsString(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_DESCRIPTION);
     }
 
     /**
@@ -1110,7 +1110,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return
      */
     private String getSaleDescription() {
-        return parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.SALE_DESCRIPTION);
+        return parameterService.getParameterValueAsString(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.SALE_DESCRIPTION);
     }
 
     /**
@@ -1201,7 +1201,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * 
      * @param configService The configService to set.
      */
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 

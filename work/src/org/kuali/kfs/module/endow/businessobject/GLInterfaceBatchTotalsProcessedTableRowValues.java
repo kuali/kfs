@@ -17,8 +17,8 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class GLInterfaceBatchTotalsProcessedTableRowValues extends TransientBusinessObjectBase {
     private String documentType;
@@ -132,10 +132,10 @@ public class GLInterfaceBatchTotalsProcessedTableRowValues extends TransientBusi
 
     /**
      * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap pks = new LinkedHashMap<String, Object>();
         pks.put("documentType",this.getDocumentType());
         pks.put("chartCode",this.getChartCode());

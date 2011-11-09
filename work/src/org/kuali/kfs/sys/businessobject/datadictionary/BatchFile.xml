@@ -68,7 +68,7 @@
     <property name="name" value="lastModifiedDate"/>
     <property name="label" value="Last Modified Date"/>
     <property name="shortLabel" value="Last Modified Date"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
   </bean>
   
   <bean id="BatchFile-fileSize" parent="BatchFile-fileSize-parentBean"/>

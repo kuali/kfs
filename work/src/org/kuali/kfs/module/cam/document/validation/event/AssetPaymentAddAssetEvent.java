@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cam.document.validation.event;
 
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class AssetPaymentAddAssetEvent extends AttributedDocumentEventBase {
         private AssetPaymentAssetDetail assetPaymentAssetDetail;

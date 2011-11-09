@@ -355,7 +355,7 @@
 		<property name="label" value="Agency Future1 Amount" />
 		<property name="shortLabel" value="Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 	<bean id="Award-agencyFuture2Amount" parent="Award-agencyFuture2Amount-parentBean" />
@@ -366,7 +366,7 @@
 		<property name="label" value="Agency Future2 Amount" />
 		<property name="shortLabel" value="Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 	<bean id="Award-agencyFuture3Amount" parent="Award-agencyFuture3Amount-parentBean" />
@@ -377,7 +377,7 @@
 		<property name="label" value="Agency Future3 Amount" />
 		<property name="shortLabel" value="Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 	<bean id="Award-agencyNumber" parent="Award-agencyNumber-parentBean" />
@@ -433,7 +433,7 @@
 			value="Allocated University Computing Services Amount" />
 		<property name="shortLabel" value="Computing Services" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="Award-awardBeginningDate" parent="Award-awardBeginningDate-parentBean" />
 
@@ -482,7 +482,7 @@
 		<property name="label" value="Direct Cost Amount" />
 		<property name="shortLabel" value="Direct" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 	<bean id="Award-awardDocumentNumber" parent="Award-awardDocumentNumber-parentBean" />
@@ -524,7 +524,7 @@
 		<property name="label" value="Indirect Cost Amount" />
 		<property name="shortLabel" value="Indirect" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 	<bean id="Award-awardLastUpdateDate" parent="Award-awardLastUpdateDate-parentBean" />
@@ -582,7 +582,7 @@
 		<property name="label" value="Total Amount" />
 		<property name="shortLabel" value="Total" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="Award-federalFundedAmount" parent="Award-federalFundedAmount-parentBean" />
 
@@ -592,7 +592,7 @@
 		<property name="label" value="Federal Funded Amount" />
 		<property name="shortLabel" value="Federal" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="Award-federalPassThroughAgencyNumber" parent="Award-federalPassThroughAgencyNumber-parentBean" />
 
@@ -617,7 +617,7 @@
 		<property name="label" value="Federal Pass Through Funded Amount" />
 		<property name="shortLabel" value="FPT Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="Award-federalPassThroughIndicator" parent="Award-federalPassThroughIndicator-parentBean" />
 

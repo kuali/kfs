@@ -273,7 +273,7 @@
 		<exception type="java.lang.Throwable"
 			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
 			key="meaningless" />
-		<exception type="org.kuali.rice.kns.exception.AuthorizationException"
+		<exception type="org.kuali.rice.krad.exception.AuthorizationException"
 			handler="org.kuali.rice.kns.web.struts.pojo.AuthorizationExceptionHandler"
 			key="meaningless" />
 	</global-exceptions>

@@ -224,7 +224,7 @@
 		<property name="label" value="Account Line Annual Balance Amount" />
 		<property name="shortLabel" value="Account Line Annual Balance Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean
 		id="LedgerBalanceForBenefitExpenseTransfer-financialBeginningBalanceLineAmount"
@@ -237,7 +237,7 @@
 		<property name="label" value="Beginning Balance Line Amount" />
 		<property name="shortLabel" value="Beginning Balance Line Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean
 		id="LedgerBalanceForBenefitExpenseTransfer-contractsGrantsBeginningBalanceAmount"
@@ -250,7 +250,7 @@
 		<property name="label" value="Contracts Grants Beginning Balance Amount" />
 		<property name="shortLabel" value="CG Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="LedgerBalanceForBenefitExpenseTransfer-month1Amount"
 		parent="LedgerBalanceForBenefitExpenseTransfer-month1Amount-parentBean" />
@@ -351,7 +351,7 @@
 		<property name="label" value="Year End Close" />
 		<property name="shortLabel" value="Year End Close" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

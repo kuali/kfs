@@ -22,8 +22,8 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.GLLink;
 import org.kuali.kfs.module.endow.dataaccess.GLLinkDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class GLLinkDaoOjb extends PlatformAwareDaoBaseOjb implements GLLinkDao {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GLLinkDaoOjb.class);

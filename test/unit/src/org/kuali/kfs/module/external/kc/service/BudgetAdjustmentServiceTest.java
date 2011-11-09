@@ -23,7 +23,7 @@ import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
 @ConfigureContext(session = khuntley)
 public class BudgetAdjustmentServiceTest extends KualiTestBase 

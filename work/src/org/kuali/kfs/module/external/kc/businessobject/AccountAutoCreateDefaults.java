@@ -30,20 +30,20 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import java.util.ArrayList;
 
 /**
  * 
  */
-public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase implements Inactivateable {
+public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase implements Inactivatable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountAutoCreateDefaults.class);
     private Integer accountDefaultId;
     private String kcUnit;
@@ -107,13 +107,13 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public AccountAutoCreateDefaults() {
         active = true; // assume active until otherwise set
-        indirectCostRecoveryAutoDefAccounts = new TypedArrayList(IndirectCostRecoveryAutoDefAccount.class);
+        indirectCostRecoveryAutoDefAccounts = new ArrayList<IndirectCostRecoveryAutoDefAccount>();
     }
    
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         return m;
@@ -236,7 +236,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      * @return Returns the postalZipCode.
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(accountZipCode, postalZipCode);
+        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode): postalZipCode;
         return postalZipCode;
     }
 
@@ -904,7 +904,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      * @return Returns the accountFiscalOfficerUser.
      */
     public Person getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);        
+        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);        
         return accountFiscalOfficerUser;
     }
 
@@ -921,7 +921,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      * @return Returns the accountSupervisoryUser.
      */
     public Person getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 
@@ -938,7 +938,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      * @return Returns the accountManagerUser.
      */
     public Person getAccountManagerUser() {
-        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
 
@@ -994,7 +994,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
         this.indirectCostRecoveryAutoDefAccounts = accountIcrList;
     }
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

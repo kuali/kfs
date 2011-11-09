@@ -20,28 +20,29 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.type.KimTypeAttribute;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimCommonUtils;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
-public class SubFundReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class SubFundReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
     private DocumentTypeService documentTypeService;
     
     @Override
-    protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         if (KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.SUB_FUND_GROUP_CODE)) {
             Set<String> potentialParentDocumentTypeNames = new HashSet<String>(1);
-            if (roleQualifier.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)) {
-                potentialParentDocumentTypeNames.add(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
+            if (roleQualifier.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
+                potentialParentDocumentTypeNames.add(roleQualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
             }
             if (qualification == null || qualification.isEmpty()) {
                 return potentialParentDocumentTypeNames.isEmpty();
             }
-            return potentialParentDocumentTypeNames.isEmpty() || qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)) || (KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)), potentialParentDocumentTypeNames) != null);
+            return potentialParentDocumentTypeNames.isEmpty() || qualification.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME).equalsIgnoreCase(roleQualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) || (KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(qualification.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)), potentialParentDocumentTypeNames) != null);
         }
         return false;
     }
@@ -54,12 +55,12 @@ public class SubFundReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     }
 
     @Override
-    protected AttributeDefinition getDataDictionaryAttributeDefinition(String namespaceCode, String kimTypeId, KimTypeAttributeInfo typeAttribute) {
+    protected AttributeDefinition getDataDictionaryAttributeDefinition(String namespaceCode, String kimTypeId, KimTypeAttribute typeAttribute) {
         
         AttributeDefinition definition = super.getDataDictionaryAttributeDefinition(namespaceCode, kimTypeId, typeAttribute);
         
         //if Document Type, set to required
-        if( StringUtils.equalsIgnoreCase(definition.getName(), KfsKimAttributes.DOCUMENT_TYPE_NAME) ){
+        if( StringUtils.equalsIgnoreCase(definition.getName(), KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME) ){
             definition.setRequired(true);    
         }
         

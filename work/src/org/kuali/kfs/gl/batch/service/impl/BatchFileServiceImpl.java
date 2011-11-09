@@ -19,7 +19,7 @@ import java.util.Date;
 
 import org.kuali.kfs.gl.batch.service.BatchFileService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * A general use implementation of BatchFileServiceImpl

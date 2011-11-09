@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 /**
  * This class is used to test the below the line item type rules 
@@ -306,7 +306,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     private final void testExistingItemTypesAreValid(Class documentClass, PurchasingAccountsPayableDocumentBase validDocument, PurchasingAccountsPayableDocumentBase invalidDocument) throws Exception {
 
-        List<String> validTypes = parameterService.getParameterValues(documentClass, PurapConstants.BELOW_THE_LINES_PARAMETER);
+        List<String> validTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(documentClass, PurapConstants.BELOW_THE_LINES_PARAMETER) );
         
         for (PurApItemBase theItem :(List<PurApItemBase>)validDocument.getItems()) {
             String theItemType = theItem.getItemTypeCode();
@@ -333,7 +333,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     private final void testAllowsNegative(Class documentClass, PurchasingAccountsPayableDocumentBase validDocument, PurchasingAccountsPayableDocumentBase invalidDocument) throws Exception {
     
-        List<String> allowNegativeTypes = parameterService.getParameterValues(documentClass, "ITEM_TYPES_ALLOWING_NEGATIVE");
+        List<String> allowNegativeTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(documentClass, "ITEM_TYPES_ALLOWING_NEGATIVE") );
 
         for (PurApItemBase theItem :(List<PurApItemBase>)validDocument.getItems()) {
             if (theItem.getTotalAmount().isNegative() && theItem.getItemType().isAdditionalChargeIndicator()) {
@@ -363,7 +363,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     private final void testAllowsPositive(Class documentClass, PurchasingAccountsPayableDocumentBase validDocument, PurchasingAccountsPayableDocumentBase invalidDocument) throws Exception {
     
-        List<String> allowPositiveTypes = parameterService.getParameterValues(documentClass, "ITEM_TYPES_ALLOWING_POSITIVE");
+        List<String> allowPositiveTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(documentClass, "ITEM_TYPES_ALLOWING_POSITIVE") );
         
         for (PurApItemBase theItem :(List<PurApItemBase>)validDocument.getItems()) {
             if (theItem.getTotalAmount().isPositive() && theItem.getItemType().isAdditionalChargeIndicator()) {
@@ -393,7 +393,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     private final void testAllowsZero(Class documentClass, PurchasingAccountsPayableDocumentBase validDocument, PurchasingAccountsPayableDocumentBase invalidDocument) throws Exception {
 
-        List<String> allowZeroTypes = parameterService.getParameterValues(documentClass, "ITEM_TYPES_ALLOWING_ZERO");
+        List<String> allowZeroTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(documentClass, "ITEM_TYPES_ALLOWING_ZERO") );
         
         for (PurApItemBase theItem :(List<PurApItemBase>)validDocument.getItems()) {
             if (theItem.getTotalAmount().isZero() && theItem.getItemType().isAdditionalChargeIndicator()) {
@@ -426,7 +426,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     private final void testRequiringDescription(Class documentClass, PurchasingAccountsPayableDocumentBase docBlankDesc, PurchasingAccountsPayableDocumentBase docItemTypesRequiredDesc) throws Exception {
 
-        List<String> requiringDescriptionTypes = parameterService.getParameterValues(documentClass, "ITEM_TYPES_REQUIRING_USER_ENTERED_DESCRIPTION");
+        List<String> requiringDescriptionTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(documentClass, "ITEM_TYPES_REQUIRING_USER_ENTERED_DESCRIPTION") );
         
         for (PurApItemBase theItem :(List<PurApItemBase>)docBlankDesc.getItems()) {
             String theItemType = theItem.getItemTypeCode();

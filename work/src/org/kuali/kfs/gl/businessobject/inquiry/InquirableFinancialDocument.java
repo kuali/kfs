@@ -20,7 +20,7 @@ import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * This class provides a placeholder that can connect General Ledger business object with financial document in the presentation
@@ -28,7 +28,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
  */
 public class InquirableFinancialDocument {
 
-    private KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+    private ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
 
     /**
      * get the url of inquirable financial document for the given transaction
@@ -57,7 +57,7 @@ public class InquirableFinancialDocument {
      */
     private String getUrl(String originCode, String docNumber) {
         if (KFSConstants.ORIGIN_CODE_KUALI.equals(originCode) && !StringUtils.isBlank(docNumber)) {
-            return kualiConfigurationService.getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + docNumber + "&command=displayDocSearchView";
+            return kualiConfigurationService.getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + docNumber + "&command=displayDocSearchView";
         }
         return KFSConstants.EMPTY_STRING;
     }

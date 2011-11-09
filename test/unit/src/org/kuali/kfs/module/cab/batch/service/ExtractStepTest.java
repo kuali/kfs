@@ -36,8 +36,8 @@ import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * This class tests the extract step involved in CAB Batch job
@@ -135,7 +135,7 @@ public class ExtractStepTest extends BatchTestBase {
 
         // assert the extract date value
         SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
-        assertEquals(fmt.format(currentSqlDate), findCabExtractTimeParam().getParameterValue().substring(0, 10));
+        assertEquals(fmt.format(currentSqlDate), findCabExtractTimeParam().getParameterValueAsString().substring(0, 10));
     }
  // END NO RUN SETUP     
 }

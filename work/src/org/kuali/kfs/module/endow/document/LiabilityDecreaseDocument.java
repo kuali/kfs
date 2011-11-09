@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.document;
 
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.krad.document.Copyable;
 
 public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Copyable, Correctable, UnitsTotaling, AmountTotaling {
 

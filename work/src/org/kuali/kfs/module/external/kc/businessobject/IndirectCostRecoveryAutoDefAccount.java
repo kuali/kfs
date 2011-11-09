@@ -22,14 +22,14 @@ import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.springframework.beans.BeanUtils;
 
 /**
  * IndrectCostRecoveryAccount
  */
-public class IndirectCostRecoveryAutoDefAccount extends PersistableBusinessObjectBase implements Inactivateable{
+public class IndirectCostRecoveryAutoDefAccount extends PersistableBusinessObjectBase implements Inactivatable{
     private static Logger LOG = Logger.getLogger(IndirectCostRecoveryAutoDefAccount.class);
 
     private Integer indirectCostRecoveryAccountGeneratedIdentifier;
@@ -132,9 +132,9 @@ public class IndirectCostRecoveryAutoDefAccount extends PersistableBusinessObjec
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.indirectCostRecoveryAccountGeneratedIdentifier != null) {
             m.put("indirectCostRecoveryAccountGeneratedIdentifier", this.indirectCostRecoveryAccountGeneratedIdentifier.toString());

@@ -24,10 +24,10 @@ import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.KualiCode;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
+import org.kuali.rice.krad.bo.KualiCode;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl;
 
 /**
  * 
@@ -540,9 +540,9 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
@@ -561,9 +561,9 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
     }
     
     @Override
-    public void beforeUpdate() {
+    @Override protected void preUpdate() {
         // TODO Auto-generated method stub
-        super.beforeUpdate();
+        super.preUpdate();
         try {
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database

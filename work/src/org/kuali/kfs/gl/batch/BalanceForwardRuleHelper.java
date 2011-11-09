@@ -39,9 +39,9 @@ import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * A class to hold significant state for a balance forward job; it also has the methods that actually accomplish the job
@@ -173,8 +173,8 @@ public class BalanceForwardRuleHelper {
         state = new BalanceForwardProcessState();
         flexibleOffsetAccountService = SpringContext.getBean(FlexibleOffsetAccountService.class);
         parameterService = SpringContext.getBean(ParameterService.class);
-        annualClosingDocType = parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
-        glOriginationCode = parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
+        annualClosingDocType = parameterService.getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
+        glOriginationCode = parameterService.getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
         openAccountForwardBalanceLedgerReport = new LedgerSummaryReport();
         closedAccountForwardBalanceLedgerReport = new LedgerSummaryReport();
     }

@@ -27,14 +27,14 @@ import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.validation.impl.AssetLocationGlobalRule;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import java.util.ArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -50,7 +50,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
 	 * Default constructor.
 	 */
 	public AssetLocationGlobal() {
-        assetLocationGlobalDetails = new TypedArrayList(AssetLocationGlobalDetail.class);
+        assetLocationGlobalDetails = new ArrayList<AssetLocationGlobalDetail>();
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
@@ -116,7 +116,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
     /**
      * This returns a list of Assets to update
      * 
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         // the list of persist-ready BOs
@@ -207,9 +207,9 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
     }
     
     /**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
-	protected LinkedHashMap toStringMapper() {
+	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", this.documentNumber);
 	    return m;

@@ -49,7 +49,7 @@
         </dd:relationship>
         <dd:relationship objectAttribute="assetLocationState">
         	<dd:primitiveAttribute source="assetLocationCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="assetLocationStateCode" target="postalStateCode"/>            
+            <dd:primitiveAttribute source="assetLocationStateCode" target="stateCode"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="assetLocationCountry">
             <dd:primitiveAttribute source="assetLocationCountryCode" target="postalCountryCode"/>
@@ -105,7 +105,7 @@
   </bean>
   
   <bean id="AssetLocation-assetLocationCountryCode" parent="AssetLocation-assetLocationCountryCode-parentBean"/>
-  <bean id="AssetLocation-assetLocationCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
+  <bean id="AssetLocation-assetLocationCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country" p:sourceAttributeName="postalCountryCode">
     <property name="name" value="assetLocationCountryCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Asset Location Country Code"/>
@@ -115,7 +115,7 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:includeBlankRow="true" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder"/>
+      <bean parent="SelectControlDefinition" p:includeBlankRow="true" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryValuesFinder"/>
     </property>
   </bean>
   
@@ -150,7 +150,7 @@
   </bean>
   
   <bean id="AssetLocation-assetLocationStateCode" parent="AssetLocation-assetLocationStateCode-parentBean"/>
-  <bean id="AssetLocation-assetLocationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
+  <bean id="AssetLocation-assetLocationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State" p:sourceAttributeName="stateCode">
     <property name="name" value="assetLocationStateCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Asset Location State Code"/>
@@ -177,7 +177,7 @@
   </bean>
   
   <bean id="AssetLocation-assetLocationZipCode" parent="AssetLocation-assetLocationZipCode-parentBean"/>
-  <bean id="AssetLocation-assetLocationZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
+  <bean id="AssetLocation-assetLocationZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode" p:sourceAttributeName="postalCode">
     <property name="name" value="assetLocationZipCode"/>
     <property name="label" value="Asset Location Postal Code"/>
     <property name="shortLabel" value="Postal Code"/>

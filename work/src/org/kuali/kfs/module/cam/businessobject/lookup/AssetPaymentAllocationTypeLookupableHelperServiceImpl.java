@@ -18,8 +18,8 @@ package org.kuali.kfs.module.cam.businessobject.lookup;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class AssetPaymentAllocationTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {

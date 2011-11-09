@@ -26,9 +26,9 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Field Finder for Labor Origin Entry.
@@ -40,51 +40,51 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "Fiscal Year"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "Chart Code"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.ACCOUNT_NUMBER, "Account Number"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, "Sub-Account Number"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "Object Code"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, "Sub-Object Code"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "Balance Type"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, "Object Type"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, "Fiscal Period"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, "Document Type"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, "Origin code"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.DOCUMENT_NUMBER, "Document Number"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, "Sequence Number"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.POSITION_NUMBER, "Position Number"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.PROJECT_CODE, "Project Code"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC, "Description"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT, "Amount"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, "Debit Credit Indicator"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_DATE, "Transaction Date"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER, "Org Doc Number"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, "Org Ref ID"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE, "Ref Doc Type"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE, "Ref Origin code"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR, "Ref Doc Number"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE, "Reversal Date"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, "Enc Update Code"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_POSTING_DATE, "Transaction Posting Date"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.PAY_PERIOD_END_DATE, "Pay Period End Date"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS, "Trn Total Hours"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, "Payroll EndDate Fiscal Year"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, "Payroll EndDate Fiscal Period Code"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.EMPLID, "Empl Id"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.EMPLOYEE_RECORD, "Empl Record"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.EARN_CODE, "Earn Code"));
-        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.PAY_GROUP, "Pay Group"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN, "Salary Admin Plan"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.GRADE, "Grade"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.RUN_IDENTIFIER, "Run Id"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE, "Original Chart Code"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER, "Original Account Number"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER, "Original Sub-Account Numbere"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE, "Original Object Code"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE, "Original Sub-Object Code"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.HRMS_COMPANY, "Company"));
-        activeLabels.add(new KeyLabelPair(LaborPropertyConstants.SET_ID, "SetId"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "Fiscal Year"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "Chart Code"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.ACCOUNT_NUMBER, "Account Number"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, "Sub-Account Number"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "Object Code"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, "Sub-Object Code"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "Balance Type"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, "Object Type"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, "Fiscal Period"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, "Document Type"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, "Origin code"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.DOCUMENT_NUMBER, "Document Number"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, "Sequence Number"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.POSITION_NUMBER, "Position Number"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.PROJECT_CODE, "Project Code"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC, "Description"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT, "Amount"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, "Debit Credit Indicator"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.TRANSACTION_DATE, "Transaction Date"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER, "Org Doc Number"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, "Org Ref ID"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE, "Ref Doc Type"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE, "Ref Origin code"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR, "Ref Doc Number"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE, "Reversal Date"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, "Enc Update Code"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.TRANSACTION_POSTING_DATE, "Transaction Posting Date"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.PAY_PERIOD_END_DATE, "Pay Period End Date"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS, "Trn Total Hours"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, "Payroll EndDate Fiscal Year"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, "Payroll EndDate Fiscal Period Code"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.EMPLID, "Empl Id"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.EMPLOYEE_RECORD, "Empl Record"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.EARN_CODE, "Earn Code"));
+        activeLabels.add(new ConcreteKeyValue(KFSPropertyConstants.PAY_GROUP, "Pay Group"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN, "Salary Admin Plan"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.GRADE, "Grade"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.RUN_IDENTIFIER, "Run Id"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE, "Original Chart Code"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER, "Original Account Number"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER, "Original Sub-Account Numbere"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE, "Original Object Code"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE, "Original Sub-Object Code"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.HRMS_COMPANY, "Company"));
+        activeLabels.add(new ConcreteKeyValue(LaborPropertyConstants.SET_ID, "SetId"));
 
         return activeLabels;
     }
@@ -97,7 +97,7 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
      */
     public String getFieldDisplayName(String fieldName) {
         for (Iterator iter = getKeyValues().iterator(); iter.hasNext();) {
-            KeyLabelPair klp = (KeyLabelPair) iter.next();
+            KeyValue klp = (KeyValue) iter.next();
             if (klp.getKey().equals(fieldName)) {
                 return klp.getLabel();
             }
@@ -114,7 +114,7 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
      */
     public String getFieldName(String fieldDisplayName) {
         for (Iterator iter = getKeyValues().iterator(); iter.hasNext();) {
-            KeyLabelPair klp = (KeyLabelPair) iter.next();
+            KeyValue klp = (KeyValue) iter.next();
             if (klp.getLabel().equals(fieldDisplayName)) {
                 return (String) klp.getKey();
             }

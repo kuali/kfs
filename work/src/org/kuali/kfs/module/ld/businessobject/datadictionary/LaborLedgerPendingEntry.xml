@@ -548,7 +548,7 @@
 				p:includeKeyInLabel="false" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

@@ -43,13 +43,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -58,7 +58,7 @@ public class FaxServiceImpl implements FaxService {
 
     private static final Logger LOG = Logger.getLogger(FaxServiceImpl.class);
 
-    protected KualiConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
     protected ParameterService parameterService;
     protected VendorService vendorService;
     protected BusinessObjectService businessObjectService;
@@ -74,12 +74,12 @@ public class FaxServiceImpl implements FaxService {
      */
     public void faxPurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit) {
         LOG.debug("faxPurchaseOrderPdf(po,reTransmit) started");
-        String pdfFileLocation = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+        String pdfFileLocation = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
             throw new RuntimeException("Application Setting PDF_DIRECTORY is missing.");
         }
 
-        String imageTempLocation = kualiConfigurationService.getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
+        String imageTempLocation = kualiConfigurationService.getPropertyValueAsString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
         if (imageTempLocation == null) {
             throw new RuntimeException("Application Setting TEMP_DIRECTORY_KEY is missing.");
         }
@@ -102,7 +102,7 @@ public class FaxServiceImpl implements FaxService {
      
         // Get the vendor's country name.
         if (po.getVendorCountryCode() != null) {
-            Country vendorCountry = countryService.getByPrimaryId(po.getVendorCountryCode());
+            Country vendorCountry = countryService.getCountry(po.getVendorCountryCode());
             if (vendorCountry != null) {
                 po.setVendorCountryCode(vendorCountry.getPostalCountryCode());
             }
@@ -120,7 +120,7 @@ public class FaxServiceImpl implements FaxService {
         
         PurchaseOrderPdf poPdf = null;
         try {
-            String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+            String environment = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
             poPdf = new PurchaseOrderPdf();
             poPdf.savePdf(po, purchaseOrderParameters , isRetransmit, environment);
         }
@@ -180,7 +180,7 @@ public class FaxServiceImpl implements FaxService {
        
         PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
         purchaseOrderParameters.setPurchaseOrderPdfAndFaxParameters(po,povq);
-        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         
         PurchaseOrderQuotePdf poQuotePdf = new PurchaseOrderQuotePdf();
         Collection errors = new ArrayList();
@@ -190,7 +190,7 @@ public class FaxServiceImpl implements FaxService {
           
           // Get the vendor's country name.
           if (povq.getVendorCountryCode() != null) {
-              Country vendorCountry = countryService.getByPrimaryId(po.getVendorCountryCode());
+              Country vendorCountry = countryService.getCountry(po.getVendorCountryCode());
               if (vendorCountry != null) {
                   povq.setVendorCountryCode(vendorCountry.getPostalCountryCode());
               }
@@ -268,11 +268,11 @@ public class FaxServiceImpl implements FaxService {
     
   
     
-    public KualiConfigurationService getKualiConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return kualiConfigurationService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

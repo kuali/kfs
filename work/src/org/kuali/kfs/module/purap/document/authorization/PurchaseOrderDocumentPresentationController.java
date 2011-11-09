@@ -30,10 +30,10 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 public class PurchaseOrderDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
@@ -128,14 +128,14 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
         String statusCode = poDocument.getStatusCode();
 
         editModes.add(PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA);
 
         //if the ENABLE_COMMODITY_CODE_IND system parameter is Y then add this edit mode so that the commodity code fields would display on the document.
-        boolean enableCommodityCode = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
+        boolean enableCommodityCode = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
         if (enableCommodityCode) {
             editModes.add(PurchaseOrderEditMode.ENABLE_COMMODITY_CODE);
         }
@@ -174,7 +174,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         }
 
         // check if purap tax is enabled
-        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);                
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);                
         if (salesTaxInd) {
             editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
 
@@ -189,14 +189,14 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         }
 
         // set display mode for Receiving Address section according to parameter value
-        boolean displayReceivingAddress = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND);                
+        boolean displayReceivingAddress = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND);                
         if (displayReceivingAddress) {
             editModes.add(PurchaseOrderEditMode.DISPLAY_RECEIVING_ADDRESS);
         }
 
         // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
         // for ex, contract manager, manual status change, and quote etc
-        //if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+        //if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
         if (PurchaseOrderStatuses.IN_PROCESS.equals(statusCode) || 
                 PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(statusCode) ||
                 PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(statusCode) ||
@@ -238,7 +238,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(poDocument.getStatusCode());
         if (!can) {
             can = PurchaseOrderStatuses.OPEN.equals(poDocument.getStatusCode());
-            can = can && poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal();
+            can = can && poDocument.getDocumentHeader().getWorkflowDocument().isFinal();
             can = can && poDocument.getPurchaseOrderLastTransmitTimestamp() == null;
             can = can && PurapConstants.POTransmissionMethods.PRINT.equals(poDocument.getPurchaseOrderTransmissionMethodCode());
         }
@@ -255,11 +255,11 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      */
     protected boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
         // PO is saved or enroute
-        boolean can = poDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved() || poDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+        boolean can = poDocument.getDocumentHeader().getWorkflowDocument().isSaved() || poDocument.getDocumentHeader().getWorkflowDocument().isEnroute();
 
         // transmission method must be one of those specified by the parameter
         if (can) {
-            List<String> methods = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_PO_PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES);
+            List<String> methods = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_PO_PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES) );
             String method = poDocument.getPurchaseOrderTransmissionMethodCode();
             can = (methods == null || methods.contains(method));
         }

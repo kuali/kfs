@@ -39,16 +39,16 @@ import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEv
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /*
@@ -241,7 +241,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         if (ObjectUtils.isNull(cashIncreaseDocument)) {
             return false;
         }        
-        cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
+        cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValueAsString(PooledFundControlTransactionsStep.class, paramDescriptionName));
         cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
 
         // set security and add a transaction line 
@@ -297,7 +297,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         if (ObjectUtils.isNull(cashDecreaseDocument)) {
             return false;
         }        
-        cashDecreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
+        cashDecreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValueAsString(PooledFundControlTransactionsStep.class, paramDescriptionName));
         cashDecreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
     
         // set security and a transaction line
@@ -512,7 +512,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * @return boolean
      */
     public boolean isNoRoute(String paramNoRouteInd) {        
-        return parameterService.getIndicatorParameter(PooledFundControlTransactionsStep.class, paramNoRouteInd);
+        return parameterService.getParameterValueAsBoolean(PooledFundControlTransactionsStep.class, paramNoRouteInd);
     }
     
     /**

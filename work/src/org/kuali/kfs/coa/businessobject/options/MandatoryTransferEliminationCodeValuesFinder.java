@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link MandatoryTransferEliminationCode}s)
@@ -51,11 +51,11 @@ public class MandatoryTransferEliminationCodeValuesFinder extends KeyValuesBase 
         Collections.sort(codes, new MandatoryTransferEliminationCodeComparator());
 
         // create a new list (code, descriptive-name)
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
 
         for (MandatoryTransferEliminationCode mteCode : codes) {
             if(mteCode.isActive()) {
-                labels.add(new KeyLabelPair(mteCode.getCode(), mteCode.getCodeAndDescription()));
+                labels.add(new ConcreteKeyValue(mteCode.getCode(), mteCode.getCodeAndDescription()));
             }
         }
 

@@ -24,8 +24,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborGeneralLedgerEntryDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.TransactionalServiceUtils;
 
 /**
  * This is the data access object for labor general ledger entry

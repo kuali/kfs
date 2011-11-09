@@ -21,6 +21,6 @@ package org.kuali.kfs.sys.service;
  */
 public interface PostalCodeValidationService {
 
-    public boolean validateAddress(String postalCountryCode, String postalStateCode, String postalCode, String statePropertyConstant, String postalCodePropertyConstant);
+    public boolean validateAddress(String postalCountryCode, String stateCode, String postalCode, String statePropertyConstant, String postalCodePropertyConstant);
     
 }

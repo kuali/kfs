@@ -22,9 +22,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 /**
  * 
@@ -311,7 +311,7 @@ public class BudgetConstructionFundingLock extends PersistableBusinessObjectBase
      * @return Returns the appointmentFundingLockUser.
      */
     public Person getAppointmentFundingLockUser() {
-        appointmentFundingLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
+        appointmentFundingLockUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
         return appointmentFundingLockUser;
     }
 
@@ -344,9 +344,9 @@ public class BudgetConstructionFundingLock extends PersistableBusinessObjectBase
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("appointmentFundingLockUserId", this.appointmentFundingLockUserId);
         m.put("accountNumber", this.accountNumber);

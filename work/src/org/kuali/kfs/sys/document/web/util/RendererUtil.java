@@ -17,9 +17,9 @@ package org.kuali.kfs.sys.document.web.util;
 
 import javax.servlet.jsp.PageContext;
 
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.pojo.PojoFormBase;
+import org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase;
 
 /**
  * This class contains utility methods to help render accounting line elements

@@ -22,7 +22,7 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -48,7 +48,7 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
      * 
      * @return Returns the objectType.
      */
-    @Override
+    
     public ObjectType getObjectType() {
         return objectType;
     }
@@ -101,7 +101,7 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
      * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#toStringMapper()
      */
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, Object> map = super.toStringMapper();
         map.put(KFSPropertyConstants.OBJECT_TYPE_CODE, this.getObjectTypeCode());
 

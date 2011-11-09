@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * BusinessObject for Security Valuation Method table
@@ -26,10 +26,10 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 public class SecurityValuationMethod extends KualiCodeBase {
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSConstants.GENERIC_CODE_PROPERTY_NAME, this.getCode());
         return m;

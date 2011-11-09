@@ -43,10 +43,10 @@ import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -473,7 +473,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      *      java.util.List)
      */
     public List<PurchasingAccountsPayableItemAsset> getAllocateTargetLines(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableDocument> purApDocs) {
-        List<PurchasingAccountsPayableItemAsset> targetLineItems = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+        List<PurchasingAccountsPayableItemAsset> targetLineItems = new ArrayList<PurchasingAccountsPayableItemAsset>();
 
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
@@ -495,7 +495,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#getSelectedMergeLines(boolean, java.util.List)
      */
     public List<PurchasingAccountsPayableItemAsset> getSelectedMergeLines(boolean isMergeAll, List<PurchasingAccountsPayableDocument> purApDocs) {
-        List<PurchasingAccountsPayableItemAsset> mergeLines = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+        List<PurchasingAccountsPayableItemAsset> mergeLines = new ArrayList<PurchasingAccountsPayableItemAsset>();
         boolean excludeTradeInAllowance = false;
 
         // Handle one exception for merge all: when we have TI allowance but no TI indicator line, we should exclude

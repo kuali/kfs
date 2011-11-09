@@ -38,15 +38,15 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 @ConfigureContext(session = bomiddle)
 public class AssetPaymentServiceTest extends KualiTestBase {
@@ -159,7 +159,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
 
         // ********** Testing data **********************
         key = new HashMap();
-        key.put(KNSPropertyConstants.DOCUMENT_NUMBER,document.getDocumentNumber());
+        key.put(KRADPropertyConstants.DOCUMENT_NUMBER,document.getDocumentNumber());
 
         LOG.info("***Retrieving Document:"+document.getDocumentNumber());
         // Checking that total cost was updated in the asset table
@@ -171,7 +171,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
 
         // Getting the number of records in the asset payment
         key = new HashMap();
-        key.put(KNSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
+        key.put(KRADPropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
         List<AssetPayment> assetPayments = (List<AssetPayment>) businessObjectService.findMatching(AssetPayment.class, key);
 
         // Checking that all rows were saved
@@ -186,7 +186,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
 
             key = new HashMap();
             key.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
-            key.put(KNSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
+            key.put(KRADPropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
             assetPayments = (List<AssetPayment>) businessObjectService.findMatching(AssetPayment.class, key);
 
             calculatedAssetNewCost = new KualiDecimal(assets.get(capitalAssetNumber));
@@ -235,7 +235,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
     }
 
     public DocumentHeader getDocumentHeader() throws Exception {
-        KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(AssetPaymentDocument.class), GlobalVariables.getUserSession().getPerson());
+        WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(AssetPaymentDocument.class), GlobalVariables.getUserSession().getPerson());
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         documentHeader.setWorkflowDocument(workflowDocument);
         documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());

@@ -23,18 +23,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.KualiModuleBO;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 
 public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchJobStatusLookupableHelperServiceImpl.class);
 
-    private KualiConfigurationService configService;
+    private ConfigurationService configService;
     private Map fieldConversions;
 
     @Override
@@ -61,7 +61,7 @@ public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServ
     }
 
 
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 

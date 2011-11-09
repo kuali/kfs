@@ -20,14 +20,14 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 public class CustomerCreditMemoDocumentPreRules extends PromptBeforeValidationBase {
 
     /**
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document document) {
@@ -45,7 +45,7 @@ public class CustomerCreditMemoDocumentPreRules extends PromptBeforeValidationBa
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
         boolean shouldAskQuestion = customerCreditMemoDocument.getInvoice().hasAtLeastOneDiscount();
         if (shouldAskQuestion) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ArKeyConstants.WARNING_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVOICE_HAS_DISCOUNT);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.WARNING_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVOICE_HAS_DISCOUNT);
             boolean confirm = super.askOrAnalyzeYesNoQuestion(ArConstants.CustomerCreditMemoConstants.GENERATE_CUSTOMER_CREDIT_MEMO_DOCUMENT_QUESTION_ID, questionText);
             if (!confirm) {
                 super.abortRulesCheck();

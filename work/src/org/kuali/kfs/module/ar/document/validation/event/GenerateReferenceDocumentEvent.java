@@ -16,10 +16,10 @@
 package org.kuali.kfs.module.ar.document.validation.event;
 
 import org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.rice.krad.rule.BusinessRule;
+import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
 
 public class GenerateReferenceDocumentEvent extends KualiDocumentEventBase {
 
@@ -33,7 +33,7 @@ public class GenerateReferenceDocumentEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
@@ -41,7 +41,7 @@ public class GenerateReferenceDocumentEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rule.BusinessRule)
      */
     @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(BusinessRule rule) {

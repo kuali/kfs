@@ -41,33 +41,33 @@ import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 
@@ -154,10 +154,10 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setAccountPhysicalCampusCode(defaults.getAccountPhysicalCampusCode());
         if (parameters.getExpirationDate() != null) account.setAccountExpirationDate(new java.sql.Date(parameters.getExpirationDate().getTime()));
         if (parameters.getEffectiveDate() != null) account.setAccountEffectiveDate(new java.sql.Date(parameters.getEffectiveDate().getTime()));
-        boolean isKCOverrideKFS = parameterService.getIndicatorParameter(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_OVERRIDES_KFS_DEFAULT_ACCOUNT_IND);
+        boolean isKCOverrideKFS = parameterService.getParameterValueAsBoolean(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_OVERRIDES_KFS_DEFAULT_ACCOUNT_IND);
         if (isKCOverrideKFS) {
             // set the right address based on the system parameter ACCOUNT_ADDRESS_TYPE
-            List<String> addressTypes = parameterService.getParameterValues(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADDRESS_TYPE);
+            List<String> addressTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADDRESS_TYPE) );
             for (String addressType : addressTypes) {
                 if (addressType.equals(ContractsAndGrantsConstants.AccountCreationService.PI_ADDRESS_TYPE) && (!StringUtils.isBlank(parameters.getDefaultAddressStreetAddress()))) {
                     account.setAccountStreetAddress(parameters.getDefaultAddressStreetAddress());
@@ -284,7 +284,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
             // set the account object in the maintenance document.
             maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
-            maintenanceAccountDocument.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
+            maintenanceAccountDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
             // the maintenance document will now be routed based on the system parameter value for routing.
             createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountCreationStatus);
         }
@@ -301,7 +301,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     protected void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, AccountCreationStatusDTO accountCreationStatus) {
 
         try {
-            String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION);
+            String accountAutoCreateRouteValue = getParameterService().getParameterValueAsString(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION);
 
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
             if (!accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) && !accountAutoCreateRouteValue.equalsIgnoreCase("submit") && !accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
@@ -435,7 +435,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         try {
             if (GlobalVariables.getUserSession() == null) {
                 internalUserSession = true;
-                GlobalVariables.setUserSession(new UserSession(KNSConstants.SYSTEM_USER));
+                GlobalVariables.setUserSession(new UserSession(KRADConstants.SYSTEM_USER));
                 GlobalVariables.clear();
             }
             Document document = getDocumentService().getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class));
@@ -640,7 +640,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(accountNumber)) {
 
-            List<String> illegalValues = getParameterService().getParameterValues(Account.class, ACCT_PREFIX_RESTRICTION);
+            List<String> illegalValues = new ArrayList<String>( getParameterService().getParameterValuesAsString(Account.class, ACCT_PREFIX_RESTRICTION) );
             
             for (String illegalValue : illegalValues) {
                 if (accountNumber.startsWith(illegalValue)) {
@@ -680,7 +680,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      */
     protected boolean isValidUser(String principalId) {
 
-        PersonService<Person> personService = KIMServiceLocator.getPersonService();
+        PersonService personService = SpringContext.getBean(PersonService.class);
         if (principalId == null) return false;
         Person user = personService.getPerson(principalId);
         if (user == null) return false;

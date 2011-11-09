@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+import java.util.ArrayList;
 
 /**
  * Business Object for Type Code.
@@ -46,14 +46,14 @@ public class TypeCode extends KualiCodeBase {
      */
     public TypeCode() {
         super();
-        typeFeeMethods = new TypedArrayList(TypeFeeMethod.class);
+        typeFeeMethods = new ArrayList<TypeFeeMethod>();
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(EndowPropertyConstants.TYPE_CODE, super.code);
         return m;
@@ -228,7 +228,7 @@ public class TypeCode extends KualiCodeBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#getCodeAndDescription()
+     * @see org.kuali.rice.krad.bo.KualiCodeBase#getCodeAndDescription()
      */
     @Override
     public String getCodeAndDescription() {

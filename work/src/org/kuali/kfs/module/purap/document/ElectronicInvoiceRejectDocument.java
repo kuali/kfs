@@ -50,12 +50,12 @@ import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactionalDocumentBase implements SessionDocument 
 {
@@ -348,11 +348,11 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
+     * @see org.kuali.rice.krad.document.DocumentBase#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ElectronicInvoiceRejectDocument.class, PurapParameterConstants.PURAP_OVERRIDE_EIRT_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(ElectronicInvoiceRejectDocument.class, PurapParameterConstants.PURAP_OVERRIDE_EIRT_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
         
@@ -1376,7 +1376,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      */
     public BigDecimal getInvoiceItemTaxAmount() {
         BigDecimal returnValue = zero;
-        boolean enableSalesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        boolean enableSalesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
         
         try {
             //if sales tax enabled, calculate total by totaling items
@@ -2057,13 +2057,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
     
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsApproved()){ 
+        if (this.getDocumentHeader().getWorkflowDocument().isApproved()){ 
             //Set the current date as approval timestamp
             this.setAccountsPayableApprovalTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
            } 
@@ -2071,11 +2071,11 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#getBoNotes()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#getBoNotes()
      */
     @Override
     public List getBoNotes() {
-        List notes = super.getBoNotes();
+        List notes = super.getNotes();
         if (!StringUtils.isBlank(this.getObjectId())) {
             for (Iterator iterator = notes.iterator(); iterator.hasNext();) {
                 Note note = (Note) iterator.next();
@@ -2085,7 +2085,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             }
         }
         
-        return super.getBoNotes();
+        return super.getNotes();
     }
 
 }

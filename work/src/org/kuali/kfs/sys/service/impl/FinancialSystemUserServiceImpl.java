@@ -29,20 +29,21 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kim.api.identity.Person;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class FinancialSystemUserServiceImpl implements FinancialSystemUserService {
 
     private BusinessObjectService businessObjectService;
     private IdentityManagementService identityManagementService;
-    private RoleManagementService roleManagementService;
+    private RoleService roleManagementService;
     private PersonService personService;
     private String userRoleId;
     private List<String> userRoleIdList = new ArrayList<String>(1);
@@ -61,9 +62,9 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         return identityManagementService;
     }
 
-    protected RoleManagementService getRoleManagementService() {
+    protected RoleService getRoleService() {
         if (roleManagementService == null) {
-            roleManagementService = SpringContext.getBean(RoleManagementService.class);
+            roleManagementService = SpringContext.getBean(RoleService.class);
         }
         return roleManagementService;
     }
@@ -77,7 +78,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
 
     protected String getUserRoleId() {
         if (userRoleId == null) {
-            userRoleId = getRoleManagementService().getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME);
+            userRoleId = getRoleService().getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME);
         }
         return userRoleId;
     }
@@ -90,21 +91,21 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.FinancialSystemUserService#isActiveFinancialSystemUser(org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.service.FinancialSystemUserService#isActiveFinancialSystemUser(org.kuali.rice.kim.api.identity.Person)
      */
     public boolean isActiveFinancialSystemUser(Person p) {
-        return getRoleManagementService().principalHasRole(p.getPrincipalId(), getUserRoleIdAsList(), null);
+        return getRoleService().principalHasRole(p.getPrincipalId(), getUserRoleIdAsList(), null);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.FinancialSystemUserService#isActiveFinancialSystemUser(java.lang.String)
      */
     public boolean isActiveFinancialSystemUser(String principalId) {
-        return getRoleManagementService().principalHasRole(principalId, getUserRoleIdAsList(), null);
+        return getRoleService().principalHasRole(principalId, getUserRoleIdAsList(), null);
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.FinancialSystemUserService#getPrimaryOrganization(org.kuali.rice.kim.bo.Person,
+     * @see org.kuali.kfs.sys.service.FinancialSystemUserService#getPrimaryOrganization(org.kuali.rice.kim.api.identity.Person,
      *      java.lang.String)
      */
     public ChartOrgHolder getPrimaryOrganization(Person person, String namespaceCode) {
@@ -119,7 +120,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.FinancialSystemUserService#getOrganizationByNamespaceCode(org.kuali.rice.kim.bo.Person,
+     * @see org.kuali.kfs.sys.service.FinancialSystemUserService#getOrganizationByNamespaceCode(org.kuali.rice.kim.api.identity.Person,
      *      java.lang.String)
      */
     public ChartOrgHolder getPrimaryOrganization(String principalId, String namespaceCode) {
@@ -134,10 +135,10 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         if (principalId == null) {
             return null;
         }
-        AttributeSet qualification = new AttributeSet(2);
+        Map<String,String> qualification = new HashMap<String,String>(2);
         qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
-        qualification.put(KfsKimAttributes.NAMESPACE_CODE, namespaceCode);
-        List<AttributeSet> roleQualifiers = getRoleManagementService().getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification); 
+        qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
+        List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification); 
         if ((roleQualifiers != null) && !roleQualifiers.isEmpty()) {
             return new ChartOrgHolderImpl(roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), roleQualifiers.get(0).get(KfsKimAttributes.ORGANIZATION_CODE));
         }
@@ -152,12 +153,12 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
     }
     
     public Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers( String namespaceCode, ChartOrgHolder chartOrg) {
-        AttributeSet qualification = new AttributeSet(4);
+        Map<String,String> qualification = new HashMap<String,String>(4);
         qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
-        qualification.put(KfsKimAttributes.NAMESPACE_CODE, namespaceCode);
+        qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, chartOrg.getOrganizationCode());
-        return getRoleManagementService().getRoleMemberPrincipalIds(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
+        return getRoleService().getRoleMemberPrincipalIds(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
     }
     
     public Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers(String namespaceCode, List<ChartOrgHolder> chartOrgs) {

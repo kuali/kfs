@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.vnd.VendorConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for manual Purchase Order Status Changes.
@@ -35,9 +35,9 @@ public class StatusChangeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.IN_PROCESS, VendorConstants.NONE));
-        labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT, "Department"));
-        labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR, "Vendor"));
+        labels.add(new ConcreteKeyValue(PurapConstants.PurchaseOrderStatuses.IN_PROCESS, VendorConstants.NONE));
+        labels.add(new ConcreteKeyValue(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT, "Department"));
+        labels.add(new ConcreteKeyValue(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR, "Vendor"));
         return labels;
     }
 }

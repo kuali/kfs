@@ -62,5 +62,5 @@
   <!-- workflow attributes -->
   <bean id="TravelExpenseTypeCodeMaintenanceDocument-workflowAttributes" parent="TravelExpenseTypeCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="TravelExpenseTypeCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="TravelExpenseTypeCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

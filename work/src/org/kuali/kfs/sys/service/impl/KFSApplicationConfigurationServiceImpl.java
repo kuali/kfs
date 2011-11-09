@@ -23,14 +23,14 @@ import java.util.Map;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.ParameterDetailType;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.core.api.parameter.ParameterDetailType;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.impl.RiceApplicationConfigurationServiceImpl;
-import org.kuali.rice.kns.util.KNSUtils;
+import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.krad.service.impl.RiceApplicationConfigurationServiceImpl;
+import org.kuali.rice.krad.util.KRADUtils;
 
 public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfigurationServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSApplicationConfigurationServiceImpl.class);
@@ -87,7 +87,7 @@ public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfi
                 return boe.getObjectLabel();
             }
             else {
-                return KNSUtils.getBusinessTitleForClass(documentOrStepClass);
+                return KRADUtils.getBusinessTitleForClass(documentOrStepClass);
             }
         }
         throw new IllegalArgumentException("The getDetailTypeName method of ParameterServiceImpl requires a TransactionalDocument, BusinessObject, or Step class.");

@@ -21,9 +21,9 @@ import java.util.List;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.kuali.kfs.integration.purap.ExternalPurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Purap Item Business Object.

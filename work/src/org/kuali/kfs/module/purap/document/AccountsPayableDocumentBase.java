@@ -35,11 +35,11 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Accounts Payable Document Base
@@ -153,7 +153,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * Calls a custom prepare for save method, as the super class does GL entry creation that causes problems with AP documents.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -173,7 +173,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public abstract String getPoDocumentTypeForAccountsPayableDocumentCancel();
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
     public void doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
@@ -403,7 +403,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * Retrieves the universal user object for the last person to perform an action on the document.
      */
     public Person getLastActionPerformedByUser() {
-    	return SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(getLastActionPerformedByPersonId());
+    	return SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(getLastActionPerformedByPersonId());
     }
 
     /**

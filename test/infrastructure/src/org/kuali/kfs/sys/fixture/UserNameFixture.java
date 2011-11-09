@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.fixture;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public enum UserNameFixture {
 
@@ -36,7 +36,7 @@ public enum UserNameFixture {
     }
 
     public Person getPerson() {
-        return SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(toString());
+        return SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(toString());
     }
 }
 

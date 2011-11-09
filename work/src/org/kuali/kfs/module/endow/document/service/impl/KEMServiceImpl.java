@@ -35,10 +35,10 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class KEMServiceImpl implements KEMService {
 
@@ -60,7 +60,7 @@ public class KEMServiceImpl implements KEMService {
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.KEMService#getMarketValue(java.lang.String, java.lang.String,
-     *      java.lang.String, org.kuali.rice.kns.util.KualiInteger, java.lang.String)
+     *      java.lang.String, org.kuali.rice.core.api.util.type.KualiInteger, java.lang.String)
      */
     public BigDecimal getMarketValue(String kemid, String securityId, String registrationCode, KualiInteger lotNumber, String ipIndicator) {
         BigDecimal marketValue = BigDecimal.ZERO;
@@ -130,7 +130,7 @@ public class KEMServiceImpl implements KEMService {
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-        String curentSystemProcessDate = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowParameterKeyConstants.CURRENT_PROCESS_DATE);
+        String curentSystemProcessDate = parameterService.getParameterValueAsString(KfsParameterConstants.ENDOWMENT_ALL.class, EndowParameterKeyConstants.CURRENT_PROCESS_DATE);
 
         return curentSystemProcessDate;
     }
@@ -164,7 +164,7 @@ public class KEMServiceImpl implements KEMService {
      */
     public java.sql.Date getCurrentDate() {
         java.sql.Date currentDate = null;
-        String useProcessDate = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowParameterKeyConstants.USE_PROCESS_DATE);
+        String useProcessDate = parameterService.getParameterValueAsString(KfsParameterConstants.ENDOWMENT_ALL.class, EndowParameterKeyConstants.USE_PROCESS_DATE);
 
         if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(useProcessDate)) {
             currentDate = getCurrentProcessDate();
@@ -201,7 +201,7 @@ public class KEMServiceImpl implements KEMService {
         BigDecimal availableCashPercent = BigDecimal.ZERO;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String systemParameterAvailablePercent = parameterService.getParameterValue(AvailableCashUpdateStep.class, EndowParameterKeyConstants.AvailableCashUpdateConstants.AVAILABLE_CASH_PERCENT);
+        String systemParameterAvailablePercent = parameterService.getParameterValueAsString(AvailableCashUpdateStep.class, EndowParameterKeyConstants.AvailableCashUpdateConstants.AVAILABLE_CASH_PERCENT);
         availableCashPercent = new BigDecimal(systemParameterAvailablePercent);
 
         return availableCashPercent;
@@ -216,7 +216,7 @@ public class KEMServiceImpl implements KEMService {
         java.sql.Date fiscalDate = null;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String yearEndDateAndMonth = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_DAY_AND_MONTH);
+        String yearEndDateAndMonth = parameterService.getParameterValueAsString(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_DAY_AND_MONTH);
 
         Calendar calendar = Calendar.getInstance();
         
@@ -239,7 +239,7 @@ public class KEMServiceImpl implements KEMService {
         long totalNumberOfPayments = 2;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String totalPayments = parameterService.getParameterValue(PooledFundValue.class, EndowParameterKeyConstants.DISTRIBUTION_TIMES_PER_YEAR);
+        String totalPayments = parameterService.getParameterValueAsString(PooledFundValue.class, EndowParameterKeyConstants.DISTRIBUTION_TIMES_PER_YEAR);
         
         try {
             totalNumberOfPayments = Long.parseLong(totalPayments);
@@ -294,7 +294,7 @@ public class KEMServiceImpl implements KEMService {
         int maximumNumberOfTransactionLines = EndowConstants.MAXIMUM_NUMBER_OF_LINES_PER_EDOC;
         
         try { 
-            maximumNumberOfTransactionLines = Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.MAXIMUM_TRANSACTION_LINES));
+            maximumNumberOfTransactionLines = Integer.parseInt(parameterService.getParameterValueAsString(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.MAXIMUM_TRANSACTION_LINES));
         }
         catch (NumberFormatException ex) {
             return maximumNumberOfTransactionLines;

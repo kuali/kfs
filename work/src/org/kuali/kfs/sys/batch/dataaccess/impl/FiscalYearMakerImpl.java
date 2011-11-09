@@ -34,13 +34,13 @@ import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.ProxyUtils;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.Guid;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Default implementation of fiscal year maker process for an entity. This implementation can be used for a table in the fiscal year
@@ -132,7 +132,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
      * Sets fiscal year field up one, resets version number and assigns a new Guid for the object id
      * 
      * @see org.kuali.kfs.coa.dataaccess.FiscalYearMaker#changeForNewYear(java.lang.Integer,
-     *      org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     public void changeForNewYear(Integer baseFiscalYear, FiscalYearBasedBusinessObject currentRecord) {
         if ( LOG.isDebugEnabled() ) {
@@ -196,7 +196,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable
+     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable
      * @see org.kuali.kfs.coa.dataaccess.FiscalYearMaker#createSelectionCriteria(java.lang.Integer)
      */
     public Criteria createNextYearSelectionCriteria(Integer baseFiscalYear) {
@@ -213,9 +213,9 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
     /**
      * Selects records for the given base year or base year minus one if this is a lagging copy. If this is a two year copy base
      * year plus one records will be selected as well. In addition will only select active records if the business object class
-     * implements the Inactivateable interface and has the active property.
+     * implements the Inactivatable interface and has the active property.
      * 
-     * @see org.kuali.rice.kns.bo.Inactivateable
+     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable
      * @see org.kuali.kfs.coa.dataaccess.FiscalYearMaker#createSelectionCriteria(java.lang.Integer)
      */
     public Criteria createSelectionCriteria(Integer baseFiscalYear) {
@@ -228,7 +228,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
 
         // add active criteria if the business object class supports the inactivateable interface
         List<String> fields = getPropertyNames();
-        if (Inactivateable.class.isAssignableFrom(businessObjectClass) && fields.contains(KFSPropertyConstants.ACTIVE) && !carryForwardInactive) {
+        if (Inactivatable.class.isAssignableFrom(businessObjectClass) && fields.contains(KFSPropertyConstants.ACTIVE) && !carryForwardInactive) {
             criteria.addEqualTo(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
         }
 

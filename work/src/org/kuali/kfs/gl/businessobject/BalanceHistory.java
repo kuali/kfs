@@ -18,7 +18,7 @@ package org.kuali.kfs.gl.businessobject;
 
 import java.sql.Date;
 
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * General Ledger business object for BalanceHistory.
@@ -52,7 +52,7 @@ public class BalanceHistory extends Balance implements LedgerBalanceHistory {
      * Compare amounts
      * 
      * @param balance
-     * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public boolean compareAmounts(Balance balance) {
         if (ObjectUtils.isNotNull(balance)

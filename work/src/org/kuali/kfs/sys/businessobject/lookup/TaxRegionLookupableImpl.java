@@ -21,9 +21,9 @@ import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class TaxRegionLookupableImpl extends KualiLookupableImpl {
 
@@ -41,11 +41,11 @@ public class TaxRegionLookupableImpl extends KualiLookupableImpl {
 
         if (getLookupableHelperService().allowsMaintenanceNewOrCopyAction()) {
             Properties parameters = new Properties();
-            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TaxRegionType.class.getName());
-            parameters.put(KNSConstants.RETURN_LOCATION_PARAMETER, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KNSConstants.MAPPING_PORTAL);
-            parameters.put(KNSConstants.DOC_FORM_KEY, getTaxRegionDocumentTypeName()); 
-            parameters.put(KNSConstants.CONVERSION_FIELDS_PARAMETER, "taxRegionTypeCode:taxRegionTypeCode");
-            url = getCreateNewUrl(UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, parameters)); 
+            parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TaxRegionType.class.getName());
+            parameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY) + "/" + KRADConstants.MAPPING_PORTAL);
+            parameters.put(KRADConstants.DOC_FORM_KEY, getTaxRegionDocumentTypeName()); 
+            parameters.put(KRADConstants.CONVERSION_FIELDS_PARAMETER, "taxRegionTypeCode:taxRegionTypeCode");
+            url = getCreateNewUrl(UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, parameters)); 
         }
 
         return url;

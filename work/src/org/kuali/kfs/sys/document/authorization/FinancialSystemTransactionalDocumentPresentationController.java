@@ -16,9 +16,9 @@
 package org.kuali.kfs.sys.document.authorization;
 
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationController;
 
 /**
  * The methods needed to answer questions about presentation viewing based on internal document state for FinancialSystemTransactionalDocuments

@@ -92,7 +92,7 @@
               <td class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeStateCode}" property="document.dvPayeeDetail.disbVchrPayeeStateCode" readOnly="${!fullEntryMode && !payeeEntryMode}"/>
                 <c:if test="${fullEntryMode || payeeEntryMode}">
-              		<kul:lookup boClassName="org.kuali.rice.kns.bo.State" fieldConversions="postalCountryCode:document.dvPayeeDetail.disbVchrPayeeCountryCode,postalStateCode:document.dvPayeeDetail.disbVchrPayeeStateCode" 
+              		<kul:lookup boClassName="org.kuali.rice.krad.bo.State" fieldConversions="postalCountryCode:document.dvPayeeDetail.disbVchrPayeeCountryCode,stateCode:document.dvPayeeDetail.disbVchrPayeeStateCode" 
               		lookupParameters="document.dvPayeeDetail.disbVchrPayeeCountryCode:postalCountryCode" />
               	</c:if>
               </td>
@@ -112,8 +112,8 @@
               <td class="datacell">	 
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeZipCode}" property="document.dvPayeeDetail.disbVchrPayeeZipCode" readOnly="${!fullEntryMode && !payeeEntryMode}"/>
                 <c:if test="${fullEntryMode || payeeEntryMode}">
-              		<kul:lookup boClassName="org.kuali.rice.kns.bo.PostalCode" fieldConversions="postalCode:document.dvPayeeDetail.disbVchrPayeeZipCode,postalCountryCode:document.dvPayeeDetail.disbVchrPayeeCountryCode,postalStateCode:document.dvPayeeDetail.disbVchrPayeeStateCode,postalCityName:document.dvPayeeDetail.disbVchrPayeeCityName" 
-              		lookupParameters="document.dvPayeeDetail.disbVchrPayeeCountryCode:postalCountryCode,document.dvPayeeDetail.disbVchrPayeeZipCode:postalCode,document.dvPayeeDetail.disbVchrPayeeStateCode:postalStateCode,document.dvPayeeDetail.disbVchrPayeeCityName:postalCityName" />
+              		<kul:lookup boClassName="org.kuali.rice.krad.bo.PostalCode" fieldConversions="postalCode:document.dvPayeeDetail.disbVchrPayeeZipCode,postalCountryCode:document.dvPayeeDetail.disbVchrPayeeCountryCode,stateCode:document.dvPayeeDetail.disbVchrPayeeStateCode,cityName:document.dvPayeeDetail.disbVchrPayeeCityName" 
+              		lookupParameters="document.dvPayeeDetail.disbVchrPayeeCountryCode:postalCountryCode,document.dvPayeeDetail.disbVchrPayeeZipCode:postalCode,document.dvPayeeDetail.disbVchrPayeeStateCode:stateCode,document.dvPayeeDetail.disbVchrPayeeCityName:cityName" />
               	</c:if>
               </td>              
             </tr>

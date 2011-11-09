@@ -35,42 +35,43 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 
-public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
     protected AccountService accountService;
     protected ContractsAndGrantsModuleService contractsAndGrantsModuleService;
     protected AccountDelegateService accountDelegateService;
-    protected KualiConfigurationService configurationService;
+    protected ConfigurationService configurationService;
     protected IdentityManagementService identityManagementService;
     protected MailService mailService;
     protected ParameterService parameterService;
     
     protected final static String DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES_PARAMETER_NAME = "DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES";
     
-/* RICE_20_DELETE */    {
-/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.ACCOUNT_NUMBER);
-/* RICE_20_DELETE */        checkRequiredAttributes = false;
-/* RICE_20_DELETE *///        requiredAttributes.add(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
-/* RICE_20_DELETE */    }
+
+
+
+
+
+
 
     /**
      * Attributes: Chart Code Account Number Requirements: - KFS-COA Account Supervisor: CA_ACCOUNT_T.ACCT_SPVSR_UNVL_ID - KFS-SYS
@@ -79,83 +80,83 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      * ACCT_DLGT_PRMRT_CD = N - KFS-SYS Award Project Director: use the getProjectDirectorForAccount(String chartOfAccountsCode,
      * String accountNumber) method on the contracts and grants module service
      * 
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String,
+     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String,
      *      java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         // validate received attributes
         validateRequiredAttributesAgainstReceived(qualification);
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
         if(qualification!=null && !qualification.isEmpty()){
             String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
     
-            String financialSystemDocumentTypeCodeCode = qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
+            String financialSystemDocumentTypeCodeCode = qualification.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
             String totalDollarAmount = qualification.get(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
     
             String fiscalOfficerPrincipalID = qualification.get(KFSPropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER);
             String accountSupervisorPrincipalID = qualification.get(KFSPropertyConstants.ACCOUNTS_SUPERVISORY_SYSTEMS_IDENTIFIER);
-            String principalId = qualification.get(KimAttributes.PRINCIPAL_ID);
+            String principalId = qualification.get(KimConstants.AttributeConstants.PRINCIPAL_ID);
     
             // Default to 0 total amount
             if (StringUtils.isEmpty(totalDollarAmount)) {
                 totalDollarAmount = getDefaultTotalAmount();
             }
     
-            AttributeSet roleQualifier = new AttributeSet();
+            Map<String,String> roleQualifier = new HashMap<String,String>();
             roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
             roleQualifier.put(KfsKimAttributes.ACCOUNT_NUMBER, accountNumber);
     
             if (chartOfAccountsCode == null && accountNumber == null && StringUtils.isNotBlank(principalId)) {
-                RoleMembershipInfo roleMembershipInfo = getRoleMembershipInfoWhenAccountInfoUnavailable(roleName, principalId, roleQualifier);
+                RoleMembership roleMembershipInfo = getRoleMembershipWhenAccountInfoUnavailable(roleName, principalId, roleQualifier);
                 if(ObjectUtils.isNotNull(roleMembershipInfo)) {
                     members.add(roleMembershipInfo);
                 }
             }
     
-            if (KFSConstants.SysKimConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)) {
+            if (KFSConstants.SysKimApiConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)) {
                 Account account = getAccount(chartOfAccountsCode, accountNumber);
                 if (account != null) {
-                    members.add(new RoleMembershipInfo(null, null, account.getAccountsSupervisorySystemsIdentifier(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(new RoleMembership(null, null, account.getAccountsSupervisorySystemsIdentifier(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
                 }
                 // only add the additional approver if they are different
                 if (StringUtils.isNotBlank(accountSupervisorPrincipalID) && (account == null || !StringUtils.equals(accountSupervisorPrincipalID, account.getAccountsSupervisorySystemsIdentifier()))) {
-                    members.add(new RoleMembershipInfo(null, null, accountSupervisorPrincipalID, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(new RoleMembership(null, null, accountSupervisorPrincipalID, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
                 }
             }
-            else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)) {
+            else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)) {
                 Account account = getAccount(chartOfAccountsCode, accountNumber);
                 if (account != null) {
-                    members.add(new RoleMembershipInfo(null, null, account.getAccountFiscalOfficerSystemIdentifier(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(new RoleMembership(null, null, account.getAccountFiscalOfficerSystemIdentifier(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
                 }
                 // only add the additional approver if they are different
                 if (StringUtils.isNotBlank(fiscalOfficerPrincipalID) && (account == null || !StringUtils.equals(fiscalOfficerPrincipalID, account.getAccountFiscalOfficerSystemIdentifier()))) {
-                    members.add(new RoleMembershipInfo(null, null, fiscalOfficerPrincipalID, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(new RoleMembership(null, null, fiscalOfficerPrincipalID, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
                 }
             }
-            else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
+            else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
                 AccountDelegate delegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, financialSystemDocumentTypeCodeCode, totalDollarAmount);
                 if (delegate != null) {
                     roleQualifier.put(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE, delegate.getFinancialDocumentTypeCode());
                     roleQualifier.put(KfsKimAttributes.FROM_AMOUNT, (delegate.getFinDocApprovalFromThisAmt() == null) ? "0" : delegate.getFinDocApprovalFromThisAmt().toString());
                     roleQualifier.put(KfsKimAttributes.TO_AMOUNT, (delegate.getFinDocApprovalToThisAmount() == null) ? "NOLIMIT" : delegate.getFinDocApprovalToThisAmount().toString());
-                    members.add(new RoleMembershipInfo(null, null, delegate.getAccountDelegateSystemId(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(new RoleMembership(null, null, delegate.getAccountDelegateSystemId(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
                 }
             }
-            else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
+            else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
                 List<AccountDelegate> delegates = getSecondaryDelegates(chartOfAccountsCode, accountNumber, financialSystemDocumentTypeCodeCode, totalDollarAmount);
                 for (AccountDelegate delegate : delegates) {
                     roleQualifier.put(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE, delegate.getFinancialDocumentTypeCode());
                     roleQualifier.put(KfsKimAttributes.FROM_AMOUNT, (delegate.getFinDocApprovalFromThisAmt() == null) ? "0" : delegate.getFinDocApprovalFromThisAmt().toString());
                     roleQualifier.put(KfsKimAttributes.TO_AMOUNT, (delegate.getFinDocApprovalToThisAmount() == null) ? "NOLIMIT" : delegate.getFinDocApprovalToThisAmount().toString());
-                    members.add(new RoleMembershipInfo(null, null, delegate.getAccountDelegateSystemId(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(new RoleMembership(null, null, delegate.getAccountDelegateSystemId(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
                 }
             }
-            else if (KFSConstants.SysKimConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME.equals(roleName)) {
+            else if (KFSConstants.SysKimApiConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME.equals(roleName)) {
                 Person person = getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);
                 if (person != null) {
-                    members.add(new RoleMembershipInfo(null, null, person.getPrincipalId(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(new RoleMembership(null, null, person.getPrincipalId(), Role.PRINCIPAL_MEMBER_TYPE, roleQualifier));
                 }
             }
         }
@@ -163,32 +164,32 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     }
 
     // build memebership information based on the given role name for the given principal when account information is unavailable
-    protected RoleMembershipInfo getRoleMembershipInfoWhenAccountInfoUnavailable(String roleName, String principalId, AttributeSet roleQualifier) {
+    protected RoleMembership getRoleMembershipWhenAccountInfoUnavailable(String roleName, String principalId, Map<String,String> roleQualifier) {
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        RoleMembershipInfo roleMembershipInfo = null;
+        RoleMembership roleMembershipInfo = null;
 
-        if ((KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName))) {
+        if ((KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName))) {
             fieldValues.put(KFSPropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, principalId);
 
             if (businessObjectService.countMatching(Account.class, fieldValues) > 0) {
-                roleMembershipInfo = new RoleMembershipInfo(null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier);
+                roleMembershipInfo = new RoleMembership(null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier);
             }
         }
-        else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
+        else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
             fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, principalId);
             fieldValues.put(KFSPropertyConstants.ACCOUNTS_DELEGATE_PRMRT_INDICATOR, Boolean.TRUE);
 
             if (businessObjectService.countMatching(AccountDelegate.class, fieldValues) > 0) {
-                roleMembershipInfo = new RoleMembershipInfo(null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier);
+                roleMembershipInfo = new RoleMembership(null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier);
             }
         }
-        else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
+        else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
             fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, principalId);
             fieldValues.put(KFSPropertyConstants.ACCOUNTS_DELEGATE_PRMRT_INDICATOR, Boolean.FALSE);
 
             if (businessObjectService.countMatching(AccountDelegate.class, fieldValues) > 0) {
-                roleMembershipInfo = new RoleMembershipInfo(null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier);
+                roleMembershipInfo = new RoleMembership(null, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, roleQualifier);
             }
         }
         
@@ -264,11 +265,11 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     }
     
     /**
-     * @return an implementation of the KualiConfigurationService
+     * @return an implementation of the ConfigurationService
      */
-    protected KualiConfigurationService getConfigurationService() {
+    protected ConfigurationService getConfigurationService() {
         if (configurationService == null) {
-            configurationService = SpringContext.getBean(KualiConfigurationService.class);
+            configurationService = SpringContext.getBean(ConfigurationService.class);
         }
         return configurationService;
     }
@@ -311,27 +312,27 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     }
 
     /**
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#principalInactivated(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#principalInactivated(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public void principalInactivated(String principalId, String namespaceCode, String roleName) {
         super.principalInactivated(principalId, namespaceCode, roleName);
-        if (KFSConstants.SysKimConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)) {
+        if (KFSConstants.SysKimApiConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)) {
             if (getAccountService().isPrincipalInAnyWayShapeOrFormAccountSupervisor(principalId)) {
                 handleAccountSupervisorInactivation(principalId, namespaceCode, roleName);
             }
         }
-        else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)) {
+        else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)) {
             if (getAccountService().isPrincipalInAnyWayShapeOrFormFiscalOfficer(principalId)) {
                 handleFiscalOfficerInactivation(principalId, namespaceCode, roleName);
             }
         }
-        else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
+        else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
             if (getAccountDelegateService().isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(principalId)) {
                 handlePrimaryAccountDelegateInactivation(principalId, namespaceCode, roleName);
             }
         }
-        else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
+        else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
             if (getAccountDelegateService().isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(principalId)) {
                 handleSecondaryAccountDelegateInactivation(principalId, namespaceCode, roleName);
             }
@@ -346,7 +347,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      */
     protected void handleFiscalOfficerInactivation(String principalId, String roleNamespace, String roleName) {
         // build the message
-        final KimPrincipalInfo principal = getIdentityManagementService().getPrincipal(principalId);
+        final Principal principal = getIdentityManagementService().getPrincipal(principalId);
         
         Iterator<Account> activeAccounts = getAccountService().getActiveAccountsForFiscalOfficer(principalId);
         final String joinedActiveAccounts = joinAccounts(activeAccounts);
@@ -378,7 +379,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      */
     protected void handleAccountSupervisorInactivation(String principalId, String roleNamespace, String roleName) {
         // build the message
-        final KimPrincipalInfo principal = getIdentityManagementService().getPrincipal(principalId);
+        final Principal principal = getIdentityManagementService().getPrincipal(principalId);
         
         Iterator<Account> activeAccounts = getAccountService().getActiveAccountsForAccountSupervisor(principalId);
         final String joinedActiveAccounts = joinAccounts(activeAccounts);
@@ -498,7 +499,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      */
     protected void notifyListAboutAccountDelegateInactivations(String principalId, String roleNamespace, String roleName, List<String> accountsDisdelegated, List<String> blockedDisdelegations, boolean primary) {
         // build message
-        final KimPrincipalInfo principal = getIdentityManagementService().getPrincipal(principalId);
+        final Principal principal = getIdentityManagementService().getPrincipal(principalId);
         
         final String message = getMessage((primary ? KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_FISCAL_OFFICER_PRIMARY_DELEGATE_NOTIFICATION : KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_FISCAL_OFFICER_SECONARY_DELEGATE_NOTIFICATION), roleNamespace, roleName, principal.getPrincipalName(), StringUtils.join(accountsDisdelegated,'\n'), StringUtils.join(blockedDisdelegations, '\n'));
         
@@ -521,7 +522,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      * @return a formatted String
      */
     protected String getMessage(String messageConstant, String...parameters) {
-        final String messagePattern = getConfigurationService().getPropertyString(messageConstant);
+        final String messagePattern = getConfigurationService().getPropertyValueAsString(messageConstant);
         return MessageFormat.format(messagePattern, (Object[])parameters);
     }
     
@@ -574,7 +575,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      * @return a suitable subject line for the notification e-mail
      */
     protected String getMailMessageSubject(String roleNamespace, String roleName, String principalId) {
-        final KimPrincipalInfo principal = getIdentityManagementService().getPrincipal(principalId);
+        final Principal principal = getIdentityManagementService().getPrincipal(principalId);
         return getMessage(KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_NOTIFICATION_SUBJECT, roleNamespace, roleName, principal.getPrincipalName());
     }
     
@@ -589,7 +590,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      * @return the e-mail address of those interested in account role principal inactivations
      */
     protected String getDeactivationInterestAddress() {
-        return getParameterService().getParameterValue(Account.class, AccountDerivedRoleTypeServiceImpl.DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES_PARAMETER_NAME);
+        return getParameterService().getParameterValueAsString(Account.class, AccountDerivedRoleTypeServiceImpl.DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES_PARAMETER_NAME);
     }
     
     

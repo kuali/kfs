@@ -20,18 +20,18 @@ import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 public class NextKEMIDFinder implements ValueFinder {
 
     /**
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String kemidValueSystemParam = parameterService.getParameterValue(KEMID.class, EndowParameterKeyConstants.KEMID_VALUE);
+        String kemidValueSystemParam = parameterService.getParameterValueAsString(KEMID.class, EndowParameterKeyConstants.KEMID_VALUE);
 
         if (EndowConstants.KemidValueOptions.AUTOMATIC.equals(kemidValueSystemParam)) {
             return getLongValue().toString();

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ld.util;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class SimpleAddress {
     private String street;

@@ -28,7 +28,7 @@ import org.kuali.kfs.module.ld.businessobject.LaborOriginEntryFieldUtil;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.StopWatch;
 import org.kuali.kfs.module.ld.batch.LaborPosterSortComparator;
 

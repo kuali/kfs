@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.document.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.service.DynamicNameLabelGenerator;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ObjectCodeDynamicNameLabelGeneratorImpl implements DynamicNameLabelGenerator {
 

@@ -95,7 +95,7 @@
 						<c:set var="title" value="${column.propertyValue}" />
 					</c:if>
 					
-					<display:column class="${(column.formatter.implementationClass == 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'inofocell'}" 
+					<display:column class="${(column.formatter.implementationClass == 'org.kuali.rice.core.web.format.CurrencyFormatter') ? 'numbercell' : 'inofocell'}" 
 						title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">
 						<c:choose>
 							<c:when test="${column.propertyURL != \"\" && param['d-16544-e'] == null}">

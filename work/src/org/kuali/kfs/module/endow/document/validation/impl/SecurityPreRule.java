@@ -27,9 +27,9 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
@@ -100,7 +100,7 @@ public class SecurityPreRule extends MaintenancePreRulesBase {
         boolean shouldAskQuestion = maintenanceDocument.isNew() && GlobalVariables.getMessageMap().hasNoErrors();
 
         if (shouldAskQuestion) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(EndowKeyConstants.SecurityConstants.MESSAGE_SECURITY_IS_NINTH_DIGIT_CORRECT);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(EndowKeyConstants.SecurityConstants.MESSAGE_SECURITY_IS_NINTH_DIGIT_CORRECT);
             questionText = StringUtils.replace(questionText, "{0}", newSecurity.getId());
             boolean confirm = super.askOrAnalyzeYesNoQuestion(EndowKeyConstants.SecurityConstants.GENERATE_SECURITY_ID_QUESTION_ID, questionText);
             if (!confirm) {

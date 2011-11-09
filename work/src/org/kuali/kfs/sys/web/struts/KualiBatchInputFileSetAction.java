@@ -41,19 +41,20 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.util.KimCommonUtils;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class is the struts action for the batch upload screen that supports file sets
@@ -86,10 +87,10 @@ public class KualiBatchInputFileSetAction extends KualiAction {
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         BatchUpload batchUpload = ((KualiBatchInputFileSetForm) form).getBatchUpload();
         BatchInputFileSetType batchInputFileType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KimAttributes.NAMESPACE_CODE, KimCommonUtils.getNamespaceCode(batchInputFileType.getClass()));
-        permissionDetails.put(KimAttributes.BEAN_NAME, batchUpload.getBatchInputTypeName());
-        if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.UPLOAD_BATCH_INPUT_FILES.name, permissionDetails, null)) {
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, KimCommonUtils.getNamespaceCode(batchInputFileType.getClass()));
+        permissionDetails.put(KimConstants.AttributeConstants.BEAN_NAME, batchUpload.getBatchInputTypeName());
+        if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KRAD_NAMESPACE, KFSConstants.PermissionTemplate.UPLOAD_BATCH_INPUT_FILES.name, permissionDetails, null)) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), methodToCall, batchUpload.getBatchInputTypeName());
         }
     }
@@ -155,7 +156,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_VALIDATION_ERROR);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
+        KNSGlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

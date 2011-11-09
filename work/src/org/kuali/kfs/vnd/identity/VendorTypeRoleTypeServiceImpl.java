@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.vnd.identity;
 
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
-public class VendorTypeRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class VendorTypeRoleTypeServiceImpl extends RoleTypeServiceBase {
 
 }

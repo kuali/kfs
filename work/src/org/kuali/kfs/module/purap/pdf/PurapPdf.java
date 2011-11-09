@@ -20,11 +20,11 @@ import java.io.File;
 import org.apache.struts.taglib.tiles.GetAttributeTag;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -103,7 +103,7 @@ public class PurapPdf extends PdfPageEventHelper {
      * @see com.lowagie.text.pdf.PdfPageEventHelper#onStartPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
     public void onStartPage(PdfWriter writer, Document document) {
-        if (!SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment()) {
+        if (!SpringContext.getBean(ConfigurationService.class).isProductionEnvironment()) {
             PdfContentByte cb = writer.getDirectContentUnder();
             cb.saveState();
             cb.beginText();

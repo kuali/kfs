@@ -23,12 +23,12 @@ import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class BudgetConstructionDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canEdit(Document document) {
@@ -41,7 +41,7 @@ public class BudgetConstructionDocumentPresentationController extends FinancialS
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canReload(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canReload(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canReload(Document document) {
@@ -49,7 +49,7 @@ public class BudgetConstructionDocumentPresentationController extends FinancialS
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canSave(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canSave(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canSave(Document document) {
@@ -59,7 +59,7 @@ public class BudgetConstructionDocumentPresentationController extends FinancialS
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {

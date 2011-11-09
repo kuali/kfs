@@ -26,18 +26,18 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * Defines a financial award object.
  */
-public class Award extends PersistableBusinessObjectBase implements Inactivateable, ContractsAndGrantsAward {
+public class Award extends PersistableBusinessObjectBase implements Inactivatable, ContractsAndGrantsAward {
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
 
     private Long proposalNumber;
@@ -104,17 +104,17 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     private transient Person lookupPerson;
     
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
-    private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
+    private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     /**
      * Default no-args constructor.
      */
     public Award() {
-        // Must use TypedArrayList because its get() method automatically grows the array for Struts.
-        awardProjectDirectors = new TypedArrayList(AwardProjectDirector.class);
-        awardAccounts = new TypedArrayList(AwardAccount.class);
-        awardSubcontractors = new TypedArrayList(AwardSubcontractor.class);
-        awardOrganizations = new TypedArrayList(AwardOrganization.class);
+        // Must use ArrayList because its get() method automatically grows the array for Struts.
+        awardProjectDirectors = new ArrayList<AwardProjectDirector>();
+        awardAccounts = new ArrayList<AwardAccount>();
+        awardSubcontractors = new ArrayList<AwardSubcontractor>();
+        awardOrganizations = new ArrayList<AwardOrganization>();
     }
 
     /**
@@ -122,9 +122,9 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      * occurs. This collection is used to refresh the display upon deletion of an element to ensure that the deleted element is not
      * longer visible on the interface.
      * 
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    @Override
+    
     public List buildListOfDeletionAwareLists() {
         List<List> managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getAwardAccounts());
@@ -290,12 +290,12 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      * getter.
      * 
      * @param persistenceBroker from OJB
-     * @throws PersistenceBrokerException Thrown by call to super.beforeInsert();
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
+     * @throws PersistenceBrokerException Thrown by call to super.prePersist();
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    @Override protected void prePersist() {
+        super.prePersist();
         awardTotalAmount = getAwardTotalAmount();
     }
 
@@ -304,12 +304,12 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      * a denormalized column that Kuali does not use but needs to maintain with this method because OJB bypasses the getter.
      * 
      * @param persistenceBroker from OJB
-     * @throws PersistenceBrokerException Thrown by call to super.beforeUpdate();
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
+     * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    @Override protected void preUpdate() {
+        super.preUpdate();
         awardTotalAmount = getAwardTotalAmount();
     }
 
@@ -1088,11 +1088,11 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     /**
      * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
      * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
@@ -1168,7 +1168,7 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      * @return the id of the lookup person
      */
     public String getLookupPersonUniversalIdentifier() {
-        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
+        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
         return lookupPersonUniversalIdentifier;
     }
 
@@ -1199,7 +1199,7 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      * @return a String to represent this field on the inquiry
      */
     public String getAwardInquiryTitle() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(AWARD_INQUIRY_TITLE_PROPERTY);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(AWARD_INQUIRY_TITLE_PROPERTY);
     }
     
     /**

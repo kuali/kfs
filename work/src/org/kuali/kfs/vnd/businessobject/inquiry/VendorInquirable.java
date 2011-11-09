@@ -18,11 +18,11 @@ package org.kuali.kfs.vnd.businessobject.inquiry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class adds in some new sections for {@link Org} inquiries, specifically Org Hierarchy Org Review Hierarchy
@@ -41,7 +41,7 @@ public class VendorInquirable extends KfsInquirableImpl {
         if (businessObject instanceof VendorDetail && attributeName.equalsIgnoreCase("vendorUrlAddress")) {
             Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
             String fieldValue = objFieldValue == null ? KFSConstants.EMPTY_STRING : objFieldValue.toString();
-            return new AnchorHtmlData("http://" + fieldValue, KNSConstants.EMPTY_STRING, ((VendorDetail)businessObject).getVendorName()+" ("+fieldValue+")");
+            return new AnchorHtmlData("http://" + fieldValue, KRADConstants.EMPTY_STRING, ((VendorDetail)businessObject).getVendorName()+" ("+fieldValue+")");
         }
 
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);

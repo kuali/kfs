@@ -27,10 +27,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class AccountPersistenceStructureServiceImpl extends PersistenceStructureServiceImpl implements AccountPersistenceStructureService {
                 
@@ -121,7 +121,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
                     continue;
 
                 // otherwise include the account field
-                String coaCodeName = KNSConstants.ADD_PREFIX + "." + accountCollName + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+                String coaCodeName = KRADConstants.ADD_PREFIX + "." + accountCollName + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
                 coaCodeNames.add(coaCodeName);
             }
         }
@@ -284,7 +284,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
      * Need to stop this method from running for objects which are not bound into the ORM layer (OJB),
      * for ex. OrgReviewRole is not persistable. In this case, we can just return an empty list.
      * 
-     * @see org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl#listReferenceObjectFields(org.kuali.rice.kns.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl#listReferenceObjectFields(org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @SuppressWarnings("rawtypes")
     @Override

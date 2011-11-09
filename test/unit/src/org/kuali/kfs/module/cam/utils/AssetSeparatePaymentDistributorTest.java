@@ -25,7 +25,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.util.AssetSeparatePaymentDistributor;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext
 public class AssetSeparatePaymentDistributorTest extends KualiTestBase {

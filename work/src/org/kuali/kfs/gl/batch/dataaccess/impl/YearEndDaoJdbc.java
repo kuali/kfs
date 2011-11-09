@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.kfs.gl.batch.dataaccess.YearEndDao;
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 import org.springframework.jdbc.core.RowMapper;
 
 /**

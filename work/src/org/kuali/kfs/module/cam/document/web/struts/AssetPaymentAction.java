@@ -49,14 +49,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -79,7 +79,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
 		// If a asset was selected from the asset payment lookup page then
 		// insert asset into the document.
-		if (KEWConstants.INITIATE_COMMAND.equals(command) && ((assetPaymentForm.getCapitalAssetNumber() != null) && !assetPaymentForm.getCapitalAssetNumber().trim().equals(""))) {
+		if (KewApiConstants.INITIATE_COMMAND.equals(command) && ((assetPaymentForm.getCapitalAssetNumber() != null) && !assetPaymentForm.getCapitalAssetNumber().trim().equals(""))) {
 			List<AssetPaymentAssetDetail> assetPaymentAssetDetails = assetPaymentForm.getAssetPaymentDocument().getAssetPaymentAssetDetail();
 
 			AssetPaymentAssetDetail assetPaymentAssetDetail = new AssetPaymentAssetDetail();

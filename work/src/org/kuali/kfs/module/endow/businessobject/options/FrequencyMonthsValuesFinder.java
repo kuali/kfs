@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class defines a values finder for the month part in the frequency code.
@@ -31,21 +31,21 @@ public class FrequencyMonthsValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
 
-        labels.add(new KeyLabelPair("", ""));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.JANUARY, "January"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.FEBRUARY, "February"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.MARCH, "March"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.APRIL, "April"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.MAY, "May"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.JUNE, "June"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.JULY, "July"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.AUGUST, "August"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.SEPTEMBER, "September"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.OCTOBER, "October"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.NOVEMBER, "November"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.DECEMBER, "December"));
+        labels.add(new ConcreteKeyValue("", ""));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.JANUARY, "January"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.FEBRUARY, "February"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.MARCH, "March"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.APRIL, "April"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.MAY, "May"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.JUNE, "June"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.JULY, "July"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.AUGUST, "August"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.SEPTEMBER, "September"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.OCTOBER, "October"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.NOVEMBER, "November"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonths.DECEMBER, "December"));
 
         return labels;
     }

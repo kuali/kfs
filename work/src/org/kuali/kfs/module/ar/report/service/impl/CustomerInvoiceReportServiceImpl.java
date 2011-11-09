@@ -30,7 +30,7 @@ import org.kuali.kfs.module.ar.report.util.CustomerInvoiceReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -59,7 +59,7 @@ public class CustomerInvoiceReportServiceImpl implements CustomerInvoiceReportSe
         String subReportTemplateClassPath;
         Map<String, String> subReports; 
         
-        if (parameterService.getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND)) {
+        if (parameterService.getParameterValueAsBoolean("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND)) {
             reportFileName = customerInvoiceReportInfo.getReportFileName();
             reportDirectory = customerInvoiceReportInfo.getReportsDirectory();
             reportTemplateClassPath = customerInvoiceReportInfo.getReportTemplateClassPath();

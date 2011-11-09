@@ -28,18 +28,18 @@ import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.LookupService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * See functional documentation.
  */
-public class Proposal extends PersistableBusinessObjectBase implements Inactivateable, ContractAndGrantsProposal {
+public class Proposal extends PersistableBusinessObjectBase implements Inactivatable, ContractAndGrantsProposal {
 
     private Long proposalNumber;
     private Date proposalBeginningDate;
@@ -98,19 +98,19 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
 
 
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
-    private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
+    private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
     
     /**
      * Default constructor.
      */
     @SuppressWarnings( { "unchecked" })
     public Proposal() {
-        // Must use TypedArrayList because its get() method automatically grows
+        // Must use ArrayList because its get() method automatically grows
         // the array for Struts.
-        proposalSubcontractors = new TypedArrayList(ProposalSubcontractor.class);
-        proposalOrganizations = new TypedArrayList(ProposalOrganization.class);
-        proposalProjectDirectors = new TypedArrayList(ProposalProjectDirector.class);
-        proposalResearchRisks = new TypedArrayList(ProposalResearchRisk.class);
+        proposalSubcontractors = new ArrayList<ProposalSubcontractor>();
+        proposalOrganizations = new ArrayList<ProposalOrganization>();
+        proposalProjectDirectors = new ArrayList<ProposalProjectDirector>();
+        proposalResearchRisks = new ArrayList<ProposalResearchRisk>();
     }
 
     /**
@@ -132,9 +132,9 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    @Override
+    
     public List buildListOfDeletionAwareLists() {
         List<List> managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getProposalSubcontractors());
@@ -228,8 +228,8 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * @throws PersistenceBrokerException
      */
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    @Override protected void prePersist() {
+        super.prePersist();
         proposalTotalAmount = getProposalTotalAmount();
     }
 
@@ -242,8 +242,8 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * @throws PersistenceBrokerException
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    @Override protected void preUpdate() {
+        super.preUpdate();
         proposalTotalAmount = getProposalTotalAmount();
     }
 
@@ -797,9 +797,9 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
@@ -831,7 +831,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * @return the id of the lookup person
      */
     public String getLookupPersonUniversalIdentifier() {
-        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson); 
+        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson); 
         return lookupPersonUniversalIdentifier;
     }
 

@@ -98,6 +98,6 @@
   <!-- workflow attributes -->
   <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes" parent="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

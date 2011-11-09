@@ -25,11 +25,11 @@ import org.kuali.kfs.module.endow.businessobject.PendingTransactionDocumentEntry
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
@@ -191,7 +191,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
 
         // Reset All the Version numbers to 1
         try {
-            ObjectUtils.setObjectPropertyDeep(this, KNSPropertyConstants.VERSION_NUMBER, versionNumber.getClass(), 0L);
+            ObjectUtils.setObjectPropertyDeep(this, KRADPropertyConstants.VERSION_NUMBER, versionNumber.getClass(), 0L);
         }
         catch (Exception e) {
             LOG.error("Unable to set version number property in copied document " + e.getMessage());
@@ -219,10 +219,10 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
         super.doRouteStatusChange(statusChangeEvent);        
           
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             
             String documentId = getDocumentHeader().getDocumentNumber();
-            String documentType = getDocumentHeader().getWorkflowDocument().getDocumentType();
+            String documentType = getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
             Date approvedDate =  getDateTimeService().getCurrentSqlDate();
         
             //persist documentId, documentType and the approved date to END_PENDING_TRAN_DOC_T 

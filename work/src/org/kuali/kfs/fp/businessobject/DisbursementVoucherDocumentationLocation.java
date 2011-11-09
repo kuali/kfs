@@ -18,13 +18,13 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class is used to represent the documentation location for a disbursement voucher.
  */
-public class DisbursementVoucherDocumentationLocation extends PersistableBusinessObjectBase implements Inactivateable {
+public class DisbursementVoucherDocumentationLocation extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String disbursementVoucherDocumentationLocationCode;
     private String disbursementVoucherDocumentationLocationName;
@@ -96,9 +96,9 @@ public class DisbursementVoucherDocumentationLocation extends PersistableBusines
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("disbursementVoucherDocumentationLocationCode", this.disbursementVoucherDocumentationLocationCode);
         return m;

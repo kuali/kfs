@@ -24,9 +24,9 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -266,10 +266,10 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
     }    
     
 	/**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
     @SuppressWarnings("unchecked")
-	protected LinkedHashMap toStringMapper() {
+	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", this.documentNumber);
 	    return m;
@@ -299,7 +299,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
      * @return
      */
     public String getCreateDate() {
-        return SpringContext.getBean(DateTimeService.class).toDateString(getDocumentHeader().getWorkflowDocument().getCreateDate());
+        return SpringContext.getBean(DateTimeService.class).toDateString(getDocumentHeader().getWorkflowDocument().getDateCreated());
     }
 
     /**
@@ -308,6 +308,6 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
      * @return
      */
     public String getInitiatorId() {
-        return getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        return getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
     }
 }

@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {

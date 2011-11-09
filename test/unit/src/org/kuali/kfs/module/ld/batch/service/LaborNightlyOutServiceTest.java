@@ -37,9 +37,9 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 @ConfigureContext
 public class LaborNightlyOutServiceTest extends KualiTestBase {
@@ -76,7 +76,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
         businessObjectService.deleteMatching(LaborLedgerPendingEntry.class, fieldValues);
 
-        String stagingDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory");
+        String stagingDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory");
         String batchFileDirectoryName = stagingDirectory + File.separator + "ld" + File.separator + "originEntry";
         String nightlyOutputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String nightlyOutputDoneFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;

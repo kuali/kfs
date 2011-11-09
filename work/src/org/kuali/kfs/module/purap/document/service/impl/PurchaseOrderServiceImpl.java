@@ -87,41 +87,41 @@ import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorPhoneNumber;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.WorkflowDocumentActions;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.document.DocumentBase;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.MaintenanceDocumentService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.krad.service.MaintenanceDocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -137,7 +137,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private PrintService printService;
     private PurchaseOrderDao purchaseOrderDao;
     private WorkflowDocumentService workflowDocumentService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private KualiRuleService kualiRuleService;
     private VendorService vendorService;
     private RequisitionService requisitionService;
@@ -145,7 +145,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private KualiWorkflowInfo workflowInfoService;
     private MaintenanceDocumentService maintenanceDocumentService;
     private ParameterService parameterService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     private MailService mailService;
     private B2BPurchaseOrderService b2bPurchaseOrderService;
     private DataDictionaryService dataDictionaryService;
@@ -186,7 +186,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.workflowDocumentService = workflowDocumentService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
@@ -259,7 +259,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @param document The purchase order document to be saved.
      */
-    protected void saveDocumentNoValidationUsingClearErrorMap(PurchaseOrderDocument document) {
+    protected void saveDocumentNoValidationUsingClearMessageMap(PurchaseOrderDocument document) {
         MessageMap errorHolder = GlobalVariables.getMessageMap();
         GlobalVariables.setMessageMap(new MessageMap());
         try {
@@ -383,7 +383,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         if (RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
             String paramName = PurapParameterConstants.DEFAULT_B2B_VENDOR_CHOICE;
-            String paramValue = parameterService.getParameterValue(PurchaseOrderDocument.class, paramName);
+            String paramValue = parameterService.getParameterValueAsString(PurchaseOrderDocument.class, paramName);
             poDocument.setPurchaseOrderVendorChoiceCode(paramValue);
         }
 
@@ -460,7 +460,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param errorKey The resource key used to retrieve the error text from the error message resource bundle.
      * @param errors The collection of error messages.
      */
-    protected void addStringErrorMessagesToErrorMap(String errorKey, Collection<String> errors) {
+    protected void addStringErrorMessagesToMessageMap(String errorKey, Collection<String> errors) {
         if (ObjectUtils.isNotNull(errors)) {
             for (String error : errors) {
                 LOG.error("Adding error message using error key '" + errorKey + "' with text '" + error + "'");
@@ -478,11 +478,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public boolean printPurchaseOrderQuoteRequestsListPDF(String documentNumber, ByteArrayOutputStream baosPDF) {
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(documentNumber);
-        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String environment = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderQuoteRequestsListPdf(po, baosPDF);
 
         if (generatePDFErrors.size() > 0) {
-            addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
+            addStringErrorMessagesToMessageMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             return false;
         } else {
             return true;
@@ -496,11 +496,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      *      org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote, java.io.ByteArrayOutputStream)
      */
     public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF) {
-        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String environment = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderQuotePdf(po, povq, baosPDF, environment);
 
         if (generatePDFErrors.size() > 0) {
-            addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
+            addStringErrorMessagesToMessageMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             return false;
         }
         else {
@@ -514,10 +514,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public void performPurchaseOrderFirstTransmitViaPrinting(String documentNumber, ByteArrayOutputStream baosPDF) {
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(documentNumber);
-        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String environment = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, environment, null);
         if (!generatePDFErrors.isEmpty()) {
-            addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
+            addStringErrorMessagesToMessageMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             throw new ValidationException("printing purchase order for first transmission failed");
         }
         if (ObjectUtils.isNotNull(po.getPurchaseOrderFirstTransmissionTimestamp())) {
@@ -556,10 +556,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public void performPrintPurchaseOrderPDFOnly(String documentNumber, ByteArrayOutputStream baosPDF) {
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(documentNumber);
-        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String environment = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, environment, null);
         if (!generatePDFErrors.isEmpty()) {
-            addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
+            addStringErrorMessagesToMessageMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             throw new ValidationException("printing purchase order for first transmission failed");
         }
     }
@@ -570,7 +570,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public void retransmitPurchaseOrderPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF) {
 
-        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String environment = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         List<PurchaseOrderItem> items = po.getItems();
         List<PurchaseOrderItem> retransmitItems = new ArrayList<PurchaseOrderItem>();
         for (PurchaseOrderItem item : items) {
@@ -581,7 +581,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdfForRetransmission(po, baosPDF, environment, retransmitItems);
 
         if (generatePDFErrors.size() > 0) {
-            addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
+            addStringErrorMessagesToMessageMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             throw new ValidationException("found errors while trying to print po with doc id " + po.getDocumentNumber());
         }
         po.setPurchaseOrderLastTransmitTimestamp(dateTimeService.getCurrentTimestamp());
@@ -678,7 +678,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
                 currentDocument.setPendingActionIndicator(true);
                 
-                saveDocumentNoValidationUsingClearErrorMap(currentDocument);
+                saveDocumentNoValidationUsingClearMessageMap(currentDocument);
                 
                 return newDocument;
             }
@@ -716,7 +716,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 catch (ValidationException ve) {
                     //clear the pending indictor if an exception occurs, to leave the existing PO intact
                     currentDocument.setPendingActionIndicator(false);
-                    saveDocumentNoValidationUsingClearErrorMap(currentDocument);
+                    saveDocumentNoValidationUsingClearMessageMap(currentDocument);
                     throw ve;
                 }
                 return newDocument;
@@ -773,7 +773,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 
                 if (copyNotes) {
                     // Copy the old notes, except for the one that contains the split note text.
-                    List<Note> notes = (List<Note>)currentDocument.getBoNotes();
+                    List<Note> notes = (List<Note>)currentDocument.getNotes();
                     int noteLength = notes.size();
                     if (noteLength > 0) {
                         notes.subList(noteLength - 1, noteLength).clear();
@@ -840,11 +840,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * Returns the current route node name.
      * 
-     * @param wd The KualiWorkflowDocument object whose current route node we're trying to get.
+     * @param wd The WorkflowDocument object whose current route node we're trying to get.
      * @return The current route node name.
      * @throws WorkflowException
      */
-    protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+    protected String getCurrentRouteNodeName(WorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;
@@ -891,7 +891,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             
             try {
                 //send FYI to user for printing
-                po.getDocumentHeader().getWorkflowDocument().adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, po.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
+                po.getDocumentHeader().getWorkflowDocument().adHocRouteDocumentToPrincipal(KewApiConstants.ACTION_REQUEST_FYI_REQ, po.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
             }
             catch (WorkflowException e) {
                 LOG.error("Error sending FYI to user to print PO.", e);
@@ -938,7 +938,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void retransmitB2BPurchaseOrder(PurchaseOrderDocument po) {
         if (completeB2BPurchaseOrder(po)) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS);            
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS);            
         }
         else {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.B2B_PO_RETRANSMIT_FAILED);
@@ -1088,7 +1088,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         catch (Exception e) {
             throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
         }
-        maintainable.getBusinessObject().getBoNotes().add(newBONote);        
+        maintainable.getBusinessObject().getNotes().add(newBONote);        
     }
     
     /**
@@ -1215,7 +1215,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             try {
                 PurchaseOrderDocument doc = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(documentNumber);
                 if (ObjectUtils.isNotNull(doc)) {
-                    KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
+                    WorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
                     doc.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
                     doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
                 }
@@ -1275,7 +1275,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 po.setBoNotes(dbNotes);
             }
             else {
-                po.setBoNotes(documentBusinessObject.getBoNotes());
+                po.setBoNotes(documentBusinessObject.getNotes());
             }
         }
     }
@@ -1290,7 +1290,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     protected void fixDbNoteFields(PurchaseOrderDocument documentBusinessObject, List<Note> dbNotes) {
         for (int i = 0; i < dbNotes.size(); i++) {
             Note dbNote = dbNotes.get(i);
-            List<Note> currentNotes = (List<Note>) documentBusinessObject.getBoNotes();
+            List<Note> currentNotes = (List<Note>) documentBusinessObject.getNotes();
             if (i < currentNotes.size()) {
                 Note currentNote = (currentNotes).get(i);
                 // set the fyi from the current note if not empty
@@ -1306,7 +1306,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#getPurchaseOrderNotes(java.lang.Integer)
      */
     public ArrayList<Note> getPurchaseOrderNotes(Integer id) {
-        ArrayList notes = new TypedArrayList(Note.class);
+        ArrayList notes = new ArrayList<Note>();
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(id));
         if (ObjectUtils.isNotNull(po)) {
             notes = noteService.getByRemoteObjectId(po.getObjectId());
@@ -1330,7 +1330,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             // set the status and status history of the oldPO to retired version
             purapService.updateStatus(oldPO, PurapConstants.PurchaseOrderStatuses.RETIRED_VERSION);
 
-            saveDocumentNoValidationUsingClearErrorMap(oldPO);
+            saveDocumentNoValidationUsingClearMessageMap(oldPO);
         }
 
         // Now, we set the "new PO" indicators so that Current = Y and Pending = N
@@ -1396,12 +1396,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         oldPO.setPendingActionIndicator(false);
         purapService.updateStatus(oldPO, oldPOStatus);
         purapService.updateStatus(newPO, newPOStatus);
-        saveDocumentNoValidationUsingClearErrorMap(oldPO);
-        saveDocumentNoValidationUsingClearErrorMap(newPO);
+        saveDocumentNoValidationUsingClearMessageMap(oldPO);
+        saveDocumentNoValidationUsingClearMessageMap(newPO);
     }
 
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes() {
-        ArrayList poQuoteStatuses = new TypedArrayList(PurchaseOrderQuoteStatus.class);
+        ArrayList poQuoteStatuses = new ArrayList<PurchaseOrderQuoteStatus>();
         poQuoteStatuses = (ArrayList) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);
         return poQuoteStatuses;
     }
@@ -1577,9 +1577,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public HashMap<String, List<PurchaseOrderItem>> categorizeItemsForSplit(List<PurchaseOrderItem> items) {
         HashMap<String, List<PurchaseOrderItem>> movingOrNot =  new HashMap<String, List<PurchaseOrderItem>>(3);
-        List<PurchaseOrderItem> movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
-        List<PurchaseOrderItem> remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
-        List<PurchaseOrderItem> remainingPOLineItems = new TypedArrayList(PurchaseOrderItem.class);
+        List<PurchaseOrderItem> movingPOItems = new ArrayList<PurchaseOrderItem>();
+        List<PurchaseOrderItem> remainingPOItems = new ArrayList<PurchaseOrderItem>();
+        List<PurchaseOrderItem> remainingPOLineItems = new ArrayList<PurchaseOrderItem>();
         for (PurchaseOrderItem item : items) {
             if(item.isMovingToSplit()) {
                 movingPOItems.add(item);
@@ -1737,7 +1737,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         LOG.debug("autoCloseRecurringOrders() started");
         boolean shouldSendEmail = true;
         MailMessage message = new MailMessage();
-        String parameterEmail = parameterService.getParameterValue(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES);
+        String parameterEmail = parameterService.getParameterValueAsString(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES);
         
         if (StringUtils.isEmpty(parameterEmail)) {
             // Don't stop the show if the email address is wrong, log it and continue.
@@ -1750,7 +1750,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         StringBuffer emailBody = new StringBuffer();
         // There should always be a "AUTO_CLOSE_RECURRING_ORDER_DT"
         // row in the table, this method sets it to "mm/dd/yyyy" after processing.
-        String recurringOrderDateString = parameterService.getParameterValue(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
+        String recurringOrderDateString = parameterService.getParameterValueAsString(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
         boolean validDate = true;
         java.util.Date recurringOrderDate = null;
         try {
@@ -1832,7 +1832,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 else {
                     //If it was unsuccessful, we have to clear the error map in the GlobalVariables so that the previous
                     //error would not still be lingering around and the next PO in the list can be validated.
-                    GlobalVariables.getMessageMap().clear();
+                    GlobalVariables.getMessageMap().clearErrorMessages();
                 }
             }
         }
@@ -1893,7 +1893,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             message.setSubject("Auto Close Recurring Purchase Orders");
         }
         else {
-            message.setSubject(kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY) + " - Auto Close Recurring Purchase Orders");
+            message.setSubject(kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY) + " - Auto Close Recurring Purchase Orders");
         }
         return message;
     }
@@ -2021,7 +2021,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

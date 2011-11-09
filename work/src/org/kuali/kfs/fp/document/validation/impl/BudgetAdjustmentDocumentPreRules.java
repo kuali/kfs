@@ -25,18 +25,18 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Checks warnings and prompt conditions for ba document.
  */
 public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase {
-    protected KualiConfigurationService kualiConfiguration;
+    protected ConfigurationService kualiConfiguration;
 
 
     /**
@@ -67,10 +67,10 @@ public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase
     protected boolean askLaborBenefitsGeneration(BudgetAdjustmentDocument budgetDocument) {
         // before prompting, check the document contains one or more labor object codes
         final boolean hasLaborObjectCodes = SpringContext.getBean(BudgetAdjustmentLaborBenefitsService.class).hasLaborObjectCodes(budgetDocument);
-        final boolean canEdit = ((BudgetAdjustmentForm)form).getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        final boolean canEdit = ((BudgetAdjustmentForm)form).getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);
         final boolean canGenerateLaborBenefitsByRouteStatusResult = canGenerateLaborBenefitsByRouteStatus(budgetDocument);
         if (canEdit && hasLaborObjectCodes && canGenerateLaborBenefitsByRouteStatusResult) {
-            final String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_GENERATE_LABOR_BENEFIT_LINES);
+            final String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_GENERATE_LABOR_BENEFIT_LINES);
             final boolean generateBenefits = super.askOrAnalyzeYesNoQuestion(KFSConstants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);
             if (generateBenefits) {
                 SpringContext.getBean(BudgetAdjustmentLaborBenefitsService.class).generateLaborBenefitsAccountingLines(budgetDocument);
@@ -103,9 +103,9 @@ public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase
      * @return true if labor benefits can be generated, false otherwise
      */
     protected boolean canGenerateLaborBenefitsByRouteStatus(BudgetAdjustmentDocument budgetAdjustmentDocument) {
-        final KualiWorkflowDocument workflowDocument = budgetAdjustmentDocument.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) return true; // we're pre-route; we can add labor benefits
-        if (workflowDocument.stateIsEnroute() && workflowDocument.getCurrentRouteNodeNames().contains(KFSConstants.RouteLevelNames.ACCOUNT)) return true; // we're fiscal officers approving; we can add labor benefits
+        final WorkflowDocument workflowDocument = budgetAdjustmentDocument.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) return true; // we're pre-route; we can add labor benefits
+        if (workflowDocument.isEnroute() && workflowDocument.getCurrentRouteNodeNames().contains(KFSConstants.RouteLevelNames.ACCOUNT)) return true; // we're fiscal officers approving; we can add labor benefits
         return false; // we're someone else and we're plum out of luck
     }
 }

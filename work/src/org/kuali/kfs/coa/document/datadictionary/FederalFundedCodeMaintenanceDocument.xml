@@ -61,6 +61,6 @@
   <!-- workflow attributes -->
   <bean id="FederalFundedCodeMaintenanceDocument-workflowAttributes" parent="FederalFundedCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="FederalFundedCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="FederalFundedCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

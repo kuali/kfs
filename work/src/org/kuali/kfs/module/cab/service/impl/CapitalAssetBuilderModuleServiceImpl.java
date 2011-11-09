@@ -100,23 +100,23 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext; import java.util.ArrayList;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
     private static Logger LOG = Logger.getLogger(CapitalAssetBuilderModuleService.class);
@@ -295,7 +295,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     public boolean doesAccountingLineFailAutomaticPurchaseOrderRules(AccountingLine accountingLine) {
         PurApAccountingLine purapAccountingLine = (PurApAccountingLine) accountingLine;
         purapAccountingLine.refreshNonUpdateableReferences();
-        return getParameterService().getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS, purapAccountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluationSucceeds();
+        return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS, purapAccountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluationSucceeds();
     }
 
     /**
@@ -499,10 +499,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         for (Parameter parameter : results) {
             if (ObjectUtils.isNotNull(parameter)) {
                 if (systemType.equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
-                    valid &= validateFieldRequirementByChartForIndividualSystemType(systemState, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValue());
+                    valid &= validateFieldRequirementByChartForIndividualSystemType(systemState, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValueAsString());
                 }
                 else {
-                    valid &= validateFieldRequirementByChartForOneOrMultipleSystemType(systemType, systemState, capitalAssetSystems, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValue());
+                    valid &= validateFieldRequirementByChartForOneOrMultipleSystemType(systemType, systemState, capitalAssetSystems, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValueAsString());
                 }
             }
         }
@@ -537,7 +537,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
                 for (Parameter parameter : results) {
                     if (ObjectUtils.isNotNull(parameter)) {
-                        if (parameter.getParameterValue() != null) {
+                        if (parameter.getParameterValueAsString() != null) {
                             return false;
                         }
                     }
@@ -585,7 +585,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean validateFieldRequirementByChartForOneOrMultipleSystemType(String systemType, String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
         boolean valid = true;
-        boolean needValidation = (this.getParameterService().getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
+        boolean needValidation = (this./*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
 
         if (needValidation) {
             if (parameterName.startsWith("CHARTS_REQUIRING_LOCATIONS_ADDRESS")) {
@@ -646,7 +646,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean validateFieldRequirementByChartForIndividualSystemType(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
         boolean valid = true;
-        boolean needValidation = (this.getParameterService().getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
+        boolean needValidation = (this./*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
 
         if (needValidation) {
             if (parameterName.startsWith("CHARTS_REQUIRING_LOCATIONS_ADDRESS")) {
@@ -854,7 +854,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      *         itemCapitalAsset contains at least one asset numbers.
      */
     protected boolean validatePurchasingTransactionTypesAllowingAssetNumbers(CapitalAssetSystem capitalAssetSystem, String capitalAssetTransactionType, String prefix) {
-        boolean allowedAssetNumbers = (this.getParameterService().getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS, capitalAssetTransactionType).evaluationSucceeds());
+        boolean allowedAssetNumbers = (this./*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS, capitalAssetTransactionType).evaluationSucceeds());
         if (allowedAssetNumbers) {
             // If this is a transaction type that allows asset numbers, we don't need to validate anymore, just return true here.
             return true;
@@ -1013,7 +1013,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     protected boolean validateLevelCapitalAssetIndication(BigDecimal unitPrice, ObjectCode objectCode, String itemIdentifier) {
 
-        String capitalAssetPriceThresholdParam = this.getParameterService().getParameterValue(AssetGlobal.class, CabParameterConstants.CapitalAsset.CAPITALIZATION_LIMIT_AMOUNT);
+        String capitalAssetPriceThresholdParam = this.getParameterService().getParameterValueAsString(AssetGlobal.class, CabParameterConstants.CapitalAsset.CAPITALIZATION_LIMIT_AMOUNT);
         BigDecimal priceThreshold = null;
         try {
             priceThreshold = new BigDecimal(capitalAssetPriceThresholdParam);
@@ -1022,12 +1022,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             throw new RuntimeException("the parameter for CAPITAL_ASSET_OBJECT_LEVELS came was not able to be converted to a number.", nfe);
         }
         if (unitPrice.compareTo(priceThreshold) >= 0) {
-            List<String> possibleCAMSObjectLevels = this.getParameterService().getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
+            List<String> possibleCAMSObjectLevels = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS) );
             if (possibleCAMSObjectLevels.contains(objectCode.getFinancialObjectLevelCode())) {
-                String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
+                String warning = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CabKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
                 warning = StringUtils.replace(warning, "{0}", itemIdentifier);
                 warning = StringUtils.replace(warning, "{1}", priceThreshold.toString());
-                GlobalVariables.getMessageList().add(warning);
+                KNSGlobalVariables.getMessageList().add(warning);
 
                 return false;
             }
@@ -1095,7 +1095,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         // If there is a tran type ...
         if ((capitalAssetTransactionType != null) && (capitalAssetTransactionType.getCapitalAssetTransactionTypeCode() != null)) {
-            String recurringTransactionTypeCodes = this.getParameterService().getParameterValue(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.RECURRING_CAMS_TRAN_TYPES);
+            String recurringTransactionTypeCodes = this.getParameterService().getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.RECURRING_CAMS_TRAN_TYPES);
 
 
             if (StringUtils.isNotEmpty(recurringPaymentTypeCode)) { // If there is a recurring payment type ...
@@ -1147,7 +1147,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return True if the ObjectSubType is the one designated for capital assets.
      */
     protected boolean isCapitalAssetObjectCode(ObjectCode oc) {
-        String capitalAssetObjectSubType = this.getParameterService().getParameterValue(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_OBJECT_SUB_TYPES);
+        String capitalAssetObjectSubType = this.getParameterService().getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_OBJECT_SUB_TYPES);
         return (StringUtils.containsIgnoreCase(capitalAssetObjectSubType, oc.getFinancialObjectSubTypeCode()) ? true : false);
     }
 
@@ -1311,7 +1311,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      *         AccountCapitalObjectCode.BOTH_CAPITAL ==> assetObjectSubType code on both source and target lines
      */
     protected AccountCapitalObjectCode getCapitalAssetObjectSubTypeLinesFlag(AccountingDocument accountingDocument) {
-        List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
+        List<String> financialProcessingCapitalObjectSubTypes = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES) );
         AccountCapitalObjectCode capitalAssetObjectSubTypeLinesFlag = AccountCapitalObjectCode.BOTH_NONCAP;
 
         // Check if SourceAccountingLine has objectSub type code
@@ -1455,7 +1455,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         //VENDOR_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
         //vendor name entered.
-        String vendorNameRequired = getParameterService().getParameterValue(Asset.class, CabParameterConstants.CapitalAsset.VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
+        String vendorNameRequired = getParameterService().getParameterValueAsString(Asset.class, CabParameterConstants.CapitalAsset.VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
         
         if ("Y".equalsIgnoreCase(vendorNameRequired)) {
         // skip vendor name required validation for procurement card document
@@ -1468,7 +1468,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         
         //MANUFACTURER_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
         //vendor name entered.
-        String manufacturerNameRequired = getParameterService().getParameterValue(Asset.class, CabParameterConstants.CapitalAsset.MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
+        String manufacturerNameRequired = getParameterService().getParameterValueAsString(Asset.class, CabParameterConstants.CapitalAsset.MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
 
         if ("Y".equalsIgnoreCase(manufacturerNameRequired)) {
             if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetManufacturerName())) {
@@ -1784,7 +1784,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
-            Campus campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+            Campus campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
             if (ObjectUtils.isNull(campus)) {
                 valid = false;
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);
@@ -1895,17 +1895,17 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public void notifyRouteStatusChange(DocumentHeader documentHeader) {
 
-        KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
+        WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
         String documentNumber = documentHeader.getDocumentNumber();
 
-        String documentType = workflowDocument.getDocumentType();
+        String documentType = workflowDocument.getDocumentTypeName();
 
-        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
+        if (workflowDocument.isCanceled() || workflowDocument.isDisapproved()) {
             // release CAB line items
             activateCabPOLines(documentNumber);
             activateCabGlLines(documentNumber);
         }
-        if (workflowDocument.stateIsProcessed()) {
+        if (workflowDocument.isProcessed()) {
             // update CAB GL lines if fully processed
             updatePOLinesStatusAsProcessed(documentNumber);
             updateGlLinesStatusAsProcessed(documentNumber);
@@ -2299,7 +2299,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * OBJECT_SUB_TYPE_GROUPS system paramters list else return false;
      */
     public boolean hasCapitalAssetObjectSubType(AccountingLine accountingLine) {
-        List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
+        List<String> financialProcessingCapitalObjectSubTypes = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES) );
         
         ObjectCode objectCode = accountingLine.getObjectCode();
         if (ObjectUtils.isNotNull(objectCode)) {

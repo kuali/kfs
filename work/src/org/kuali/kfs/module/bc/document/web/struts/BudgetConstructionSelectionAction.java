@@ -49,12 +49,12 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 
 /**
@@ -99,7 +99,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
         Boolean isBCInProgress = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_IN_PROGRESS_SESSIONFLAG);
         if (isBCInProgress != null && isBCInProgress) {
@@ -107,7 +107,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
                 // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, kualiConfiguration.getPropertyString(BCKeyConstants.QUESTION_CONFIRM_CLEANUP), KFSConstants.CONFIRMATION_QUESTION, "loadExpansionScreen", "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, kualiConfiguration.getPropertyValueAsString(BCKeyConstants.QUESTION_CONFIRM_CLEANUP), KFSConstants.CONFIRMATION_QUESTION, "loadExpansionScreen", "");
             }
             else {
                 Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -123,7 +123,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
                 }
                 else {
                     budgetConstructionSelectionForm.setSessionInProgressDetected(true);
-                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_NOTCLEANED);
+                    KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_NOTCLEANED);
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
             }
@@ -135,10 +135,10 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         if (activeBCYears.size() != 1) {
             budgetConstructionSelectionForm.setUniversityFiscalYear(null);
             if (activeBCYears.size() < 1) {
-                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_NOT_ACTIVE);
+                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_NOT_ACTIVE);
             }
             else {
-                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_MULTIPLE_ACTIVE);
+                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_MULTIPLE_ACTIVE);
             }
         }
         else {
@@ -166,7 +166,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward loadExpansionScreenSessionTimeOut(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
         return loadExpansionScreen(mapping, form, request, response);
     }
 
@@ -448,7 +448,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         // call service to build account list and give message if empty
         int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountManagerDelegateList(GlobalVariables.getUserSession().getPerson().getPrincipalId(), budgetConstructionSelectionForm.getUniversityFiscalYear());
         if (rowCount == 0) {
-            GlobalVariables.getMessageList().add(BCKeyConstants.ERROR_NO_RECORDS_MY_ACCOUNTS);
+            KNSGlobalVariables.getMessageList().add(BCKeyConstants.ERROR_NO_RECORDS_MY_ACCOUNTS);
 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }

@@ -31,12 +31,12 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Labor Base class for Expense Transfer Documents
@@ -156,7 +156,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     /**
      * Overrides the base implementation to return "From".
      * 
-     * @see org.kuali.rice.kns.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.rice.krad.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
         return KFSConstants.FROM;
@@ -165,7 +165,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     /**
      * Overrides the base implementation to return "To".
      * 
-     * @see org.kuali.rice.kns.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.rice.krad.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
         return KFSConstants.TO;

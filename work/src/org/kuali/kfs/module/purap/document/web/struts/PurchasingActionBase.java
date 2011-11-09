@@ -74,20 +74,20 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 
@@ -233,10 +233,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     CapitalAssetLocation location = null;
 
                     // get building code
-                    String buildingCode = request.getParameterValues(buildingCodeParam)[0];
+                    String buildingCode = request.getParameterValuesAsString(buildingCodeParam)[0];
                     // get campus code
                     String campusCodeParam = buildingCodeParam.replace("buildingCode", "campusCode");
-                    String campusCode = request.getParameterValues(campusCodeParam)[0];
+                    String campusCode = request.getParameterValuesAsString(campusCodeParam)[0];
                     // lookup building
                     Building locationBuilding = new Building();
                     locationBuilding.setCampusCode(campusCode);
@@ -581,7 +581,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
 
         if (question == null) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapConstants.QUESTION_REMOVE_ACCOUNTS);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapConstants.QUESTION_REMOVE_ACCOUNTS);
 
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.REMOVE_ACCOUNTS_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
@@ -590,7 +590,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 item.getSourceAccountingLines().clear();
             }
 
-            GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_REMOVED);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_REMOVED);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -613,7 +613,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
 
         if (question == null) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapConstants.QUESTION_CLEAR_ALL_COMMODITY_CODES);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapConstants.QUESTION_CLEAR_ALL_COMMODITY_CODES);
 
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.CLEAR_COMMODITY_CODES_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
@@ -624,7 +624,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 purItem.setCommodityCode(null);
             }
 
-            GlobalVariables.getMessageList().add(PurapKeyConstants.PUR_COMMODITY_CODES_CLEARED);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.PUR_COMMODITY_CODES_CLEARED);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -681,7 +681,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         }
         if (needToDistributeAccount || needToDistributeCommodityCode) {
 
-            boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
+            boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
             boolean foundAccountDistributionError = false;
             boolean foundCommodityCodeDistributionError = false;
             boolean performedAccountDistribution = false;
@@ -731,7 +731,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     boolean unitCostNotZeroForBelowLineItems = item.getItemType().isLineItemIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
                     Document document = ((PurchasingFormBase) form).getDocument();
                     Class clazz = document instanceof PurchaseOrderAmendmentDocument ? PurchaseOrderDocument.class : document.getClass();
-                    List<String> typesNotAllowingEdit = SpringContext.getBean(ParameterService.class).getParameterValues(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+                    List<String> typesNotAllowingEdit = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT) );
                     boolean itemOnExcludeList = (typesNotAllowingEdit == null) ? false : typesNotAllowingEdit.contains(item.getItemTypeCode());
                     if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && !itemOnExcludeList && itemIsActive) {
                         for (PurApAccountingLine purApAccountingLine : distributionsourceAccountingLines) {
@@ -745,11 +745,11 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
             if ((needToDistributeCommodityCode && performedCommodityCodeDistribution && !foundCommodityCodeDistributionError) || (needToDistributeAccount && performedAccountDistribution && !foundAccountDistributionError)) {
                 if (needToDistributeCommodityCode && !foundCommodityCodeDistributionError && performedCommodityCodeDistribution) {
-                    GlobalVariables.getMessageList().add(PurapKeyConstants.PUR_COMMODITY_CODE_DISTRIBUTED);
+                    KNSGlobalVariables.getMessageList().add(PurapKeyConstants.PUR_COMMODITY_CODE_DISTRIBUTED);
                     purchasingForm.setDistributePurchasingCommodityCode(null);
                 }
                 if (needToDistributeAccount && !foundAccountDistributionError && performedAccountDistribution) {
-                    GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_DISTRIBUTED);
+                    KNSGlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_DISTRIBUTED);
                     distributionsourceAccountingLines.clear();
                 }
                 purchasingForm.setHideDistributeAccounts(true);
@@ -798,7 +798,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         int itemIndex = getSelectedLine(request);
         PurApItem item = null;
 
-        boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
+        boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
 
         if (itemIndex == -2 && !institutionNeedsDistributeAccountValidation) {
             PurApAccountingLine line = purchasingForm.getAccountDistributionnewSourceLine();
@@ -863,11 +863,11 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
 
-        String systemTypeCode = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String systemTypeCode = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         systemTypeCode = StringUtils.substringBetween(systemTypeCode, "selectSystemType.", ".");
 
         if (question == null) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapConstants.CapitalAssetTabStrings.QUESTION_SYSTEM_SWITCHING);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapConstants.CapitalAssetTabStrings.QUESTION_SYSTEM_SWITCHING);
 
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.CapitalAssetTabStrings.SYSTEM_SWITCHING_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
@@ -876,7 +876,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             // document.setCapitalAssetSystemTypeCode(systemTypeCode);
             document.refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_SYSTEM_TYPE);
 
-            GlobalVariables.getMessageList().add(PurapKeyConstants.PUR_CAPITAL_ASSET_SYSTEM_TYPE_SWITCHED);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.PUR_CAPITAL_ASSET_SYSTEM_TYPE_SWITCHED);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1086,7 +1086,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
 
         if (question == null) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASING_QUESTION_CONFIRM_CHANGE_SYSTEM);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASING_QUESTION_CONFIRM_CHANGE_SYSTEM);
 
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.CapitalAssetTabStrings.SYSTEM_SWITCHING_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
@@ -1106,7 +1106,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 String description = ((oldSystemType == null) ? "(NONE)" : oldSystemType.getCapitalAssetSystemTypeDescription());
 
                 if (document instanceof PurchaseOrderAmendmentDocument) {
-                    String noteText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_AMEND_MESSAGE_CHANGE_SYSTEM_TYPE);
+                    String noteText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_AMEND_MESSAGE_CHANGE_SYSTEM_TYPE);
                     noteText = StringUtils.replace(noteText, "{0}", description);
 
                     try {
@@ -1121,7 +1121,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             }
             document.clearCapitalAssetFields();
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
-            GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1350,7 +1350,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     protected boolean requiresCalculate(PurchasingFormBase purForm) {
         boolean requiresCalculate = true;
-        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
         
         requiresCalculate = salesTaxInd && (!purForm.isCalculated() && purForm.canUserCalculate());
 

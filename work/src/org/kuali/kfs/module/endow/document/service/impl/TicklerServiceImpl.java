@@ -23,7 +23,7 @@ import java.util.Map;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.Tickler;
 import org.kuali.kfs.module.endow.document.service.TicklerService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class provides implementation for Tickler related methods.

@@ -51,11 +51,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * The default implementation of the EncumbranceClosingOriginEntryGenerationService
@@ -78,8 +78,8 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
      * @see org.kuali.kfs.gl.batch.service.EncumbranceClosingOriginEntryGenerationService#createBeginningBalanceEntryOffsetPair(org.kuali.kfs.gl.businessobject.Encumbrance, java.lang.Integer, java.sql.Date)
      */
     public OriginEntryOffsetPair createCostShareBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, Date transactionDate) {
-        final String GL_ACLO = getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
-        final String GL_ORIGINATION_CODE = getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
+        final String GL_ACLO = getParameterService().getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
+        final String GL_ORIGINATION_CODE = getParameterService().getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
 
         OriginEntryOffsetPair pair = new OriginEntryOffsetPair();
 
@@ -136,9 +136,9 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
             String overriddenObjectCode = overrideCostShareObjectCode(financialObjectLevelCode, financialObjectCode);
             final ObjectCode overriddenObject = this.getAccountingCycleCachingService().getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), overriddenObjectCode);
             
-            String param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, overriddenObject.getFinancialObjectLevelCode());
+            String param = parameterService.getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, overriddenObject.getFinancialObjectLevelCode());
             if (param == null) {
-                param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, "DEFAULT");
+                param = parameterService.getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, "DEFAULT");
                 if (param == null) {
                     throw new RuntimeException("Unable to determine cost sharing object code from object level.  Default entry missing.");
                 }
@@ -191,7 +191,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         // And now the offset ...
 
         OriginEntryFull offset = new OriginEntryFull(encumbrance.getDocumentTypeCode(), encumbrance.getOriginCode());
-        final String GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = getParameterService().getParameterValue(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
+        final String GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = getParameterService().getParameterValueAsString(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         offset.setTransactionLedgerEntryDescription(GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
 
         offset.setUniversityFiscalYear(new Integer(encumbrance.getUniversityFiscalYear().intValue() + 1));
@@ -343,10 +343,10 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
 
         pair.setEntry(entry);
 
-        final String OBJECT_CODE_FOR_BALANCE_TYPE_INTERNAL_ENCUMBRANCE = getParameterService().getParameterValue(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_INTERNAL_ENCUMBRANCE);
-        final String OBJECT_CODE_FOR_BALANCE_TYPE_PRE_ENCUMBRANCE = getParameterService().getParameterValue(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_PRE_ENCUMBRANCE);
-        final String OBJECT_CODE_FOR_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = getParameterService().getParameterValue(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE);
-        final String BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = getParameterService().getParameterValue(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.BEGINNING_FUND_BALANCE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
+        final String OBJECT_CODE_FOR_BALANCE_TYPE_INTERNAL_ENCUMBRANCE = getParameterService().getParameterValueAsString(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_INTERNAL_ENCUMBRANCE);
+        final String OBJECT_CODE_FOR_BALANCE_TYPE_PRE_ENCUMBRANCE = getParameterService().getParameterValueAsString(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_PRE_ENCUMBRANCE);
+        final String OBJECT_CODE_FOR_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = getParameterService().getParameterValueAsString(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE);
+        final String BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = getParameterService().getParameterValueAsString(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.BEGINNING_FUND_BALANCE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
 
         // And now build the offset.
         OriginEntryFull offset = new OriginEntryFull(entry);
@@ -403,7 +403,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
 
         if (getEncumbranceBalanceTypeCodes().contains(encumbrance.getBalanceTypeCode())) {
 
-            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE,encumbrance.getBalanceTypeCode(),  encumbrance.getOriginCode());
+            ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE,encumbrance.getBalanceTypeCode(),  encumbrance.getOriginCode());
             if (!evaluator.evaluationSucceeds()) {
                 return false;
             }
@@ -441,7 +441,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         keys.put("finBalanceTypeEncumIndicator", Boolean.TRUE);
         Collection balanceTypes = businessObjectService.findMatching(BalanceType.class, keys);
         for (Object balanceTypeAsObject : balanceTypes) {
-            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.FORWARDING_ENCUMBRANCE_BALANCE_TYPES, ((BalanceType)balanceTypeAsObject).getCode());
+            ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.FORWARDING_ENCUMBRANCE_BALANCE_TYPES, ((BalanceType)balanceTypeAsObject).getCode());
             if (evaluator.evaluationSucceeds())
                 balanceTypeCodes.add(((BalanceType)balanceTypeAsObject).getCode()); 
         }

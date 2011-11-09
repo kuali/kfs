@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.cg;
 
 import java.util.List;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public interface ContractsAndGrantsBudgetCategory extends ExternalizableBusinessObject {
     

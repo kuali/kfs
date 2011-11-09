@@ -330,7 +330,7 @@
 		<property name="required" value="true" />
 
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="ExpenseTransferSourceAccountingLine-subAccountNumber"
 		parent="ExpenseTransferSourceAccountingLine-subAccountNumber-parentBean" />
@@ -551,7 +551,7 @@
 		<property name="shortLabel" value="Gross Sales Amt." />
 
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean
 		id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount"
@@ -565,7 +565,7 @@
 		<property name="shortLabel" value="Taxable Sales Amt." />
 
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean
 		id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate"

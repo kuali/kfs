@@ -20,7 +20,7 @@ import java.util.List;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Struts action form for the batch upload screen.
@@ -28,7 +28,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class KualiBatchInputFileForm extends KualiForm {
     private FormFile uploadFile;
     private BatchUpload batchUpload;
-    private List<KeyLabelPair> userFiles;
+    private List<KeyValue> userFiles;
     private String url;
     
     //getterURL pull system parameter used method get  parameter.evaluator
@@ -75,14 +75,14 @@ public class KualiBatchInputFileForm extends KualiForm {
     /**
      * Gets the userFiles attribute.
      */
-    public List<KeyLabelPair> getUserFiles() {
+    public List<KeyValue> getUserFiles() {
         return userFiles;
     }
 
     /**
      * Sets the userFiles attribute value.
      */
-    public void setUserFiles(List<KeyLabelPair> userFiles) {
+    public void setUserFiles(List<KeyValue> userFiles) {
         this.userFiles = userFiles;
     }
 

@@ -30,26 +30,27 @@ import org.kuali.kfs.sec.businessobject.SecurityModel;
 import org.kuali.kfs.sec.businessobject.SecurityModelDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityModelMember;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipal;
-import org.kuali.kfs.sec.identity.SecKimAttributes;
+import org.kuali.kfs.sec.identity.SecKimAttributes; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.kfs.sec.util.KimUtil;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.util.KIMPropertyConstants;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 /**
@@ -75,20 +76,20 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
 
-        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
+        if (documentHeader.getWorkflowDocument().isProcessed()) {
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             try {
                 MaintenanceDocument document = (MaintenanceDocument) documentService.getByDocumentHeaderId(documentHeader.getDocumentNumber());
                 SecurityModel oldSecurityModel = (SecurityModel) document.getOldMaintainableObject().getBusinessObject();
                 SecurityModel newSecurityModel = (SecurityModel) document.getNewMaintainableObject().getBusinessObject();
 
-                boolean newMaintenanceAction = getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION) || getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION);
+                boolean newMaintenanceAction = getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION) || getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_COPY_ACTION);
 
                 createOrUpdateModelRole(oldSecurityModel, newSecurityModel);
                 assignOrUpdateModelMembershipToDefinitionRoles(oldSecurityModel, newSecurityModel, newMaintenanceAction);
@@ -114,7 +115,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
      * @param newSecurityModel SecurityModel after updates
      */
     protected void createOrUpdateModelRole(SecurityModel oldSecurityModel, SecurityModel newSecurityModel) {
-        RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
+        RoleService roleService = SpringContext.getBean(RoleService.class);
 
         String roleName = newSecurityModel.getName();
 
@@ -137,11 +138,11 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
      * @param newSecurityModel SecurityModel to inactivate
      */
     protected void inactivateModelRole(SecurityModel newSecurityModel) {
-        RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
+        RoleService roleService = SpringContext.getBean(RoleService.class);
 
-        KimRoleInfo roleInfo = roleService.getRole(newSecurityModel.getRoleId());
+        Role roleInfo = roleService.getRole(newSecurityModel.getRoleId());
 
-        roleService.saveRole(roleInfo.getRoleId(), roleInfo.getRoleName(), newSecurityModel.getDescription(), false, SecConstants.SecurityTypes.DEFAULT_ROLE_TYPE, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE);
+        roleService.saveRole(roleInfo.getId(), roleInfo.getName(), newSecurityModel.getDescription(), false, SecConstants.SecurityTypes.DEFAULT_ROLE_TYPE, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE);
     }
 
     /**
@@ -153,16 +154,16 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
      * @param newMaintenanceAction boolean indicating whether this is a new record (old side will not contain data)
      */
     protected void assignOrUpdateModelMembershipToDefinitionRoles(SecurityModel oldSecurityModel, SecurityModel newSecurityModel, boolean newMaintenanceAction) {
-        RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
+        RoleService roleService = SpringContext.getBean(RoleService.class);
 
-        KimRoleInfo modelRoleInfo = roleService.getRole(newSecurityModel.getRoleId());
+        Role modelRoleInfo = roleService.getRole(newSecurityModel.getRoleId());
 
         for (SecurityModelDefinition securityModelDefinition : newSecurityModel.getModelDefinitions()) {
             SecurityDefinition securityDefinition = securityModelDefinition.getSecurityDefinition();
 
-            KimRoleInfo definitionRoleInfo = roleService.getRole(securityDefinition.getRoleId());
+            Role definitionRoleInfo = roleService.getRole(securityDefinition.getRoleId());
 
-            RoleMembershipInfo modelMembershipInfo = null;
+            RoleMembership modelMembershipInfo = null;
             if (!newMaintenanceAction) {
                 SecurityModelDefinition oldSecurityModelDefinition = null;
                 for (SecurityModelDefinition modelDefinition : oldSecurityModel.getModelDefinitions()) {
@@ -172,10 +173,10 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
                 }
 
                 if (oldSecurityModelDefinition != null) {
-                    AttributeSet membershipQualifications = new AttributeSet();
+                    Map<String,String> membershipQualifications = new HashMap<String,String>();
                     membershipQualifications.put(SecKimAttributes.CONSTRAINT_CODE, oldSecurityModelDefinition.getConstraintCode());
                     membershipQualifications.put(SecKimAttributes.OPERATOR, oldSecurityModelDefinition.getOperatorCode());
-                    membershipQualifications.put(SecKimAttributes.PROPERTY_VALUE, oldSecurityModelDefinition.getAttributeValue());
+                    membershipQualifications.put(KimConstants.AttributeConstants.PROPERTY_VALUE, oldSecurityModelDefinition.getAttributeValue());
                     membershipQualifications.put(SecKimAttributes.OVERRIDE_DENY, Boolean.toString(oldSecurityModelDefinition.isOverrideDeny()));
 
                     if (modelRoleInfo == null || definitionRoleInfo == null) {
@@ -184,7 +185,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
                         LOG.error(error);
                         throw new RuntimeException(error);
                     } else {
-                        modelMembershipInfo = KimUtil.getRoleMembershipInfoForMemberType(definitionRoleInfo.getRoleId(), modelRoleInfo.getRoleId(), KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE, membershipQualifications);
+                        modelMembershipInfo = KimUtil.getRoleMembershipForMemberType(definitionRoleInfo.getId(), modelRoleInfo.getId(), KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE, membershipQualifications);
                     }
                 }
             }
@@ -198,16 +199,16 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
             if (modelMembershipInfo != null) {
                 modelMembershipId = modelMembershipInfo.getRoleMemberId();
                 if (!membershipActive) {
-                    roleService.removeRoleFromRole(modelMembershipInfo.getMemberId(), definitionRoleInfo.getNamespaceCode(), definitionRoleInfo.getRoleName(), modelMembershipInfo.getQualifier());
+                    roleService.removeRoleFromRole(modelMembershipInfo.getMemberId(), definitionRoleInfo.getNamespaceCode(), definitionRoleInfo.getName(), modelMembershipInfo.getQualifier());
                 }
             }
 
             // create of update role if membership should be active
             if (membershipActive) {
-                AttributeSet membershipQualifications = new AttributeSet();
+                Map<String,String> membershipQualifications = new HashMap<String,String>();
                 membershipQualifications.put(SecKimAttributes.CONSTRAINT_CODE, securityModelDefinition.getConstraintCode());
                 membershipQualifications.put(SecKimAttributes.OPERATOR, securityModelDefinition.getOperatorCode());
-                membershipQualifications.put(SecKimAttributes.PROPERTY_VALUE, securityModelDefinition.getAttributeValue());
+                membershipQualifications.put(KimConstants.AttributeConstants.PROPERTY_VALUE, securityModelDefinition.getAttributeValue());
                 membershipQualifications.put(SecKimAttributes.OVERRIDE_DENY, Boolean.toString(securityModelDefinition.isOverrideDeny()));
 
                 if (modelRoleInfo == null || definitionRoleInfo == null) {
@@ -216,7 +217,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
                     LOG.error(error);
                     throw new RuntimeException(error);
                 } else {
-                    roleService.saveRoleMemberForRole(modelMembershipId, modelRoleInfo.getRoleId(), KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE, definitionRoleInfo.getRoleId(), membershipQualifications, null, null);
+                    roleService.saveRoleMemberForRole(modelMembershipId, modelRoleInfo.getId(), KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE, definitionRoleInfo.getId(), membershipQualifications, null, null);
                 }
             }
         }
@@ -228,9 +229,9 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
      * @param securityModel SecurityModel whose member list should be updated
      */
     protected void assignOrUpdateModelMembers(SecurityModel securityModel) {
-        RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
+        RoleService roleService = SpringContext.getBean(RoleService.class);
 
-        KimRoleInfo modelRoleInfo = roleService.getRole(securityModel.getRoleId());
+        Role modelRoleInfo = roleService.getRole(securityModel.getRoleId());
 
         if (modelRoleInfo == null) {
             // this should throw an elegant error if either are null
@@ -240,7 +241,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
         } else {
 
             for (SecurityModelMember modelMember : securityModel.getModelMembers()) {
-                RoleMembershipInfo membershipInfo = KimUtil.getRoleMembershipInfoForMemberType(modelRoleInfo.getRoleId(), modelMember.getMemberId(), modelMember.getMemberTypeCode(), null);
+                RoleMembership membershipInfo = KimUtil.getRoleMembershipForMemberType(modelRoleInfo.getId(), modelMember.getMemberId(), modelMember.getMemberTypeCode(), null);
     
                 String membershipId = "";
                 if (membershipInfo != null) {
@@ -255,7 +256,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
                 if ( modelMember.getActiveToDate() != null ) {
                     toDate = new java.sql.Date( modelMember.getActiveToDate().getTime() ); 
                 }
-                roleService.saveRoleMemberForRole(membershipId, modelMember.getMemberId(), modelMember.getMemberTypeCode(), modelRoleInfo.getRoleId(), new AttributeSet(), fromDate, toDate);
+                roleService.saveRoleMemberForRole(membershipId, modelMember.getMemberId(), modelMember.getMemberTypeCode(), modelRoleInfo.getId(), new HashMap<String,String>(), fromDate, toDate);
     
                 createPrincipalSecurityRecords(modelMember.getMemberId(), modelMember.getMemberTypeCode());
             }
@@ -276,8 +277,8 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
             principalIds.add(memberId);
         }
         else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)) {
-            KimRoleInfo roleInfo = SpringContext.getBean(RoleManagementService.class).getRole(memberId);
-            Collection<String> rolePrincipalIds = SpringContext.getBean(RoleManagementService.class).getRoleMemberPrincipalIds(roleInfo.getNamespaceCode(), roleInfo.getRoleName(), new AttributeSet());
+            Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
+            Collection<String> rolePrincipalIds = SpringContext.getBean(RoleService.class).getRoleMemberPrincipalIds(roleInfo.getNamespaceCode(), roleInfo.getName(), new HashMap<String,String>());
             principalIds.addAll(rolePrincipalIds);
         }
         else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)) {

@@ -17,7 +17,7 @@ package org.kuali.kfs.sec.service;
 
 import java.util.Map;
 
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * AccessPermissionEvaluator classes provide the evaluation of a given security permission. Methods are exposed for setting the user's qualification for a permission and method

@@ -22,8 +22,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 /**
  * Instances of this class are used to signal to the CloseBatchStep that a close should occur on a particular day.
@@ -149,7 +149,7 @@ public class ProposalAwardCloseDocument extends FinancialSystemTransactionalDocu
      * @return the {@link Person} for the personUser
      */
     public Person getPersonUser() {
-        personUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalName, personUser);
+        personUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalName, personUser);
         return personUser;
     }
 
@@ -162,9 +162,9 @@ public class ProposalAwardCloseDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.documentNumber != null) {
             m.put("documentNumber", this.documentNumber.toString());

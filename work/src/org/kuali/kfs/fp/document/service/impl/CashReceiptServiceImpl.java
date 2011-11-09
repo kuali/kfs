@@ -39,20 +39,20 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -83,7 +83,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         boolean foundCampus = false;
         while (campiiIter.hasNext() && !foundCampus) {
             Campus campus = (Campus)campiiIter.next();
-            if (campus.getCampusCode().equals(campusCode)) {
+            if (campus.getCode().equals(campusCode)) {
                 foundCampus = true;
             }
         }
@@ -99,7 +99,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param user The user to be used to retrieve the verification unit.
      * @return The cash receipt verification unit associated with the user provided.
      * 
-     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.rice.kns.bo.user.KualiUser)
+     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.rice.krad.bo.user.KualiUser)
      */
     public String getCashReceiptVerificationUnitForUser(Person user) {
         String unitName = null;
@@ -215,7 +215,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         for (Iterator i = documents.iterator(); i.hasNext();) {
             CashReceiptDocument cr = (CashReceiptDocument) i.next();
 
-            KualiWorkflowDocument workflowDocument = null;
+            WorkflowDocument workflowDocument = null;
             DocumentHeader docHeader = cr.getDocumentHeader();
             try {
                 Long documentHeaderId = Long.valueOf(docHeader.getDocumentNumber());
@@ -286,7 +286,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @see org.kuali.module.financial.service.CashReceiptTotalsVerificationService#areCashTotalsInvalid(org.kuali.kfs.fp.document.CashReceiptDocument)
      */
     public boolean areCashTotalsInvalid(CashReceiptDocument cashReceiptDocument) {
-        String documentEntryName = cashReceiptDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        String documentEntryName = cashReceiptDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
 
         boolean isInvalid = isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalCheckAmount(), documentEntryName, KFSPropertyConstants.TOTAL_CHECK_AMOUNT);
         isInvalid |= isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalCashAmount(), documentEntryName, KFSPropertyConstants.TOTAL_CASH_AMOUNT);

@@ -206,7 +206,7 @@
     <property name="name" value="amount"/>
     <property name="required" value="true"/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-subAccountNumber" parent="ProcurementCardSourceAccountingLine-subAccountNumber-parentBean"/>
 
@@ -369,7 +369,7 @@
     <property name="label" value="Gross Sales Amount"/>
     <property name="shortLabel" value="Gross Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="ProcurementCardSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
 
@@ -378,7 +378,7 @@
     <property name="label" value="Taxable Sales Amount"/>
     <property name="shortLabel" value="Taxable Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-salesTax.financialDocumentSaleDate" parent="ProcurementCardSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
 

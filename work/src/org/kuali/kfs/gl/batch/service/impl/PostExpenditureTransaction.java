@@ -40,10 +40,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -96,7 +96,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
         
         // Is the ICR indicator set?
         // Is the period code a non-balance period, as specified by KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_FISCAL_PERIODS? If so, continue, if not, we aren't posting this transaction
-        if (transaction.getObjectType().isFinObjectTypeIcrSelectionIndicator() && getParameterService().getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_FISCAL_PERIODS_PARAMETER, transaction.getUniversityFiscalPeriodCode()).evaluationSucceeds()) {
+        if (transaction.getObjectType().isFinObjectTypeIcrSelectionIndicator() && /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_FISCAL_PERIODS_PARAMETER, transaction.getUniversityFiscalPeriodCode()).evaluationSucceeds()) {
             // Continue on the posting process
 
             // Check the sub account type code. A21 sub-accounts with the type of CS don't get posted
@@ -145,7 +145,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
             }
 
             // do we have an exclusion by type or by account?  then we don't have to post no expenditure transaction
-            final boolean selfAndTopLevelOnly = getParameterService().getIndicatorParameter(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.ICR_EXCLUSIONS_AT_TRANSACTION_AND_TOP_LEVEL_ONLY_PARAMETER_NAME);
+            final boolean selfAndTopLevelOnly = getParameterService().getParameterValueAsBoolean(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.ICR_EXCLUSIONS_AT_TRANSACTION_AND_TOP_LEVEL_ONLY_PARAMETER_NAME);
             if (excludedByType(indirectCostRecoveryTypeCode, transaction.getFinancialObject(), selfAndTopLevelOnly)) return false;
             if (excludedByAccount(transaction.getAccount(), transaction.getFinancialObject(), selfAndTopLevelOnly)) return false;
 
@@ -167,7 +167,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      */
     protected boolean excludedByType(String indirectCostRecoveryTypeCode, ObjectCode objectCode, boolean selfAndTopLevelOnly) {
         // If the ICR type code is empty or excluded by the KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_TYPES parameter, don't post
-        if ((!StringUtils.hasText(indirectCostRecoveryTypeCode)) || !getParameterService().getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_TYPES_PARAMETER, indirectCostRecoveryTypeCode).evaluationSucceeds()) {
+        if ((!StringUtils.hasText(indirectCostRecoveryTypeCode)) || !/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_TYPES_PARAMETER, indirectCostRecoveryTypeCode).evaluationSucceeds()) {
             // No need to post this
             if (LOG.isDebugEnabled()) {
                 LOG.debug("isIcrTransaction() ICR type is null or excluded by the KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_TYPES parameter - not posted");

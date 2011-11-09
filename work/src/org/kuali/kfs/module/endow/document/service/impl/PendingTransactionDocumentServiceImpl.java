@@ -20,7 +20,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.endow.businessobject.PendingTransactionDocumentEntry;
 import org.kuali.kfs.module.endow.document.service.PendingTransactionDocumentService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class PendingTransactionDocumentServiceImpl implements PendingTransactionDocumentService {

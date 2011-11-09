@@ -21,9 +21,9 @@ import java.util.ArrayList;
 /**
  * 
  * This class is setup to allow an argument to a created ArrayList (it could be a 
- * possible extension to the other TypedArrayList
+ * possible extension to the other ArrayList
  */
-public class PurApTypedArrayList extends ArrayList {
+public class PurApArrayList extends ArrayList {
     // private static final long serialVersionUID = 6238521951259126730L;
     private final Class listObjectType;
     private final Class[] argumentClasses;
@@ -34,7 +34,7 @@ public class PurApTypedArrayList extends ArrayList {
      * Default Constructor
      * @param listObjectType the class
      */
-    public PurApTypedArrayList(Class listObjectType) {
+    public PurApArrayList(Class listObjectType) {
         this(listObjectType, null, null);
     }
 
@@ -45,7 +45,7 @@ public class PurApTypedArrayList extends ArrayList {
      * @param methodClasses classes
      * @param methodArguments arguments
      */
-    public PurApTypedArrayList(Class listObjectType, Class[] methodClasses, Object[] methodArguments) {
+    public PurApArrayList(Class listObjectType, Class[] methodClasses, Object[] methodArguments) {
         super();
 
         Class[] assignArgumentClasses = null;

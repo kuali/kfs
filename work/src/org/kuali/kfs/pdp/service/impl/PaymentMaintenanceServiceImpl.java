@@ -45,14 +45,14 @@ import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.KualiCode;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.KualiCode;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -141,7 +141,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelPendingPayment(java.lang.Integer, java.lang.Integer,
-     *      java.lang.String, org.kuali.rice.kim.bo.Person)
+     *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
@@ -227,7 +227,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#holdPendingPayment(java.lang.Integer, java.lang.String,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     public boolean holdPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
@@ -277,7 +277,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#removeHoldPendingPayment(java.lang.Integer,
-     *      java.lang.String, org.kuali.rice.kim.bo.Person)
+     *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean removeHoldPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
@@ -335,7 +335,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#changeImmediateFlag(java.lang.Integer, java.lang.String,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     public void changeImmediateFlag(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
@@ -367,7 +367,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelDisbursement(java.lang.Integer, java.lang.Integer,
-     *      java.lang.String, org.kuali.rice.kim.bo.Person)
+     *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
@@ -459,7 +459,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     
     /**
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#reissueDisbursement(java.lang.Integer,
-     *      java.lang.String, org.kuali.rice.kim.bo.Person)
+     *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean reissueDisbursement(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
@@ -557,7 +557,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelReissueDisbursement(java.lang.Integer,
-     *      java.lang.String, org.kuali.rice.kim.bo.Person)
+     *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean cancelReissueDisbursement(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record

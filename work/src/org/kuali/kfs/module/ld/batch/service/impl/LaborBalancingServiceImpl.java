@@ -43,8 +43,8 @@ import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -102,14 +102,14 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getPastFiscalYearsToConsider()
      */
     public int getPastFiscalYearsToConsider() {
-        return Integer.parseInt(parameterService.getParameterValue(LaborBalancingStep.class, LaborConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE));
+        return Integer.parseInt(parameterService.getParameterValueAsString(LaborBalancingStep.class, LaborConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE));
     }
 
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getComparisonFailuresToPrintPerReport()
      */
     public int getComparisonFailuresToPrintPerReport() {
-        return Integer.parseInt(parameterService.getParameterValue(LaborBalancingStep.class, LaborConstants.Balancing.NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT));
+        return Integer.parseInt(parameterService.getParameterValueAsString(LaborBalancingStep.class, LaborConstants.Balancing.NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT));
     }
 
     /**
@@ -117,12 +117,12 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
      */
     public String getShortTableLabel(String businessObjectName) {
         Map<String, String> names = new HashMap<String, String>();
-        names.put((Entry.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_ENTRY_LABEL));
-        names.put((LaborEntryHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_ENTRY_LABEL));
-        names.put((Balance.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_BALANCE_LABEL));
-        names.put((LaborBalanceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_BALANCE_LABEL));
+        names.put((Entry.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(LaborKeyConstants.Balancing.REPORT_ENTRY_LABEL));
+        names.put((LaborEntryHistory.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(LaborKeyConstants.Balancing.REPORT_ENTRY_LABEL));
+        names.put((Balance.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(LaborKeyConstants.Balancing.REPORT_BALANCE_LABEL));
+        names.put((LaborBalanceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(LaborKeyConstants.Balancing.REPORT_BALANCE_LABEL));
 
-        return names.get(businessObjectName) == null ? kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_UNKNOWN_LABEL) : names.get(businessObjectName);
+        return names.get(businessObjectName) == null ? kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_UNKNOWN_LABEL) : names.get(businessObjectName);
     }
 
     /**
@@ -219,7 +219,7 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
                 LaborBalanceHistory balance = createBalanceFromMap((Map) itr.next());
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    reportWriterService.writeError(balance, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, balance.getClass().getSimpleName()));
+                    reportWriterService.writeError(balance, new Message(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, balance.getClass().getSimpleName()));
                 }
             }
         }
@@ -245,7 +245,7 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
                 LaborEntryHistory entry = createEntryHistoryFromMap((Map) itr.next());
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    reportWriterService.writeError(entry, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, entry.getClass().getSimpleName()));
+                    reportWriterService.writeError(entry, new Message(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, entry.getClass().getSimpleName()));
                 }
 
             }
@@ -264,7 +264,7 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
         businessObjectService.deleteMatching(LaborEntryHistory.class, fieldValues);
         businessObjectService.deleteMatching(LaborBalanceHistory.class, fieldValues);
 
-        reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_HISTORY_PURGED));
+        reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_HISTORY_PURGED));
 
     }
 

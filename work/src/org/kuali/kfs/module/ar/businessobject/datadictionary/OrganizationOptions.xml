@@ -60,7 +60,7 @@
 			<list>
 				<dd:relationship objectAttribute="organizationRemitToState">
 					<dd:primitiveAttribute source="organizationRemitToStateCode"
-						target="postalStateCode" />
+						target="stateCode" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="orgRemitToZipCode">
 					<dd:primitiveAttribute source="organizationRemitToZipCode"
@@ -335,8 +335,8 @@
 
 	<bean id="OrganizationOptions-organizationRemitToStateCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
+		p:sourceAttributeName="stateCode">
 		<property name="name" value="organizationRemitToStateCode" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
@@ -349,7 +349,7 @@
 
 	<bean id="OrganizationOptions-organizationRemitToZipCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
 		p:sourceAttributeName="postalCode">
 		<property name="name" value="organizationRemitToZipCode" />
 		<property name="required" value="true" />
@@ -392,7 +392,7 @@
 
 	<bean id="OrganizationOptions-organizationPostalZipCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
 		p:sourceAttributeName="postalCode">
 		<property name="name" value="organizationPostalZipCode" />
 		<property name="label" value="Organization Postal Code" />
@@ -405,7 +405,7 @@
 
 	<bean id="OrganizationOptions-organizationPostalCountryCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
 		p:sourceAttributeName="postalCountryCode">
 		<property name="name" value="organizationPostalCountryCode" />
 		<property name="label" value="Organization Postal Country Code" />

@@ -39,10 +39,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class implements the business rules for {@link ObjectCode}
@@ -53,7 +53,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     protected static ObjectCodeService objectCodeService;
     protected static ObjectConsService objectConsService;
 
-    protected static KualiConfigurationService configService;
+    protected static ConfigurationService configService;
     protected static ChartService chartService;
     protected Map reportsTo;
 
@@ -65,7 +65,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     public ObjectCodeRule() {
 
         if (objectConsService == null) {
-            configService = SpringContext.getBean(KualiConfigurationService.class);
+            configService = SpringContext.getBean(ConfigurationService.class);
             objectLevelService = SpringContext.getBean(ObjectLevelService.class);
             objectCodeService = SpringContext.getBean(ObjectCodeService.class);
             chartService = SpringContext.getBean(ChartService.class);
@@ -145,7 +145,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         String objCode = objectCode.getFinancialObjectCode();
 
-        if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(ObjectCode.class, KFSConstants.ChartApcParms.OBJECT_CODE_ILLEGAL_VALUES, objCode).evaluationSucceeds()) {
+        if (!/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ObjectCode.class, KFSConstants.ChartApcParms.OBJECT_CODE_ILLEGAL_VALUES, objCode).evaluationSucceeds()) {
             this.putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_ILLEGAL, objCode);
             result = false;            
         }

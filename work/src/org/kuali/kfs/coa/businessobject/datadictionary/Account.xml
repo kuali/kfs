@@ -189,7 +189,7 @@
         <bean parent="RelationshipDefinition" p:objectAttributeName="accountState">
         	<property name="primitiveAttributes">
         		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode" p:targetName="postalStateCode" />
+        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode" p:targetName="stateCode" />
         		</list>
         	</property>
         </bean>
@@ -279,7 +279,7 @@
 		parent="Campus-campusCode" p:name="accountPhysicalCampusCode">
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" />
+				p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" />
 		</property>
 	</bean>
 
@@ -356,8 +356,8 @@
 
 	<bean id="Account-accountStateCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
+		p:sourceAttributeName="stateCode">
 		<property name="name" value="accountStateCode" />
 		<property name="label" value="Account State Code" />
 		<property name="shortLabel" value="StateCd" />
@@ -389,7 +389,7 @@
 
 	<bean id="Account-accountZipCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
 		p:sourceAttributeName="postalCode">
 		<property name="name" value="accountZipCode" />
 		<property name="label" value="Account Postal Code" />

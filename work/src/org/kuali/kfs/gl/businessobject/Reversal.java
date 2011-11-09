@@ -36,8 +36,8 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class represents a reversal of a transaction
@@ -697,7 +697,7 @@ public class Reversal extends PersistableBusinessObjectBase implements Transacti
         this.universityDate = universityDate;
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("universityFiscalYear", getUniversityFiscalYear());
         map.put("chartOfAccountsCode", getChartOfAccountsCode());

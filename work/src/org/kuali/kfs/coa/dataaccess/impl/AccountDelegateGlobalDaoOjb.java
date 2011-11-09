@@ -19,9 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.coa.dataaccess.AccountDelegateGlobalDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * This class is the OJB implementation of AccountDelegateGlobalDao
@@ -45,7 +45,7 @@ public class AccountDelegateGlobalDaoOjb extends PlatformAwareDaoBaseOjb impleme
         // if a docHeaderId is specified, then it will be excluded from the
         // locking representation test.
         if (StringUtils.isNotBlank(documentNumber)) {
-            criteria.addNotEqualTo(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            criteria.addNotEqualTo(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         }
 
         // attempt to retrieve a document based off this criteria

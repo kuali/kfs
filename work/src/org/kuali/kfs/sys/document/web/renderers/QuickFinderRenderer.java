@@ -26,8 +26,8 @@ import javax.servlet.jsp.tagext.Tag;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.util.RendererUtil;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Renders a quick field for an element
@@ -55,7 +55,7 @@ public class QuickFinderRenderer extends FieldRendererBase {
 
     /**
      * Renders the quick finder to the page context
-     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.krad.bo.BusinessObject)
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         JspWriter out = pageContext.getOut();
@@ -78,7 +78,7 @@ public class QuickFinderRenderer extends FieldRendererBase {
         quickFinderHtml.append("name=\"").append(buildQuickFinderName(pageContext)).append("\" ");
         
         quickFinderHtml.append("src=\"");
-        quickFinderHtml.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url"));
+        quickFinderHtml.append(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kr.externalizable.images.url"));
         quickFinderHtml.append("searchicon.gif");
         quickFinderHtml.append("\" ");
         
@@ -115,36 +115,36 @@ public class QuickFinderRenderer extends FieldRendererBase {
         StringBuilder nameBuf = new StringBuilder();
         nameBuf.append("methodToCall.performLookup.");
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL);
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL);
         nameBuf.append(getField().getQuickFinderClassNameImpl());
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
         nameBuf.append(".");
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL);
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM1_LEFT_DEL);
         nameBuf.append(getField().getFieldConversions());
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
         nameBuf.append(".");
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL);
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM2_LEFT_DEL);
         nameBuf.append(getField().getLookupParameters());
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
         nameBuf.append(".");
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL+"."); // hide return link
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM3_LEFT_DEL+KRADConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL+"."); // hide return link
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL+"."); // extra button source
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM4_LEFT_DEL+KRADConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL+"."); // extra button source
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM5_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM5_RIGHT_DEL+"."); // extra button params
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM5_LEFT_DEL+KRADConstants.METHOD_TO_CALL_PARM5_RIGHT_DEL+"."); // extra button params
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM7_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM7_RIGHT_DEL+"."); // supress actions
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM7_LEFT_DEL+KRADConstants.METHOD_TO_CALL_PARM7_RIGHT_DEL+"."); // supress actions
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM8_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM8_RIGHT_DEL+"."); // read only fields
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM8_LEFT_DEL+KRADConstants.METHOD_TO_CALL_PARM8_RIGHT_DEL+"."); // read only fields
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM10_LEFT_DEL);
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM10_LEFT_DEL);
         nameBuf.append(getField().getReferencesToRefresh());
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM10_RIGHT_DEL+".");
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM10_RIGHT_DEL+".");
         
-        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM9_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM9_RIGHT_DEL+"."); // auto-search
+        nameBuf.append(KRADConstants.METHOD_TO_CALL_PARM9_LEFT_DEL+KRADConstants.METHOD_TO_CALL_PARM9_RIGHT_DEL+"."); // auto-search
         
         nameBuf.append("anchor"); // anchor
         
@@ -177,7 +177,7 @@ public class QuickFinderRenderer extends FieldRendererBase {
      */
     @Override
     public void setAccessibleTitle(String accessibleTitle) {
-        final String messagePattern = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.LABEL_ACCOUNTING_LINE_QUICKFINDER_ACCESSIBLE_TITLE);
+        final String messagePattern = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.LABEL_ACCOUNTING_LINE_QUICKFINDER_ACCESSIBLE_TITLE);
         final String formattedAccessibleTitle = MessageFormat.format(messagePattern, accessibleTitle);
         super.setAccessibleTitle(formattedAccessibleTitle);
     }

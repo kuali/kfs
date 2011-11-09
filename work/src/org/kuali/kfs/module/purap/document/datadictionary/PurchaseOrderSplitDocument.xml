@@ -178,7 +178,7 @@
     <!-- workflow attributes -->
     <bean id="PurchaseOrderSplitDocument-workflowAttributes" parent="PurchaseOrderSplitDocument-workflowAttributes-parentBean"/>
   
-    <bean id="PurchaseOrderSplitDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    <bean id="PurchaseOrderSplitDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
     	<property name="searchingTypeDefinitions">
     		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily"/>
     	</property>

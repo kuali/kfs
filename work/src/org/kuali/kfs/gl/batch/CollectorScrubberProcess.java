@@ -38,9 +38,9 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.ProxyUtils;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 
@@ -58,7 +58,7 @@ public class CollectorScrubberProcess {
     protected String validFileName;
     protected String errorFileName;
     protected String expiredFileName;
-    protected KualiConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
     protected PersistenceService persistenceService;
     protected CollectorReportData collectorReportData;
     protected ScrubberService scrubberService;
@@ -85,7 +85,7 @@ public class CollectorScrubberProcess {
      * @param kualiConfigurationService the config service
      * @param persistenceService the persistence service
      */
-    public CollectorScrubberProcess(CollectorBatch batch, KualiConfigurationService kualiConfigurationService, PersistenceService persistenceService, ScrubberService scrubberService, CollectorReportData collectorReportData, DateTimeService dateTimeService, String collectorFileDirectoryName) {
+    public CollectorScrubberProcess(CollectorBatch batch, ConfigurationService kualiConfigurationService, PersistenceService persistenceService, ScrubberService scrubberService, CollectorReportData collectorReportData, DateTimeService dateTimeService, String collectorFileDirectoryName) {
         this.batch = batch;
         this.kualiConfigurationService = kualiConfigurationService;
         this.persistenceService = persistenceService;

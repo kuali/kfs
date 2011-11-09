@@ -19,7 +19,7 @@ package org.kuali.kfs.gl.businessobject;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * General Ledger business object for LedgerEntryHistory

@@ -20,9 +20,9 @@ import java.util.List;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.document.authorization.SecTransactionalDocumentAuthorizer;
 import org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 
 /**
@@ -35,7 +35,7 @@ public class SecDocumentHelperServiceImpl extends DocumentHelperServiceImpl {
      * Checks to see if the document type has access security restrictions and if so returns a new SecTransactionalDocumentAuthorizer instance, otherwise returns the document
      * authorizer configured in the data dictionary
      * 
-     * @see org.kuali.rice.kns.service.impl.DocumentHelperServiceImpl#getDocumentAuthorizer(java.lang.String)
+     * @see org.kuali.rice.krad.service.impl.DocumentHelperServiceImpl#getDocumentAuthorizer(java.lang.String)
      * @see org.kuali.kfs.sec.document.authorization.SecTransactionalDocumentAuthorizer
      */
     @Override
@@ -44,7 +44,7 @@ public class SecDocumentHelperServiceImpl extends DocumentHelperServiceImpl {
         DocumentAuthorizer configuredDocumentAuthorizer = super.getDocumentAuthorizer(documentType);
 
         // list of document types configured for access security
-        List<String> documentTypes = parameterService.getParameterValues(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ACCESS_SECURITY_DOCUMENT_TYPES);
+        List<String> documentTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ACCESS_SECURITY_DOCUMENT_TYPES) );
 
         if (documentTypes.contains(documentType)) {
             try {

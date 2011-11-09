@@ -17,13 +17,13 @@ package org.kuali.kfs.module.cam.util;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 /**
  * In situation where the Maintainable does not have access to the document,  this class is a utility which 
@@ -43,27 +43,27 @@ public final class MaintainableWorkflowUtils {
      */
     public static boolean isDocumentSavedOrEnroute(String documentNumber) {
         boolean isSaveOrEnroute = false;
-        KualiWorkflowDocument workflowDocument = getKualiWorkflowDocument(documentNumber);
+        WorkflowDocument workflowDocument = getWorkflowDocument(documentNumber);
         
         if (workflowDocument != null) {
-            isSaveOrEnroute = workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute();
+            isSaveOrEnroute = workflowDocument.isSaved() || workflowDocument.isEnroute();
         }
         return isSaveOrEnroute;
     }
     
     /**
-     * Retrieve the KualiWorkflowDocument base on documentNumber
+     * Retrieve the WorkflowDocument base on documentNumber
      * 
      * @param documentNumber
      * @return
      */
-    private static KualiWorkflowDocument getKualiWorkflowDocument(String documentNumber) {
+    private static WorkflowDocument getWorkflowDocument(String documentNumber) {
 
-        KualiWorkflowDocument workflowDocument = null;
+        WorkflowDocument workflowDocument = null;
         WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
         // we need to use the system user here, since this code could be called within the
         // context of workflow, where there is no user session
-        Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KNSConstants.SYSTEM_USER);
+        Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KRADConstants.SYSTEM_USER);
         try {
             workflowDocument = workflowDocumentService.createWorkflowDocument(NumberUtils.createLong(documentNumber), person);
         }

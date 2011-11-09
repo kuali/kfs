@@ -26,7 +26,7 @@ import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This is the action class for the CreditCardReceiptDocument.

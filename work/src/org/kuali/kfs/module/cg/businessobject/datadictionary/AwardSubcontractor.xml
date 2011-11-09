@@ -127,7 +127,7 @@
 		abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="subcontractorAmount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AwardSubcontractor-subcontractorAuditHistoryText"
 		parent="AwardSubcontractor-subcontractorAuditHistoryText-parentBean" />

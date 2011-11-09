@@ -29,12 +29,12 @@ import org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business Prerules applicable to purchase order document.
@@ -47,7 +47,7 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
      * 
      * @param document The purchase order document upon which we're performing the prerules logic.
      * @return boolean true if it passes the pre rules conditions.
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document document) {
@@ -95,7 +95,7 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
 
         // If the total exceeds the limit, ask for confirmation.
         if (!validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purchaseOrderDocument)) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_OVERRIDE_NOT_TO_EXCEED);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_OVERRIDE_NOT_TO_EXCEED);
 
             boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(PurapConstants.PO_OVERRIDE_NOT_TO_EXCEED_QUESTION, questionText);
 
@@ -127,7 +127,7 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
             KualiDecimal totalAmount = ((AmountTotaling) purDocument).getTotalDollarAmount();
             if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
                 valid &= false;
-                GlobalVariables.getMessageList().add(PurapKeyConstants.PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
+                KNSGlobalVariables.getMessageList().add(PurapKeyConstants.PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
             }
         }
 
@@ -146,7 +146,7 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
 
         // If the FY is set to NEXT and today is not within APO allowed range, ask for confirmation to continue
         if (poDocument.isPostingYearNext() && !SpringContext.getBean(PurapService.class).isTodayWithinApoAllowedRange()) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.WARNING_PURCHASE_ORDER_ENCUMBER_NEXT_FY);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.WARNING_PURCHASE_ORDER_ENCUMBER_NEXT_FY);
             boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(PurapConstants.PO_NEXT_FY_WARNING, questionText);
 
             // Set a marker to record that this method has been used.

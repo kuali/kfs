@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Represents a expenditure transaction for a specific fiscal year, COA code, account number,
@@ -80,7 +80,7 @@ public class ExpenditureTransaction extends PersistableBusinessObjectBase {
         accountObjectDirectCostAmount = new KualiDecimal(KualiDecimal.ZERO.toString());
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put(UNIVERISITY_FISCAL_YEAR, getUniversityFiscalYear());
         map.put(CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());

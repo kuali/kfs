@@ -33,14 +33,14 @@ import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDocumentService {
     
@@ -53,7 +53,7 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
     public boolean isCustomerInvoiceDetailTaxable(CustomerInvoiceDocument customerInvoiceDocument, CustomerInvoiceDetail customerInvoiceDetail) {
 
         //check if sales tax is enabled
-        if( !parameterService.getIndicatorParameter(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
+        if( !parameterService.getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
             return false;
         }
 
@@ -139,8 +139,8 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
             
         }
         if (ObjectUtils.isNotNull(customerInvoiceDocument)) {
-            KualiWorkflowDocument workflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
-            if (!(workflowDocument.stateIsApproved())) {
+            WorkflowDocument workflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
+            if (!(workflowDocument.isApproved())) {
                 success = false;
             }
         }
@@ -259,7 +259,7 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         }
         Integer maximumRecurrencesByInterval;
         if (ObjectUtils.isNotNull(intervalCode)) {
-            List<String> maximumRecurrences = SpringContext.getBean(ParameterService.class).getParameterValues(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, intervalCode);
+            List<String> maximumRecurrences = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, intervalCode) );
             if (maximumRecurrences.size() > 0 && StringUtils.isNotBlank(maximumRecurrences.get(0))) {
                 maximumRecurrencesByInterval = Integer.valueOf(maximumRecurrences.get(0));
                 if (totalRecurrenceNumber > maximumRecurrencesByInterval) {

@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.ItemReasonAdded;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Carrier.
@@ -43,7 +43,7 @@ public class ItemReasonAddedValuesFinder extends KeyValuesBase {
         
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ItemReasonAdded ira = (ItemReasonAdded) iter.next();
-            labels.add(new KeyLabelPair(ira.getItemReasonAddedCode(), ira.getItemReasonAddedDescription()));
+            labels.add(new ConcreteKeyValue(ira.getItemReasonAddedCode(), ira.getItemReasonAddedDescription()));
         }
         return labels;
     }

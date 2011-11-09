@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.actiontaken.service.ActionTakenService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
@@ -271,7 +271,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
                 SortedSet<ActionTakenValue> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
                 if (sortedActionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
                     this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().getTime());
                 }
                 else {
@@ -312,7 +312,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
                 SortedSet<ActionTakenValue> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
                 if (sortedActionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
                     this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().getTime());
                 }
 
@@ -470,9 +470,9 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("principalId", this.principalId);
         if (this.universityFiscalYear != null) {

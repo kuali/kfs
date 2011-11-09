@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBase {
 
@@ -46,7 +46,7 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
         this.documentNumber = documentNumber;
     }
 
-    @Override
+    
     public void setPurchasingDocument(PurchasingDocument pd){
         super.setPurchasingDocument(pd);
         
@@ -57,7 +57,7 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
     }
 
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if( this.getCapitalAssetItemIdentifier() != null) {
             m.put("capitalAssetItemIdentifier", this.getCapitalAssetItemIdentifier().toString());

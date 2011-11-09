@@ -25,8 +25,8 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetLock;
 import org.kuali.kfs.module.cam.dataaccess.CapitalAssetLockDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 public class CapitalAssetLockDaoOjb extends PlatformAwareDaoBaseOjb implements CapitalAssetLockDao {
 
@@ -43,7 +43,7 @@ public class CapitalAssetLockDaoOjb extends PlatformAwareDaoBaseOjb implements C
         // if a docHeaderId is specified, then it will be excluded from the
         // locking representation test.
         if (StringUtils.isNotBlank(documentNumber)) {
-            criteria.addNotEqualTo(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            criteria.addNotEqualTo(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         }
 
         // attempt to retrieve a document based off this criteria

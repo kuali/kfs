@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.gl.dataaccess.impl;
 
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 
 /**
  * A base class to support the JDBC operations done for AccountBalance inquiries

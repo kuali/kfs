@@ -232,7 +232,7 @@
     <property name="name" value="amount"/>
     <property name="required" value="true"/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="SourceAccountingLine-subAccountNumber" parent="SourceAccountingLine-subAccountNumber-parentBean"/>
 
@@ -401,7 +401,7 @@
     <property name="label" value="Gross Sales Amount"/>
     <property name="shortLabel" value="Gross Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="SourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="SourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
 
@@ -410,7 +410,7 @@
     <property name="label" value="Taxable Sales Amount"/>
     <property name="shortLabel" value="Taxable Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="SourceAccountingLine-salesTax.financialDocumentSaleDate" parent="SourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
 

@@ -34,19 +34,19 @@ import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.core.web.format.Formatter;
 
 public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private VendorService vendorService;
@@ -56,7 +56,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * Add custom links to the vendor search results. One to Allow only active parent vendors to create new divisions. Another to
      * create a link for B2B shopping if PURAP service has been setup to allow for that.
      * 
-     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List, java.util.List pkNames)
      */
     @Override
@@ -64,7 +64,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         VendorDetail vendor = (VendorDetail) businessObject;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
 
-        AnchorHtmlData anchorHtmlData = super.getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+        AnchorHtmlData anchorHtmlData = super.getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
         anchorHtmlDataList.add(anchorHtmlData);
         if (vendor.isVendorParentIndicator() && vendor.isActiveIndicator()) {
             // only allow active parent vendors to create new divisions
@@ -93,7 +93,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * is not a parent, or if the vendor is a parent and the link is not the create new division link (i.e. if the link is "edit").
      * We'll always add the vendor header id in the query string in all links.
      *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlHref(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlHref(org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.util.List)
      */
     @Override
     protected String getActionUrlHref(BusinessObject businessObject, String methodToCall, List pkNames){
@@ -263,7 +263,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         validateVendorNumber(fieldValues);
         validateTaxNumber(fieldValues);
 
-        if (!GlobalVariables.getMessageMap().isEmpty()) {
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("Error(s) in search criteria");
         }
     }

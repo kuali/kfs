@@ -31,10 +31,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Provides batch input file management, including listing files, parsing, downloading, storing, and deleting.
@@ -74,7 +74,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#save(org.kuali.rice.kim.bo.Person,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#save(org.kuali.rice.kim.api.identity.Person,
      *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String, java.io.InputStream)
      */
     public String save(Person user, BatchInputFileType batchInputFileType, String fileUserIdentifier, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException {
@@ -166,7 +166,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        List<String> activeInputTypes = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        List<String> activeInputTypes = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME) );
 
         boolean activeBatchType = false;
         if (activeInputTypes.size() > 0 && activeInputTypes.contains(batchInputFileType.getFileTypeIdentifer())) {
@@ -182,7 +182,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * implementation for finer grained security. If the method returns true, the filename is added to the user's list.
      * 
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#listBatchTypeFilesForUser(org.kuali.kfs.sys.batch.BatchInputFileType,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     public List<String> listBatchTypeFilesForUser(BatchInputFileType batchInputFileType, Person user) throws AuthorizationException {
         if (batchInputFileType == null || user == null) {

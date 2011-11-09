@@ -33,13 +33,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.krad.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 /**
  * Struts action class for Salary Expense Transfer Document. This class extends the parent FinancialSystemTransactionalDocumentActionBase
@@ -131,7 +131,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
         SalaryExpenseTransferDocument salaryExpenseDocument = (SalaryExpenseTransferDocument) ((KualiDocumentFormBase) form).getDocument();
 
         // check sys parameter indicating if we should check effort certification rules
-        boolean doEffortValidation = SpringContext.getBean(ParameterService.class).getIndicatorParameter(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.VALIDATE_AGAINST_EFFORT_PARM_NM);
+        boolean doEffortValidation = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.VALIDATE_AGAINST_EFFORT_PARM_NM);
         if (!doEffortValidation) {
             return null;
         }
@@ -174,30 +174,30 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
         
         if (isAdmin && !questionAsked) {
             // error found, ask admin user if they want to override
-            KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+            ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
 
             // build question text (contains error messages found)
             String message = "";
             if (GlobalVariables.getMessageMap().containsKey(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
                 for (Object errorMessage : GlobalVariables.getMessageMap().getMessages(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
-                    String errorMsg = kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
+                    String errorMsg = kualiConfigurationService.getPropertyValueAsString(((ErrorMessage) errorMessage).getErrorKey());
                     message += MessageFormat.format(errorMsg, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
                 }
             }
             
             if (GlobalVariables.getMessageMap().containsKey(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
                 for (Object errorMessage : GlobalVariables.getMessageMap().getMessages(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
-                    String errorMsg = kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
+                    String errorMsg = kualiConfigurationService.getPropertyValueAsString(((ErrorMessage) errorMessage).getErrorKey());
                     message += MessageFormat.format(errorMsg, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
                 }
             }
-            message += " " + kualiConfigurationService.getPropertyString(LaborKeyConstants.EFFORT_VALIDATION_OVERRIDE_MESSAGE);
+            message += " " + kualiConfigurationService.getPropertyValueAsString(LaborKeyConstants.EFFORT_VALIDATION_OVERRIDE_MESSAGE);
 
             return this.performQuestionWithoutInput(mapping, form, request, response, LaborConstants.SalaryExpenseTransfer.EFFORT_VALIDATION_OVERRIDE_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, caller, "");
         }
 
         // errors found, return to document if it is being initiated, or disapproved if enroute
-        if (salaryExpenseDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+        if (salaryExpenseDocument.getDocumentHeader().getWorkflowDocument().isEnroute()) {
             SpringContext.getBean(SalaryTransferPeriodValidationService.class).disapproveSalaryExpenseDocument(salaryExpenseDocument);
 
             return returnToSender(request, mapping, (KualiDocumentFormBase) form);

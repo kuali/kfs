@@ -18,13 +18,13 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Instances of this class represent the various statuses an Award can be in.
  */
-public class AwardStatus extends PersistableBusinessObjectBase implements Inactivateable {
+public class AwardStatus extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String awardStatusCode;
     private String awardStatusDescription;
@@ -116,8 +116,8 @@ public class AwardStatus extends PersistableBusinessObjectBase implements Inacti
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("awardStatusCode", this.awardStatusCode);
         return m;

@@ -51,10 +51,10 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext(session = appleton)
 public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
@@ -233,7 +233,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         // If there is such a vendor in the database, we can proceed to test this.
         VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(
                 VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
-        if(org.kuali.rice.kns.util.ObjectUtils.isNotNull(vendor)) {
+        if(org.kuali.rice.krad.util.ObjectUtils.isNotNull(vendor)) {
             VendorCreditMemoInitTabReferenceNumberValidation validation = (VendorCreditMemoInitTabReferenceNumberValidation)validations.get("VendorCreditMemo-initTabReferenceNumberValidation-test");        
             assertTrue( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
         }
@@ -260,7 +260,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         // If there is such a vendor in the database, we can proceed to test this.
         VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(
                 VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
-        if(org.kuali.rice.kns.util.ObjectUtils.isNotNull(vendor)) {
+        if(org.kuali.rice.krad.util.ObjectUtils.isNotNull(vendor)) {
             
             GlobalVariables.getUserSession().setBackdoorUser( "parke" );
             Integer poID = prepareAndSavePO();
@@ -286,7 +286,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         // If there is such a vendor in the database, we can proceed to test this.
         VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(
                 VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
-        if(org.kuali.rice.kns.util.ObjectUtils.isNotNull(vendor)) {
+        if(org.kuali.rice.krad.util.ObjectUtils.isNotNull(vendor)) {
             Integer preqID = prepareAndSavePREQ();
             creditMemo.setPaymentRequestIdentifier(preqID);
             

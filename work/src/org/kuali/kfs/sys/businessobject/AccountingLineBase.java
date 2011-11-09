@@ -40,9 +40,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the generic class which contains all the elements on a typical line of accounting elements. These are all the accounting
@@ -602,9 +602,9 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
@@ -630,14 +630,14 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isSourceAccountingLine()
+     * @see org.kuali.rice.krad.bo.AccountingLine#isSourceAccountingLine()
      */
     public boolean isSourceAccountingLine() {
         return (this instanceof SourceAccountingLine);
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isTargetAccountingLine()
+     * @see org.kuali.rice.krad.bo.AccountingLine#isTargetAccountingLine()
      */
     public boolean isTargetAccountingLine() {
         return (this instanceof TargetAccountingLine);
@@ -645,7 +645,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#getAccountKey()
+     * @see org.kuali.rice.krad.bo.AccountingLine#getAccountKey()
      */
     public String getAccountKey() {
         String key = getChartOfAccountsCode() + ":" + getAccountNumber();
@@ -654,7 +654,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#copyFrom(org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.bo.AccountingLine#copyFrom(org.kuali.rice.krad.bo.AccountingLine)
      */
     public void copyFrom(AccountingLine other) {
         if (other == null) {
@@ -724,7 +724,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isLike(org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.bo.AccountingLine#isLike(org.kuali.rice.krad.bo.AccountingLine)
      */
     public boolean isLike(AccountingLine other) {
         boolean isLike = false;

@@ -37,15 +37,15 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.document.workflow.MockWorkflowDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import java.util.ArrayList;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 @ConfigureContext(session = appleton)
@@ -157,7 +157,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         // some date in the past
         Date yesterday = getDateFromOffsetFromToday(-1);
         
-        assertTrue("Something is wrong with the test.  Error map was not empty before document saving called", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("Something is wrong with the test.  Error map was not empty before document saving called", GlobalVariables.getMessageMap().hasErrors());
         
         // rule 1: past pay dates are NOT allowed if the document has not been successfully saved or submitted yet
         PaymentRequestDocument document1 = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
@@ -165,7 +165,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         
         PaymentRequestPayDateNotPastValidation validation = (PaymentRequestPayDateNotPastValidation)validations.get("PaymentRequest-payDateNotPastValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", document1)) );                
-        TypedArrayList l = (TypedArrayList) GlobalVariables.getMessageMap().getMessages("document.paymentRequestPayDate");
+        ArrayList l = (ArrayList) GlobalVariables.getMessageMap().getMessages("document.paymentRequestPayDate");
         boolean correctError = false;
         for (Iterator i = l.iterator(); i.hasNext(); ) {
             ErrorMessage m = (ErrorMessage) i.next();
@@ -192,7 +192,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         validation.setTestDate(yesterday);
                 
         // create a workflow document that simulates the document being enroute
-        KualiWorkflowDocument workflowDocument = new MockWorkflowDocument() {
+        WorkflowDocument workflowDocument = new MockWorkflowDocument() {
             public String getCurrentRouteNodeNames() {
                 return null;
             }
@@ -202,17 +202,17 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             }
 
             @Override
-            public boolean stateIsInitiated() {
+            public boolean isInitiated() {
                 return false;
             }
 
             @Override
-            public boolean stateIsSaved() {
+            public boolean isSaved() {
                 return false;
             }
 
             @Override
-            public boolean stateIsEnroute() {
+            public boolean isEnroute() {
                 return true;
             }
             public void superUserActionRequestApprove(Long actionRequestId, String annotation)  {
@@ -247,16 +247,16 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         document2.getDocumentHeader().setWorkflowDocument(workflowDocument);
         document2.setPaymentRequestPayDate(yesterday);
         assertTrue("Didn't change past pay date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().hasErrors());
         
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(-2));
         assertFalse("changed past pay date to another past pay date, so document should fail.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertFalse("Error map should not be empty", GlobalVariables.getMessageMap().isEmpty());
+        assertFalse("Error map should not be empty", GlobalVariables.getMessageMap().hasErrors());
         GlobalVariables.getMessageMap().clearErrorMessages();
         
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(3));
         assertTrue("Changed past pay date to future, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().hasErrors());
         
     }
 
@@ -273,7 +273,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         validation.setTestDate(tomorrow);
         
         // create a workflow document that simulates the document being enroute
-        KualiWorkflowDocument workflowDocument = new MockWorkflowDocument() {
+        WorkflowDocument workflowDocument = new MockWorkflowDocument() {
             public String getCurrentRouteNodeNames() {
                 return null;
             }
@@ -287,17 +287,17 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             }
 
             @Override
-            public boolean stateIsInitiated() {
+            public boolean isInitiated() {
                 return false;
             }
 
             @Override
-            public boolean stateIsSaved() {
+            public boolean isSaved() {
                 return false;
             }
 
             @Override
-            public boolean stateIsEnroute() {
+            public boolean isEnroute() {
                 return true;
             }
             public void superUserActionRequestApprove(Long actionRequestId, String annotation)  {
@@ -330,16 +330,16 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         document2.getDocumentHeader().setWorkflowDocument(workflowDocument);
         document2.setPaymentRequestPayDate(tomorrow);
         assertTrue("Didn't change future pay date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().hasErrors());
         
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(-2));
         assertFalse("changed future pay date to  past pay date, so document should fail.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertFalse("Error map should not be empty", GlobalVariables.getMessageMap().isEmpty());
+        assertFalse("Error map should not be empty", GlobalVariables.getMessageMap().hasErrors());
         GlobalVariables.getMessageMap().clearErrorMessages();
         
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(3));
         assertTrue("Changed future pay date to another future date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().hasErrors());
     }
     
     public void testValidatePaymentRequestDates_Today() {

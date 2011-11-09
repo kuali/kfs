@@ -26,13 +26,13 @@ import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import java.util.ArrayList;
 
 /**
  * The representation of a Global Organization Reversion. A Global Organization Reversion is made up of three sections: 1. The
@@ -61,15 +61,15 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     public OrganizationReversionGlobal() {
         super();
-        organizationReversionGlobalDetails = new TypedArrayList(OrganizationReversionGlobalDetail.class);
-        organizationReversionGlobalOrganizations = new TypedArrayList(OrganizationReversionGlobalOrganization.class);
+        organizationReversionGlobalDetails = new ArrayList<OrganizationReversionGlobalDetail>();
+        organizationReversionGlobalOrganizations = new ArrayList<OrganizationReversionGlobalOrganization>();
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap stringMapper = new LinkedHashMap();
         stringMapper.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         stringMapper.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear);
@@ -344,7 +344,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateDeactivationsToPersist() As global organization reversions only update
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#generateDeactivationsToPersist() As global organization reversions only update
      *      existing records, deactivations will never be produced by creating one; thus, this method always returns an empty list.
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
@@ -352,7 +352,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateGlobalChangesToPersist() This creates a list of changes to be made to the
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#generateGlobalChangesToPersist() This creates a list of changes to be made to the
      *      existing Organization Reversion records impacted by this global reversion.
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
@@ -422,7 +422,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#getAllDetailObjects() This returns a list of all the detail objects held within
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#getAllDetailObjects() This returns a list of all the detail objects held within
      *      this main global organization reversion container.
      */
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
@@ -433,7 +433,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#isPersistable() returns whether this global object reversion can be stored in the
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#isPersistable() returns whether this global object reversion can be stored in the
      *      database, which is really a question of whether it and all of its details have all of their appropriate primary keys
      *      set.
      */
@@ -461,7 +461,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

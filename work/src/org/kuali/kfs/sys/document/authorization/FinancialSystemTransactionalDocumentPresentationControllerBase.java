@@ -30,14 +30,14 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.kns.util.NumberUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Base class for all FinancialSystemDocumentPresentationControllers.
@@ -75,15 +75,15 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
             return false;
         }
 
-        final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (!isApprovalDateWithinFiscalYear(workflowDocument))
             return false;
 
-        return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
+        return (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal());
     }
 
-    protected boolean isApprovalDateWithinFiscalYear(KualiWorkflowDocument workflowDocument) {
-        final Calendar approvalDate = workflowDocument.getRouteHeader().getDateApproved();
+    protected boolean isApprovalDateWithinFiscalYear(WorkflowDocument workflowDocument) {
+        final Calendar approvalDate = workflowDocument.getDateApproved();
         if (ObjectUtils.isNotNull(approvalDate)) {
             // compare approval fiscal year with current fiscal year
             UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
@@ -95,7 +95,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.krad.document.Document)
      */
     @Override
     public Set<String> getDocumentActions(Document document) {
@@ -115,7 +115,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {
@@ -137,9 +137,9 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         boolean bankSpecificationEnabled = getBankService().isBankSpecificationEnabled();
 
         if (bankSpecificationEnabled) {
-            String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+            String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
 
-            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
+            ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
             return evaluator.evaluationSucceeds();
         }
 

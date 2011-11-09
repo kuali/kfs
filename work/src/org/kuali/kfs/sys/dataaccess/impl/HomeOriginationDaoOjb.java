@@ -20,7 +20,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.sys.businessobject.HomeOrigination;
 import org.kuali.kfs.sys.dataaccess.HomeOriginationDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
  * This class is the OJB implementation of the HomeOriginationDao interface.
@@ -31,7 +31,7 @@ public class HomeOriginationDaoOjb extends PlatformAwareDaoBaseOjb implements Ho
 
 
     /**
-     * @see org.kuali.rice.kns.dao.HomeOriginationDao#getHomeOrigination()
+     * @see org.kuali.rice.krad.dao.HomeOriginationDao#getHomeOrigination()
      */
     public HomeOrigination getHomeOrigination() {
         HomeOrigination homeOrigination = null;

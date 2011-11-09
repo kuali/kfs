@@ -18,7 +18,7 @@ package org.kuali.kfs.pdp.service.impl;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 
 public class PdpAuthorizationServiceImpl implements PdpAuthorizationService {
 

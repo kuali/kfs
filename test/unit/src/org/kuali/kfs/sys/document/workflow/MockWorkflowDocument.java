@@ -21,8 +21,8 @@ import java.util.Set;
 import org.kuali.rice.kew.dto.ReturnPointDTO;
 import org.kuali.rice.kew.dto.RouteHeaderDTO;
 import org.kuali.rice.kew.dto.WorkflowAttributeDefinitionDTO;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * This class is the base class for a MockWorkflowDocument. It can be extended by any other kind of mock document that needs to
@@ -30,7 +30,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * variables. All void methods do nothing. All methods with a return value return null. All state and behavior needs to be added via
  * a subclass.
  */
-public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
+public abstract class MockWorkflowDocument implements WorkflowDocument {
 
     /**
      * Constructs a MockWorkflowDocument.java.
@@ -39,7 +39,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getApplicationContent()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getApplicationContent()
      */
     public String getApplicationContent() {
         // TODO Auto-generated method stub
@@ -47,7 +47,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#setApplicationContent(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#setApplicationContent(java.lang.String)
      */
     public void setApplicationContent(String applicationContent) {
         // TODO Auto-generated method stub
@@ -55,7 +55,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#clearAttributeContent()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#clearAttributeContent()
      */
     public void clearAttributeContent() {
         // TODO Auto-generated method stub
@@ -63,7 +63,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getAttributeContent()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getAttributeContent()
      */
     public String getAttributeContent() {
         // TODO Auto-generated method stub
@@ -71,7 +71,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#addAttributeDefinition(org.kuali.rice.kew.clientapp.vo.WorkflowAttributeDefinitionDTO)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#addAttributeDefinition(org.kuali.rice.kew.clientapp.vo.WorkflowAttributeDefinitionDTO)
      */
     public void addAttributeDefinition(WorkflowAttributeDefinitionDTO attributeDefinition) {
         // TODO Auto-generated method stub
@@ -79,7 +79,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#removeAttributeDefinition(org.kuali.rice.kew.clientapp.vo.WorkflowAttributeDefinitionDTO)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#removeAttributeDefinition(org.kuali.rice.kew.clientapp.vo.WorkflowAttributeDefinitionDTO)
      */
     public void removeAttributeDefinition(WorkflowAttributeDefinitionDTO attributeDefinition) {
         // TODO Auto-generated method stub
@@ -87,7 +87,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#clearAttributeDefinitions()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#clearAttributeDefinitions()
      */
     public void clearAttributeDefinitions() {
         // TODO Auto-generated method stub
@@ -95,7 +95,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getAttributeDefinitions()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getAttributeDefinitions()
      */
     public WorkflowAttributeDefinitionDTO[] getAttributeDefinitions() {
         // TODO Auto-generated method stub
@@ -103,7 +103,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#addSearchableDefinition(org.kuali.rice.kew.clientapp.vo.WorkflowAttributeDefinitionDTO)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#addSearchableDefinition(org.kuali.rice.kew.clientapp.vo.WorkflowAttributeDefinitionDTO)
      */
     public void addSearchableDefinition(WorkflowAttributeDefinitionDTO searchableDefinition) {
         // TODO Auto-generated method stub
@@ -111,7 +111,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#removeSearchableDefinition(org.kuali.rice.kew.clientapp.vo.WorkflowAttributeDefinitionDTO)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#removeSearchableDefinition(org.kuali.rice.kew.clientapp.vo.WorkflowAttributeDefinitionDTO)
      */
     public void removeSearchableDefinition(WorkflowAttributeDefinitionDTO searchableDefinition) {
         // TODO Auto-generated method stub
@@ -119,7 +119,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#clearSearchableDefinitions()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#clearSearchableDefinitions()
      */
     public void clearSearchableDefinitions() {
         // TODO Auto-generated method stub
@@ -127,7 +127,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getSearchableDefinitions()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getSearchableDefinitions()
      */
     public WorkflowAttributeDefinitionDTO[] getSearchableDefinitions() {
         // TODO Auto-generated method stub
@@ -135,7 +135,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getRouteHeader()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getRouteHeader()
      */
     public RouteHeaderDTO getRouteHeader() {
         // TODO Auto-generated method stub
@@ -143,7 +143,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getRouteHeaderId()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getRouteHeaderId()
      */
     public Long getRouteHeaderId()  {
         // TODO Auto-generated method stub
@@ -151,7 +151,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#setAppDocId(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#setAppDocId(java.lang.String)
      */
     public void setAppDocId(String appDocId) {
         // TODO Auto-generated method stub
@@ -159,7 +159,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getAppDocId()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getAppDocId()
      */
     public String getAppDocId() {
         // TODO Auto-generated method stub
@@ -167,9 +167,9 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getInitiatorNetworkId()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getInitiatorPrincipalId()
      */
-    public String getInitiatorNetworkId() {
+    public String getInitiatorPrincipalId() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -180,7 +180,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
     
         /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getRoutedByPrincipalId()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getRoutedByPrincipalId()
      */
     public String getRoutedByPrincipalId() {
         // TODO Auto-generated method stub
@@ -188,7 +188,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getTitle()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getTitle()
      */
     public String getTitle() {
         // TODO Auto-generated method stub
@@ -196,7 +196,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#saveDocument(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#saveDocument(java.lang.String)
      */
     public void saveDocument(String annotation)  {
         // TODO Auto-generated method stub
@@ -204,7 +204,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#routeDocument(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#routeDocument(java.lang.String)
      */
     public void routeDocument(String annotation)  {
         // TODO Auto-generated method stub
@@ -212,7 +212,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#disapprove(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#disapprove(java.lang.String)
      */
     public void disapprove(String annotation)  {
         // TODO Auto-generated method stub
@@ -220,7 +220,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#approve(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#approve(java.lang.String)
      */
     public void approve(String annotation)  {
         // TODO Auto-generated method stub
@@ -228,7 +228,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#superUserApprove(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#superUserApprove(java.lang.String)
      */
     public void superUserApprove(String annotation)  {
         // TODO Auto-generated method stub
@@ -236,7 +236,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#cancel(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#cancel(java.lang.String)
      */
     public void cancel(String annotation)  {
         // TODO Auto-generated method stub
@@ -244,7 +244,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#blanketApprove(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#blanketApprove(java.lang.String)
      */
     public void blanketApprove(String annotation)  {
         // TODO Auto-generated method stub
@@ -252,7 +252,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#blanketApprove(java.lang.String, java.lang.Integer)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#blanketApprove(java.lang.String, java.lang.Integer)
      */
     public void blanketApprove(String annotation, Integer routeLevel)  {
         // TODO Auto-generated method stub
@@ -260,7 +260,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#saveRoutingData()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#saveRoutingData()
      */
     public void saveRoutingData()  {
         // TODO Auto-generated method stub
@@ -268,7 +268,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#acknowledge(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#acknowledge(java.lang.String)
      */
     public void acknowledge(String annotation)  {
         // TODO Auto-generated method stub
@@ -276,7 +276,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#fyi()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#fyi()
      */
     public void fyi()  {
         // TODO Auto-generated method stub
@@ -284,7 +284,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#delete()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#delete()
      */
     public void delete()  {
         // TODO Auto-generated method stub
@@ -292,7 +292,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#refreshContent()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#refreshContent()
      */
     public void refreshContent()  {
         // TODO Auto-generated method stub
@@ -300,7 +300,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#setTitle(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#setTitle(java.lang.String)
      */
     public void setTitle(String title)  {
         // TODO Auto-generated method stub
@@ -308,7 +308,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getDocumentType()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getDocumentType()
      */
     public String getDocumentType() {
         // TODO Auto-generated method stub
@@ -316,7 +316,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#isAdHocRequested()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isAdHocRequested()
      */
     public boolean isAdHocRequested() {
         // TODO Auto-generated method stub
@@ -324,7 +324,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#isAcknowledgeRequested()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isAcknowledgeRequested()
      */
     public boolean isAcknowledgeRequested() {
         // TODO Auto-generated method stub
@@ -332,7 +332,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#isApprovalRequested()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isApprovalRequested()
      */
     public boolean isApprovalRequested() {
         // TODO Auto-generated method stub
@@ -340,7 +340,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#isCompletionRequested()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isCompletionRequested()
      */
     public boolean isCompletionRequested() {
         // TODO Auto-generated method stub
@@ -348,7 +348,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#isFYIRequested()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isFYIRequested()
      */
     public boolean isFYIRequested() {
         // TODO Auto-generated method stub
@@ -356,7 +356,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#isBlanketApproveCapable()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isBlanketApproveCapable()
      */
     public boolean isBlanketApproveCapable() {
         // TODO Auto-generated method stub
@@ -364,7 +364,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getDocRouteLevel()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getDocRouteLevel()
      */
     public Integer getDocRouteLevel() {
         // TODO Auto-generated method stub
@@ -372,7 +372,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getDocRouteLevelName()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getDocRouteLevelName()
      */
     public String getDocRouteLevelName()  {
         // TODO Auto-generated method stub
@@ -380,7 +380,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getRouteTypeName()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getRouteTypeName()
      */
     public String getRouteTypeName()  {
         // TODO Auto-generated method stub
@@ -388,7 +388,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#complete(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#complete(java.lang.String)
      */
     public void complete(String annotation)  {
         // TODO Auto-generated method stub
@@ -407,14 +407,14 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#returnToPreviousRouteLevel(java.lang.String, java.lang.Integer)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#returnToPreviousRouteLevel(java.lang.String, java.lang.Integer)
      */
     public void returnToPreviousRouteLevel(String annotation, Integer destRouteLevel)  {
         // TODO Auto-generated method stub
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#logDocumentAction(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#logDocumentAction(java.lang.String)
      */
     public void logDocumentAction(String annotation)  {
         // TODO Auto-generated method stub
@@ -422,79 +422,79 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#stateIsInitiated()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isInitiated()
      */
-    public boolean stateIsInitiated() {
+    public boolean isInitiated() {
         // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#stateIsSaved()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isSaved()
      */
-    public boolean stateIsSaved() {
+    public boolean isSaved() {
         // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#stateIsEnroute()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isEnroute()
      */
-    public boolean stateIsEnroute() {
+    public boolean isEnroute() {
         // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#stateIsFinal()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isFinal()
      */
-    public boolean stateIsFinal() {
+    public boolean isFinal() {
         // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#stateIsException()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isException()
      */
-    public boolean stateIsException() {
+    public boolean isException() {
         // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#stateIsCanceled()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isCanceled()
      */
-    public boolean stateIsCanceled() {
+    public boolean isCanceled() {
         // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#stateIsDisapproved()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isDisapproved()
      */
-    public boolean stateIsDisapproved() {
+    public boolean isDisapproved() {
         // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#stateIsApproved()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isApproved()
      */
-    public boolean stateIsApproved() {
+    public boolean isApproved() {
         // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#stateIsProcessed()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isProcessed()
      */
-    public boolean stateIsProcessed() {
+    public boolean isProcessed() {
         // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getStatusDisplayValue()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getStatusDisplayValue()
      */
     public String getStatusDisplayValue() {
         // TODO Auto-generated method stub
@@ -502,7 +502,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getCreateDate()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getCreateDate()
      */
     public Timestamp getCreateDate() {
         // TODO Auto-generated method stub
@@ -510,7 +510,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#userIsInitiator(org.kuali.rice.kns.bo.user.KualiUser)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#userIsInitiator(org.kuali.rice.krad.bo.user.KualiUser)
      */
     public boolean userIsInitiator(Person user) {
         // TODO Auto-generated method stub
@@ -518,7 +518,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getNodeNames()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getNodeNames()
      */
     public String[] getNodeNames()  {
         // TODO Auto-generated method stub
@@ -526,7 +526,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getAllPriorApprovers()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getAllPriorApprovers()
      */
     public Set<Person> getAllPriorApprovers()  {
         // TODO Auto-generated method stub
@@ -534,7 +534,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getCurrentRouteNodeNames()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getCurrentRouteNodeNames()
      */
     public String getCurrentRouteNodeNames() {
         // TODO Auto-generated method stub
@@ -542,7 +542,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getRoutedByUserNetworkId()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#getRoutedByUserNetworkId()
      */
     public String getRoutedByUserNetworkId() {
         // TODO Auto-generated method stub
@@ -550,7 +550,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#isStandardSaveAllowed()
+     * @see org.kuali.rice.kew.api.WorkflowDocument#isStandardSaveAllowed()
      */
     public boolean isStandardSaveAllowed() {
         // TODO Auto-generated method stub
@@ -558,7 +558,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#superUserActionRequestApprove(java.lang.Long, java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#superUserActionRequestApprove(java.lang.Long, java.lang.String)
      */
     public void superUserActionRequestApprove(Long actionRequestId, String annotation)  {
         // TODO Auto-generated method stub
@@ -566,7 +566,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#superUserCancel(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#superUserCancel(java.lang.String)
      */
     public void superUserCancel(String annotation)  {
         // TODO Auto-generated method stub
@@ -574,7 +574,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#superUserDisapprove(java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#superUserDisapprove(java.lang.String)
      */
     public void superUserDisapprove(String annotation)  {
         // TODO Auto-generated method stub
@@ -582,7 +582,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#userIsRoutedByUser(org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#userIsRoutedByUser(org.kuali.rice.kim.api.identity.Person)
      */
     public boolean userIsRoutedByUser(Person user) {
         // TODO Auto-generated method stub
@@ -590,7 +590,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#adHocRouteDocumentToGroup(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#adHocRouteDocumentToGroup(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.String)
      */
     public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions, String actionRequestLabel)  {
         // TODO Auto-generated method stub
@@ -598,7 +598,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#adHocRouteDocumentToGroup(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#adHocRouteDocumentToGroup(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean)
      */
     public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions)  {
         // TODO Auto-generated method stub
@@ -606,7 +606,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#adHocRouteDocumentToPrincipal(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.String)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#adHocRouteDocumentToPrincipal(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.String)
      */
     public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions, String actionRequestLabel)  {
         // TODO Auto-generated method stub
@@ -614,7 +614,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#adHocRouteDocumentToPrincipal(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean)
+     * @see org.kuali.rice.kew.api.WorkflowDocument#adHocRouteDocumentToPrincipal(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean)
      */
     public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions)  {
         // TODO Auto-generated method stub

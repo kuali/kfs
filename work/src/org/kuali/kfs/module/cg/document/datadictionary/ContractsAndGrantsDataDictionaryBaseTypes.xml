@@ -19,11 +19,11 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 >
-    <bean id="RoutingAttribute-researchRiskCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+    <bean id="RoutingAttribute-researchRiskCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute" >
         <property name="qualificationAttributeName" value="researchRiskTypeCode" />
     </bean>
 
-	<bean id="DocumentValuePathGroup-ContractsAndGrantsProjectDirector-principalId" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+	<bean id="DocumentValuePathGroup-ContractsAndGrantsProjectDirector-principalId" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
    		<property name="documentValues">
 	   		<list>
 	   			<value>projectDirector.principalId</value>

@@ -19,18 +19,18 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * An association between a <code>Campus</code> and a <code>VendorAddress</code> to indicate that the Address is the default one
  * for this Campus among the various Addresses available for this Vendor.
  * 
- * @see org.kuali.rice.kns.bo.Campus
+ * @see org.kuali.rice.krad.bo.Campus
  * @see org.kuali.kfs.vnd.businessobject.VendorAddress
  */
-public class VendorDefaultAddress extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
+public class VendorDefaultAddress extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivatable {
 
     private Integer vendorDefaultAddressGeneratedIdentifier;
     private Integer vendorAddressGeneratedIdentifier;
@@ -129,9 +129,9 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.vendorAddressGeneratedIdentifier != null) {
             m.put("vendorAddressGeneratedIdentifier", this.vendorAddressGeneratedIdentifier.toString());

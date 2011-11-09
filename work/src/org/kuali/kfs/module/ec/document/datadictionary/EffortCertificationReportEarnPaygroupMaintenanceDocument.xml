@@ -72,5 +72,5 @@
   <!-- workflow attributes -->
   <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument-workflowAttributes" parent="EffortCertificationReportEarnPaygroupMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

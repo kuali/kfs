@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Generates key-value pairs for AddressToVendorIndicator in ReceivingAddress, so that the indicator's boolean values
@@ -31,8 +31,8 @@ public class AddressToVendorIndicatorValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("true", "Receiving Address"));
-        keyValues.add(new KeyLabelPair("false", "Final Delivery Address"));
+        keyValues.add(new ConcreteKeyValue("true", "Receiving Address"));
+        keyValues.add(new ConcreteKeyValue("false", "Final Delivery Address"));
         return keyValues;
     }
 }

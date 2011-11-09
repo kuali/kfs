@@ -40,7 +40,7 @@
     
     <property name="documentTypeName" value="ICRE"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryRateRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.coa.document.authorization.IndirectCostRecoveryRateMaintenanceDocumentPresentationController"/>
     <property name="workflowAttributes">
     	<ref bean="IndirectCostRecoveryRateMaintenanceDocument-workflowAttributes"/>
@@ -121,5 +121,5 @@
     <!-- workflow attributes -->
   <bean id="IndirectCostRecoveryRateMaintenanceDocument-workflowAttributes" parent="IndirectCostRecoveryRateMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="IndirectCostRecoveryRateMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

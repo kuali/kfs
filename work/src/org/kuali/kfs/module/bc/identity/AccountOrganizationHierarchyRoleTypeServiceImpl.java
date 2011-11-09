@@ -24,28 +24,29 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
-public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class AccountOrganizationHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
     public static final String DESCEND_HIERARCHY_FALSE_VALUE = "N";
 
-/* RICE_20_DELETE */    {
-/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-/* RICE_20_DELETE */        checkRequiredAttributes = false;
-/* RICE_20_DELETE */    }
+
+
+
+
+
 
     protected BudgetDocumentService budgetDocumentService;
 
     /**
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
      *      org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         // if no qualification given but the user is assigned an organization then return they have the role
         if ((qualification == null || qualification.isEmpty()) && roleQualifier != null && !roleQualifier.isEmpty()) {
             return true;
@@ -106,7 +107,7 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
     }
 
     /**
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#getAttributeDefinitions(java.lang.String)
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#getAttributeDefinitions(java.lang.String)
      */
     @Override
     public AttributeDefinitionMap getAttributeDefinitions(String kimTypId) {

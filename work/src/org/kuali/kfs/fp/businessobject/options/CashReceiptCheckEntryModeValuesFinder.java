@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * returns field delimeter vaules
@@ -32,8 +32,8 @@ public class CashReceiptCheckEntryModeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(CashReceiptDocument.CHECK_ENTRY_DETAIL, "Individual Checks/Batches"));
-        keyValues.add(new KeyLabelPair(CashReceiptDocument.CHECK_ENTRY_TOTAL, "Total Only"));
+        keyValues.add(new ConcreteKeyValue(CashReceiptDocument.CHECK_ENTRY_DETAIL, "Individual Checks/Batches"));
+        keyValues.add(new ConcreteKeyValue(CashReceiptDocument.CHECK_ENTRY_TOTAL, "Total Only"));
         
         return keyValues;
     }

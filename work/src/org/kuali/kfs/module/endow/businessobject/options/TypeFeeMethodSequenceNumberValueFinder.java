@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.endow.businessobject.options;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * This class defines a values finder for Type Fee Method.
@@ -27,7 +27,7 @@ public class TypeFeeMethodSequenceNumberValueFinder implements ValueFinder {
     /**
      * Returns the default value for this ValueFinder
      * @return a String with the default key
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {        
         return getMaxSequenceNumber().toString();

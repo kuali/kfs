@@ -27,8 +27,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public abstract class CamsGeneralLedgerPendingEntrySourceBase implements GeneralLedgerPendingEntrySource {
 
@@ -98,13 +98,13 @@ public abstract class CamsGeneralLedgerPendingEntrySourceBase implements General
         if (glPendingEntries == null || glPendingEntries.isEmpty()) {
             return;
         }
-        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
+        if (documentHeader.getWorkflowDocument().isProcessed()) {
             for (GeneralLedgerPendingEntry glpe : glPendingEntries) {
                 glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
             }
             SpringContext.getBean(BusinessObjectService.class).save(glPendingEntries);
         }
-        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || documentHeader.getWorkflowDocument().stateIsDisapproved()) {
+        else if (getDocumentHeader().getWorkflowDocument().isCanceled() || documentHeader.getWorkflowDocument().isDisapproved()) {
             removeGeneralLedgerPendingEntries(documentHeader.getDocumentNumber());
         }
     }

@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
-import org.kuali.rice.kns.util.TypedArrayList;
+import java.util.ArrayList;
 
 
 public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {
@@ -35,8 +35,8 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
         super();
         sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
         targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-        sourceTransactionSecurities = new TypedArrayList(EndowmentSourceTransactionSecurity.class);
-        targetTransactionSecurities = new TypedArrayList(EndowmentTargetTransactionSecurity.class);
+        sourceTransactionSecurities = new ArrayList<EndowmentSourceTransactionSecurity>();
+        targetTransactionSecurities = new ArrayList<EndowmentTargetTransactionSecurity>();
     }
 
     /**

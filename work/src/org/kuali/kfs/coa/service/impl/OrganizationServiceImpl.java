@@ -31,8 +31,8 @@ import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -224,7 +224,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     public String[] getRootOrganizationCode() {
         String rootChart = chartService.getUniversityChart().getChartOfAccountsCode();
-        String selfReportsOrgType = parameterService.getParameterValue(Organization.class, ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+        String selfReportsOrgType = parameterService.getParameterValueAsString(Organization.class, ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
         String[] returnValues = { null, null };
         
         Map<String, Object> criteria = new HashMap<String, Object>();

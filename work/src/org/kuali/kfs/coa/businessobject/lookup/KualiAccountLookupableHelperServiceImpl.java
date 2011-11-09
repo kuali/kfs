@@ -23,14 +23,14 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class overrids the base getActionUrls method
@@ -43,7 +43,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
      * If the account is not closed or the user is an Administrator the "edit" link is added The "copy" link is added for Accounts
      * 
      * @returns links to edit and copy maintenance action for the current maintenance record.
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
      */
     @Override
@@ -56,10 +56,10 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
             user = GlobalVariables.getUserSession().getPerson();
             currentUser.set(user);
         }
-        AnchorHtmlData urlDataCopy = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+        AnchorHtmlData urlDataCopy = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
 
         if (theAccount.isActive()) {
-            anchorHtmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+            anchorHtmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         else {
             String principalId = user.getPrincipalId();
@@ -70,7 +70,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
             Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
 
             if (isAuthorized) {
-                anchorHtmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+                anchorHtmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
             }
             else {
                 urlDataCopy.setPrependDisplayText("&nbsp;&nbsp;&nbsp;&nbsp;");

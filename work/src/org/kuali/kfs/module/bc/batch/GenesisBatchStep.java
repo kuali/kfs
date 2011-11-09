@@ -23,9 +23,9 @@ import java.util.Map;
 import org.kuali.kfs.module.bc.batch.service.GenesisService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 

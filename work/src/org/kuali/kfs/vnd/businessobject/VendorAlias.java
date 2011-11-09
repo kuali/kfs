@@ -18,13 +18,13 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Alternate name for a Vendor.
  */
-public class VendorAlias extends PersistableBusinessObjectBase implements Inactivateable {
+public class VendorAlias extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String vendorAliasName;
     private Integer vendorDetailAssignedIdentifier;
@@ -92,9 +92,9 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Inacti
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("vendorAliasName", this.vendorAliasName);
         if (this.vendorDetailAssignedIdentifier != null) {
@@ -110,10 +110,10 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Inacti
     /**
      * This method has to be overriden so that we will print only the vendorAliasName in the vendor lookup result.
      * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringBuilder(java.util.LinkedHashMap)
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringBuilder(java.util.LinkedHashMap)
      */
     @Override
-    public String toStringBuilder(LinkedHashMap mapper) {
+    public String toStringBuilder_RICE20_REFACTORME(LinkedHashMap mapper) {
 
         return vendorAliasName;
     }

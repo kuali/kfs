@@ -28,13 +28,13 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementReason;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
@@ -54,7 +54,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
      * </ul>
      * {@link KFSConstants.DISPATCH_REQUEST_PARAMETER}
      *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.krad.bo.BusinessObject, java.util.Map,
      *      java.lang.String)
      */
     @Override
@@ -77,13 +77,13 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
                 if (!isAuthorized) {
                     return getEmptyAnchorHtmlData();
                 }
-            } else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
+            } else if (Arrays.asList(parameterService.getParameterValueAsString(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
                 boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MERGE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 
                 if (!isAuthorized) {
                     return getEmptyAnchorHtmlData();
                 }
-            } else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
+            } else if (Arrays.asList(parameterService.getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
                 boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.RAZE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 
                 if (!isAuthorized) {
@@ -117,7 +117,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
     /**
      * Overrides base implementation to remove the action urls if we are initializing the asset retirement reason
      *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, List pkNames)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, List pkNames)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {

@@ -21,31 +21,32 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
 
 
 /**
  * This role type service was designed to be attached to the KFS-SYS User role
  */
-public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase {
     public static final String FINANCIAL_SYSTEM_USER_ROLE_NAME = "User";
     public static final String PERFORM_QUALIFIER_MATCH = "performQualifierMatch";
     
-/* RICE_20_DELETE */    {
-/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-/* RICE_20_DELETE */        checkRequiredAttributes = false; // can't check - used in too many places where a chart/org is not present
-/* RICE_20_DELETE */    }
+
+
+
+
+
 
     @Override
-    protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         // if we can not find the qualifier which tells us to perform the match, just return true
         if (qualification == null || !Boolean.parseBoolean(qualification.get(PERFORM_QUALIFIER_MATCH))) {
             return true;
@@ -56,37 +57,37 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
             return false;
         }
         // exact match on namespace or qualifier namespace of kfs-sys works
-        if (StringUtils.equals(roleQualifier.get(KfsKimAttributes.NAMESPACE_CODE), qualification.get(KfsKimAttributes.NAMESPACE_CODE)) || StringUtils.equals(KFSConstants.ParameterNamespaces.KFS, roleQualifier.get(KfsKimAttributes.NAMESPACE_CODE))) {
+        if (StringUtils.equals(roleQualifier.get(KimConstants.AttributeConstants.NAMESPACE_CODE), qualification.get(KimConstants.AttributeConstants.NAMESPACE_CODE)) || StringUtils.equals(KFSConstants.ParameterNamespaces.KFS, roleQualifier.get(KimConstants.AttributeConstants.NAMESPACE_CODE))) {
             return true;
         }
         return false;
     }
 
     @Override
-    public List<RoleMembershipInfo> doRoleQualifiersMatchQualification(AttributeSet qualification, List<RoleMembershipInfo> roleMemberList) {
-        AttributeSet translatedQualification = translateInputAttributeSet(qualification);
+    public List<RoleMembership> doRoleQualifiersMatchQualification(Map<String,String> qualification, List<RoleMembership> roleMemberList) {
+        Map<String,String> translatedQualification = translateInputAttributeSet(qualification);
         validateRequiredAttributesAgainstReceived(translatedQualification);
         // if we can not find the qualifier which tells us to perform the match, just return all rows
         if (translatedQualification == null || translatedQualification.isEmpty() || !Boolean.parseBoolean(translatedQualification.get(PERFORM_QUALIFIER_MATCH))) {
             return roleMemberList;
         }
         // perform special matching to make a match that includes the namespace take priority
-        RoleMembershipInfo namespaceMatch = null;
-        RoleMembershipInfo nonNamespaceMatch = null;
+        RoleMembership namespaceMatch = null;
+        RoleMembership nonNamespaceMatch = null;
         // look for match
-        for (RoleMembershipInfo rmi : roleMemberList) {
+        for (RoleMembership rmi : roleMemberList) {
             // if chart and org aren't on the assignment we don't care, since we are only matching to get the default chart/org for
             // a user in FinancialSystemUserServiceImpl
             if (!(StringUtils.isBlank(rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) || StringUtils.isBlank(rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE)))) {
-                if (StringUtils.equals(translatedQualification.get(KfsKimAttributes.NAMESPACE_CODE), rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE))) {
+                if (StringUtils.equals(translatedQualification.get(KimConstants.AttributeConstants.NAMESPACE_CODE), rmi.getQualifier().get(KimConstants.AttributeConstants.NAMESPACE_CODE))) {
                     namespaceMatch = rmi;
                 }
-                else if (StringUtils.equals(KFSConstants.ParameterNamespaces.KFS, rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE))) {
+                else if (StringUtils.equals(KFSConstants.ParameterNamespaces.KFS, rmi.getQualifier().get(KimConstants.AttributeConstants.NAMESPACE_CODE))) {
                     nonNamespaceMatch = rmi;
                 }
             }
         }
-        List<RoleMembershipInfo> matchingMemberships = new ArrayList<RoleMembershipInfo>(1);
+        List<RoleMembership> matchingMemberships = new ArrayList<RoleMembership>(1);
         if (nonNamespaceMatch != null || namespaceMatch != null) {
             matchingMemberships.add((namespaceMatch != null) ? namespaceMatch : nonNamespaceMatch);
         }
@@ -99,14 +100,14 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
      *   - none are required if not
      *   - can only have one assignment to the role for a given namespace - including no namespace 
      *  
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateAttributes(org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#validateAttributes(org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public AttributeSet validateAttributes(String kimTypeId, AttributeSet attributes) {
-        AttributeSet errorMap = super.validateAttributes(kimTypeId, attributes);
+    public Map<String,String> validateAttributes(String kimTypeId, Map<String,String> attributes) {
+        Map<String,String> errorMap = super.validateAttributes(kimTypeId, attributes);
         String chartCode = attributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String organizationCode = attributes.get(KfsKimAttributes.ORGANIZATION_CODE);
-        String namespaceCode = attributes.get(KfsKimAttributes.NAMESPACE_CODE);
+        String namespaceCode = attributes.get(KimConstants.AttributeConstants.NAMESPACE_CODE);
         if(StringUtils.isEmpty(chartCode) && StringUtils.isEmpty(organizationCode)){
             //remove chartofAccountCode, organizationCode and namespaceCode errors
             //Object results = GlobalVariables.getMessageMap().getErrorMessagesForProperty(attributeName);
@@ -114,7 +115,7 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
             errorMap.remove(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             errorMap.remove(KfsKimAttributes.ORGANIZATION_CODE);
             if(StringUtils.isEmpty(namespaceCode))
-                errorMap.remove(KfsKimAttributes.NAMESPACE_CODE);
+                errorMap.remove(KimConstants.AttributeConstants.NAMESPACE_CODE);
         } //- if chart or org are specified, chart, org, and namespace are all required 
           //- none are required if not 
         else if (StringUtils.isNotEmpty(chartCode) || StringUtils.isNotEmpty(organizationCode)){
@@ -123,14 +124,14 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
             if(StringUtils.isEmpty(organizationCode))
                 errorMap.put(KfsKimAttributes.ORGANIZATION_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
             if(StringUtils.isEmpty(namespaceCode))
-                errorMap.put(KfsKimAttributes.NAMESPACE_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+                errorMap.put(KimConstants.AttributeConstants.NAMESPACE_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
         }
 
         return errorMap;
     }
 
     @Override
-    public boolean validateUniqueAttributes(String kimTypeId, AttributeSet newAttributes, AttributeSet oldAttributes){
+    public boolean validateUniqueAttributes(String kimTypeId, Map<String,String> newAttributes, Map<String,String> oldAttributes){
         if(areAllAttributeValuesEmpty(newAttributes)){
             return false;
         } else
@@ -142,18 +143,18 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
         List<String> uniqueAttributes = new ArrayList<String>();
         //uniqueAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         //uniqueAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-        uniqueAttributes.add(KimAttributes.NAMESPACE_CODE);
+        uniqueAttributes.add(KimConstants.AttributeConstants.NAMESPACE_CODE);
         return uniqueAttributes;
     }
 
     /**
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#getAttributeDefinitions(java.lang.String)
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#getAttributeDefinitions(java.lang.String)
      */
     @Override
     public AttributeDefinitionMap getAttributeDefinitions(String kimTypeId) {
         AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypeId);
         for (AttributeDefinition definition : map.values()) {
-            if (KfsKimAttributes.NAMESPACE_CODE.equals(definition.getName()) || KfsKimAttributes.CHART_OF_ACCOUNTS_CODE.equals(definition.getName())
+            if (KimConstants.AttributeConstants.NAMESPACE_CODE.equals(definition.getName()) || KfsKimAttributes.CHART_OF_ACCOUNTS_CODE.equals(definition.getName())
                     || KfsKimAttributes.ORGANIZATION_CODE.equals(definition.getName())) {
                 definition.setRequired(Boolean.FALSE);
             }

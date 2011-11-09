@@ -24,12 +24,12 @@ import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowNodeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowRequestMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class WorkflowTestUtils {
     private static final Log LOG = LogFactory.getLog(WorkflowTestUtils.class);
@@ -44,23 +44,23 @@ public class WorkflowTestUtils {
         return false;
     }
 
-    public static void waitForNodeChange(KualiWorkflowDocument document, String desiredNodeName) throws Exception {
+    public static void waitForNodeChange(WorkflowDocument document, String desiredNodeName) throws Exception {
         LOG.info("Entering: waitForNodeChange(" + document.getRouteHeaderId() + "," + desiredNodeName + ")");
         DocumentWorkflowNodeMonitor monitor = new DocumentWorkflowNodeMonitor(document, desiredNodeName);
         Assert.assertTrue("waitForNodeChange(" + document.getRouteHeaderId() + "," + desiredNodeName + ") timed out", ChangeMonitor.waitUntilChange(monitor, 240, 5));
     }
 
-    public static void waitForStatusChange(KualiWorkflowDocument document, String desiredStatus) throws Exception {
+    public static void waitForStatusChange(WorkflowDocument document, String desiredStatus) throws Exception {
         waitForStatusChange(240, document, desiredStatus);
     }
 
-    public static void waitForStatusChange(int numSeconds, KualiWorkflowDocument document, String desiredStatus) throws Exception {
+    public static void waitForStatusChange(int numSeconds, WorkflowDocument document, String desiredStatus) throws Exception {
         LOG.info("Entering: waitForStatusChange(" + numSeconds + "," + document.getRouteHeaderId() + "," + desiredStatus + ")");
         DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getRouteHeaderId(), desiredStatus);
         Assert.assertTrue("waitForStatusChange(" + numSeconds + "," + document.getRouteHeaderId() + "," + desiredStatus + ") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, 5));
     }
 
-    public static void waitForStatusChange(int numSeconds, KualiWorkflowDocument document, String[] desiredStatuses) throws Exception {
+    public static void waitForStatusChange(int numSeconds, WorkflowDocument document, String[] desiredStatuses) throws Exception {
         LOG.info("Entering: waitForStatusChange(" + numSeconds + "," + document.getRouteHeaderId() + "," + desiredStatuses + ")");
         DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getRouteHeaderId(), desiredStatuses);
         Assert.assertTrue("waitForStatusChange(" + numSeconds + "," + document.getRouteHeaderId() + "," + desiredStatuses + ") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, 5));
@@ -68,7 +68,7 @@ public class WorkflowTestUtils {
 
     public static void waitForApproveRequest(Long docHeaderId, Person user) throws Exception {
         LOG.info("Entering: waitForApproveRequest(" + docHeaderId + "," + user.getPrincipalName() + ")");
-        DocumentWorkflowRequestMonitor monitor = new DocumentWorkflowRequestMonitor(docHeaderId, user, KEWConstants.ACTION_REQUEST_APPROVE_REQ);
+        DocumentWorkflowRequestMonitor monitor = new DocumentWorkflowRequestMonitor(docHeaderId, user, KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
         Assert.assertTrue("waitForApproveRequest(" + docHeaderId + "," + user.getPrincipalName() + ") timed out", ChangeMonitor.waitUntilChange(monitor, 240, 5));
     }
 

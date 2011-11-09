@@ -37,6 +37,6 @@
 			<include method="calculateFringeBenefit" />
 		</create>
 		
-	    <convert match="org.kuali.rice.kns.util.KualiDecimal" converter="kualinumber" />	
+	    <convert match="org.kuali.rice.core.api.util.type.KualiDecimal" converter="kualinumber" />	
 	</allow>
 </dwr>

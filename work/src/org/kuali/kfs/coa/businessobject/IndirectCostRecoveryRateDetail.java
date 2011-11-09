@@ -23,13 +23,13 @@ import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBase implements Inactivateable, FiscalYearBasedBusinessObject {
+public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
 
     /**
      * Default no-arg constructor.
@@ -187,9 +187,9 @@ public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBas
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 
         LinkedHashMap m = new LinkedHashMap();
         m.put("universityFiscal", this.universityFiscalYear);

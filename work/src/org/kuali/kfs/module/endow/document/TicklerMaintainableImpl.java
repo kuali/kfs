@@ -29,8 +29,8 @@ import org.kuali.kfs.module.endow.document.service.FrequencyCodeService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class implements the hok on points associated with the Tickler.
@@ -148,7 +148,7 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
      */
     private void assignTicklerNumber(Tickler tickler) 
     {
-        if( KNSConstants.MAINTENANCE_NEW_ACTION.equals(getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction()) )
+        if( KRADConstants.MAINTENANCE_NEW_ACTION.equals(getMaintenanceAction()) || KRADConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction()) )
         {
             //Only assign a Tickler number if not assigned already,may be assigned during a previous save operation.
             if(tickler.getNumber() == null)

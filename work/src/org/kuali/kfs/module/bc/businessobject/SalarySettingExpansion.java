@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.TypedArrayList;
+import java.util.ArrayList;
 
 
 public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedger implements PendingBudgetConstructionAppointmentFundingAware {
@@ -34,7 +34,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
     public SalarySettingExpansion() {
         super();
 
-        pendingBudgetConstructionAppointmentFunding = new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class);
+        pendingBudgetConstructionAppointmentFunding = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
     }
 
     /**
@@ -79,7 +79,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

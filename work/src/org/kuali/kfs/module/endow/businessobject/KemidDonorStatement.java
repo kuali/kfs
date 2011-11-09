@@ -19,8 +19,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * This KemidDonorStatement class provides the Donor to receive annual statements on the KEMID.
@@ -45,10 +45,10 @@ public class KemidDonorStatement extends PersistableBusinessObjectBase {
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.KEMID, this.kemid);
         m.put(EndowPropertyConstants.KEMID_DONOR_STATEMENT_SEQ, String.valueOf(donorSeq));

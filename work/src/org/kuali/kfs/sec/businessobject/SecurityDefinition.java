@@ -20,16 +20,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import java.util.ArrayList;
 
 /**
  * Defines a restriction that can be given to a model or principal. A restriction defines the attribute that is restricted on, and the action(s) that are being restricted. A KIM
  * permission and role is created from a definition record
  */
-public class SecurityDefinition extends PersistableBusinessObjectBase implements Inactivateable {
+public class SecurityDefinition extends PersistableBusinessObjectBase implements Inactivatable {
     private KualiInteger id;
     private String name;
     private String description;
@@ -52,7 +52,7 @@ public class SecurityDefinition extends PersistableBusinessObjectBase implements
     public SecurityDefinition() {
         super();
 
-        definitionDocumentTypes = new TypedArrayList(SecurityDefinitionDocumentType.class);
+        definitionDocumentTypes = new ArrayList<SecurityDefinitionDocumentType>();
 
         restrictViewAccountingLine = false;
         restrictEditAccountingLine = false;
@@ -382,10 +382,10 @@ public class SecurityDefinition extends PersistableBusinessObjectBase implements
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(KFSPropertyConstants.ID, this.id);

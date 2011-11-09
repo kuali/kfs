@@ -28,8 +28,8 @@ import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.module.ld.batch.service.ReconciliationService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.sys.Message;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypeUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.TypeUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

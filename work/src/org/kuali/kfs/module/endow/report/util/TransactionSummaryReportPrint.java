@@ -26,7 +26,7 @@ import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ContributionsDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ExpensesDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.SecurityTransfersDataHolder;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

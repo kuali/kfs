@@ -18,8 +18,8 @@ package org.kuali.kfs.module.external.kc.util;
 import java.text.MessageFormat;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class KcUtils {
 
@@ -33,7 +33,7 @@ public class KcUtils {
     public static String getErrorMessage(String propertyKey, Object[] messageParameters){
         
         // get error text
-        String errorText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(propertyKey);
+        String errorText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(propertyKey);
 
         // apply parameters
         if(ObjectUtils.isNotNull(messageParameters)){

@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 public class CustomerTypeValuesFinder extends KeyValuesBase {
 
@@ -30,12 +30,12 @@ public class CustomerTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<CustomerType> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(CustomerType.class);
-        List<KeyLabelPair> keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList();
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (CustomerType element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCustomerTypeCode(), element.getCustomerTypeDescription()));
+            keyValues.add(new ConcreteKeyValue(element.getCustomerTypeCode(), element.getCustomerTypeDescription()));
         }
 
         return keyValues;

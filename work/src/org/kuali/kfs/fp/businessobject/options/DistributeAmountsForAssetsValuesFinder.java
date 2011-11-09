@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class returns list of distribute amounts for Assets value pairs.
@@ -31,8 +31,8 @@ public class DistributeAmountsForAssetsValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("1", "Distribute cost equally"));
-        keyValues.add(new KeyLabelPair("2", "Distribute cost by individual asset amount"));
+        keyValues.add(new ConcreteKeyValue("1", "Distribute cost equally"));
+        keyValues.add(new ConcreteKeyValue("2", "Distribute cost by individual asset amount"));
 
         return keyValues;
     }

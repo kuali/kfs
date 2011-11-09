@@ -45,15 +45,15 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 public class AssetRetirementServiceImpl implements AssetRetirementService {
 
@@ -63,7 +63,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
                 postable.setCapitalization(true);
                 ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-                String lineDescription = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.AssetRetirementGlobal.CAPITALIZATION_LINE_DESCRIPTION);
+                String lineDescription = parameterService.getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.AssetRetirementGlobal.CAPITALIZATION_LINE_DESCRIPTION);
                 postable.setFinancialDocumentLineDescription(lineDescription);
                 postable.setAmount(assetPayment.getAccountChargeAmount());
                 postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
@@ -74,7 +74,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
                 postable.setAccumulatedDepreciation(true);
                 ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-                String lineDescription = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.AssetRetirementGlobal.ACCUMULATED_DEPRECIATION_LINE_DESCRIPTION);
+                String lineDescription = parameterService.getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.AssetRetirementGlobal.ACCUMULATED_DEPRECIATION_LINE_DESCRIPTION);
                 postable.setFinancialDocumentLineDescription(lineDescription);
                 postable.setAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
                 postable.setFinancialObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObjectCode());
@@ -85,17 +85,17 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
                 postable.setCapitalizationOffset(true);
                 ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-                String lineDescription = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.AssetRetirementGlobal.OFFSET_AMOUNT_LINE_DESCRIPTION);
+                String lineDescription = parameterService.getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.AssetRetirementGlobal.OFFSET_AMOUNT_LINE_DESCRIPTION);
                 postable.setFinancialDocumentLineDescription(lineDescription);
 
                 KualiDecimal accumlatedDepreciationAmount = (assetPayment.getAccumulatedPrimaryDepreciationAmount() == null ? new KualiDecimal(0) : assetPayment.getAccumulatedPrimaryDepreciationAmount());
 
                 postable.setAmount(assetPayment.getAccountChargeAmount().subtract(accumlatedDepreciationAmount));
-                postable.setFinancialObjectCode(SpringContext.getBean(ParameterService.class).getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE).trim());
+                postable.setFinancialObjectCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE).trim());
 
                 Map pkMap = new HashMap();
                 UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-                String gainDispositionObjectCode = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE);
+                String gainDispositionObjectCode = parameterService.getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE);
 
                 pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityDateService.getCurrentFiscalYear());
                 pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, assetPayment.getAsset().getOrganizationOwnerChartOfAccountsCode());
@@ -213,7 +213,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      *      java.util.List, java.lang.String)
      */
     public void generateOffsetPaymentsForEachSource(Asset sourceAsset, List<PersistableBusinessObject> persistables, String currentDocumentNumber) {
-        List<AssetPayment> offsetPayments = new TypedArrayList(AssetPayment.class);
+        List<AssetPayment> offsetPayments = new ArrayList<AssetPayment>();
         Integer maxSequenceNo = assetPaymentService.getMaxSequenceNumber(sourceAsset.getCapitalAssetNumber());
 
         try {
@@ -238,7 +238,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      *      org.kuali.kfs.module.cam.businessobject.Asset, java.util.List, java.lang.Integer, java.lang.String)
      */
     public Integer generateNewPaymentForTarget(Asset targetAsset, Asset sourceAsset, List<PersistableBusinessObject> persistables, Integer maxSequenceNo, String currentDocumentNumber) {
-        List<AssetPayment> newPayments = new TypedArrayList(AssetPayment.class);
+        List<AssetPayment> newPayments = new ArrayList<AssetPayment>();
         try {
             for (AssetPayment sourcePayment : sourceAsset.getAssetPayments()) {
                 AssetPayment newPayment = new AssetPayment();
@@ -383,7 +383,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         Map pkMap = new HashMap();
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String gainDispositionObjectCode = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE);
+        String gainDispositionObjectCode = parameterService.getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE);
 
         pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityDateService.getCurrentFiscalYear());
         pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);

@@ -42,12 +42,12 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class KemidInquirableImpl extends KfsInquirableImpl {
 
@@ -257,7 +257,7 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
     }
 
     /**
-     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String, boolean)
      */
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
@@ -296,9 +296,9 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
             // params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, EndowmentRecurringCashTransfer.class.getName());
             // }
 
-            params.put(KNSConstants.DOC_FORM_KEY, "88888888");
+            params.put(KRADConstants.DOC_FORM_KEY, "88888888");
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-            params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
+            params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
 
             if (EndowPropertyConstants.KEMID_TICKLERS.equals(attributeName)) {
                 params.put(EndowPropertyConstants.TICKLER_LOOKUP_KEMID, UrlFactory.encode(kemid.getKemid()));
@@ -310,7 +310,7 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
                 params.put(EndowPropertyConstants.KEMID, UrlFactory.encode(kemid.getKemid()));
             }
             params.put(KFSConstants.SUPPRESS_ACTIONS, "true");
-            String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+            String url = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
 
             Map<String, String> fieldList = new HashMap<String, String>();
 

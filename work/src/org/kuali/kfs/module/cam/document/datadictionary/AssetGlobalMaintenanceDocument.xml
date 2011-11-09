@@ -267,9 +267,9 @@
   <bean id="AssetGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     <property name="searchingTypeDefinitions">
       <list>
-	    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 	    	<property name="searchingAttribute">
-	    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+	    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 	    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
 	    			<property name="attributeName" value="campusTagNumber"/>
 	    		</bean>
@@ -281,9 +281,9 @@
 	    	</property>
 	    </bean>
     
-	    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 	    	<property name="searchingAttribute">
-	    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+	    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 	    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
 	    			<property name="attributeName" value="organizationOwnerChartOfAccountsCode"/>
 	    		</bean>
@@ -295,9 +295,9 @@
 	    	</property>
 	    </bean>
     
-	    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 	    	<property name="searchingAttribute">
-	    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+	    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 	    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
 	    			<property name="attributeName" value="organizationCode"/>
 	    		</bean>
@@ -309,9 +309,9 @@
 	    	</property>
 	    </bean>
     
-	    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 	    	<property name="searchingAttribute">
-	    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+	    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 	    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
 	    			<property name="attributeName" value="organizationOwnerAccountNumber"/>
 	    		</bean>

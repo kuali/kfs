@@ -135,9 +135,9 @@
   <bean id="EffortCertificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 	  <property name="searchingTypeDefinitions">
 	  		<list>  		
-  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+  				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
     						<property name="attributeName" value="chartOfAccountsCode"/>					        
     						<property name="showAttributeInSearchCriteria" value="true"/>
@@ -150,9 +150,9 @@
                         </list>
                     </property>
                 </bean>
-  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+  				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 			    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
     						<property name="attributeName" value="organizationCode"/>
     						<property name="showAttributeInSearchCriteria" value="true"/>
@@ -165,9 +165,9 @@
                         </list>
                     </property>
                 </bean>
-  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+  				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
                             <property name="attributeName" value="emplid"/>
 					        <property name="showAttributeInSearchCriteria" value="true"/>
@@ -180,9 +180,9 @@
                         </list>
                     </property>
                 </bean>
-  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+  				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
                             <property name="attributeName" value="universityFiscalYear"/>
 					        <property name="showAttributeInSearchCriteria" value="true"/>
@@ -195,9 +195,9 @@
                         </list>
                     </property>
                 </bean>
-  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+  				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
                             <property name="attributeName" value="effortCertificationReportNumber"/>
 					        <property name="showAttributeInSearchCriteria" value="true"/>
@@ -225,7 +225,7 @@
   
   <!-- define the routing types -->  
   <bean id="RoutingType-EffortCertificationDocument-ProjectManagement" parent="RoutingType-EffortCertificationDocument-ProjectManagement-parentBean"/>
-  <bean id="RoutingType-EffortCertificationDocument-ProjectManagement-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+  <bean id="RoutingType-EffortCertificationDocument-ProjectManagement-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
         <property name="routingAttributes">
             <list>
                 <ref bean="RoutingAttribute-financialDocumentTotalAmount"/>
@@ -250,7 +250,7 @@
   </bean>	
     
   <bean id="RoutingType-EffortCertificationDocument-Account" parent="RoutingType-EffortCertificationDocument-Account-parentBean"/>
-  <bean id="RoutingType-EffortCertificationDocument-Account-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+  <bean id="RoutingType-EffortCertificationDocument-Account-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
     			<ref bean="RoutingAttribute-financialDocumentTotalAmount"/>
@@ -275,7 +275,7 @@
   </bean>	
 
   <bean id="RoutingType-EffortCertificationDocument-OrganizationHierarchy" parent="RoutingType-EffortCertificationDocument-OrganizationHierarchy-parentBean"/>  
-  <bean id="RoutingType-EffortCertificationDocument-OrganizationHierarchy-parentBean" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition" abstract="true">
+  <bean id="RoutingType-EffortCertificationDocument-OrganizationHierarchy-parentBean" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition" abstract="true">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-financialDocumentTotalAmount"/>
@@ -300,7 +300,7 @@
     	</property>
   </bean>
   
-  <bean id="DocumentCollectionPath-detailLine-chartOrganizationAndOverrideCode" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+  <bean id="DocumentCollectionPath-detailLine-chartOrganizationAndOverrideCode" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
    		<property name="documentValues">
 	   		<list>
 	   			<value>chartOfAccountsCode</value>
@@ -310,7 +310,7 @@
    		</property>
    	</bean>  
   
-  <bean id="RoutingType-EffortCertificationDocument-Award" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+  <bean id="RoutingType-EffortCertificationDocument-Award" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-contractsAndGrantsAccountResponsibilityId"/>
@@ -324,7 +324,7 @@
   </bean> 
   
   <bean id="DocumentValuePathGroup-EffortCertificationDocument-Award-detailLines" parent="DocumentValuePathGroup-EffortCertificationDocument-Award-detailLines-parentBean"/>  
-  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Award-detailLines-parentBean" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" abstract="true">
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Award-detailLines-parentBean" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup" abstract="true">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-contractsAndGrantsAccountResponsibilityId">
     			<property name="collectionPath" value="effortCertificationDetailLines"/>

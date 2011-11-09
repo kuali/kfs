@@ -17,10 +17,10 @@ package org.kuali.kfs.module.cab.document.service.impl;
 
 import org.kuali.kfs.module.cab.document.service.GlAndPurApHelperService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.docType.DocumentType;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class GlAndPurApHelperServiceImpl implements GlAndPurApHelperService {
@@ -28,7 +28,7 @@ public class GlAndPurApHelperServiceImpl implements GlAndPurApHelperService {
     public String getDocHandlerUrl(String documentNumber, String docTypeName) {
         KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
         try {
-            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(docTypeName);
+            DocumentType docType = kualiWorkflowInfo.getDocType(docTypeName);
             String docHandlerUrl = docType.getDocTypeHandlerUrl();
             if (docHandlerUrl.indexOf("?") == -1) {
                 docHandlerUrl += "?";
@@ -37,7 +37,7 @@ public class GlAndPurApHelperServiceImpl implements GlAndPurApHelperService {
                 docHandlerUrl += "&";
             }
 
-            docHandlerUrl += KNSConstants.PARAMETER_DOC_ID + "=" + documentNumber + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
+            docHandlerUrl += KRADConstants.PARAMETER_DOC_ID + "=" + documentNumber + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
             return docHandlerUrl;
         }
         catch (WorkflowException e) {

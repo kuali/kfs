@@ -22,8 +22,8 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * 
@@ -49,11 +49,11 @@ public class OrganizationAccountingDefaultMaintenanceDocumentPresentationControl
     }
 
     protected boolean showReceivableTab(){
-        return ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD));
+        return ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD));
     }
     
     protected boolean showWriteoffTab(){
-        return ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD));
+        return ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD));
     }    
 
 }

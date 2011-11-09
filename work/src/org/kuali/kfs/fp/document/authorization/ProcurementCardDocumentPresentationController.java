@@ -21,14 +21,14 @@ import java.util.List;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class ProcurementCardDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canCancel(Document document) {
@@ -36,7 +36,7 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canCopy(Document document) {
@@ -44,7 +44,7 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canDisapprove(Document document) {
@@ -52,11 +52,11 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canEdit(Document document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         List<String> activeNodes = getCurrentRouteLevels(workflowDocument);
 
         // FULL_ENTRY only if: a) person has an approval request, b) we are at the correct level, c) it's not a correction document,

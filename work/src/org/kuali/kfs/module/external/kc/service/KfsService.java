@@ -25,7 +25,7 @@ import javax.xml.ws.Service;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.ksb.messaging.ServiceInfo;
 import org.kuali.rice.ksb.messaging.service.ServiceRegistry;
 
@@ -37,7 +37,7 @@ public abstract class KfsService extends Service {
     }
  
     public static String getWebServiceServerName() {
-       return  SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
+       return  SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.KC_APPLICATION_URL_KEY);
     }
     
     protected static URL getWsdl(QName qname) throws MalformedURLException {

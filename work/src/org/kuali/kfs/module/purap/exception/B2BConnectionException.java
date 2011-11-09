@@ -4,7 +4,7 @@
  */
 package org.kuali.kfs.module.purap.exception;
 
-import org.kuali.rice.kns.exception.KualiException;
+import org.kuali.rice.core.api.exception.KualiException;
 
 public class B2BConnectionException extends KualiException {
 

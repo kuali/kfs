@@ -45,15 +45,15 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext; import java.util.ArrayList;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
@@ -352,7 +352,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
             // test the number
-            success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), getParameterService().getParameterValues(Account.class, ACCT_PREFIX_RESTRICTION));
+            success &= new ArrayList<String>( accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), getParameterService().getParameterValuesAsString(Account.class, ACCT_PREFIX_RESTRICTION)) );
         }
 
         // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
@@ -692,8 +692,8 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         String subFundGroupCode = newAccount.getSubFundGroupCode().trim();
         String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
         boolean valid = true;
-        if (getParameterService().getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, fundGroupCode).evaluationSucceeds()) {
-            if (getParameterService().getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
+        if (/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, fundGroupCode).evaluationSucceeds()) {
+            if (/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
                 if (StringUtils.isBlank(newAccount.getIncomeStreamFinancialCoaCode())) {
                     putFieldError(KFSPropertyConstants.INCOME_STREAM_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY, new String[] { getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME), fundGroupCode, getDdService().getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME), subFundGroupCode });
                     valid = false;
@@ -785,7 +785,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     protected String replaceTokens(String errorConstant) {
         String cngLabel = getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
         String cngValue = getSubFundGroupService().getContractsAndGrantsDenotingValueForMessage();
-        String result = getKualiConfigurationService().getPropertyString(errorConstant);
+        String result = getConfigurationService().getPropertyValueAsString(errorConstant);
         result = StringUtils.replace(result, "{0}", cngLabel);
         result = StringUtils.replace(result, "{1}", cngValue);
         return result;
@@ -1019,7 +1019,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                 // Attempt to get the right SubFundGroup code to check the following logic with. If the value isn't available, go
                 // ahead
                 // and die, as this indicates a mis-configured application, and important business rules wont be implemented without it.
-                ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(Account.class, ACCT_CAPITAL_SUBFUNDGROUP, subFundGroupCode.trim());
+                ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Account.class, ACCT_CAPITAL_SUBFUNDGROUP, subFundGroupCode.trim());
 
                 if (evaluator.evaluationSucceeds()) {
 
@@ -1094,7 +1094,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // KFSMI-4877: if fund group is in system parameter values then income stream account number must exist.
         if ( ObjectUtils.isNotNull(newAccount.getSubFundGroup()) && StringUtils.isNotBlank(newAccount.getSubFundGroup().getFundGroupCode())) {
             if (ObjectUtils.isNull(newAccount.getIncomeStreamAccount())) {
-                String incomeStreamRequiringFundGroupCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS);
+                String incomeStreamRequiringFundGroupCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS);
                 if (StringUtils.containsIgnoreCase(newAccount.getSubFundGroup().getFundGroupCode(), incomeStreamRequiringFundGroupCode)) {
                     GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, newAccount.getAccountNumber());
                     return false;

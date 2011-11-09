@@ -19,7 +19,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.endow.batch.service.KEMIDCurrentAvailableBalanceService;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class implements the AvailableCashService.

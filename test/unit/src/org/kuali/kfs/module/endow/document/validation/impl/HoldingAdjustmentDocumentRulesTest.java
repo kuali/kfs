@@ -56,10 +56,10 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import java.util.ArrayList;
 
 /**
  * This class tests the rules in HoldingAdjustmentDocumentRule
@@ -293,7 +293,7 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
      * Helper Method to create a source transaction line
      */
     private List<EndowmentTransactionLine> createSourceTransactionLine(int index) {
-        List<EndowmentTransactionLine> sourceTransactionLine = new TypedArrayList(EndowmentSourceTransactionLine.class);
+        List<EndowmentTransactionLine> sourceTransactionLine = new ArrayList<EndowmentSourceTransactionLine>();
 
         EndowmentTransactionLineBase endowmentSourceTransactionLine = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
         endowmentSourceTransactionLine.setEtranCode(EndowTestConstants.ETRAN_CODE);
@@ -312,7 +312,7 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
      * Helper Method to create a source transaction line
      */
     private List<EndowmentTransactionLine> createTargetTransactionLine(int index) {
-        List<EndowmentTransactionLine> targetTransactionLine = new TypedArrayList(EndowmentTargetTransactionLine.class);
+        List<EndowmentTransactionLine> targetTransactionLine = new ArrayList<EndowmentTargetTransactionLine>();
 
         EndowmentTransactionLineBase endowmentTargetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
         endowmentTargetTransactionLine.setEtranCode(EndowTestConstants.ETRAN_CODE);

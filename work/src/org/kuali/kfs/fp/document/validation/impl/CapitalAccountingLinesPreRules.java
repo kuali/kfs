@@ -30,11 +30,11 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Performs warning checks and prompts for capital accounting lines object sub type matching
@@ -51,7 +51,7 @@ public class CapitalAccountingLinesPreRules extends PromptBeforeValidationBase {
     /**
      * Main hook point to perform rules check.
      * 
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document document) {
@@ -82,7 +82,7 @@ public class CapitalAccountingLinesPreRules extends PromptBeforeValidationBase {
         List<String> objectSubTypeList = new ArrayList<String>();
         List<String> validObjectSubTypes = new ArrayList<String>();
         
-        subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, KFSParameterKeyConstants.CamParameterConstants.OBJECT_SUB_TYPE_GROUPS);
+        subTypes = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Asset.class, KFSParameterKeyConstants.CamParameterConstants.OBJECT_SUB_TYPE_GROUPS) );
 
         for (String subType : subTypes) {
             validObjectSubTypes = Arrays.asList(StringUtils.split(subType, ","));
@@ -134,10 +134,10 @@ public class CapitalAccountingLinesPreRules extends PromptBeforeValidationBase {
     
     protected boolean isOkHavingDifferentObjectSubTypes() {
         String parameterDetail = "(module:" + getParameterService().getNamespace(Asset.class) + "/component:" + getParameterService().getDetailType(Asset.class) + ")";
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
-        String continueQuestion = kualiConfiguration.getPropertyString(KFSKeyConstants.CONTINUE_QUESTION);
-        String warningMessage = kualiConfiguration.getPropertyString(KFSKeyConstants.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + KFSParameterKeyConstants.CamParameterConstants.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + continueQuestion;
+        String continueQuestion = kualiConfiguration.getPropertyValueAsString(KFSKeyConstants.CONTINUE_QUESTION);
+        String warningMessage = kualiConfiguration.getPropertyValueAsString(KFSKeyConstants.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + KFSParameterKeyConstants.CamParameterConstants.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + continueQuestion;
         return super.askOrAnalyzeYesNoQuestion(KFSConstants.FinancialDocumentTypeCodes.ASSET_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage);
     }
 

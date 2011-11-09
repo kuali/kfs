@@ -21,10 +21,10 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.location.api.country.Country;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -362,7 +362,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      * @return Returns the customerCountry.
      */
     public Country getCustomerCountry() {
-        customerCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(customerCountryCode, customerCountry);
+        customerCountry = (customerCountryCode == null)?null:( customerCountry == null || !StringUtils.equals( customerCountry.getCode(),customerCountryCode))?SpringContext.getBean(CountryService.class).getCountry(customerCountryCode): customerCountry;
         return customerCountry;
     }
 
@@ -377,10 +377,10 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("customerNumber", this.customerNumber);
         if (this.customerAddressIdentifier != null) {
@@ -441,8 +441,8 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     }
 
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    @Override protected void prePersist() {
+        super.prePersist();
         CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
         int customerAddressIdentifier = customerAddressService.getNextCustomerAddressIdentifier();
         this.setCustomerAddressIdentifier(customerAddressIdentifier);

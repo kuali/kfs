@@ -17,13 +17,13 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AssetRetirementReason extends PersistableBusinessObjectBase implements Inactivateable {
+public class AssetRetirementReason extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String retirementReasonCode;
     private String retirementReasonName;
@@ -112,9 +112,9 @@ public class AssetRetirementReason extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("retirementReasonCode", this.retirementReasonCode);
         return m;

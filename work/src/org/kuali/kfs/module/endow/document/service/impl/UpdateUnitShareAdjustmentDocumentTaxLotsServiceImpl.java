@@ -29,7 +29,7 @@ import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.service.UpdateUnitShareAdjustmentDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class UpdateUnitShareAdjustmentDocumentTaxLotsServiceImpl implements UpdateUnitShareAdjustmentDocumentTaxLotsService {
 

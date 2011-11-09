@@ -43,19 +43,19 @@ import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.batch.TestingStep;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements TestingStep {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentBatchStep.class);
@@ -85,9 +85,9 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
 
-        /* RICE_20_DELETE */ Parameter runIndicatorParameter = getParameterService().retrieveParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
-        // RICE_20_INSERT Parameter runIndicatorParameter = getParameterService().retrieveParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
-        if (runIndicatorParameter == null || StringUtils.equals("Y", runIndicatorParameter.getParameterValue())) {
+        
+        Parameter runIndicatorParameter = getParameterService().retrieveParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
+        if (runIndicatorParameter == null || StringUtils.equals("Y", runIndicatorParameter.getParameterValueAsString())) {
 
             GlobalVariables.clear();
             GlobalVariables.setUserSession(new UserSession(INITIATOR_PRINCIPAL_NAME));
@@ -184,33 +184,33 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
      */
     private void setInitiatedParameter() {
         // first see if we can find an existing Parameter object with this key
-        /* RICE_20_DELETE */ Parameter runIndicatorParameter = getParameterService().retrieveParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
-        /* RICE_20_DELETE */ if (runIndicatorParameter == null)
-            /* RICE_20_DELETE */ {
-            /* RICE_20_DELETE */ runIndicatorParameter = new Parameter();
-           /* RICE_20_DELETE */ runIndicatorParameter.setVersionNumber(new Long(1));
-           /* RICE_20_DELETE */ runIndicatorParameter.setParameterNamespaceCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
-           /* RICE_20_DELETE */ runIndicatorParameter.setParameterDetailTypeCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
-           /* RICE_20_DELETE */ runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
-           /* RICE_20_DELETE */ runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
-           /* RICE_20_DELETE */ runIndicatorParameter.setParameterConstraintCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
-           /* RICE_20_DELETE */ runIndicatorParameter.setParameterTypeCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
-           /* RICE_20_DELETE */ runIndicatorParameter.setParameterApplicationNamespaceCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE);
-       /* RICE_20_DELETE */ }
-        /* RICE_20_DELETE */ runIndicatorParameter.setParameterValue(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_VALUE);
-        /* RICE_20_DELETE */ businessObjectService.save(runIndicatorParameter);
-        // RICE_20_INSERT Parameter runIndicatorParameter = getParameterService().getParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
-         // RICE_20_INSERT if (runIndicatorParameter == null) {
-             // RICE_20_INSERT Parameter.Builder newParm = Parameter.Builder.create(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM, ParameterType.Builder.create(RUN_INDICATOR_PARAMETER_TYPE));
-             // RICE_20_INSERT newParm.setEvaluationOperator( EvaluationOperator.ALLOW );
-             // RICE_20_INSERT newParm.setDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
-             // RICE_20_INSERT newParm.setValue("N");
-             // RICE_20_INSERT getParameterService().createParameter(newParm.build());
-         // RICE_20_INSERT } else {
-             // RICE_20_INSERT Parameter.Builder newParm = Parameter.Builder.create(runIndicatorParameter);
-             // RICE_20_INSERT newParm.setValue("N");
-             // RICE_20_INSERT getParameterService().updateParameter(newParm.build());
-         // RICE_20_INSERT }
+        
+        
+            
+            
+           
+           
+           
+           
+           
+           
+           
+           
+       
+        
+        
+        Parameter runIndicatorParameter = getParameterService().getParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
+         if (runIndicatorParameter == null) {
+             Parameter.Builder newParm = Parameter.Builder.create(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM, ParameterType.Builder.create(RUN_INDICATOR_PARAMETER_TYPE));
+             newParm.setEvaluationOperator( EvaluationOperator.ALLOW );
+             newParm.setDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
+             newParm.setValue("N");
+             getParameterService().createParameter(newParm.build());
+         } else {
+             Parameter.Builder newParm = Parameter.Builder.create(runIndicatorParameter);
+             newParm.setValue("N");
+             getParameterService().updateParameter(newParm.build());
+         }
     }
 
     private Lockbox populateLockbox(String invoiceNumber, Long seqNbr) {
@@ -314,7 +314,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         //  if the doc didnt go to final, then blanket approve the doc, bypassing all rules
         if (!wentToFinal) {
             try {
-                if (writeoff.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                if (writeoff.getDocumentHeader().getWorkflowDocument().isFinal()) {
                     
                 }
                 writeoff.getDocumentHeader().getWorkflowDocument().blanketApprove("BlanketApproved by CustomerInvoiceDocumentBatch process.");
@@ -338,7 +338,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         }
     }
 
-    public boolean waitForStatusChange(int numSeconds, KualiWorkflowDocument document, String[] desiredStatus) throws Exception {
+    public boolean waitForStatusChange(int numSeconds, WorkflowDocument document, String[] desiredStatus) throws Exception {
         DocWorkflowStatusMonitor monitor = new DocWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getRouteHeaderId(), desiredStatus);
         return waitUntilChange(monitor, numSeconds, 5);
     }
@@ -609,7 +609,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         public boolean valueChanged() throws Exception {
             Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
 
-            String currentStatus = d.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+            String currentStatus = d.getDocumentHeader().getWorkflowDocument().getStatus();
 
             for (int i = 0; i < desiredWorkflowStates.length; i++) {
                 if (StringUtils.equals(desiredWorkflowStates[i], currentStatus)) {

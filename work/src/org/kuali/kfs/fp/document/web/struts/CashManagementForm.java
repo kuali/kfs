@@ -44,10 +44,10 @@ import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.web.format.TimestampAMPMFormatter;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.TimestampAMPMFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -369,7 +369,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public CashReceiptSummary(CashReceiptDocument crd) {
             documentNumber = crd.getDocumentNumber();
             description = crd.getDocumentHeader().getDocumentDescription();
-            createDate = crd.getDocumentHeader().getWorkflowDocument().getCreateDate();
+            createDate = crd.getDocumentHeader().getWorkflowDocument().getDateCreated();
             checkAmount = crd.getTotalConfirmedCheckAmount();
             cashAmount = crd.getTotalConfirmedCashAmount();
             totalAmount = crd.getTotalConfirmedDollarAmount().subtract(crd.getTotalChangeAmount());
@@ -530,7 +530,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         protected KualiDecimal finalDepositedCashieringChecksTotal;
 
         public CashDrawerSummary(CashManagementDocument cmDoc) {
-            timeOpened = cmDoc.getDocumentHeader().getWorkflowDocument().getCreateDate();
+            timeOpened = cmDoc.getDocumentHeader().getWorkflowDocument().getDateCreated();
 
             resummarize(cmDoc);
         }
@@ -1155,7 +1155,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#postprocessRequestParameters(java.util.Map)
+     * @see org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#postprocessRequestParameters(java.util.Map)
      */
     @Override
     public void postprocessRequestParameters(Map requestParameters) {

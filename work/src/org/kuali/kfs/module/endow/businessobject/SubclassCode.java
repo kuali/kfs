@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * Bussiness Object from Subclass Code table.
@@ -28,17 +28,17 @@ public class SubclassCode extends KualiCodeBase {
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSConstants.GENERIC_CODE_PROPERTY_NAME, this.code);
         return m;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#getCodeAndDescription()
+     * @see org.kuali.rice.krad.bo.KualiCodeBase#getCodeAndDescription()
      */
     @Override
     public String getCodeAndDescription() {

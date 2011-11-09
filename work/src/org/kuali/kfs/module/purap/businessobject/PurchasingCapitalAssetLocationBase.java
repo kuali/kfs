@@ -21,11 +21,11 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusinessObjectBase implements CapitalAssetLocation {
 
@@ -169,7 +169,7 @@ public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusi
         }
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();	    
         if (this.capitalAssetSystemIdentifier != null) {
             m.put("capitalAssetSystemIdentifier", this.capitalAssetSystemIdentifier.toString());

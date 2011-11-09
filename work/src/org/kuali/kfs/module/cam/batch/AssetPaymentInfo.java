@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cam.batch;
 
 import java.sql.Date;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Value Object (not OJB aware) class to bring information required by Depreciation Job this avoid unnecessary calls to DB for

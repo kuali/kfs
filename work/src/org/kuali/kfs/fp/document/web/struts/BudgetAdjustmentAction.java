@@ -31,9 +31,9 @@ import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -62,7 +62,7 @@ public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
      */
     @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
+        KNSGlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
         return super.copy(mapping, form, request, response);
     }
 

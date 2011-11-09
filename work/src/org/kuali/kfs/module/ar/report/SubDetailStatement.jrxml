@@ -48,8 +48,8 @@
 	<field name="documentNumber" class="java.lang.String"/>
 	<field name="documentFinalDate" class="java.sql.Date"/>
 	<field name="documentDescription" class="java.lang.String"/>
-	<field name="financialDocumentTotalAmountCredit" class="org.kuali.rice.kns.util.KualiDecimal"/>
-	<field name="financialDocumentTotalAmountCharge" class="org.kuali.rice.kns.util.KualiDecimal"/>
+	<field name="financialDocumentTotalAmountCredit" class="org.kuali.rice.core.api.util.type.KualiDecimal"/>
+	<field name="financialDocumentTotalAmountCharge" class="org.kuali.rice.core.api.util.type.KualiDecimal"/>
 	<field name="documentFinalDateString" class="java.lang.String"/>
 	<field name="docType" class="java.lang.String"/>
 

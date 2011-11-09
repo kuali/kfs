@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.ClassCodeType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class defines a values finder for ClassCodeType.
@@ -39,10 +39,10 @@ public class ClassCodeTypeValuesFinder extends KeyValuesBase {
         Collection codes = boService.findAll(ClassCodeType.class);
         List labels = new ArrayList();
 
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ClassCodeType classCodeType = (ClassCodeType) iter.next();
-            labels.add(new KeyLabelPair(classCodeType.getCode(), classCodeType.getName()));
+            labels.add(new ConcreteKeyValue(classCodeType.getCode(), classCodeType.getName()));
         }
 
         return labels;

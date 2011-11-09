@@ -37,26 +37,26 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
-import org.kuali.rice.kew.docsearch.SearchableAttribute;
-import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
-import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
-import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.framework.document.lookup.SearchableAttribute;
+import org.kuali.rice.kew.framework.document.lookup.SearchableAttributeFloatValue;
+import org.kuali.rice.kew.framework.document.lookup.SearchableAttributeStringValue;
+import org.kuali.rice.kew.framework.document.lookup.SearchableAttributeValue;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
-import org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute;
+import org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute;
 
 public class FinancialSystemSearchableAttribute extends DataDictionarySearchableAttribute {
 
@@ -233,7 +233,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
     
     /**
      * 
-     * @see org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute#validateUserSearchInputs(java.util.Map, org.kuali.rice.kew.docsearch.DocumentSearchContext)
+     * @see org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute#validateUserSearchInputs(java.util.Map, org.kuali.rice.kew.docsearch.DocumentSearchContext)
      */
     
     @Override
@@ -371,9 +371,9 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         searchField.setFieldHelpName("");
         searchField.setFieldHelpSummary("");
         searchField.setColumnVisible(false);
-        List<KeyLabelPair> values = new ArrayList<KeyLabelPair>();
-        values.add(new KeyLabelPair("document", "Document Specific Data"));
-        values.add(new KeyLabelPair("workflow", "Workflow Data"));
+        List<KeyValue> values = new ArrayList<KeyValue>();
+        values.add(new ConcreteKeyValue("document", "Document Specific Data"));
+        values.add(new ConcreteKeyValue("workflow", "Workflow Data"));
         searchField.setFieldValidValues(values);
         searchField.setPropertyValue("document");
 

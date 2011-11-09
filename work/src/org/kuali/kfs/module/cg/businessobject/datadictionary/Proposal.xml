@@ -391,7 +391,7 @@
 		<property name="label" value="Direct Cost Amount" />
 		<property name="shortLabel" value="Direct" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 	<bean id="Proposal-proposalDueDate" parent="Proposal-proposalDueDate-parentBean" />
@@ -444,7 +444,7 @@
 		<property name="label" value="Indirect Cost Amount" />
 		<property name="shortLabel" value="Indirect" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 	<bean id="Proposal-proposalLastUpdateDate" parent="Proposal-proposalLastUpdateDate-parentBean" />
@@ -534,7 +534,7 @@
 		<property name="label" value="Total Amount" />
 		<property name="shortLabel" value="Total" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 	<bean id="Proposal-proposalTotalProjectAmount" parent="Proposal-proposalTotalProjectAmount-parentBean" />

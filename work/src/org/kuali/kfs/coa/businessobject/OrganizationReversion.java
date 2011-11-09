@@ -22,15 +22,15 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * 
  */
-public class OrganizationReversion extends PersistableBusinessObjectBase implements Inactivateable, CarryForwardReversionProcessOrganizationInfo, FiscalYearBasedBusinessObject {
+public class OrganizationReversion extends PersistableBusinessObjectBase implements Inactivatable, CarryForwardReversionProcessOrganizationInfo, FiscalYearBasedBusinessObject {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -55,8 +55,8 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
      * Default constructor.
      */
     public OrganizationReversion() {
-        organizations = new TypedArrayList(Organization.class);
-        organizationReversionDetail = new TypedArrayList(OrganizationReversionDetail.class);
+        organizations = new ArrayList<Organization>();
+        organizationReversionDetail = new ArrayList<OrganizationReversionDetail>();
     }   
 
     public List<OrganizationReversionDetail> getOrganizationReversionDetail() {
@@ -371,9 +371,9 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());

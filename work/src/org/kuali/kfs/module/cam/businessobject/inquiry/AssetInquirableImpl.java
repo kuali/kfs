@@ -33,11 +33,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Section;
 
 public class AssetInquirableImpl extends KfsInquirableImpl {
@@ -81,7 +81,7 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
     /**
      * Hide payments if there are more then the allowable number.
      * 
-     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.krad.bo.BusinessObject)
      * 
      * KRAD Conversion: Inquirable performs conditional display/hiding of the sections on the inquiry
      * But all field/section definitions are in data dictionary for bo Asset.
@@ -114,15 +114,15 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
         if (CamsPropertyConstants.Asset.ORGANIZATION_CODE.equals(attributeName) && businessObject instanceof Asset) {
             Asset asset = (Asset) businessObject;
             Properties parameters = new Properties();
-            parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Organization.class.getName());
+            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+            parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Organization.class.getName());
             parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, asset.getOrganizationOwnerAccount().getChartOfAccountsCode());
             parameters.put(KFSPropertyConstants.ORGANIZATION_CODE, asset.getOrganizationOwnerAccount().getOrganizationCode());
 
             Map<String, String> fieldList = new HashMap<String, String>();
             fieldList.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, asset.getOrganizationOwnerAccount().getChartOfAccountsCode());
             fieldList.put(KFSPropertyConstants.ORGANIZATION_CODE, asset.getOrganizationOwnerAccount().getOrganizationCode());
-            return getHyperLink(Organization.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+            return getHyperLink(Organization.class, fieldList, UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, parameters));
         }
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
     }

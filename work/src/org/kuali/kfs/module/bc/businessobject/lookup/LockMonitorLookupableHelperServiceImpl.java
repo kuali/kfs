@@ -31,26 +31,26 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.InputHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * Implements custom search routine to find the current budget locks and build up the result List. Set an unlock URL for each lock.
  */
 public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private KualiConfigurationService kualiConfigurationService;
-    private PersonService<Person> personService;
+    private ConfigurationService kualiConfigurationService;
+    private PersonService personService;
     
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -190,13 +190,13 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     /**
      * Builds unlink action for each type of lock.
      * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         BudgetConstructionLockSummary lockSummary = (BudgetConstructionLockSummary) businessObject;
 
-        String imageDirectory = kualiConfigurationService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        String imageDirectory = kualiConfigurationService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         String lockFields = lockSummary.getUniversityFiscalYear() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getChartOfAccountsCode() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getAccountNumber() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getSubAccountNumber() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getPositionNumber() + BCConstants.LOCK_STRING_DELIMITER;
         lockFields = StringUtils.replace(lockFields, "null", "");
         
@@ -222,7 +222,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
     
     /**
-     * Uses org.kuali.rice.kim.service.PersonService to retrieve user object associated with the given network id (if not blank) and then
+     * Uses org.kuali.rice.kim.api.identity.PersonService to retrieve user object associated with the given network id (if not blank) and then
      * returns universal id. Add error to GlobalVariables if the user was not found.
      * 
      * @param networkID - network id for the user to find
@@ -243,7 +243,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.krad.bo.BusinessObject, java.util.Map, java.lang.String)
      */
     @Override
     public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List pkNames, BusinessObjectRestrictions businessObjectRestrictions) {
@@ -265,13 +265,13 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * will not have the Rice context (kr/) and be invalid. This override adds the Rice context to the inquiry Url to working
      * around the issue.
      * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         AnchorHtmlData inquiryUrl = (AnchorHtmlData)super.getInquiryUrl(bo, propertyName);
-        inquiryUrl.setHref(StringUtils.replace(inquiryUrl.getHref(), KNSConstants.INQUIRY_ACTION, KFSConstants.INQUIRY_ACTION));
+        inquiryUrl.setHref(StringUtils.replace(inquiryUrl.getHref(), KRADConstants.INQUIRY_ACTION, KFSConstants.INQUIRY_ACTION));
 
         return inquiryUrl;
     }
@@ -281,14 +281,14 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

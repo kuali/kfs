@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 /**

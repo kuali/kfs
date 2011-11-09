@@ -81,7 +81,7 @@
     <property name="name" value="processTimestamp"/>
     <property name="label" value="Process Timestamp"/>
     <property name="shortLabel" value="Timestamp"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
   </bean>  
   <bean id="PaymentProcess-processUser.name" parent="PaymentProcess-processUser.name-parentBean"/>
 

@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.kfs.module.bc.BCConstants.RequestImportFieldSeparator;
 import org.kuali.kfs.module.bc.BCConstants.RequestImportTextFieldDelimiter;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * Test data for ImportRequestFileParsingHelper

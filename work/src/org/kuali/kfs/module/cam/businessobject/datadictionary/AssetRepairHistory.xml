@@ -89,7 +89,7 @@
     <property name="name" value="repairAmount"/>
     <property name="label" value="Repair Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRepairHistory-repairContactName" parent="AssetRepairHistory-repairContactName-parentBean"/>

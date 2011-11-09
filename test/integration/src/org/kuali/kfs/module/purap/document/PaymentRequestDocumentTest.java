@@ -48,12 +48,12 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class is used to create and test populated Payment Request Documents of various kinds.
@@ -135,14 +135,14 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         changeCurrentUser(rorenfro);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, ACCOUNT_REVIEW));
-        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
     // Commented due to Jira issue preventing documents created by PREQ from going to final
@@ -181,11 +181,11 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
                 changeCurrentUser(rorenfro);
                 paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
                 assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, ACCOUNT_REVIEW));
-                assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+                assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
                 assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
                 documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null); 
 
-                WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+                WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
                 // check if the purchase order document is closed
                 PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument) purchaseOrderService.getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier()); //documentService.getByDocumentHeaderId(poDocId); 
@@ -217,11 +217,11 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         changeCurrentUser(rorenfro);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, ACCOUNT_REVIEW));
-        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null); 
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
         // check if the purchase order document is open
         PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument)purchaseOrderService.getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier()); //documentService.getByDocumentHeaderId(poDocId); 
@@ -327,17 +327,17 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         changeCurrentUser(rorenfro);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, ACCOUNT_REVIEW));
-        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
 
         // TODO: This assert needs to be based on non-DB data. Until this is re-written, it will have to be manually changed every time the DB changes.
         // assertTrue("total values should be 183", paymentRequestDocument.getTotalDollarAmount().equals(new KualiDecimal(183)));
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 
         // paymentRequestDocument.getItems();
 
@@ -380,7 +380,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
             changeCurrentUser(butt);
             po =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
             AccountingDocumentTestUtils.approveDocument(po, documentService);
-            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
             */
             po = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
         }

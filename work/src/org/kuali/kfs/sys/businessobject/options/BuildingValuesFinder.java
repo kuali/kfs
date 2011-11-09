@@ -22,20 +22,20 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 public class BuildingValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
 
         Collection<Building> buildings = SpringContext.getBean(KeyValuesService.class).findAll(Building.class);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
         for (Building building : buildings) {
             if(building.isActive()) {
-                labels.add(new KeyLabelPair(building.getBuildingCode(), building.getBuildingCode() + " - " + building.getBuildingName()));
+                labels.add(new ConcreteKeyValue(building.getBuildingCode(), building.getBuildingCode() + " - " + building.getBuildingName()));
             }
         }
         return labels;

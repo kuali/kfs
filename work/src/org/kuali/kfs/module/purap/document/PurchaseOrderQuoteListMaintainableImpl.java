@@ -22,8 +22,8 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /* 
  * A special implementation of Maintainable specifically for PurchaseOrderQuoteLanguage
@@ -37,7 +37,7 @@ public class PurchaseOrderQuoteListMaintainableImpl extends FinancialSystemMaint
         String vendorNumber = (String)fieldValues.get(collName);
         if (StringUtils.isNotBlank(vendorNumber)) {
             if (!VendorUtils.validVendorNumberFormat(vendorNumber)) {
-                GlobalVariables.getMessageMap().putError(KNSConstants.MAINTENANCE_ADD_PREFIX + collName , PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_LIST_NON_EXISTENCE_VENDOR);
+                GlobalVariables.getMessageMap().putError(KRADConstants.MAINTENANCE_ADD_PREFIX + collName , PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_LIST_NON_EXISTENCE_VENDOR);
                 return fieldValues;
             }
             else {

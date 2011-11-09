@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list, ready for populating a drop down select control, of "systems" that can
@@ -36,9 +36,9 @@ public class CorrectionChooseSystemValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
-        activeLabels.add(new KeyLabelPair("", "Select System"));
-        activeLabels.add(new KeyLabelPair(CorrectionDocumentService.SYSTEM_DATABASE, "Database"));
-        activeLabels.add(new KeyLabelPair(CorrectionDocumentService.SYSTEM_UPLOAD, "File Upload"));
+        activeLabels.add(new ConcreteKeyValue("", "Select System"));
+        activeLabels.add(new ConcreteKeyValue(CorrectionDocumentService.SYSTEM_DATABASE, "Database"));
+        activeLabels.add(new ConcreteKeyValue(CorrectionDocumentService.SYSTEM_UPLOAD, "File Upload"));
 
         return activeLabels;
     }

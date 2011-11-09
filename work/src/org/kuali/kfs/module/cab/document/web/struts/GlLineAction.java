@@ -36,12 +36,12 @@ import org.kuali.kfs.module.cab.document.service.GlAndPurApHelperService;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Struts action class that handles GL Line Processing Screen actions
@@ -69,7 +69,7 @@ public class GlLineAction extends CabActionBase {
             prepareRecordsForDisplay(glLineForm, entry, capitalAssetLineNumber);
         }
         if (!entry.isActive()) {
-            GlobalVariables.getMessageList().add(CabKeyConstants.WARNING_GL_PROCESSED);
+            KNSGlobalVariables.getMessageList().add(CabKeyConstants.WARNING_GL_PROCESSED);
         }
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
@@ -182,7 +182,7 @@ public class GlLineAction extends CabActionBase {
      * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
     }
 
     /**

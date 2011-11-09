@@ -23,17 +23,17 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class PaymentProcessLookupableHelperService extends KualiLookupableHelperServiceImpl {
     
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override
@@ -44,11 +44,11 @@ public class PaymentProcessLookupableHelperService extends KualiLookupableHelper
             Properties params = new Properties();
             params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
             params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ProcessSummary.class.getName());
-            params.put(KNSConstants.DOC_FORM_KEY, "88888888");
+            params.put(KRADConstants.DOC_FORM_KEY, "88888888");
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             params.put(KFSConstants.RETURN_LOCATION_PARAMETER, KFSConstants.MAPPING_PORTAL + ".do");
             params.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, UrlFactory.encode(String.valueOf(paymentProcess.getId())));
-            String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+            String url = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
             inquiryUrl.setHref(url);
         }
         return inquiryUrl;

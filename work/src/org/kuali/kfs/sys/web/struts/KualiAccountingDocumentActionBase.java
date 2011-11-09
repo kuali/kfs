@@ -57,19 +57,19 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.util.Timer;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -720,7 +720,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.BALANCE_INQUIRY_REPORT_MENU_ACTION, parameters);
 
         // register that we're going to come back w/ to this form w/ a refresh methodToCall
-        ((KualiAccountingDocumentFormBase) form).registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        ((KualiAccountingDocumentFormBase) form).registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
         return new ActionForward(lookupUrl, true);
     }
@@ -820,7 +820,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         // first we need to check just the doctype to see if it needs the sales tax check
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         // apply the rule, see if it fails
-        ParameterEvaluator docTypeSalesTaxCheckEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK, docType);
+        ParameterEvaluator docTypeSalesTaxCheckEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK, docType);
         if (docTypeSalesTaxCheckEvaluator.evaluationSucceeds()) {
             required = true;
         }
@@ -832,7 +832,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             String account = accountingLine.getAccountNumber();
             if (!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
                 String compare = account + ":" + objCd;
-                ParameterEvaluator salesTaxApplicableAcctAndObjectEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
+                ParameterEvaluator salesTaxApplicableAcctAndObjectEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
                 if (!salesTaxApplicableAcctAndObjectEvaluator.evaluationSucceeds()) {
                     required = false;
                 }

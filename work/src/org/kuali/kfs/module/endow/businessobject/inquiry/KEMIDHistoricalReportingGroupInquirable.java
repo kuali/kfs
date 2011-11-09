@@ -25,17 +25,17 @@ import org.kuali.kfs.module.endow.businessobject.KEMIDHistoricalTaxLot;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class KEMIDHistoricalReportingGroupInquirable extends KfsInquirableImpl {
 
     /**
-     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String, boolean)
      */
     @Override
@@ -46,9 +46,9 @@ public class KEMIDHistoricalReportingGroupInquirable extends KfsInquirableImpl {
             Properties params = new Properties();
             params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
             params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, KEMIDHistoricalTaxLot.class.getName());
-            params.put(KNSConstants.DOC_FORM_KEY, "88888888");
+            params.put(KRADConstants.DOC_FORM_KEY, "88888888");
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-            params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
+            params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
             params.put(KFSConstants.LOOKUP_READ_ONLY_FIELDS, EndowPropertyConstants.KEMID + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_KEMID_PURPOSE_CD + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_REP_GRP + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_IP_IND + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_SECURITY_ID + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_REGIS_CD + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_BALANCE_DATE + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_KEMID_CLOSED_IND + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_REGIS_DESC + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_SEC_DESC + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_KEMID_SHORT_TTL + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_PURPOSE_DESC + "," + EndowPropertyConstants.KEMID_HIST_TAX_LOT_INC_PRIN_DESC + "," + EndowPropertyConstants.MONTH_END_DATE_ID);
 
             params.put(EndowPropertyConstants.KEMID, UrlFactory.encode(String.valueOf(historicalReportingGroup.getKemid())));
@@ -65,7 +65,7 @@ public class KEMIDHistoricalReportingGroupInquirable extends KfsInquirableImpl {
             params.put(EndowPropertyConstants.KEMID_HIST_TAX_LOT_PURPOSE_DESC, historicalReportingGroup.getKemidObj().getPurpose().getName());
             params.put(EndowPropertyConstants.KEMID_HIST_TAX_LOT_INC_PRIN_DESC, historicalReportingGroup.getIncomePrincipalIndicator().getName());
 
-            String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+            String url = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
 
             Map<String, String> fieldList = new HashMap<String, String>();
             fieldList.put(EndowPropertyConstants.KEMID, historicalReportingGroup.getKemid().toString());

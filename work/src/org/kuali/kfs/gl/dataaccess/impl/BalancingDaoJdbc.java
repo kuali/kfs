@@ -27,7 +27,7 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.EntryHistory;
 import org.kuali.kfs.gl.dataaccess.BalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 
 /**
  * JDBC implementation of BalancingDao and LedgerBalancingDao. This essentially is a copy of one table to another with

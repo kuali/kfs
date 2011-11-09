@@ -126,7 +126,7 @@
   <!-- workflow attributes -->
   <bean id="LaborJournalVoucherDocument-workflowAttributes" parent="LaborJournalVoucherDocument-workflowAttributes-parentBean"/>
   
-  <bean id="LaborJournalVoucherDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="LaborJournalVoucherDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
   
   <!-- Validations -->
   

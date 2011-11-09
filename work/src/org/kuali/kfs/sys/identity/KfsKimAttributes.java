@@ -26,7 +26,7 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.kfs.vnd.businessobject.VendorType;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
@@ -76,8 +76,8 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     
     
     @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         return m;
     }

@@ -24,8 +24,8 @@ import java.util.Set;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.batch.InitiateDirectory;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.AuthorizationException;
 
 /**
  * This interface defines the methods needed to save/download/delete file sets in the batch upload system

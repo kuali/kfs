@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.renderers.PersistingTagRenderer;
 import org.kuali.kfs.sys.document.web.renderers.StringRenderer;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**
@@ -82,7 +82,7 @@ public class AccountingLineViewSequenceNumberField extends FieldTableJoiningWith
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
         if (renderingContext.isNewLine()) {
             StringRenderer renderer = new StringRenderer();
-            renderer.setStringToRender(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(newLineLabelProperty));
+            renderer.setStringToRender(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(newLineLabelProperty));
             renderer.render(pageContext, parentTag);
             renderer.clear();
         } else {

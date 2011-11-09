@@ -41,14 +41,14 @@ import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Service implementation of LedgerBalanceLookupableHelperService. The class is the front-end for all Ledger balance inquiry
@@ -62,7 +62,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
     protected BalanceTypeService balanceTypService;
 
     /**
-     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject, java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -86,8 +86,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
     @Override
     public List<? extends BusinessObject> getSearchResults(Map fieldValues) {
         String wildCards = "";
-        for (int i = 0; i < KNSConstants.QUERY_CHARACTERS.length; i++) {
-            wildCards += KNSConstants.QUERY_CHARACTERS[i];
+        for (int i = 0; i < KRADConstants.QUERY_CHARACTERS.length; i++) {
+            wildCards += KRADConstants.QUERY_CHARACTERS[i];
         }
 
         if (wildCards.indexOf(fieldValues.get(KFSPropertyConstants.EMPLID).toString().trim()) != -1) {

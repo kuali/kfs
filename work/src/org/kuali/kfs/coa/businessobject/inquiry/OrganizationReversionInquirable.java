@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
@@ -31,7 +31,7 @@ public class OrganizationReversionInquirable extends KfsInquirableImpl {
 
     /**
      * Overridden to take out details with inactive categories
-     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.krad.bo.BusinessObject)
      * 
      * KRAD Conversion: Inquirable performs conditional display/hiding of the fields/sections on the inquiry
      * But all field/section definitions are in data dictionary for bo Organization.

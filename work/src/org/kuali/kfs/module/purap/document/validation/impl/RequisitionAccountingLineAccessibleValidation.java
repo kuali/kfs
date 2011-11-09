@@ -21,7 +21,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not
@@ -34,7 +34,7 @@ public class RequisitionAccountingLineAccessibleValidation extends PurchasingAcc
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        KualiWorkflowDocument workflowDocument = event.getDocument().getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = event.getDocument().getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
         RequisitionDocument requisitionDocument = (RequisitionDocument) event.getDocument();
         if (requisitionDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) ||

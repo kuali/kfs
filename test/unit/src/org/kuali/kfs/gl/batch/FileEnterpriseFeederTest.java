@@ -39,8 +39,8 @@ import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * This class tests the enterprise feeder service. The concept of a file set is pervasive throughout this test. A file set consists
@@ -465,9 +465,9 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * Throws an exception if running on production
      */
     protected void checkNotOnProduction() {
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
 
-        if (StringUtils.equals(kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY), kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY))) {
+        if (StringUtils.equals(kualiConfigurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY), kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY))) {
             throw new RuntimeException("Can't run on production");
         }
     }

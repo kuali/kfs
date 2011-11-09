@@ -21,23 +21,24 @@ import java.util.List;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
 import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.web.KeyValueSort;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.SearchingAttribute;
-import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
+import org.kuali.rice.krad.datadictionary.SearchingAttribute;
+import org.kuali.rice.krad.datadictionary.SearchingTypeDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Column;
 
 public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
@@ -63,19 +64,19 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
         for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
             if (keyValueSort.getkey().equalsIgnoreCase(KFSPropertyConstants.PURAP_DOC_ID)) {
                 //KFSMI-4576 masking PO number...
-                String docStatus = docCriteriaDTO.getDocRouteStatusCode();
-                if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+                String docStatus = docCriteriaDTO.getStatusCode();
+                if (!docStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
                     //if document status is not FINAL then check for permission to see
                     //the value needs to be masked....
                     String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
                     String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
                     String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
                     
-                    AttributeSet roleQualifiers = new AttributeSet();
+                    Map<String,String> roleQualifiers = new HashMap<String,String>();
                     
-                    AttributeSet permissionDetails = new AttributeSet();
-                    permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
-                    permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
+                    Map<String,String> permissionDetails = new HashMap<String,String>();
+                    permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
+                    permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
                     
                     IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
                     Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);

@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class LineItemReceivingStatus extends PersistableBusinessObjectBase {
 
@@ -39,7 +39,7 @@ public class LineItemReceivingStatus extends PersistableBusinessObjectBase {
         this.lineItemReceivingStatusDescription = receivingLineStatusDescription;
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("lineItemReceivingStatusCode", this.lineItemReceivingStatusCode);
         m.put("lineItemReceivingStatusDescription", this.lineItemReceivingStatusDescription);

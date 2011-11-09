@@ -20,18 +20,18 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * General PreRules checks for all Maintenance docs that needs to occur while still in the Struts processing.
  */
 public class MaintenancePreRulesBase extends PromptBeforeValidationBase {
 
-    protected KualiConfigurationService configService;
+    protected ConfigurationService configService;
     protected AccountService accountService;
 
     /**
@@ -47,14 +47,14 @@ public class MaintenancePreRulesBase extends PromptBeforeValidationBase {
         // When this happens, just remove these calls to the setters with
         // SpringContext, and configure the bean defs for spring.
         setAccountService(SpringContext.getBean(AccountService.class));
-        setConfigService(SpringContext.getBean(KualiConfigurationService.class));
+        setConfigService(SpringContext.getBean(ConfigurationService.class));
     }
 
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
 
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 
@@ -62,7 +62,7 @@ public class MaintenancePreRulesBase extends PromptBeforeValidationBase {
      * This is called from the rules service to execute our rules A hook is provided here for sub-classes to override the
      * {@link MaintenancePreRulesBase#doCustomPreRules(MaintenanceDocument)}
      * 
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document document) {
@@ -169,7 +169,7 @@ public class MaintenancePreRulesBase extends PromptBeforeValidationBase {
         return accountService;
     }
 
-    public KualiConfigurationService getConfigService() {
+    public ConfigurationService getConfigService() {
         return configService;
     }
 

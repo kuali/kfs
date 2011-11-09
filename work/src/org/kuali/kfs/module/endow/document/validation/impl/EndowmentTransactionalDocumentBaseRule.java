@@ -28,12 +28,12 @@ import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumentRuleBase {
     /**
@@ -43,8 +43,8 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
      */
     protected void putGlobalError(String errorConstant) {
-        if (!errorAlreadyExists(KNSConstants.DOCUMENT_ERRORS, errorConstant)) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.DOCUMENT_ERRORS, errorConstant);
+        if (!errorAlreadyExists(KRADConstants.DOCUMENT_ERRORS, errorConstant)) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.DOCUMENT_ERRORS, errorConstant);
         }
     }
 
@@ -56,8 +56,8 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
      * @param parameter - Replacement value for part of the error message.
      */
     protected void putGlobalError(String errorConstant, String parameter) {
-        if (!errorAlreadyExists(KNSConstants.DOCUMENT_ERRORS, errorConstant)) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.DOCUMENT_ERRORS, errorConstant, parameter);
+        if (!errorAlreadyExists(KRADConstants.DOCUMENT_ERRORS, errorConstant)) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.DOCUMENT_ERRORS, errorConstant, parameter);
         }
     }
 
@@ -69,8 +69,8 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
      * @param parameters - Array of replacement values for part of the error message.
      */
     protected void putGlobalError(String errorConstant, String[] parameters) {
-        if (!errorAlreadyExists(KNSConstants.DOCUMENT_ERRORS, errorConstant)) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.DOCUMENT_ERRORS, errorConstant, parameters);
+        if (!errorAlreadyExists(KRADConstants.DOCUMENT_ERRORS, errorConstant)) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.DOCUMENT_ERRORS, errorConstant, parameters);
         }
     }
 
@@ -393,7 +393,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {

@@ -87,7 +87,7 @@
 				</bean>
 				<dd:relationship objectAttribute="organizationRemitToState">
 					<dd:primitiveAttribute source="organizationRemitToStateCode"
-						target="postalStateCode" />
+						target="stateCode" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="orgRemitToZipCode">
 					<dd:primitiveAttribute source="organizationRemitToZipCode"
@@ -326,8 +326,8 @@
 		parent="SystemInformation-organizationRemitToStateCode-parentBean" />
 	<bean id="SystemInformation-organizationRemitToStateCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
+		p:sourceAttributeName="stateCode">
 		<property name="name" value="organizationRemitToStateCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="State" />
@@ -336,7 +336,7 @@
 	<bean id="SystemInformation-organizationRemitToZipCode" parent="SystemInformation-organizationRemitToZipCode-parentBean" />
 	<bean id="SystemInformation-organizationRemitToZipCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
 		p:sourceAttributeName="postalCode">
 		<property name="name" value="organizationRemitToZipCode" />
 	</bean>

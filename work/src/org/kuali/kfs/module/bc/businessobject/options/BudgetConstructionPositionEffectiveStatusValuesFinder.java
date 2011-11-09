@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of ba fund restriction levels.
@@ -32,8 +32,8 @@ public class BudgetConstructionPositionEffectiveStatusValuesFinder extends KeyVa
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_ACTIVE, "Active"));
-        keyValues.add(new KeyLabelPair(BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_INACTIVE, "Inactive"));
+        keyValues.add(new ConcreteKeyValue(BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_ACTIVE, "Active"));
+        keyValues.add(new ConcreteKeyValue(BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_INACTIVE, "Inactive"));
 
         return keyValues;
     }

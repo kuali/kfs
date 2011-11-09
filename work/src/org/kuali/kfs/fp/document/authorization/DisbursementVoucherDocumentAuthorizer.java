@@ -24,13 +24,13 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Adds extra role qualifiers for funky travel edit mode permission
@@ -39,7 +39,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
 
     /**
      * Adds chart codes and account numbers for accounting lines if we're at Account level, so that the fiscal officer gets travel edit mode
-     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject, java.util.Map)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
@@ -91,7 +91,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @param workflowDocument
      * @return List
      */
-    protected List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+    protected List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
         String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         return Arrays.asList(names);
     }
@@ -102,7 +102,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @return true if the document is at the account level, false otherwise
      */
     protected boolean isAtAccountLevel(DisbursementVoucherDocument disbursementVoucherDocument) {
-        final KualiWorkflowDocument workflowDocument = disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument();
+        final WorkflowDocument workflowDocument = disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument();
         
         return getCurrentRouteLevels(workflowDocument).contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT);
     }

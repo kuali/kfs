@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 public class TypeRestrictionCode extends KualiCodeBase {
 
@@ -44,8 +44,8 @@ public class TypeRestrictionCode extends KualiCodeBase {
         this.permanentIndicator = permanentIndicator;
     }
 
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.KUALICODEBASE_CODE, this.code);
         return m;

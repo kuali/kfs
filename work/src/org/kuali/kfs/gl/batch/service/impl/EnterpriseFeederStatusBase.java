@@ -17,7 +17,7 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * Base implementation for the enterprise feeder status
@@ -33,7 +33,7 @@ public abstract class EnterpriseFeederStatusBase implements EnterpriseFeederStat
      */
     public String getStatusDescription() {
         try {
-            String description = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX + getClass().getName());
+            String description = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX + getClass().getName());
             if (description == null) {
                 return getDefaultStatusDescription();
             }

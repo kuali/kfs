@@ -27,10 +27,10 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Validation for Transfer of Funds document that tests if the fund groups represented by a given document are in balance.
@@ -76,7 +76,7 @@ public class TransferOfFundsFundGroupsBalancedValidation extends GenericValidati
             AccountingLine line = (AccountingLine) i.next();
             String fundGroupCode = line.getAccount().getSubFundGroup().getFundGroupCode();
 
-            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(componentClass, parameterName, fundGroupCode);
+            ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(componentClass, parameterName, fundGroupCode);
             if (evaluator.evaluationSucceeds()) {
                 KualiDecimal glpeLineAmount = tranDoc.getGeneralLedgerPendingEntryAmountForDetail(line);
                 if (line.isSourceAccountingLine()) {
@@ -95,7 +95,7 @@ public class TransferOfFundsFundGroupsBalancedValidation extends GenericValidati
             isValid = false;
 
             // creating an evaluator to just format the fund codes into a nice string
-            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(componentClass, parameterName, "");
+            ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(componentClass, parameterName, "");
             GlobalVariables.getMessageMap().putError("document.sourceAccountingLines", ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE, new String[] { tranDoc.getSourceAccountingLinesSectionTitle(), tranDoc.getTargetAccountingLinesSectionTitle(), evaluator.getParameterValuesForMessage() });
         }
 

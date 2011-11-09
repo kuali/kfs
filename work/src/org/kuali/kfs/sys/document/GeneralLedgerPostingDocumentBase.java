@@ -28,13 +28,13 @@ import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Base implementation for a general ledger posting document.
@@ -118,10 +118,10 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             changeGeneralLedgerPendingEntriesApprovedStatusCode(); // update all glpes for doc and set their status to approved
         }
-        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+        else if (getDocumentHeader().getWorkflowDocument().isCanceled() || getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             removeGeneralLedgerPendingEntries();
             if (this instanceof ElectronicPaymentClaiming) {
                 ((ElectronicPaymentClaiming)this).declaimElectronicPaymentClaims();
@@ -147,7 +147,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#toCopy()
+     * @see org.kuali.rice.krad.document.DocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException {
@@ -156,7 +156,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     }
 
     /**
-     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#toErrorCorrection()
+     * @see org.kuali.rice.krad.document.TransactionalDocumentBase#toErrorCorrection()
      */
     @Override
     public void toErrorCorrection() throws WorkflowException {

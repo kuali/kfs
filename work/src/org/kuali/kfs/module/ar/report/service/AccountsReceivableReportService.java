@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * The interface defines the methods that extract Labor Ledger records of the employees who were paid on a grant or cost shared

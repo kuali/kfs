@@ -18,13 +18,13 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Delivery Required Date Reason Business Object. Defines the reason why a delivery date is required.
  */
-public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase implements Inactivateable{
+public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase implements Inactivatable{
 
     private String deliveryRequiredDateReasonCode;
     private String deliveryRequiredDateReasonDescription;
@@ -62,9 +62,9 @@ public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("deliveryRequiredDateReasonCode", this.deliveryRequiredDateReasonCode);
         return m;

@@ -19,32 +19,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.api.permission.Permission;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Type service for Access Security Permissions that restrict based on property name and namespace
  */
 public class SecurityAttributeNamespacePermissionTypeServiceImpl extends SecurityAttributePermissionTypeServiceImpl {
     
-/* RICE_20_DELETE */    {
-/* RICE_20_DELETE */        requiredAttributes.add(SecKimAttributes.NAMESPACE_CODE);
-/* RICE_20_DELETE */        checkRequiredAttributes = false;
-/* RICE_20_DELETE */    }
+
+
+
+
 
     /**
-     * @see org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet,
+     * @see org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet,
      *      java.util.List)
      */
     @Override
-    protected List<KimPermissionInfo> performPermissionMatches(AttributeSet requestedDetails, List<KimPermissionInfo> permissionsList) {
-        List<KimPermissionInfo> matchingPermissions = new ArrayList<KimPermissionInfo>();
+    protected List<Permission> performPermissionMatches(Map<String,String> requestedDetails, List<Permission> permissionsList) {
+        List<Permission> matchingPermissions = new ArrayList<Permission>();
 
-        for (KimPermissionInfo kpi : permissionsList) {
-            String namespaceMatch = requestedDetails.get(SecKimAttributes.NAMESPACE_CODE);
-            String namespace = kpi.getDetails().get(SecKimAttributes.NAMESPACE_CODE);
+        for (Permission kpi : permissionsList) {
+            String namespaceMatch = requestedDetails.get(KimConstants.AttributeConstants.NAMESPACE_CODE);
+            String namespace = kpi.getAttributes().get(KimConstants.AttributeConstants.NAMESPACE_CODE);
 
-            if (StringUtils.equals(namespaceMatch, namespace) && isDetailMatch(requestedDetails, kpi.getDetails())) {
+            if (StringUtils.equals(namespaceMatch, namespace) && isDetailMatch(requestedDetails, kpi.getAttributes())) {
                 matchingPermissions.add(kpi);
             }
         }

@@ -30,13 +30,13 @@ import org.kuali.kfs.module.cg.dataaccess.ProposalDao;
 import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.module.cg.service.CloseService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -80,9 +80,9 @@ public class CloseServiceImpl implements CloseService {
 
         boolean result = true;
         String noteText = null;
-        if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)) {
+        if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), CGConstants.CGKimApiConstants.UNPROCESSED_ROUTING_NODE_NAME)) {
 
-            KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+            ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
 
             try {
 
@@ -104,11 +104,11 @@ public class CloseServiceImpl implements CloseService {
                 max.setProposalClosedCount(proposalCloseCount);
 
                 businessObjectService.save(max);
-                noteText = kualiConfigurationService.getPropertyString(CGKeyConstants.MESSAGE_CLOSE_JOB_SUCCEEDED);
+                noteText = kualiConfigurationService.getPropertyValueAsString(CGKeyConstants.MESSAGE_CLOSE_JOB_SUCCEEDED);
 
             }
             catch (Exception e) {
-                String messageProperty = kualiConfigurationService.getPropertyString(CGKeyConstants.ERROR_CLOSE_JOB_FAILED);
+                String messageProperty = kualiConfigurationService.getPropertyValueAsString(CGKeyConstants.ERROR_CLOSE_JOB_FAILED);
                 noteText = MessageFormat.format(messageProperty, e.getMessage(), e.getCause().getMessage());
             }
             finally {

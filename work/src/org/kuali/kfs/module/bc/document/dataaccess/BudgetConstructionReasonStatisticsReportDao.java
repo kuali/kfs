@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface BudgetConstructionReasonStatisticsReportDao {
 

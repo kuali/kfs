@@ -16,11 +16,11 @@
 package org.kuali.kfs.sys.monitor;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
 
@@ -35,17 +35,17 @@ public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
     }
 
     public boolean valueChanged() throws WorkflowException {
-        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, user);
-        if (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestedCode)) {
+        WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, user);
+        if (KewApiConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestedCode)) {
             return document.isCompletionRequested();
         }
-        else if (KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(actionRequestedCode)) {
+        else if (KewApiConstants.ACTION_REQUEST_APPROVE_REQ.equals(actionRequestedCode)) {
             return document.isApprovalRequested();
         }
-        else if (KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ.equals(actionRequestedCode)) {
+        else if (KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ.equals(actionRequestedCode)) {
             return document.isAcknowledgeRequested();
         }
-        else if (KEWConstants.ACTION_REQUEST_FYI_REQ.equals(actionRequestedCode)) {
+        else if (KewApiConstants.ACTION_REQUEST_FYI_REQ.equals(actionRequestedCode)) {
             return document.isFYIRequested();
         }
         return false;

@@ -24,13 +24,13 @@ import org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.bo.ParameterDetailType;
-import org.kuali.rice.kns.rules.ParameterRule;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.service.ParameterServerService;
+import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.core.api.parameter.ParameterDetailType;
+import org.kuali.rice.krad.rules.ParameterRule;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.service.ParameterServerService;
 
 @ConfigureContext(shouldCommitTransactions=true)
 @AnnotationTestSuite(PreCommitSuite.class)

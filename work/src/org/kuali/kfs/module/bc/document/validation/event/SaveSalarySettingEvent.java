@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.validation.event;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rule.BusinessRule;
 
 /**
  * Event triggered when the detail salary setting screen is saved.
@@ -40,7 +40,7 @@ public class SaveSalarySettingEvent extends SalarySettingBaseEvent {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent#invokeExpansionRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent#invokeExpansionRuleMethod(org.kuali.rice.krad.rule.BusinessRule)
      */
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {

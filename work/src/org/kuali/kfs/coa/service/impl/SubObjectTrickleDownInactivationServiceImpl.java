@@ -32,17 +32,17 @@ import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.dao.MaintenanceDocumentDao;
-import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.dao.MaintenanceDocumentDao;
+import org.kuali.rice.krad.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentHeaderService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentHeaderService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.krad.service.NoteService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -53,7 +53,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
     protected MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
     protected MaintenanceDocumentDao maintenanceDocumentDao;
     protected NoteService noteService;
-    protected KualiConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
     protected UniversityDateService universityDateService;
     protected DocumentHeaderService documentHeaderService;
     
@@ -197,7 +197,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
             try {
                 String subAccountString = createSubObjectChunk(listOfSubObjects, i, i + getNumSubObjectsPerNote());
                 if (StringUtils.isNotBlank(subAccountString)) {
-                    String noteTextTemplate = kualiConfigurationService.getPropertyString(messageKey);
+                    String noteTextTemplate = kualiConfigurationService.getPropertyValueAsString(messageKey);
                     String noteText = MessageFormat.format(noteTextTemplate, subAccountString);
                     Note note = noteService.createNote(noteTemplate, noteParent);
                     note.setNoteText(noteText);
@@ -217,7 +217,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
                 SubObjectCode subObjCd = entry.getKey();
                 String subObjectString = subObjCd.getUniversityFiscalYear() + " - " + subObjCd.getChartOfAccountsCode() + " - " + subObjCd.getAccountNumber() + " - " + subObjCd.getFinancialObjectCode() + " - " + subObjCd.getFinancialSubObjectCode();
                 if (StringUtils.isNotBlank(subObjectString)) {
-                    String noteTextTemplate = kualiConfigurationService.getPropertyString(messageKey);
+                    String noteTextTemplate = kualiConfigurationService.getPropertyValueAsString(messageKey);
                     String noteText = MessageFormat.format(noteTextTemplate, subObjectString, entry.getValue());
                     Note note = noteService.createNote(noteTemplate, noteParent);
                     note.setNoteText(noteText);
@@ -265,7 +265,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         this.noteService = noteService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

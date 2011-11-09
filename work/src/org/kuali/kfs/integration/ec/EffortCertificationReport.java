@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.ec;
 
 import java.sql.Date;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Methods for getting and setting report attributes.

@@ -25,7 +25,7 @@ import java.util.Set;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,21 +57,21 @@ import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
@@ -193,7 +193,7 @@ public class DepositWizardAction extends KualiAction {
                     dform.getDepositableCashReceipts().add(receipt);
                     DepositWizardHelper d = dform.getDepositWizardHelper(index++);
                     // KFSMI-5232 Jira fix. Convert the time stamp to SQL date format
-                    Timestamp ts = receipt.getDocumentHeader().getWorkflowDocument().getCreateDate();
+                    Timestamp ts = receipt.getDocumentHeader().getWorkflowDocument().getDateCreated();
                     try {
                         d.setCashReceiptCreateDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate(ts));
                     }
@@ -333,7 +333,7 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * Converts a set into a map, where each value in the set becomes a key and each value becomes
-     * KNSConstants.KUALI_DEFAULT_TRUE_VALUE
+     * KRADConstants.KUALI_DEFAULT_TRUE_VALUE
      * 
      * @param s a set
      * @return a map
@@ -343,7 +343,7 @@ public class DepositWizardAction extends KualiAction {
         Iterator i = s.iterator();
         while (i.hasNext()) {
             Object key = i.next();
-            map.put(key, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+            map.put(key, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
         return map;
     }

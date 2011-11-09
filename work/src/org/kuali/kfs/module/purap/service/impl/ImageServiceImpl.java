@@ -27,9 +27,9 @@ import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 import org.kuali.kfs.module.purap.service.ImageService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * Implementation of ImageService.
@@ -37,14 +37,14 @@ import org.kuali.rice.kns.service.ParameterService;
 public class ImageServiceImpl implements ImageService {
     private static Log LOG = LogFactory.getLog(ImageServiceImpl.class);
 
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private ParameterService parameterService;
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 
@@ -54,8 +54,8 @@ public class ImageServiceImpl implements ImageService {
     public String getPurchasingDirectorImage(String key, String campusCode, String location) {
         LOG.debug("getPurchasingDirectorImage() started");
 
-        String prefix = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURCHASING_DIRECTOR_IMAGE_PREFIX);
-        String extension = "." + parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURCHASING_DIRECTOR_IMAGE_EXTENSION);
+        String prefix = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURCHASING_DIRECTOR_IMAGE_PREFIX);
+        String extension = "." + parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURCHASING_DIRECTOR_IMAGE_EXTENSION);
         return getFile(prefix, campusCode, key, extension, location);
     }
 
@@ -68,8 +68,8 @@ public class ImageServiceImpl implements ImageService {
         NumberFormat formatter = new DecimalFormat("00");
         String cm = formatter.format(contractManagerId);
 
-        String prefix = parameterService.getParameterValue(ContractManagerAssignmentDocument.class, PurapConstants.CONTRACT_MANAGER_IMAGE_PREFIX);
-        String extension = "." + parameterService.getParameterValue(ContractManagerAssignmentDocument.class, PurapConstants.CONTRACT_MANAGER_IMAGE_EXTENSION);
+        String prefix = parameterService.getParameterValueAsString(ContractManagerAssignmentDocument.class, PurapConstants.CONTRACT_MANAGER_IMAGE_PREFIX);
+        String extension = "." + parameterService.getParameterValueAsString(ContractManagerAssignmentDocument.class, PurapConstants.CONTRACT_MANAGER_IMAGE_EXTENSION);
         return getFile(prefix, cm, key, extension, location);
     }
 
@@ -81,8 +81,8 @@ public class ImageServiceImpl implements ImageService {
             LOG.debug("getLogo() started. key is " + key + ". campusCode is " + campusCode);
         }
 
-        String prefix = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_PREFIX);
-        String extension = "." + parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_EXTENSION);
+        String prefix = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_PREFIX);
+        String extension = "." + parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_EXTENSION);
         return getFile(prefix, campusCode, key, extension, location);
     }
 
@@ -99,10 +99,10 @@ public class ImageServiceImpl implements ImageService {
         LOG.debug("getFile() started");
 
         // try retrieving file URL from parameter
-        String urlpath = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGE_LOCATION_URL);
+        String urlpath = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGE_LOCATION_URL);
         // if parameter value is empty, then try retrieving it from property
         if (StringUtils.isEmpty(urlpath)) {
-            urlpath = configurationService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            urlpath = configurationService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         }
         
         if (urlpath == null) {

@@ -21,14 +21,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class PaymentProcessTimestampFinder implements ValueFinder {
 
 
     /**
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         // we create a search criteria to get te payment processes in tha last 4 months

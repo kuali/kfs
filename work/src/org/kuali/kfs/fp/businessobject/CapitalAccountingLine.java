@@ -18,7 +18,7 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * This transient business object keeps properties for amount method selection
@@ -75,10 +75,10 @@ public class CapitalAccountingLine extends TransientBusinessObjectBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    public LinkedHashMap toStringMapper() {
+    
+    public LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("distributionCode", this.getDistributionCode());
         m.put("canCreateAsset", this.isCanCreateAsset());

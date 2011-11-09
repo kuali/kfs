@@ -20,9 +20,9 @@ import java.math.BigDecimal;
 import org.apache.bcel.generic.NEW;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 public class EndowTestConstants extends JSTLConstants {
     public static final KualiDecimal ZERO_AMOUNT = KualiDecimal.ZERO;

@@ -22,12 +22,12 @@ import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class DisbursementVoucherDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canBlanketApprove(Document document) {
@@ -35,7 +35,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {
@@ -56,12 +56,12 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     }
 
     protected void addPayeeEditEntryMode(Document document, Set<String> editModes) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
         }
-        else if (workflowDocument.stateIsEnroute()) {
+        else if (workflowDocument.isEnroute()) {
             List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.AWARD) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TRAVEL)) {
                 editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
@@ -70,9 +70,9 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     }
     
     protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FULL_ENTRY);
         }
     }
@@ -83,9 +83,9 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
      * @param editModes the edit modes so far, which can be added to
      */
     protected void addPaymentHandlingEntryMode(Document document, Set<String> editModes) {
-        final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYMENT_HANDLING_ENTRY);
         }
         final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
@@ -100,9 +100,9 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
      * @param editModes the edit modes so far, which can be added to
      */
     protected void addVoucherDeadlineEntryMode(Document document, Set<String> editModes) {
-        final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.VOUCHER_DEADLINE_ENTRY);
         }
         final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
@@ -117,7 +117,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
      * @param editModes the edit modes so far, which can be added to
      */
     protected void addTravelEntryMode(Document document, Set<String> editModes) {
-        final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
         final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
         if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT)) {  //FO? 
@@ -138,7 +138,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
      * @param editModes the edit modes so far, which can be added to
      */
     protected void addSpecialHandlingChagingEntryMode(Document document, Set<String> editModes) {
-        final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
         
         if (!currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.PURCHASING)) {

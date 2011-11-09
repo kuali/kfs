@@ -37,7 +37,7 @@ public class LaborPurgeBalanceStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        String fiscalYearAsString = getParameterService().getParameterValue(getClass(), LaborConstants.PurgeJob.PURGE_LEDGER_BALANCE_YEAR);
+        String fiscalYearAsString = getParameterService().getParameterValueAsString(getClass(), LaborConstants.PurgeJob.PURGE_LEDGER_BALANCE_YEAR);
         LOG.info("Purge labor balances posted before the year: " + fiscalYearAsString);
 
         Integer fiscalYear = Integer.parseInt(StringUtils.trim(fiscalYearAsString));

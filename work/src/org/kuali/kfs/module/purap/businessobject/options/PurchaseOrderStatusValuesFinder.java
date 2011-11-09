@@ -28,8 +28,8 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Purchase Order Statuses.
@@ -71,20 +71,20 @@ public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
         // generate output
         List labels = new ArrayList();
         
-        labels.add(new KeyLabelPair("INCOMPLETE", "INCOMPLETE STATUSES"));
+        labels.add(new ConcreteKeyValue("INCOMPLETE", "INCOMPLETE STATUSES"));
         for (Status status : incompleteStatus) {
-            labels.add(new KeyLabelPair(status.getStatusCode(), "- "+status.getStatusDescription()));
+            labels.add(new ConcreteKeyValue(status.getStatusCode(), "- "+status.getStatusDescription()));
         }
 
-        labels.add(new KeyLabelPair("COMPLETE", "COMPLETE STATUSES"));
+        labels.add(new ConcreteKeyValue("COMPLETE", "COMPLETE STATUSES"));
         for (Status status : completeStatus) {
-            labels.add(new KeyLabelPair(status.getStatusCode(), "- "+status.getStatusDescription()));
+            labels.add(new ConcreteKeyValue(status.getStatusCode(), "- "+status.getStatusDescription()));
         }
         
         if (!unsorted.isEmpty())
-            labels.add(new KeyLabelPair("UNSORTED", "Unsorted Statuses"));
+            labels.add(new ConcreteKeyValue("UNSORTED", "Unsorted Statuses"));
         for (Status status : unsorted) {
-            labels.add(new KeyLabelPair(status.getStatusCode(), "- "+status.getStatusDescription()));
+            labels.add(new ConcreteKeyValue(status.getStatusCode(), "- "+status.getStatusDescription()));
         }
         
         

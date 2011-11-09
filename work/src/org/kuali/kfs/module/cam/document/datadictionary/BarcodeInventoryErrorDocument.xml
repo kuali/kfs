@@ -186,6 +186,6 @@
 
  <!-- workflow attributes -->
   <bean id="BarcodeInventoryErrorDocument-workflowAttributes" parent="BarcodeInventoryErrorDocument-workflowAttributes-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="BarcodeInventoryErrorDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

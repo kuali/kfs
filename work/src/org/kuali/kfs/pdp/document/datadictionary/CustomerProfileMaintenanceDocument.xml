@@ -185,5 +185,5 @@
   <!-- workflow attributes -->
   <bean id="CustomerProfileMaintenanceDocument-workflowAttributes" parent="CustomerProfileMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="CustomerProfileMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="CustomerProfileMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

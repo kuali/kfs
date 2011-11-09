@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Values Finder for <code>CommodityCode</code>.
@@ -41,10 +41,10 @@ public class CommodityCodeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection sscs = boService.findAll(CommodityCode.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = sscs.iterator(); iter.hasNext();) {
             CommodityCode cc = (CommodityCode) iter.next();
-            labels.add(new KeyLabelPair(cc.getPurchasingCommodityCode(), cc.getCommodityDescription()));
+            labels.add(new ConcreteKeyValue(cc.getPurchasingCommodityCode(), cc.getCommodityDescription()));
         }
 
         return labels;

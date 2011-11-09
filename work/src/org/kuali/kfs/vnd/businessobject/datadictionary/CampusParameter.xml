@@ -53,7 +53,7 @@
 					<dd:primitiveAttribute source="purchasingDepartmentCountryCode"
 						target="postalCountryCode" />
 					<dd:primitiveAttribute source="purchasingDepartmentStateCode"
-						target="postalStateCode" />
+						target="stateCode" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="purchasingDepartmentCountry">
 					<dd:primitiveAttribute source="purchasingDepartmentCountryCode"

@@ -23,14 +23,14 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * 
  */
-public class AccountingPeriod extends PersistableBusinessObjectBase implements Inactivateable, FiscalYearBasedBusinessObject {
+public class AccountingPeriod extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
 
     private Integer universityFiscalYear;
     private String universityFiscalPeriodCode;
@@ -198,9 +198,9 @@ public class AccountingPeriod extends PersistableBusinessObjectBase implements I
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("universityFiscalYear", "" + this.universityFiscalYear);
         m.put("universityFiscalPeriodCode", this.universityFiscalPeriodCode);

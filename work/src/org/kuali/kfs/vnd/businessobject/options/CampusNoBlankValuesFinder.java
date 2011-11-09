@@ -24,10 +24,10 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Campus with no blank value.
@@ -41,13 +41,13 @@ public class CampusNoBlankValuesFinder extends KeyValuesBase {
 
         KeyValuesService kvService = SpringContext.getBean(KeyValuesService.class);
         Map fieldValues = new HashMap();
-        fieldValues.put(KNSPropertyConstants.ACTIVE, true);
+        fieldValues.put(KRADPropertyConstants.ACTIVE, true);
         Collection codes = kvService.findMatching(CampusParameter.class, fieldValues);
         List labels = new ArrayList();
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             CampusParameter campusParameter = (CampusParameter) iter.next();
             if(campusParameter.getCampus() != null){
-                labels.add(new KeyLabelPair(campusParameter.getCampus().getCampusCode(), campusParameter.getCampus().getCampusCode() + " - " + campusParameter.getCampus().getCampusName()));
+                labels.add(new ConcreteKeyValue(campusParameter.getCampus().getCode(), campusParameter.getCampus().getCode() + " - " + campusParameter.getCampus().getName()));
             }
         }
 

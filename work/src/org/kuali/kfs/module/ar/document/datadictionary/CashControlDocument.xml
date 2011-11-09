@@ -72,7 +72,7 @@
 <!-- Start - Workflow Attribute Beans -->  
 
   <bean id="CashControlDocument-DocumentValuePathGroup" parent="CashControlDocument-DocumentValuePathGroup-parentBean"/>
-  <bean id="CashControlDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+  <bean id="CashControlDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 			<list>
 				<value>chartOfAccountsCode</value>
@@ -82,7 +82,7 @@
   </bean>
   
   <bean id="RoutingType-CashControlDocument-Lockbox" parent="RoutingType-CashControlDocument-parentBean"/>    			
-  <bean id="RoutingType-CashControlDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+  <bean id="RoutingType-CashControlDocument-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
@@ -121,7 +121,7 @@
 
 <!--  
 
-  <bean id="RoutingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+  <bean id="RoutingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute" >
   	<property name ="qualificationAttributeName" value="processingChartOfAccountCode"/>
   </bean>
 
@@ -130,7 +130,7 @@
 	<property name="attributeName" value="processingChartOfAccountCode"/>
   </bean>
 
-  <bean id="RoutingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+  <bean id="RoutingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute" >
 	<property name ="qualificationAttributeName" value="processingOrganizationCode"/>
   </bean>
 

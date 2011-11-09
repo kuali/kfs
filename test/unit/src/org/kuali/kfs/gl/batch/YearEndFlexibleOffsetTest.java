@@ -59,10 +59,10 @@ import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /*
  * Unit tests to verify that flexible offsets are being added to year end origin entries correctly
@@ -152,7 +152,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             balance.setMonth13Amount(KualiDecimal.ZERO);
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-                java.util.Date jud = sdf.parse(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM));
+                java.util.Date jud = sdf.parse(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM));
                 balance.setTimestamp(new java.sql.Date(jud.getTime()));
             }
             catch (ParseException e) {
@@ -258,7 +258,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             balance.setMonth13Amount(KualiDecimal.ZERO);
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-                java.util.Date jud = sdf.parse(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM));
+                java.util.Date jud = sdf.parse(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM));
                 balance.setTimestamp(new java.sql.Date(jud.getTime()));
             }
             catch (ParseException e) {

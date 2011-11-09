@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of GLCP editing methods key value pairs, to populate a dropdown select control
@@ -33,12 +33,12 @@ public class CorrectionEditMethodValuesFinder extends KeyValuesBase {
      * @return a List of editing method key/value pairs
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
-        activeLabels.add(new KeyLabelPair("", "Edit Method"));
-        activeLabels.add(new KeyLabelPair(CorrectionDocumentService.CORRECTION_TYPE_CRITERIA, "Using Criteria"));
-        activeLabels.add(new KeyLabelPair(CorrectionDocumentService.CORRECTION_TYPE_MANUAL, "Manual Edit"));
-        activeLabels.add(new KeyLabelPair(CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING, "Remove Group From Processing"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> activeLabels = new ArrayList<KeyValue>();
+        activeLabels.add(new ConcreteKeyValue("", "Edit Method"));
+        activeLabels.add(new ConcreteKeyValue(CorrectionDocumentService.CORRECTION_TYPE_CRITERIA, "Using Criteria"));
+        activeLabels.add(new ConcreteKeyValue(CorrectionDocumentService.CORRECTION_TYPE_MANUAL, "Manual Edit"));
+        activeLabels.add(new ConcreteKeyValue(CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING, "Remove Group From Processing"));
 
         return activeLabels;
     }

@@ -28,10 +28,10 @@ import org.kuali.kfs.pdp.businessobject.DisbursementNumberFormatter;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**

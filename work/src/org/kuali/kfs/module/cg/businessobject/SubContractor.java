@@ -18,18 +18,18 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.state.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Subcontractors are vendors involved with an awarded {@link Proposal}.
  */
-public class SubContractor extends PersistableBusinessObjectBase implements Inactivateable {
+public class SubContractor extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String subcontractorNumber;
     private String subcontractorName;
@@ -213,9 +213,9 @@ public class SubContractor extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("subcontractorNumber", this.getSubcontractorNumber());
         return m;
@@ -227,7 +227,7 @@ public class SubContractor extends PersistableBusinessObjectBase implements Inac
      * @return the {@link Country} in which the subcontractor is located.
      */
     public Country getSubcontractorCountry() {
-        subcontractorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(subcontractorCountryCode, subcontractorCountry);
+        subcontractorCountry = (subcontractorCountryCode == null)?null:( subcontractorCountry == null || !StringUtils.equals( subcontractorCountry.getCode(),subcontractorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(subcontractorCountryCode): subcontractorCountry;
         return subcontractorCountry;
     }
 
@@ -246,7 +246,7 @@ public class SubContractor extends PersistableBusinessObjectBase implements Inac
      * @return the {@link State} in which the subcontractor is located.
      */
     public State getSubcontractorState() {
-        subcontractorState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(subcontractorCountryCode, subcontractorStateCode, subcontractorState);
+        subcontractorState = (StringUtils.isBlank(subcontractorCountryCode) || StringUtils.isBlank( subcontractorStateCode))?null:( subcontractorState == null || !StringUtils.equals( subcontractorState.getCountryCode(),subcontractorCountryCode)|| !StringUtils.equals( subcontractorState.getCode(), subcontractorStateCode))?SpringContext.getBean(StateService.class).getState(subcontractorCountryCode, subcontractorStateCode): subcontractorState;
         return subcontractorState;
     }
 

@@ -25,8 +25,8 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
@@ -67,7 +67,7 @@ public class DepreciationReport {
             LOG.debug("createReport() started");
             this.document = new Document();
 
-            String destinationDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
+            String destinationDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.REPORTS_DIRECTORY_KEY);
 
             SimpleDateFormat sdf = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY_NO_DELIMITER + "_" + CamsConstants.DateFormats.MILITARY_TIME_NO_DELIMITER);
 
@@ -245,13 +245,13 @@ public class DepreciationReport {
 
             Font font = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.NORMAL);
 
-            cell = new Cell(new Phrase(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CamsKeyConstants.Depreciation.MSG_REPORT_DEPRECIATION_HEADING1), font));
+            cell = new Cell(new Phrase(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CamsKeyConstants.Depreciation.MSG_REPORT_DEPRECIATION_HEADING1), font));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             cell.setGrayFill(0.9f);
             aTable.addCell(cell);
 
-            cell = new Cell(new Phrase(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CamsKeyConstants.Depreciation.MSG_REPORT_DEPRECIATION_HEADING2), font));
+            cell = new Cell(new Phrase(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CamsKeyConstants.Depreciation.MSG_REPORT_DEPRECIATION_HEADING2), font));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             cell.setGrayFill(0.9f);

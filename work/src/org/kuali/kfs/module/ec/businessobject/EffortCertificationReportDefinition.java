@@ -30,14 +30,14 @@ import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
 
 /**
  * Business Object for the Effort Certification Report Definition Table.
  */
-public class EffortCertificationReportDefinition extends PersistableBusinessObjectBase implements EffortCertificationReport, Inactivateable, FiscalYearBasedBusinessObject {
+public class EffortCertificationReportDefinition extends PersistableBusinessObjectBase implements EffortCertificationReport, Inactivatable, FiscalYearBasedBusinessObject {
 
     private Integer universityFiscalYear;
     private String effortCertificationReportNumber;
@@ -71,7 +71,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      */
     public EffortCertificationReportDefinition() {
         super();
-        effortCertificationReportPositions = new TypedArrayList(EffortCertificationReportPosition.class);
+        effortCertificationReportPositions = new ArrayList<EffortCertificationReportPosition>();
     }
 
     /**
@@ -494,9 +494,9 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return new LinkedHashMap<String, String>(buildKeyMapForCurrentReportDefinition());
     }
 

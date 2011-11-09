@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.FederalFundedCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of {@link FederalFundedCode} key value pairs.
@@ -39,11 +39,11 @@ public class FederalFundedCodeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         Collection<FederalFundedCode> codes = SpringContext.getBean(KeyValuesService.class).findAll(FederalFundedCode.class);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
         for (FederalFundedCode federalFundedCode : codes) {
             if(federalFundedCode.isActive()) {
-                labels.add(new KeyLabelPair(federalFundedCode.getCode(), federalFundedCode.getCodeAndDescription()));
+                labels.add(new ConcreteKeyValue(federalFundedCode.getCode(), federalFundedCode.getCodeAndDescription()));
             }
         }
 

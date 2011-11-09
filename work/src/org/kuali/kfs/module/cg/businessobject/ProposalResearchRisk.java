@@ -17,13 +17,13 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Represents a relationship between a {@link Proposal} and a {@link ResearchRisk}.
  */
-public class ProposalResearchRisk extends PersistableBusinessObjectBase implements Inactivateable {
+public class ProposalResearchRisk extends PersistableBusinessObjectBase implements Inactivatable {
 
     private String researchRiskTypeCode;
     private Long proposalNumber;
@@ -39,8 +39,8 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
         super();
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalNumber", proposalNumber);

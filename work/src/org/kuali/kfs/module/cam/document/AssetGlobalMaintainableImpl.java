@@ -50,17 +50,17 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
@@ -79,7 +79,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     public List<Long> getWorkflowEngineDocumentIdsToLock() {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         if (ObjectUtils.isNotNull(assetGlobal) && assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
-            String poDocId = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getCurrentPurchaseOrderDocumentNumber(this.documentNumber);
+            String poDocId = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getCurrentPurchaseOrderDocumentNumber(getDocumentNumber());
             if (StringUtils.isNotBlank(poDocId)) {
                 List<Long> documentIds = new ArrayList<Long>();
                 documentIds.add(new Long(poDocId));
@@ -398,7 +398,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
             // Set for document number and document type code
             if (getAssetGlobalService().existsInGroup(getAssetGlobalService().getNonNewAcquisitionCodeGroup(), assetGlobal.getAcquisitionTypeCode())) {
-                assetPaymentDetail.setExpenditureFinancialDocumentNumber(documentNumber);
+                assetPaymentDetail.setExpenditureFinancialDocumentNumber(getDocumentNumber());
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
                 assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
             }
@@ -430,7 +430,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         super.prepareForSave();
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
-        List<AssetGlobalDetail> newDetails = new TypedArrayList(AssetGlobalDetail.class);
+        List<AssetGlobalDetail> newDetails = new ArrayList<AssetGlobalDetail>();
         AssetGlobalDetail newAssetGlobalDetail = null;
         if (!assetSharedDetails.isEmpty() && !assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
 
@@ -600,7 +600,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
         // button actions for Asset Separate document
         if (getAssetGlobalService().isAssetSeparate(assetGlobal) && sharedDetailsList.size() >= 1) {
-            String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
+            String[] customAction = parameters.get(KRADConstants.CUSTOM_ACTION);
 
             // calculate equal source total amounts and set separate source amount fields
             if (customAction != null && CamsConstants.AssetSeparate.CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON.equals(customAction[0])) {
@@ -652,7 +652,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
@@ -661,10 +661,10 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         List<GeneralLedgerPendingEntry> generalLedgerPendingEntries = assetGlobal.getGeneralLedgerPendingEntries();
         new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).doRouteStatusChange(generalLedgerPendingEntries);
 
-        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
 
         // force pretagDetail active indicators back to true
-        if (workflowDoc.stateIsCanceled()) {
+        if (workflowDoc.isCanceled()) {
             if (ObjectUtils.isNotNull(assetGlobal)) {
                 List<AssetGlobalDetail> assetGlobalDetailsList = assetGlobal.getAssetGlobalDetails();
                 if (ObjectUtils.isNotNull(assetGlobalDetailsList)) {
@@ -685,10 +685,10 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             }
         }
 
-        // release lock for separate source asset...We don't include stateIsFinal since document always go to 'processed' first.
+        // release lock for separate source asset...We don't include isFinal since document always go to 'processed' first.
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-        if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed())) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed())) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
         }
 
         // notify CAB of document status change

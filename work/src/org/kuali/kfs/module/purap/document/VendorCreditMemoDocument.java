@@ -46,18 +46,18 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 /**
  * Credit Memo Document Business Object. Contains the fields associated with the main document table.
@@ -164,7 +164,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
     @Override
     public boolean isBoNotesSupport() {
@@ -200,7 +200,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
@@ -208,14 +208,14 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         super.doRouteStatusChange(statusChangeEvent);
         try {
             // DOCUMENT PROCESSED
-            if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
                 SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.CreditMemoStatuses.COMPLETE);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
 
                 return;
             }
             // DOCUMENT DISAPPROVED
-            else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
@@ -231,7 +231,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
                 logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED
-            else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            else if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                 String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, currentNodeName);
             }
@@ -260,11 +260,11 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
+     * @see org.kuali.rice.krad.document.DocumentBase#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_OVERRIDE_CM_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_OVERRIDE_CM_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
         return super.getDocumentTitle();
@@ -618,7 +618,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     /**
      * Credit Memo document is first populated on Continue AP Event, and then prepareForSave continues.
      * 
-     * @see org.kuali.rice.kns.document.Document#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.krad.document.Document#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -636,7 +636,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      */
     @Override
     protected boolean isAttachmentRequired() {
-        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(ParameterService.class).getParameterValue(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
+        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(ParameterService.class).getParameterValueAsString(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
     }
 
     /**
@@ -695,7 +695,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      * @return - true if document does not have an image attached, false otherwise
      */
     public boolean documentHasNoImagesAttached() {
-        List boNotes = this.getDocumentBusinessObject().getBoNotes();
+        List boNotes = this.getDocumentBusinessObject().getNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
                 Note note = (Note) obj;

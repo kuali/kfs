@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Base Value Finder for Purchasing / Accounts Payable Statuses.
@@ -40,7 +40,7 @@ public class PurApStatusKeyValuesBase extends KeyValuesBase {
         Collection<Status> statuses = boService.findAll(getStatusClass());
         List labels = new ArrayList();
         for (Status status : statuses) {
-            labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
+            labels.add(new ConcreteKeyValue(status.getStatusCode(), status.getStatusDescription()));
         }
         return labels;
     }

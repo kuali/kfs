@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.AddressType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Values Finder for <code>AddressType</code>.
@@ -41,10 +41,10 @@ public class AddressTypeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(AddressType.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             AddressType AddressType = (AddressType) iter.next();
-            labels.add(new KeyLabelPair(AddressType.getVendorAddressTypeCode(), AddressType.getVendorAddressTypeDescription()));
+            labels.add(new ConcreteKeyValue(AddressType.getVendorAddressTypeCode(), AddressType.getVendorAddressTypeDescription()));
         }
 
         return labels;

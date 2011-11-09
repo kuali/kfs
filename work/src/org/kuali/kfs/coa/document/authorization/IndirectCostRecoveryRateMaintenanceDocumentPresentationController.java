@@ -22,13 +22,13 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class IndirectCostRecoveryRateMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
-    public static final String COA_CODE_NAME = KNSConstants.ADD_PREFIX + "." + KFSPropertyConstants.INDIRECT_COST_RECOVERY_RATE_DETAILS + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+    public static final String COA_CODE_NAME = KRADConstants.ADD_PREFIX + "." + KFSPropertyConstants.INDIRECT_COST_RECOVERY_RATE_DETAILS + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      * 
      * This methods adds the extra chart code field in IndirectCostRecoveryRateDetails, as the potential reference account doesn't exist in
      * the collection, and thus isn't included in AccountPersistenceStructureService.listChartOfAccountsCodeNames as in the super's method.

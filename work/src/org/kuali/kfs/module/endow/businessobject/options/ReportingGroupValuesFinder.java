@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class defines a values finder for the ReportingGroup.
@@ -39,10 +39,10 @@ public class ReportingGroupValuesFinder extends KeyValuesBase {
         Collection<SecurityReportingGroup> codes = boService.findAll(SecurityReportingGroup.class);
 
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             SecurityReportingGroup reportingGroup = (SecurityReportingGroup) iter.next();
-            labels.add(new KeyLabelPair(reportingGroup.getCode(), reportingGroup.getCode() + " - " + reportingGroup.getName()));
+            labels.add(new ConcreteKeyValue(reportingGroup.getCode(), reportingGroup.getCode() + " - " + reportingGroup.getName()));
         }
 
         return labels;

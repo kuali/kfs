@@ -28,13 +28,13 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.dao.LookupDao;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.dao.LookupDao;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class VendorContractLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LookupDao lookupDao;
@@ -102,7 +102,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
 
         validateVendorNumber(fieldValues);
 
-        if (!GlobalVariables.getMessageMap().isEmpty()) {
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("Error(s) in search criteria");
         }
     }

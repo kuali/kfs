@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ec.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * returns valid effort reporting fiscal periods 1 - 12
@@ -31,18 +31,18 @@ public class FiscalPeriodNonNumberValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("01", "1"));
-        keyValues.add(new KeyLabelPair("02", "2"));
-        keyValues.add(new KeyLabelPair("03", "3"));
-        keyValues.add(new KeyLabelPair("04", "4"));
-        keyValues.add(new KeyLabelPair("05", "5"));
-        keyValues.add(new KeyLabelPair("06", "6"));
-        keyValues.add(new KeyLabelPair("07", "7"));
-        keyValues.add(new KeyLabelPair("08", "8"));
-        keyValues.add(new KeyLabelPair("09", "9"));
-        keyValues.add(new KeyLabelPair("10", "10"));
-        keyValues.add(new KeyLabelPair("11", "11"));
-        keyValues.add(new KeyLabelPair("12", "12"));
+        keyValues.add(new ConcreteKeyValue("01", "1"));
+        keyValues.add(new ConcreteKeyValue("02", "2"));
+        keyValues.add(new ConcreteKeyValue("03", "3"));
+        keyValues.add(new ConcreteKeyValue("04", "4"));
+        keyValues.add(new ConcreteKeyValue("05", "5"));
+        keyValues.add(new ConcreteKeyValue("06", "6"));
+        keyValues.add(new ConcreteKeyValue("07", "7"));
+        keyValues.add(new ConcreteKeyValue("08", "8"));
+        keyValues.add(new ConcreteKeyValue("09", "9"));
+        keyValues.add(new ConcreteKeyValue("10", "10"));
+        keyValues.add(new ConcreteKeyValue("11", "11"));
+        keyValues.add(new ConcreteKeyValue("12", "12"));
         return keyValues;
     }
 }

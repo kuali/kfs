@@ -32,9 +32,9 @@ import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.aop.support.AopUtils;
 
 @ConfigureContext(session = kfs)
@@ -56,7 +56,7 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         autoDisapproveDocumentsService = (AutoDisapproveDocumentsServiceImpl) TestUtils.getUnproxiedService("sysMockAutoDisapproveDocumentsService");
         dateTimeService = SpringContext.getBean(DateTimeService.class);
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class); 
+        ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class); 
     }
 
     /**

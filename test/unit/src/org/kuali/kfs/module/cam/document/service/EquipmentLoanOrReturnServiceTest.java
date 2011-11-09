@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
     private EquipmentLoanOrReturnService equipmentLoanOrReturnService;

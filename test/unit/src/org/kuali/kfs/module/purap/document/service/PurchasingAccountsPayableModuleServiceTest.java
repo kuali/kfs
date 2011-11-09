@@ -28,8 +28,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.DocumentService;
 
 @ConfigureContext(session = parke)
 public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
@@ -60,7 +60,7 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
         SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(purchaseOrderNumber, authorId, noteText.toString());
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
         assertNotNull("PO should not have been null",po);
-        List<Note> boNotes = po.getBoNotes();
+        List<Note> boNotes = po.getNotes();
         boolean hasNote = false;
         for( Note note : boNotes ) {
             if (note.getNoteText().contains("Asset Numbers have been created for this document:")) {

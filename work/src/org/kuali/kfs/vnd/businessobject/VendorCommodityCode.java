@@ -18,10 +18,10 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class VendorCommodityCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class VendorCommodityCode extends PersistableBusinessObjectBase implements Inactivatable {
 
 	private Integer vendorHeaderGeneratedIdentifier;
 	private Integer vendorDetailAssignedIdentifier;
@@ -179,9 +179,9 @@ public class VendorCommodityCode extends PersistableBusinessObjectBase implement
     }
 
     /**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
-	protected LinkedHashMap toStringMapper() {
+	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, this.vendorHeaderGeneratedIdentifier.toString());
@@ -200,7 +200,7 @@ public class VendorCommodityCode extends PersistableBusinessObjectBase implement
      * @return A String rendition of this object.
      */
     @Override
-    public String toStringBuilder(LinkedHashMap mapper) {
+    public String toStringBuilder_RICE20_REFACTORME(LinkedHashMap mapper) {
         if (commodityCode != null) {
 
             return commodityCode.getCommodityDescription();

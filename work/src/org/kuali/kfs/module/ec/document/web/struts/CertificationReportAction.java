@@ -47,15 +47,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -216,7 +216,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     public ActionForward sortDetailLineByColumn(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
 
-        String methodToCallAttribute = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String methodToCallAttribute = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String sortMethodName = EffortConstants.SORT_DETAIL_LINE_BY_COLUMN_METHOD_NAME + ".";
         String sortColumn = StringUtils.substringBetween(methodToCallAttribute, sortMethodName, ".");
 
@@ -582,7 +582,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         
         //set additional details for summary tab 
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
-        additionalPermissionDetails.put(KimAttributes.EDIT_MODE, EffortCertificationEditMode.SUMMARY_TAB_ENTRY);
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.EDIT_MODE, EffortCertificationEditMode.SUMMARY_TAB_ENTRY);
 
         //get list of chart/account numbers
         List<EffortCertificationDetail> summarizedDetailLines = createSummarizedDetailLines(certificationReportForm);
@@ -598,18 +598,18 @@ public class CertificationReportAction extends EffortCertificationAction {
             //re-check summary permission
             if (certReportDocAuthorizer.doPermissionExistsByTemplate(
                     effortDocument,
-                    KNSConstants.KNS_NAMESPACE,
+                    KRADConstants.KRAD_NAMESPACE,
                     KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT,
                     additionalPermissionDetails)
                     && !certReportDocAuthorizer.isAuthorizedByTemplate(
                             effortDocument,
-                            KNSConstants.KNS_NAMESPACE,
+                            KRADConstants.KRAD_NAMESPACE,
                             KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT,
                             currentPrincipalId, 
                             additionalPermissionDetails,
                             additionalRoleQualifiers)) {
                 
-                formBase.getEditingMode().put(EffortCertificationEditMode.SUMMARY_TAB_ENTRY, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+                formBase.getEditingMode().put(EffortCertificationEditMode.SUMMARY_TAB_ENTRY, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
             }
         }
     }

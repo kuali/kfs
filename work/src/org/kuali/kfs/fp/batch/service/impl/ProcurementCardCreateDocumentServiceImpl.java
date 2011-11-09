@@ -57,23 +57,23 @@ import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.rice.kew.dto.DocumentSearchCriteriaDTO;
 import org.kuali.rice.kew.dto.DocumentSearchResultDTO;
 import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
-import org.kuali.rice.kew.dto.KeyValueDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.util.KEWPropertyConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -146,7 +146,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     public boolean routeProcurementCardDocuments() {
         List<String> documentIdList = null;
         try {
-            documentIdList = retrieveProcurementCardDocumentsToRoute(KEWConstants.ROUTE_HEADER_SAVED_CD);
+            documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
         } catch (WorkflowException e1) {
             LOG.error("Error retrieving pcdo documents for routing: " + e1.getMessage(),e1);
             throw new RuntimeException(e1.getMessage(),e1);
@@ -193,7 +193,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         DocumentSearchResultDTO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(), criteria);
         
         for (DocumentSearchResultRowDTO resultRow: results.getSearchResults()) {
-            for (KeyValueDTO field : resultRow.getFieldValues()) {
+            for (KeyValue field : resultRow.getFieldValues()) {
                 if (field.getKey().equals(WORKFLOW_SEARCH_RESULT_KEY)) {
                     documentIds.add(parseDocumentIdFromRouteDocHeader(field.getValue()));
                 }
@@ -226,7 +226,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     public boolean autoApproveProcurementCardDocuments() {
         // check if auto approve is turned on
-        boolean autoApproveOn = parameterService.getIndicatorParameter(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_DOCUMENTS_IND);
+        boolean autoApproveOn = parameterService.getParameterValueAsBoolean(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_DOCUMENTS_IND);
 
         if (!autoApproveOn) { // no auto approve?  then skip out of here...
             return true;
@@ -234,7 +234,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         List<String> documentIdList = null;
         try {
-            documentIdList = retrieveProcurementCardDocumentsToRoute(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
+            documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
         }
         catch (WorkflowException e1) {
             throw new RuntimeException(e1.getMessage(),e1);
@@ -244,7 +244,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
 
         // get number of days and type for auto approve
-        int autoApproveNumberDays = Integer.parseInt(parameterService.getParameterValue(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_NUMBER_OF_DAYS));
+        int autoApproveNumberDays = Integer.parseInt(parameterService.getParameterValueAsString(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_NUMBER_OF_DAYS));
 
         Timestamp currentDate = dateTimeService.getCurrentTimestamp();
         for (String pcardDocumentId: documentIdList) {
@@ -257,7 +257,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 }
 
                 // if number of days in route is passed the allowed number, call doc service for super user approve
-                Timestamp docCreateDate = pcardDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
+                Timestamp docCreateDate = pcardDocument.getDocumentHeader().getWorkflowDocument().getDateCreated();
                 if (DateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
                     // update document description to reflect the auto approval
                     pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
@@ -291,7 +291,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         List transactions = (List) businessObjectService.findMatchingOrderBy(ProcurementCardTransaction.class, new HashMap(), KFSPropertyConstants.TRANSACTION_CREDIT_CARD_NUMBER, true);
 
         // check apc for single transaction documents or multiple by card
-        boolean singleTransaction = parameterService.getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, SINGLE_TRANSACTION_IND_PARM_NM);
+        boolean singleTransaction = parameterService.getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, SINGLE_TRANSACTION_IND_PARM_NM);
 
         List documentTransactions = new ArrayList();
         if (singleTransaction) {
@@ -659,7 +659,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @return The error chart code defined in the parameter table.
      */
     protected String getErrorChartCode() {
-        return parameterService.getParameterValue(ProcurementCardCreateDocumentsStep.class, ProcurementCardDocumentRuleConstants.ERROR_TRANS_CHART_CODE_PARM_NM);
+        return parameterService.getParameterValueAsString(ProcurementCardCreateDocumentsStep.class, ProcurementCardDocumentRuleConstants.ERROR_TRANS_CHART_CODE_PARM_NM);
     }
 
     /**
@@ -667,7 +667,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @return The error account number defined in the parameter table.
      */
     protected String getErrorAccountNumber() {
-        return parameterService.getParameterValue(ProcurementCardCreateDocumentsStep.class, ERROR_TRANS_ACCOUNT_PARM_NM);
+        return parameterService.getParameterValueAsString(ProcurementCardCreateDocumentsStep.class, ERROR_TRANS_ACCOUNT_PARM_NM);
     }
 
     /**
@@ -675,7 +675,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @return The default chart code defined in the parameter table.
      */
     protected String getDefaultChartCode() {
-        return parameterService.getParameterValue(ProcurementCardLoadStep.class, DEFAULT_TRANS_CHART_CODE_PARM_NM);
+        return parameterService.getParameterValueAsString(ProcurementCardLoadStep.class, DEFAULT_TRANS_CHART_CODE_PARM_NM);
     }
 
     /**
@@ -683,7 +683,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @return The default account number defined in the parameter table.
      */
     protected String getDefaultAccountNumber() {
-        return parameterService.getParameterValue(ProcurementCardLoadStep.class, DEFAULT_TRANS_ACCOUNT_PARM_NM);
+        return parameterService.getParameterValueAsString(ProcurementCardLoadStep.class, DEFAULT_TRANS_ACCOUNT_PARM_NM);
     }
 
     /**
@@ -691,7 +691,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @return The default object code defined in the parameter table.
      */
     protected String getDefaultObjectCode() {
-        return parameterService.getParameterValue(ProcurementCardLoadStep.class, DEFAULT_TRANS_OBJECT_CODE_PARM_NM);
+        return parameterService.getParameterValueAsString(ProcurementCardLoadStep.class, DEFAULT_TRANS_OBJECT_CODE_PARM_NM);
     }
 
     /**

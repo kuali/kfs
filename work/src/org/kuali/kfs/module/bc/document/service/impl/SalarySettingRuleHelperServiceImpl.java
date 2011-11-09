@@ -34,9 +34,9 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * provide a set of rule elements for salary setting.
@@ -48,7 +48,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     private HumanResourcesPayrollService humanResourcesPayrollService;
     
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#canBeAdjusted(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.kns.util.MessageMap)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#canBeAdjusted(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.krad.util.MessageMap)
      */
     public boolean canBeAdjusted(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         if (appointmentFunding.getEffectiveCSFTracker() == null) {
@@ -68,7 +68,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasActiveJob(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kns.util.MessageMap)
+     *      org.kuali.rice.krad.util.MessageMap)
      */
     public boolean hasActiveJob(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
@@ -144,7 +144,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasNoExistingLine(java.util.List,
-     *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.kns.util.MessageMap)
+     *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.krad.util.MessageMap)
      */
     public boolean hasNoExistingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         boolean hasNoExistingLine = salarySettingService.findAppointmentFunding(appointmentFundings, appointmentFunding) == null;
@@ -300,7 +300,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidAdjustmentAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kns.util.MessageMap)
+     *      org.kuali.rice.krad.util.MessageMap)
      */
     public boolean hasValidAdjustmentAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         KualiDecimal adjustmentAmount = appointmentFunding.getAdjustmentAmount();
@@ -315,7 +315,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidAdjustmentAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kns.util.MessageMap)
+     *      org.kuali.rice.krad.util.MessageMap)
      */
     public boolean hasValidPayRateOrAnnualAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         BigDecimal payRate = appointmentFunding.getAppointmentRequestedPayRate();

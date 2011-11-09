@@ -20,14 +20,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
 
 /**
  * Purchase Order Quote List Business Object.
  */
-public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase implements Inactivateable{
+public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase implements Inactivatable{
 
     private Integer purchaseOrderQuoteListIdentifier;
     private String purchaseOrderQuoteListName;
@@ -43,7 +43,7 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase implem
      * Default constructor.
      */
     public PurchaseOrderQuoteList() {
-        quoteListVendors = new TypedArrayList(PurchaseOrderQuoteListVendor.class);
+        quoteListVendors = new ArrayList<PurchaseOrderQuoteListVendor>();
     }
 
     public Integer getPurchaseOrderQuoteListIdentifier() {
@@ -99,9 +99,9 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase implem
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.purchaseOrderQuoteListIdentifier != null) {
             m.put("purchaseOrderQuoteListIdentifier", this.purchaseOrderQuoteListIdentifier.toString());

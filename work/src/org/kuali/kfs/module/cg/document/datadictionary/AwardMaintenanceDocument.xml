@@ -261,9 +261,9 @@
     	</property>
 	</bean>
 	
-	<bean id="AwardMaintenanceDocument-SearchingType-awardStatus" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<bean id="AwardMaintenanceDocument-SearchingType-awardStatus" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-        	<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+        	<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
         		<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.Award"/>
     			<property name="attributeName" value="awardStatusCode"/>
         	</bean>
@@ -275,7 +275,7 @@
         </property>
     </bean>
     
-    <bean id="AwardMaintenanceDocument-SearchingType-primaryAwardOrganization-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="AwardMaintenanceDocument-SearchingType-primaryAwardOrganization-chartOfAccountsCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
         <property name="documentValues">
         	<list>
@@ -284,7 +284,7 @@
         </property>
     </bean>
     
-    <bean id="AwardMaintenanceDocument-SearchingType-primaryAwardOrganization-organizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="AwardMaintenanceDocument-SearchingType-primaryAwardOrganization-organizationCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-organizationCode"/>
         <property name="documentValues">
         	<list>
@@ -293,9 +293,9 @@
         </property>
     </bean>
     
-    <bean id="AwardMaintenanceDocument-SearchingType-agencyReportName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="AwardMaintenanceDocument-SearchingType-agencyReportName" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-        	<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+        	<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
         		<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.Agency"/>
     			<property name="attributeName" value="reportingName"/>
         	</bean>
@@ -307,7 +307,7 @@
         </property>
     </bean>
     
-    <bean id="AwardMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    <bean id="AwardMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
     			<ref bean="RoutingAttribute-chartOfAccountsCode"/>
@@ -316,7 +316,7 @@
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    			<bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 			    	<property name="documentValues">
 			    		<list>
 			    			<value>newMaintainableObject.businessObject.primaryAwardOrganization.chartOfAccountsCode</value>
@@ -327,7 +327,7 @@
     		</list>
     	</property>
     </bean>
-    <bean id="AwardMaintenanceDocument-RoutingType-ResearchRisk" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    <bean id="AwardMaintenanceDocument-RoutingType-ResearchRisk" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-researchRiskCode"/>
@@ -335,9 +335,9 @@
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    			<bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 			    	<property name="documentCollectionPath">
-			    		<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+			    		<bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
 			    			<property name="collectionPath" value="newMaintainableObject.businessObject.proposal.proposalResearchRisks"/>
 			    			<property name="documentValues">
 			    				<list>

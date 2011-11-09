@@ -28,8 +28,8 @@ import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 import org.kuali.kfs.module.endow.dataaccess.GLLinkDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidGeneralLedgerAccountDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveSecurityDao;
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**

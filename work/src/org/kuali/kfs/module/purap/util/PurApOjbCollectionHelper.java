@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 import org.springframework.orm.ObjectRetrievalFailureException;
 

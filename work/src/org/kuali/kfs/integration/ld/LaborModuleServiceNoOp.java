@@ -23,8 +23,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class LaborModuleServiceNoOp implements LaborModuleService {
 

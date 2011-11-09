@@ -18,16 +18,16 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TaxRegionPostalCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class TaxRegionPostalCode extends PersistableBusinessObjectBase implements Inactivatable {
 	
     private String postalCountryCode; 
 	private String postalCode;
@@ -39,7 +39,7 @@ public class TaxRegionPostalCode extends PersistableBusinessObjectBase implement
 	private TaxRegion taxRegion;
 	
 	public PostalCode getPostalZip() {
-	    postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(postalCountryCode, postalCode, postalZip);
+	    postalZip = (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank( postalCode))?null:( postalZip == null || !StringUtils.equals( postalZip.getCountryCode(),postalCountryCode)|| !StringUtils.equals( postalZip.getCode(), postalCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(postalCountryCode, postalCode): postalZip;
 		return postalZip;
 	}
 	public void setPostalZip(PostalCode postalZip) {
@@ -73,7 +73,7 @@ public class TaxRegionPostalCode extends PersistableBusinessObjectBase implement
 		this.taxRegionCode = taxRegionCode;
 	}
 	
-	protected LinkedHashMap toStringMapper() {
+	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("postalCode", this.postalCode);
         m.put("taxRegionCode", this.taxRegionCode);
@@ -98,7 +98,7 @@ public class TaxRegionPostalCode extends PersistableBusinessObjectBase implement
      * @return Returns the country.
      */
     public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(postalCountryCode, country);
+        country = (postalCountryCode == null)?null:( country == null || !StringUtils.equals( country.getCode(),postalCountryCode))?SpringContext.getBean(CountryService.class).getCountry(postalCountryCode): country;
         return country;
     }
     /**

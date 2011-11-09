@@ -44,7 +44,7 @@ public class CustomerInvoiceAccountingLineParser extends AccountingLineParserBas
     }
 	
 	/**
-     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
+     * @see org.kuali.rice.krad.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {

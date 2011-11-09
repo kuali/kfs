@@ -33,7 +33,7 @@ public interface BudgetParameterService {
      * @param parameterName
      * @return
      */
-    public List getParameterValues(Class componentClass, String parameterName);
+    public List getParameterValuesAsString(Class componentClass, String parameterName);
 
     /**
      * determines if a BudgetConstructionDocument's account is a salary setting only account returns

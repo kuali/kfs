@@ -54,16 +54,16 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.engine.node.SplitResult;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 /**
  * This is the business object that represents the BudgetAdjustment document in Kuali.
@@ -87,7 +87,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     /*******************************************************************************************************************************
      * BA Documents should only do SF checking on PLEs with a Balance Type of 'CB' - not 'BB' or 'MB'.
      * 
-     * @Override
+     * 
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getPendingLedgerEntriesForSufficientFundsChecking()
      */
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
@@ -474,10 +474,10 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#toStringMapper()
+     * @see org.kuali.rice.krad.document.DocumentBase#toStringMapper()
      */
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
@@ -486,7 +486,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     /**
      * The base checks that the posting year is the current year, not a requirement for the ba document.
      * 
-     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#getAllowsCopy()
+     * @see org.kuali.rice.krad.document.TransactionalDocumentBase#getAllowsCopy()
      */
     @Override
     public boolean getAllowsCopy() {
@@ -510,7 +510,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
+     * @see org.kuali.rice.krad.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {
@@ -533,8 +533,8 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * 
      * @param financialDocument submitted financial document
      * @param accountingLine accounting line being evaluated as a debit or not
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine)
      */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
@@ -557,8 +557,8 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * @param accountingLine validated accounting line
      * @param sequenceHelper helper class for keeping track of sequence number
      * @return true if GLPE entries are successfully created.
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processGenerateGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processGenerateGeneralLedgerPendingEntries(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -708,7 +708,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * 
      * @param sequenceHelper helper class for keeping track of sequence number
      * @return true general ledger pending entries are generated without any problems
-     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,
+     * @see org.kuali.rice.krad.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.krad.document.FinancialDocument,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
@@ -716,8 +716,8 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         boolean success = true;
 
         // check on-off tof flag
-        boolean generateTransfer = SpringContext.getBean(ParameterService.class).getIndicatorParameter(BudgetAdjustmentDocument.class, BudgetAdjustmentDocumentRuleConstants.GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
-        String transferObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetAdjustmentDocument.class, BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM);
+        boolean generateTransfer = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(BudgetAdjustmentDocument.class, BudgetAdjustmentDocumentRuleConstants.GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
+        String transferObjectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(BudgetAdjustmentDocument.class, BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM);
         Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
         if (generateTransfer) {
@@ -952,7 +952,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         // check remaining conditions
         if (!fullApprovalRequired) {
             // initiator should be fiscal officer or primary delegate for account
-            Person initiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+            Person initiator = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
             List userAccounts = SpringContext.getBean(AccountService.class).getAccountsThatUserIsResponsibleFor(initiator);
             Account userAccount = null;
             for (Iterator iter = userAccounts.iterator(); iter.hasNext();) {

@@ -25,11 +25,11 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public enum CustomerInvoiceDocumentFixture {
     
@@ -160,7 +160,7 @@ public enum CustomerInvoiceDocumentFixture {
         
         // Just verify the workflow pieces
         DocumentHeader documentHeader = customerInvoiceDocument.getDocumentHeader();
-        KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
+        WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
         
         //probably should change this to use values set in fixture
         SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);

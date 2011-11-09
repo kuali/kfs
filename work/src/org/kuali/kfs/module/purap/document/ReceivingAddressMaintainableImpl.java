@@ -24,14 +24,14 @@ import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.core.service.EncryptionService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.core.api.encryption.EncryptionService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.MaintenanceLock;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * ReceivingAddressMaintainableImpl is a special implementation of FinancialSystemMaintainable for ReceivingAddresss. 
@@ -64,7 +64,7 @@ public class ReceivingAddressMaintainableImpl extends FinancialSystemMaintainabl
      */
     private MaintenanceLock createMaintenanceLock(String[] fieldNames) {
         MaintenanceLock lock = new MaintenanceLock();
-        lock.setDocumentNumber(this.documentNumber);
+        lock.setDocumentNumber(getDocumentNumber());
         lock.setLockingRepresentation(createLockingRepresentation(fieldNames));
         return lock;
     }
@@ -128,7 +128,7 @@ public class ReceivingAddressMaintainableImpl extends FinancialSystemMaintainabl
      * Checks if there's any active receiving address set to default other than this one; 
      * if so, set them to non-default. 
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader header) {
@@ -139,9 +139,9 @@ public class ReceivingAddressMaintainableImpl extends FinancialSystemMaintainabl
         if ( !ra.isActive() || !ra.isDefaultIndicator() )
             return;
         
-        KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
+        WorkflowDocument workflowDoc = header.getWorkflowDocument();
         // this code is only executed when the final approval occurs
-        if (workflowDoc.stateIsProcessed()) {
+        if (workflowDoc.isProcessed()) {
             /*
             Map criteria = new HashMap();
             criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ra.getChartOfAccountsCode());

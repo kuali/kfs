@@ -25,9 +25,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * Performs warning checks and prompts for NonCheckDisbursement.
@@ -66,7 +66,7 @@ public class NonCheckDisbursementDocumentPreRules extends PromptBeforeValidation
 
         // if bank is inactive and continuation is active, prompt user to use continuation bank
         if (bank != null && !bank.isActive() && bank.getContinuationBank().isActive()) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_BANK_INACTIVE);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_BANK_INACTIVE);
             questionText = MessageFormat.format(questionText, nonCheckDocument.getFinancialDocumentBankCode(), bank.getContinuationBankCode());
 
             boolean useContinuation = super.askOrAnalyzeYesNoQuestion(KFSConstants.USE_CONTINUATION_BANK_QUESTION, questionText);

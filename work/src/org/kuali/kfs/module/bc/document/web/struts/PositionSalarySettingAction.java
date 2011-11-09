@@ -40,10 +40,10 @@ import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * the struts action for the salary setting for position
@@ -160,7 +160,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         ActionForward saveAction = super.save(mapping, form, request, response);
 
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
-        this.sendWarnings(positionSalarySettingForm, GlobalVariables.getMessageList());
+        this.sendWarnings(positionSalarySettingForm, KNSGlobalVariables.getMessageList());
 
         return saveAction;
     }

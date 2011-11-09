@@ -22,15 +22,15 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 
 /**
  * Associates a document type to a security definition
  */
-public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBase implements Inactivateable {
+public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBase implements Inactivatable {
     private KualiInteger definitionId;
     private String financialSystemDocumentTypeCode;
     private boolean active;
@@ -122,10 +122,10 @@ public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBas
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(SecPropertyConstants.DEFINITION_ID, this.definitionId);

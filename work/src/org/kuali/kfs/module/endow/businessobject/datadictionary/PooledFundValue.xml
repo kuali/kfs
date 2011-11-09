@@ -129,7 +129,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 	<bean id="PooledFundValue-longTermGainLossDistributionPerUnit"
@@ -175,7 +175,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 	<bean id="PooledFundValue-shortTermGainLossDistributionPerUnit"
@@ -222,7 +222,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 

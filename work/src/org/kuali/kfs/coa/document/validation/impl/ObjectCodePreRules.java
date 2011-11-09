@@ -25,10 +25,10 @@ import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * PreRules checks for the {@link ObjectCode} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
@@ -61,7 +61,7 @@ public class ObjectCodePreRules extends PromptBeforeValidationBase {
      * <p>
      * Additionally if the object level is null or inactive it confirms with the user that this
      * is actually the object level code they wish to use
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document document) {
@@ -92,7 +92,7 @@ public class ObjectCodePreRules extends PromptBeforeValidationBase {
                 String objectLevelChartOfAccountCode = financialObjectLevel.getChartOfAccountsCode();
                 String objectLevelFinancialObjectLevelCode = financialObjectLevel.getFinancialObjectLevelCode();
                 String objectLevelFinancialObjectLevelName = financialObjectLevel.getFinancialObjectLevelName();
-                String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.ObjectCode.QUESTION_INACTIVE_OBJECT_LEVEL_CONFIRMATION);
+                String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.ObjectCode.QUESTION_INACTIVE_OBJECT_LEVEL_CONFIRMATION);
                 questionText = StringUtils.replace(questionText, "{0}", objectLevelChartOfAccountCode);
                 questionText = StringUtils.replace(questionText, "{1}", objectLevelFinancialObjectLevelCode);
                 questionText = StringUtils.replace(questionText, "{2}", objectLevelFinancialObjectLevelName);

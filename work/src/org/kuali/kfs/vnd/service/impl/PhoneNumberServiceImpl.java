@@ -20,8 +20,8 @@ import java.util.List;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PhoneNumberServiceImpl implements PhoneNumberService {
 
@@ -44,14 +44,14 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
      * 
      * @param phone The phone number String to be converted
      * @return A String in the default valid format
-     * @see org.kuali.rice.kns.web.format.PhoneNumberFormatter
+     * @see org.kuali.rice.core.web.format.PhoneNumberFormatter
      */
     public String formatNumberIfPossible(String unformattedNumber) {
         if (ObjectUtils.isNull(unformattedNumber)) {
             return unformattedNumber;
         }
         String formattedNumber = unformattedNumber.replaceAll("\\D", "");
-        Integer defaultPhoneNumberDigits = new Integer(parameterService.getParameterValue(VendorDetail.class, VendorParameterConstants.DEFAULT_PHONE_NUMBER_DIGITS));
+        Integer defaultPhoneNumberDigits = new Integer(parameterService.getParameterValueAsString(VendorDetail.class, VendorParameterConstants.DEFAULT_PHONE_NUMBER_DIGITS));
         // Before moving to the parameter table:
         // if ( formattedNumber.length() != VendorConstants.GENERIC_DEFAULT_PHONE_NUM_DIGITS ) {
         if (formattedNumber.length() != defaultPhoneNumberDigits) {
@@ -87,7 +87,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
      */
     protected String[] parseFormats() {
         if (ObjectUtils.isNull(phoneNumberFormats)) {
-            phoneNumberFormats = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.PHONE_NUMBER_FORMATS);
+            phoneNumberFormats = new ArrayList<String>( parameterService.getParameterValuesAsString(VendorDetail.class, VendorParameterConstants.PHONE_NUMBER_FORMATS) );
         }
         return phoneNumberFormats.toArray(new String[] {});
     }

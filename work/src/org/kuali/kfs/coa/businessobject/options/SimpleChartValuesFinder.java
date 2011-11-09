@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of chart key value pairs with the key and label both being the chart code.
@@ -40,11 +40,11 @@ public class SimpleChartValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection chartCodes = boService.findAll(Chart.class);
         List chartKeyLabels = new ArrayList();
-        chartKeyLabels.add(new KeyLabelPair("", ""));
+        chartKeyLabels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = chartCodes.iterator(); iter.hasNext();) {
             Chart element = (Chart) iter.next();
             if (element.isActive()) { // only show active charts
-                chartKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode(), element.getChartOfAccountsCode()));
+                chartKeyLabels.add(new ConcreteKeyValue(element.getChartOfAccountsCode(), element.getChartOfAccountsCode()));
             }
         }
 

@@ -26,8 +26,8 @@ import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 public abstract class PurchasingDocumentPreRulesBase extends PurapDocumentPreRulesBase{
 

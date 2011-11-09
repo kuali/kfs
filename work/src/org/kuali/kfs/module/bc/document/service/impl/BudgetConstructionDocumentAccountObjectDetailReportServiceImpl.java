@@ -31,7 +31,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionDocumentAccoun
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -40,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl implements BudgetConstructionDocumentAccountObjectDetailReportService {
     private BudgetConstructionDocumentAccountObjectDetailReportDao budgetConstructionDocumentAccountObjectDetailReportDao;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     public void updateDocumentAccountObjectDetailReportTable(String principalName, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
@@ -120,21 +120,21 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
         
         
         if (orgName == null) {
-            accountObjectDetailReport.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            accountObjectDetailReport.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             accountObjectDetailReport.setOrganizationName(orgName);
         }
         
         if (fundGroupCode == null) {
-            accountObjectDetailReport.setFundGroupCode(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_CODE));
+            accountObjectDetailReport.setFundGroupCode(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_CODE));
         }
         else {
             accountObjectDetailReport.setFundGroupCode(fundGroupCode);
         }
         
         if (fundGroupName == null) {
-            accountObjectDetailReport.setFundGroupName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
+            accountObjectDetailReport.setFundGroupName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
         }
         else {
             accountObjectDetailReport.setFundGroupName(fundGroupName);
@@ -142,7 +142,7 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
         
         
         if (accountName == null) {
-            accountObjectDetailReport.setAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
+            accountObjectDetailReport.setAccountName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
         }
         else {
             accountObjectDetailReport.setAccountName(accountName);
@@ -154,7 +154,7 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
                 chartOfAccountDescription = balanceByAccount.getChartOfAccounts().getFinChartOfAccountDescription();
             }
             catch (PersistenceBrokerException e) {
-                chartOfAccountDescription = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION);
+                chartOfAccountDescription = kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION);
             }
         } else {
             chartOfAccountDescription = BCConstants.Report.CHART + BCConstants.Report.NOT_DEFINED;
@@ -169,7 +169,7 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
                 subAccountName = balanceByAccount.getSubAccount().getSubAccountName();
             }
             catch (PersistenceBrokerException e) {
-                subAccountName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
+                subAccountName = kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
             }
         }
         accountObjectDetailReport.setSubAccountName(subAccountName);
@@ -506,7 +506,7 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
 
 */    
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

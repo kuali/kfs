@@ -32,10 +32,10 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -458,7 +458,7 @@ public class DepositWizardForm extends KualiForm {
      * @return the no verified cash error message
      */
     public String getNoVerifiedCashErrorMessage() {
-        String errorMessage = WebUtils.getKualiConfigurationService().getPropertyString(KFSKeyConstants.CashManagement.ERROR_NO_VERIFIED_CASH);
+        String errorMessage = WebUtils.getConfigurationService().getPropertyValueAsString(KFSKeyConstants.CashManagement.ERROR_NO_VERIFIED_CASH);
         errorMessage = errorMessage.replace("{0}", getCashDrawerCampusCode());
         errorMessage = errorMessage.replace("{1}", getCashManagementDocId());
         return WebUtils.filterHtmlAndReplaceRiceMarkup(errorMessage);

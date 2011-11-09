@@ -22,13 +22,13 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Values finder for <code>PaymentTermType</code>. Similar to <code>PaymentTypeValuesFinder</code>, except that the list of
- * <code>KeyValuePair</code>s returned by this class' <code>getKeyValues()</code> method are a code and a description, rather
+ * <code>KeyValue</code>s returned by this class' <code>getKeyValues()</code> method are a code and a description, rather
  * than a description and a description. That method's signature needs to stay the same to satisfy the core code that uses values
  * finders, so we can't simply employ polymorphism in method signatures; we'll use a separate class instead.
  * 
@@ -45,10 +45,10 @@ public class PaymentTermsValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(PaymentTermType.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             PaymentTermType pt = (PaymentTermType) iter.next();
-            labels.add(new KeyLabelPair(pt.getVendorPaymentTermsCode(), pt.getVendorPaymentTermsDescription()));
+            labels.add(new ConcreteKeyValue(pt.getVendorPaymentTermsCode(), pt.getVendorPaymentTermsDescription()));
         }
 
         return labels;

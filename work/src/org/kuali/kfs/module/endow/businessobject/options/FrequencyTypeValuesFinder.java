@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class defines a values finder for the frequency type part in the frequency code.
@@ -31,16 +31,16 @@ public class FrequencyTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
 
-        labels.add(new KeyLabelPair("", ""));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyTypes.DAILY, "Daily"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyTypes.WEEKLY, "Weekly"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyTypes.SEMI_MONTHLY, "Semi-Monthly"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyTypes.MONTHLY, "Monthly"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyTypes.SEMI_ANNUALLY, "Semi-Annually"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyTypes.QUARTERLY, "Quarterly"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyTypes.ANNUALLY, "Annually"));
+        labels.add(new ConcreteKeyValue("", ""));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyTypes.DAILY, "Daily"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyTypes.WEEKLY, "Weekly"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyTypes.SEMI_MONTHLY, "Semi-Monthly"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyTypes.MONTHLY, "Monthly"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyTypes.SEMI_ANNUALLY, "Semi-Annually"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyTypes.QUARTERLY, "Quarterly"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyTypes.ANNUALLY, "Annually"));
 
         return labels;
     }

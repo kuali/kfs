@@ -20,18 +20,18 @@ import java.util.List;
 
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 
 public class SchedulerGroupValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         List labels = new ArrayList();
-        // labels.add(new KeyLabelPair("", ""));
+        // labels.add(new ConcreteKeyValue("", ""));
 
         for (String group : SpringContext.getBean(SchedulerService.class).getSchedulerGroups()) {
-            labels.add(new KeyLabelPair(group, group));
+            labels.add(new ConcreteKeyValue(group, group));
         }
         return labels;
     }

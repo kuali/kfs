@@ -32,32 +32,33 @@ import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kew.util.CodeTranslator;
 import org.kuali.rice.kim.bo.Group;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
-import org.kuali.rice.kim.bo.role.dto.DelegateTypeInfo;
+import org.kuali.rice.kim.api.common.delegate.DelegateTypeContract; import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityActionInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
-import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.web.comparator.StringValueComparator;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.type.KimTypeAttribute;
+import org.kuali.rice.kim.api.type.KimType;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
+import org.kuali.rice.krad.comparator.StringValueComparator;
 
 /**
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class OrgReviewRole extends PersistableBusinessObjectBase implements Inactivateable {
+public class OrgReviewRole extends PersistableBusinessObjectBase implements Inactivatable {
     protected static final String ORR_INQUIRY_TITLE_PROPERTY = "message.inquiry.org.review.role.title";
     protected static String INQUIRY_TITLE_VALUE = null;
 
@@ -98,7 +99,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     private boolean edit;
     private boolean copy;
     
-    protected DelegateTypeInfo delegation = new DelegateTypeInfo();
+    protected DelegateTypeContract delegation = DelegateType.Builder.create();
     protected DelegateMemberCompleteInfo delegationMemberRole = new DelegateMemberCompleteInfo();
     protected DelegateMemberCompleteInfo delegationMemberGroup = new DelegateMemberCompleteInfo();
     protected DelegateMemberCompleteInfo delegationMemberPerson = new DelegateMemberCompleteInfo();
@@ -111,8 +112,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected Group group;
     protected Person person;
     
-    protected List<KfsKimDocumentAttributeData> attributes = new TypedArrayList(KfsKimDocumentAttributeData.class);
-    protected List<RoleResponsibilityActionInfo> roleRspActions = new TypedArrayList(RoleResponsibilityActionInfo.class);
+    protected List<KfsKimDocumentAttributeData> attributes = new ArrayList<KfsKimDocumentAttributeData>();
+    protected List<RoleResponsibilityActionInfo> roleRspActions = new ArrayList<RoleResponsibilityActionInfo>();
 
     //Identifying information for the 3 kinds of role members this document caters to 
     protected String roleMemberRoleId;
@@ -219,14 +220,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * Gets the delegation attribute. 
      * @return Returns the delegation.
      */
-    public DelegateTypeInfo getDelegation() {
+    public DelegateTypeContract getDelegation() {
         return delegation;
     }
     /**
      * Sets the delegation attribute value.
      * @param delegation The delegation to set.
      */
-    public void setDelegation(DelegateTypeInfo delegation) {
+    public void setDelegation(DelegateTypeContract delegation) {
         this.delegation = delegation;
     }
     /**
@@ -376,7 +377,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             KfsKimDocumentAttributeData attributeData = getAttribute(attributeName);
             if(attributeData==null){
                 attributeData = new KfsKimDocumentAttributeData();
-                KimTypeAttributeInfo attribute = new KimTypeAttributeInfo();
+                KimTypeAttribute attribute = new KimTypeAttribute();
                 attribute.setAttributeName(attributeName);
                 attributeData.setKimAttribute(attribute);
                 attributeData.setAttrVal(attributeValue);
@@ -719,7 +720,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     public boolean isAccountingOrgReviewRoleIndicator() {
         return getRoleNamesToConsider()!=null && 
-            getRoleNamesToConsider().contains(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+            getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
     }
     /**
      * Gets the bothReviewRolesIndicator attribute. 
@@ -727,8 +728,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     public boolean isBothReviewRolesIndicator() {
         return getRoleNamesToConsider()!=null && 
-            getRoleNamesToConsider().contains(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME) &&
-            getRoleNamesToConsider().contains(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+            getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME) &&
+            getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
     }
     /**
      * Gets the orgReviewRoleIndicator attribute. 
@@ -736,7 +737,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     public boolean isOrgReviewRoleIndicator() {
         return getRoleNamesToConsider()!=null && 
-            getRoleNamesToConsider().contains(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
+            getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
     }
     /**
      * Gets the actionTypeCode attribute. 
@@ -838,9 +839,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
@@ -1047,7 +1048,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     public Role getRole(String roleId) {
-        return (Role) SpringContext.getBean(RoleManagementService.class).getRole(roleId);
+        return (Role) SpringContext.getBean(RoleService.class).getRole(roleId);
     }
 
     public Group getGroup(String groupId) {
@@ -1217,7 +1218,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @return Returns the copy.
      */
     public boolean isCopy() {
-        return copy || KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equalsIgnoreCase(methodToCall);
+        return copy || KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equalsIgnoreCase(methodToCall);
     }
     /**
      * Sets the copy attribute value.
@@ -1231,7 +1232,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @return Returns the edit.
      */
     public boolean isEdit() {
-        return edit || KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL.equalsIgnoreCase(methodToCall);
+        return edit || KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL.equalsIgnoreCase(methodToCall);
     }
     /**
      * Sets the edit attribute value.
@@ -1401,8 +1402,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.kimTypeId = kimTypeId;
     }
     
-    public AttributeSet getQualifierAsAttributeSet(List<KfsKimDocumentAttributeData> qualifiers) {
-        AttributeSet m = new AttributeSet();
+    public Map<String,String> getQualifierAsAttributeSet(List<KfsKimDocumentAttributeData> qualifiers) {
+        Map<String,String> m = new HashMap<String,String>();
         for(KfsKimDocumentAttributeData data: qualifiers){
             m.put(data.getKimAttribute().getAttributeName(), data.getAttrVal());
         }
@@ -1410,10 +1411,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     public List<KfsKimDocumentAttributeData> getAttributeSetAsQualifierList(
-            KimTypeInfo typeInfo, AttributeSet qualifiers) {
+            KimType typeInfo, Map<String,String> qualifiers) {
         List<KfsKimDocumentAttributeData> attributesList = new ArrayList<KfsKimDocumentAttributeData>();
         KfsKimDocumentAttributeData attribData;
-        KimTypeAttributeInfo attribInfo;
+        KimTypeAttribute attribInfo;
         for(String key: qualifiers.keySet()){
             attribInfo = typeInfo.getAttributeDefinitionByName(key);
             attribData = new KfsKimDocumentAttributeData();
@@ -1443,7 +1444,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     
     public String getOrgReviewRoleInquiryTitle() {
         if ( INQUIRY_TITLE_VALUE == null ) {
-            INQUIRY_TITLE_VALUE = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ORR_INQUIRY_TITLE_PROPERTY);
+            INQUIRY_TITLE_VALUE = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ORR_INQUIRY_TITLE_PROPERTY);
         }            
         return INQUIRY_TITLE_VALUE;
     }

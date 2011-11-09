@@ -32,8 +32,8 @@ import org.kuali.kfs.pdp.batch.service.ExtractTransactionsService;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -44,7 +44,7 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
     private OriginEntryGroupService originEntryGroupService;
     private OriginEntryService originEntryService;
     private DateTimeService dateTimeService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private String batchFileDirectoryName;
     private ReportWriterService reportWriterService;
 
@@ -100,10 +100,10 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
                 }
             }
 
-            String reportTitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.EXTRACT_TRANSACTION_SERVICE_REPORT_TITLE);
+            String reportTitle = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.EXTRACT_TRANSACTION_SERVICE_REPORT_TITLE);
             reportTitle = MessageFormat.format(reportTitle, new Object[] { null });
 
-            String reportFilename = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.EXTRACT_TRANSACTION_SERVICE_REPORT_FILENAME);
+            String reportFilename = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.EXTRACT_TRANSACTION_SERVICE_REPORT_FILENAME);
             reportFilename = MessageFormat.format(reportFilename, new Object[] { null });
 
             // Run a report
@@ -127,7 +127,7 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
         this.originEntryService = originEntryService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

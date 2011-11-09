@@ -51,8 +51,8 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></th>  
 				<td class="grid" width="25%">
 					<kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStateCode" attributeEntry="${assetLocationAttributes.assetLocationStateCode}" readOnly="true" readOnlyBody="true">
-						<kul:inquiry boClassName="org.kuali.rice.kns.bo.State" keyValues="postalStateCode=${assetValue.offCampusLocation.assetLocationState.postalStateCode}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
-                			<html:hidden write="true" property="document.asset.offCampusLocation.assetLocationState.postalStateCode" />
+						<kul:inquiry boClassName="org.kuali.rice.krad.bo.State" keyValues="stateCode=${assetValue.offCampusLocation.assetLocationState.stateCode}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
+                			<html:hidden write="true" property="document.asset.offCampusLocation.assetLocationState.stateCode" />
                 		</kul:inquiry>&nbsp;
             		</kul:htmlControlAttribute>
 				</td>						
@@ -62,7 +62,7 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusZipCode}" /></th>  
 				<td class="grid" width="25%">
 					<kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationZipCode" attributeEntry="${assetLocationAttributes.assetLocationZipCode}" readOnly="true" readOnlyBody="true">
-						<kul:inquiry boClassName="org.kuali.rice.kns.bo.PostalCode" keyValues="postalCode=${assetValue.offCampusLocation.postalZipCode.postalCode}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
+						<kul:inquiry boClassName="org.kuali.rice.krad.bo.PostalCode" keyValues="postalCode=${assetValue.offCampusLocation.postalZipCode.postalCode}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
                 			<html:hidden write="true" property="document.asset.offCampusLocation.postalZipCode.postalCode" />
                 		</kul:inquiry>&nbsp;
             		</kul:htmlControlAttribute>
@@ -73,7 +73,7 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCountryCode}" /></th>  
 				<td class="grid" width="25%">
 					<kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationCountry.postalCountryName" attributeEntry="${assetLocationAttributes.assetLocationCountryCode}" readOnly="true" readOnlyBody="true">
-						<kul:inquiry boClassName="org.kuali.rice.kns.bo.Country" keyValues="postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
+						<kul:inquiry boClassName="org.kuali.rice.krad.bo.Country" keyValues="postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
                 			<html:hidden write="true" property="document.asset.offCampusLocation.assetLocationCountry.postalCountryName" />
                 		</kul:inquiry>&nbsp;
             		</kul:htmlControlAttribute>

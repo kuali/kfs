@@ -51,19 +51,19 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -337,7 +337,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         if (cashManagementDoc == null) {
             throw new IllegalArgumentException("invalid (null) cashManagementDoc");
         }
-        else if (!cashManagementDoc.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+        else if (!cashManagementDoc.getDocumentHeader().getWorkflowDocument().isSaved()) {
             throw new IllegalStateException("cashManagementDoc '" + cashManagementDoc.getDocumentNumber() + "' is not in 'saved' state");
         }
         else if (cashManagementDoc.hasFinalDeposit()) {
@@ -647,7 +647,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             final DepositCashReceiptControl dcrc = (DepositCashReceiptControl)dcrcAsObject;
             try {
                 CashReceiptDocument crDoc = (CashReceiptDocument)documentService.getByDocumentHeaderId(dcrc.getFinancialDocumentCashReceiptNumber());
-                final KualiWorkflowDocument headerWorkflowDoc = crDoc.getDocumentHeader().getWorkflowDocument();
+                final WorkflowDocument headerWorkflowDoc = crDoc.getDocumentHeader().getWorkflowDocument();
                 crDoc.refreshReferenceObject("documentHeader");
                 crDoc.getDocumentHeader().setWorkflowDocument(headerWorkflowDoc);
                 cashReceiptDocuments.add(crDoc);

@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForEffortCertification;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class LedgerBalanceForEffortCertificationLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     
@@ -32,9 +32,9 @@ public class LedgerBalanceForEffortCertificationLookupableHelperServiceImpl exte
      * @see org.kuali.rice.kns.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
         
         List<LedgerBalanceForEffortCertification> searchResults = effortLedgerBalanceLookupableHelperService.getSearchResults(fieldValues);
         

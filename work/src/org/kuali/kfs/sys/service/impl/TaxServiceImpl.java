@@ -26,9 +26,9 @@ import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.service.TaxRegionService;
 import org.kuali.kfs.sys.service.TaxService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -41,7 +41,7 @@ public class TaxServiceImpl implements TaxService {
     
     /**
      * @see org.kuali.kfs.sys.service.TaxService#getSalesTaxDetails(java.lang.String, java.lang.String,
-     *      org.kuali.rice.kns.util.KualiDecimal)
+     *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public List<TaxDetail> getSalesTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> salesTaxDetails = new ArrayList<TaxDetail>();
@@ -62,7 +62,7 @@ public class TaxServiceImpl implements TaxService {
 
     /**
      * @see org.kuali.kfs.sys.service.TaxService#getUseTaxDetails(java.lang.String, java.lang.String,
-     *      org.kuali.rice.kns.util.KualiDecimal)
+     *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public List<TaxDetail> getUseTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> useTaxDetails = new ArrayList<TaxDetail>();
@@ -82,7 +82,7 @@ public class TaxServiceImpl implements TaxService {
 
     /**
      * @see org.kuali.kfs.sys.service.TaxService#getTotalSalesTaxAmount(java.lang.String, java.lang.String,
-     *      org.kuali.rice.kns.util.KualiDecimal)
+     *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public KualiDecimal getTotalSalesTaxAmount(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         KualiDecimal totalSalesTaxAmount = KualiDecimal.ZERO;
@@ -173,7 +173,7 @@ public class TaxServiceImpl implements TaxService {
     }
     
     protected Integer postalCodeDigitsToUse() {
-        String digits = parameterService.getParameterValue(SalesTax.class, 
+        String digits = parameterService.getParameterValueAsString(SalesTax.class, 
                 POSTAL_CODE_DIGITS_PASSED_TO_SALES_TAX_REGION_SERVICE);
         if (StringUtils.isBlank(digits)) { return null; }
         Integer digitsToUse;

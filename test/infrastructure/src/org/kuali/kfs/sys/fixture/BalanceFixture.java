@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.fixture;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.gl.businessobject.Balance;

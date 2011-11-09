@@ -26,11 +26,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class OrganizationOptionsPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
@@ -80,7 +80,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
         
         if (document.isEdit()) {
             
-            RoleManagementService rms = SpringContext.getBean(RoleManagementService.class);
+            RoleService rms = SpringContext.getBean(RoleService.class);
             
             Person user = GlobalVariables.getUserSession().getPerson();
             String principalId = user.getPrincipalId();
@@ -105,7 +105,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      */
     protected void setRemitToNameEditable(Set<String> readOnlyPropertyNames) {
         ParameterService service = SpringContext.getBean(ParameterService.class);
-        String nameEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_NAME_EDITABLE_IND);
+        String nameEditable = service.getParameterValueAsString(OrganizationOptions.class, ArConstants.REMIT_TO_NAME_EDITABLE_IND);
         if ("N".equalsIgnoreCase(nameEditable)) {
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
         }
@@ -134,7 +134,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      */
     protected void setRemitToAddressSectionEditable(Set<String> readOnlySectionIds) {
         ParameterService service = SpringContext.getBean(ParameterService.class);
-        String addressEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_ADDRESS_EDITABLE_IND);
+        String addressEditable = service.getParameterValueAsString(OrganizationOptions.class, ArConstants.REMIT_TO_ADDRESS_EDITABLE_IND);
         if ("N".equalsIgnoreCase(addressEditable)) {
             readOnlySectionIds.add(ArConstants.OrganizationOptionsSections.EDIT_ORGANIZATION_REMIT_TO_ADDRESS);
         }

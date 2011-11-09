@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
 
 /**
  * 
@@ -55,7 +55,7 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
      */
     public A21SubAccount() {
         super();
-        a21IndirectCostRecoveryAccounts = new TypedArrayList(A21IndirectCostRecoveryAccount.class);
+        a21IndirectCostRecoveryAccounts = new ArrayList<A21IndirectCostRecoveryAccount>();
     }
 
     /**
@@ -378,9 +378,9 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("chartOfAccountsCode", getChartOfAccountsCode());
         map.put("accountNumber", getAccountNumber());
@@ -389,7 +389,7 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

@@ -654,7 +654,7 @@
    
 <!-- Start - Workflow Attribute Beans -->   
   <bean id="CustomerInvoiceDocument-DocumentValuePathGroup-billingChartOrg" parent="CustomerInvoiceDocument-DocumentValuePathGroup-billingChartOrg-parentBean"/>
-  <bean id="CustomerInvoiceDocument-DocumentValuePathGroup-billingChartOrg-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+  <bean id="CustomerInvoiceDocument-DocumentValuePathGroup-billingChartOrg-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 			<list>
 				<value>billByChartOfAccountCode</value>
@@ -663,7 +663,7 @@
 		</property>
   </bean>
 
-  <bean id="CustomerInvoiceDocument-RoutingType-BillingChartOrg" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+  <bean id="CustomerInvoiceDocument-RoutingType-BillingChartOrg" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
 	<property name="routingAttributes">
 		<list>
 	     	<ref bean="RoutingAttribute-chartOfAccountsCode"/>

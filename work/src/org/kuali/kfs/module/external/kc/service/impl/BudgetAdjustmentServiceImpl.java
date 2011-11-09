@@ -36,26 +36,26 @@ import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
@@ -284,7 +284,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         BudgetAdjustmentParametersDTO.Details incomeDetail = new BudgetAdjustmentParametersDTO.Details();
         if (!parameterService.parameterExists(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE))
             return false;
-        String sponsorCodeMapValue = parameterService.getParameterValue(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE, sponsorType);
+        String sponsorCodeMapValue = parameterService.getParameterValueAsString(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE, sponsorType);
         if (sponsorCodeMapValue == null)
             return false;
         if (amount.isNegative()) { // from side
@@ -339,8 +339,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             // KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE,
             // KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
 
-            String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE);
-            // String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(Account.class,
+            String BudgetAdjustAutoRouteValue = getParameterService().getParameterValueAsString(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE);
+            // String BudgetAdjustAutoRouteValue = getParameterService().getParameterValueAsString(Account.class,
             // KcConstants.BudgetAdjustmentService.PARAMETER_KC_BA_DOCUMENT_ROUTE);
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
             if (!BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) && !BudgetAdjustAutoRouteValue.equalsIgnoreCase("submit") && !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
@@ -435,7 +435,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     protected boolean isValidUser(String principalId) {
 
-        PersonService<Person> personService = SpringContext.getBean(PersonService.class);
+        PersonService personService = SpringContext.getBean(PersonService.class);
 
         try {
             Person user = personService.getPerson(principalId);

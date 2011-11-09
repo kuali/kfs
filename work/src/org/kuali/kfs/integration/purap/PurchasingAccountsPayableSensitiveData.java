@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.integration.purap;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * An interface that declares methods to retrieve information about Sensitive Datas.

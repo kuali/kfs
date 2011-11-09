@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.SortedSet;
 
 import org.kuali.kfs.module.bc.BCConstants.LockStatus;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * This class defines a BudgetConstructionLockStatus object. This object is used by many of the methods in the Budget module's
@@ -156,10 +156,10 @@ public class BudgetConstructionLockStatus extends TransientBusinessObjectBase{
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String,Object> mapper = new LinkedHashMap<String,Object>();
         
         mapper.put("lockStatus", this.lockStatus);

@@ -29,10 +29,10 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
@@ -42,7 +42,7 @@ public class FinancialProcessingAccountingLineAuthorizer extends AccountingLineA
     private final static String SALES_TAX_LINE_ACCOUNT_OBJECT_CODES_PARAMETER_NAME = "SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES";
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
@@ -62,11 +62,11 @@ public class FinancialProcessingAccountingLineAuthorizer extends AccountingLineA
     protected boolean salesTaxUnviewable(AccountingDocument document, AccountingLine line) {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String docTypeCode = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(document.getClass());
-        ParameterEvaluator docTypeEvaluator = parameterService.getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, FinancialProcessingAccountingLineAuthorizer.SALES_TAX_DOCUMENT_TYPES_PARAMETER_NAME, docTypeCode);
+        ParameterEvaluator docTypeEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, FinancialProcessingAccountingLineAuthorizer.SALES_TAX_DOCUMENT_TYPES_PARAMETER_NAME, docTypeCode);
         if (!docTypeEvaluator.evaluationSucceeds()) return true;
         if (!StringUtils.isEmpty(line.getFinancialObjectCode()) && !StringUtils.isEmpty(line.getAccountNumber())) {
             String compare = line.getAccountNumber() + ":" + line.getFinancialObjectCode();
-            ParameterEvaluator salesTaxApplicableAccountAndObjectEvaluator = parameterService.getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
+            ParameterEvaluator salesTaxApplicableAccountAndObjectEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
             if (!salesTaxApplicableAccountAndObjectEvaluator.evaluationSucceeds()) return true;
             return false;
         }

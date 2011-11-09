@@ -16,9 +16,9 @@
 package org.kuali.kfs.module.cg.businessobject.defaultvalue;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.web.format.DateFormatter;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.web.format.DateFormatter;
 
 /**
  * Gets the current date from the DateTimeService.
@@ -28,7 +28,7 @@ public class TodayValueFinder implements ValueFinder {
     /**
      * Gets the current date from the DateTimeService.
      * 
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         DateTimeService dts = SpringContext.getBean(DateTimeService.class);

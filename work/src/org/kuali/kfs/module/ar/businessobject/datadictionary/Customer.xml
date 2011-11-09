@@ -567,7 +567,7 @@
 			<list>
 				<bean parent="InquiryCollectionDefinition">
 					<property name="attributeName" value="boNotes" />
-					<property name="businessObjectClass" value="org.kuali.rice.kns.bo.Note" />
+					<property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>

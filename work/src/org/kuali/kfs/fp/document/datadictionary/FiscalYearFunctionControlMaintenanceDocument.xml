@@ -68,5 +68,5 @@
   <!-- workflow attributes -->
   <bean id="FiscalYearFunctionControlMaintenanceDocument-workflowAttributes" parent="FiscalYearFunctionControlMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="FiscalYearFunctionControlMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="FiscalYearFunctionControlMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

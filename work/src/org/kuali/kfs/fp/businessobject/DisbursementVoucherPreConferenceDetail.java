@@ -22,9 +22,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 /**
  * This class is used to represent a disbursement voucher pre-conference detail.
@@ -45,7 +45,7 @@ public class DisbursementVoucherPreConferenceDetail extends PersistableBusinessO
      * Default no-arg constructor.
      */
     public DisbursementVoucherPreConferenceDetail() {
-        dvPreConferenceRegistrants = new TypedArrayList(DisbursementVoucherPreConferenceRegistrant.class);
+        dvPreConferenceRegistrants = new ArrayList<DisbursementVoucherPreConferenceRegistrant>();
     }
 
     /**
@@ -190,9 +190,9 @@ public class DisbursementVoucherPreConferenceDetail extends PersistableBusinessO
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;

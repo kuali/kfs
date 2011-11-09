@@ -28,11 +28,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.NDCFilter;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.MailService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
@@ -41,7 +41,7 @@ public class JobListener implements org.quartz.JobListener {
     protected static final String NAME = "jobListener";
     public static final String REQUESTOR_EMAIL_ADDRESS_KEY = "requestorEmailAdress";
     protected SchedulerService schedulerService;
-    protected KualiConfigurationService configurationService;
+    protected ConfigurationService configurationService;
     protected MailService mailService;
     protected DateTimeService dateTimeService;
 
@@ -109,12 +109,12 @@ public class JobListener implements org.quartz.JobListener {
     }
 
     protected String getLogFileName(String nestedDiagnosticContext) {
-        return new StringBuilder(configurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY)).append(File.separator).append(nestedDiagnosticContext.toString()).append(".log").toString();
+        return new StringBuilder(configurationService.getPropertyValueAsString(KFSConstants.REPORTS_DIRECTORY_KEY)).append(File.separator).append(nestedDiagnosticContext.toString()).append(".log").toString();
     }
 
     protected void notify(JobExecutionContext jobExecutionContext, String jobStatus) {
         try {
-            StringBuilder mailMessageSubject = new StringBuilder(configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY)).append(": ").append(jobExecutionContext.getJobDetail().getGroup()).append(": ").append(jobExecutionContext.getJobDetail().getName());
+            StringBuilder mailMessageSubject = new StringBuilder(configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY)).append(": ").append(jobExecutionContext.getJobDetail().getGroup()).append(": ").append(jobExecutionContext.getJobDetail().getName());
             MailMessage mailMessage = new MailMessage();
             mailMessage.setFromAddress(mailService.getBatchMailingList());
             if (jobExecutionContext.getMergedJobDataMap().containsKey(REQUESTOR_EMAIL_ADDRESS_KEY) && !StringUtils.isBlank(jobExecutionContext.getMergedJobDataMap().getString(REQUESTOR_EMAIL_ADDRESS_KEY))) {
@@ -124,7 +124,7 @@ public class JobListener implements org.quartz.JobListener {
                 mailMessage.addToAddress(mailService.getBatchMailingList());
             }
             mailMessageSubject.append(": ").append(jobStatus);
-            String messageText = MessageFormat.format(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_BATCH_FILE_LOG_EMAIL_BODY), getLogFileName(NDC.peek()));
+            String messageText = MessageFormat.format(configurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_BATCH_FILE_LOG_EMAIL_BODY), getLogFileName(NDC.peek()));
             mailMessage.setMessage(messageText);
             if (mailMessage.getToAddresses().size() > 0) {
                 mailMessage.setSubject(mailMessageSubject.toString());
@@ -157,7 +157,7 @@ public class JobListener implements org.quartz.JobListener {
      * 
      * @param configurationService The configurationService to set.
      */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

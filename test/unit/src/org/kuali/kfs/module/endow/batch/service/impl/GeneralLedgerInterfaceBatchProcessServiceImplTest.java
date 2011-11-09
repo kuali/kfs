@@ -28,8 +28,8 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 
 @ConfigureContext(session = kfs)
@@ -258,7 +258,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
         transactionArchive.setSubTypeCode(EndowConstants.TransactionSubTypeCode.NON_CASH);
         //subtype = NON-CASH so the transaction amount should get holding cost.
         transactionAmount = SHORT_TERM_GAIN_LOSS_AMOUNT.add(LONG_TERM_GAIN_LOSS_AMOUNT);
-        transactionArchive.setObjectCode(SpringContext.getBean(ParameterService.class).getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE));
+        transactionArchive.setObjectCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE));
         transactionArchive.setShortTermGainLoss(SHORT_TERM_GAIN_LOSS_AMOUNT);
         transactionArchive.setLongTermGainLoss(LONG_TERM_GAIN_LOSS_AMOUNT);
         generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        

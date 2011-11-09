@@ -38,7 +38,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountFunding
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -49,7 +49,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
     BudgetConstructionAccountFundingDetailReportDao budgetConstructionAccountFundingDetailReportDao;
     BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    KualiConfigurationService kualiConfigurationService;
+    ConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountFundingDetailTable(java.lang.String)
@@ -118,7 +118,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         orgAccountFundingDetailReportEntry.setOrgChartOfAccountsCode(accountFundingDetail.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
-            orgAccountFundingDetailReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgAccountFundingDetailReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgAccountFundingDetailReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
@@ -126,7 +126,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
         orgAccountFundingDetailReportEntry.setOrganizationCode(accountFundingDetail.getOrganizationCode());
         if (orgName == null) {
-            orgAccountFundingDetailReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            orgAccountFundingDetailReportEntry.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgAccountFundingDetailReportEntry.setOrganizationName(orgName);
@@ -134,7 +134,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
         orgAccountFundingDetailReportEntry.setChartOfAccountsCode(accountFundingDetail.getChartOfAccountsCode());
         if (chartDesc == null) {
-            orgAccountFundingDetailReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgAccountFundingDetailReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgAccountFundingDetailReportEntry.setChartOfAccountDescription(chartDesc);
@@ -142,7 +142,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
         orgAccountFundingDetailReportEntry.setFundGroupCode(accountFundingDetail.getSubFundGroup().getFundGroupCode());
         if (fundGroupDes == null) {
-            orgAccountFundingDetailReportEntry.setFundGroupName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
+            orgAccountFundingDetailReportEntry.setFundGroupName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
         }
         else {
             orgAccountFundingDetailReportEntry.setFundGroupName(fundGroupDes);
@@ -150,7 +150,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
         orgAccountFundingDetailReportEntry.setSubFundGroupCode(accountFundingDetail.getSubFundGroupCode());
         if (subFundGroupDes == null) {
-            orgAccountFundingDetailReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
+            orgAccountFundingDetailReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
         }
         else {
             orgAccountFundingDetailReportEntry.setSubFundGroupDescription(subFundGroupDes);
@@ -183,7 +183,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
                 subAccountNumberAndName = accountFundingDetail.getSubAccount().getSubAccountNumber() + " " + accountFundingDetail.getSubAccount().getSubAccountName();
             }
             catch (PersistenceBrokerException e) {
-                subAccountName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
+                subAccountName = kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
                 subAccountNumberAndName = subAccountName;
             }
         }
@@ -443,7 +443,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         return returnList;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

@@ -21,9 +21,9 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of payment reason value pairs.
@@ -37,11 +37,11 @@ public class PaymentReasonValuesFinder extends KeyValuesBase {
         // Retrieve all the payment reason codes
         List<PaymentReasonCode> boList = (List<PaymentReasonCode>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(PaymentReasonCode.class, KFSPropertyConstants.NAME, true);
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (PaymentReasonCode paymentReason : boList) {
             if(paymentReason.isActive()) {
-                keyValues.add(new KeyLabelPair(paymentReason.getCode(), paymentReason.getCodeAndDescription()));
+                keyValues.add(new ConcreteKeyValue(paymentReason.getCode(), paymentReason.getCodeAndDescription()));
             }
         }
         

@@ -26,7 +26,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
 import org.kuali.kfs.module.bc.BCConstants.LockStatus;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 
 /**

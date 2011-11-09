@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import java.util.ArrayList;
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDocument.class);
     
@@ -54,7 +54,7 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
 	 */
 	public BarcodeInventoryErrorDocument() {
 	    super();
-	    this.setBarcodeInventoryErrorDetail(new TypedArrayList(BarcodeInventoryErrorDetail.class));	    
+	    this.setBarcodeInventoryErrorDetail(new ArrayList<BarcodeInventoryErrorDetail>());	    
 	}
 
 	/**
@@ -122,9 +122,9 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
         return m;

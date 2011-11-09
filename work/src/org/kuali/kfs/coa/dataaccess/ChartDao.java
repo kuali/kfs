@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This interface defines what methods of data retrieval should be allowed for {@link org.kuali.kfs.coa.businessobject.Chart}

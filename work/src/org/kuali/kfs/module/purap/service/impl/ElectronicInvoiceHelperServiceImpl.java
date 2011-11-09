@@ -87,31 +87,31 @@ import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Attachment;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.AttachmentService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.Attachment;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.krad.service.AttachmentService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -139,7 +139,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
     protected VendorService vendorService;
     protected PurchaseOrderService purchaseOrderService;
     protected PaymentRequestService paymentRequestService;
-    protected KualiConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
     protected DateTimeService dateTimeService;
     protected ParameterService parameterService;
     
@@ -153,7 +153,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         String acceptDirName = getAcceptDirName();
         emailTextErrorList = new StringBuffer();
 
-        boolean moveFiles = SpringContext.getBean(ParameterService.class).getIndicatorParameter(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.FILE_MOVE_AFTER_LOAD_IND);
+        boolean moveFiles = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.FILE_MOVE_AFTER_LOAD_IND);
 
         int failedCnt = 0;
 
@@ -539,7 +539,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
                      * This is required. If there is anything in the error map, then it's not possible to route the doc since the rice
                      * is throwing error if errormap is not empty before routing the doc. 
                      */
-                    GlobalVariables.getMessageMap().clear();
+                    GlobalVariables.getMessageMap().clearErrorMessages();
                     
                     ElectronicInvoiceRejectDocument rejectDocument = createRejectDocument(eInvoice, order,eInvoiceLoad);
                     
@@ -936,7 +936,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
     
     protected String checkDescriptionLengthAndStripIfNeeded(String description){
         
-        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KRADPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
 
         if (noteTextMaxLength < description.length()) {
             description = description.substring(0, noteTextMaxLength);
@@ -1049,8 +1049,8 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
     
     protected void sendSummary(StringBuffer message) {
 
-        String fromMailId = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.DAILY_SUMMARY_REPORT_FROM_EMAIL_ADDRESS);
-        List<String> toMailIds = SpringContext.getBean(ParameterService.class).getParameterValues(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES);
+        String fromMailId = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.DAILY_SUMMARY_REPORT_FROM_EMAIL_ADDRESS);
+        List<String> toMailIds = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES) );
         
         LOG.info("From email address parameter value:"+fromMailId);
         LOG.info("To email address parameter value:"+toMailIds);
@@ -1089,7 +1089,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         if (kualiConfigurationService.isProductionEnvironment()) {
             message.setSubject(mailTitle);
         } else {
-            message.setSubject(kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY) + " - " + mailTitle);
+            message.setSubject(kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY) + " - " + mailTitle);
         }
         return message;
     }
@@ -1123,7 +1123,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         }
     
         //  determine which of the reject reasons we should suppress based on the parameter
-        List<String> ignoreRejectTypes = parameterService.getParameterValues(PurapConstants.PURAP_NAMESPACE, "ElectronicInvoiceReject", "SUPPRESS_REJECT_REASON_CODES_ON_EIRT_APPROVAL");
+        List<String> ignoreRejectTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(PurapConstants.PURAP_NAMESPACE, "ElectronicInvoiceReject", "SUPPRESS_REJECT_REASON_CODES_ON_EIRT_APPROVAL") );
         List<ElectronicInvoiceRejectReason> rejectReasonsToDelete = new ArrayList<ElectronicInvoiceRejectReason>();
         for (ElectronicInvoiceRejectReason rejectReason : rejectDocument.getInvoiceRejectReasons()) {
             String rejectedReasonTypeCode = rejectReason.getInvoiceRejectReasonTypeCode();
@@ -1178,7 +1178,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             LOG.info("Creating Payment Request document");
         }
         
-        GlobalVariables.getMessageList().clear();
+        KNSGlobalVariables.getMessageList().clear();
         
         validateInvoiceOrderValidForPREQCreation(orderHolder);
         
@@ -1235,9 +1235,9 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         }
         
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(poDoc.getRequisitionIdentifier());
-        String reqDocInitiator = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        String reqDocInitiator = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         try {
-            Person user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(reqDocInitiator);
+            Person user = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(reqDocInitiator);
             preqDoc.setProcessingCampusCode(user.getCampusCode());
         }catch(Exception e){
             String extraDescription = "Error setting processing campus code - " + e.getMessage();
@@ -1289,11 +1289,11 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             return null;
         }
         
-        if(GlobalVariables.getMessageList().size() > 0){
+        if(KNSGlobalVariables.getMessageList().size() > 0){
             if (LOG.isInfoEnabled()){
-                LOG.info("Payment request contains " + GlobalVariables.getMessageList().size() + " warning message(s)");
-                for (int i = 0; i < GlobalVariables.getMessageList().size(); i++) {
-                    LOG.info("Warning " + i + "  - " +GlobalVariables.getMessageList().get(i));
+                LOG.info("Payment request contains " + KNSGlobalVariables.getMessageList().size() + " warning message(s)");
+                for (int i = 0; i < KNSGlobalVariables.getMessageList().size(); i++) {
+                    LOG.info("Warning " + i + "  - " +KNSGlobalVariables.getMessageList().get(i));
                 }
             }
         }
@@ -1863,14 +1863,14 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
      * @param errorMap
      * @return
      */
-    protected String getErrorMessages(Map<String, TypedArrayList> errorMap){
+    protected String getErrorMessages(Map<String, ArrayList> errorMap){
                 
-        TypedArrayList errorMessages = null;
+        ArrayList errorMessages = null;
         ErrorMessage errorMessage = null;
         StringBuffer errorList = new StringBuffer("");
         String errorText = null;
         
-        for (Map.Entry<String, TypedArrayList> errorEntry : errorMap.entrySet()) {
+        for (Map.Entry<String, ArrayList> errorEntry : errorMap.entrySet()) {
     
             errorMessages = errorEntry.getValue();
     
@@ -1947,7 +1947,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         this.paymentRequestService = paymentRequestService;
     }
     
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

@@ -79,7 +79,7 @@
     <property name="name" value="targetFdocLineAmount"/>
     <property name="label" value="Target Fdoc Line Amount"/>
     <property name="required" value="false"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
 
   <bean id="EndowmentRecurringCashTransferGLTarget-targetSubAccountNumber" parent="EndowmentRecurringCashTransferGLTarget-targetSubAccountNumber-parentBean"/>

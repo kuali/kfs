@@ -22,8 +22,8 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.Note;
+import java.util.ArrayList;
 
 /**
  * Purchase Order View Business Object.
@@ -98,7 +98,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
     public List<Note> getNotes() {
         if (this.isPurchaseOrderCurrentIndicator()) {
             if (notes == null) {
-                notes = new TypedArrayList(Note.class);
+                notes = new ArrayList<Note>();
                 List<Note> tmpNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
                 //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
                 // reverse the order of notes retrieved so that newest note is in the front

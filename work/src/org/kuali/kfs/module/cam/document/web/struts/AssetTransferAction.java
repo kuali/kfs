@@ -34,11 +34,11 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
@@ -67,7 +67,7 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
 
         // populate old asset fields for historic retaining on document
         String command = assetTransferForm.getCommand();
-        if (KEWConstants.INITIATE_COMMAND.equals(command)) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(command)) {
             assetTransferDocument.setOldOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
             assetTransferDocument.setOldOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
         }
@@ -89,13 +89,13 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
         LOG.debug("Start- Handle request from workflow");
         if (assetTransferForm.getDocId() != null) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
-            org.kuali.rice.kim.service.PersonService personService = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class);
+            org.kuali.rice.kim.api.identity.PersonService personService = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class);
             Person person = personService.getPerson(assetTransferDocument.getRepresentativeUniversalIdentifier());
             if (person != null) {
                 assetTransferDocument.setAssetRepresentative(person);
             }
             else {
-                LOG.error("org.kuali.rice.kim.service.PersonService returned null for uuid " + assetTransferDocument.getRepresentativeUniversalIdentifier());
+                LOG.error("org.kuali.rice.kim.api.identity.PersonService returned null for uuid " + assetTransferDocument.getRepresentativeUniversalIdentifier());
             }
         }
     }
@@ -165,7 +165,7 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
 
         // display a message for asset not generating ledger entries when it is federally owned
         if (allPaymentsFederalOwned) {
-            GlobalVariables.getMessageList().add(0, new ErrorMessage(CamsKeyConstants.Transfer.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_TRANSFER));
+            KNSGlobalVariables.getMessageList().add(0, new ErrorMessage(CamsKeyConstants.Transfer.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_TRANSFER));
         }
     }
 

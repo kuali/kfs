@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Gets a custom-formatted list of {@link LetterOfCreditFundGroup} values.
@@ -37,12 +37,12 @@ public class LetterOfCreditFundGroupValuesFinder extends KeyValuesBase {
 
         Collection<LetterOfCreditFundGroup> codes = SpringContext.getBean(KeyValuesService.class).findAll(LetterOfCreditFundGroup.class);
 
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
 
         for (LetterOfCreditFundGroup code : codes) {
             if (code.isActive()) {
-                labels.add(new KeyLabelPair(code.getLetterOfCreditFundGroupCode(), code.getLetterOfCreditFundGroupCode() + " - " + code.getLetterOfCreditFundGroupDescription()));
+                labels.add(new ConcreteKeyValue(code.getLetterOfCreditFundGroupCode(), code.getLetterOfCreditFundGroupCode() + " - " + code.getLetterOfCreditFundGroupDescription()));
             }
         }
 

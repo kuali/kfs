@@ -29,15 +29,15 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -110,10 +110,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * Default constructor.
      */
     public AssetGlobal() {
-        assetGlobalDetails = new TypedArrayList(AssetGlobalDetail.class);
-        assetSharedDetails = new TypedArrayList(AssetGlobalDetail.class);
-        assetPaymentDetails = new TypedArrayList(AssetPaymentDetail.class);
-        this.generalLedgerPendingEntries = new TypedArrayList(GeneralLedgerPendingEntry.class);
+        assetGlobalDetails = new ArrayList<AssetGlobalDetail>();
+        assetSharedDetails = new ArrayList<AssetGlobalDetail>();
+        assetPaymentDetails = new ArrayList<AssetPaymentDetail>();
+        this.generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
     }
 
     /**
@@ -647,7 +647,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
@@ -656,7 +656,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     /**
      * This returns a list of Assets to Update and/or Add. Applicable to both create new and separate.
      * 
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
@@ -701,9 +701,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;
@@ -775,7 +775,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return Returns the assetRepresentative.
      */
     public Person getAssetRepresentative() {
-        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 

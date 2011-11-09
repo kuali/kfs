@@ -23,9 +23,9 @@ import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class PosterOutputSummaryTotal extends TransientBusinessObjectBase implements PosterOutputSummaryAmountHolder {
     private KualiDecimal creditAmount;
@@ -122,15 +122,15 @@ public class PosterOutputSummaryTotal extends TransientBusinessObjectBase implem
      * @return a summary of this total line
      */
     public String getSummary() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_TOTAL);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_TOTAL);
     }
 
     /**
      * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap pks = new LinkedHashMap<String, Object>();
         pks.put("objectTypeCode",this.getObjectTypeCode());
         pks.put("creditAmount",this.getCreditAmount());

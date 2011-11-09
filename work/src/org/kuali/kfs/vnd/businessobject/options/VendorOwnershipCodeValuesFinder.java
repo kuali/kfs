@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.OwnershipType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Values Finder for <code>OwnershipType</code>.
@@ -41,7 +41,7 @@ public class VendorOwnershipCodeValuesFinder extends KeyValuesBase {
     }
 
     /***
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase#getKeyValues(boolean)
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesBase#getKeyValues(boolean)
      */
     public List getKeyValues(boolean active){
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
@@ -49,12 +49,12 @@ public class VendorOwnershipCodeValuesFinder extends KeyValuesBase {
         List labels = new ArrayList();
         if(active){
             codes = boService.findAll(OwnershipType.class);
-            labels.add(new KeyLabelPair("", ""));
+            labels.add(new ConcreteKeyValue("", ""));
         } else
             codes = boService.findAllInactive(OwnershipType.class);
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             OwnershipType ot = (OwnershipType) iter.next();
-            labels.add(new KeyLabelPair(ot.getVendorOwnershipCode(), ot.getVendorOwnershipDescription()));
+            labels.add(new ConcreteKeyValue(ot.getVendorOwnershipCode(), ot.getVendorOwnershipDescription()));
         }
         return labels;
     }

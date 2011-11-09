@@ -22,7 +22,7 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao;
 import org.kuali.rice.kns.util.Guid;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * build the set of rows for the salary reason statistics report
@@ -398,7 +398,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithAThreshold(java.lang.String,
-     *      java.lang.Integer, boolean, org.kuali.rice.kns.util.KualiDecimal)
+     *      java.lang.Integer, boolean, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public void updateReasonStatisticsReportsWithAThreshold(String principalName, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent) {
 

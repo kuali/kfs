@@ -30,13 +30,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.util.KIMPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
-public class DisbursementPayee extends TransientBusinessObjectBase implements Inactivateable {
+public class DisbursementPayee extends TransientBusinessObjectBase implements Inactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayee.class);
 
     private String payeeIdNumber;
@@ -66,10 +66,10 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
         map.put(KFSPropertyConstants.PAYEE_ID_NUMBER, this.payeeIdNumber);
         map.put(KFSPropertyConstants.PAYEE_TYPE_CODE, this.payeeTypeCode);
@@ -94,7 +94,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
         fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, VendorPropertyConstants.VENDOR_FIRST_NAME);
         fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, VendorPropertyConstants.VENDOR_LAST_NAME);
 
-        fieldConversionMap.put(KNSPropertyConstants.ACTIVE, KFSPropertyConstants.ACTIVE_INDICATOR);
+        fieldConversionMap.put(KRADPropertyConstants.ACTIVE, KFSPropertyConstants.ACTIVE_INDICATOR);
 
         return fieldConversionMap;
     }
@@ -113,7 +113,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
         fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KIMPropertyConstants.Person.LAST_NAME);
 
         fieldConversionMap.put(KFSPropertyConstants.EMPLOYEE_ID, KIMPropertyConstants.Person.EMPLOYEE_ID);
-        fieldConversionMap.put(KNSPropertyConstants.ACTIVE, KNSPropertyConstants.ACTIVE);
+        fieldConversionMap.put(KRADPropertyConstants.ACTIVE, KRADPropertyConstants.ACTIVE);
 
         return fieldConversionMap;
     }

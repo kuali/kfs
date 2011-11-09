@@ -18,11 +18,11 @@ package org.kuali.kfs.pdp.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
-public class PayeeACHAccount extends PersistableBusinessObjectBase implements Inactivateable {
+public class PayeeACHAccount extends PersistableBusinessObjectBase implements Inactivatable {
 
     private KualiInteger achAccountGeneratedIdentifier;
     private String bankRoutingNumber;
@@ -288,9 +288,9 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.achAccountGeneratedIdentifier != null) {
             m.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, this.achAccountGeneratedIdentifier.toString());

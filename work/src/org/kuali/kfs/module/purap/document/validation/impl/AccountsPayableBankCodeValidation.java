@@ -23,8 +23,8 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 
 public class AccountsPayableBankCodeValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableBankCodeValidation.class);
@@ -54,8 +54,8 @@ public class AccountsPayableBankCodeValidation extends GenericValidation {
      * @return true if {@link KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES} contains this document type
      */
     private boolean isDocumentTypeUsingBankCode(AccountsPayableDocumentBase apDocument) {
-        String documentTypeName = apDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        ParameterEvaluator evaluator = KNSServiceLocator.getParameterService().getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
+        String documentTypeName = apDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        ParameterEvaluator evaluator = KNSServiceLocator./*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
         return evaluator.evaluationSucceeds();
     }
 

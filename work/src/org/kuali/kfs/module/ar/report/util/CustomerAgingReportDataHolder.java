@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.report.util;
 
 import java.util.Map;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class...

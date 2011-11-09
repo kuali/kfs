@@ -47,10 +47,10 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -199,9 +199,9 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         document.open();
         for (ExternalizedMessageWrapper messageWrapper : logMessages) {
             String message;
-            if (messageWrapper.getParams().length == 0 ) message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageWrapper.getMessageKey());
+            if (messageWrapper.getParams().length == 0 ) message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(messageWrapper.getMessageKey());
             else {
-                String temp = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageWrapper.getMessageKey());
+                String temp = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(messageWrapper.getMessageKey());
                 message = MessageFormat.format(temp, (Object[])messageWrapper.getParams());
             }
             document.add(new Paragraph(message));

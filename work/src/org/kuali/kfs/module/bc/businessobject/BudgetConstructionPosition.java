@@ -29,15 +29,15 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 
-public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Position, Inactivateable {
+public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Position, Inactivatable {
 
     private String positionNumber;
     private Integer universityFiscalYear;
@@ -77,8 +77,8 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      * Default constructor.
      */
     public BudgetConstructionPosition() {
-        budgetConstructionPositionSelect = new TypedArrayList(BudgetConstructionPositionSelect.class);
-        pendingBudgetConstructionAppointmentFunding = new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class);
+        budgetConstructionPositionSelect = new ArrayList<BudgetConstructionPositionSelect>();
+        pendingBudgetConstructionAppointmentFunding = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         active = true; // assume active is true until set otherwise
     }
 
@@ -613,7 +613,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      */
     public Person getPositionLockUser() {
         if (positionLockUserIdentifier != null) {
-            positionLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(positionLockUserIdentifier, positionLockUser);
+            positionLockUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(positionLockUserIdentifier, positionLockUser);
         }
         return positionLockUser;
     }
@@ -647,9 +647,9 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    @Override
+    
     public List buildListOfDeletionAwareLists() {
 
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -672,9 +672,9 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("positionNumber", this.positionNumber);
         if (this.universityFiscalYear != null) {

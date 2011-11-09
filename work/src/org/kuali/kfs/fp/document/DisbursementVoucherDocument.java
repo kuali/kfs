@@ -72,27 +72,27 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.KimEntityAddress;
-import org.kuali.rice.kim.bo.entity.KimEntityEntityType;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityEntityTypeInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.address.EntityAddress;
+import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
+import org.kuali.rice.kim.bo.entity.dto.EntityTypeContactInfoInfo;
+import org.kuali.rice.kim.bo.entity.dto.EntityInfo;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.
@@ -115,7 +115,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected static final String TAX_CONTROL_BACKUP_HOLDING = "B";
     protected static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
     
-    protected static transient PersonService<Person> personService;
+    protected static transient PersonService personService;
     protected static transient ParameterService parameterService;
     protected static transient VendorService vendorService;
     protected static transient BusinessObjectService businessObjectService;
@@ -188,7 +188,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
         List<GeneralLedgerPendingEntry> ples = new ArrayList<GeneralLedgerPendingEntry>();
 
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         FlexibleOffsetAccountService flexibleOffsetAccountService = SpringContext.getBean(FlexibleOffsetAccountService.class);
 
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
@@ -971,7 +971,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         final ParameterService parameterService = this.getParameterService();
         
-        if (parameterService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherDocument.USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME) && parameterService.getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherDocument.USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME)) {
+        if (parameterService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherDocument.USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME) && parameterService.getParameterValueAsBoolean(DisbursementVoucherDocument.class, DisbursementVoucherDocument.USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME)) {
             this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getAddressLine1Unmasked());
             this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(employee.getAddressLine2Unmasked());
             this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getAddressCityNameUnmasked());
@@ -979,7 +979,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             this.getDvPayeeDetail().setDisbVchrPayeeZipCode(employee.getAddressPostalCodeUnmasked());
             this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(employee.getAddressCountryCodeUnmasked());
         } else {
-            final KimEntityAddress address = getNonDefaultAddress(employee);
+            final EntityAddress address = getNonDefaultAddress(employee);
             if (address != null) {
                 this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(address.getLine1Unmasked());
                 this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(address.getLine2Unmasked());
@@ -1001,15 +1001,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'TAX' is present, then the employee must be foreign
         for ( String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet() ) {
-            if (KimConstants.PersonExternalIdentifierTypes.TAX.equals(externalIdentifierTypeCode)) {
+            if (KimApiConstants.PersonExternalIdentifierTypes.TAX.equals(externalIdentifierTypeCode)) {
                 this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
             }
         }
         // Determine if employee is a research subject
-        ParameterEvaluator researchPaymentReasonCodeEvaluator = getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, this.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+        ParameterEvaluator researchPaymentReasonCodeEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, this.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
         if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
             if (getParameterService().parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM)) {
-                String researchPayLimit = getParameterService().getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
+                String researchPayLimit = getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
                 if (StringUtils.isNotBlank(researchPayLimit)) {
                     KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
@@ -1030,13 +1030,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param employee the employee to find a non-default address for
      * @return the non-default address, or null if not found
      */
-    protected KimEntityAddress getNonDefaultAddress(Person employee) {
-        final String addressType = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherDocument.DEFAULT_EMPLOYEE_ADDRESS_TYPE_PARAMETER_NAME);
-        final KimEntityInfo entityInfo = getIdentityManagementService().getEntityInfoByPrincipalId(employee.getPrincipalId());
+    protected EntityAddress getNonDefaultAddress(Person employee) {
+        final String addressType = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherDocument.DEFAULT_EMPLOYEE_ADDRESS_TYPE_PARAMETER_NAME);
+        final EntityInfo entityInfo = getIdentityManagementService().getEntityInfoByPrincipalId(employee.getPrincipalId());
         if (entityInfo != null) {
-            final KimEntityEntityType entityEntityType = getPersonEntityEntityType(entityInfo);
+            final EntityTypeContactInfo entityEntityType = getPersonEntityEntityType(entityInfo);
             if (entityEntityType != null) {
-                final List<? extends KimEntityAddress> addresses = entityEntityType.getAddresses();
+                final List<? extends EntityAddress> addresses = entityEntityType.getAddresses();
         
                 return findAddressByType(addresses, addressType);
             }
@@ -1046,17 +1046,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     
     /**
      * Someday this method will be in Rice.  But...'til it is...lazy loop through the entity entity types in the given
-     * KimEntityInfo and return the one who has the type of "PERSON"
+     * EntityInfo and return the one who has the type of "PERSON"
      * @param entityInfo the entity info to loop through entity entity types of
-     * @return a found entity entity type or null if a PERSON entity entity type is not associated with the given KimEntityInfo record
+     * @return a found entity entity type or null if a PERSON entity entity type is not associated with the given EntityInfo record
      */
-    protected KimEntityEntityType getPersonEntityEntityType(KimEntityInfo entityInfo) {
-        final List<KimEntityEntityTypeInfo> entityEntityTypes = entityInfo.getEntityTypes();
+    protected EntityTypeContactInfo getPersonEntityEntityType(EntityInfo entityInfo) {
+        final List<EntityTypeContactInfoInfo> entityEntityTypes = entityInfo.getEntityTypes();
         int count = 0;
-        KimEntityEntityType foundInfo = null;
+        EntityTypeContactInfo foundInfo = null;
         
         while (count < entityEntityTypes.size() && foundInfo == null) {
-            if (entityEntityTypes.get(count).getEntityTypeCode().equals(KimConstants.EntityTypes.PERSON)) {
+            if (entityEntityTypes.get(count).getEntityTypeCode().equals(KimApiConstants.EntityTypes.PERSON)) {
                 foundInfo = entityEntityTypes.get(count);
             }
             count += 1;
@@ -1066,17 +1066,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
     
     /**
-     * Given a List of KimEntityAddress and an address type, finds the address in the List with the given type (or null if no matching KimEntityAddress is found)
-     * @param addresses the List of KimEntityAddress records to search
+     * Given a List of EntityAddress and an address type, finds the address in the List with the given type (or null if no matching EntityAddress is found)
+     * @param addresses the List of EntityAddress records to search
      * @param addressType the address type of the address to return
-     * @return the found KimEntityAddress, or null if not found
+     * @return the found EntityAddress, or null if not found
      */
-    protected KimEntityAddress findAddressByType(List<? extends KimEntityAddress> addresses, String addressType) {
-        KimEntityAddress foundAddress = null;
+    protected EntityAddress findAddressByType(List<? extends EntityAddress> addresses, String addressType) {
+        EntityAddress foundAddress = null;
         int count = 0;
         
         while (count < addresses.size() && foundAddress == null) {
-            final KimEntityAddress currentAddress = addresses.get(count);
+            final EntityAddress currentAddress = addresses.get(count);
             if (currentAddress.getAddressTypeCode().equals(addressType)) {
                 foundAddress = currentAddress;
             }
@@ -1087,7 +1087,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.document.Document#prepareForSave()
+     * @see org.kuali.rice.krad.document.Document#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -1168,7 +1168,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * computed and saved to the DV Payee Detail BO so they can be serialized to XML for routing. Some of the routing rules rely on
      * these variables.
      * 
-     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
+     * @see org.kuali.rice.krad.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {
@@ -1181,10 +1181,10 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         else if (payeeDetail.isEmployee()) {
 
             // Determine if employee is a research subject
-            ParameterEvaluator researchPaymentReasonCodeEvaluator = getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
+            ParameterEvaluator researchPaymentReasonCodeEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
             if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
                 if (getParameterService().parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM)) {
-                    String researchPayLimit = getParameterService().getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
+                    String researchPayLimit = getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
                     if (StringUtils.isNotBlank(researchPayLimit)) {
                         KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
@@ -1266,7 +1266,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
             if (vendorDetail == null) {
                 getDvPayeeDetail().setDisbVchrPayeeIdNumber(StringUtils.EMPTY);
-                GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
+                KNSGlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
             }
             else {
                 templateVendor(vendorDetail, vendorAddress);
@@ -1309,7 +1309,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         // default doc location
         if (StringUtils.isBlank(getDisbursementVoucherDocumentationLocationCode())) {
-            setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DEFAULT_DOC_LOCATION_PARM_NM));
+            setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DEFAULT_DOC_LOCATION_PARM_NM));
         }
 
         // default bank code
@@ -1321,7 +1321,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.document.DocumentBase#buildListOfDeletionAwareLists()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -1358,8 +1358,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param accountingLine accounting line in accounting document
      * @return true if document is debit
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // disallow error corrections
@@ -1379,8 +1379,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param financialDocument submitted accounting document
      * @param accountingLine accounting line in submitted accounting document
      * @param explicitEntry explicit GLPE
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry) {
@@ -1406,7 +1406,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param financialDocument submitted financial document
      * @param sequenceHelper helper class to keep track of GLPE sequence
      * @return true if GLPE's are generated successfully
-     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.rice.krad.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.krad.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -1549,7 +1549,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         final KualiDecimal bankOffsetAmount = glpeService.getOffsetToCashAmount(this).negated();
         GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-        success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KNSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.DISB_VCHR_BANK_CODE);
+        success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KRADConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.DISB_VCHR_BANK_CODE);
 
         if (success) {
             AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
@@ -1597,7 +1597,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         // If value is false, check state of document. We should assume payee is assigned if document has been saved.
         // Otherwise, value will be set during creation process.
         if (!payeeAssigned) {
-            payeeAssigned = !this.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+            payeeAssigned = !this.getDocumentHeader().getWorkflowDocument().isInitiated();
         }
         return payeeAssigned;
     }
@@ -1619,7 +1619,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return Returns the editW9W8BENbox.
      */
     public boolean isEditW9W8BENbox() {
-        String initiatorPrincipalID = this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId();
+        String initiatorPrincipalID = this.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         if (GlobalVariables.getUserSession().getPrincipalId().equals(initiatorPrincipalID)) {
             editW9W8BENbox = true;            
         }
@@ -1654,7 +1654,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }   
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
+     * @see org.kuali.rice.krad.document.DocumentBase#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
@@ -1714,7 +1714,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     
     protected boolean isSeparationOfDutiesReviewRequired() {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        boolean sepOfDutiesRequired = parameterService.getIndicatorParameter(KFSConstants.CoreModuleNamespaces.FINANCIAL, DISBURSEMENT_VOUCHER_TYPE, SEPARATION_OF_DUTIES_PARAMETER_NAME);
+        boolean sepOfDutiesRequired = parameterService.getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.FINANCIAL, DISBURSEMENT_VOUCHER_TYPE, SEPARATION_OF_DUTIES_PARAMETER_NAME);
         
         if (sepOfDutiesRequired) {
             try {    
@@ -1798,7 +1798,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return true;
         }
         
-        if (this.getParameterService().getParameterEvaluator(this.getClass(), DisbursementVoucherDocument.PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARAMETER_NAME, paymentReasonCode).evaluationSucceeds()) {
+        if (this./*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(this.getClass(), DisbursementVoucherDocument.PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARAMETER_NAME, paymentReasonCode).evaluationSucceeds()) {
             return true;
         }
         
@@ -1829,7 +1829,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return true if the campus is taxed for moving reimbursements, false otherwise
      */
     protected boolean taxedCampusForMovingReimbursements() {
-        return this.getParameterService().getParameterEvaluator(this.getClass(), DisbursementVoucherConstants.CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARM_NM, this.getCampusCode()).evaluationSucceeds();
+        return this./*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(this.getClass(), DisbursementVoucherConstants.CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARM_NM, this.getCampusCode()).evaluationSucceeds();
     }
     
     /**
@@ -1843,7 +1843,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         return this.getDvPymentReasonService().isPrepaidTravelPaymentReason(paymentReasonCode) || this.getDvPymentReasonService().isNonEmployeeTravelPaymentReason(paymentReasonCode);
         }
 
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if ( personService == null ) {
             personService = SpringContext.getBean(PersonService.class);
         }

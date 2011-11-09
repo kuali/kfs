@@ -25,7 +25,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 /* 
  * 
@@ -56,8 +56,8 @@ public class OwnershipTypeRule extends MaintenanceDocumentRuleBase {
     protected boolean checkForSystemParametersExistence() {
         LOG.info("checkForSystemParametersExistence called");
         boolean success = true;
-        Collection<String> feinParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.FEIN_ALLOWED_OWNERSHIP_TYPES);
-        Collection<String> ssnParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.SSN_ALLOWED_OWNERSHIP_TYPES);
+        Collection<String> feinParameterValues = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(VendorDetail.class, VendorParameterConstants.FEIN_ALLOWED_OWNERSHIP_TYPES) );
+        Collection<String> ssnParameterValues = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(VendorDetail.class, VendorParameterConstants.SSN_ALLOWED_OWNERSHIP_TYPES) );
         OwnershipType newBo = (OwnershipType)getNewBo();
         OwnershipType oldBo = (OwnershipType) getOldBo();
 

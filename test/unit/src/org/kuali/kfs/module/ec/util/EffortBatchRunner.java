@@ -33,12 +33,12 @@ import org.kuali.kfs.sys.SpringContextForBatchRunner;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.Log4jConfigurer;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.spring.Logged;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+
 
 /**
  * This batch runner is just for testing purpose and used by effort team members.
@@ -115,7 +115,7 @@ public class EffortBatchRunner {
         businessObjectService.save(ledgerBalances);
     }
 
-    @Logged
+    
     public static void main(String[] args) {
         EffortBatchRunner batchRunner = new EffortBatchRunner();
         GlobalVariables.setMessageMap(new MessageMap());

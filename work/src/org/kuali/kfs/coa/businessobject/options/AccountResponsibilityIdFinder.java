@@ -21,8 +21,8 @@ import java.util.List;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 public class AccountResponsibilityIdFinder extends KeyValuesBase {
 
@@ -34,10 +34,10 @@ public class AccountResponsibilityIdFinder extends KeyValuesBase {
     public List getKeyValues() {
         List<Integer> reponsiblityIds = SpringContext.getBean(ContractsAndGrantsModuleService.class).getAllAccountReponsiblityIds();
 
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (Integer id : reponsiblityIds) {
-            labels.add(new KeyLabelPair(id.toString(), id.toString()));
+            labels.add(new ConcreteKeyValue(id.toString(), id.toString()));
         }
 
         return labels;

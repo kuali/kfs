@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.impl.MailServiceImpl;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.krad.service.impl.MailServiceImpl;
 
 public class MockMailServiceImpl extends MailServiceImpl {
     private MailMessage mailMessage;

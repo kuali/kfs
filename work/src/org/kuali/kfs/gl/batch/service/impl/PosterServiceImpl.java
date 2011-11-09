@@ -80,15 +80,15 @@ import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -113,7 +113,7 @@ public class PosterServiceImpl implements PosterService {
     private IndirectCostRecoveryRateDetailDao indirectCostRecoveryRateDetailDao;
     private ObjectCodeService objectCodeService;
     private ParameterService parameterService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private RunDateService runDateService;
     private SubAccountService subAccountService;
@@ -380,11 +380,11 @@ public class PosterServiceImpl implements PosterService {
                         reversal.setTransactionLedgerEntryDescription(newDescription);
                     }
                     else {
-                        errors.add(new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_IN_ACCOUNTING_PERIOD_TABLE), Message.TYPE_WARNING));
+                        errors.add(new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_IN_ACCOUNTING_PERIOD_TABLE), Message.TYPE_WARNING));
                     }
                 }
                 else {
-                    errors.add(new Message (configurationService.getPropertyString(KFSKeyConstants.ERROR_REVERSAL_DATE_NOT_IN_UNIV_DATE_TABLE) , Message.TYPE_WARNING));
+                    errors.add(new Message (configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_REVERSAL_DATE_NOT_IN_UNIV_DATE_TABLE) , Message.TYPE_WARNING));
                 }
                 // Make sure the row will be unique when adding to the entries table by adjusting the transaction sequence id
                 int maxSequenceId = accountingCycleCachingService.getMaxSequenceNumber(reversal);
@@ -403,8 +403,8 @@ public class PosterServiceImpl implements PosterService {
 
                 ObjectCode objectCode = accountingCycleCachingService.getObjectCode(tran.getUniversityFiscalYear(), tran.getChartOfAccountsCode(), tran.getFinancialObjectCode());
                 if (ObjectUtils.isNull(objectCode)) {
-                    LOG.warn(configurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + tran.getUniversityFiscalYear() + "," + tran.getChartOfAccountsCode() + "," + tran.getFinancialObjectCode());                    
-                    errors.add(new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + tran.getUniversityFiscalYear() + "," + tran.getChartOfAccountsCode() + "," + tran.getFinancialObjectCode(), Message.TYPE_WARNING));                    
+                    LOG.warn(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + tran.getUniversityFiscalYear() + "," + tran.getChartOfAccountsCode() + "," + tran.getFinancialObjectCode());                    
+                    errors.add(new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + tran.getUniversityFiscalYear() + "," + tran.getChartOfAccountsCode() + "," + tran.getFinancialObjectCode(), Message.TYPE_WARNING));                    
                 }
                 else {
                     tran.setFinancialObject(accountingCycleCachingService.getObjectCode(tran.getUniversityFiscalYear(), tran.getChartOfAccountsCode(), tran.getFinancialObjectCode()));
@@ -704,8 +704,8 @@ public class PosterServiceImpl implements PosterService {
             return;
         } 
 
-        e.setFinancialDocumentTypeCode(parameterService.getParameterValue(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
-        e.setFinancialSystemOriginationCode(parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+        e.setFinancialDocumentTypeCode(parameterService.getParameterValueAsString(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
+        e.setFinancialSystemOriginationCode(parameterService.getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
         e.setDocumentNumber(sdf.format(runDate));
         if (KFSConstants.GL_DEBIT_CODE.equals(icrRateDetail.getTransactionDebitIndicator())) {
@@ -722,7 +722,7 @@ public class PosterServiceImpl implements PosterService {
 
         ObjectCode oc = objectCodeService.getByPrimaryId(e.getUniversityFiscalYear(), e.getChartOfAccountsCode(), e.getFinancialObjectCode());
         if (oc == null) {
-            LOG.warn(configurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + e.getUniversityFiscalYear() + "," + e.getChartOfAccountsCode() + "," + e.getFinancialObjectCode());
+            LOG.warn(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + e.getUniversityFiscalYear() + "," + e.getChartOfAccountsCode() + "," + e.getFinancialObjectCode());
             e.setFinancialObjectCode(icrRateDetail.getFinancialObjectCode()); // this will be written out the ICR file. Then, when that file attempts to post, the transaction won't validate and will end up in the icr error file
         } else {
             e.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
@@ -742,7 +742,7 @@ public class PosterServiceImpl implements PosterService {
         }
 
         if (et.getBalanceTypeCode().equals(et.getOption().getExtrnlEncumFinBalanceTypCd()) || et.getBalanceTypeCode().equals(et.getOption().getIntrnlEncumFinBalanceTypCd()) || et.getBalanceTypeCode().equals(et.getOption().getPreencumbranceFinBalTypeCd()) || et.getBalanceTypeCode().equals(et.getOption().getCostShareEncumbranceBalanceTypeCd())) {
-            e.setDocumentNumber(parameterService.getParameterValue(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
+            e.setDocumentNumber(parameterService.getParameterValueAsString(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
         }
         e.setProjectCode(et.getProjectCode());
         if (GeneralLedgerConstants.getDashOrganizationReferenceId().equals(et.getOrganizationReferenceId())) {
@@ -775,7 +775,7 @@ public class PosterServiceImpl implements PosterService {
         ObjectCode balSheetObjectCode = objectCodeService.getByPrimaryId(icrRateDetail.getUniversityFiscalYear(), e.getChartOfAccountsCode(), offsetBalanceSheetObjectCodeNumber);
         if (balSheetObjectCode == null) {
             List<Message> warnings = new ArrayList<Message>();
-            warnings.add(new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrRateDetail.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" +offsetBalanceSheetObjectCodeNumber, Message.TYPE_WARNING));
+            warnings.add(new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrRateDetail.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" +offsetBalanceSheetObjectCodeNumber, Message.TYPE_WARNING));
             reportWriterService.writeError(et, warnings);
             
         }
@@ -842,7 +842,7 @@ public class PosterServiceImpl implements PosterService {
             }
 
             // these fields will be used to construct warning messages
-            String warningMessagePattern = configurationService.getPropertyString(KFSKeyConstants.WARNING_ICR_GENERATION_PROBLEM_WITH_A21SUBACCOUNT_FIELD_BLANK_INVALID);
+            String warningMessagePattern = configurationService.getPropertyValueAsString(KFSKeyConstants.WARNING_ICR_GENERATION_PROBLEM_WITH_A21SUBACCOUNT_FIELD_BLANK_INVALID);
             String subAccountBOLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubAccount.class.getName()).getObjectLabel();
             String subAccountValue = subAccount.getChartOfAccountsCode() + "-" + subAccount.getAccountNumber() + "-" + subAccount.getSubAccountNumber();
             String accountBOLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Account.class.getName()).getObjectLabel();
@@ -1004,7 +1004,7 @@ public class PosterServiceImpl implements PosterService {
     }
 
     protected String determineIcrOffsetBalanceSheetObjectCodeNumber(OriginEntryInformation offsetEntry, ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail) {
-        String icrEntryDocumentType = parameterService.getParameterValue(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY);
+        String icrEntryDocumentType = parameterService.getParameterValueAsString(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY);
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(offsetEntry.getUniversityFiscalYear(), offsetEntry.getChartOfAccountsCode(), icrEntryDocumentType, et.getBalanceTypeCode());
         if (!ObjectUtils.isNull(offsetDefinition)) {
             return offsetDefinition.getFinancialObjectCode();
@@ -1057,7 +1057,7 @@ public class PosterServiceImpl implements PosterService {
         objectCodeService = ocs;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

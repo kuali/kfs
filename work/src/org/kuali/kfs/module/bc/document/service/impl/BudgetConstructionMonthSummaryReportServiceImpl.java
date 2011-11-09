@@ -31,7 +31,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsService
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetConstructionMonthSummaryReportService {
 
     BudgetConstructionMonthSummaryReportDao budgetConstructionMonthSummaryReportDao;
-    KualiConfigurationService kualiConfigurationService;
+    ConfigurationService kualiConfigurationService;
     BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     /**
@@ -97,35 +97,35 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         orgMonthSummaryReportEntry.setOrgChartOfAccountsCode(monthSummary.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
-            orgMonthSummaryReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgMonthSummaryReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgMonthSummaryReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
         }
         orgMonthSummaryReportEntry.setOrganizationCode(monthSummary.getOrganizationCode());
         if (orgName == null) {
-            orgMonthSummaryReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            orgMonthSummaryReportEntry.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgMonthSummaryReportEntry.setOrganizationName(orgName);
         }
         orgMonthSummaryReportEntry.setChartOfAccountsCode(monthSummary.getChartOfAccountsCode());
         if (chartDesc == null) {
-            orgMonthSummaryReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgMonthSummaryReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgMonthSummaryReportEntry.setChartOfAccountDescription(chartDesc);
         }
         orgMonthSummaryReportEntry.setFundGroupCode(monthSummary.getSubFundGroup().getFundGroupCode());
         if (fundGroupDes == null) {
-            orgMonthSummaryReportEntry.setFundGroupName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
+            orgMonthSummaryReportEntry.setFundGroupName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
         }
         else {
             orgMonthSummaryReportEntry.setFundGroupName(fundGroupDes);
         }
         orgMonthSummaryReportEntry.setSubFundGroupCode(monthSummary.getSubFundGroupCode());
         if (subFundGroupDes == null) {
-            orgMonthSummaryReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
+            orgMonthSummaryReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
         }
         else {
             orgMonthSummaryReportEntry.setSubFundGroupDescription(subFundGroupDes);
@@ -729,7 +729,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         return returnList;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

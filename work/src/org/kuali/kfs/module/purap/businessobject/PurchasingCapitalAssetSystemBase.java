@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
 
 public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusinessObjectBase implements CapitalAssetSystem {
 
@@ -50,8 +50,8 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
 
 	public PurchasingCapitalAssetSystemBase() {
         super();
-        itemCapitalAssets = new TypedArrayList(getItemCapitalAssetClass());
-        capitalAssetLocations = new TypedArrayList(getCapitalAssetLocationClass());
+        itemCapitalAssets = new ArrayList();
+        capitalAssetLocations = new ArrayList();
         this.setNewPurchasingCapitalAssetLocationLine(this.setupNewPurchasingCapitalAssetLocationLine());
     }
 
@@ -180,7 +180,7 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
         setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();	            
         if (this.capitalAssetSystemIdentifier != null) {
             m.put("capitalAssetSystemIdentifier", this.capitalAssetSystemIdentifier.toString());

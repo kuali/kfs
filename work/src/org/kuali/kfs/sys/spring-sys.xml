@@ -780,7 +780,7 @@
 	<bean id="batchJobModifierRoleTypeService" parent="batchJobModifierRoleTypeService-parentBean"/>
 
 	<bean id="batchJobModifierRoleTypeService-parentBean"
-		class="org.kuali.rice.kns.authorization.PermissionDerivedRoleTypeServiceImpl" abstract="true">
+		class="org.kuali.rice.kns.document.authorization.PermissionDerivedRoleTypeServiceImpl" abstract="true">
 		<property name="permissionTemplateNamespace" value="KR-NS" />
 		<property name="permissionTemplateName" value="Modify Batch Job" />
 	</bean>
@@ -832,7 +832,7 @@
           </list>	
         </property>  
 		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
+			<ref bean="kimRoleService" />
 		</property>
 		<property name="identityManagementService">
 			<ref bean="kimIdentityManagementService" />

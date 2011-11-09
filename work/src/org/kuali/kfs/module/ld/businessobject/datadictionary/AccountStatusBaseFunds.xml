@@ -111,7 +111,7 @@
 		<property name="label" value="Base Budget/CSF Variance" />
 		<property name="shortLabel" value="Base Budget/CSF Variance" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountStatusBaseFunds-baseBudgetAmount" parent="AccountStatusBaseFunds-baseBudgetAmount-parentBean" />
 
@@ -121,7 +121,7 @@
 		<property name="label" value="Adjusted Base Budget Amount" />
 		<property name="shortLabel" value="Base Budget" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="AccountStatusBaseFunds-dummyBusinessObject.consolidationOption"
 		parent="AccountStatusBaseFunds-dummyBusinessObject.consolidationOption-parentBean" />

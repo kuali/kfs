@@ -30,14 +30,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
 
@@ -48,7 +48,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     private DocumentService documentService;
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private CashControlDocumentService cashControlDocumentService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     protected KualiWorkflowInfo workflowInfoService;
 
     protected final static String CC_WORKFLOW_DOCUMENT_TYPE = "CTRL";
@@ -59,7 +59,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, Person user) {
         CashControlDocument document = null;
@@ -93,7 +93,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @param document the cash control document
      */
     protected void addDescriptionToDocument(CashControlDocument document) {
-        document.getDocumentHeader().setDocumentDescription(kualiConfigurationService.getPropertyString(ArKeyConstants.ELECTRONIC_PAYMENT_CLAIM));
+        document.getDocumentHeader().setDocumentDescription(kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.ELECTRONIC_PAYMENT_CLAIM));
     }
 
     /**
@@ -129,7 +129,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
             newCashControlDetail.setDocumentNumber(document.getDocumentNumber());
             newCashControlDetail.setFinancialDocumentLineAmount(electronicPaymentClaim.getGeneratingAccountingLine().getAmount());
             newCashControlDetail.setCustomerPaymentDescription(electronicPaymentClaim.getGeneratingAccountingLine().getFinancialDocumentLineDescription());
-            cashControlDocumentService.addNewCashControlDetail(kualiConfigurationService.getPropertyString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), document, newCashControlDetail);
+            cashControlDocumentService.addNewCashControlDetail(kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), document, newCashControlDetail);
         }
 
     }
@@ -145,7 +145,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
         url.append(URL_PREFIX);
         url.append(URL_DOC_TYPE);
         url.append(URL_MIDDLE);
-        url.append(KEWConstants.ACTIONLIST_COMMAND);
+        url.append(KewApiConstants.ACTIONLIST_COMMAND);
         url.append(URL_SUFFIX);
         url.append(doc.getDocumentNumber());
         return url.toString();
@@ -167,7 +167,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
         try {
             KualiWorkflowInfo workflowInfo = workflowInfoService;
             
-            return workflowInfo.getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
+            return workflowInfo.getDocType(getClaimingDocumentWorkflowDocumentType()).getLabel();
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
@@ -192,7 +192,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.api.identity.Person)
      */
     public boolean userMayUseToClaim(Person claimingUser) {
         final String documentTypeName = this.getClaimingDocumentWorkflowDocumentType();
@@ -242,7 +242,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * This method sets kualiConfigurationService
      * @param kualiConfigurationService
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

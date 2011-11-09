@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class returns list of account distribution methods for amounts value pairs.
@@ -32,8 +32,8 @@ public class AccountDistributionMethodValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE, PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_DESCRIPTION));
-        keyValues.add(new KeyLabelPair(PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE, PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_DESCRIPTION));
+        keyValues.add(new ConcreteKeyValue(PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE, PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_DESCRIPTION));
+        keyValues.add(new ConcreteKeyValue(PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE, PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_DESCRIPTION));
 
         return keyValues;
     }

@@ -20,10 +20,10 @@ import java.util.List;
 import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.location.framework.campus.CampusValuesFinder;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.ksb.cache.RiceCacheAdministrator;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
@@ -36,7 +36,7 @@ public class CacheServiceImpl implements CacheService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CacheServiceImpl.class);
 
     private List<GeneralCacheAdministrator> cacheAdminstrators;
-    private RoleManagementService roleManagementService;
+    private RoleService roleManagementService;
     private IdentityManagementService identityManagementService;
     private ParameterService parameterService;
 
@@ -106,7 +106,7 @@ public class CacheServiceImpl implements CacheService {
      * 
      * @return Returns the roleManagementService.
      */
-    protected RoleManagementService getRoleManagementService() {
+    protected RoleService getRoleService() {
         return roleManagementService;
     }
 
@@ -115,7 +115,7 @@ public class CacheServiceImpl implements CacheService {
      * 
      * @param roleManagementService The roleManagementService to set.
      */
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
+    public void setRoleService(RoleService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
 

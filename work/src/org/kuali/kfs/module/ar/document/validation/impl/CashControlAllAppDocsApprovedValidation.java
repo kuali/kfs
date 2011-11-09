@@ -39,12 +39,12 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CashControlAllAppDocsApprovedValidation extends GenericValidation {
 
@@ -58,9 +58,9 @@ public class CashControlAllAppDocsApprovedValidation extends GenericValidation {
         GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-        KualiWorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
-        if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal())) {
+        if (!(workflowDocument.isApproved() || workflowDocument.isFinal())) {
             GlobalVariables.getMessageMap().put(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
             allAppDocsApproved = false;
         }

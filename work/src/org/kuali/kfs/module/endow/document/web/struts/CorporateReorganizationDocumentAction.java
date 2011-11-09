@@ -45,8 +45,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
 

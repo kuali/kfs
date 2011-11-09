@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.sql.Timestamp;
 
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public interface TimestampedBusinessObject {
     /**

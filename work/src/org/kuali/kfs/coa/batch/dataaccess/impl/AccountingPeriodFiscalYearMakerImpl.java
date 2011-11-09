@@ -45,7 +45,7 @@ public class AccountingPeriodFiscalYearMakerImpl extends FiscalYearMakerImpl {
      * Updates the year on the fiscal period name and sets status to open for next year records
      * 
      * @see org.kuali.kfs.coa.batch.dataaccess.impl.FiscalYearMakerHelperImpl#changeForNewYear(java.lang.Integer,
-     *      org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public void changeForNewYear(Integer baseFiscalYear, FiscalYearBasedBusinessObject currentRecord) {

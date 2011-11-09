@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Values Finder for <code>ShippingPaymentTerms</code>.
@@ -41,10 +41,10 @@ public class ShippingPaymentTermsValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(ShippingPaymentTerms.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ShippingPaymentTerms spt = (ShippingPaymentTerms) iter.next();
-            labels.add(new KeyLabelPair(spt.getVendorShippingPaymentTermsCode(), spt.getVendorShippingPaymentTermsDescription()));
+            labels.add(new ConcreteKeyValue(spt.getVendorShippingPaymentTermsCode(), spt.getVendorShippingPaymentTermsDescription()));
         }
 
         return labels;

@@ -21,7 +21,7 @@ import java.util.Map;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost;
 import org.kuali.kfs.module.bc.service.BudgetConstructionAdministrativePostService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * implements the service methods defined in BudgetConstructionAdministrativePostService

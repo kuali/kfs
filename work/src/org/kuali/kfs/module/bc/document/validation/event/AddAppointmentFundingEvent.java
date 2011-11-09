@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rule.BusinessRule;
 
 public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
     List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFunding;
@@ -39,7 +39,7 @@ public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent#invokeExpansionRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent#invokeExpansionRuleMethod(org.kuali.rice.krad.rule.BusinessRule)
      */
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {

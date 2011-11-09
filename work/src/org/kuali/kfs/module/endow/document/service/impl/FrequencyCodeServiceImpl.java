@@ -25,8 +25,8 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.FrequencyCode;
 import org.kuali.kfs.module.endow.document.service.FrequencyCodeService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class FrequencyCodeServiceImpl implements FrequencyCodeService {
     

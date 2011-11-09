@@ -26,13 +26,13 @@ import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import java.util.ArrayList;
 
 /**
  * 
@@ -80,7 +80,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     public ObjectCodeGlobal() {
 
 
-        objectCodeGlobalDetails = new TypedArrayList(ObjectCodeGlobalDetail.class);
+        objectCodeGlobalDetails = new ArrayList<ObjectCodeGlobalDetail>();
 
     }
 
@@ -637,9 +637,9 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String,String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
@@ -654,7 +654,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
@@ -663,7 +663,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     /**
      * This returns a list of Object Codes to Update and/or Add
      * 
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#applyGlobalChanges()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#applyGlobalChanges()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         LOG.debug("applyGlobalChanges");
@@ -746,7 +746,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

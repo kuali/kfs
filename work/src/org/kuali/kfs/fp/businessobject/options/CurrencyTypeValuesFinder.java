@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of currency type value pairs.
@@ -31,9 +31,9 @@ public class CurrencyTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("U", "U.S. Dollars"));
-        keyValues.add(new KeyLabelPair("C", "DV amount is stated in U.S. dollars; convert to foreign currency"));
-        keyValues.add(new KeyLabelPair("F", "DV amount is stated in foreign currency"));
+        keyValues.add(new ConcreteKeyValue("U", "U.S. Dollars"));
+        keyValues.add(new ConcreteKeyValue("C", "DV amount is stated in U.S. dollars; convert to foreign currency"));
+        keyValues.add(new ConcreteKeyValue("F", "DV amount is stated in foreign currency"));
 
         return keyValues;
     }

@@ -16,7 +16,7 @@
 package org.kuali.kfs.pdp;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
+import org.kuali.rice.krad.authorization.AuthorizationConstants.EditMode;
 
 /**
  * Contains general PDP constants.

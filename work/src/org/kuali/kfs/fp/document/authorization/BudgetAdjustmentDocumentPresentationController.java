@@ -25,14 +25,14 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationCo
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Presentation Controller for Budget Adjustment documents
  */
 public class BudgetAdjustmentDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
      */
     @Override
     public boolean canInitiate(String documentTypeName) {
@@ -52,12 +52,12 @@ public class BudgetAdjustmentDocumentPresentationController extends AccountingDo
      */
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
-        final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if (!(document instanceof Correctable)) return false;
         if (!((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) return false;
         if (document.getDocumentHeader().getCorrectedByDocumentId() != null) return false;
-        return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
+        return (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal());
     }
 
 }

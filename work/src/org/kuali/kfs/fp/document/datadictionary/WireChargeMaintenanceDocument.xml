@@ -74,5 +74,5 @@
   <!-- workflow attributes -->
   <bean id="WireChargeMaintenanceDocument-workflowAttributes" parent="WireChargeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="WireChargeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="WireChargeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

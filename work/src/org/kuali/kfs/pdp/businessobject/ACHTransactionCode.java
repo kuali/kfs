@@ -18,8 +18,8 @@ package org.kuali.kfs.pdp.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class ACHTransactionCode extends KualiCodeBase {
     

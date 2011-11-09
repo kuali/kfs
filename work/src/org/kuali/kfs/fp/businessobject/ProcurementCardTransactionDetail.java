@@ -24,9 +24,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 /**
  * This class is used to represent a procurement card transaction detail business object.
@@ -63,12 +63,12 @@ public class ProcurementCardTransactionDetail extends PersistableBusinessObjectB
      * Default constructor.
      */
     public ProcurementCardTransactionDetail() {
-        sourceAccountingLines = new TypedArrayList(ProcurementCardSourceAccountingLine.class);
-        targetAccountingLines = new TypedArrayList(ProcurementCardTargetAccountingLine.class);
+        sourceAccountingLines = new ArrayList<ProcurementCardSourceAccountingLine>();
+        targetAccountingLines = new ArrayList<ProcurementCardTargetAccountingLine>();
     }
 
     /**
-     * @see org.kuali.rice.kns.document.TransactionalDocument#getTargetTotal()
+     * @see org.kuali.rice.krad.document.TransactionalDocument#getTargetTotal()
      */
     public KualiDecimal getTargetTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
@@ -521,9 +521,9 @@ public class ProcurementCardTransactionDetail extends PersistableBusinessObjectB
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.financialDocumentTransactionLineNumber != null) {

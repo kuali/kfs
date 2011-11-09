@@ -20,7 +20,7 @@ import java.util.Locale;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 public class PurApDateFormatUtils {
 
@@ -35,7 +35,7 @@ public class PurApDateFormatUtils {
     }
     
     public static final String getFormattingString(String formatName) {
-        return SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "All", formatName);
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "All", formatName);
     }
     
 }

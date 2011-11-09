@@ -39,7 +39,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -194,7 +194,7 @@ public class PurchaseOrderPdf extends PurapPdf {
 
         this.isRetransmit = isRetransmit;
         String statusInquiryUrl = pdfParameters.getStatusInquiryUrl();
-        String campusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
+        String campusName = pdfParameters.getCampusParameter().getCampus().getName();
         String contractLanguage = pdfParameters.getContractLanguage();
         String logoImage = pdfParameters.getLogoImage();
         String directorSignatureImage = pdfParameters.getDirectorSignatureImage();
@@ -239,7 +239,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         
         this.isRetransmit = isRetransmit;
         String statusInquiryUrl = pdfTransmitParameters.getStatusInquiryUrl();
-        String campusName = pdfTransmitParameters.getCampusParameter().getCampus().getCampusName();
+        String campusName = pdfTransmitParameters.getCampusParameter().getCampus().getName();
         String contractLanguage = pdfTransmitParameters.getContractLanguage();
         String logoImage = pdfTransmitParameters.getLogoImage();
         String directorSignatureImage = pdfTransmitParameters.getDirectorSignatureImage();

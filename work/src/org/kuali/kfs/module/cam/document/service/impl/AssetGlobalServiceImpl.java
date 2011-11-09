@@ -50,11 +50,11 @@ import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants.CAPITAL_ASSETS_BATCH;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AssetGlobalServiceImpl implements AssetGlobalService {
 
@@ -517,7 +517,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
 
-        boolean isDepreciablePayment = ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
+        boolean isDepreciablePayment = ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValueAsString(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
         if (isDepreciablePayment) {
             assetPayment.setPrimaryDepreciationBaseAmount(amountBuckets[assetGlobalDetailsIndex]);
         }
@@ -551,21 +551,21 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      * @return the parameter value for the new acquisition type code
      */
     public String getNewAcquisitionTypeCode() {
-        return getParameterService().getParameterValue(AssetGlobal.class, 
+        return getParameterService().getParameterValueAsString(AssetGlobal.class, 
                 CamsConstants.AssetGlobal.NEW_ACQUISITION_CODE_PARAM); 
     }
     /**
      * @return the parameter value for the capital object acquisition code group
      */
     public String getCapitalObjectAcquisitionCodeGroup() {
-        return getParameterService().getParameterValue(AssetGlobal.class, 
+        return getParameterService().getParameterValueAsString(AssetGlobal.class, 
                 CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACQUISITION_CODE_PARAM);  
     }
     /**
      * @return the parameter value for the not new acquisition code group 
      */
     public String getNonNewAcquisitionCodeGroup() {
-        return getParameterService().getParameterValue(AssetGlobal.class, 
+        return getParameterService().getParameterValueAsString(AssetGlobal.class, 
                 CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM);         
     }
 

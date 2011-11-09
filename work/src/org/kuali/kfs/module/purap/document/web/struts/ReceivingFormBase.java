@@ -24,6 +24,6 @@ public class ReceivingFormBase extends FinancialSystemTransactionalDocumentFormB
     }
     
     public boolean isStateFinal(){        
-        return this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();              
+        return this.getDocument().getDocumentHeader().getWorkflowDocument().isFinal();              
     }
 }

@@ -35,17 +35,17 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.core.proxy.ProxyHelper;
 import org.hibernate.collection.PersistentBag;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectExtension;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.cache.CopiedObject;
-import org.kuali.rice.kns.web.format.CollectionFormatter;
-import org.kuali.rice.kns.web.format.FormatException;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.web.format.CollectionFormatter;
+import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.core.web.format.Formatter;
 
 /**
  * This class contains various Object, Proxy, and serialization utilities.
@@ -329,7 +329,7 @@ public class ObjectUtils {
 	 * @return Formatted property value as String, or empty string if value is null
 	 */
 	public static String getFormattedPropertyValue(BusinessObject businessObject, String propertyName, Formatter formatter) {
-		String propValue = KNSConstants.EMPTY_STRING;
+		String propValue = KRADConstants.EMPTY_STRING;
 
 		Object prop = ObjectUtils.getPropertyValue(businessObject, propertyName);
 		if (formatter == null) {
@@ -369,7 +369,7 @@ public class ObjectUtils {
 	 * @return formatted value as a String
 	 */
 	public static String formatPropertyValue(Object propertyValue) {
-		Object propValue = KNSConstants.EMPTY_STRING;
+		Object propValue = KRADConstants.EMPTY_STRING;
 
 		Formatter formatter = null;
 		if (propertyValue != null) {
@@ -382,7 +382,7 @@ public class ObjectUtils {
 			propValue = formatter != null ? formatter.format(propertyValue) : propertyValue;
 		}
 
-		return propValue != null ? String.valueOf(propValue) : KNSConstants.EMPTY_STRING;
+		return propValue != null ? String.valueOf(propValue) : KRADConstants.EMPTY_STRING;
 	}
     
     /**
@@ -487,7 +487,7 @@ public class ObjectUtils {
 			}
 		}
 
-		Class<? extends Formatter> formatterClass = KNSServiceLocator.getDataDictionaryService().getAttributeFormatter(
+		Class<? extends Formatter> formatterClass = SpringContext.getBean(DataDictionaryService.class).getAttributeFormatter(
 				boClass, boPropertyName);
 		if (formatterClass == null) {
 			try {
@@ -657,8 +657,8 @@ public class ObjectUtils {
      * @return Cleaned string
      */
     public static String clean(String string) {
-        for (int i = 0; i < KNSConstants.QUERY_CHARACTERS.length; i++) {
-            string = StringUtils.replace(string, KNSConstants.QUERY_CHARACTERS[i], KNSConstants.EMPTY_STRING);
+        for (int i = 0; i < KRADConstants.QUERY_CHARACTERS.length; i++) {
+            string = StringUtils.replace(string, KRADConstants.QUERY_CHARACTERS[i], KRADConstants.EMPTY_STRING);
         }
         return string;
     }

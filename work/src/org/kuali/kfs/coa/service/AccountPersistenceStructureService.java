@@ -18,8 +18,8 @@ package org.kuali.kfs.coa.service;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 
 /**
  * Provides facilities to obtain chartofAccountsCode-accountNumber foreign key fields 

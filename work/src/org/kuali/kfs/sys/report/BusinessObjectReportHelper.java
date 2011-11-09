@@ -24,16 +24,16 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.BigDecimalFormatter;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.web.format.Formatter;
-import org.kuali.rice.kns.web.format.IntegerFormatter;
-import org.kuali.rice.kns.web.format.KualiIntegerCurrencyFormatter;
-import org.kuali.rice.kns.web.format.LongFormatter;
-import org.kuali.rice.kns.web.format.PercentageFormatter;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.core.web.format.BigDecimalFormatter;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.core.web.format.IntegerFormatter;
+import org.kuali.rice.core.web.format.KualiIntegerCurrencyFormatter;
+import org.kuali.rice.core.web.format.LongFormatter;
+import org.kuali.rice.core.web.format.PercentageFormatter;
 
 /**
  * Helper class for business objects to assist formatting them for error reporting. Utilizes spring injection for modularization and

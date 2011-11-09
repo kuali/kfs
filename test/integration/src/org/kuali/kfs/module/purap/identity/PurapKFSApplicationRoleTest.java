@@ -21,11 +21,12 @@ import org.kuali.kfs.module.purap.identity.PurapKimAttributes;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.kfs.sys.identity.RoleTestBase;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 @ConfigureContext
 public class PurapKFSApplicationRoleTest extends RoleTestBase {    
@@ -39,8 +40,8 @@ public class PurapKFSApplicationRoleTest extends RoleTestBase {
     public static final String COMMODITY_REVIEWER_ROLE_NAME = "Commodity Reviewer";
     
     public void testCommodityReviewRoleTypeService() {
-        AttributeSet roleQualifiers = new AttributeSet();
-        roleQualifiers.put(KfsKimAttributes.CAMPUS_CODE, COMMODITY_CAMPUS);
+        Map<String,String> roleQualifiers = new HashMap<String,String>();
+        roleQualifiers.put(KimConstants.AttributeConstants.CAMPUS_CODE, COMMODITY_CAMPUS);
         roleQualifiers.put(KfsKimAttributes.PURCHASING_COMMODITY_CODE, COMMODITY_CODE);
         
         assertUserIsRoleMember(getPrincipalIdByName(STRAIGHT_COMMODITY_USER), PURAP_NAMESPACE, COMMODITY_REVIEWER_ROLE_NAME, roleQualifiers);
@@ -48,8 +49,8 @@ public class PurapKFSApplicationRoleTest extends RoleTestBase {
         assertUserIsNotRoleMember(getPrincipalIdByName(BAD_WILDCARD_COMMODITY_USER), PURAP_NAMESPACE, COMMODITY_REVIEWER_ROLE_NAME, roleQualifiers);
     }
     
-    public AttributeSet buildRoleQualificationForSensitiveData(String sensitiveDataCode) {
-        AttributeSet roleQualification = new AttributeSet();
+    public Map<String,String> buildRoleQualificationForSensitiveData(String sensitiveDataCode) {
+        Map<String,String> roleQualification = new HashMap<String,String>();
         roleQualification.put(PurapKimAttributes.SENSITIVE_DATA_CODE, sensitiveDataCode);
         return roleQualification;
     }

@@ -97,7 +97,7 @@
           <property name="objectAttributeName" value="state"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="stateCode" p:targetName="postalStateCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="stateCode" p:targetName="stateCode"/>
             </list>
           </property>
         </bean>

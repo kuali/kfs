@@ -30,14 +30,14 @@ import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.framework.parameter.ParameterService; import org.kuali.rice.core.api.parameter.ParameterEvaluatorService; import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.AcroFields;
@@ -86,29 +86,29 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
 
             // retrieve attachment label
             if (document.isDisbVchrAttachmentCode()) {
-                attachment = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_ATTACHMENT_PARM_NM);
+                attachment = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_ATTACHMENT_PARM_NM);
             }
             // retrieve handling label
             if (document.isDisbVchrSpecialHandlingCode()) {
-                handling = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM);
+                handling = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM);
             }
             // retrieve data for alien payment code
             if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
-                String taxDocumentationLocationCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.TAX_DOCUMENTATION_LOCATION_CODE_PARM_NM);
+                String taxDocumentationLocationCode = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.TAX_DOCUMENTATION_LOCATION_CODE_PARM_NM);
 
                 address = retrieveAddress(taxDocumentationLocationCode);
-                alien = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
-                lines = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
+                alien = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
+                lines = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
             }
             
             // determine if non-employee travel payment reasons
             String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
-            ParameterEvaluator travelNonEmplPaymentReasonEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);
+            ParameterEvaluator travelNonEmplPaymentReasonEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);
             boolean isTravelNonEmplPaymentReason = travelNonEmplPaymentReasonEvaluator.evaluationSucceeds();
 
             if (isTravelNonEmplPaymentReason) {
-                bar = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
-                rlines = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM);
+                bar = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
+                rlines = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM);
             }
 
             try {
@@ -151,9 +151,9 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService#isCoverSheetPrintable(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     public boolean isCoverSheetPrintable(DisbursementVoucherDocument document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
+        return !(workflowDocument.isCanceled() || workflowDocument.isInitiated() || workflowDocument.isDisapproved() || workflowDocument.isException() || workflowDocument.isDisapproved() || workflowDocument.isSaved());
     }
 
     /**
@@ -184,7 +184,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      */
     protected String getValueForKey(KeyValuesFinder keyValuesFinder, String key) {
         for (Iterator i = keyValuesFinder.getKeyValues().iterator(); i.hasNext();) {
-            KeyLabelPair pair = (KeyLabelPair) i.next();
+            KeyValue pair = (KeyValue) i.next();
             if (StringUtils.equals((String) pair.getKey(), key)) {
                 return pair.getLabel();
             }

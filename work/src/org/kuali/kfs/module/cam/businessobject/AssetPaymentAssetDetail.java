@@ -20,10 +20,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiPercent;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiPercent;
+import java.util.ArrayList;
 
 public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
@@ -38,7 +38,7 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private FinancialSystemDocumentHeader documentHeader;
 
     public AssetPaymentAssetDetail() {
-        this.assetPaymentDetails = new TypedArrayList(AssetPaymentDetail.class);
+        this.assetPaymentDetails = new ArrayList<AssetPaymentDetail>();
         this.documentHeader = new FinancialSystemDocumentHeader();
     }
 
@@ -74,7 +74,7 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
         this.asset = asset;
     }
 
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.documentNumber != null) {
             m.put("documentNumber", this.documentNumber.toString());

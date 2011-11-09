@@ -97,7 +97,7 @@ public class UnitDTO implements ContractsAndGrantsUnit, Serializable {
         
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("UnitDTO", this.unitNumber);
         return m;

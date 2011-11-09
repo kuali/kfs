@@ -24,17 +24,17 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.core.api.encryption.EncryptionService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class BatchFileUtils {
     public static List<File> retrieveBatchFileLookupRootDirectories() {
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         List<File> directories = new ArrayList<File>();
-        String configProperty = kualiConfigurationService.getPropertyString(KFSConstants.BATCH_FILE_LOOKUP_ROOT_DIRECTORIES);
+        String configProperty = kualiConfigurationService.getPropertyValueAsString(KFSConstants.BATCH_FILE_LOOKUP_ROOT_DIRECTORIES);
 
         String[] directoryNames = StringUtils.split(configProperty, ";");
         for (String directoryName : directoryNames) {
@@ -104,8 +104,8 @@ public class BatchFileUtils {
                 KeyValuesFinder valuesGenerator = keyValuesFinderClass.newInstance();
                 pathNames = new ArrayList<String>();
 
-                List<KeyLabelPair> keyValues = valuesGenerator.getKeyValues();
-                for (KeyLabelPair keyValue : keyValues) {
+                List<KeyValue> keyValues = valuesGenerator.getKeyValues();
+                for (KeyValue keyValue : keyValues) {
                     pathNames.add(new File(resolvePathToAbsolutePath((String) keyValue.getKey())).getAbsolutePath());
                 }
             }

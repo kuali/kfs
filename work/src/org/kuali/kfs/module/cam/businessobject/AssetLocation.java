@@ -18,13 +18,13 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -289,7 +289,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
      * @return Returns the postalZipCode
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(assetLocationCountryCode, assetLocationZipCode, postalZipCode);
+        postalZipCode = (StringUtils.isBlank(assetLocationCountryCode) || StringUtils.isBlank( assetLocationZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),assetLocationCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), assetLocationZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(assetLocationCountryCode, assetLocationZipCode): postalZipCode;
         return postalZipCode;
     }
 
@@ -341,9 +341,9 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.capitalAssetNumber != null) {
             m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
@@ -353,7 +353,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     }
 
     public Country getAssetLocationCountry() {
-        assetLocationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(assetLocationCountryCode, assetLocationCountry);
+        assetLocationCountry = (assetLocationCountryCode == null)?null:( assetLocationCountry == null || !StringUtils.equals( assetLocationCountry.getCode(),assetLocationCountryCode))?SpringContext.getBean(CountryService.class).getCountry(assetLocationCountryCode): assetLocationCountry;
         return assetLocationCountry;
     }
 
@@ -362,7 +362,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     }
 
     public State getAssetLocationState() {
-        assetLocationState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(assetLocationCountryCode, assetLocationStateCode, assetLocationState);
+        assetLocationState = (StringUtils.isBlank(assetLocationCountryCode) || StringUtils.isBlank( assetLocationStateCode))?null:( assetLocationState == null || !StringUtils.equals( assetLocationState.getCountryCode(),assetLocationCountryCode)|| !StringUtils.equals( assetLocationState.getCode(), assetLocationStateCode))?SpringContext.getBean(StateService.class).getState(assetLocationCountryCode, assetLocationStateCode): assetLocationState;
         return assetLocationState;
     }
 

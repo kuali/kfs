@@ -41,12 +41,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.kfs.sys.identity.KfsKimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import java.util.HashMap;
+import java.util.Map;
 import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * the base struts form for the detail salary setting: by position or by incumbent
@@ -457,14 +458,14 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             account.setChartOfAccountsCode(this.getChartOfAccountsCode());
             account = (Account) businessObjectService.retrieve(account);
 
-            RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
-            AttributeSet qualification = new AttributeSet();
+            RoleService roleService = SpringContext.getBean(RoleService.class);
+            Map<String,String> qualification = new HashMap<String,String>();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, getAccountNumber());
-            qualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+            qualification.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
 
             List<String> roleId = new ArrayList<String>();
-            roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
+            roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
 
             Boolean isFiscalOfficerOrDelegate = roleService.principalHasRole(getPerson().getPrincipalId(), roleId, qualification);
 

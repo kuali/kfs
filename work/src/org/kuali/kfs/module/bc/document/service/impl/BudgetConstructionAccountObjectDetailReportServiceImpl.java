@@ -35,8 +35,8 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationRe
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -46,7 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionAccountObjectDetailReportServiceImpl implements BudgetConstructionAccountObjectDetailReportService {
 
     private BudgetConstructionAccountObjectDetailReportDao budgetConstructionAccountObjectDetailReportDao;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     private BusinessObjectService businessObjectService;
 
@@ -133,7 +133,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         orgAccountObjectDetailReportEntry.setOrgChartOfAccountsCode(accountBalance.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
-            orgAccountObjectDetailReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgAccountObjectDetailReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgAccountObjectDetailReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
@@ -141,7 +141,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
         orgAccountObjectDetailReportEntry.setOrganizationCode(accountBalance.getOrganizationCode());
         if (orgName == null) {
-            orgAccountObjectDetailReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            orgAccountObjectDetailReportEntry.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgAccountObjectDetailReportEntry.setOrganizationName(orgName);
@@ -149,7 +149,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
         orgAccountObjectDetailReportEntry.setChartOfAccountsCode(accountBalance.getChartOfAccountsCode());
         if (chartDesc == null) {
-            orgAccountObjectDetailReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgAccountObjectDetailReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgAccountObjectDetailReportEntry.setChartOfAccountDescription(chartDesc);
@@ -157,7 +157,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
         orgAccountObjectDetailReportEntry.setFundGroupCode(accountBalance.getSubFundGroup().getFundGroupCode());
         if (fundGroupDes == null) {
-            orgAccountObjectDetailReportEntry.setFundGroupName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
+            orgAccountObjectDetailReportEntry.setFundGroupName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
         }
         else {
             orgAccountObjectDetailReportEntry.setFundGroupName(fundGroupDes);
@@ -165,7 +165,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
         orgAccountObjectDetailReportEntry.setSubFundGroupCode(accountBalance.getSubFundGroupCode());
         if (subFundGroupDes == null) {
-            orgAccountObjectDetailReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
+            orgAccountObjectDetailReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
         }
         else {
             orgAccountObjectDetailReportEntry.setSubFundGroupDescription(subFundGroupDes);
@@ -184,7 +184,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         orgAccountObjectDetailReportEntry.setAccountNumber(accountBalance.getAccountNumber());
         String accountName = accountBalance.getAccount().getAccountName();
         if (accountName == null) {
-            orgAccountObjectDetailReportEntry.setAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
+            orgAccountObjectDetailReportEntry.setAccountName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
         }
         else {
             orgAccountObjectDetailReportEntry.setAccountName(accountName);
@@ -208,7 +208,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
                 subAccountNumberAndName = accountBalance.getSubAccount().getSubAccountNumber() + " " + accountBalance.getSubAccount().getSubAccountName();
             }
             catch (PersistenceBrokerException e) {
-                subAccountName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
+                subAccountName = kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
                 subAccountNumberAndName = subAccountName;
             }
         }
@@ -314,10 +314,10 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
                 orgObjectSummaryReportEntry.setGrossPercentChange(BudgetConstructionReportHelper.calculatePercent(grossAmountChange, gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount()));
 
                 if (accountBalance.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
-                    orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_UPPERCASE_REVENUE));
+                    orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_UPPERCASE_REVENUE));
                 }
                 else {
-                    orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE_NET_TRNFR));
+                    orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE_NET_TRNFR));
                 }
 
                 orgObjectSummaryReportEntry.setTypePositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(gexpAndTypeTotal.getTypePositionCsfLeaveFteQuantity(), 2, true));
@@ -835,11 +835,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         return returnList;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    public KualiConfigurationService getKualiConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return kualiConfigurationService;
     }
 

@@ -20,7 +20,7 @@ import org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 /**
  * Yes, we need to test our test utilities since they seem to be misbehaving in some areas.
@@ -33,15 +33,15 @@ public class TestUtilsTest extends KualiTestBase {
     public static final Class TEST_PARAM_COMPONENT = Account.class;
     
     public void testSetSystemParameter1() throws Exception {
-        String dbValue = SpringContext.getBean(ParameterService.class).getParameterValue(TEST_PARAM_COMPONENT, TEST_PARAM_NAME);
+        String dbValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(TEST_PARAM_COMPONENT, TEST_PARAM_NAME);
         assertEquals( "indicator must be true", "Y", dbValue );
         TestUtils.setSystemParameter(TEST_PARAM_COMPONENT, TEST_PARAM_NAME, "N");
-        String cachedValue = SpringContext.getBean(ParameterService.class).getParameterValue(TEST_PARAM_COMPONENT, TEST_PARAM_NAME);
+        String cachedValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(TEST_PARAM_COMPONENT, TEST_PARAM_NAME);
         assertEquals( "indicator must be false when pulled after the set", "N", cachedValue );        
     }
 
     public void testSetSystemParameter2() throws Exception {
-        String dbValue = SpringContext.getBean(ParameterService.class).getParameterValue(TEST_PARAM_COMPONENT, TEST_PARAM_NAME);
+        String dbValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(TEST_PARAM_COMPONENT, TEST_PARAM_NAME);
         assertEquals( "indicator must be true", "Y", dbValue );
     }
     

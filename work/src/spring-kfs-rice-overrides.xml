@@ -71,7 +71,7 @@
 		</property>
     </bean>
 
-    <bean id="persistenceService" class="org.kuali.rice.kns.service.impl.PersistenceServiceOjbImpl">
+    <bean id="persistenceService" class="org.kuali.rice.krad.service.impl.PersistenceServiceOjbImpl">
       <property name="persistenceDao" ref="persistenceDao" />
     </bean>
 
@@ -116,7 +116,7 @@
 		<property name="transactionInterceptor" ref="transactionInterceptor" />
 	</bean>
 
-	<bean id="transactionAdvisorClassFilter" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationFilter">
+	<bean id="transactionAdvisorClassFilter" class="org.kuali.rice.core.impl.util.spring.ClassOrMethodAnnotationFilter">
 		<constructor-arg value="org.springframework.transaction.annotation.Transactional" />
 	</bean>
 
@@ -125,7 +125,7 @@
 		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
 	</bean>
 
-	<bean id="transactionAttributeSource" class="org.kuali.rice.kns.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
+	<bean id="transactionAttributeSource" class="org.kuali.rice.core.impl.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
 		<property name="annotationTransactionAttributeSource" ref="annotationTransactionAttributeSource" />
 		<property name="transactionTimeout" value="${transaction.timeout}" />
 	</bean>
@@ -206,11 +206,11 @@
         </constructor-arg>
     </bean>
 
-	<bean id="methodCachePointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
+	<bean id="methodCachePointcut" class="org.kuali.rice.core.impl.util.spring.ClassOrMethodAnnotationPointcut">
 		<constructor-arg value="org.kuali.rice.kns.util.spring.Cached" />
 	</bean>
 
-    <bean id="methodCacheNoCopyPointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
+    <bean id="methodCacheNoCopyPointcut" class="org.kuali.rice.core.impl.util.spring.ClassOrMethodAnnotationPointcut">
         <constructor-arg value="org.kuali.rice.kns.util.spring.CacheNoCopy" />
 	</bean>
 
@@ -221,7 +221,7 @@
 
 	<bean id="methodLoggingInterceptor" class="org.kuali.rice.kns.util.spring.MethodLoggingInterceptor" />
 
-	<bean id="methodLoggingPointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
+	<bean id="methodLoggingPointcut" class="org.kuali.rice.core.impl.util.spring.ClassOrMethodAnnotationPointcut">
 		<constructor-arg value="org.kuali.rice.kns.util.spring.Logged" />
 	</bean>
 	

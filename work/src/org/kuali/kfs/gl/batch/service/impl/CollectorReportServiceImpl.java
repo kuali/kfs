@@ -45,16 +45,16 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 /**
  * The base implementation of the CollectorReportService
@@ -64,7 +64,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     protected DateTimeService dateTimeService;
     protected ParameterService parameterService;
-    protected KualiConfigurationService configurationService;
+    protected ConfigurationService configurationService;
     protected MailService mailService;
     protected PreScrubberService preScrubberService;
     protected ReportWriterService collectorReportWriterService;
@@ -118,7 +118,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         if (!collectorReportData.getAllUnparsableFileNames().isEmpty()) {
             collectorReportWriterService.writeFormattedMessageLine("The following files could not be parsed:\n\n");
             for (String unparsableFileName : collectorReportData.getAllUnparsableFileNames()) {
-                List<String> batchErrors = translateErrorsFromErrorMap(collectorReportData.getMessageMapForFileName(unparsableFileName));
+                List<String> batchErrors = translateErrorsFromMessageMap(collectorReportData.getMessageMapForFileName(unparsableFileName));
                 collectorReportWriterService.writeFormattedMessageLine("        " + unparsableFileName + "\n");
                 for (String errorMessage : batchErrors) {
                     collectorReportWriterService.writeFormattedMessageLine("        - ERROR MESSAGE: " + errorMessage);
@@ -134,7 +134,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             appendHeaderInformation(buf, batch, collectorReportData);
             appendTotalsInformation(buf, batch);
 
-            List<String> errorMessages = translateErrorsFromErrorMap(batch.getMessageMap());
+            List<String> errorMessages = translateErrorsFromMessageMap(batch.getMessageMap());
 
             aggregateTotalRecordsCountFromTrailer += batch.getTotalRecords();
 
@@ -253,7 +253,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         else {
             Map<String, String> settings = new HashMap<String, String>();
             settings.put(CurrencyFormatter.SHOW_SYMBOL, Boolean.TRUE.toString());
-            org.kuali.rice.kns.web.format.Formatter f = org.kuali.rice.kns.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
+            org.kuali.rice.core.web.format.Formatter f = org.kuali.rice.core.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
             String amountString = (String) f.format(amount);
             appendPaddingString(buf, ' ', amountString.length(), 21);
             buf.append(amountString);
@@ -473,7 +473,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      * @param messageMap a map of messages
      * @return List<String> of error message text
      */
-    protected List<String> translateErrorsFromErrorMap(MessageMap messageMap) {
+    protected List<String> translateErrorsFromMessageMap(MessageMap messageMap) {
         List<String> collectorErrors = new ArrayList<String>();
 
         for (Iterator<String> iter = messageMap.getPropertiesWithErrors().iterator(); iter.hasNext();) {
@@ -481,7 +481,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
             for (Iterator<ErrorMessage> iter2 = messageMap.getMessages(errorKey).iterator(); iter2.hasNext();) {
                 ErrorMessage errorMessage = (ErrorMessage) iter2.next();
-                String messageText = configurationService.getPropertyString(errorMessage.getErrorKey());
+                String messageText = configurationService.getPropertyValueAsString(errorMessage.getErrorKey());
                 collectorErrors.add(MessageFormat.format(messageText, (Object[]) errorMessage.getMessageParameters()));
             }
         }
@@ -500,16 +500,16 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             return;
         }
         MessageMap messageMap = batch.getMessageMap();
-        List<String> errorMessages = translateErrorsFromErrorMap(messageMap);
+        List<String> errorMessages = translateErrorsFromMessageMap(messageMap);
 
         LOG.debug("sendValidationEmail() starting");
         MailMessage message = new MailMessage();
 
         message.setFromAddress(mailService.getBatchMailingList());
 
-        String subject = parameterService.getParameterValue(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
-        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String subject = parameterService.getParameterValueAsString(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
+        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             subject = environmentCode + ": " + subject;
         }
@@ -522,13 +522,13 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         try {
             mailService.sendMessage(message);
 
-            String notificationMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
+            String notificationMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
             String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
         catch (Exception e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
-            String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
+            String errorMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
             String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
@@ -555,9 +555,9 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         message.setFromAddress(mailService.getBatchMailingList());
 
-        String subject = parameterService.getParameterValue(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME);
-        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String subject = parameterService.getParameterValueAsString(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME);
+        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             subject = environmentCode + ": " + subject;
         }
@@ -569,13 +569,13 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         try {
             mailService.sendMessage(message);
 
-            String notificationMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
+            String notificationMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
             String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
         catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
-            String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
+            String errorMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
             String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
@@ -591,9 +591,9 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         message.setFromAddress(mailService.getBatchMailingList());
 
-        String subject = configurationService.getPropertyString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT);
-        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String subject = configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT);
+        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             subject = environmentCode + ": " + subject;
         }
@@ -601,7 +601,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         boolean hasEmailSendErrors = false;
 
-        String body = configurationService.getPropertyString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY);
+        String body = configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY);
         for (String batchId : collectorReportData.getEmailSendingStatus().keySet()) {
             String emailStatus = collectorReportData.getEmailSendingStatus().get(batchId);
             if (StringUtils.containsIgnoreCase(emailStatus, "error")) {
@@ -736,7 +736,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         this.mailService = mailService;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 
@@ -766,7 +766,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         public void formatTo(Formatter formatter, int flags, int width, int precision) {
             Map<String, String> settings = new HashMap<String, String>();
             settings.put(CurrencyFormatter.SHOW_SYMBOL, Boolean.TRUE.toString());
-            org.kuali.rice.kns.web.format.Formatter cf = org.kuali.rice.kns.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
+            org.kuali.rice.core.web.format.Formatter cf = org.kuali.rice.core.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
             formatter.format((String) cf.format(number));
         }
     }

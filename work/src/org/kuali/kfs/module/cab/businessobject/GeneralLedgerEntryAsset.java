@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.AssetType;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -87,7 +87,7 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();

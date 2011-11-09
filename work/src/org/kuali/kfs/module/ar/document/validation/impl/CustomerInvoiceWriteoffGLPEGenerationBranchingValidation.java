@@ -24,7 +24,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 public class CustomerInvoiceWriteoffGLPEGenerationBranchingValidation extends BranchingValidation {
     
@@ -36,7 +36,7 @@ public class CustomerInvoiceWriteoffGLPEGenerationBranchingValidation extends Br
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
         
-        String writeoffGLPEGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+        String writeoffGLPEGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         
         if (ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_CHART.equals( writeoffGLPEGenerationOption ) ){
             return IS_CHART_CODE_WRITEOFF_GLPE_VALIDATION;

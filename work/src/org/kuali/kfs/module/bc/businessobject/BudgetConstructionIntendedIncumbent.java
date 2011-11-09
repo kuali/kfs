@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
 
-public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Incumbent, Inactivateable {
+public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Incumbent, Inactivatable {
 
     private String emplid;
     private String name;
@@ -45,8 +45,8 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     public BudgetConstructionIntendedIncumbent() {
         super();
 
-        budgetConstructionSalarySocialSecurity = new TypedArrayList(BudgetConstructionSalarySocialSecurityNumber.class);
-        pendingBudgetConstructionAppointmentFunding = new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class);
+        budgetConstructionSalarySocialSecurity = new ArrayList<BudgetConstructionSalarySocialSecurityNumber>();
+        pendingBudgetConstructionAppointmentFunding = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
     }
 
     /**
@@ -220,9 +220,9 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    @Override
+    
     public List buildListOfDeletionAwareLists() {
 
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -243,9 +243,9 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    public LinkedHashMap toStringMapper() {
+    public LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, Object> mapper = new LinkedHashMap<String, Object>();
         mapper.put(KFSPropertyConstants.EMPLID, this.getEmplid());
 

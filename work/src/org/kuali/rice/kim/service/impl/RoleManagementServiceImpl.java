@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleManagementService;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleResponsibility;
@@ -38,8 +38,8 @@ import java.util.Map;
 /**
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class RoleManagementServiceImpl implements RoleManagementService {
-    private static final Logger LOG = Logger.getLogger(RoleManagementServiceImpl.class);
+public class RoleServiceImpl implements RoleService {
+    private static final Logger LOG = Logger.getLogger(RoleServiceImpl.class);
 
     private RoleService roleService;
     private RoleUpdateService roleUpdateService;
@@ -313,13 +313,13 @@ public class RoleManagementServiceImpl implements RoleManagementService {
     }
 
     @Override
-    public DelegateType getDelegateTypeInfo(String roleId, String delegationTypeCode) {
-        return getRoleService().getDelegateTypeInfo(roleId, delegationTypeCode);
+    public DelegateType getDelegateTypeContract(String roleId, String delegationTypeCode) {
+        return getRoleService().getDelegateTypeContract(roleId, delegationTypeCode);
     }
 
     @Override
-    public DelegateType getDelegateTypeInfoById(String delegationId) {
-        return getRoleService().getDelegateTypeInfoById(delegationId);
+    public DelegateType getDelegateTypeContractById(String delegationId) {
+        return getRoleService().getDelegateTypeContractById(delegationId);
     }
 
     @Override

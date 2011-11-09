@@ -21,8 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class SensitiveDataAssignment extends PersistableBusinessObjectBase {
 
@@ -93,7 +93,7 @@ public class SensitiveDataAssignment extends PersistableBusinessObjectBase {
         this.sensitiveDataAssignmentReasonText = sensitiveDataAssignmentReasonText;
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("sensitiveDataAssignmentIdentifier", this.sensitiveDataAssignmentIdentifier);
         return m;

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class KualiHeartbeatServlet extends HttpServlet {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiHeartbeatServlet.class);

@@ -25,9 +25,9 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 public class SecUtil {
@@ -59,7 +59,7 @@ public class SecUtil {
         boolean canView = true;
 
         // If the module has not been loaded, then just skip any further checks as the services will not be defined
-        if ( SpringContext.getBean(KualiConfigurationService.class).getPropertyAsBoolean(SecConstants.ACCESS_SECURITY_MODULE_ENABLED_PROPERTY_NAME) ) {   
+        if ( SpringContext.getBean(ConfigurationService.class).getPropertyAsBoolean(SecConstants.ACCESS_SECURITY_MODULE_ENABLED_PROPERTY_NAME) ) {   
             if (document instanceof AccountingDocument) {
                 AccountingLine line = new SourceAccountingLine();
     

@@ -33,15 +33,16 @@ import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.util.KimCommonUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Business rules applicable to AssetLocationGlobal documents.
@@ -97,9 +98,9 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         }
         success &= super.processCustomRouteDocumentBusinessRules(documentCopy);
 
-        KualiWorkflowDocument workflowDoc = documentCopy.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDoc = documentCopy.getDocumentHeader().getWorkflowDocument();
         // adding asset locks
-        if (!GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
+        if (!GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.isInitiated() || workflowDoc.isSaved())) {
             success &= setAssetLocks(documentCopy);
         }
 
@@ -143,7 +144,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
      * Process rules for any new {@link AssetLocationGlobalDetail} that is added to this global.
      * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument documentCopy, String collectionName, PersistableBusinessObject bo) {
@@ -184,10 +185,10 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             assetLocationGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetLocationGlobalDetail.ASSET);
             assetLocationGlobalDetail.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
 
-            AttributeSet qualification = new AttributeSet();
+            Map<String,String> qualification = new HashMap<String,String>();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ORGANIZATION_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerAccount().getOrganizationCode());
-            AttributeSet permissionDetails = new AttributeSet();
+            Map<String,String> permissionDetails = new HashMap<String,String>();
             permissionDetails.putAll(KimCommonUtils.getNamespaceAndComponentSimpleName(Asset.class));
             if (!SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, permissionDetails, qualification)) {
                 success &= false;

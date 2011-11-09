@@ -24,8 +24,8 @@ import org.kuali.kfs.sys.document.web.AccountingLineViewColumns;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.document.web.AccountingLineViewLineFillingElement;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 
 /**
  * 
@@ -61,7 +61,7 @@ public class AccountingLineViewColumnsDefinition extends DataDictionaryDefinitio
 
     /**
      * 
-     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.krad.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if (StringUtils.isBlank(name)) {

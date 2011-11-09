@@ -25,20 +25,20 @@ import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sec.businessobject.ModelMember;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Group;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kim.util.KIMPropertyConstants;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.kns.web.ui.Row;
 
 
@@ -75,12 +75,12 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
                 }
             }
             
-            List<KimRoleInfo> resultRoles = roleService.lookupRoles(searchValues);
-            for (KimRoleInfo kimRoleInfo : resultRoles) {
+            List<Role> resultRoles = roleService.lookupRoles(searchValues);
+            for (Role kimRoleInfo : resultRoles) {
                 ModelMember member = new ModelMember();
-                member.setMemberId(kimRoleInfo.getRoleId());
+                member.setMemberId(kimRoleInfo.getId());
                 member.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
-                member.setMemberName(kimRoleInfo.getNamespaceCode() + "-" + kimRoleInfo.getRoleName());
+                member.setMemberName(kimRoleInfo.getNamespaceCode() + "-" + kimRoleInfo.getName());
                 member.setActive(kimRoleInfo.isActive());
 
                 results.add(member);
@@ -171,7 +171,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
         }
 
         if (numCols == 0)
-            numCols = KNSConstants.DEFAULT_NUM_OF_COLUMNS;
+            numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS;
 
         rows = FieldUtils.wrapFields(fields, numCols);
     }
@@ -197,8 +197,8 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
         lookupFields.add(KIMPropertyConstants.Role.ROLE_ID);
         lookupFields.add(KIMPropertyConstants.Role.ROLE_NAME);
-        lookupFields.add(KimConstants.UniqueKeyConstants.NAMESPACE_CODE);
-        lookupFields.add(KNSPropertyConstants.ACTIVE);
+        lookupFields.add(KimApiConstants.UniqueKeyConstants.NAMESPACE_CODE);
+        lookupFields.add(KRADPropertyConstants.ACTIVE);
         lookupFields.add(SecPropertyConstants.MEMBER_TYPE_CODE);
 
         return lookupFields;
@@ -213,8 +213,8 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
         List<String> lookupFields = new ArrayList<String>();
 
         lookupFields.add(KIMPropertyConstants.Group.GROUP_ID);
-        lookupFields.add(KimConstants.UniqueKeyConstants.GROUP_NAME);
-        lookupFields.add(KNSPropertyConstants.ACTIVE);
+        lookupFields.add(KimApiConstants.UniqueKeyConstants.GROUP_NAME);
+        lookupFields.add(KRADPropertyConstants.ACTIVE);
         lookupFields.add(SecPropertyConstants.MEMBER_TYPE_CODE);
 
         return lookupFields;
@@ -236,7 +236,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
         lookupFields.add(KIMPropertyConstants.Person.LAST_NAME);
         lookupFields.add(KIMPropertyConstants.Person.EMAIL_ADDRESS);
         lookupFields.add(KIMPropertyConstants.Person.EMPLOYEE_ID);
-        lookupFields.add(KNSPropertyConstants.ACTIVE);
+        lookupFields.add(KRADPropertyConstants.ACTIVE);
         lookupFields.add(SecPropertyConstants.MEMBER_TYPE_CODE);
 
         return lookupFields;

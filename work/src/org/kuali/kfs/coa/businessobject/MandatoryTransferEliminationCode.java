@@ -16,13 +16,13 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * Mandatory Transfer Elimination Code Business Object
  */
-public class MandatoryTransferEliminationCode extends KualiCodeBase implements Inactivateable {
+public class MandatoryTransferEliminationCode extends KualiCodeBase implements Inactivatable {
 
     private static final long serialVersionUID = -4739034767927632704L;
 

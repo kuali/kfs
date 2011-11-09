@@ -18,7 +18,7 @@ package org.kuali.rice.core.impl.parameter;
 import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -58,7 +58,7 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
 	/**
 	 * This method uses the evaluationSucceeds method to evaluate the
 	 * constrainedValue. If evaluation does not succeed, it adds an error to
-	 * GlobalVariables.getErrorMap(). The businessObjectOrDocumentClass,
+	 * GlobalVariables.getMessageMap(). The businessObjectOrDocumentClass,
 	 * nameOfConstrainedProperty and userEditablePropertyName are used to
 	 * retrieve the appropriate labels from the DataDictionary.
 	 * 

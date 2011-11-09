@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 import java.sql.Date;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 
 
 /**

@@ -24,15 +24,16 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Individuals who are assigned to manage a particular set of Contracts with Vendors, who must therefore look at associated Purchase
@@ -40,7 +41,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * 
  * @see org.kuali.kfs.vnd.businessobject.VendorContract
  */
-public class ContractManager extends PersistableBusinessObjectBase implements Inactivateable{
+public class ContractManager extends PersistableBusinessObjectBase implements Inactivatable{
 
     private Integer contractManagerCode;
     private String contractManagerName;
@@ -102,16 +103,16 @@ public class ContractManager extends PersistableBusinessObjectBase implements In
      */
     public String getContractManagerUserIdentifier() {
         String contractManagerId = null;
-        AttributeSet qualification = new AttributeSet();
+        Map<String,String> qualification = new HashMap<String,String>();
         
-        RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
+        RoleService roleService = SpringContext.getBean(RoleService.class);
         String roleId = roleService.getRoleIdByName(KfsParameterConstants.PURCHASING_NAMESPACE, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
 //        String roleId = roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.PURCHASING, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
         
         qualification.put(KfsKimAttributes.CONTRACT_MANAGER_CODE, String.valueOf(contractManagerCode));
-        Collection<RoleMembershipInfo> roleMemberships = roleService.getRoleMembers(Collections.singletonList(roleId), qualification);
+        Collection<RoleMembership> roleMemberships = roleService.getRoleMembers(Collections.singletonList(roleId), qualification);
 
-        for (RoleMembershipInfo membership : roleMemberships) {
+        for (RoleMembership membership : roleMemberships) {
             contractManagerId = membership.getMemberId();
             break;
         }
@@ -128,10 +129,10 @@ public class ContractManager extends PersistableBusinessObjectBase implements In
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.contractManagerCode != null) {
             m.put("contractManagerCode", this.contractManagerCode.toString());

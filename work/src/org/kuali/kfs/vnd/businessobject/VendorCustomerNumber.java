@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Customer numbers that may have been assigned by the Vendor to various <code>Chart</code> and/or <code>Org</code>.
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * @see org.kuali.kfs.coa.businessobject.Chart
  * @see org.kuali.kfs.coa.businessobject.Org
  */
-public class VendorCustomerNumber extends PersistableBusinessObjectBase implements Inactivateable {
+public class VendorCustomerNumber extends PersistableBusinessObjectBase implements Inactivatable {
 
     private Integer vendorCustomerNumberGeneratedIdentifier;
     private Integer vendorHeaderGeneratedIdentifier;
@@ -159,9 +159,9 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.vendorCustomerNumberGeneratedIdentifier != null) {
             m.put("vendorCustomerNumberGeneratedIdentifier", this.vendorCustomerNumberGeneratedIdentifier.toString());

@@ -25,8 +25,8 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class PurchaseOrderAmendmentContainsAtLeastOneActiveItemValidation extends GenericValidation {
@@ -45,7 +45,7 @@ public class PurchaseOrderAmendmentContainsAtLeastOneActiveItemValidation extend
                 return true;
             }
         }
-        String documentType = getDocumentTypeLabel(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        String documentType = getDocumentTypeLabel(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
         GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
 
         return false;
@@ -53,7 +53,7 @@ public class PurchaseOrderAmendmentContainsAtLeastOneActiveItemValidation extend
 
     protected String getDocumentTypeLabel(String documentTypeName) {
         try {
-            return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(documentTypeName).getDocTypeLabel();
+            return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(documentTypeName).getLabel();
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);

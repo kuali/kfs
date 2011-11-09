@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list containg O = Open or C = Closed
@@ -31,23 +31,23 @@ public class FiscalPeriodValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
-        keyValues.add(new KeyLabelPair("01", "01"));
-        keyValues.add(new KeyLabelPair("02", "02"));
-        keyValues.add(new KeyLabelPair("03", "03"));
-        keyValues.add(new KeyLabelPair("04", "04"));
-        keyValues.add(new KeyLabelPair("05", "05"));
-        keyValues.add(new KeyLabelPair("06", "06"));
-        keyValues.add(new KeyLabelPair("07", "07"));
-        keyValues.add(new KeyLabelPair("08", "08"));
-        keyValues.add(new KeyLabelPair("09", "09"));
-        keyValues.add(new KeyLabelPair("10", "10"));
-        keyValues.add(new KeyLabelPair("11", "11"));
-        keyValues.add(new KeyLabelPair("12", "12"));
-        keyValues.add(new KeyLabelPair("13", "13"));
-        keyValues.add(new KeyLabelPair("AB", "Annual Bal"));
-        keyValues.add(new KeyLabelPair("BB", "Beginning Bal"));
-        keyValues.add(new KeyLabelPair("CB", "CG Beginning Bal"));
+        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue("01", "01"));
+        keyValues.add(new ConcreteKeyValue("02", "02"));
+        keyValues.add(new ConcreteKeyValue("03", "03"));
+        keyValues.add(new ConcreteKeyValue("04", "04"));
+        keyValues.add(new ConcreteKeyValue("05", "05"));
+        keyValues.add(new ConcreteKeyValue("06", "06"));
+        keyValues.add(new ConcreteKeyValue("07", "07"));
+        keyValues.add(new ConcreteKeyValue("08", "08"));
+        keyValues.add(new ConcreteKeyValue("09", "09"));
+        keyValues.add(new ConcreteKeyValue("10", "10"));
+        keyValues.add(new ConcreteKeyValue("11", "11"));
+        keyValues.add(new ConcreteKeyValue("12", "12"));
+        keyValues.add(new ConcreteKeyValue("13", "13"));
+        keyValues.add(new ConcreteKeyValue("AB", "Annual Bal"));
+        keyValues.add(new ConcreteKeyValue("BB", "Beginning Bal"));
+        keyValues.add(new ConcreteKeyValue("CB", "CG Beginning Bal"));
         return keyValues;
     }
 

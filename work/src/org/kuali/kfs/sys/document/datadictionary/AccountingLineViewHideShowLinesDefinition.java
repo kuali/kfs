@@ -22,8 +22,8 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewLineFillingElement;
 import org.kuali.kfs.sys.document.web.HideShowLayoutElement;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 
 /**
  * Defines a set of lines of are displayed within a hide/show block
@@ -35,7 +35,7 @@ public class AccountingLineViewHideShowLinesDefinition extends DataDictionaryDef
 
     /**
      * Validates that name has been set and that at least one line element has been specified
-     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.krad.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if (StringUtils.isBlank(name)) {

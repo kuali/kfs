@@ -51,25 +51,25 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
 
-    private PersonService<Person> personService;
+    private PersonService personService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ReceivableAccountingLineService receivableAccountingLineService;
@@ -562,7 +562,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         }
 
         // If document is using receivable option, set receivable accounting line for customer invoice document
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
         if (isUsingReceivableFAU) {
             receivableAccountingLineService.setReceivableAccountingLineForCustomerInvoiceDocument(document);
@@ -820,7 +820,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if (personService == null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
@@ -849,7 +849,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
                 catch (WorkflowException e) {
                     success &= false;
                 }
-                if (ObjectUtils.isNull(doc) || ObjectUtils.isNull(doc.getDocumentHeader()) || doc.getDocumentHeader().getWorkflowDocument() == null || !(doc.getDocumentHeader().getWorkflowDocument().stateIsApproved() || doc.getDocumentHeader().getWorkflowDocument().stateIsProcessed())) {
+                if (ObjectUtils.isNull(doc) || ObjectUtils.isNull(doc.getDocumentHeader()) || doc.getDocumentHeader().getWorkflowDocument() == null || !(doc.getDocumentHeader().getWorkflowDocument().isApproved() || doc.getDocumentHeader().getWorkflowDocument().isProcessed())) {
                     success &= false;
                 }
             }

@@ -31,8 +31,8 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSynchroniza
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionSynchronizationProblemsReportService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,7 +43,7 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
 
     BudgetConstructionSynchronizationProblemsReportDao budgetConstructionSynchronizationProblemsReportDao;
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    KualiConfigurationService kualiConfigurationService;
+    ConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
 
@@ -90,13 +90,13 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
         orgSynchronizationProblemsReportEntry.setChartOfAccountsCode(positionFunding.getSelectedOrganizationChartOfAccountsCode());
         orgSynchronizationProblemsReportEntry.setOrganizationCode(positionFunding.getSelectedOrganizationCode());
         if (chartDesc == null) {
-            orgSynchronizationProblemsReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgSynchronizationProblemsReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgSynchronizationProblemsReportEntry.setChartOfAccountDescription(chartDesc);
         }
         if (orgName == null) {
-            orgSynchronizationProblemsReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            orgSynchronizationProblemsReportEntry.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgSynchronizationProblemsReportEntry.setOrganizationName(orgName);
@@ -184,7 +184,7 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
         this.businessObjectService = businessObjectService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

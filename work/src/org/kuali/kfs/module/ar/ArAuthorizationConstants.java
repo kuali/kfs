@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ar;
 
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.krad.authorization.AuthorizationConstants;
 
 public class ArAuthorizationConstants extends JSTLConstants {
 

@@ -19,10 +19,10 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class PaymentApplicationIsFullBalanceAppliedValidation extends GenericValidation {
 
@@ -42,7 +42,7 @@ public class PaymentApplicationIsFullBalanceAppliedValidation extends GenericVal
             if (!KualiDecimal.ZERO.equals(balanceToBeApplied)) {
                 isValid &= false;
                 errorMap.putError(
-                    KNSConstants.GLOBAL_ERRORS,
+                    KRADConstants.GLOBAL_ERRORS,
                     ArKeyConstants.PaymentApplicationDocumentErrors.FULL_AMOUNT_NOT_APPLIED);
             }
         }

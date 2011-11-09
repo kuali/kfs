@@ -19,10 +19,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 /**
@@ -51,7 +51,7 @@ public interface AssetService {
      * @param workflowDocument
      * @return List
      */
-    public List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument);
+    public List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument);
 
     boolean isAssetMovableCheckByAsset(Asset asset);
 

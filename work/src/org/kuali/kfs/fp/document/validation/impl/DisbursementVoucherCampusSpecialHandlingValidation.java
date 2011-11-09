@@ -24,13 +24,13 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validates that if a disbursement voucher had special handling turned off at the campus node, an extra note explaining that change has been added.
@@ -38,7 +38,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericValidation {
     private DisbursementVoucherDocument disbursementVoucherDocumentForValidation;
     private DocumentService documentService;
-    private WorkflowInfo workflowInfo;
+    
     
     public static final String DOCUMENT_EDITOR_ROLE_NAME = "Document Editor";
 
@@ -101,9 +101,9 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
     protected boolean isNoteAdded() {
        boolean foundNoteByCurrentApprover = false;
        int count = 0;
-       final int noteCount = getDisbursementVoucherDocumentForValidation().getDocumentHeader().getBoNotes().size();
+       final int noteCount = getDisbursementVoucherDocumentForValidation().getDocumentHeader().getNotes().size();
        while (!foundNoteByCurrentApprover && count < noteCount) {
-           foundNoteByCurrentApprover |= noteAddedByApproverForCurrentNode(getDisbursementVoucherDocumentForValidation().getDocumentHeader().getBoNote(count));
+           foundNoteByCurrentApprover |= noteAddedByApproverForCurrentNode(getDisbursementVoucherDocumentForValidation().getDocumentHeader().getNote(count));
            count += 1;
        }
        return foundNoteByCurrentApprover;
@@ -115,9 +115,9 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @return true if the note was added by the current approver, false otherwise
      */
     protected boolean noteAddedByApproverForCurrentNode(Note note) {
-        ActionRequestDTO[] actionRequests = null;
+        ActionRequest[] actionRequests = null;
         try {
-            actionRequests = getWorkflowInfo().getActionRequests(new Long(getDisbursementVoucherDocumentForValidation().getDocumentNumber()), getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), note.getAuthorUniversalIdentifier());
+            actionRequests = SpringContext.getBean(WorkflowDocumentService.class).getActionRequests(new Long(getDisbursementVoucherDocumentForValidation().getDocumentNumber()), getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), note.getAuthorUniversalIdentifier());
         }
         catch (NumberFormatException nfe) {
             throw new RuntimeException("Could not convert Disbursement Voucher document number "+getDisbursementVoucherDocumentForValidation().getDocumentNumber()+" to long", nfe);
@@ -134,7 +134,7 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @return the count of notes on the document
      */
     protected int getNoteCount(DisbursementVoucherDocument dvDoc) {
-        return dvDoc.getDocumentHeader().getBoNotes().size();
+        return dvDoc.getDocumentHeader().getNotes().size();
     }
 
     /**
@@ -159,7 +159,7 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      */
     public WorkflowInfo getWorkflowInfo() {
         if (workflowInfo == null) {
-            workflowInfo = new WorkflowInfo();
+//            workflowInfo = new WorkflowInfo();
         }
         return workflowInfo;
     }

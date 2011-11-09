@@ -20,10 +20,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.docType.DocumentType;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
@@ -58,7 +58,7 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
         try {
             if (!workflowInfo.isCurrentActiveDocumentType(documentTypeCode)) return false;
 
-            final DocumentTypeDTO documentType = workflowInfo.getDocType(documentTypeCode);
+            final DocumentType documentType = workflowInfo.getDocType(documentTypeCode);
             if (StringUtils.isBlank(documentType.getDocTypeParentName())) return false;
             return isActiveCurrentChildDocumentType(documentType.getDocTypeParentName(), parentDocumentTypeCode, workflowInfo);
         } catch (WorkflowException we) {

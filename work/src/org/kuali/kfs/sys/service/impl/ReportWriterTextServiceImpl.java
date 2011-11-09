@@ -32,9 +32,9 @@ import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Text output implementation of <code>ReportWriterService</code> interface. If you are a developer attempting to add a new business
@@ -443,7 +443,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableHeader(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableHeader(org.kuali.rice.krad.bo.BusinessObject)
      */
     public void writeTableHeader(BusinessObject businessObject) {
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
@@ -470,7 +470,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
     
     /**
-     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRow(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRow(org.kuali.rice.krad.bo.BusinessObject)
      */
     public void writeTableRowSeparationLine(BusinessObject businessObject) {
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
@@ -481,7 +481,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRow(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRow(org.kuali.rice.krad.bo.BusinessObject)
      */
     public void writeTableRow(BusinessObject businessObject) {
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
@@ -495,7 +495,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
     
     /**
-     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRowWithColspan(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRowWithColspan(org.kuali.rice.krad.bo.BusinessObject)
      */
     public void writeTableRowWithColspan(BusinessObject businessObject) {
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);

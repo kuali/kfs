@@ -21,8 +21,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.bo.impl.KimAttributes; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * DocumentAuthorizer containing authorization code for CashManagement documents
@@ -31,13 +31,13 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
     protected static Log LOG = LogFactory.getLog(CashManagementDocumentAuthorizer.class);
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizerBase#addRoleQualification(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.Map)
      */
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
         CashManagementDocument cashManagementDocument = (CashManagementDocument) businessObject;
-        attributes.put(KimAttributes.CAMPUS_CODE, cashManagementDocument.getCampusCode());
+        attributes.put(KimConstants.AttributeConstants.CAMPUS_CODE, cashManagementDocument.getCampusCode());
 
         super.addRoleQualification(businessObject, attributes);
     }

@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.batch;
 
 import java.util.Date;
 
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 

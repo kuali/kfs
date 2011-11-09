@@ -85,13 +85,13 @@
   </bean>
 
   <bean id="AccountDescription-campusCode" parent="AccountDescription-campusCode-parentBean"/>
-  <bean id="AccountDescription-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Campus" p:sourceAttributeName="campusCode">
+  <bean id="AccountDescription-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Campus" p:sourceAttributeName="campusCode">
     <property name="name" value="campusCode"/>
     <property name="label" value="Building Campus Code"/>
     <property name="shortLabel" value="BldgCmpCd"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   

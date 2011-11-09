@@ -29,13 +29,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -183,8 +183,8 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      */
     @Transactional
     public void updateDelegationRole() {
-        final RoleManagementService roleManagementService = SpringContext.getBean(RoleManagementService.class);
-        final String roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
+        final RoleService roleManagementService = SpringContext.getBean(RoleService.class);
+        final String roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
         if (!StringUtils.isBlank(roleId)) {
             roleManagementService.applicationRoleMembershipChanged(roleId);
         }

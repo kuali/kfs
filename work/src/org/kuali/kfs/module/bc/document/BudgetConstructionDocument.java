@@ -37,11 +37,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import java.util.ArrayList;
 
 public class BudgetConstructionDocument extends FinancialSystemTransactionalDocumentBase {
 
@@ -98,8 +98,8 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
         super();
         // setPendingBudgetConstructionGeneralLedgerExpenditureLines(new ArrayList());
         // setPendingBudgetConstructionGeneralLedgerRevenueLines(new ArrayList());
-        setPendingBudgetConstructionGeneralLedgerExpenditureLines(new TypedArrayList(PendingBudgetConstructionGeneralLedger.class));
-        setPendingBudgetConstructionGeneralLedgerRevenueLines(new TypedArrayList(PendingBudgetConstructionGeneralLedger.class));
+        setPendingBudgetConstructionGeneralLedgerExpenditureLines(new ArrayList<PendingBudgetConstructionGeneralLedger>());
+        setPendingBudgetConstructionGeneralLedgerRevenueLines(new ArrayList<PendingBudgetConstructionGeneralLedger>());
         zeroTotals();
     }
 
@@ -416,7 +416,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
     public Person getBudgetLockUser() {
-        budgetLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetLockUserIdentifier, budgetLockUser);
+        budgetLockUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(budgetLockUserIdentifier, budgetLockUser);
         return budgetLockUser;
     }
 
@@ -431,7 +431,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
     public Person getBudgetTransactionLockUser() {
-        budgetTransactionLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
+        budgetTransactionLockUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
         return budgetTransactionLockUser;
     }
 
@@ -523,9 +523,9 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.document.DocumentBase#buildListOfDeletionAwareLists()
      */
-    @Override
+    
     public List buildListOfDeletionAwareLists() {
         // return new ArrayList();
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -820,15 +820,15 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * to trace who has modified the document we override the routine below from Document we record the processed document state. a
      * budget construction document will never be "cancelled" or "disapproved"
      * 
-     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.Document#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+        if (getDocumentHeader().getWorkflowDocument().isEnroute()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
         /* the status below is comparable to "approved" status for other documents */
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             getDocumentHeader().setFinancialDocumentStatusCode(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
         }
         LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
@@ -836,9 +836,9 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.universityFiscalYear != null) {

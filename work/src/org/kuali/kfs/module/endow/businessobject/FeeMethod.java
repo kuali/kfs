@@ -25,9 +25,9 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 /**
  * Business Object for Fee Method.
@@ -76,11 +76,11 @@ public class FeeMethod extends KualiCodeBase {
      */
     public FeeMethod() {
         super();
-        feeClassCodes = new TypedArrayList(FeeClassCode.class);
-        feeSecurity = new TypedArrayList(FeeSecurity.class);
-        feePaymentTypes = new TypedArrayList(FeePaymentType.class);
-        feeTransactions = new TypedArrayList(FeeTransaction.class);
-        feeEndowmentTransactionCodes = new TypedArrayList(FeeEndowmentTransactionCode.class);
+        feeClassCodes = new ArrayList<FeeClassCode>();
+        feeSecurity = new ArrayList<FeeSecurity>();
+        feePaymentTypes = new ArrayList<FeePaymentType>();
+        feeTransactions = new ArrayList<FeeTransaction>();
+        feeEndowmentTransactionCodes = new ArrayList<FeeEndowmentTransactionCode>();
     }
 
     /**
@@ -676,10 +676,10 @@ public class FeeMethod extends KualiCodeBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.FEE_METHOD, this.code);
         return m;

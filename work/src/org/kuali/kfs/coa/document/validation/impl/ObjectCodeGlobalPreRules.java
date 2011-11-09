@@ -44,7 +44,7 @@ public class ObjectCodeGlobalPreRules extends MaintenancePreRulesBase {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("setting fiscal year on ObjectCodeGlobalDetail: " + detail);
                 }
-                detail.setUniversityFiscalYear(new Integer(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getCollectionFieldDefaultValue(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(), "objectCodeGlobalDetails", "universityFiscalYear")));
+                detail.setUniversityFiscalYear(new Integer(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getCollectionFieldDefaultValue(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), "objectCodeGlobalDetails", "universityFiscalYear")));
             }
         }
 

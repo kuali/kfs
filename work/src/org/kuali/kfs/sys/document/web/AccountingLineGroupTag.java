@@ -34,11 +34,11 @@ import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Tag that is responsible for rendering an accounting line group
@@ -151,7 +151,7 @@ public class AccountingLineGroupTag extends TagSupport {
     public int doStartTag() throws JspException {
         super.doStartTag();
         final List<RenderableAccountingLineContainer> containers = generateContainersForAllLines();
-        group = groupDefinition.createAccountingLineGroup(getDocument(), containers, collectionPropertyName, collectionItemPropertyName, getForm().getDisplayedErrors(), getForm().getDisplayedWarnings(), getForm().getDisplayedInfo(), getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT));
+        group = groupDefinition.createAccountingLineGroup(getDocument(), containers, collectionPropertyName, collectionItemPropertyName, getForm().getDisplayedErrors(), getForm().getDisplayedWarnings(), getForm().getDisplayedInfo(), getForm().getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT));
         group.updateDeletabilityOfAllLines();
         if (getParent() instanceof AccountingLinesTag) {
             ((AccountingLinesTag)getParent()).addGroupToRender(group);
@@ -274,12 +274,12 @@ public class AccountingLineGroupTag extends TagSupport {
         for (AccountingLine accountingLine : lines) {
             final RenderableAccountingLineContainer container = buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count), (addedTopLine ? false : true));
             containers.add(container);
-            anyEditableLines = anyEditableLines || container.isEditableLine() || isErrorMapContainingErrorsOnLine(container.getAccountingLinePropertyPath());
+            anyEditableLines = anyEditableLines || container.isEditableLine() || isMessageMapContainingErrorsOnLine(container.getAccountingLinePropertyPath());
             count += 1;
             addedTopLine = true;
         }
         // add the new line
-        if (StringUtils.isNotBlank(newLinePropertyName) && ((getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName)) || anyEditableLines)) {
+        if (StringUtils.isNotBlank(newLinePropertyName) && ((getForm().getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName)) || anyEditableLines)) {
             containers.add(0, buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null, true));
         }
         
@@ -291,7 +291,7 @@ public class AccountingLineGroupTag extends TagSupport {
      * @param accountingLinePropertyName the property name of the accounting line
      * @return true if there are errors on the line, false otherwise
      */
-    protected boolean isErrorMapContainingErrorsOnLine(String accountingLinePropertyName) {
+    protected boolean isMessageMapContainingErrorsOnLine(String accountingLinePropertyName) {
         for (Object errorKeyAsObject : GlobalVariables.getMessageMap().keySet()) {
             if (((String)errorKeyAsObject).startsWith(accountingLinePropertyName)) return true;
         }
@@ -312,7 +312,7 @@ public class AccountingLineGroupTag extends TagSupport {
         final boolean newLine = (count == null);
         final List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine, topLine, accountingLinePropertyName);
 
-        final boolean pageIsEditable = getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        final boolean pageIsEditable = getForm().getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);
         return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, count, groupDefinition.getGroupLabel(), getErrors(), groupDefinition.getAccountingLineAuthorizer(), groupDefinition.getAccountingLineAuthorizer().hasEditPermissionOnAccountingLine(getDocument(), accountingLine, collectionPropertyName, currentUser, pageIsEditable));
     }
 

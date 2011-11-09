@@ -21,13 +21,13 @@ import java.util.List;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 public class PurapFiscalYearWithBlankValuesFinder extends PurapFiscalYearValuesFinder {
 
     public List getKeyValues() {       
-        KeyLabelPair blankPair = new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);        
+        KeyValue blankPair = new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);        
         List keyValuePairs = super.getKeyValues();
         keyValuePairs.add(blankPair);
         return keyValuePairs;

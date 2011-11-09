@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class PurchaseOrderSensitiveData extends PersistableBusinessObjectBase {
 
@@ -70,7 +70,7 @@ public class PurchaseOrderSensitiveData extends PersistableBusinessObjectBase {
         this.sensitiveData = sensitiveData;
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("purapDocumentIdentifier", this.purapDocumentIdentifier);
         return m;

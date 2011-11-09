@@ -27,10 +27,10 @@ import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CustomerInvoiceDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
@@ -39,14 +39,14 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
         Set<String> editModes = super.getEditModes(document);
         
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
-        String receivableOffsetOption = paramService.getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetOption = paramService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
 
         if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals( receivableOffsetOption ) ){
             editModes.add(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.SHOW_RECEIVABLE_FAU);
         }
 
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal())) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal())) {
             editModes.add(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON);
         }        
         else {
@@ -55,7 +55,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
             }
         }
         
-        if (ObjectUtils.isNotNull(workflowDocument) && workflowDocument.stateIsEnroute()) {
+        if (ObjectUtils.isNotNull(workflowDocument) && workflowDocument.isEnroute()) {
             editModes.add(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_DESCRIPTION);
         }
         
@@ -68,8 +68,8 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
         CustomerInvoiceDocument ciDoc = (CustomerInvoiceDocument)document;
 
         // Confirm doc is in a saved and copyable state.
-        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().stateIsInitiated(); 
-        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled();
+        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().isInitiated(); 
+        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().isCanceled();
         
         // Confirm doc is reversible.
         copyable &= !((CustomerInvoiceDocument)document).isInvoiceReversal();
@@ -94,7 +94,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
     
     //  if this isnt self-explanatory, I dont know what is
     protected boolean isDocFinalWithNoAppliedAmountsExceptDiscounts(CustomerInvoiceDocument document) {
-        boolean isFinal = document.getDocumentHeader().getWorkflowDocument().stateIsFinal();
+        boolean isFinal = document.getDocumentHeader().getWorkflowDocument().isFinal();
         
         InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);
         boolean hasAppliedAmountsExcludingDiscounts = paidAppliedService.doesInvoiceHaveAppliedAmounts(document);

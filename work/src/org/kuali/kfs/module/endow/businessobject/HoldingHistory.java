@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 public class HoldingHistory extends HoldingTaxLot {
 
@@ -37,8 +37,8 @@ public class HoldingHistory extends HoldingTaxLot {
     /**
      * @see org.kuali.kfs.module.endow.businessobject.HoldingTaxLot#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m = super.toStringMapper();
         m.put(EndowPropertyConstants.HOLDING_HISTORY_MONTH_END_DATE_ID, this.monthEndDateId);

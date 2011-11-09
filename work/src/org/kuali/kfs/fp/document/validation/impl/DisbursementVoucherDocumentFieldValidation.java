@@ -27,11 +27,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class DisbursementVoucherDocumentFieldValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentFieldValidation.class);
@@ -101,7 +101,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      * @return whether the given document has no notes
      */
     protected boolean hasNoNotes(DisbursementVoucherDocument document) {
-        List<Note> notes = document.getDocumentHeader().getBoNotes();
+        List<Note> notes = document.getDocumentHeader().getNotes();
 
         if(notes == null || notes.isEmpty()) {
             String remoteObjectId = document.getDocumentHeader().getObjectId();

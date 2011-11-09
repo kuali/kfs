@@ -19,10 +19,10 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kim.api.KimApiConstants; import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 @ConfigureContext
 public class KualiModuleServiceTest extends KualiTestBase {
@@ -55,25 +55,25 @@ public class KualiModuleServiceTest extends KualiTestBase {
             if ( namespaceCode.equals( KFSConstants.ParameterNamespaces.GL ) ) {
                 glFound = true;
             }
-            if ( namespaceCode.equals( KNSConstants.KNS_NAMESPACE ) ) {
+            if ( namespaceCode.equals( KRADConstants.KRAD_NAMESPACE ) ) {
                 riceKnsFound = true;
             }
             if ( namespaceCode.equals( KimConstants.NAMESPACE_CODE ) ) {
                 riceKimFound = true;
             }
-            if ( namespaceCode.equals( KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE ) ) {
+            if ( namespaceCode.equals( KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE ) ) {
                 riceKewFound = true;
             }
-            if ( namespaceCode.equals( KNSConstants.KUALI_RICE_SERVICE_BUS_NAMESPACE ) ) {
+            if ( namespaceCode.equals( KRADConstants.KUALI_RICE_SERVICE_BUS_NAMESPACE ) ) {
                 riceKsbFound = true;
             }
         }
         // TODO: constants in Rice do not match the namespaces used in the configuration
         // so commenting out for now until the codes have stabilized
-        assertTrue( "Unable to find " + KNSConstants.KNS_NAMESPACE + " module in installed modules list", riceKnsFound );
-        assertTrue( "Unable to find " + KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE + " module in installed modules list", riceKewFound );
+        assertTrue( "Unable to find " + KRADConstants.KRAD_NAMESPACE + " module in installed modules list", riceKnsFound );
+        assertTrue( "Unable to find " + KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE + " module in installed modules list", riceKewFound );
         assertTrue( "Unable to find " + KimConstants.NAMESPACE_CODE + " module in installed modules list", riceKimFound );
-        assertTrue( "Unable to find " + KNSConstants.KUALI_RICE_SERVICE_BUS_NAMESPACE + " module in installed modules list", riceKsbFound );
+        assertTrue( "Unable to find " + KRADConstants.KUALI_RICE_SERVICE_BUS_NAMESPACE + " module in installed modules list", riceKsbFound );
         assertTrue( "Unable to find " + KFSConstants.ParameterNamespaces.CHART + " module in installed modules list", coaFound );
         assertTrue( "Unable to find " + KFSConstants.ParameterNamespaces.KFS + " module in installed modules list", sysFound );
         assertTrue( "Unable to find " + KFSConstants.ParameterNamespaces.FINANCIAL + " module in installed modules list", fpFound );

@@ -22,7 +22,7 @@ import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
 
 /**
  * See BudgetParameterService. This implements value added methods associated with ParameterService that are specific to the budget
@@ -34,13 +34,13 @@ public class BudgetParameterServiceImpl implements BudgetParameterService {
     private ParameterService parameterService;
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetParameterService#getParameterValues(java.lang.Class, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetParameterService#getParameterValuesAsString(java.lang.Class, java.lang.String)
      */
-    public List getParameterValues(Class componentClass, String parameterName) {
+    public List getParameterValuesAsString(Class componentClass, String parameterName) {
         List paramValues = null;
 
         if (parameterService.parameterExists(componentClass, parameterName)) {
-            paramValues = parameterService.getParameterValues(componentClass, parameterName);
+            paramValues = new ArrayList<String>( parameterService.getParameterValuesAsString(componentClass, parameterName) );
         }
         else {
             LOG.info("Can't find system parameter " + parameterName);

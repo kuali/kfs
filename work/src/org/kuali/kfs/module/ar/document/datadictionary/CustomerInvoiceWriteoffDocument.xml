@@ -97,7 +97,7 @@
 
 	
 	
-	<bean id="RoutingType-CustomerInvoiceWriteoffDocument-Account-sourceOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="RoutingType-CustomerInvoiceWriteoffDocument-Account-sourceOnly" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
@@ -111,7 +111,7 @@
     		</list>
     	</property>
     </bean>
-	<bean id="DocumentValuePathGroup-CustomerInvoiceWriteoffDocument-Account-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+	<bean id="DocumentValuePathGroup-CustomerInvoiceWriteoffDocument-Account-sourceAccountingLines" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 	<property name="documentCollectionPath">
 		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
 			<property name="collectionPath" value="customerInvoiceDocument.sourceAccountingLines"/>
@@ -119,7 +119,7 @@
 	</property>
 	</bean>
 	
-    <bean id="RoutingAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    <bean id="RoutingAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
         	<property name="qualificationAttributeName" value="invoiceWriteoffAmount"/>
     
     

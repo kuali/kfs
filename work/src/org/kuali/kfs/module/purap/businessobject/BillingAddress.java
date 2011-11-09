@@ -19,13 +19,13 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Billing Address Business Object.
  */
-public class BillingAddress extends PersistableBusinessObjectBase implements Inactivateable{
+public class BillingAddress extends PersistableBusinessObjectBase implements Inactivatable{
 
     private String billingCampusCode;
     private String billingName;
@@ -139,9 +139,9 @@ public class BillingAddress extends PersistableBusinessObjectBase implements Ina
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("billingCampusCode", this.billingCampusCode);
         return m;

@@ -111,7 +111,7 @@
     <property name="name" value="customerFileCreateTimestamp"/>
     <property name="label" value="File Creation Date"/>
     <property name="shortLabel" value="Creation Date"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
   </bean>
   <bean id="Batch-customerProfile.customerShortName" parent="Batch-customerProfile.customerShortName-parentBean"/>
 
@@ -138,7 +138,7 @@
     <property name="name" value="fileProcessTimestamp"/>
     <property name="label" value="File Processed Time"/>
     <property name="shortLabel" value="File Processed Time"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
   </bean>
   <bean id="Batch-submiterUser.principalName" parent="Batch-submiterUser.principalName-parentBean"/>
 

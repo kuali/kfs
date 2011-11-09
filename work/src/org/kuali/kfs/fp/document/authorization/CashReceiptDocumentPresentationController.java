@@ -27,17 +27,17 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CashReceiptDocumentPresentationController extends LedgerPostingDocumentPresentationControllerBase {
     private static final String CASH_MANAGEMENT_NODE_NAME = "CashManagement";
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canApprove(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canApprove(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canApprove(Document document) {
@@ -45,7 +45,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canBlanketApprove(Document document) {
@@ -53,7 +53,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
     }
 
     protected boolean canApproveOrBlanketApprove(Document document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isApprovalRequested() && !workflowDocument.isAdHocRequested()) {
             CashReceiptDocument cashReceiptDocument = (CashReceiptDocument) document;
 
@@ -73,7 +73,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
 
     /**
      * Prevents editing of the document at the CashManagement node
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canEdit(Document document) {
@@ -82,7 +82,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
     }
     
     /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {
@@ -94,9 +94,9 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
     }
     
     protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if (workflowDocument.stateIsEnroute()) {
+        if (workflowDocument.isEnroute()) {
             List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             if(currentRouteLevels.contains("CashManagement")) {
                 editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CASH_MANAGER_CONFIRM_MODE);
@@ -105,13 +105,13 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
     }
     
     protected void addChangeRequestMode(Document document, Set<String> editModes) {
-        boolean IndValue = SpringContext.getBean(ParameterService.class).getIndicatorParameter(CashReceiptDocument.class, "CHANGE_REQUEST_ENABLED_IND");
+        boolean IndValue = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(CashReceiptDocument.class, "CHANGE_REQUEST_ENABLED_IND");
         if(IndValue) {
             editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CHANGE_REQUEST_MODE);
         }
     }
     
-    protected List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+    protected List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
         try {
             return Arrays.asList(workflowDocument.getNodeNames());
         }

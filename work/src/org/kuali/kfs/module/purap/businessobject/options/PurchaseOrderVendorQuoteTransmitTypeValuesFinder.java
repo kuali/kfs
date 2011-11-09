@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Purchase Order Vendor Quote Transmit Types.
@@ -34,9 +34,9 @@ public class PurchaseOrderVendorQuoteTransmitTypeValuesFinder extends KeyValuesB
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteTransmitTypes.PRINT, "Print"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteTransmitTypes.FAX, "Fax"));
+        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(PurapConstants.QuoteTransmitTypes.PRINT, "Print"));
+        keyValues.add(new ConcreteKeyValue(PurapConstants.QuoteTransmitTypes.FAX, "Fax"));
         return keyValues;
     }
 }

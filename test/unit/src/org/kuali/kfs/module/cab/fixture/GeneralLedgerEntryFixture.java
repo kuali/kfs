@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum GeneralLedgerEntryFixture {
     REC1 {

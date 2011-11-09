@@ -25,16 +25,16 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
 
 /**
  * Purchasing Contracts with specific Vendors.
  */
-public class VendorContract extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
+public class VendorContract extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivatable {
     private static Logger LOG = Logger.getLogger(VendorContract.class);
 
     private Integer vendorContractGeneratedIdentifier;
@@ -70,7 +70,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
      * Default constructor.
      */
     public VendorContract() {
-        vendorContractOrganizations = new TypedArrayList(VendorContractOrganization.class);
+        vendorContractOrganizations = new ArrayList<VendorContractOrganization>();
     }
 
     public Integer getVendorContractGeneratedIdentifier() {
@@ -402,9 +402,9 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.vendorContractGeneratedIdentifier != null) {
             m.put("vendorContractGeneratedIdentifier", this.vendorContractGeneratedIdentifier.toString());

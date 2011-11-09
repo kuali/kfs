@@ -21,20 +21,21 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
-public class ChartRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class ChartRoleTypeServiceImpl extends RoleTypeServiceBase {
 
     {
         requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
     }
     
     /***
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    public boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         return StringUtils.equals(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), 
                 roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
     }

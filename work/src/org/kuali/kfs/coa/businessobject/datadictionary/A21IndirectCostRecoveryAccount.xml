@@ -90,7 +90,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BigDecimalFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BigDecimalFormatter"/>
   </bean>
   
   <bean id="A21IndirectCostRecoveryAccount-newCollectionRecord" parent="A21IndirectCostRecoveryAccount-newCollectionRecord-parentBean" />

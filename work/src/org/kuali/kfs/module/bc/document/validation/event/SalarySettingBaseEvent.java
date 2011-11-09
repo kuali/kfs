@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.bc.document.validation.event;
 
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Base class for salary setting events. 

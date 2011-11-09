@@ -31,8 +31,8 @@ import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.Logged;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -53,7 +53,7 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationCreateService#create()
      */
-    @Logged
+    
     public void create() {
         Integer fiscalYear = EffortCertificationParameterFinder.getCreateReportFiscalYear();
         String reportNumber = EffortCertificationParameterFinder.getCreateReportNumber();
@@ -64,7 +64,7 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationCreateService#create(java.lang.Integer, java.lang.String)
      */
-    @Logged
+    
     public void create(Integer fiscalYear, String reportNumber) {
         Map<String, String> fieldValues = EffortCertificationReportDefinition.buildKeyMap(fiscalYear, reportNumber);
 

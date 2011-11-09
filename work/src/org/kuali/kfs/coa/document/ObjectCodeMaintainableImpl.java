@@ -26,9 +26,9 @@ import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ObjectCodeMaintainableImpl extends FinancialSystemMaintainable {
 
@@ -37,7 +37,7 @@ public class ObjectCodeMaintainableImpl extends FinancialSystemMaintainable {
         List<MaintenanceLock> maintenanceLocks = super.generateMaintenanceLocks();
         ObjectCode maintainedObjectCode = (ObjectCode) getBusinessObject();
         if (isInactivatingObjectCode()) {
-            maintenanceLocks.addAll(SpringContext.getBean(SubObjectTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((ObjectCode) getBusinessObject(), documentNumber));
+            maintenanceLocks.addAll(SpringContext.getBean(SubObjectTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((ObjectCode) getBusinessObject(), getDocumentNumber()));
         }
         return maintenanceLocks;
     }
@@ -50,13 +50,13 @@ public class ObjectCodeMaintainableImpl extends FinancialSystemMaintainable {
         super.saveBusinessObject();
         
         if (isInactivatingObjectCode) {
-            SpringContext.getBean(SubObjectTrickleDownInactivationService.class).trickleDownInactivateSubObjects((ObjectCode) getBusinessObject(), documentNumber);
+            SpringContext.getBean(SubObjectTrickleDownInactivationService.class).trickleDownInactivateSubObjects((ObjectCode) getBusinessObject(), getDocumentNumber());
         }
     }
     
     protected boolean isInactivatingObjectCode() {
         // the object code has to be inactive on the new side during an edit for it to be possible that we are inactivating an object code
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((ObjectCode) getBusinessObject()).isActive()) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((ObjectCode) getBusinessObject()).isActive()) {
             // then check if the object code was originally active.  If so, then we are inactivating.
             ObjectCode objectCodeFromDB = retrieveObjectCodeFromDB();
             if (ObjectUtils.isNotNull(objectCodeFromDB)) {

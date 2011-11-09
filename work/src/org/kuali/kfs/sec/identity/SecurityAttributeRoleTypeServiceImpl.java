@@ -15,25 +15,26 @@
  */
 package org.kuali.kfs.sec.identity;
 
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import java.util.HashMap;
+import java.util.Map;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 /**
  * Type service for roles created for security definitions. Each definition has a corresponding role which is granted the definition permissions
  */
-public class SecurityAttributeRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class SecurityAttributeRoleTypeServiceImpl extends RoleTypeServiceBase {
 
-/* RICE_20_DELETE */    {
-/* RICE_20_DELETE */        checkRequiredAttributes = false;
-/* RICE_20_DELETE */    }
+
+
+
 
     /**
      * Any qualifier is allowed so that later on the qualification can be evaluated in the context of all qualifications for the user across all roles
      * 
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    protected boolean performMatch(AttributeSet inputAttributeSet, AttributeSet storedAttributeSet) {
+    protected boolean performMatch(Map<String,String> inputAttributeSet, Map<String,String> storedAttributeSet) {
         return true;
     }
 

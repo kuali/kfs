@@ -43,10 +43,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -58,7 +58,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
 
     private AccountService accountService;
     private ObjectLevelService objectLevelService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private SufficientFundsDao sufficientFundsDao;
     private SufficientFundBalancesDao sufficientFundBalancesDao;
     private OptionsService optionsService;
@@ -113,7 +113,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * 
      * @param document document to check
      * @return Empty List if has sufficient funds for all accounts, List of SufficientFundsItem if not
-     * @see org.kuali.kfs.gl.service.SufficientFundsService#checkSufficientFunds(org.kuali.rice.kns.document.FinancialDocument)
+     * @see org.kuali.kfs.gl.service.SufficientFundsService#checkSufficientFunds(org.kuali.rice.krad.document.FinancialDocument)
      */
     public List<SufficientFundsItem> checkSufficientFunds(GeneralLedgerPostingDocument document) {
         LOG.debug("checkSufficientFunds() started");
@@ -454,7 +454,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

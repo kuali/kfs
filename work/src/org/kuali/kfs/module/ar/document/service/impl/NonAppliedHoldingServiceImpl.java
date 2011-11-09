@@ -24,7 +24,7 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.dataaccess.NonAppliedHoldingDao;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

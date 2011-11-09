@@ -38,9 +38,9 @@ import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -69,7 +69,7 @@ public class CfdaServiceImpl implements CfdaService {
         SortedMap<String, CFDA> govMap = new TreeMap<String, CFDA>();
 
         // ftp://ftp.cfda.gov/programs09187.csv
-        String govURL = SpringContext.getBean(ParameterService.class).getParameterValue(CfdaBatchStep.class, CGConstants.SOURCE_URL_PARAMETER);
+        String govURL = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CfdaBatchStep.class, CGConstants.SOURCE_URL_PARAMETER);
         String fileName = StringUtils.substringAfterLast(govURL, "/");
         govURL = StringUtils.substringBeforeLast(govURL, "/");
         if (StringUtils.contains(govURL, "ftp://")) {

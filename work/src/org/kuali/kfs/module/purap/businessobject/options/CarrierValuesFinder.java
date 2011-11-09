@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Carrier.
@@ -40,10 +40,10 @@ public class CarrierValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(Carrier.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             Carrier car = (Carrier) iter.next();
-            labels.add(new KeyLabelPair(car.getCarrierCode(), car.getCarrierDescription()));
+            labels.add(new ConcreteKeyValue(car.getCarrierCode(), car.getCarrierDescription()));
         }
         return labels;
     }

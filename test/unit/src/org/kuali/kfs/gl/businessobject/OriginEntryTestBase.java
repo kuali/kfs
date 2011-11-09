@@ -43,8 +43,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kns.service.ConfigurableDateService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.PersistenceService;
 
 /**
  * OriginEntryTestBase...the uberpowerful base of a lot of GL tests.  Basically, this class provides
@@ -57,7 +57,7 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected ConfigurableDateService dateTimeService;
     protected PersistenceService persistenceService;
     protected UnitTestSqlDao unitTestSqlDao = null;
-    protected KualiConfigurationService kualiConfigurationService = null;
+    protected ConfigurationService kualiConfigurationService = null;
     protected OriginEntryService originEntryService = null;
     protected AccountingCycleCachingService accountingCycleCachingService = null;
     
@@ -94,7 +94,7 @@ public class OriginEntryTestBase extends KualiTestBase {
         // Other objects needed for the tests
         persistenceService = SpringContext.getBean(PersistenceService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         originEntryService = SpringContext.getBean(OriginEntryService.class);
         
         batchDirectory = this.getBatchDirectoryName();        
@@ -128,7 +128,7 @@ public class OriginEntryTestBase extends KualiTestBase {
      * @return the name of the batch directory
      */
     protected String getBatchDirectoryName() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory/originEntry";
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/originEntry";
     }
     
     /**

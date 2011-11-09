@@ -20,7 +20,7 @@ import java.util.Map;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**

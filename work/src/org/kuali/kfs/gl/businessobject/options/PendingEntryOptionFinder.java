@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.Constant;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * An implementation of ValueFinder that allows inquirers to include no pending entries, approved pending entries,
@@ -37,9 +37,9 @@ public class PendingEntryOptionFinder extends KeyValuesBase implements ValueFind
     public List getKeyValues() {
 
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(Constant.NO_PENDING_ENTRY, Constant.NO_PENDING_ENTRY));
-        labels.add(new KeyLabelPair(Constant.APPROVED_PENDING_ENTRY, Constant.APPROVED_PENDING_ENTRY));
-        labels.add(new KeyLabelPair(Constant.ALL_PENDING_ENTRY, Constant.ALL_PENDING_ENTRY));
+        labels.add(new ConcreteKeyValue(Constant.NO_PENDING_ENTRY, Constant.NO_PENDING_ENTRY));
+        labels.add(new ConcreteKeyValue(Constant.APPROVED_PENDING_ENTRY, Constant.APPROVED_PENDING_ENTRY));
+        labels.add(new ConcreteKeyValue(Constant.ALL_PENDING_ENTRY, Constant.ALL_PENDING_ENTRY));
 
         return labels;
     }
@@ -47,7 +47,7 @@ public class PendingEntryOptionFinder extends KeyValuesBase implements ValueFind
     /**
      * Returns the default value for this ValueFinder, in this case no pending entries
      * @return the key of the default value
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return Constant.NO_PENDING_ENTRY;

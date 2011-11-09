@@ -17,8 +17,8 @@ package org.kuali.kfs.pdp.businessobject.defaultvalue;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 /**
  * Returns the next ACH Account identifier available.
@@ -26,7 +26,7 @@ import org.kuali.rice.kns.service.SequenceAccessorService;
 public class AchBankDefaultDataViewCodeFinder implements ValueFinder {
 
     /**
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return PdpConstants.ACH_BANK_DATA_VIEW_CODE_DEFAULT;

@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.dataaccess;
 
 import java.util.List;
 
-import org.kuali.rice.core.database.platform.DatabasePlatform;
+import org.kuali.rice.core.framework.persistence.platform.DatabasePlatform;
 
 /**
  * 

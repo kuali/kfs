@@ -23,7 +23,7 @@ import java.util.Set;
 
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * To provide a set of utilities to consolidate/group the specified ledger balances and build a returning ledger balance Map.

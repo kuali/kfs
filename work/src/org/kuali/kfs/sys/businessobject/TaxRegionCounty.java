@@ -18,14 +18,14 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.CountyService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.County;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.service.CountyService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.county.County;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TaxRegionCounty extends PersistableBusinessObjectBase implements Inactivateable {
+public class TaxRegionCounty extends PersistableBusinessObjectBase implements Inactivatable {
 	
     private String postalCountryCode;
 	private String countyCode;
@@ -68,7 +68,7 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements In
 		this.taxRegionCode = taxRegionCode;
 	}
 	
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("countyCode", this.countyCode);
         m.put("stateCode", this.stateCode);
@@ -76,7 +76,7 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements In
         return m;
     }
 	public County getCounty() {
-	    county = SpringContext.getBean(CountyService.class).getByPrimaryIdIfNecessary(postalCountryCode, stateCode, countyCode, county);
+	    county = (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank( stateCode) || StringUtils.isBlank( countyCode))?null:( county == null || !StringUtils.equals( county.getCountryCode(),postalCountryCode)|| !StringUtils.equals( county.getStateCode(), stateCode)|| !StringUtils.equals( county.getCode(), countyCode))?SpringContext.getBean(CountyService.class).getCounty(postalCountryCode, stateCode, countyCode): county;
 		return county;
 	}
 	public void setCounty(County county) {
@@ -101,7 +101,7 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements In
      * @return Returns the country.
      */
     public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(postalCountryCode, country);
+        country = (postalCountryCode == null)?null:( country == null || !StringUtils.equals( country.getCode(),postalCountryCode))?SpringContext.getBean(CountryService.class).getCountry(postalCountryCode): country;
         return country;
     }
     /**

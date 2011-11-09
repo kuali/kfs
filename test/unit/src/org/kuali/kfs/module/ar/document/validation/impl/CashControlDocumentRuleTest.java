@@ -31,10 +31,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class tests the rules in CashControlDocumentRule
@@ -139,7 +139,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         // get the first application document from the details as it is the only one we have added
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) document.getCashControlDetail(0).getReferenceFinancialDocument();
         // mock a fully approved payment application document
-        applicationDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
+        applicationDocument.getDocumentHeader().getWorkflowDocument().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
 
     }
 

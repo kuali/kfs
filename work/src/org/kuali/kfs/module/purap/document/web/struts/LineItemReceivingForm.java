@@ -28,16 +28,16 @@ import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class LineItemReceivingForm extends ReceivingFormBase {
     
@@ -89,7 +89,7 @@ public class LineItemReceivingForm extends ReceivingFormBase {
     }
 
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         //leave the first field blank to match the other PURAP docs
         getDocInfo().add(new HeaderField());
@@ -192,7 +192,7 @@ public class LineItemReceivingForm extends ReceivingFormBase {
      * @return
      */
     public boolean isAbleToShowClearAndLoadQtyButtons(){        
-        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(LineItemReceivingDocument.class, PurapParameterConstants.SHOW_CLEAR_AND_LOAD_QTY_BUTTONS);        
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(LineItemReceivingDocument.class, PurapParameterConstants.SHOW_CLEAR_AND_LOAD_QTY_BUTTONS);        
     }
 
     public boolean isFromPurchaseOrder() {

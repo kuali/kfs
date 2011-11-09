@@ -47,13 +47,13 @@ import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder.Be
 import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class EndowmentReportServiceImpl implements EndowmentReportService {
     
@@ -74,7 +74,7 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getInstitutionName()
      */
     public String getInstitutionName() {
-        return parameterService.getParameterValue(OrganizationOptions.class, ArConstants.INSTITUTION_NAME);
+        return parameterService.getParameterValueAsString(OrganizationOptions.class, ArConstants.INSTITUTION_NAME);
     }
     
     /**
@@ -456,7 +456,7 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
                             .getResponsibleModuleService(Campus.class)
                             .getExternalizableBusinessObject(Campus.class, Collections.singletonMap("campusCode", (Object)organization.getOrganizationPhysicalCampusCode()) );
                     if (campus != null) {
-                        benefitting.setCampusName(campus.getCampusName());
+                        benefitting.setCampusName(campus.getName());
                     } else {
                         benefitting.setCampusName("");
                     }

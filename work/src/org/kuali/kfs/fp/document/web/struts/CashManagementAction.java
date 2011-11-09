@@ -44,16 +44,16 @@ import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KFSConstants.DepositConstants;
 import org.kuali.kfs.sys.KFSKeyConstants.CashManagement;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Action class for CashManagementForm
@@ -84,8 +84,8 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
 
             CashManagementForm cmf = (CashManagementForm) form;
             cmf.populateDepositHelpers();
-            KualiWorkflowDocument kwd = cmf.getDocument().getDocumentHeader().getWorkflowDocument();
-            if (kwd.stateIsEnroute() || kwd.stateIsFinal()) {
+            WorkflowDocument kwd = cmf.getDocument().getDocumentHeader().getWorkflowDocument();
+            if (kwd.isEnroute() || kwd.isFinal()) {
                 cmf.setCashDrawerSummary(null);
             }
             else {
@@ -115,7 +115,7 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
         Person user = GlobalVariables.getUserSession().getPerson();
         String campusCode = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
 
-        String defaultDescription = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CashManagement.DEFAULT_DOCUMENT_DESCRIPTION);
+        String defaultDescription = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CashManagement.DEFAULT_DOCUMENT_DESCRIPTION);
         defaultDescription = StringUtils.replace(defaultDescription, "{0}", campusCode);
         defaultDescription = StringUtils.substring(defaultDescription, 0, 39);
 
@@ -124,7 +124,7 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
 
         // update form
         kualiDocumentFormBase.setDocument(cmDoc);
-        kualiDocumentFormBase.setDocTypeName(cmDoc.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        kualiDocumentFormBase.setDocTypeName(cmDoc.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
     }
 
     /**
@@ -229,7 +229,7 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
         cmDoc.getCashDrawer().setStatusCode(KFSConstants.CashDrawerConstants.STATUS_OPEN);
 
         // display status message
-        GlobalVariables.getMessageList().add(CashManagement.STATUS_DEPOSIT_CANCELED);
+        KNSGlobalVariables.getMessageList().add(CashManagement.STATUS_DEPOSIT_CANCELED);
         
         ((CashManagementForm) form).getCashDrawerSummary().resummarize(cmDoc);
 
@@ -292,7 +292,7 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
         CashManagementForm cmForm = (CashManagementForm) form;
         CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
 
-        if (!cmDoc.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+        if (!cmDoc.getDocumentHeader().getWorkflowDocument().isInitiated()) {
             throw new IllegalStateException("openCashDrawer should only be called on documents which haven't yet been saved");
         }
 

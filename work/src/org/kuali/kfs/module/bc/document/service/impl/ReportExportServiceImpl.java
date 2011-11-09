@@ -32,9 +32,9 @@ import org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao;
 import org.kuali.kfs.module.bc.document.service.ReportExportService;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -298,7 +298,7 @@ public class ReportExportServiceImpl implements ReportExportService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#setBusinessObjectService(org.kuali.rice.kns.service.BusinessObjectService)
+     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#setBusinessObjectService(org.kuali.rice.krad.service.BusinessObjectService)
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -460,7 +460,7 @@ public class ReportExportServiceImpl implements ReportExportService {
             line = line + textDelimiter + textDelimiter + fieldSeperator;
 
         // output blanks when no associated CSF row - relation is optional 1-1 configured in OJB as collection
-        // and typed as TypedArrayList
+        // and typed as ArrayList
         if (fundingRecord.getBcnCalculatedSalaryFoundationTracker().isEmpty()) {
             line = line + "" + fieldSeperator;
             line = line + "" + fieldSeperator;

@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.AuthorizationException;
 
 /**
  * Interface defining methods to manage batch input files.

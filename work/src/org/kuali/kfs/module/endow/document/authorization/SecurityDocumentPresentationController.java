@@ -25,15 +25,15 @@ import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class SecurityDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyHiddenPropertyNames(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyHiddenPropertyNames(org.kuali.rice.krad.bo.BusinessObject)
      */
     @Override
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
@@ -60,11 +60,11 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
 
         // when we create or copy a new Security, only certain fields are displayed; the following code is used to hide the unwanted
         // fields
-        if (KNSConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (KRADConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KRADConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
 
             // the security ID hidded on creation and a dummy field is used for user input (userEnteredSecurityIDprefix)
-            String routeStatus = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-            if (KEWConstants.ROUTE_HEADER_INITIATED_CD.equalsIgnoreCase(routeStatus) || KEWConstants.ROUTE_HEADER_SAVED_CD.equalsIgnoreCase(routeStatus)) {
+            String routeStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
+            if (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equalsIgnoreCase(routeStatus) || KewApiConstants.ROUTE_HEADER_SAVED_CD.equalsIgnoreCase(routeStatus)) {
                 fields.add(EndowPropertyConstants.SECURITY_ID);
             }
             else {
@@ -101,7 +101,7 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
@@ -113,7 +113,7 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
         // If the class code type = "P" -- pooled investment:
         // - the unit value and value date in the security can't be modified through editing that maintenance doc
         // - END_SEC_T: SEC_RT should NOT be modified through edit that maintenance doc
-        if (classCode != null && EndowConstants.ClassCodeTypes.POOLED_INVESTMENT.equalsIgnoreCase(classCode.getClassCodeType()) && KNSConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (classCode != null && EndowConstants.ClassCodeTypes.POOLED_INVESTMENT.equalsIgnoreCase(classCode.getClassCodeType()) && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
             fields.add(EndowPropertyConstants.SECURITY_UNIT_VALUE);
             fields.add(EndowPropertyConstants.SECURITY_MARKET_VALUE);
             fields.add(EndowPropertyConstants.SECURITY_VALUATION_DATE);

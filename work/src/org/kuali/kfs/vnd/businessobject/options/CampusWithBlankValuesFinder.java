@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Value Finder for Campus with a blank value.
@@ -32,7 +32,7 @@ public class CampusWithBlankValuesFinder extends CampusNoBlankValuesFinder {
     public List getKeyValues() {
 
         List labels = new ArrayList();
-        KeyLabelPair blank = new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
+        KeyValue blank = new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
         labels.add(blank);
         labels.addAll(super.getKeyValues());
         return labels;

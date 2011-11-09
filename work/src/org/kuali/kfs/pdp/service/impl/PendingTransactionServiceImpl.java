@@ -43,10 +43,10 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -66,7 +66,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     private PendingTransactionDao glPendingTransactionDao;
     private AccountingPeriodService accountingPeriodService;
     private DateTimeService dateTimeService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
     private BankService bankService;
 
@@ -255,7 +255,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
         }
         bankPendingTransaction.setAmount(glPendingTransaction.getAmount());
         
-        String description = kualiConfigurationService.getPropertyString(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET);
+        String description = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET);
         bankPendingTransaction.setDescription(description);
         bankPendingTransaction.setOrgDocNbr(glPendingTransaction.getOrgDocNbr());
         bankPendingTransaction.setOrgReferenceId(null);
@@ -316,7 +316,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

@@ -28,17 +28,17 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class AccountingDocumentPresentationControllerBase extends LedgerPostingDocumentPresentationControllerBase {
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {
@@ -51,10 +51,10 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
 
     // add expense entry edit mode when the given document is enroute for account review
     protected void addExpenseEntryEditMode(Document document, Set<String> editModes) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
-        if (workflowDocument.stateIsEnroute() && currentRouteLevels.contains(KFSConstants.RouteLevelNames.ACCOUNT)) {
+        if (workflowDocument.isEnroute() && currentRouteLevels.contains(KFSConstants.RouteLevelNames.ACCOUNT)) {
             AccountingDocument accountingDocument = (AccountingDocument) document;
 
             List<AccountingLine> lineList = new ArrayList<AccountingLine>();
@@ -69,17 +69,17 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean canEdit(Document document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         FinancialSystemDocumentHeader documentheader = (FinancialSystemDocumentHeader) (document.getDocumentHeader());
 
-        if (workflowDocument.stateIsCanceled() || documentheader.getFinancialDocumentInErrorNumber() != null) {
+        if (workflowDocument.isCanceled() || documentheader.getFinancialDocumentInErrorNumber() != null) {
             return false;
         }
-        else if (workflowDocument.stateIsEnroute()) {
+        else if (workflowDocument.isEnroute()) {
             List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
             if (currentRouteLevels.contains(RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
@@ -96,7 +96,7 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
      * @param workflowDocument
      * @return List
      */
-    protected List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+    protected List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
         String[] names= workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         return Arrays.asList(names);
     }

@@ -48,13 +48,13 @@ import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import java.util.ArrayList;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * Handles organization budget action requests from menu.
@@ -90,39 +90,39 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
                     case SALSET:
                         orgSelTreeForm.setOperatingModeTitle("Budget Salary Setting Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
                         break;
                     case REPORTS:
                         orgSelTreeForm.setOperatingModeTitle("BC Reports Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
                         break;
                     case PULLUP:
                         orgSelTreeForm.setOperatingModeTitle("BC Pull Up Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Pull Up Type");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.BOTH.getKey(), OrgSelControlOption.BOTH.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORG.getKey(), OrgSelControlOption.ORG.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.SUBORG.getKey(), OrgSelControlOption.SUBORG.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.BOTH.getKey(), OrgSelControlOption.BOTH.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORG.getKey(), OrgSelControlOption.ORG.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.SUBORG.getKey(), OrgSelControlOption.SUBORG.getLabel()));
                         break;
                     case PUSHDOWN:
                         orgSelTreeForm.setOperatingModeTitle("BC Push Down Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Push Down Type");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORGLEV.getKey(), OrgSelControlOption.ORGLEV.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.MGRLEV.getKey(), OrgSelControlOption.MGRLEV.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORGMGRLEV.getKey(), OrgSelControlOption.ORGMGRLEV.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.LEVONE.getKey(), OrgSelControlOption.LEVONE.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.LEVZERO.getKey(), OrgSelControlOption.LEVZERO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGLEV.getKey(), OrgSelControlOption.ORGLEV.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.MGRLEV.getKey(), OrgSelControlOption.MGRLEV.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGMGRLEV.getKey(), OrgSelControlOption.ORGMGRLEV.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVONE.getKey(), OrgSelControlOption.LEVONE.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVZERO.getKey(), OrgSelControlOption.LEVZERO.getLabel()));
                         break;
                     default:
                         // default to ACCOUNT operating mode
                         orgSelTreeForm.setOperatingModeTitle("Budgeted Account List Search Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
                         break;
                 }
             }
@@ -201,14 +201,14 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
                 map.put("principalId", principalId);
                 organizationSelectionTreeForm.setSelectionSubTreeOrgs((List<BudgetConstructionPullup>) SpringContext.getBean(BusinessObjectService.class).findMatching(BudgetConstructionPullup.class, map));
                 organizationSelectionTreeForm.populateSelectionSubTreeOrgs();
-                organizationSelectionTreeForm.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
+                organizationSelectionTreeForm.setPreviousBranchOrgs(new ArrayList<BudgetConstructionPullup>());
             }
         }
         else {
             organizationSelectionTreeForm.setPreviousPointOfViewKeyCode(organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
             organizationSelectionTreeForm.setPointOfViewOrg(new BudgetConstructionOrganizationReports());
-            organizationSelectionTreeForm.setSelectionSubTreeOrgs(new TypedArrayList(BudgetConstructionPullup.class));
-            organizationSelectionTreeForm.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
+            organizationSelectionTreeForm.setSelectionSubTreeOrgs(new ArrayList<BudgetConstructionPullup>());
+            organizationSelectionTreeForm.setPreviousBranchOrgs(new ArrayList<BudgetConstructionPullup>());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -258,7 +258,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         int popIdx = this.getSelectedLine(request);
         BudgetConstructionPullup previousBranchOrg = organizationSelectionTreeForm.getPreviousBranchOrgs().remove(popIdx);
         if (popIdx == 0) {
-            organizationSelectionTreeForm.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
+            organizationSelectionTreeForm.setPreviousBranchOrgs(new ArrayList<BudgetConstructionPullup>());
 
             // reinitialize the selection tool to the root
             HashMap<String, Object> map = new HashMap<String, Object>();
@@ -510,7 +510,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // build table but give a message if empty
         int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(GlobalVariables.getUserSession().getPerson().getPrincipalId(), organizationSelectionTreeForm.getUniversityFiscalYear());
         if (rowCount == 0) {
-            GlobalVariables.getMessageList().add("error.inquiry");
+            KNSGlobalVariables.getMessageList().add("error.inquiry");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         organizationSelectionTreeForm.setNoResetOnReturn(true);
@@ -553,7 +553,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             return new ActionForward(url, true);
         }
 
-        GlobalVariables.getMessageList().add(BCKeyConstants.MSG_ORG_PULL_UP_SUCCESSFUL);
+        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MSG_ORG_PULL_UP_SUCCESSFUL);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -580,7 +580,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // call service to build account list data
         int rowCount = SpringContext.getBean(BudgetPushPullService.class).buildPullUpBudgetedDocuments(principalId, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
         if (rowCount == 0) {
-            String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.ERROR_NO_ACCOUNTS_PULL_UP);
+            String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(BCKeyConstants.ERROR_NO_ACCOUNTS_PULL_UP);
             message = MessageFormat.format(message, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
             organizationSelectionTreeForm.addMessage(message);
 
@@ -626,7 +626,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             return new ActionForward(url, true);
         }
 
-        GlobalVariables.getMessageList().add(BCKeyConstants.MSG_ORG_PUSH_DOWN_SUCCESSFUL);
+        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MSG_ORG_PUSH_DOWN_SUCCESSFUL);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -653,7 +653,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // call service to build account list data
         int rowCount = SpringContext.getBean(BudgetPushPullService.class).buildPushDownBudgetedDocuments(principalId, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
         if (rowCount == 0) {
-            String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.ERROR_NO_ACCOUNTS_PUSH_DOWN);
+            String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(BCKeyConstants.ERROR_NO_ACCOUNTS_PUSH_DOWN);
             message = MessageFormat.format(message, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
             organizationSelectionTreeForm.addMessage(message);
 
@@ -737,8 +737,8 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * @return BudgetConstructionReportMode - mode associated with parsed report name
      */
     private BudgetConstructionReportMode setupReportMode(HttpServletRequest request, OrganizationSelectionTreeForm organizationSelectionTreeForm) {
-        String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String reportName = StringUtils.substringBetween(fullParameter, KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        String fullParameter = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String reportName = StringUtils.substringBetween(fullParameter, KRADConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KRADConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
         organizationSelectionTreeForm.setReportMode(reportName);
 
         return BudgetConstructionReportMode.getBudgetConstructionReportModeByName(organizationSelectionTreeForm.getReportMode());

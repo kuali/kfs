@@ -39,14 +39,14 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext(session = twatson)
 public class CashManagementServiceTest extends KualiTestBase {
@@ -98,7 +98,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // verify that the doc was saved
             CashManagementDocument retrievedDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(testDocumentId);
-            assertEquals("S", retrievedDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+            assertEquals("S", retrievedDoc.getDocumentHeader().getWorkflowDocument().getStatus());
         }
         finally {
             // cancel the document
@@ -746,7 +746,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         if (documentId != null) {
             Document testDoc = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentId);
 
-            if (testDoc != null && !testDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            if (testDoc != null && !testDoc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                 final String initiatorNetworkId = SpringContext.getBean(PersonService.class).getPerson(testDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
                 final String previousNetworkId = GlobalVariables.getUserSession().getPerson().getPrincipalName();
                 if (!previousNetworkId.equals(initiatorNetworkId)) {

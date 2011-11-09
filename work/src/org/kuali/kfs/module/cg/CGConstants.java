@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg;
 import java.util.Calendar;
 
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * Constants specific to the Contracts and Grants module.
@@ -76,7 +76,7 @@ public class CGConstants extends JSTLConstants {
 
     public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
 
-    public static class CGKimConstants{
+    public static class CGKimApiConstants{
         public static final String AWARD_ROUTING_NODE_NAME = "Award";
         public static final String MANAGEMENT_ROUTING_NODE_NAME = "Management";
         public static final String UNPROCESSED_ROUTING_NODE_NAME = "Unprocessed";

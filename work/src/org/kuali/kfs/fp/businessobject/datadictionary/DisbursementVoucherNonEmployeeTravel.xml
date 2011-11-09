@@ -140,7 +140,7 @@
     <property name="maxLength" value="10"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-perDiemStartDateTime" parent="DisbursementVoucherNonEmployeeTravel-perDiemStartDateTime-parentBean"/>
@@ -200,7 +200,7 @@
     <property name="maxLength" value="10"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCategoryName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCategoryName-parentBean"/>

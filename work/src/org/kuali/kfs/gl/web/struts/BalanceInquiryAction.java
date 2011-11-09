@@ -39,13 +39,13 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
@@ -61,13 +61,13 @@ public class BalanceInquiryAction extends KualiAction {
 
     private static final String TOTALS_TABLE_KEY = "totalsTable";
 
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     protected DataDictionaryService dataDictionaryService;
     private String[] totalTitles;
 
     public BalanceInquiryAction() {
         super();
-        kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
     }
 
@@ -77,13 +77,13 @@ public class BalanceInquiryAction extends KualiAction {
     private void setTotalTitles() {
         totalTitles = new String[7];
 
-        totalTitles[0] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME);
-        totalTitles[1] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS);
-        totalTitles[2] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_TOTAL);
-        totalTitles[3] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE);
-        totalTitles[4] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS);
-        totalTitles[5] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_TOTAL);
-        totalTitles[6] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.TOTAL);
+        totalTitles[0] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME);
+        totalTitles[1] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS);
+        totalTitles[2] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME_TOTAL);
+        totalTitles[3] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE);
+        totalTitles[4] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS);
+        totalTitles[5] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE_TOTAL);
+        totalTitles[6] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.TOTAL);
 
     }
 
@@ -356,17 +356,17 @@ public class BalanceInquiryAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kcs) {
+    public void setConfigurationService(ConfigurationService kcs) {
         kualiConfigurationService = kcs;
     }
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(KNSConstants.PARAM_MAINTENANCE_VIEW_MODE, KNSConstants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP);
+        request.setAttribute(KRADConstants.PARAM_MAINTENANCE_VIEW_MODE, KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP);
         BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
         int numCols = boe.getLookupDefinition().getNumOfColumns();
         if (numCols <= 0)
-            numCols = KNSConstants.DEFAULT_NUM_OF_COLUMNS; // by default, always show one column.
+            numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS; // by default, always show one column.
         ((LookupForm) form).setNumColumns(numCols);
         return super.execute(mapping, form, request, response);
     }

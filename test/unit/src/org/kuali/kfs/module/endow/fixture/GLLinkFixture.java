@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.fixture;
 
 import org.kuali.kfs.module.endow.businessobject.GLLink;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum GLLinkFixture {
     GL_LINK_BL_CHART("TST123", // endowmentTransactionCode

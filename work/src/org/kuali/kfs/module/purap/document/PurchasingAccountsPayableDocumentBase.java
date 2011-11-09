@@ -54,16 +54,16 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
+import java.util.ArrayList;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Base class for Purchasing-Accounts Payable Documents.
@@ -117,7 +117,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Default constructor to be overridden.
      */
     public PurchasingAccountsPayableDocumentBase() {
-        items = new TypedArrayList(getItemClass());
+        items = new ArrayList();
     }
 
     protected GeneralLedgerPendingEntry getFirstPendingGLEntry() {
@@ -231,9 +231,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public abstract String getPurApSourceDocumentLabelIfPossible();
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#prepareForSave()
+     * @see org.kuali.rice.krad.document.DocumentBase#prepareForSave()
      */
-    @Override
+    
     public void prepareForSave(KualiDocumentEvent event) {
         customPrepareForSave(event);
         super.prepareForSave(event);
@@ -259,7 +259,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails) {
         List<String> currentRouteLevels = new ArrayList<String>();
 
-        KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
         String[] names = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         currentRouteLevels = Arrays.asList(names);
         if (currentRouteLevels.contains(nodeDetails.getName()) && workflowDoc.isApprovalRequested()) {
@@ -390,11 +390,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     */
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("rawtypes")
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("purapDocumentIdentifier", this.purapDocumentIdentifier);
         return m;
@@ -652,7 +652,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#setTotalPreTaxDollarAmount(org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#setTotalPreTaxDollarAmount(org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public void setTotalPreTaxDollarAmount(KualiDecimal amount) {
         // do nothing, this is so that the jsp won't complain about totalDollarAmount have no setter method.
@@ -959,7 +959,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
+        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode): vendorCountry;
         return vendorCountry;
     }
 
@@ -1199,7 +1199,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         LOG.info("Checking persisted source accounting lines for read-only fields");
         List<String> restrictedItemTypesList = new ArrayList<String>();
         try {
-            restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+            restrictedItemTypesList = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT) );
         } catch (IllegalArgumentException iae) {
             // do nothing, not a problem if no restricted types are defined
         }
@@ -1230,7 +1230,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         LOG.info("Checking source accounting lines for read-only fields");
         List<String> restrictedItemTypesList = new ArrayList<String>();
         try {
-            restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+            restrictedItemTypesList = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT) );
         } catch (IllegalArgumentException iae) {
             // do nothing, not a problem if no restricted types are defined
         }

@@ -22,7 +22,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import java.util.ArrayList;
 
 /**
  * 
@@ -56,7 +56,7 @@ public class CustomerLoadBatchErrors {
         if (error == null) return;
         
         //  stick the constructor-passed entry in
-        batchErrors.put(error.getCustomerName(), new TypedArrayList(CustomerLoadBatchError.class));
+        batchErrors.put(error.getCustomerName(), new ArrayList<CustomerLoadBatchError>());
         batchErrors.get(error.getCustomerName()).add(error);
         errorCount++;
     }
@@ -97,7 +97,7 @@ public class CustomerLoadBatchErrors {
             throw new IllegalArgumentException("Parameter 'error' passed in was null.");
         }
         if (!batchErrors.containsKey(error.getCustomerName())) {
-            batchErrors.put(error.getCustomerName(), new TypedArrayList(CustomerLoadBatchError.class));
+            batchErrors.put(error.getCustomerName(), new ArrayList<CustomerLoadBatchError>());
         }
         batchErrors.get(error.getCustomerName()).add(error);
         errorCount++;

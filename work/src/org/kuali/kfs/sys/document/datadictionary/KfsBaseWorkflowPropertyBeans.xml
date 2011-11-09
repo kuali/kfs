@@ -16,22 +16,22 @@
 		License.
 	-->
 	
-	<bean id="EmptyWorkflowAttributes" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" />
+	<bean id="EmptyWorkflowAttributes" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" />
 	
 	<!-- ******************************************************************* -->
 	<!--  COMMON ROUTING ATTRIBUTE QUALIFIER NAMES -->
 	<!-- ******************************************************************* -->
 	
-	<bean id="RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+	<bean id="RoutingAttribute-Chart" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
 	</bean>
-	<bean id="RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+	<bean id="RoutingAttribute-Account" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="accountNumber"/>
 	</bean>	
-	<bean id="RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+	<bean id="RoutingAttribute-Organization" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="organizationCode"/>
 	</bean>
-	<bean id="RoutingAttribute-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+	<bean id="RoutingAttribute-SubFund" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="subFundGroupCode"/>
 	</bean>
 
@@ -39,7 +39,7 @@
 	<!--  COMMON MAINTENANCE DOCUMENT ATTRIBUTE GROUPS -->
 	<!-- ******************************************************************* -->
 
-   	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
@@ -47,7 +47,7 @@
 	   		</list>
    		</property>
    	</bean>
-  	<bean id="DocumentValuePathGroup-MaintenanceDocument-ReportsToChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+  	<bean id="DocumentValuePathGroup-MaintenanceDocument-ReportsToChartOrganization" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.reportsToChartOfAccountsCode</value>
@@ -56,7 +56,7 @@
    		</property>
    	</bean>
 
-	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization-OrgFromAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization-OrgFromAccount" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
@@ -65,7 +65,7 @@
    		</property>
    	</bean>
 
-   	 <bean id="DocumentValuePathGroup-MaintenanceDocument-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   	 <bean id="DocumentValuePathGroup-MaintenanceDocument-Chart" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
@@ -73,7 +73,7 @@
    		</property>
    	</bean>
    	
-   	 <bean id="DocumentValuePathGroup-MaintenanceDocument-SubFund" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   	 <bean id="DocumentValuePathGroup-MaintenanceDocument-SubFund" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.subFundGroupCode</value>
@@ -81,7 +81,7 @@
    		</property>
    	</bean>
 
-   	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartAccount" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
@@ -95,7 +95,7 @@
 	<!-- ******************************************************************* -->
 
    	 
-	<bean id="RoutingType-MaintenanceDocument-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="RoutingType-MaintenanceDocument-Chart" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-Chart"/>
@@ -108,7 +108,7 @@
     	</property>
     </bean>
 
-	<bean id="RoutingType-MaintenanceDocument-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="RoutingType-MaintenanceDocument-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-Chart"/>
@@ -122,7 +122,7 @@
     	</property>
     </bean>
 
-   	<bean id="RoutingType-MaintenanceDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+   	<bean id="RoutingType-MaintenanceDocument-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-Chart"/>
@@ -136,7 +136,7 @@
     	</property>
     </bean>
     
-   	<bean id="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromMaint" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+   	<bean id="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromMaint" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-Chart"/>
@@ -151,7 +151,7 @@
     	</property>
     </bean>
 
-   	<bean id="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromAccount" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+   	<bean id="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromAccount" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-Chart"/>
@@ -165,7 +165,7 @@
     	</property>
     </bean>
 
-	<bean id="RoutingType-MaintenanceDocument-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="RoutingType-MaintenanceDocument-SubFund" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-SubFund"/>

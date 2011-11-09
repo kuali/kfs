@@ -32,9 +32,9 @@ import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLed
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 import org.kuali.kfs.module.bc.document.validation.SaveMonthlyBudgetRule;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.SaveDocumentRule;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rule.BusinessRule;
+import org.kuali.rice.krad.rule.SaveDocumentRule;
 
 /**
  * Base rule class for Budget Construction. Handles calling other expansion rule classes and the core budget document rules.
@@ -82,7 +82,7 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.SaveDocumentRule#processSaveDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rule.SaveDocumentRule#processSaveDocument(org.kuali.rice.krad.document.Document)
      */
     public boolean processSaveDocument(Document document) {
         return ((SaveDocumentRule) budgetConstructionDocumentRules).processSaveDocument(document);

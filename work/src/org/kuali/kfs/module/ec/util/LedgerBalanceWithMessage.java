@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ec.util;
 
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * To hold the neccessary information of ledger balance for the report generation

@@ -47,8 +47,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -156,14 +156,14 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getPastFiscalYearsToConsider()
      */
     public int getPastFiscalYearsToConsider() {
-        return Integer.parseInt(parameterService.getParameterValue(PosterBalancingStep.class, GeneralLedgerConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE));
+        return Integer.parseInt(parameterService.getParameterValueAsString(PosterBalancingStep.class, GeneralLedgerConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE));
     }
 
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getComparisonFailuresToPrintPerReport()
      */
     public int getComparisonFailuresToPrintPerReport() {
-        return Integer.parseInt(parameterService.getParameterValue(PosterBalancingStep.class, GeneralLedgerConstants.Balancing.NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT));
+        return Integer.parseInt(parameterService.getParameterValueAsString(PosterBalancingStep.class, GeneralLedgerConstants.Balancing.NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT));
     }
 
     /**
@@ -171,16 +171,16 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      */
     public String getShortTableLabel(String businessObjectName) {
         Map<String, String> names = new HashMap<String, String>();
-        names.put((Entry.class).getSimpleName(), kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENTRY_LABEL));
-        names.put((EntryHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENTRY_LABEL));
-        names.put((Balance.class).getSimpleName(), kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_BALANCE_LABEL));
-        names.put((BalanceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_BALANCE_LABEL));
-        names.put((AccountBalance.class).getSimpleName(), kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ACCOUNT_BALANCE_LABEL));
-        names.put((AccountBalanceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ACCOUNT_BALANCE_LABEL));
-        names.put((Encumbrance.class).getSimpleName(), kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_LABEL));
-        names.put((EncumbranceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_LABEL));
+        names.put((Entry.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ENTRY_LABEL));
+        names.put((EntryHistory.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ENTRY_LABEL));
+        names.put((Balance.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_BALANCE_LABEL));
+        names.put((BalanceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_BALANCE_LABEL));
+        names.put((AccountBalance.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ACCOUNT_BALANCE_LABEL));
+        names.put((AccountBalanceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ACCOUNT_BALANCE_LABEL));
+        names.put((Encumbrance.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_LABEL));
+        names.put((EncumbranceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_LABEL));
 
-        return names.get(businessObjectName) == null ? kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_UNKNOWN_LABEL) : names.get(businessObjectName);
+        return names.get(businessObjectName) == null ? kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_UNKNOWN_LABEL) : names.get(businessObjectName);
     }
 
     /**
@@ -283,7 +283,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         deleteHistory(fiscalYear, AccountBalanceHistory.class);
         deleteHistory(fiscalYear, EncumbranceHistory.class);
 
-        reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED), (AccountBalanceHistory.class).getSimpleName(), (EncumbranceHistory.class).getSimpleName(), fiscalYear);
+        reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED), (AccountBalanceHistory.class).getSimpleName(), (EncumbranceHistory.class).getSimpleName(), fiscalYear);
         reportWriterService.writeNewLines(1);
     }
 
@@ -339,7 +339,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         businessObjectService.deleteMatching(EncumbranceHistory.class, fieldValues);
         businessObjectService.deleteMatching(AccountBalanceHistory.class, fieldValues);
 
-        reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_HISTORY_PURGED));
+        reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_HISTORY_PURGED));
 
 
     }
@@ -362,7 +362,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
                 BalanceHistory balance = createBalanceFromMap((Map) itr.next());
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    reportWriterService.writeError(balance, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, balance.getClass().getSimpleName()));
+                    reportWriterService.writeError(balance, new Message(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, balance.getClass().getSimpleName()));
                 }
             }
         }
@@ -388,7 +388,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
                 EntryHistory entry = createEntryHistoryFromMap((Map) itr.next());
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    reportWriterService.writeError(entry, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, entry.getClass().getSimpleName()));
+                    reportWriterService.writeError(entry, new Message(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, entry.getClass().getSimpleName()));
                 }
 
             }
@@ -472,14 +472,14 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
                 AccountBalanceHistory accountBalanceHistory = createAccountBalanceHistoryFromMap((Map) itr.next());
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    reportWriterService.writeError(accountBalanceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, accountBalanceHistory.getClass().getSimpleName()));
+                    reportWriterService.writeError(accountBalanceHistory, new Message(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, accountBalanceHistory.getClass().getSimpleName()));
                 }
             }
 
         }
         else {
             reportWriterService.writeNewLines(1);
-            reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (AccountBalanceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
+            reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (AccountBalanceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
         }
         return countComparisionFailures;
     }
@@ -502,14 +502,14 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
                 EncumbranceHistory encumbranceHistory = createEncumbranceHistoryFromMap((Map) itr.next());
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    reportWriterService.writeError(encumbranceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, encumbranceHistory.getClass().getSimpleName()));
+                    reportWriterService.writeError(encumbranceHistory, new Message(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, encumbranceHistory.getClass().getSimpleName()));
                 }
             }
 
         }
         else {
             reportWriterService.writeNewLines(1);
-            reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (EncumbranceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
+            reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (EncumbranceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
         }
 
 
@@ -526,10 +526,10 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         // Note that fiscal year is passed as null for the History tables because for those we shouldn't have data prior to the
         // fiscal year anyway (and
         // if we do it's a bug that should be discovered)
-        reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ACCOUNT_BALANCE_ROW_COUNT_HISTORY), this.getShortTableLabel((AccountBalanceHistory.class).getSimpleName()), "(" + (AccountBalanceHistory.class).getSimpleName() + ")", this.getHistoryCount(null, AccountBalanceHistory.class));
-        reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ACCOUNT_BALANCE_ROW_COUNT_PRODUCTION), this.getShortTableLabel((AccountBalance.class).getSimpleName()), accountBalanceDao.findCountGreaterOrEqualThan(fiscalYear));
-        reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_ROW_COUNT_HISTORY), this.getShortTableLabel((EncumbranceHistory.class).getSimpleName()), "(" + (EncumbranceHistory.class).getSimpleName() + ")", this.getHistoryCount(null, EncumbranceHistory.class));
-        reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_ROW_COUNT_PRODUCTION), this.getShortTableLabel((Encumbrance.class).getSimpleName()), encumbranceDao.findCountGreaterOrEqualThan(fiscalYear));
+        reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ACCOUNT_BALANCE_ROW_COUNT_HISTORY), this.getShortTableLabel((AccountBalanceHistory.class).getSimpleName()), "(" + (AccountBalanceHistory.class).getSimpleName() + ")", this.getHistoryCount(null, AccountBalanceHistory.class));
+        reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ACCOUNT_BALANCE_ROW_COUNT_PRODUCTION), this.getShortTableLabel((AccountBalance.class).getSimpleName()), accountBalanceDao.findCountGreaterOrEqualThan(fiscalYear));
+        reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_ROW_COUNT_HISTORY), this.getShortTableLabel((EncumbranceHistory.class).getSimpleName()), "(" + (EncumbranceHistory.class).getSimpleName() + ")", this.getHistoryCount(null, EncumbranceHistory.class));
+        reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_ROW_COUNT_PRODUCTION), this.getShortTableLabel((Encumbrance.class).getSimpleName()), encumbranceDao.findCountGreaterOrEqualThan(fiscalYear));
     }
 
     /**

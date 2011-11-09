@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.OrganizationType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link OrgType}s)
@@ -56,12 +56,12 @@ public class OrgTypeValuesFinder extends KeyValuesBase {
         Collections.sort(codes, new OrgTypeComparator());
 
         // create a new list (code, descriptive-name)
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", "")); // blank first entry
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", "")); // blank first entry
 
         for (OrganizationType orgType : codes) {
             if(orgType.isActive()) {
-                labels.add(new KeyLabelPair(orgType.getOrganizationTypeCode(), orgType.getOrganizationTypeCode() + " - " + orgType.getOrganizationTypeName()));
+                labels.add(new ConcreteKeyValue(orgType.getOrganizationTypeCode(), orgType.getOrganizationTypeCode() + " - " + orgType.getOrganizationTypeName()));
             }
         }
 

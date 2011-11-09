@@ -18,8 +18,8 @@ package org.kuali.kfs.gl.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.gl.OJBUtility;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class represents the transient balance inquiry attributes which is typically used as a "dummy business object"
@@ -52,9 +52,9 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return (LinkedHashMap) OJBUtility.buildPropertyMap(this);
     }
 

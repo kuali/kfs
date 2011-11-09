@@ -27,8 +27,8 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the business object that represents the <code>{@link YearEndDocument}</code> version of
@@ -56,7 +56,7 @@ public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectio
      * @param explicitEntry The explicit general ledger pending entry to be customized.
      * 
      * @see org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentRule#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     *      org.kuali.rice.krad.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */

@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
+import org.kuali.rice.krad.authorization.AuthorizationConstants.EditMode;
 
 
 /**

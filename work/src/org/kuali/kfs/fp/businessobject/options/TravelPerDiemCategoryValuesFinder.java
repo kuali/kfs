@@ -25,9 +25,9 @@ import org.kuali.kfs.fp.businessobject.TravelPerDiem;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of per diem category value pairs.
@@ -43,10 +43,10 @@ public class TravelPerDiemCategoryValuesFinder extends KeyValuesBase {
 
         List boList = (List) SpringContext.getBean(KeyValuesService.class).findMatching(TravelPerDiem.class, criteria);
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = boList.iterator(); iter.hasNext();) {
             TravelPerDiem element = (TravelPerDiem) iter.next();
-            keyValues.add(new KeyLabelPair(element.getPerDiemCountryName(), element.getPerDiemCountryName()));
+            keyValues.add(new ConcreteKeyValue(element.getPerDiemCountryName(), element.getPerDiemCountryName()));
         }
 
         return keyValues;

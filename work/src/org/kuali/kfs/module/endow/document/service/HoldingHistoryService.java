@@ -20,7 +20,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * HoldingHistoryService interface to provide the method to get holding history records

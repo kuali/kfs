@@ -21,14 +21,14 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
  */
-public class ObjectLevel extends PersistableBusinessObjectBase implements Inactivateable {
+public class ObjectLevel extends PersistableBusinessObjectBase implements Inactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevel.class);
 
     private String chartOfAccountsCode;
@@ -203,9 +203,9 @@ public class ObjectLevel extends PersistableBusinessObjectBase implements Inacti
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
@@ -219,8 +219,8 @@ public class ObjectLevel extends PersistableBusinessObjectBase implements Inacti
     }
 
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    @Override protected void preUpdate() {
+        super.preUpdate();
         try {
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database

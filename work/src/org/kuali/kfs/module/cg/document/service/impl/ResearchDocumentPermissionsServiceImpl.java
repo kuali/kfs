@@ -17,12 +17,12 @@ package org.kuali.kfs.module.cg.document.service.impl;
 
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentPermissionsService {
 
@@ -41,7 +41,7 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
         criteria.setNodeNames(new String[] { CGConstants.ORG_REVIEW_NODE_NAME });
         criteria.setRuleTemplateNames(new String[] { CGConstants.ORG_REVIEW_TEMPLATE_NAME });
         criteria.setXmlContent(orgXml);
-        WorkflowInfo info = new WorkflowInfo();
+//        WorkflowInfo info = new WorkflowInfo();
         try {
             DocumentDetailDTO detail = info.routingReport(criteria);
             return isUserInRequests(detail.getActionRequests(), uuid);
@@ -54,13 +54,13 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
     /**
      * Check whether given user is in the given action requests.
      * 
-     * @param ActionRequestDTO[] requests
+     * @param ActionRequest[] requests
      * @param String uuid
      * @return boolean
      */
-    protected boolean isUserInRequests(ActionRequestDTO[] requests, String principalId) {
+    protected boolean isUserInRequests(ActionRequest[] requests, String principalId) {
         for (int i = 0; i < requests.length; i++) {
-            ActionRequestDTO request = (ActionRequestDTO) requests[i];
+            ActionRequest request = (ActionRequest) requests[i];
             if (request.getPrincipalId().equals(principalId)) {
                 return true;
             }

@@ -32,11 +32,11 @@ import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.parameter.ParameterService; import java.util.ArrayList;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This prerule is ex..
@@ -62,12 +62,12 @@ public class AssetPaymentDocumentPreRules extends PromptBeforeValidationBase {
      */
     public boolean hasDifferentObjectSubTypes(AssetPaymentDocument document) {
         //This method will only execute if the document is being submitted.
-     if (!(document.getDocumentHeader().getWorkflowDocument().stateIsSaved() || document.getDocumentHeader().getWorkflowDocument().stateIsInitiated())) {
+     if (!(document.getDocumentHeader().getWorkflowDocument().isSaved() || document.getDocumentHeader().getWorkflowDocument().isInitiated())) {
         return false;
         }
 
         List<String> subTypes = new ArrayList<String>();
-        subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
+        subTypes = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS) );
 
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
         List<String> validObjectSubTypes = new ArrayList<String>();
@@ -129,10 +129,10 @@ public class AssetPaymentDocumentPreRules extends PromptBeforeValidationBase {
 
     protected boolean isOkHavingDifferentObjectSubTypes() {
         String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
-        String continueQuestion = kualiConfiguration.getPropertyString(CamsKeyConstants.CONTINUE_QUESTION);
-        String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + continueQuestion;
+        String continueQuestion = kualiConfiguration.getPropertyValueAsString(CamsKeyConstants.CONTINUE_QUESTION);
+        String warningMessage = kualiConfiguration.getPropertyValueAsString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + continueQuestion;
         return super.askOrAnalyzeYesNoQuestion(CamsConstants.AssetPayment.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage);
     }
 

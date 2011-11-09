@@ -26,46 +26,8 @@ import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.KNSConstants;
 
 
-public class KfsParameterConstants {
+public class KfsParameterConstants extends ParameterConstants {
 
-    public static final String NERVOUS_SYSTEM_NAMESPACE = KNSConstants.KNS_NAMESPACE;
-    public static final String ALL_COMPONENT = "All";
-    public static final String DOCUMENT_COMPONENT = "Document";
-    public static final String LOOKUP_COMPONENT = "Lookup";
-    public static final String BATCH_COMPONENT = "Batch";
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target( { ElementType.TYPE })
-    public @interface NAMESPACE {
-        String namespace();
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target( { ElementType.TYPE })
-    public @interface COMPONENT {
-        String component();
-    }
-
-    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
-    @COMPONENT(component = ALL_COMPONENT)
-    public final class NERVOUS_SYSTEM_ALL {
-    }
-
-    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
-    @COMPONENT(component = DOCUMENT_COMPONENT)
-    public final class NERVOUS_SYSTEM_DOCUMENT {
-    }
-
-    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
-    @COMPONENT(component = LOOKUP_COMPONENT)
-    public final class NERVOUS_SYSTEM_LOOKUP {
-    }
-
-    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
-    @COMPONENT(component = BATCH_COMPONENT)
-    public final class NERVOUS_SYSTEM_BATCH {
-    }
-    
     public static final String FINANCIAL_NAMESPACE_PREFIX = "KFS-";
     public static final String FINANCIAL_SYSTEM_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "SYS";
     public static final String ACCOUNTS_RECEIVABLE_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "AR";

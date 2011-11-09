@@ -102,7 +102,7 @@ public class RadioButtonGroupRenderer extends FieldRendererBase {
         }
         
         radioButton.append(" /> ");
-        radioButton.append(keyLabelPair.getLabel());
+        radioButton.append(keyLabelPair.getValue());
         radioButton.append(" ");
         
         return radioButton.toString();

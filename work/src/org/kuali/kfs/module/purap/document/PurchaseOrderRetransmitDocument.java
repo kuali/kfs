@@ -26,6 +26,7 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 
 /**
@@ -100,11 +101,6 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
         return total;
     }
     
-    @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
-        return super.getWorkflowEngineDocumentIdsToLock();
-    }
-
     /**
      * When Purchase Order Retransmit document has been Processed through Workflow, the PO status remains to "OPEN" and the last
      * transmit date is updated.

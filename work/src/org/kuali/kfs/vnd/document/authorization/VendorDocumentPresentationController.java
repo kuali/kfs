@@ -27,9 +27,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class VendorDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.document.MaintenanceDocument document) {
         Set<String> conditionallyReadOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
-        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getDataObject();
 
         if (!vendor.isVendorParentIndicator()) {
             // make some sections read only, e.g. supplier diversity cause they're on the header

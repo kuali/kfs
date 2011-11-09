@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -68,10 +69,9 @@ public class BatchFileDirectoryPathValuesFinder extends KeyValuesBase {
         @Override
         protected void handleDirectoryStart(File directory, int depth, Collection results) throws IOException {
             super.handleDirectoryStart(directory, depth, results);
-            KeyValue entry = new ConcreteKeyValue();
+            ConcreteKeyValue entry = new ConcreteKeyValue();
             entry.setKey(BatchFileUtils.pathRelativeToRootDirectory(directory.getAbsolutePath()));
-            entry.setLabel(directory.getName());
-            entry.setNumPaddedSpaces(4 * this.recursiveDepth);
+            entry.setValue( StringUtils.repeat("&nbsp;", 4 * this.recursiveDepth) + directory.getName());
             keyValues.add(entry);
             this.recursiveDepth++;
         }

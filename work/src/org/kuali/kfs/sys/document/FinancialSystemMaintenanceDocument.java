@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.kew.api.WorkflowRuntimeException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -90,11 +91,11 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     public void processAfterRetrieve() {
         // set correctedByDocumentId manually, since OJB doesn't maintain that relationship
         try {
-            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getRouteHeaderId().toString());
+            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getDocumentId());
             if (correctingDocumentHeader != null) {
                 getDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
             }
-        } catch (WorkflowException e) {
+        } catch (RuntimeException e) {
             LOG.error("Received WorkflowException trying to get route header id from workflow document");
             throw new WorkflowRuntimeException(e);
         }

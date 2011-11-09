@@ -22,6 +22,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 
 /**
@@ -31,13 +32,6 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderPaymentHoldDocument.class);
 
     /**
-     * Default constructor.
-     */
-    public PurchaseOrderPaymentHoldDocument() {
-        super();
-    }
-
-    /**
      * General Ledger pending entries are not created for this document. Overriding this method so that entries are not created.
      * 
      * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
@@ -45,12 +39,6 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
         // do not set the accounts in sourceAccountingLines; this document should not create GL entries
-    }
-
-    @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
-        List<Long> docIds = super.getWorkflowEngineDocumentIdsToLock();
-        return docIds;
     }
 
     /**

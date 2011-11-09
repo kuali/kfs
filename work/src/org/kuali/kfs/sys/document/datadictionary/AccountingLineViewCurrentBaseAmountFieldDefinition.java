@@ -66,7 +66,7 @@ public class AccountingLineViewCurrentBaseAmountFieldDefinition extends Maintain
         Field realField = FieldUtils.getPropertyField(accountingLineClass, propertyName, false);
         FieldBridge.setupField(realField, this, null);
         if (useShortLabels) {
-            BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(accountingLineClass.getName());
+            org.kuali.rice.krad.datadictionary.BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(accountingLineClass.getName());
             realField.setFieldLabel(boEntry.getAttributeDefinition(propertyName).getShortLabel());
         }
         return realField;

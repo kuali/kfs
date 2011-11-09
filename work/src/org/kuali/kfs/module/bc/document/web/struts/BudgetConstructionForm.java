@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.businessobject.BCKeyValue;
+import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -64,8 +64,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     protected KualiDecimal revenueAdjustmentAmount;
     protected KualiDecimal expenditureAdjustmentAmount;
 
-    protected List<BCKeyValue> pushdownLevelKeyLabels;
-    protected List<BCKeyValue> pullupLevelKeyLabels;
+    protected List<BCKeyLabelPair> pushdownLevelKeyLabels;
+    protected List<BCKeyLabelPair> pullupLevelKeyLabels;
     protected String pushdownKeyCode;
     protected String pullupKeyCode;
     protected List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHierLevels;
@@ -101,8 +101,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
         this.setAccountOrgHierLevels(new ArrayList<BudgetConstructionAccountOrganizationHierarchy>());
-        this.setPullupLevelKeyLabels(new ArrayList<BCKeyValue>());
-        this.setPushdownLevelKeyLabels(new ArrayList<BCKeyValue>());
+        this.setPullupLevelKeyLabels(new ArrayList<BCKeyLabelPair>());
+        this.setPushdownLevelKeyLabels(new ArrayList<BCKeyLabelPair>());
 
         LOG.debug("creating BudgetConstructionForm");
     }
@@ -239,7 +239,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                                     if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
                                         BudgetConstructionAccountOrganizationHierarchy level = rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode());
                                         SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(level, "organization");
-                                        pullupLevelKeyLabels.add(new BCKeyValue(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + level.getOrganization().getOrganizationName()));
+                                        pullupLevelKeyLabels.add(new BCKeyLabelPair(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + level.getOrganization().getOrganizationName()));
                                     }
                                 }
                             }
@@ -258,10 +258,10 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                         SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(level, "organization");
                         if (level.getOrganizationLevelCode() == 0) {
                             // push list level zero case needs special desc
-                            pushdownLevelKeyLabels.add(new BCKeyValue(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + "Fiscal Officer Access Level"));
+                            pushdownLevelKeyLabels.add(new BCKeyLabelPair(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + "Fiscal Officer Access Level"));
                         }
                         else {
-                            pushdownLevelKeyLabels.add(new BCKeyValue(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + level.getOrganization().getOrganizationName()));
+                            pushdownLevelKeyLabels.add(new BCKeyLabelPair(level.getOrganizationLevelCode().toString(), level.getOrganizationLevelCode().toString() + ":" + level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + level.getOrganization().getOrganizationName()));
                         }
                     }
                 }
@@ -790,7 +790,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * 
      * @return Returns the pullupLevelKeyLabels.
      */
-    public List<BCKeyValue> getPullupLevelKeyLabels() {
+    public List<BCKeyLabelPair> getPullupLevelKeyLabels() {
         return pullupLevelKeyLabels;
     }
 
@@ -799,7 +799,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * 
      * @param pullupLevelKeyLabels The pullupLevelKeyLabels to set.
      */
-    public void setPullupLevelKeyLabels(List<BCKeyValue> pullupLevelKeyLabels) {
+    public void setPullupLevelKeyLabels(List<BCKeyLabelPair> pullupLevelKeyLabels) {
         this.pullupLevelKeyLabels = pullupLevelKeyLabels;
     }
 
@@ -844,7 +844,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * 
      * @return Returns the pushdownLevelKeyLabels.
      */
-    public List<BCKeyValue> getPushdownLevelKeyLabels() {
+    public List<BCKeyLabelPair> getPushdownLevelKeyLabels() {
         return pushdownLevelKeyLabels;
     }
 
@@ -853,7 +853,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * 
      * @param pushdownLevelKeyLabels The pushdownLevelKeyLabels to set.
      */
-    public void setPushdownLevelKeyLabels(List<BCKeyValue> pushdownLevelKeyLabels) {
+    public void setPushdownLevelKeyLabels(List<BCKeyLabelPair> pushdownLevelKeyLabels) {
         this.pushdownLevelKeyLabels = pushdownLevelKeyLabels;
     }
 

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ec.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
@@ -45,7 +46,7 @@ public class EffortCertificationParameterFinder {
      * 
      * @return the federal agency type codes setup in system parameters
      */
-    public static List<String> getFederalAgencyTypeCodes() {
+    public static Collection<String> getFederalAgencyTypeCodes() {
         return parameterService.getParameterValuesAsString(EffortCertificationExtractStep.class, SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
     }
 
@@ -83,7 +84,7 @@ public class EffortCertificationParameterFinder {
      * 
      * @return the account type codes setup in system parameters
      */
-    public static List<String> getAccountTypeCodes() {
+    public static Collection<String> getAccountTypeCodes() {
         return parameterService.getParameterValuesAsString(EffortCertificationExtractStep.class, SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
     }
 

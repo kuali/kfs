@@ -606,7 +606,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     protected void populateFalseCheckboxes(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
         if (parameterMap.get("checkboxToReset") != null) {
-            final String[] checkboxesToReset = new ArrayList<String>( request.getParameterValuesAsString("checkboxToReset") );
+            final String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
             if(checkboxesToReset != null && checkboxesToReset.length > 0) {
                 for (int i = 0; i < checkboxesToReset.length; i++) {
                     String propertyName = (String) checkboxesToReset[i];

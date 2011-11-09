@@ -117,7 +117,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
         String organizationDocumentNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
         if (StringUtils.isNotBlank(organizationDocumentNumber)) {
-            document.getDocumentHeader().getWorkflowDocument().setAppDocId(organizationDocumentNumber);
+            document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentId(organizationDocumentNumber);
         }
 
         this.getBusinessObjectService().save(document);

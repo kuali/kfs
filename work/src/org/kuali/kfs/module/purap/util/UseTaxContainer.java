@@ -36,14 +36,14 @@ public class UseTaxContainer {
     public UseTaxContainer() {
         super();
         accounts = new ArrayList<SourceAccountingLine>();
-        items = new ArrayList<PurApItemBase>();
+        items = new ArrayList<PurApItem>();
     }
 
     public UseTaxContainer(PurApItemUseTax useTax,PurApItem item) {
         super();
         this.useTax = useTax;
         accounts = new ArrayList<SourceAccountingLine>();
-        items = new ArrayList<PurApItemBase>();
+        items = new ArrayList<PurApItem>();
         items.add(item);
     }
     

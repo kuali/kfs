@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.integration.cg;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
@@ -35,7 +36,7 @@ public interface ContractsAndGrantsModuleService {
      * @return true if the given account is funded by a federal agency or associated with federal pass through indicator; otherwise,
      *         false
      */
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes);
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, Collection<String> federalAgencyTypeCodes);
 
     /**
      * get all possible account responsibility ids on contracts & grants Accounts

@@ -21,8 +21,8 @@ import java.util.List;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -34,7 +34,7 @@ public class PositionNumberValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        CertificationReportForm form = (CertificationReportForm) GlobalVariables.getKualiForm();
+        CertificationReportForm form = (CertificationReportForm) KNSGlobalVariables.getKualiForm();
         EffortCertificationDocument document = (EffortCertificationDocument)form.getDocument();
         List keyValues = new ArrayList();
         List<String> positionNumberList = document.getPositionList();

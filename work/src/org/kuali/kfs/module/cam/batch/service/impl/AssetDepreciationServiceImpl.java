@@ -120,7 +120,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
              * is going to be depreciated If blank then the system will take the system date to determine the fiscal period
              */
             if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER)) {
-                depreciationDateParameter = new ArrayList<String>( ((List<String>) parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER)).get(0).trim() );
+                depreciationDateParameter = ((List<String>) parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER)).get(0).trim();
             }
             else {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(CamsKeyConstants.Depreciation.DEPRECIATION_DATE_PARAMETER_NOT_FOUND));
@@ -491,7 +491,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         documentHeader.setWorkflowDocument(workflowDocument);
-        documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
+        documentHeader.setDocumentNumber(workflowDocument.getDocumentId());
         documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         documentHeader.setExplanation(CamsConstants.Depreciation.DOCUMENT_DESCRIPTION);
         documentHeader.setDocumentDescription(CamsConstants.Depreciation.DOCUMENT_DESCRIPTION);

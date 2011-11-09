@@ -358,7 +358,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         //if (country == null)
         //    country = SpringContext.getBean(CountryService.class).getDefaultCountry();
         if (country != null)
-            return country.getPostalCountryName();
+            return country.getName();
         return null;
     }
    
@@ -431,7 +431,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         //if (country == null)
         //    country = SpringContext.getBean(CountryService.class).getDefaultCountry();
         if (country != null)
-            return country.getPostalCountryName();
+            return country.getName();
         return null;
     }
 
@@ -562,7 +562,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public String getDeliveryCountryName() {
         Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
         if (country != null)
-            return country.getPostalCountryName();
+            return country.getName();
         return null;
     }
 
@@ -1228,8 +1228,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public void clearCapitalAssetFields() {
-        this.setPurchasingCapitalAssetItems(new ArrayList(getPurchasingCapitalAssetItemClass()));
-        this.setPurchasingCapitalAssetSystems(new ArrayList(getPurchasingCapitalAssetSystemClass()));
+        this.setPurchasingCapitalAssetItems(new ArrayList<PurchasingCapitalAssetItem>());
+        this.setPurchasingCapitalAssetSystems(new ArrayList<CapitalAssetSystem>());
         this.setCapitalAssetSystemStateCode(null);
         this.setCapitalAssetSystemTypeCode(null);
         this.setCapitalAssetSystemState(null);

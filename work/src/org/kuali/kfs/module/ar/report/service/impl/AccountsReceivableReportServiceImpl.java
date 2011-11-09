@@ -133,7 +133,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             billCityStateZip = generateCityStateZipLine(invoice.getBillingCityName(), invoice.getBillingAddressInternationalProvinceName(), invoice.getBillingInternationalMailCode());
             Country country = SpringContext.getBean(CountryService.class).getCountry(invoice.getBillingCountryCode());
             if (ObjectUtils.isNotNull(country)) {
-                customerMap.put("billToCountry", country.getPostalCountryName());
+                customerMap.put("billToCountry", country.getName());
             }
         }
         customerMap.put("billToCityStateZip", billCityStateZip);
@@ -257,7 +257,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             }
             else {
                 billCityStateZip = generateCityStateZipLine(billToAddr.getCustomerCityName(), billToAddr.getCustomerAddressInternationalProvinceName(), billToAddr.getCustomerInternationalMailCode());
-                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getPostalCountryName());
+                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getName());
             }
             customerMap.put("billToCityStateZip", billCityStateZip);
         }
@@ -271,7 +271,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             }
             else {
                 shipCityStateZip = generateCityStateZipLine(shipToAddr.getCustomerCityName(), shipToAddr.getCustomerAddressInternationalProvinceName(), shipToAddr.getCustomerInternationalMailCode());
-                customerMap.put("shipToCountry", shipToAddr.getCustomerCountry().getPostalCountryName());
+                customerMap.put("shipToCountry", shipToAddr.getCustomerCountry().getName());
             }
             customerMap.put("shipToCityStateZip", shipCityStateZip);
         }
@@ -301,7 +301,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("customerOrg", invoice.getBilledByOrganizationCode());
         invoiceMap.put("docNumber", invoice.getDocumentNumber());
         invoiceMap.put("invoiceDueDate", dateTimeService.toDateString(invoice.getInvoiceDueDate()));
-        invoiceMap.put("createDate", dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated()));
+        invoiceMap.put("createDate", dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()));
         invoiceMap.put("invoiceAttentionLineText", StringUtils.upperCase(invoice.getInvoiceAttentionLineText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", currencyFormatter.format(invoice.getInvoiceItemPreTaxAmountTotal()).toString());
@@ -402,7 +402,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             }
             else {
                 billCityStateZip = generateCityStateZipLine(billToAddr.getCustomerCityName(), billToAddr.getCustomerAddressInternationalProvinceName(), billToAddr.getCustomerInternationalMailCode());
-                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getPostalCountryName());
+                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getName());
             }
             customerMap.put("billToCityStateZip", billCityStateZip);
         }
@@ -506,8 +506,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             if (date == null) {
                 reports.add(generateInvoice(doc));
             }
-            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated()) != null) {
-                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated()).equals(dateTimeService.toDateString(date))) {
+            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()) != null) {
+                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()).equals(dateTimeService.toDateString(date))) {
                     reports.add(generateInvoice(doc));
                 }
             }
@@ -528,8 +528,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             if (date == null) {
                 reports.add(generateInvoice(doc));
             }
-            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated()) != null) {
-                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated()).equals(dateTimeService.toDateString(date))) {
+            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()) != null) {
+                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()).equals(dateTimeService.toDateString(date))) {
                     reports.add(generateInvoice(doc));
                 }
             }
@@ -548,8 +548,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             if (date == null) {
                 reports.add(generateInvoice(invoice));
             }
-            else if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated()) != null) {
-                if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated()).equals(dateTimeService.toDateString(date))) {
+            else if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()) != null) {
+                if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()).equals(dateTimeService.toDateString(date))) {
                     reports.add(generateInvoice(invoice));
                 }
             }

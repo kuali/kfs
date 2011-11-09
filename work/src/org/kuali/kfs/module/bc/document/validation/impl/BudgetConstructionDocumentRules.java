@@ -20,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -84,12 +85,12 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     protected static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     protected static FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
 
-    protected List<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
-    protected List<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
-    protected List<String> budgetAggregationCodesParamValues = BudgetParameterFinder.getBudgetAggregationCodes();
-    protected List<String> fringeBenefitDesignatorCodesParamValues = BudgetParameterFinder.getFringeBenefitDesignatorCodes();
-    protected List<String> salarySettingFundGroupsParamValues = BudgetParameterFinder.getSalarySettingFundGroups();
-    protected List<String> salarySettingSubFundGroupsParamValues = BudgetParameterFinder.getSalarySettingSubFundGroups();
+    protected Collection<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
+    protected Collection<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
+    protected Collection<String> budgetAggregationCodesParamValues = BudgetParameterFinder.getBudgetAggregationCodes();
+    protected Collection<String> fringeBenefitDesignatorCodesParamValues = BudgetParameterFinder.getFringeBenefitDesignatorCodes();
+    protected Collection<String> salarySettingFundGroupsParamValues = BudgetParameterFinder.getSalarySettingFundGroups();
+    protected Collection<String> salarySettingSubFundGroupsParamValues = BudgetParameterFinder.getSalarySettingSubFundGroups();
 
     // this field is highlighted for any errors found on an existing line
     protected static final String TARGET_ERROR_PROPERTY_NAME = KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
@@ -645,7 +646,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     protected boolean validatePBGLLine(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isAdd) {
         if (pendingBudgetConstructionGeneralLedger == null) {
-            throw new IllegalStateException(getConfigurationService().getPropertyValueAsString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
+            throw new IllegalStateException(getKualiConfigurationService().getPropertyValueAsString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
         }
 
         // grab the service instance that will be needed by all the validate methods
@@ -739,7 +740,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         }
     }
 
-    protected boolean isObjectTypeAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
+    protected boolean isObjectTypeAllowed(Collection<String> paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -769,7 +770,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    protected boolean isBudgetAggregationAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
+    protected boolean isBudgetAggregationAllowed(Collection<String> paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -817,7 +818,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    protected boolean isNotFringeBenefitObject(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
+    protected boolean isNotFringeBenefitObject(Collection<String> paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -835,7 +836,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    protected boolean isNotSalarySettingOnly(List fundGroupParamValues, List subfundGroupParamValues, BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
+    protected boolean isNotSalarySettingOnly(Collection<String> fundGroupParamValues, Collection<String> subfundGroupParamValues, BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
         boolean isAllowed = true;
 
         // check if account belongs to a fund or subfund that only allows salary setting lines

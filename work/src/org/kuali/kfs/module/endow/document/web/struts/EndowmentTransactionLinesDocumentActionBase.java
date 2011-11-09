@@ -647,13 +647,13 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
 
         // build out the actual form key that will be used to retrieve the form on refresh
-        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
+        String callerDocFormKey = GlobalVariables.getUserSession().addObjectWithGeneratedKey(form);
 
         // now add required parameters
         Properties params = new Properties();
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boName);
-        params.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        params.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form));
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
 

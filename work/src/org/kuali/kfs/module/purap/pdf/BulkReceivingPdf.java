@@ -295,7 +295,7 @@ public class BulkReceivingPdf extends PurapPdf {
             }
             
             if (!KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(blkRecDoc.getVendorCountryCode()) && blkRecDoc.getVendorCountry() != null) {
-                vendorInfo.append("     " + blkRecDoc.getVendorCountry().getPostalCountryName() + "\n\n");
+                vendorInfo.append("     " + blkRecDoc.getVendorCountry().getName() + "\n\n");
             }else {
                 vendorInfo.append("\n\n");
             }

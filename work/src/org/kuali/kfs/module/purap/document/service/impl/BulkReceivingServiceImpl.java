@@ -52,16 +52,12 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
 
     private static final Logger LOG = Logger.getLogger(BulkReceivingServiceImpl.class);
     
-    private DateTimeService dateTimeService;
-    private PurchaseOrderService purchaseOrderService;
-    private BulkReceivingDao bulkReceivingDao;
-    private DocumentService documentService;
-    private WorkflowDocumentService workflowDocumentService;
-    private ConfigurationService configurationService;    
-    private PurapService purapService;
-    private NoteService noteService;
-    private ConfigurationService kualiConfigurationService;
-    private PrintService printService;
+    protected PurchaseOrderService purchaseOrderService;
+    protected BulkReceivingDao bulkReceivingDao;
+    protected DocumentService documentService;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected ConfigurationService configurationService;    
+    protected PrintService printService;
     
     public boolean canPrintReceivingTicket(BulkReceivingDocument blkRecDoc) {
 
@@ -267,18 +263,6 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         }
         
     }
-    
-    public ConfigurationService getConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    public PrintService getPrintService() {
-        return printService;
-    }
 
     public void setPrintService(PrintService printService) {
         this.printService = printService;
@@ -302,22 +286,6 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
 
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
-    }
-
-    public void setPurapService(PurapService purapService) {
-        this.purapService = purapService;
-    }
-
-    public void setNoteService(NoteService noteService) {
-        this.noteService = noteService;
-    }
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 }
 

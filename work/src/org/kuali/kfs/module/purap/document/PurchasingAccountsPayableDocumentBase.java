@@ -388,17 +388,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     */
     
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("purapDocumentIdentifier", this.purapDocumentIdentifier);
-        return m;
-    }
-
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();

@@ -42,7 +42,7 @@ public class MonthEndDateValuesFinder extends KeyValuesBase {
 
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             MonthEndDate monthEndDate = (MonthEndDate) iter.next();
-            labels.add(new ConcreteKeyValue(monthEndDate.getMonthEndDateId(), dateTimeService.toDateString(monthEndDate.getMonthEndDate())));
+            labels.add(new ConcreteKeyValue(monthEndDate.getMonthEndDateId().toString(), dateTimeService.toDateString(monthEndDate.getMonthEndDate())));
         }
 
         return labels;

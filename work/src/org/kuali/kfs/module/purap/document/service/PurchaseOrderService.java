@@ -254,9 +254,9 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      * @param id The purchase order id (purapDocumentIdentifier).
      * @return The list of notes that belong to this purchase order.
      */
-    public ArrayList<Note> getPurchaseOrderNotes(Integer id);
+    public List<Note> getPurchaseOrderNotes(Integer id);
 
-    public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes();
+    public List<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes();
 
     /**
      * Performs a threshold check on the purchase order to determine if any attribute on the purchase order

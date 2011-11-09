@@ -235,10 +235,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     CapitalAssetLocation location = null;
 
                     // get building code
-                    String buildingCode = request.getParameterValuesAsString(buildingCodeParam)[0];
+                    String buildingCode = request.getParameterValues(buildingCodeParam)[0];
                     // get campus code
                     String campusCodeParam = buildingCodeParam.replace("buildingCode", "campusCode");
-                    String campusCode = request.getParameterValuesAsString(campusCodeParam)[0];
+                    String campusCode = request.getParameterValues(campusCodeParam)[0];
                     // lookup building
                     Building locationBuilding = new Building();
                     locationBuilding.setCampusCode(campusCode);

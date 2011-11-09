@@ -68,8 +68,8 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -708,7 +708,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                String nodeName = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next();
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
                     String newStatusCode = currentNode.getDisapprovedStatusCode();
@@ -724,7 +724,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-                String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getDocumentHeader().getWorkflowDocument());
+                String currentNodeName = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next();
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
                     String cancelledStatusCode = currentNode.getDisapprovedStatusCode();

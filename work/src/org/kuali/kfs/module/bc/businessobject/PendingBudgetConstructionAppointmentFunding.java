@@ -949,8 +949,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterLookup(persistenceBroker);
+    protected void postLoad() {
+        super.postLoad();
 
         this.setPersistedDeleteIndicator(this.isAppointmentFundingDeleteIndicator());
         this.setNewLineIndicator(false);

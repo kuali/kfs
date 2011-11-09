@@ -45,7 +45,7 @@ public class PaymentRequestPayDateNotOverThresholdDaysAwayValidation extends Gen
         int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
         if ((document.getPaymentRequestPayDate() != null) && purapService.isDateMoreThanANumberOfDaysAway(document.getPaymentRequestPayDate(), thresholdDays)) {
             if (ObjectUtils.isNull(KNSGlobalVariables.getMessageList())) {
-                GlobalVariables.setMessageList(new MessageList());
+                KNSGlobalVariables.setMessageList(new MessageList());
             }
             if (!KNSGlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS)) {
                 KNSGlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);

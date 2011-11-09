@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -64,6 +65,7 @@ import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Copyable;
@@ -283,8 +285,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             Calendar c = Calendar.getInstance();
 
             // The allowed copy date is the document creation date plus a set number of days.
-            Date createDate = getDocumentHeader().getWorkflowDocument().getDateCreated();
-            c.setTime(createDate);
+            DateTime createDate = getDocumentHeader().getWorkflowDocument().getDateCreated();
+            c.setTime(createDate.toDate());
             String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.B2B_ALLOW_COPY_DAYS);
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
             Date allowedCopyDate = c.getTime();
@@ -395,21 +397,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = new ArrayList<String>();
         docIdStrings.add(getDocumentNumber());
-        
-        //  PROCESSED
-        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            // creates a new PO but no way to know what the docID will be ahead of time
-        }
-        
-        //  convert our easy to use List<String> to a Long[]
-        List<Long> docIds = new ArrayList<Long>();
-        for (int i = 0; i < docIdStrings.size(); i++) {
-            docIds.add(new Long(docIdStrings.get(i)));
-        }
-        return docIds;
+        return docIdStrings;
     }
 
     /**
@@ -640,7 +631,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     public Date getCreateDate() {
-        return this.getDocumentHeader().getWorkflowDocument().getDateCreated();
+        return this.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
     }
 
     public String getUrl() {
@@ -693,7 +684,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
     
     public Date getCreateDateForResult() {
-        return this.getDocumentHeader().getWorkflowDocument().getDateCreated();
+        return this.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
     }
 
     /**

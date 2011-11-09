@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
@@ -54,8 +55,8 @@ public class BudgetParameterServiceImpl implements BudgetParameterService {
     public AccountSalarySettingOnlyCause isSalarySettingOnlyAccount(BudgetConstructionDocument bcDoc) {
         AccountSalarySettingOnlyCause retVal = AccountSalarySettingOnlyCause.MISSING_PARAM;
         
-        List<String> salarySettingFundGroupsParamValues = BudgetParameterFinder.getSalarySettingFundGroups();
-        List<String> salarySettingSubFundGroupsParamValues = BudgetParameterFinder.getSalarySettingSubFundGroups();
+        Collection<String> salarySettingFundGroupsParamValues = BudgetParameterFinder.getSalarySettingFundGroups();
+        Collection<String> salarySettingSubFundGroupsParamValues = BudgetParameterFinder.getSalarySettingSubFundGroups();
 
         if (salarySettingFundGroupsParamValues != null && salarySettingSubFundGroupsParamValues != null) {
             retVal = AccountSalarySettingOnlyCause.NONE;
@@ -85,27 +86,31 @@ public class BudgetParameterServiceImpl implements BudgetParameterService {
      */
     public String getLookupObjectTypes(boolean isRevenue) {
 
-        List<String> objectTypes;
+        Collection<String> objectTypes;
         if (isRevenue) {
             objectTypes = BudgetParameterFinder.getRevenueObjectTypes();
         }
         else {
             objectTypes = BudgetParameterFinder.getExpenditureObjectTypes();
         }
-        StringBuffer lookupBuilder = new StringBuffer(150);
 
         if (objectTypes.isEmpty()) {
             // for an empty list, return an empty string
-            return new String("");
+            return "";
         }
         else {
-            lookupBuilder.append(objectTypes.get(0));
-            for (int idx = 1; idx < objectTypes.size(); idx++) {
-                lookupBuilder.append("|");
-                lookupBuilder.append(objectTypes.get(idx));
+            StringBuffer lookupBuilder = new StringBuffer(150);
+            boolean isFirst = true;
+            for ( String ot : objectTypes ) {
+                if ( isFirst ) {
+                    isFirst = false;
+                } else {
+                    lookupBuilder.append( '|' );
+                }
+                lookupBuilder.append( ot );
             }
+            return lookupBuilder.toString();
         }
-        return lookupBuilder.toString();
     }
 
     /**

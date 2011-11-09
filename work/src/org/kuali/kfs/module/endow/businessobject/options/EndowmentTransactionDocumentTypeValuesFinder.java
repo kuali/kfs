@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.businessobject.options;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
@@ -45,7 +46,7 @@ public class EndowmentTransactionDocumentTypeValuesFinder extends KeyValuesBase 
         labels.add(new ConcreteKeyValue("", ""));
         
         // Read in parameter values.
-        List<String> documentTypeNames =
+        Collection<String> documentTypeNames =
             parameterService.getParameterValuesAsString(TransactionArchive.class, EndowParameterKeyConstants.TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES);
         String label= null;
         for (String documentTypeName : documentTypeNames) {

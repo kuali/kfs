@@ -135,7 +135,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean isValidTaxRegionState(TaxRegionState taxRegionState) {
         boolean success = true;
 
-        State state = SpringContext.getBean(StateService.class).getState(taxRegionState.getStateCode());
+        State state = SpringContext.getBean(StateService.class).getState("US",taxRegionState.getStateCode());
         if (ObjectUtils.isNull(state) || !state.isActive()) {
             GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_STATE_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_STATE, taxRegionState.getStateCode());
             success = false;
@@ -153,7 +153,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean isValidTaxRegionCounty(TaxRegionCounty taxRegionCounty) {
         boolean success = true;
 
-        County county = SpringContext.getBean(CountyService.class).getByPrimaryId(taxRegionCounty.getStateCode(), taxRegionCounty.getCountyCode());
+        County county = SpringContext.getBean(CountyService.class).getCounty("US",taxRegionCounty.getStateCode(), taxRegionCounty.getCountyCode());
         if (ObjectUtils.isNull(county) || !county.isActive()) {
             GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_COUNTY_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_COUNTY, new String[] { taxRegionCounty.getCountyCode(), taxRegionCounty.getStateCode() });
             success = false;

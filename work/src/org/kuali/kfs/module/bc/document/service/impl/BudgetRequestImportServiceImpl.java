@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,8 +152,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                     budgetConstructionRequestMove.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                 }
                 //set object type code
-                List revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
-                List expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
+                Collection<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
+                Collection<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
                 ObjectCode objectCode = getObjectCode(budgetConstructionRequestMove, budgetYear);
                 if (objectCode != null) {
                     if ( expenditureObjectTypesParamValues.contains(objectCode.getFinancialObjectTypeCode()) ) {

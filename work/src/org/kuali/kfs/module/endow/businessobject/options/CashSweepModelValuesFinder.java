@@ -42,7 +42,7 @@ public class CashSweepModelValuesFinder extends KeyValuesBase {
         labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             CashSweepModel cashSweepModel = (CashSweepModel) iter.next();
-            labels.add(new ConcreteKeyValue(cashSweepModel.getCashSweepModelID(), cashSweepModel.getCashSweepModelName()));
+            labels.add(new ConcreteKeyValue(cashSweepModel.getCashSweepModelID().toString(), cashSweepModel.getCashSweepModelName()));
         }
 
         return labels;

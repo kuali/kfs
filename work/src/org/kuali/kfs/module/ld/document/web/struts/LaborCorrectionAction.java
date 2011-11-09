@@ -657,7 +657,7 @@ public class LaborCorrectionAction extends CorrectionAction {
 
             // Get field name, type, length & value on the form
             String fieldName = (String) lkp.getKey();
-            String fieldDisplayName = lkp.getLabel();
+            String fieldDisplayName = lkp.getValue();
             String fieldType = loeff.getFieldType(fieldName);
             int fieldLength = loeff.getFieldLength(fieldName);
             String fieldValue = null;

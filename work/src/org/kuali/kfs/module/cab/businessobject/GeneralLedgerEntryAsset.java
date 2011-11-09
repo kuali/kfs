@@ -85,16 +85,6 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put("capitalAssetBuilderLineNumber", this.capitalAssetBuilderLineNumber);
-        m.put("generalLedgerAccountIdentifier", this.generalLedgerAccountIdentifier);
-        return m;
-    }
-
-    /**
      * Gets the generalLedgerEntry attribute.
      * 
      * @return Returns the generalLedgerEntry.

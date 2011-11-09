@@ -380,7 +380,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             vendorInfo.append("\n");
         }
         if (!KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getVendorCountryCode()) && po.getVendorCountry() != null) {
-            vendorInfo.append("     " + po.getVendorCountry().getPostalCountryName() + "\n\n");
+            vendorInfo.append("     " + po.getVendorCountry().getName() + "\n\n");
         }
         else {
             vendorInfo.append("\n\n");

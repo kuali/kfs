@@ -149,7 +149,7 @@ public class LedgerBalanceFieldValidator {
      * @param federalAgencyTypeCodes the given federal agency type codes
      * @return null if there is at least one account with federal funding; otherwise, a message
      */
-    public static Message hasFederalFunds(Collection<LaborLedgerBalance> ledgerBalances, List<String> federalAgencyTypeCodes) {
+    public static Message hasFederalFunds(Collection<LaborLedgerBalance> ledgerBalances, Collection<String> federalAgencyTypeCodes) {
         for (LaborLedgerBalance balance : ledgerBalances) {
             Account account = balance.getAccount();
             if (SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(account.getChartOfAccountsCode(), account.getAccountNumber(), federalAgencyTypeCodes)) {

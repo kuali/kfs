@@ -187,7 +187,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * @return Returns the campus.
      */
     public Campus getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
+        return campus = StringUtils.isBlank( physCampusProcCode)?null:((campus!=null && campus.getCode().equals( physCampusProcCode))?campus:SpringContext.getBean(CampusService.class).getCampus( physCampusProcCode));
     }
 
     /**

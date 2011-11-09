@@ -32,12 +32,12 @@ public class StateCodeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        List<State> codes = SpringContext.getBean(StateService.class).findAllStates();
+        List<State> codes = SpringContext.getBean(StateService.class).findAllStatesInCountry("US");
         List<KeyValue> labels = new ArrayList<KeyValue>();
         labels.add(new ConcreteKeyValue("", ""));
         for (State state : codes) {
             if(state.isActive()) {
-                labels.add(new ConcreteKeyValue(state.getStateCode(), state.getStateCode()));
+                labels.add(new ConcreteKeyValue(state.getCode(), state.getCode()));
             }
         }
 

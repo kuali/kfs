@@ -111,6 +111,7 @@ import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -1067,7 +1068,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             
             try {
                 mailService.sendMessage(mailMessage);
-            }catch (InvalidAddressException e) {
+            }catch (Exception e) {
                 LOG.error("Invalid email address. Message not sent", e);
             }
         }
@@ -1086,7 +1087,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
         String mailTitle = "E-Invoice Load Results for " + ElectronicInvoiceUtils.getDateDisplayText(SpringContext.getBean(DateTimeService.class).getCurrentDate());
         
-        if (kualiConfigurationService.isProductionEnvironment()) {
+        if (KRADUtils.isProductionEnvironment()) {
             message.setSubject(mailTitle);
         } else {
             message.setSubject(kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY) + " - " + mailTitle);
@@ -1880,7 +1881,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
                                 
                 // get error text
                 errorText = kualiConfigurationService
-                        .getPropertyString(errorMessage.getErrorKey());
+                        .getPropertyValueAsString(errorMessage.getErrorKey());
                 // apply parameters
                 errorText = MessageFormat.format(errorText,
                         (Object[]) errorMessage.getMessageParameters());

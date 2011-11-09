@@ -74,19 +74,6 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
         incomeCashAmount    = new BigDecimal(BigInteger.ZERO, 2);
         corpusAmount        = new BigDecimal(BigInteger.ZERO, 2);
     }
-    
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, this.documentNumber);
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, this.lineNumber);
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, this.lineTypeCode);
-        
-        return m;
-    }
 
     /**
      * 
@@ -143,7 +130,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     public String getDocumentTypeResults() {
         
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        DocumentType documentType = documentTypeService.getDocumentTypeByName(typeCode);
+        org.kuali.rice.kew.api.doctype.DocumentType documentType = documentTypeService.getDocumentTypeByName(typeCode);
         
         StringBuilder result = new StringBuilder();
         result.append("[" + typeCode + "," + " ,");

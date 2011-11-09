@@ -418,11 +418,8 @@
 	<bean id="bulkReceivingService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.BulkReceivingServiceImpl" abstract="true">
         <property name="bulkReceivingDao" ref="bulkReceivingDao" />
 	    <property name="configurationService" ref="kualiConfigurationService" />
-        <property name="dateTimeService" ref="dateTimeService"/>
         <property name="documentService" ref="documentService" />
-        <property name="noteService" ref="noteService" />
         <property name="printService" ref="printService" />
-        <property name="purapService" ref="purapService" />
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
 	</bean>

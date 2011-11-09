@@ -43,8 +43,8 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         super();
         this.nextSourceLineNumber = new Integer(1);
         this.nextTargetLineNumber = new Integer(1);
-        sourceTransactionLines = new ArrayList<EndowmentSourceTransactionLine>();
-        targetTransactionLines = new ArrayList<EndowmentTargetTransactionLine>();
+        sourceTransactionLines = new ArrayList<EndowmentTransactionLine>();
+        targetTransactionLines = new ArrayList<EndowmentTransactionLine>();
     }
     
     /**

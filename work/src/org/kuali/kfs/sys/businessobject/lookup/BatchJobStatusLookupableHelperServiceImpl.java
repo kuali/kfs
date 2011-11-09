@@ -116,7 +116,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
                     permissionDetails ) ) {
                 linkText = "View";
             }
-            String href = getConfigurationService().getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name="+(UrlFactory.encode(job.getName()))+("&group=")+(UrlFactory.encode(job.getGroup()));
+            String href = configurationService.getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name="+(UrlFactory.encode(job.getName()))+("&group=")+(UrlFactory.encode(job.getGroup()));
             List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
             AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, linkText);
             anchorHtmlDataList.add(anchorHtmlData);
@@ -134,7 +134,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         String titleText = displayText+" "
             +getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(getBusinessObjectClass().getName()).getObjectLabel()
             +" "
-            +getConfigurationService().getPropertyValueAsString(TITLE_ACTION_URL_PREPENDTEXT_PROPERTY);
+            +configurationService.getPropertyValueAsString(TITLE_ACTION_URL_PREPENDTEXT_PROPERTY);
         titleText += "Name="+job.getName()+" Group="+job.getGroup();
         return titleText;
     }

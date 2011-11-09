@@ -391,7 +391,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         String strCompareDate = calendar.getTime().toString();
         
         try {
-            createDate = getDateTimeService().convertToSqlDate(documentCreateDate);
+            createDate = getDateTimeService().convertToSqlDate(documentCreateDate.toString());
         }
         catch (ParseException pe){
             LOG.error("Document create date can not be determined.");

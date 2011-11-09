@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.authorization;
 
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -84,7 +85,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     }
 
     protected boolean isApprovalDateWithinFiscalYear(WorkflowDocument workflowDocument) {
-        final Calendar approvalDate = workflowDocument.getDateApproved();
+        final Calendar approvalDate = workflowDocument.getDateApproved().toCalendar(Locale.getDefault());
         if (ObjectUtils.isNotNull(approvalDate)) {
             // compare approval fiscal year with current fiscal year
             UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);

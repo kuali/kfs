@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.lowagie.text.Document;
@@ -102,7 +103,7 @@ public class PurapPdf extends PdfPageEventHelper {
      * @see com.lowagie.text.pdf.PdfPageEventHelper#onStartPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
     public void onStartPage(PdfWriter writer, Document document) {
-        if (!SpringContext.getBean(ConfigurationService.class).isProductionEnvironment()) {
+        if (!KRADUtils.isProductionEnvironment()) {
             PdfContentByte cb = writer.getDirectContentUnder();
             cb.saveState();
             cb.beginText();

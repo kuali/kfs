@@ -213,7 +213,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
             realField.setFieldType(Field.HIDDEN);
         }
         if (shouldUseShortLabel()) {
-            BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(accountingLineClass.getName());
+            org.kuali.rice.krad.datadictionary.BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(accountingLineClass.getName());
             realField.setFieldLabel(boEntry.getAttributeDefinition(getName()).getShortLabel());
         }
         return realField;

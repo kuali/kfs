@@ -36,7 +36,9 @@ import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -308,7 +310,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     public String getDeliveryCountryName() {
         Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
         if (country != null)
-            return country.getPostalCountryName();
+            return country.getName();
         return null;
     }
        
@@ -558,7 +560,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
             Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(userNetworkId);
-            workflowDocument.adHocRouteDocumentToPrincipal(KewApiConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, annotationNote, principal.getPrincipalId(), responsibilityNote, true);
+            workflowDocument.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, annotationNote, principal.getPrincipalId(), responsibilityNote, true);
         }
     }
     /**
@@ -656,7 +658,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
     
     public java.util.Date getCreateDateForResult() {
-        return new java.util.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getTime());
+        return new java.util.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
     }
     
     public String getDocumentTitleForResult() throws WorkflowException{

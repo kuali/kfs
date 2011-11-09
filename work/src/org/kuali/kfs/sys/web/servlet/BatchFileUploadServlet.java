@@ -43,6 +43,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.AuthenticationService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
@@ -56,7 +57,7 @@ public class BatchFileUploadServlet extends HttpServlet {
     protected void checkAuthorization( HttpServletRequest request ) {
         boolean authorized = false;
 //        String principalName = GlobalVariables.getUserSession().getPrincipalName();
-        String principalName = SpringContext.getBean(IdentityManagementService.class).getAuthenticatedPrincipalName(request);
+        String principalName = SpringContext.getBean(AuthenticationService.class).getPrincipalName(request);
         LOG.info("Logged In User: " + principalName);
         if ( StringUtils.isNotBlank(principalName) ) {
             Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName( principalName );

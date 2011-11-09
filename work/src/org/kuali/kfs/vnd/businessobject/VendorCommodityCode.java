@@ -178,36 +178,4 @@ public class VendorCommodityCode extends PersistableBusinessObjectBase implement
         this.commodityCode = commodityCode;
     }
 
-    /**
-	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.vendorHeaderGeneratedIdentifier != null) {
-            m.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, this.vendorHeaderGeneratedIdentifier.toString());
-        }
-        if (this.vendorDetailAssignedIdentifier != null) {
-            m.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, this.vendorDetailAssignedIdentifier.toString());
-        }
-        m.put(VendorPropertyConstants.PURCHASING_COMMODITY_CODE, this.purchasingCommodityCode);
-	    return m;
-    }
-	
-    /**
-     * This method overrides the superclass method to return the description of the commodity code.
-     * 
-     * @param mapper A LinkedHashMap
-     * @return A String rendition of this object.
-     */
-    @Override
-    public String toStringBuilder_RICE20_REFACTORME(LinkedHashMap mapper) {
-        if (commodityCode != null) {
-
-            return commodityCode.getCommodityDescription();
-        }
-        else {
-
-            return super.toStringBuilder(mapper);
-        }
-    }
 }

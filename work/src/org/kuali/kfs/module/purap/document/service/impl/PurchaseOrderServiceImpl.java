@@ -1271,10 +1271,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // need to set fields that are not ojb managed (i.e. the notes on the documentBusinessObject may have been modified
                 // independently of the ones in the db)
                 fixDbNoteFields(documentBusinessObject, dbNotes);
-                po.setBoNotes(dbNotes);
+                po.setNotes(dbNotes);
             }
             else {
-                po.setBoNotes(documentBusinessObject.getNotes());
+                po.setNotes(documentBusinessObject.getNotes());
             }
         }
     }
@@ -1304,8 +1304,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#getPurchaseOrderNotes(java.lang.Integer)
      */
-    public ArrayList<Note> getPurchaseOrderNotes(Integer id) {
-        ArrayList notes = new ArrayList<Note>();
+    public List<Note> getPurchaseOrderNotes(Integer id) {
+        List<Note> notes = new ArrayList<Note>();
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(id));
         if (ObjectUtils.isNotNull(po)) {
             notes = noteService.getByRemoteObjectId(po.getObjectId());
@@ -1441,7 +1441,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             try { 
                 Note note = documentService.createNoteFromDocument(po, notetxt);
-                documentService.addNoteToDocument(po, note);
+//                documentService.addNoteToDocument(po, note);
                 noteService.save(note);
             }
             catch (Exception e) {
@@ -1666,7 +1666,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         if (defaultAddress != null ) {
             if (defaultAddress.getVendorState() != null) {
-                vendor.setVendorStateForLookup(defaultAddress.getVendorState().getPostalStateName());
+                vendor.setVendorStateForLookup(defaultAddress.getVendorState().getName());
             }
             vendor.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
             vendor.setDefaultAddressLine2(defaultAddress.getVendorLine2Address());
@@ -1955,7 +1955,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     protected void createNoteForAutoCloseOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
         try {
             Note noteObj = documentService.createNoteFromDocument(purchaseOrderDocument, annotation);
-            documentService.addNoteToDocument(purchaseOrderDocument, noteObj);
+//            documentService.addNoteToDocument(purchaseOrderDocument, noteObj);
             noteService.save(noteObj);
         }
         catch(Exception e){

@@ -320,7 +320,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         }
 
         // build out the actual form key that will be used to retrieve the form on refresh
-        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
+        String callerDocFormKey = GlobalVariables.getUserSession().addObjectWithGeneratedKey(form);
 
         // now add required parameters
         Properties params = new Properties();

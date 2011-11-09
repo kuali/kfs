@@ -76,7 +76,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
      */
     public List listPrimaryKeyFieldNames(Class businessObjectInterfaceClass) {
         Class clazz = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);
-        final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(clazz.getName());        
+        final org.kuali.rice.krad.datadictionary.BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(clazz.getName());        
         if (boEntry == null) {
             return null;
         }

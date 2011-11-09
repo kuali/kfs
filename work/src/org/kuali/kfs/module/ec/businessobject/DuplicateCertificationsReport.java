@@ -107,7 +107,7 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
      * @return Returns the employee.
      */
     public Person getEmployee() {
-        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+        Map<String, String> searchCriteria = new HashMap<String, String>();
         searchCriteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, getEmplid());
 
         return new ArrayList<Person>(SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).findPeople(searchCriteria)).get(0);

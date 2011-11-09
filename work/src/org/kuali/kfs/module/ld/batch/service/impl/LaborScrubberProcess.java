@@ -847,7 +847,7 @@ public class LaborScrubberProcess {
         // then demerge all other entries for this document; otherwise, only
         // pull the entry with the error and don't demerge anything else.
         //
-        List<String> demergeDocumentTypes = parameterService.getParameterValuesAsString(
+        Collection<String> demergeDocumentTypes = parameterService.getParameterValuesAsString(
                 LaborScrubberStep.class,
                 LdParameterConstants.DEMERGE_DOCUMENT_TYPES);
 

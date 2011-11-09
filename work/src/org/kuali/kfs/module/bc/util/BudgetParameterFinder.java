@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.util;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -39,7 +40,7 @@ public class BudgetParameterFinder {
      * 
      * @return the biweekly pay type codes setup in system parameters
      */
-    public static List<String> getBiweeklyPayTypeCodes() {
+    public static Collection<String> getBiweeklyPayTypeCodes() {
         return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.BIWEEKLY_PAY_TYPE_CODES);
     }
 
@@ -81,7 +82,7 @@ public class BudgetParameterFinder {
      * 
      * @return the sub fund group codes not allowed 2plg generation setup in system parameters
      */
-    public static List<String> getNotGenerate2PlgSubFundGroupCodes() {
+    public static Collection<String> getNotGenerate2PlgSubFundGroupCodes() {
         return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS);
     }
 
@@ -90,7 +91,7 @@ public class BudgetParameterFinder {
      * 
      * @return the biweekly pay object codes setup in system parameters
      */
-    public static List<String> getBiweeklyPayObjectCodes() {
+    public static Collection<String> getBiweeklyPayObjectCodes() {
         return parameterService.getParameterValuesAsString(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES);
     }
 
@@ -99,7 +100,7 @@ public class BudgetParameterFinder {
      * 
      * @return the revenue object types allowed in budget setup in system parameters
      */
-    public static List<String> getRevenueObjectTypes() {
+    public static Collection<String> getRevenueObjectTypes() {
         return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
     }
 
@@ -108,7 +109,7 @@ public class BudgetParameterFinder {
      * 
      * @return the expenditure object types allowed in budget setup in system parameters
      */
-    public static List<String> getExpenditureObjectTypes() {
+    public static Collection<String> getExpenditureObjectTypes() {
         return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
     }
 
@@ -117,7 +118,7 @@ public class BudgetParameterFinder {
      * 
      * @return the budget aggregation codes setup in system parameters
      */
-    public static List<String> getBudgetAggregationCodes() {
+    public static Collection<String> getBudgetAggregationCodes() {
         return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.BUDGET_AGGREGATION_CODES);
     }
 
@@ -126,7 +127,7 @@ public class BudgetParameterFinder {
      * 
      * @return the fringe benefit designator codes setup in system parameters
      */
-    public static List<String> getFringeBenefitDesignatorCodes() {
+    public static Collection<String> getFringeBenefitDesignatorCodes() {
         return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
     }
 
@@ -135,7 +136,7 @@ public class BudgetParameterFinder {
      * 
      * @return the salary setting fund groups setup in system parameters
      */
-    public static List<String> getSalarySettingFundGroups() {
+    public static Collection<String> getSalarySettingFundGroups() {
         return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.SALARY_SETTING_FUND_GROUPS);
     }
 
@@ -144,7 +145,7 @@ public class BudgetParameterFinder {
      * 
      * @return the salary setting sub fund groups setup in system parameters
      */
-    public static List<String> getSalarySettingSubFundGroups() {
+    public static Collection<String> getSalarySettingSubFundGroups() {
         return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.SALARY_SETTING_SUB_FUND_GROUPS);
     }
 

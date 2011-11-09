@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -93,8 +94,10 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -241,14 +244,15 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         String accountNumber = accountingLine != null ? accountingLine.getAccountNumber() : "";
         String chartCode = getChartOfAccountsCode();
         String orgCode = getOrganizationCode();
-        String deliveryCampus = getDeliveryCampus() != null ? getDeliveryCampus().getCampus().getCampusShortName() : "";
+        String deliveryCampus = getDeliveryCampus() != null ? getDeliveryCampus().getCampus().getShortName() : "";
         String documentTitle = "";
 
-        String[] nodeNames = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        Set<String> nodeNames = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
 
         String routeLevel = "";
-        if (nodeNames.length == 1)
-            routeLevel = nodeNames[0];
+        if (nodeNames.size() >= 1) {
+            routeLevel = nodeNames.iterator().next();
+        }
 
         if (getStatusCode().equals(PurchaseOrderStatuses.OPEN)) {
             documentTitle = super.getDocumentTitle();
@@ -472,7 +476,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         WorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
-        String documentType = workFlowDocument.getDocumentType();
+        String documentType = workFlowDocument.getDocumentTypeName();
 
         
         if ((documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) ||
@@ -627,7 +631,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = new ArrayList<String>();
         docIdStrings.add(getDocumentNumber());
         String currentDocumentTypeName = this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
@@ -639,24 +643,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 docIdStrings.add(poView.getDocumentNumber());
             }
         }
-        
-        //  convert our easy to use List<String> to a Long[]
-        List<Long> docIds = new ArrayList<Long>();
-        for (int i = 0; i < docIdStrings.size(); i++) {
-            docIds.add(new Long(docIdStrings.get(i)));
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("***** getWorkflowEngineDocumentIdsToLock(" + this.documentNumber + ") = '" + docIdStrings + "'");
         }
-        LOG.info("***** getWorkflowEngineDocumentIdsToLock(" + this.documentNumber + ") = '" + printList(docIds) + "'");
-        return docIds;
+        return docIdStrings;
     }
     
-    // Only used for debugging in the getWorkflowEngineDocumentIdsToLock above
-    protected String printList(List<Long> docIds) {
-        StringBuffer sb = new StringBuffer("[");
-        for (int i = 0; i < docIds.size(); i++) {
-            sb.append(new Long(docIds.get(i)).toString() + ",");
-        }
-        return sb.append("]").toString();
-    }
     
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
@@ -732,7 +724,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
             Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(userNetworkId);
-            workflowDocument.adHocRouteDocumentToPrincipal(KewApiConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, annotationNote, principal.getPrincipalId(), responsibilityNote, true);
+            workflowDocument.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, annotationNote, principal.getPrincipalId(), responsibilityNote, true);
         }
     }
 

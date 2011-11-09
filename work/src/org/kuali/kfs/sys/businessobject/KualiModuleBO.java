@@ -61,30 +61,4 @@ public class KualiModuleBO extends TransientBusinessObjectBase {
         this.moduleName = moduleName;
     }
 
-    
-    public String toString() {
-        // TODO Auto-generated method stub
-        return super.toString();
-    }
-
-
-    @Override
-    protected String toStringBuilder_RICE20_REFACTORME(LinkedHashMap fieldValues) {
-        // TODO Auto-generated method stub
-        return super.toStringBuilder(fieldValues);
-    }
-
-
-    @Override
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("name", getModuleName());
-        m.put("code", getModuleCode());
-        m.put("id", getModuleId());
-
-        return m;
-    }
-
-
 }

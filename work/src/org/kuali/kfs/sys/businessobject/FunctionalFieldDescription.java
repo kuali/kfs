@@ -97,11 +97,4 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase im
         this.businessObjectProperty = businessObjectProperty;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        if (businessObjectProperty != null) {
-            return businessObjectProperty.toStringMapper();
-        }
-        return new LinkedHashMap<String, String>();
-    }
 }

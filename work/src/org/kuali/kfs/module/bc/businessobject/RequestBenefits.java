@@ -204,21 +204,4 @@ public class RequestBenefits extends TransientBusinessObjectBase {
         this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-
-        if (this.universityFiscalYear != null) {
-            m.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear.toString());
-        }
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("financialObjectCode", this.financialObjectCode);
-        m.put("financialObjectBenefitsTypeCode", this.financialObjectBenefitsTypeCode);
-
-        return m;
-    }
-
 }

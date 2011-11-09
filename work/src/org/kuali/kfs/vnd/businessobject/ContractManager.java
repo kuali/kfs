@@ -106,7 +106,7 @@ public class ContractManager extends PersistableBusinessObjectBase implements In
         Map<String,String> qualification = new HashMap<String,String>();
         
         RoleService roleService = SpringContext.getBean(RoleService.class);
-        String roleId = roleService.getRoleIdByName(KfsParameterConstants.PURCHASING_NAMESPACE, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
+        String roleId = roleService.getRoleIdByNameAndNamespaceCode(KfsParameterConstants.PURCHASING_NAMESPACE, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
 //        String roleId = roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.PURCHASING, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
         
         qualification.put(KfsKimAttributes.CONTRACT_MANAGER_CODE, String.valueOf(contractManagerCode));

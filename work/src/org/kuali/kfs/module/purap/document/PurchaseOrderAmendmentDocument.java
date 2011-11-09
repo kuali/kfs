@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 /**
  * Purchase Order Amendment Document
@@ -43,19 +44,6 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
 
     boolean newUnorderedItem; //Used for routing
     String receivingDeliveryCampusCode; //Used for routing
-    
-    /**
-     * Default constructor.
-     */
-    public PurchaseOrderAmendmentDocument() {
-        super();
-    }
-
-    
-    @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
-        return super.getWorkflowEngineDocumentIdsToLock();
-    }
 
     /**
      * When Purchase Order Amendment document has been Processed through Workflow, the general ledger entries are created and the PO

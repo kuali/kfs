@@ -594,7 +594,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         int fieldSize = -1;
         
         //grab account number length from DD and set size
-        final BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(Account.class.getName());
+        final org.kuali.rice.krad.datadictionary.BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(Account.class.getName());
         AttributeDefinition attributeDefinition = entry.getAttributeDefinition(KFSPropertyConstants.ACCOUNT_NUMBER);
         
         if(ObjectUtils.isNotNull(attributeDefinition)){

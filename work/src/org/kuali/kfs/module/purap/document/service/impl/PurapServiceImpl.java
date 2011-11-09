@@ -191,7 +191,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<RequisitionView> iterator = reqViews.iterator(); iterator.hasNext();) {
                 RequisitionView view = (RequisitionView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save purchase order routing data
@@ -199,7 +199,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<PurchaseOrderView> iterator = poViews.iterator(); iterator.hasNext();) {
                 PurchaseOrderView view = (PurchaseOrderView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save payment request routing data
@@ -207,7 +207,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<PaymentRequestView> iterator = preqViews.iterator(); iterator.hasNext();) {
                 PaymentRequestView view = (PaymentRequestView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save credit memo routing data
@@ -215,7 +215,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<CreditMemoView> iterator = cmViews.iterator(); iterator.hasNext();) {
                 CreditMemoView view = (CreditMemoView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save line item receiving routing data
@@ -223,7 +223,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<LineItemReceivingView> iterator = lineViews.iterator(); iterator.hasNext();) {
                 LineItemReceivingView view = (LineItemReceivingView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
 
             //save correction receiving routing data
@@ -231,7 +231,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<CorrectionReceivingView> iterator = corrViews.iterator(); iterator.hasNext();) {
                 CorrectionReceivingView view = (CorrectionReceivingView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save bulk receiving routing data
@@ -239,7 +239,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<BulkReceivingView> iterator = bulkViews.iterator(); iterator.hasNext();) {
                 BulkReceivingView view = (BulkReceivingView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
         }
         catch (WorkflowException e) {

@@ -38,7 +38,7 @@ public class AutomatedCashInvestmentModelValuesFinder extends KeyValuesBase {
         labels.add(new ConcreteKeyValue("", ""));
         for (Iterator<AutomatedCashInvestmentModel> iter = codes.iterator(); iter.hasNext();) {
             AutomatedCashInvestmentModel automatedCashInvestmentModel = (AutomatedCashInvestmentModel) iter.next();
-            labels.add(new ConcreteKeyValue(automatedCashInvestmentModel.getAciModelID(), automatedCashInvestmentModel.getAciModelName()));
+            labels.add(new ConcreteKeyValue(automatedCashInvestmentModel.getAciModelID().toString(), automatedCashInvestmentModel.getAciModelName()));
         }
 
         return labels;

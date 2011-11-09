@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 /**
  * labor Document class for the Labor Ledger Correction Process.
@@ -63,7 +64,7 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         if ( LOG.isInfoEnabled() ) {
-            LOG.info("Document: " + statusChangeEvent.getRouteHeaderId() + " -- Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+            LOG.info("Document: " + statusChangeEvent.getDocumentId() + " -- Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
         }
         // End of super.super code
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {

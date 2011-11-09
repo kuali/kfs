@@ -45,19 +45,6 @@ public class TransactionArchiveSecurity extends PersistableBusinessObjectBase {
     protected Security security;
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, this.documentNumber);
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, this.lineNumber);
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, this.lineTypeCode);
-        
-        return m;
-    }
-
-    /**
      * Gets the security attribute. 
      * @return Returns the security.
      */

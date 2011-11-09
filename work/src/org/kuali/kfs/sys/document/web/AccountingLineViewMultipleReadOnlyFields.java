@@ -98,7 +98,7 @@ public class AccountingLineViewMultipleReadOnlyFields extends FieldTableJoiningW
      * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
-        final BusinessObjectEntry boEntry = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(renderingContext.getAccountingLine().getClass().getName());
+        final org.kuali.rice.krad.datadictionary.BusinessObjectEntry boEntry = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(renderingContext.getAccountingLine().getClass().getName());
         if (fields != null && !fields.isEmpty()) {
             for (Field field : fields) {
                 setShortLabelsForFields(field, boEntry);
@@ -120,7 +120,7 @@ public class AccountingLineViewMultipleReadOnlyFields extends FieldTableJoiningW
      * KRAD Conversion: Customization of the fields - Uses data dictionary
      * 
      */
-    protected void setShortLabelsForFields(Field field, BusinessObjectEntry boEntry) {
+    protected void setShortLabelsForFields(Field field, org.kuali.rice.krad.datadictionary.BusinessObjectEntry boEntry) {
         final AttributeDefinition propertyDefinition = boEntry.getAttributeDefinition(field.getPropertyName());
         final String label = (propertyDefinition == null) ? "" : (!StringUtils.isBlank(propertyDefinition.getShortLabel()) ? propertyDefinition.getShortLabel() : propertyDefinition.getLabel());
         field.setFieldLabel(label);

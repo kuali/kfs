@@ -240,7 +240,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         Integer maximumRecurrencesByInterval;
         if (ObjectUtils.isNotNull(recurrenceIntervalCode)) {
-            List<String> maximumRecurrences = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, recurrenceIntervalCode) );
+            List<String> maximumRecurrences = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getSubParameterValuesAsString(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, recurrenceIntervalCode) );
             if (maximumRecurrences.size() > 0 && StringUtils.isNotBlank(maximumRecurrences.get(0))) {
                 maximumRecurrencesByInterval = Integer.valueOf(maximumRecurrences.get(0));
                 if (totalRecurrenceNumber > maximumRecurrencesByInterval) {

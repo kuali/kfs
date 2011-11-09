@@ -399,7 +399,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         // grab the two service instances that will be needed by all the validate methods
         DataDictionary dd = dataDictionaryService.getDataDictionary();
 
-        BusinessObjectEntry accountingLineEntry = dd.getBusinessObjectEntry(SourceAccountingLine.class.getName());
+        org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry = dd.getBusinessObjectEntry(SourceAccountingLine.class.getName());
 
         // retrieve accounting line objects to validate
         accountingLine.refreshReferenceObject("chart");
@@ -451,7 +451,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    protected boolean isValidReferenceOriginCode(OriginationCode referenceOriginCode, BusinessObjectEntry accountingLineEntry) {
+    protected boolean isValidReferenceOriginCode(OriginationCode referenceOriginCode, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry) {
         return checkExistence(referenceOriginCode, accountingLineEntry, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSPropertyConstants.REFERENCE_ORIGIN_CODE);
     }
     
@@ -463,7 +463,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    protected boolean isValidReferenceTypeCode(String documentTypeCode, DocumentTypeEBO referenceType, BusinessObjectEntry accountingLineEntry) {
+    protected boolean isValidReferenceTypeCode(String documentTypeCode, DocumentTypeEBO referenceType, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry) {
         if (!StringUtils.isBlank(documentTypeCode) && !getFinancialSystemDocumentTypeService().isCurrentActiveAccountingDocumentType(documentTypeCode)) {
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE, documentTypeCode);
             return false;
@@ -481,7 +481,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param propertyName the name of the property within the global error path.
      * @return whether the given Object exists or not
      */
-    protected boolean checkExistence(Object toCheck, BusinessObjectEntry accountingLineEntry, String attributeName, String propertyName) {
+    protected boolean checkExistence(Object toCheck, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry, String attributeName, String propertyName) {
         String label = accountingLineEntry.getAttributeDefinition(attributeName).getShortLabel();
         if (ObjectUtils.isNull(toCheck)) {
             GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);

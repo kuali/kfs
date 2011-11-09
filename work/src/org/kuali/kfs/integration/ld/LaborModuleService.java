@@ -65,7 +65,7 @@ public interface LaborModuleService {
      * @param positionObjectGroupCodes the specified position obejct group codes
      * @return all ledger balances matching the given criteria within the given fiscal years
      */
-    public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes);
+    public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, Collection<String>> fieldValues, Map<String, Collection<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes);
 
     /**
      * calculate the fringe benefit amount for the given labor object and salary amount

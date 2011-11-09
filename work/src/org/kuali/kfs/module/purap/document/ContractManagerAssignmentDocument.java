@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -31,8 +32,10 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 
 public class ContractManagerAssignmentDocument extends FinancialSystemTransactionalDocumentBase {
@@ -80,7 +83,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
             documentHeaderIds.add(req.getDocumentNumber());
         }
         
-        List<RequisitionDocument> requisitionDocumentsFromDocService = new ArrayList();
+        List<Document> requisitionDocumentsFromDocService = new ArrayList();
         try {
             if ( documentHeaderIds.size() > 0 )
                 requisitionDocumentsFromDocService = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(RequisitionDocument.class, documentHeaderIds);
@@ -91,9 +94,9 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
             throw new RuntimeException(errorMsg, we);
         }
   
-        for (RequisitionDocument req : requisitionDocumentsFromDocService) {
+        for (Document req : requisitionDocumentsFromDocService) {
         //    req.setAccountDistributionMethod("S");
-            contractManagerAssignmentDetails.add(new ContractManagerAssignmentDetail(this, req));
+            contractManagerAssignmentDetails.add(new ContractManagerAssignmentDetail(this, (RequisitionDocument) req));
         }
 
         String[] fieldNames = {PurapPropertyConstants.DELIVERY_CAMPUS_CODE, PurapPropertyConstants.VENDOR_NAME, PurapPropertyConstants.REQUISITION_IDENTIFIER};
@@ -118,12 +121,12 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
                 String currentNodeName = null;
                 try {
                     currentNodeName = PurapWorkflowConstants.DOC_ADHOC_NODE_NAME;
-                    if (!(KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getStatus()))) {
+                    if (!(KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getStatus().getCode()))) {
                         if (this.getCurrentRouteNodeName(workflowDoc) != null) {
                             currentNodeName = this.getCurrentRouteNodeName(workflowDoc);
                         }
                     }
-                    workflowDoc.adHocRouteDocumentToPrincipal(KewApiConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, workflowDoc.getRouteHeader().getInitiatorPrincipalId(), "Initiator", true);
+                    workflowDoc.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, workflowDoc.getInitiatorPrincipalId(), "Initiator", true);
                 }
                 catch (WorkflowException e) {
                     // do nothing; document should have processed successfully and problem is with sending FYI
@@ -140,12 +143,12 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
      * @throws WorkflowException
      */
     protected String getCurrentRouteNodeName(WorkflowDocument wd) throws WorkflowException {
-        String[] nodeNames = wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        if ((nodeNames == null) || (nodeNames.length == 0)) {
+        Set<String> nodeNames = wd.getCurrentNodeNames();
+        if (nodeNames == null || nodeNames.isEmpty()) {
             return null;
         }
         else {
-            return nodeNames[0];
+            return nodeNames.iterator().next();
         }
     }
 

@@ -63,7 +63,7 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
         if (KRADConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KRADConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
 
             // the security ID hidded on creation and a dummy field is used for user input (userEnteredSecurityIDprefix)
-            String routeStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
+            String routeStatus = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
             if (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equalsIgnoreCase(routeStatus) || KewApiConstants.ROUTE_HEADER_SAVED_CD.equalsIgnoreCase(routeStatus)) {
                 fields.add(EndowPropertyConstants.SECURITY_ID);
             }

@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 
 /**
@@ -41,14 +42,6 @@ import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderVoidDocument.class);
 
-    /**
-     * Default constructor.
-     */
-    public PurchaseOrderVoidDocument() {
-        super();
-    }
-
- 
     /**
      * General Ledger pending entries are not created on save for this document. They are created when the document has been finally
      * processed. Overriding this method so that entries are not created yet.
@@ -62,11 +55,6 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
            setSourceAccountingLines(new ArrayList());
            setGeneralLedgerPendingEntries(new ArrayList());        
        }
-    }
-
-    @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
-        return super.getWorkflowEngineDocumentIdsToLock();
     }
 
     /**

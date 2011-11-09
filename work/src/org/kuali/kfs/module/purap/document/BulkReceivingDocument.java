@@ -277,7 +277,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
     public String getDeliveryCountryName() {
         Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
         if (country != null)
-            return country.getPostalCountryName();
+            return country.getName();
         return null;
     }
 

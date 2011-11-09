@@ -295,7 +295,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         }
 
         if (!KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(poqv.getVendorCountryCode()) && poqv.getVendorCountryCode() != null) {
-            vendorInfo.append("     " + poqv.getVendorCountry().getPostalCountryName() + "\n\n");
+            vendorInfo.append("     " + poqv.getVendorCountry().getName() + "\n\n");
         }
         else {
             vendorInfo.append("     \n\n");

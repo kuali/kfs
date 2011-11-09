@@ -25,6 +25,7 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -107,10 +108,10 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         Map<String, Integer> reportSummary = this.constructReportSummary();
         PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
 
-        List<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
-        List<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
-        List<String> subFundGroupCodes = this.getSubFundGroupProcessed();
-        List<String> fundGroupCodes = this.getFundGroupProcessed();
+        Collection<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
+        Collection<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
+        Collection<String> subFundGroupCodes = this.getSubFundGroupProcessed();
+        Collection<String> fundGroupCodes = this.getFundGroupProcessed();
 
         // create files
         String balanceForwardsFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
@@ -276,7 +277,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the fund group codes that are acceptable by year-end process
      */
-    protected List<String> getFundGroupProcessed() {
+    protected Collection<String> getFundGroupProcessed() {
         return parameterService.getParameterValuesAsString(LaborYearEndBalanceForwardStep.class, YearEnd.FUND_GROUP_PROCESSED);
     }
 
@@ -285,7 +286,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the fund group codes that are acceptable by year-end process
      */
-    protected List<String> getSubFundGroupProcessed() {
+    protected Collection<String> getSubFundGroupProcessed() {
         return parameterService.getParameterValuesAsString(LaborYearEndBalanceForwardStep.class, YearEnd.SUB_FUND_GROUP_PROCESSED);
     }
 
@@ -345,7 +346,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param processedObjectTypeCodes the object type codes processed by this job
      * @param documentTypeCode the document type code of posted entries
      */
-    protected void fillParametersReportWriter(Date runDate, Integer closingYear, List<String> processedFundGroups, List<String> processedSubFundGroups, String originationCode, List<String> processedBalanceTypeCodes, List<String> processedObjectTypeCodes, String documentTypeCode) {
+    protected void fillParametersReportWriter(Date runDate, Integer closingYear, Collection<String> processedFundGroups, Collection<String> processedSubFundGroups, String originationCode, Collection<String> processedBalanceTypeCodes, Collection<String> processedObjectTypeCodes, String documentTypeCode) {
         laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM, runDate.toString());
         laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborConstants.YearEnd.OLD_FISCAL_YEAR, closingYear);
         laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborConstants.YearEnd.FUND_GROUP_PROCESSED, StringUtils.join(processedFundGroups, ", "));

@@ -622,16 +622,16 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
-        Set<String> errorKeys = errorMap.keySet();
+        Set<String> errorKeys = errorMap.getAllPropertiesWithErrors();
         List<ErrorMessage> errorMessages = null;
         Object[] messageParams;
         String errorKeyString;
         String errorString;
 
         for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
+            errorMessages = (List<ErrorMessage>) errorMap.getErrorMessagesForProperty(errorProperty);
             for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
+                errorKeyString = configService.getPropertyValueAsString(errorMessage.getErrorKey());
                 messageParams = errorMessage.getMessageParameters();
 
                 // MessageFormat.format only seems to replace one

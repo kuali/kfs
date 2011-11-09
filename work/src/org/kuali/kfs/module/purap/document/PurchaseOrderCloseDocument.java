@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 
 /**
@@ -39,13 +40,6 @@ import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
  */
 public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderCloseDocument.class);
-
-    /**
-     * Default constructor.
-     */
-    public PurchaseOrderCloseDocument() {
-        super();
-    }
 
     /**
      * General Ledger pending entries are not created on save for this document. They are created when the document has been finally
@@ -58,11 +52,6 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
         setSourceAccountingLines(new ArrayList());
         setGeneralLedgerPendingEntries(new ArrayList());
-    }
-
-    @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
-        return super.getWorkflowEngineDocumentIdsToLock();
     }
 
     /**

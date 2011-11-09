@@ -165,13 +165,13 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         
         //  draw the Print File button if appropriate 
         if (editModes.contains(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON)) {
-            String printButtonURL = getConfigService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            String printButtonURL = getConfigService().getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
             addExtraButton("methodToCall.print", printButtonURL + "buttonsmall_genprintfile.gif", "Print");
         }
 
         //  draw the Error Correction button if appropriate
         if (presoController.canErrorCorrect(invoiceDocument)) {
-            String printButtonURL = getConfigService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            String printButtonURL = getConfigService().getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
             addExtraButton("methodToCall.correct", printButtonURL + "buttonsmall_correction.gif", "Correct");
         }
         

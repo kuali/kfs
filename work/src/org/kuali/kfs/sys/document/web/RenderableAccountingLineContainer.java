@@ -260,7 +260,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public void populateValuesForFields() {
         FieldUtils.populateFieldsFromBusinessObject(getFieldsForAccountingLine(), accountingLine);
         
-        BusinessObjectEntry boDDEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getAccountingLine().getClass().getName());
+        org.kuali.rice.krad.datadictionary.BusinessObjectEntry boDDEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getAccountingLine().getClass().getName());
         
         for (Field field : getFieldsForAccountingLine()) {
             setUnconvertedValueIfNecessary(field);
@@ -289,7 +289,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * 
      * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
-    protected void setShouldShowSecure(Field field, BusinessObjectEntry boDDEntry) {
+    protected void setShouldShowSecure(Field field, org.kuali.rice.krad.datadictionary.BusinessObjectEntry boDDEntry) {
         // TODO: FIX
         
         // from Warren:  k... org.kuali.rice.kns.service.BusinessObjectAuthorizationService.getMaintenanceDocumentRestrictions(MaintenanceDocument, Person) has the determination of what restrictions there should be

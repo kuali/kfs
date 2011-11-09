@@ -162,7 +162,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
         for (Object keyLabelPairAsObject : getField().getFieldValidValues()) {
             final KeyValue keyLabelPair = (KeyValue)keyLabelPairAsObject;
             if (getField().getPropertyValue().equalsIgnoreCase(keyLabelPair.getKey().toString())) {
-                return keyLabelPair.getLabel();
+                return keyLabelPair.getValue();
             }
         }
         return null;

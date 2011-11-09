@@ -22,14 +22,14 @@ import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 /**
  * Used to represent a dynamic options selection using explicitly typed key/label pair
  */
-public class BCKeyValue extends TransientBusinessObjectBase {
+public class BCKeyLabelPair extends TransientBusinessObjectBase {
     public String key;
     public String label;
 
-    public BCKeyValue() {
+    public BCKeyLabelPair() {
     }
 
-    public BCKeyValue(String key, String label) {
+    public BCKeyLabelPair(String key, String label) {
         this.key = key;
         this.label = label;
     }
@@ -48,17 +48,6 @@ public class BCKeyValue extends TransientBusinessObjectBase {
 
     public void setKey(String key) {
         this.key = key;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("useThreshold", this.key);
-        m.put("thresholdPercent", this.label);
-        return m;
     }
 
 }

@@ -46,7 +46,7 @@ public class RollProcessDateServiceImpl implements RollProcessDateService {
         Parameter theCurrentProcessDate = parameterService.retrieveParameter("KFS-ENDOW", "All", EndowParameterKeyConstants.CURRENT_PROCESS_DATE);
         theCurrentProcessDate.setParameterValue(nextDate); 
         businessObjectService.save(theCurrentProcessDate);
-        LOG.info("Roll the value of CURRENT_PROCESS_DATE to " + theCurrentProcessDate.getParameterValueAsString());
+        LOG.info("Roll the value of CURRENT_PROCESS_DATE to " + theCurrentProcessDate.getValue());
         return success;
     }
     

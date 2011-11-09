@@ -655,9 +655,8 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-
-        super.afterLookup(persistenceBroker);
+    protected void postLoad() {
+        super.postLoad();
 
         KEMService kemService = SpringContext.getBean(KEMService.class);
 

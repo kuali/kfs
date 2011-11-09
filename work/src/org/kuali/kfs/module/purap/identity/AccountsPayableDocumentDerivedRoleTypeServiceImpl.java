@@ -51,9 +51,9 @@ public class AccountsPayableDocumentDerivedRoleTypeServiceImpl extends DerivedRo
         String docId = new String(qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER));
         
         List roleIds = new ArrayList();
-        roleIds.add(SpringContext.getBean(RoleService.class).getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, FISCAL_OFFICER_ROLE_NAME));
-        roleIds.add(SpringContext.getBean(RoleService.class).getRoleIdByName(PurapConstants.PURAP_NAMESPACE, SUB_ACCOUNT_ROLE_NAME));
-        roleIds.add(SpringContext.getBean(RoleService.class).getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, ACCOUNTING_REVIEWER_ROLE_NAME    ));
+        roleIds.add(SpringContext.getBean(RoleService.class).getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, FISCAL_OFFICER_ROLE_NAME));
+        roleIds.add(SpringContext.getBean(RoleService.class).getRoleIdByNameAndNamespaceCode(PurapConstants.PURAP_NAMESPACE, SUB_ACCOUNT_ROLE_NAME));
+        roleIds.add(SpringContext.getBean(RoleService.class).getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, ACCOUNTING_REVIEWER_ROLE_NAME    ));
         
         try {
             AccountsPayableDocument apDocument = (AccountsPayableDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);

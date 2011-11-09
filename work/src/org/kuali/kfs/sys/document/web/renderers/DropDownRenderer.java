@@ -118,7 +118,7 @@ public class DropDownRenderer extends FieldRendererBase {
         }
         option.append(">");
         
-        option.append(keyLabelPair.getLabel());
+        option.append(keyLabelPair.getValue());
         
         option.append("</options>");
         

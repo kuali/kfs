@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -401,7 +402,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * 
      * @return a set of the balance type codes that are bypassed by Labor Poster
      */
-    public List<String> getBalanceTypesNotProcessed() {
+    public Collection<String> getBalanceTypesNotProcessed() {
         return parameterService.getParameterValuesAsString(LaborPosterStep.class, Poster.BALANCE_TYPES_NOT_PROCESSED);
     }
 
@@ -410,7 +411,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * 
      * @return a set of the fiscal period codes that are bypassed by Labor Poster
      */
-    public List<String> getPeriodCodesNotProcessed() {
+    public Collection<String> getPeriodCodesNotProcessed() {
         return parameterService.getParameterValuesAsString(LaborPosterStep.class, Poster.PERIOD_CODES_NOT_PROCESSED);
     }
 

@@ -90,31 +90,4 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Inacti
     public void setVendorDetail(VendorDetail vendorDetail) {
         this.vendorDetail = vendorDetail;
     }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("vendorAliasName", this.vendorAliasName);
-        if (this.vendorDetailAssignedIdentifier != null) {
-            m.put("vendorDetailAssignedIdentifier", this.vendorDetailAssignedIdentifier.toString());
-        }
-        if (this.vendorHeaderGeneratedIdentifier != null) {
-            m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
-        }
-
-        return m;
-    }
-
-    /**
-     * This method has to be overriden so that we will print only the vendorAliasName in the vendor lookup result.
-     * 
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringBuilder(java.util.LinkedHashMap)
-     */
-    @Override
-    public String toStringBuilder_RICE20_REFACTORME(LinkedHashMap mapper) {
-
-        return vendorAliasName;
-    }
 }

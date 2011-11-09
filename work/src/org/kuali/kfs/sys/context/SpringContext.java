@@ -295,8 +295,8 @@ public class SpringContext {
         
         SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
         
-        if (Double.valueOf((getBean(ConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
-            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(ConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)));
+        if (Double.valueOf((getBean(ConfigurationService.class)).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
+            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(ConfigurationService.class)).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
             MemoryMonitor memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
             memoryMonitor.addListener(new MemoryMonitor.Listener() {
                 org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
@@ -320,7 +320,7 @@ public class SpringContext {
                 }
             });
         }
-        if (getBean(ConfigurationService.class).getPropertyAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
+        if (getBean(ConfigurationService.class).getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
             try {
                 if (initializeSchedule) {
                     LOG.info("Attempting to initialize the scheduler");
@@ -341,7 +341,7 @@ public class SpringContext {
             }
         }
         
-        if ( getBean(ConfigurationService.class).getPropertyAsBoolean( "periodic.thread.dump" ) ) {
+        if ( getBean(ConfigurationService.class).getPropertyValueAsBoolean( "periodic.thread.dump" ) ) {
             final long sleepPeriod = Long.parseLong( getBean(ConfigurationService.class).getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
             final File logDir = new File( getBean(ConfigurationService.class).getPropertyValueAsString( "logs.directory" ) );
             final File monitoringLogDir = new File( logDir, "monitoring" );

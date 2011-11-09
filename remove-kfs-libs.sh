@@ -29,4 +29,6 @@ popd
 svn remove build/rice-sources/*1.0.3*
 svn add build/rice-sources/*
 svn revert -R work
-svn remove --force `svn status | grep ? | awk '{ print $2; }'` work
+pushd work
+svn remove --force `svn status | grep ? | awk '{ print $2; }'`
+popd

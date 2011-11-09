@@ -39,6 +39,7 @@ import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.endpoint.ServerImpl;
+import org.directwebremoting.util.LogErrorHandler;
 import org.hibernate.util.DTDEntityResolver;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;

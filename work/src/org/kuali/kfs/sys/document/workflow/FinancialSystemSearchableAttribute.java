@@ -39,11 +39,11 @@ import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants.SearchableAttributeConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
-import org.kuali.rice.kew.framework.document.attribute.SearchableAttribute;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -72,7 +72,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
     }
     
     
-    public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
+    public List<Row> getSearchingRows(DocumentSearchCriteria documentSearchContext) {
         DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
 
         List<Row> docSearchRows = super.getSearchingRows(documentSearchContext);
@@ -110,18 +110,18 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             }
             
             Field chartField = FieldUtils.getPropertyField(alClass, "chartOfAccountsCode", true);
-            chartField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+            chartField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
             displayedFieldNames.add("chartOfAccountsCode");
             LookupUtils.setFieldQuickfinder(alBusinessObject, "chartOfAccountsCode", chartField, displayedFieldNames);
             
             Field orgField = FieldUtils.getPropertyField(orgClass, "organizationCode", true);
-            orgField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+            orgField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
             displayedFieldNames.clear();
             displayedFieldNames.add("organizationCode");
             LookupUtils.setFieldQuickfinder(new Account(), "organizationCode", orgField, displayedFieldNames);
             
             Field accountField = FieldUtils.getPropertyField(alClass, "accountNumber", true);
-            accountField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+            accountField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
             displayedFieldNames.clear();
             displayedFieldNames.add("accountNumber");
             LookupUtils.setFieldQuickfinder(alBusinessObject, "accountNumber", accountField, displayedFieldNames);
@@ -144,7 +144,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             Class boClass = GeneralLedgerPendingEntry.class;
             
             Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
-            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+            searchField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
           
             displayedFieldNames.clear();
             displayedFieldNames.add("financialDocumentTypeCode");
@@ -160,7 +160,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             Class boClass = GeneralLedgerPendingEntry.class;
             
             Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
-            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+            searchField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
             
             displayedFieldNames.clear();
             displayedFieldNames.add("financialDocumentTypeCode");
@@ -176,7 +176,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
               Class boClass = FinancialSystemDocumentHeader.class;
               
               Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTotalAmount", true);
-              searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_FLOAT);
+              searchField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_FLOAT);
 
               List<Field> fieldList = new ArrayList<Field>();
               fieldList.add(searchField);

@@ -34,6 +34,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.directwebremoting.spring.SpringCreator;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.rice.core.api.config.property.ConfigContext;

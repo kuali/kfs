@@ -19,3 +19,4 @@ package org.kuali.rice.core.util.jaxb;
 import javax.xml.bind.annotation.XmlNsForm;
 
 import org.kuali.rice.core.api.CoreConstants;
+

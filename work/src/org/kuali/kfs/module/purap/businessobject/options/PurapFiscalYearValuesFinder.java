@@ -35,7 +35,7 @@ public class PurapFiscalYearValuesFinder extends KeyValuesBase {
         List returnControls = new ArrayList();
         List<Integer> years = SpringContext.getBean(PurapService.class).getAllowedFiscalYears();
         for (Integer year : years) {
-            returnControls.add(new ConcreteKeyValue(year, year.toString()));
+            returnControls.add(new ConcreteKeyValue(year.toString(), year.toString()));
         }
 
         return returnControls;

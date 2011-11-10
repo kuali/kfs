@@ -356,19 +356,6 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         SpringContext.getBean(CashManagementService.class).populateCashDetailsForDeposit(this);
     }
 
-
-    /* utility methods */
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
-        m.put("campusCode", getCampusCode());
-        return m;
-    }
-
     /**
      * This method creates a clean current transaction to be the new current transaction on this document
      */

@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.module.ec.businessobject;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -590,7 +591,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public boolean isFederalOrFederalPassThroughIndicator() {
         if (this.getAccount() != null) {
-            List<String> federalAgencyTypeCodes = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
+            Collection<String> federalAgencyTypeCodes = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
             return SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(getAccount().getChartOfAccountsCode(), getAccount().getAccountNumber(), federalAgencyTypeCodes);
         }
 

@@ -49,7 +49,7 @@ public class CashReceiptAccountAndObjectCodeValidation extends GenericValidation
         String objCd = getAccountingLineForValidation().getFinancialObjectCode();
         String account = getAccountingLineForValidation().getAccountNumber();
         if (!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
-            String[] params = new ArrayList<String>( getParameterService().getParameterValuesAsString(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES).toArray(new String[] {}) );
+            String[] params = getParameterService().getParameterValuesAsString(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES).toArray(new String[] {});
             boolean acctsMatched = false;
             for (int i = 0; i < params.length; i++) {
                 String paramAcct = params[i].split(":")[0];

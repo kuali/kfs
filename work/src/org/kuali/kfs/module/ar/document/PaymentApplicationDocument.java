@@ -57,6 +57,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -313,7 +314,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         
         //  attempt to retrieve all the invoices paid applied against
         try {
-            invoices.addAll(getDocService().getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, invoiceDocNumbers));
+            invoices.addAll((Collection<? extends CustomerInvoiceDocument>) getDocService().getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, invoiceDocNumbers));
         }
         catch (WorkflowException e) {
             throw new RuntimeException("A WorkflowException was thrown while trying to retrieve documents.", e);
@@ -362,7 +363,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         
         //  attempt to retrieve all the invoices paid applied against
         try {
-            payApps.addAll(getDocService().getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, payAppDocNumbers));
+            payApps.addAll((Collection<? extends PaymentApplicationDocument>) getDocService().getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, payAppDocNumbers));
         }
         catch (WorkflowException e) {
             throw new RuntimeException("A WorkflowException was thrown while trying to retrieve documents.", e);
@@ -955,16 +956,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = getInvoiceNumbersToUpdateOnFinal();
         if (docIdStrings == null || docIdStrings.isEmpty()) {
             return null;
         }
-        List<Long> docIds = new ArrayList<Long>();
-        for (int i = 0; i < docIdStrings.size(); i++) { // damn I miss ruby sometimes
-            docIds.add(new Long(docIdStrings.get(i)));
-        }
-        return docIds;
+        return docIdStrings;
     }
 
     @Override

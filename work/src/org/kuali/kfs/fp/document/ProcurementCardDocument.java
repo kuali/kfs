@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
@@ -26,7 +25,6 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -35,6 +33,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
@@ -205,16 +204,6 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     @Override
     public Class getTargetAccountingLineClass() {
         return ProcurementCardTargetAccountingLine.class;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        return m;
     }
 
     @Override

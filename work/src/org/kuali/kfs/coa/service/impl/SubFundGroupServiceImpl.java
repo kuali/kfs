@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.FundGroup;
@@ -85,7 +85,7 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     /**
      * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValues()
      */
-    public List<String> getContractsAndGrantsDenotingValues() {
+    public Collection<String> getContractsAndGrantsDenotingValues() {
         return parameterService.getParameterValuesAsString(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
     }
     

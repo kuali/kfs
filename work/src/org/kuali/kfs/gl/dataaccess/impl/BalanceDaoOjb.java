@@ -48,7 +48,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
  * An OJB implementation of BalanceDao
  */
 public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao, LedgerBalanceBalancingDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
 
     /**
      * Does a ReportQuery to summarize GL balance data
@@ -58,7 +58,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return iterator of reported on java.lang.Object arrays with the report data
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#getGlSummary(int, java.util.List)
      */
-    public Iterator<Object[]> getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes) {
+    public Iterator<Object[]> getGlSummary(int universityFiscalYear, Collection<String> balanceTypeCodes) {
         LOG.debug("getGlSummary() started");
 
         Criteria c = new Criteria();
@@ -227,7 +227,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return the records of cash balance entries
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#lookupCashBalance(Map, boolean, List)
      */
-    public Iterator<Balance> lookupCashBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
+    public Iterator<Balance> lookupCashBalance(Map fieldValues, boolean isConsolidated, Collection<String> encumbranceBalanceTypes) {
         LOG.debug("findCashBalance() started");
 
         Query query = this.getCashBalanceQuery(fieldValues, isConsolidated, encumbranceBalanceTypes);
@@ -243,7 +243,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return the size collection of cash balance entry groups
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#getDetailedCashBalanceRecordCount(Map, List)
      */
-    public Integer getDetailedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes) {
+    public Integer getDetailedCashBalanceRecordCount(Map fieldValues, Collection<String> encumbranceBalanceTypes) {
         LOG.debug("getDetailedCashBalanceRecordCount() started");
 
         Query query = this.getCashBalanceQuery(fieldValues, false, encumbranceBalanceTypes);
@@ -257,7 +257,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return the size collection of cash balance entry groups
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#getConsolidatedCashBalanceRecordCount(Map, List)
      */
-    public int getConsolidatedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes) {
+    public int getConsolidatedCashBalanceRecordCount(Map fieldValues, Collection<String> encumbranceBalanceTypes) {
         LOG.debug("getCashBalanceRecordCount() started");
 
         ReportQueryByCriteria query = this.getCashBalanceCountQuery(fieldValues, encumbranceBalanceTypes);
@@ -272,7 +272,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return an Iterator of Balances
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findBalance(java.util.Map, boolean)
      */
-    public Iterator<Balance> findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
+    public Iterator<Balance> findBalance(Map fieldValues, boolean isConsolidated, Collection<String> encumbranceBalanceTypes) {
         LOG.debug("findBalance() started");
 
         Query query = this.getBalanceQuery(fieldValues, isConsolidated, encumbranceBalanceTypes);
@@ -292,7 +292,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return an Iterator of counts...
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#getConsolidatedBalanceRecordCount(Map, List)
      */
-    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes) {
+    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, Collection<String> encumbranceBalanceTypes) {
         LOG.debug("getBalanceRecordCount() started");
 
         ReportQueryByCriteria query = this.getBalanceCountQuery(fieldValues, encumbranceBalanceTypes);
@@ -305,7 +305,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param fieldValues a map of keys to use when building the query
      * @return an OJB ReportQuery to use as the query
      */
-    protected ReportQueryByCriteria getCashBalanceCountQuery(Map fieldValues, List<String> encumbranceBalanceTypes) {
+    protected ReportQueryByCriteria getCashBalanceCountQuery(Map fieldValues, Collection<String> encumbranceBalanceTypes) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new CashBalance(), encumbranceBalanceTypes);
         criteria.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         criteria.addEqualToField("chart.financialCashObjectCode", KFSPropertyConstants.OBJECT_CODE);
@@ -331,7 +331,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param isConsolidated should the results be consolidated?
      * @return the OJB query to perform
      */
-    protected Query getCashBalanceQuery(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
+    protected Query getCashBalanceQuery(Map fieldValues, boolean isConsolidated, Collection<String> encumbranceBalanceTypes) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new CashBalance(), encumbranceBalanceTypes);
         criteria.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         criteria.addEqualToField("chart.financialCashObjectCode", KFSPropertyConstants.OBJECT_CODE);
@@ -368,7 +368,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param isConsolidated should the results be consolidated?
      * @return an OJB query to perform
      */
-    protected Query getBalanceQuery(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
+    protected Query getBalanceQuery(Map fieldValues, boolean isConsolidated, Collection<String> encumbranceBalanceTypes) {
         LOG.debug("getBalanceQuery(Map, boolean) started");
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), encumbranceBalanceTypes);
@@ -405,7 +405,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param fieldValues Map of keys to use for the query
      * @return an OJB ReportQuery to perform
      */
-    protected ReportQueryByCriteria getBalanceCountQuery(Map fieldValues, List<String> encumbranceBalanceTypes) {
+    protected ReportQueryByCriteria getBalanceCountQuery(Map fieldValues, Collection<String> encumbranceBalanceTypes) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), encumbranceBalanceTypes);
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Balance.class, criteria);
 
@@ -430,7 +430,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param balance this really usen't used in the method
      * @return a query criteria
      */
-    protected Criteria buildCriteriaFromMap(Map fieldValues, Balance balance, List<String> encumbranceBalanceTypes) {
+    protected Criteria buildCriteriaFromMap(Map fieldValues, Balance balance, Collection<String> encumbranceBalanceTypes) {
         Map localFieldValues = new HashMap();
         localFieldValues.putAll(fieldValues);
 
@@ -617,7 +617,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return an Iterator of Balances to process
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findNominalActivityBalancesForFiscalYear(Integer, List, SystemOptions)
      */
-    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, List<String> nominalActivityObjectTypeCodes, SystemOptions currentYearOptions) {
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, Collection<String> nominalActivityObjectTypeCodes, SystemOptions currentYearOptions) {
         LOG.debug("findNominalActivityBalancesForFiscalYear() started");
 
         Criteria c = new Criteria();
@@ -642,12 +642,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findGeneralBalancesToForwardForFiscalYear(java.lang.Integer, java.util.List,
      *      java.lang.String[])
      */
-    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, List<String> generalForwardBalanceObjectTypes, String[] generalBalanceForwardBalanceTypesArray) {
-
-        List<String> generalBalanceForwardBalanceTypes = new ArrayList<String>();
-        for (String bt : generalBalanceForwardBalanceTypesArray) {
-            generalBalanceForwardBalanceTypes.add(bt);
-        }
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, Collection<String> generalForwardBalanceObjectTypes, Collection<String> generalBalanceForwardBalanceTypes) {
 
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
@@ -672,18 +667,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer, java.util.List,
      *      java.util.List, java.lang.String[], java.lang.String[])
      */
-    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, List<String> cumulativeForwardBalanceObjectTypes, List<String> contractsAndGrantsDenotingValues, final String[] subFundGroupsForCumulativeBalanceForwardingArray, String[] cumulativeBalanceForwardBalanceTypesArray, boolean fundGroupDenotesCGInd) {
-
-        List<String> subFundGroupsForCumulativeBalanceForwarding = new ArrayList<String>();
-        for (String subFundGroup : subFundGroupsForCumulativeBalanceForwardingArray) {
-            subFundGroupsForCumulativeBalanceForwarding.add(subFundGroup);
-        }
-
-        List<String> cumulativeBalanceForwardBalanceTypes = new ArrayList<String>();
-        for (String bt : cumulativeBalanceForwardBalanceTypesArray) {
-            cumulativeBalanceForwardBalanceTypes.add(bt);
-        }
-
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, Collection<String> cumulativeForwardBalanceObjectTypes, Collection<String> contractsAndGrantsDenotingValues, Collection<String> subFundGroupsForCumulativeBalanceForwarding, Collection<String> cumulativeBalanceForwardBalanceTypes, boolean fundGroupDenotesCGInd) {
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         c.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, cumulativeBalanceForwardBalanceTypes);

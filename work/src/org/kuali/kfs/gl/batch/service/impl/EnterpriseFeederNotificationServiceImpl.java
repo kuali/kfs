@@ -17,7 +17,7 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -122,7 +122,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      */
     protected Set<String> generateToEmailAddresses(String feederProcessName, EnterpriseFeederStatus status, String doneFileDescription, String dataFileDescription, String reconFileDescription, List<Message> errorMessages) {
         Set<String> addresses = new HashSet<String>();
-        String[] addressesArray = new ArrayList<String>( parameterService.getParameterValuesAsString(EnterpriseFeedStep.class, KFSConstants.EnterpriseFeederApplicationParameterKeys.TO_ADDRESS).toArray(new String[] {}) );
+        Collection<String> addressesArray = parameterService.getParameterValuesAsString(EnterpriseFeedStep.class, KFSConstants.EnterpriseFeederApplicationParameterKeys.TO_ADDRESS);
         for (String address : addressesArray) {
             addresses.add(address);
         }

@@ -470,16 +470,6 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * @see org.kuali.rice.krad.document.DocumentBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        return m;
-    }
-
-    /**
      * The base checks that the posting year is the current year, not a requirement for the ba document.
      * 
      * @see org.kuali.rice.krad.document.TransactionalDocumentBase#getAllowsCopy()

@@ -38,7 +38,7 @@ public class ProposalCloseRule extends MaintenanceDocumentRuleBase {
         if (!isOk) {
             return isOk;
         }
-        ProposalAwardCloseDocument close = (ProposalAwardCloseDocument) document.getDocumentBusinessObject();
+        ProposalAwardCloseDocument close = (ProposalAwardCloseDocument) document;
         Date userDate = close.getUserInitiatedCloseDate();
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
         isOk = today.getTime() <= userDate.getTime();

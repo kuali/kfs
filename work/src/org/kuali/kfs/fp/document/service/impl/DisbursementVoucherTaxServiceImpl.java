@@ -75,7 +75,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             return null;
         }
 
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.api.KimApiConstants.PersonExternalIdentifierTypes.TAX, taxIDNumber).get(0);
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.api.KimConstants.PersonExternalIdentifierTypes.TAX, taxIDNumber).get(0);
         
         String universalId = null;
         if (person != null) {
@@ -208,7 +208,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         if (!(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent()))) {
             String stateTaxChart = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_CHART_SUFFIX);
             String stateTaxAccount = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_ACCOUNT_SUFFIX);
-            String stateTaxObjectCode = new ArrayList<String>( parameterService.getParameterValuesAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode()).get(0) );
+            String stateTaxObjectCode = parameterService.getSubParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode());
 
             if (StringUtils.isBlank(stateTaxChart) || StringUtils.isBlank(stateTaxAccount) || StringUtils.isBlank(stateTaxObjectCode)) {
                 LOG.error("Unable to retrieve state tax parameters.");

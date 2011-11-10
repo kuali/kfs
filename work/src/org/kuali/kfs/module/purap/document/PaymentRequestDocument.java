@@ -1368,7 +1368,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @return - true if document does not have an image attached, false otherwise
      */
     public boolean documentHasNoImagesAttached() {
-        List boNotes = this.getDocumentBusinessObject().getNotes();
+        List boNotes = this.getNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
                 Note note = (Note) obj;

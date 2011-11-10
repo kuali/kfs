@@ -59,7 +59,6 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Timer t0 = new Timer("execute");
         CashReceiptForm cform = (CashReceiptForm) form;
 
         if (cform.hasDocumentId()) {

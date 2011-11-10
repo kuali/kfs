@@ -78,7 +78,7 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
                     //the principalId is not authorized to view the value in purapDocumentIdentifier field...so mask the value...
                     if (!isAuthorized) {
                         //not authorized to see... create a string 
-                        keyValueSort.setvalue("********");
+                        keyValueSort.setValue("********");
                         keyValueSort.setSortValue("********");
                     }
                 }

@@ -730,7 +730,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractTime(java.sql.Timestamp)
      */
     public void updateLastExtractTime(Timestamp time) {
-        Parameter parameter = parameterService.retrieveParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_TIME);
+        Parameter parameter = parameterService.getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_TIME);
 
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR + " " + CabConstants.DateFormats.MILITARY_TIME);
@@ -783,7 +783,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractDate(java.sql.Date)
      */
     public void updateLastExtractDate(java.sql.Date dt) {
-        Parameter parameter = parameterService.retrieveParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
+        Parameter parameter = parameterService.getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
 
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR);

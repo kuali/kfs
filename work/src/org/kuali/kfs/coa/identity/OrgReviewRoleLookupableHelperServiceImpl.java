@@ -34,7 +34,7 @@ import org.kuali.rice.core.api.util.RiceUtilities;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
@@ -227,7 +227,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         List<Person> principals = null;
         if(StringUtils.isNotEmpty(principalName)){
             Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put(KimApiConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
+            criteria.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
             principals = (List<Person>)getPersons(criteria);
         }
         String assignedToGroupNamespaceCode = fieldValues.get(MEMBER_GROUP_NAMESPACE_CODE);
@@ -237,8 +237,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 StringUtils.isEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName) ||
                 StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName)){
             Map<String, String> searchCriteria = new HashMap<String, String>();
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
             groups = getGroups(searchCriteria);
         }
 
@@ -250,8 +250,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 StringUtils.isEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName) ||
                 StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName)){
             Map<String, String> searchCriteria = new HashMap<String, String>();
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
             roles = getRoles(searchCriteria);
         }
 
@@ -341,7 +341,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             StringBuffer rolesQueryString = new StringBuffer();
             for(String roleName: roleNamesToSearchInto){
                 rolesQueryString.append(
-                    getRoleService().getRoleIdByName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName)+
+                    getRoleService().getRoleIdByNameAndNamespaceCode(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName)+
                     KimConstants.KimUIConstants.OR_OPERATOR);
             }
             if(rolesQueryString.toString().endsWith(KimConstants.KimUIConstants.OR_OPERATOR))
@@ -490,7 +490,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         //if still has no qualifying nodes, check current nodes children
         if(hasZeroQualifyingNodes){
             DocumentType currentDocType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(currentDocumentTypeName);
-            List<DocumentType> docTypes = SpringContext.getBean(DocumentTypeService.class).getChildDocumentTypes(currentDocType.getDocTypeId());
+            List<DocumentType> docTypes = SpringContext.getBean(DocumentTypeService.class).getChildDocumentTypes(currentDocType.getDocumentId());
             
             for(DocumentType docType : docTypes){
                 hasZeroQualifyingNodes &= currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(docType.getName());
@@ -625,11 +625,11 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     }
     
     public List<Role> getRoles(Map<String, String> fieldValues) {
-        return (List<Role>) SpringContext.getBean(RoleService.class).getRolesSearchResults(fieldValues);
+        return (List<Role>) SpringContext.getBean(RoleService.class).findRoles(fieldValues);
     }
 
     public List<Group> getGroups(Map<String, String> fieldValues) {
-        return (List<Group>) SpringContext.getBean(GroupService.class).lookupGroups(fieldValues);
+        return (List<Group>) SpringContext.getBean(GroupService.class).findGroups(fieldValues);
     }
     
     protected Map<String, String> buildOrgReviewRoleSearchCriteria(String documentTypeName, Map<String, String> fieldValues){
@@ -637,7 +637,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         List<Person> principals = null;
         if(StringUtils.isNotEmpty(principalName)){
             Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put(KimApiConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
+            criteria.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
             principals = (List<Person>)getPersons(criteria);
             if(principals==null || principals.isEmpty())
                 return null;
@@ -649,8 +649,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 StringUtils.isEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName) ||
                 StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName)){
             Map<String, String> searchCriteria = new HashMap<String, String>();
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
             groups = getGroups(searchCriteria);
             if(groups==null || groups.size()==0)
                 return null;
@@ -664,8 +664,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 StringUtils.isEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName) ||
                 StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName)){
             Map<String, String> searchCriteria = new HashMap<String, String>();
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
             roles = getRoles(searchCriteria);
             if(roles==null || roles.size()==0)
                 return null;
@@ -731,7 +731,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         List<Person> principals = null;
         if(StringUtils.isNotEmpty(principalName)){
             searchCriteriaTemp = new HashMap<String, String>();
-            searchCriteriaTemp.put(KimApiConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
+            searchCriteriaTemp.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
             principals = (List<Person>)getPersons(searchCriteriaTemp);
             if(principals==null || principals.isEmpty())
                 return null;
@@ -743,8 +743,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 StringUtils.isEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName) ||
                 StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName)){
             Map<String, String> searchCriteria = new HashMap<String, String>();
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
             groups = getGroups(searchCriteria);
 
             if(groups==null || groups.size()==0)
@@ -763,8 +763,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 StringUtils.isEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName) ||
                 StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName)){
             Map<String, String> searchCriteria = new HashMap<String, String>();
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
-            searchCriteria.put(KimApiConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
             roles = getRoles(searchCriteria);
             if(roles==null || roles.size()==0)
                 return null;

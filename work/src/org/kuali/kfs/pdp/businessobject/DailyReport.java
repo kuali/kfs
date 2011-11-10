@@ -93,19 +93,6 @@ public class DailyReport extends TransientBusinessObjectBase {
         this.payments = payments;
     }
 
-    
-    @Override
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        
-        m.put(PdpPropertyConstants.DailyReport.CUSTOMER, this.customer);
-        m.put(PdpPropertyConstants.DailyReport.AMOUNT, this.amount);
-        m.put(PdpPropertyConstants.DailyReport.PAYMENTS, this.payments);
-        m.put(PdpPropertyConstants.DailyReport.PAYEES, this.payees);      
-        
-        return m;
-    }
-
     public PaymentGroup getPaymentGroup() {
         return paymentGroup;
     }

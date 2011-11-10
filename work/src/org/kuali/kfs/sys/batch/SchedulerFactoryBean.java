@@ -56,7 +56,7 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
         }
     }
 
-    public Object getObject() {
+    public Scheduler getObject() {
         if (useQuartzScheduling) {
             return super.getObject();
         }

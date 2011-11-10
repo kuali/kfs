@@ -61,7 +61,7 @@ public class DocumentHelperServiceImpl extends org.kuali.rice.krad.service.impl.
 
     @Override
     public DocumentPresentationController getDocumentPresentationController(String documentType) {
-        DocumentEntry documentEntry = getDataDictionaryService().getDataDictionary().getDocumentEntry(documentType);
+        org.kuali.rice.krad.datadictionary.DocumentEntry documentEntry = getDataDictionaryService().getDataDictionary().getDocumentEntry(documentType);
         Class documentPresentationControllerClass = documentEntry.getDocumentPresentationControllerClass();
         if (documentPresentationControllerClass == null) {
             if (FinancialSystemMaintenanceDocument.class.isAssignableFrom(documentEntry.getDocumentClass())) {

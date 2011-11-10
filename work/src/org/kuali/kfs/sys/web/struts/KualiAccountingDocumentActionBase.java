@@ -86,7 +86,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Timer t0 = new Timer("KualiFinancialDocumentFormBase.execute");
         KualiAccountingDocumentFormBase transForm = (KualiAccountingDocumentFormBase) form;
 
         // handle changes to accountingLines

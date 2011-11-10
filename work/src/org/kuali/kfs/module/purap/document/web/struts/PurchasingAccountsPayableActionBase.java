@@ -77,7 +77,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         // refresh the account summary (note this also updates the account amounts)
         purapForm.refreshAccountSummmary();
 
-        for (org.kuali.rice.krad.bo.Note note : (java.util.List<org.kuali.rice.krad.bo.Note>) document.getDocumentBusinessObject().getNotes()) {
+        for (org.kuali.rice.krad.bo.Note note : (java.util.List<org.kuali.rice.krad.bo.Note>) document.getNotes()) {
             note.refreshReferenceObject("attachment");
         }
 
@@ -335,7 +335,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     public ActionForward downloadBOAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) ((PurchasingAccountsPayableFormBase) form).getDocument();
 
-        for (org.kuali.rice.krad.bo.Note note : (java.util.List<org.kuali.rice.krad.bo.Note>) document.getDocumentBusinessObject().getNotes()) {
+        for (org.kuali.rice.krad.bo.Note note : (java.util.List<org.kuali.rice.krad.bo.Note>) document.getNotes()) {
             note.refreshReferenceObject("attachment");
         }
 

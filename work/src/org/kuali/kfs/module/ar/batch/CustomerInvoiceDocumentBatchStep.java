@@ -46,6 +46,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.EvaluationOperator;
 import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.core.api.parameter.ParameterType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -87,8 +88,8 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
 
         
-        Parameter runIndicatorParameter = getParameterService().retrieveParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
-        if (runIndicatorParameter == null || StringUtils.equals("Y", runIndicatorParameter.getParameterValueAsString())) {
+        Parameter runIndicatorParameter = getParameterService().getParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
+        if (runIndicatorParameter == null || StringUtils.equals("Y", runIndicatorParameter.getValue())) {
 
             GlobalVariables.clear();
             GlobalVariables.setUserSession(new UserSession(INITIATOR_PRINCIPAL_NAME));
@@ -320,7 +321,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
                 }
                 writeoff.getDocumentHeader().getWorkflowDocument().blanketApprove("BlanketApproved by CustomerInvoiceDocumentBatch process.");
             }
-            catch (WorkflowException e) {
+            catch (Exception e) {
                 throw new RuntimeException("A WorkflowException was thrown when trying to blanketApprove Invoice Writeoff doc #" + writeoffDocNumber + ".", e);
             }
 
@@ -340,7 +341,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     }
 
     public boolean waitForStatusChange(int numSeconds, WorkflowDocument document, String[] desiredStatus) throws Exception {
-        DocWorkflowStatusMonitor monitor = new DocWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getRouteHeaderId(), desiredStatus);
+        DocWorkflowStatusMonitor monitor = new DocWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getDocumentId(), desiredStatus);
         return waitUntilChange(monitor, numSeconds, 5);
     }
 
@@ -610,7 +611,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         public boolean valueChanged() throws Exception {
             Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
 
-            String currentStatus = d.getDocumentHeader().getWorkflowDocument().getStatus();
+            String currentStatus = d.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
 
             for (int i = 0; i < desiredWorkflowStates.length; i++) {
                 if (StringUtils.equals(desiredWorkflowStates[i], currentStatus)) {

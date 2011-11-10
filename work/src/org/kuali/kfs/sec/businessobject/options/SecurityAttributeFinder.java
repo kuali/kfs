@@ -42,7 +42,7 @@ public class SecurityAttributeFinder extends KeyValuesBase {
         Collection securityAttributes = SpringContext.getBean(KeyValuesService.class).findAllOrderBy(SecurityAttribute.class, KFSPropertyConstants.ID, true);
         for (Iterator iterator = securityAttributes.iterator(); iterator.hasNext();) {
             SecurityAttribute securityAttribute = (SecurityAttribute) iterator.next();
-            activeLabels.add(new ConcreteKeyValue(securityAttribute.getId(), securityAttribute.getName()));
+            activeLabels.add(new ConcreteKeyValue(securityAttribute.getId().toString(), securityAttribute.getName()));
         }
 
         return activeLabels;

@@ -40,7 +40,7 @@ public class BudgetAdjustmentFiscalYearValuesFinder extends KeyValuesBase {
 
         for (Iterator iter = controls.iterator(); iter.hasNext();) {
             FiscalYearFunctionControl control = (FiscalYearFunctionControl) iter.next();
-            returnControls.add(new ConcreteKeyValue(control.getUniversityFiscalYear(), control.getUniversityFiscalYear().toString()));
+            returnControls.add(new ConcreteKeyValue(control.getUniversityFiscalYear().toString(), control.getUniversityFiscalYear().toString()));
         }// endfor
 
         return returnControls;

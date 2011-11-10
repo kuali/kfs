@@ -18,7 +18,6 @@ package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,8 +46,6 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -215,7 +212,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                String nodeName = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next();
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
                     String newStatusCode = currentNode.getDisapprovedStatusCode();
@@ -230,12 +227,12 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
                 logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED
-            else if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-                String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+                String currentNodeName = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next();
                 SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, currentNodeName);
             }
         }
-        catch (WorkflowException e) {
+        catch (Exception e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
     }
@@ -694,7 +691,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      * @return - true if document does not have an image attached, false otherwise
      */
     public boolean documentHasNoImagesAttached() {
-        List boNotes = this.getDocumentBusinessObject().getNotes();
+        List boNotes = this.getNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
                 Note note = (Note) obj;

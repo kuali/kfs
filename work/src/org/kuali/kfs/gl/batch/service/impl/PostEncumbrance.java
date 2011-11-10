@@ -162,7 +162,7 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
      */
     public void updateEncumbrance(Transaction t, Encumbrance enc) {
         //KFSMI-1571 - check parameter encumbranceOpenAmountOeverridingDocTypes
-        String[] encumbranceOpenAmountOeverridingDocTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(PosterEntriesStep.class, GeneralLedgerConstants.PosterService.ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES).toArray(new String[] {}) );
+        String[] encumbranceOpenAmountOeverridingDocTypes = parameterService.getParameterValuesAsString(PosterEntriesStep.class, GeneralLedgerConstants.PosterService.ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES).toArray(new String[] {});
 
         if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()) && !ArrayUtils.contains(encumbranceOpenAmountOeverridingDocTypes, t.getFinancialDocumentTypeCode())) {
             // If using referring doc number, add or subtract transaction amount from

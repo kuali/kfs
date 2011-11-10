@@ -33,37 +33,37 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-web-2.0.0-b1.jar" sourcepath="build/rice-sources/rice-location-web-2.0.0-b1-sources.jar" /><!-- rice API lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-impl-2.0.0-b1.jar" sourcepath="build/rice-sources/rice-core-impl-2.0.0-b1-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
+		<accessrule kind="forbidden" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-edl-impl-2.0.0-b1.jar" sourcepath="build/rice-sources/rice-edl-impl-2.0.0-b1-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
+		<accessrule kind="forbidden" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-impl-2.0.0-b1.jar" sourcepath="build/rice-sources/rice-impl-2.0.0-b1-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
+		<accessrule kind="forbidden" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kew-impl-2.0.0-b1.jar" sourcepath="build/rice-sources/rice-kew-impl-2.0.0-b1-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
+		<accessrule kind="forbidden" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kim-impl-2.0.0-b1.jar" sourcepath="build/rice-sources/rice-kim-impl-2.0.0-b1-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
+		<accessrule kind="forbidden" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krms-impl-2.0.0-b1.jar" sourcepath="build/rice-sources/rice-krms-impl-2.0.0-b1-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
+		<accessrule kind="forbidden" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-impl-2.0.0-b1.jar" sourcepath="build/rice-sources/rice-location-impl-2.0.0-b1-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
-		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
+		<accessrule kind="forbidden" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/FastInfoset-1.2.2.jar" /><!-- KFS lib -->

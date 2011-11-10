@@ -19,13 +19,13 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -87,7 +87,6 @@ import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.edl.impl.components.WorkflowDocumentActions;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
@@ -766,7 +765,7 @@ public class PurapServiceImpl implements PurapService {
             // This causes the search indices for the document to become out of synch, and will show a different status type
             // in the RICE lookup results screen.
             WorkflowDocumentActions wrkflowDocActions = SpringContext.getBean(WorkflowDocumentActions.class);
-            wrkflowDocActions.indexDocument(Long.valueOf(document.getDocumentNumber()));
+            wrkflowDocActions.indexDocument(document.getDocumentNumber());
         }
         catch (WorkflowException we) {
             String errorMsg = "Workflow error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
@@ -784,10 +783,8 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.kfs.module.purap.document.service.PurapService#isDocumentStoppedInRouteNode(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
      */
     public boolean isDocumentStoppedInRouteNode(PurchasingAccountsPayableDocument document, String nodeName) {
-        List<String> currentRouteLevels = new ArrayList<String>();
         WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-        String[] names = document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        currentRouteLevels = Arrays.asList(names);
+        Set<String> currentRouteLevels = workflowDoc.getCurrentNodeNames();
         if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
             return true;
         }
@@ -1305,7 +1302,7 @@ public class PurapServiceImpl implements PurapService {
             purapAccountingService.updateAccountAmounts(purDoc);
             
             //calculate tax
-            boolean salesTaxInd = SpringContext.getBean(ConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
+            boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean( KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
             boolean useTaxIndicator = purDoc.isUseTaxIndicator();
             
             if(salesTaxInd == true && (ObjectUtils.isNull(fullOrderDiscount.getItemTaxAmount()) && useTaxIndicator == false)){            

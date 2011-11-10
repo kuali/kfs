@@ -17,9 +17,18 @@
 package org.kuali.kfs.sys.document.workflow;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
+import org.kuali.rice.kew.framework.postprocessor.AfterProcessEvent;
+import org.kuali.rice.kew.framework.postprocessor.BeforeProcessEvent;
+import org.kuali.rice.kew.framework.postprocessor.DeleteEvent;
+import org.kuali.rice.kew.framework.postprocessor.DocumentLockingEvent;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
 import org.kuali.rice.krad.service.PostProcessorService;
 
 /**
@@ -29,47 +38,47 @@ import org.kuali.rice.krad.service.PostProcessorService;
  * transaction will be started at the PostProcessorService method call, so any work that needs to be done within the same
  * transaction needs to happen inside that service implementation, rather than in here.
  */
-public class PostProcessor implements PostProcessorRemote {
+public class PostProcessor implements org.kuali.rice.kew.framework.postprocessor.PostProcessor {
 
     private static Logger LOG = Logger.getLogger(PostProcessor.class);
 
-    public Long[] getDocumentIdsToLock(DocumentLockingEventDTO arg0) throws Exception {
+    public List<String> getDocumentIdsToLock(DocumentLockingEvent arg0) throws Exception {
         return SpringContext.getBean(PostProcessorService.class).getDocumentIdsToLock(arg0);
     }
 
     /**
      * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteStatusChange)
      */
-    public boolean doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws RemoteException {
+    public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
         return SpringContext.getBean(PostProcessorService.class).doRouteStatusChange(statusChangeEvent);
     }
 
     /**
      * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doActionTaken(org.kuali.rice.kew.clientapp.vo.ActionTakenEventDTO)
      */
-    public boolean doActionTaken(ActionTakenEventDTO event) throws RemoteException {
+    public ProcessDocReport doActionTaken(ActionTakenEvent event) throws Exception {
         return SpringContext.getBean(PostProcessorService.class).doActionTaken(event);
     }
 
     /**
      * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doDeleteRouteHeader(org.kuali.rice.kew.clientapp.vo.DeleteEventDTO)
      */
-    public boolean doDeleteRouteHeader(DeleteEventDTO event) throws RemoteException {
+    public ProcessDocReport doDeleteRouteHeader(DeleteEvent event) throws Exception {
         return SpringContext.getBean(PostProcessorService.class).doDeleteRouteHeader(event);
     }
 
     /**
      * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
-    public boolean doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) throws RemoteException {
+    public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange levelChangeEvent) throws Exception {
         return SpringContext.getBean(PostProcessorService.class).doRouteLevelChange(levelChangeEvent);
     }
 
-    public boolean afterProcess(AfterProcessEventDTO arg0) throws Exception {
+    public ProcessDocReport afterProcess(AfterProcessEvent arg0) throws Exception {
         return true;
     }
 
-    public boolean beforeProcess(BeforeProcessEventDTO arg0) throws Exception {
+    public ProcessDocReport beforeProcess(BeforeProcessEvent arg0) throws Exception {
         return true;
     }
 }

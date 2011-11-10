@@ -15,9 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -25,7 +24,6 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -73,10 +71,8 @@ public class PaymentRequestInvoiceImageAttachmentValidation extends GenericValid
      * @return
      */
     protected boolean isDocumentStoppedInRouteNode(PaymentRequestDocument document, String nodeName) {
-        List<String> currentRouteLevels = new ArrayList<String>();
         WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-        String[] names = workflowDoc.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        currentRouteLevels = Arrays.asList(names);
+        Set<String> currentRouteLevels = workflowDoc.getCurrentNodeNames();
         if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
             return true;
         }

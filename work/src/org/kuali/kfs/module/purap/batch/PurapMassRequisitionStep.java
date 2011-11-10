@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.directwebremoting.annotations.Param;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
@@ -46,8 +47,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.batch.TestingStep;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.parameter.EvaluationOperator;
 import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.core.api.parameter.Parameter.Builder;
+import org.kuali.rice.core.api.parameter.ParameterType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -79,8 +85,9 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("Starting execution of PurapMassRequisitionStep");
 
-        Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildRunParameterSearchKeyMap());
-        if (ObjectUtils.isNull(runIndicatorParameter) || "Y".equals(runIndicatorParameter.getParameterValueAsString())) {
+        Parameter runIndicatorParameter = SpringContext.getBean(ParameterService.class).getParameter(PurapMassRequisitionStep.class,Job.STEP_RUN_PARM_NM);
+        
+        if (runIndicatorParameter == null || "Y".equals(runIndicatorParameter.getValue())) {
             // save runParameter as "N" so that the job won't run until DB has been cleared
             setInitiatedRunParameter();
 
@@ -586,20 +593,18 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
      */
     private void setInitiatedRunParameter() {
         // First, see if we can find an existing Parameter object with this key.
-        Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildRunParameterSearchKeyMap());
+        Parameter runIndicatorParameter = SpringContext.getBean(ParameterService.class).getParameter(PurapMassRequisitionStep.class,Job.STEP_RUN_PARM_NM);
         if (runIndicatorParameter == null) {
-            runIndicatorParameter = new Parameter();
-            runIndicatorParameter.setVersionNumber(new Long(1));
-            runIndicatorParameter.setParameterNamespaceCode(PurapConstants.PURAP_NAMESPACE);
-            runIndicatorParameter.setParameterDetailTypeCode(RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
-            runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
-            runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
-            runIndicatorParameter.setParameterConstraintCode(RUN_INDICATOR_PARAMETER_ALLOWED);
-            runIndicatorParameter.setParameterTypeCode(RUN_INDICATOR_PARAMETER_TYPE);
-            runIndicatorParameter.setParameterApplicationNamespaceCode(KFSConstants.APPLICATION_NAMESPACE_CODE);
+            Parameter.Builder newParameter = Builder.create(KFSConstants.APPLICATION_NAMESPACE_CODE, PurapConstants.PURAP_NAMESPACE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM, ParameterType.Builder.create("CONFG"));
+            newParameter.setDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
+            newParameter.setEvaluationOperator(EvaluationOperator.ALLOW);
+            newParameter.setValue(RUN_INDICATOR_PARAMETER_VALUE);
+            SpringContext.getBean(ParameterService.class).createParameter( newParameter.build() );
+        } else {
+            Parameter.Builder newParameter = Builder.create(runIndicatorParameter);
+            newParameter.setValue(RUN_INDICATOR_PARAMETER_VALUE);
+            SpringContext.getBean(ParameterService.class).updateParameter( newParameter.build() );
         }
-        runIndicatorParameter.setParameterValue(RUN_INDICATOR_PARAMETER_VALUE);
-        boService.save(runIndicatorParameter);
     }
 
     /**
@@ -742,7 +747,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
         public boolean valueChanged() throws Exception {
             Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
 
-            String currentStatus = d.getDocumentHeader().getWorkflowDocument().getStatus();
+            String currentStatus = d.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
 
             for (int i = 0; i < desiredWorkflowStates.length; i++) {
                 if (StringUtils.equals(desiredWorkflowStates[i], currentStatus)) {

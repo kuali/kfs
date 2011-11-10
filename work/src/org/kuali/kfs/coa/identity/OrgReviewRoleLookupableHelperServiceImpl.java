@@ -35,13 +35,14 @@ import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
+import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.type.KimType;
@@ -185,8 +186,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         String delegateStr = fieldValues.get(DELEGATE);
         String documentTypeName = fieldValues.get(DOCUMENT_TYPE_NAME);
         List<Class> classesToSearch = new ArrayList<Class>();
-        List<DelegateMemberCompleteInfo> searchResultsDelegationMembers = new ArrayList<DelegateMemberCompleteInfo>();
-        List<RoleMemberCompleteInfo> searchResultsRoleMembers = new ArrayList<RoleMemberCompleteInfo>();
+        List<DelegateMember> searchResultsDelegationMembers = new ArrayList<DelegateMember>();
+        List<RoleMember> searchResultsRoleMembers = new ArrayList<RoleMember>();
         Map<String, String> searchCriteriaRoleMembers;
         Map<String, String> searchCriteriaDelegations;
         if(StringUtils.isEmpty(delegateStr)){
@@ -299,7 +300,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 if(roles!=null){
                     if(groups!=null){
                         for(Group group: groups){                                                        
-                            items.add(group.getGroupId());
+                            items.add(group.getId());
                         }
                         if(!items.contains(orgReviewRole.getGroupMemberGroupId())){
                             remove = true;
@@ -351,14 +352,14 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return searchCriteria;
     }
 
-    protected List<RoleMemberCompleteInfo> searchRoleMembers(Map<String, String> searchCriteriaRoleMembers){
-        List<RoleMemberCompleteInfo> members = new ArrayList<RoleMemberCompleteInfo>();
+    protected List<RoleMember> searchRoleMembers(Map<String, String> searchCriteriaRoleMembers){
+        List<RoleMember> members = new ArrayList<RoleMember>();
         members.addAll(getRoleService().findRoleMembersCompleteInfo(searchCriteriaRoleMembers));
         return members;
     }
 
-    protected List<DelegateMemberCompleteInfo> searchDelegations(Map<String, String> searchCriteriaDelegateMembers){
-        List<DelegateMemberCompleteInfo> members = new ArrayList<DelegateMemberCompleteInfo>();
+    protected List<DelegateMember> searchDelegations(Map<String, String> searchCriteriaDelegateMembers){
+        List<DelegateMember> members = new ArrayList<DelegateMember>();
         members.addAll(getRoleService().findDelegateMembersCompleteInfo(searchCriteriaDelegateMembers));
         return members;
     }
@@ -506,7 +507,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return hasZeroQualifyingNodes;
     }
     
-    protected List<OrgReviewRole> flattenToOrgReviewMembers(String active, String documentTypeName, List<RoleMemberCompleteInfo> members){
+    protected List<OrgReviewRole> flattenToOrgReviewMembers(String active, String documentTypeName, List<RoleMember> members){
         List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
         if(members==null || members.size()<1) return orgReviewRoles;
         
@@ -518,14 +519,14 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         if(StringUtils.isNotEmpty(active)){
             activeInd = new Boolean(RiceUtilities.getBooleanValueForString(active, true));
         }
-        for(RoleMemberCompleteInfo member: members){
+        for(RoleMember member: members){
             if(activeInd==null || (activeInd.booleanValue()==true && member.isActive()) || (activeInd.booleanValue()==false && !member.isActive())){
                 orgReviewRole = new OrgReviewRole();
                 OrgReviewRoleMaintainableImpl orgReviewRoleMaintainableImpl = new OrgReviewRoleMaintainableImpl();
                 orgReviewRole.setMemberId(member.getMemberId());
-                orgReviewRole.setMemberTypeCode(member.getMemberTypeCode());           
-                orgReviewRole.setActiveFromDate(member.getActiveFromDate());
-                orgReviewRole.setActiveToDate(member.getActiveToDate());
+                orgReviewRole.setMemberTypeCode(member.getMemberType().getCode());           
+                orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
+                orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
                 orgReviewRole.setActive(member.isActive());
                 orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
                 orgReviewRole.setMemberName(member.getMemberName());
@@ -555,7 +556,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return orgReviewRoles;
     }
     
-    protected List<OrgReviewRole> flattenToOrgReviewDelegationMembers(String active, String documentTypeName, List<DelegateMemberCompleteInfo> delegationMembers){
+    protected List<OrgReviewRole> flattenToOrgReviewDelegationMembers(String active, String documentTypeName, List<DelegateMember> delegationMembers){
         List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
         if(delegationMembers==null || delegationMembers.size()<1) return orgReviewRoles;
         
@@ -567,14 +568,14 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             activeInd = new Boolean(RiceUtilities.getBooleanValueForString(active, true));
         }
         KimType kimTypeInfo;
-        for(DelegateMemberCompleteInfo member: delegationMembers){
+        for(DelegateMember member: delegationMembers){
             if(activeInd==null || (activeInd.booleanValue()==true && member.isActive()) || (activeInd.booleanValue()==false && !member.isActive())){
                 orgReviewRole = new OrgReviewRole();
                 OrgReviewRoleMaintainableImpl orgReviewRoleMaintainableImpl = new OrgReviewRoleMaintainableImpl();
                 orgReviewRole.setMemberId(member.getMemberId());
-                orgReviewRole.setMemberTypeCode(member.getMemberTypeCode());
-                orgReviewRole.setActiveFromDate(member.getActiveFromDate());
-                orgReviewRole.setActiveToDate(member.getActiveToDate());
+                orgReviewRole.setMemberTypeCode(member.getMemberType().getCode());
+                orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
+                orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
                 orgReviewRole.setActive(member.isActive());
                 orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
                 orgReviewRole.setMemberName(member.getMemberName());
@@ -704,7 +705,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             else if(StringUtils.isNotEmpty(memberQueryString.toString()))
                 memberQueryString.append(KimConstants.KimUIConstants.OR_OPERATOR);
             for(Group group: groups){
-                memberQueryString.append(group.getGroupId()+KimConstants.KimUIConstants.OR_OPERATOR);
+                memberQueryString.append(group.getId()+KimConstants.KimUIConstants.OR_OPERATOR);
             }
             if(memberQueryString.toString().endsWith(KimConstants.KimUIConstants.OR_OPERATOR))
                 memberQueryString.delete(memberQueryString.length()-KimConstants.KimUIConstants.OR_OPERATOR.length(), memberQueryString.length());
@@ -802,7 +803,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             else if(StringUtils.isNotEmpty(memberQueryString.toString()))
                 memberQueryString.append(KimConstants.KimUIConstants.OR_OPERATOR);
             for(Group group: groups){
-                memberQueryString.append(group.getGroupId()+KimConstants.KimUIConstants.OR_OPERATOR);
+                memberQueryString.append(group.getId()+KimConstants.KimUIConstants.OR_OPERATOR);
             }
             if(memberQueryString.toString().endsWith(KimConstants.KimUIConstants.OR_OPERATOR))
                 memberQueryString.delete(memberQueryString.length()-KimConstants.KimUIConstants.OR_OPERATOR.length(), memberQueryString.length());

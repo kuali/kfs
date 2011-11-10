@@ -21,9 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.odmg.OJB;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
@@ -61,6 +63,7 @@ import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1195,7 +1198,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
             managedLists.add(assetLists);
             managedLists.add(capitalAssetLocationLists);
             managedLists.add(this.getPurchasingCapitalAssetSystems());
-            managedLists.add(this.getPurchasingCapitalAssetItems());
+            //managedLists.add(this.getPurchasingCapitalAssetItems());
         }
         return managedLists;
     }
@@ -1229,13 +1232,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public void clearCapitalAssetFields() {
-        this.setPurchasingCapitalAssetItems(new TypedArrayList(getPurchasingCapitalAssetItemClass()));
-        this.setPurchasingCapitalAssetSystems(new TypedArrayList(getPurchasingCapitalAssetSystemClass()));
+        this.getPurchasingCapitalAssetItems().clear();
+        this.getPurchasingCapitalAssetSystems().clear();
         this.setCapitalAssetSystemStateCode(null);
         this.setCapitalAssetSystemTypeCode(null);
         this.setCapitalAssetSystemState(null);
         this.setCapitalAssetSystemType(null);
-        
+
     }
 
     /**

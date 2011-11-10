@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
@@ -87,13 +88,16 @@ import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * Struts Action for Purchasing documents.
  */
+
 public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingActionBase.class);
 
@@ -1066,22 +1070,37 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
             if (!document.getPurchasingCapitalAssetItems().isEmpty()) {
-                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
+                saveDocumentNoValidationUsingClearErrorMap(document);
             }
             else {
                 // TODO: extract this and above strings to app resources
                 GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_CUSTOM, "No items were found that met the requirements for Capital Asset data collection");
             }
-            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
+            saveDocumentNoValidationUsingClearErrorMap(document);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    /**
+     * Sets the error map to a new, empty error map before calling saveDocumentNoValidation to save the document.
+     * 
+     * @param document The purchase order document to be saved.
+     */
+    protected void saveDocumentNoValidationUsingClearErrorMap(PurchasingDocument document) {
+        MessageMap errorHolder = GlobalVariables.getMessageMap();
+        GlobalVariables.setMessageMap(new MessageMap());
+        try {
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
+        }
+        finally {
+            GlobalVariables.setMessageMap(errorHolder);
+        }
+    }
+
 
     public ActionForward changeSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
-
         Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
 
@@ -1119,7 +1138,11 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     }
                 }
             }
+
             document.clearCapitalAssetFields();
+            //saveDocumentNoValidationUsingClearErrorMap(document);
+
+            
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
         }
@@ -1127,6 +1150,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+ 
     public ActionForward updateCamsView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();

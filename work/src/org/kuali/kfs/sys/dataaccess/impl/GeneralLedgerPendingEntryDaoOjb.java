@@ -52,6 +52,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     protected final static String TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
     protected final static String FINANCIAL_DOCUMENT_APPROVED_CODE = "financialDocumentApprovedCode";
     protected final static String ACCOUNT_NUMBER = "accountNumber";
+    protected final static String DOC_NUMBER = "documentNumber";
     protected final static String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     protected final static String CHART_FINANCIAL_CASH_OBJECT_CODE = "chart.financialCashObjectCode";
     protected final static String OBJECT_TYPE_FIN_OBJECT_TYPE_DEBITCREDIT_CD = "objectType.finObjectTypeDebitcreditCd";
@@ -368,6 +369,25 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      */
     public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear, SystemOptions currentYearOptions, List<String> encumbranceBalanceTypes) {
         LOG.debug("findPendingLedgerEntriesForEncumbrance started");
+        
+        String docNumber = (String)fieldValues.get(DOC_NUMBER);
+        Criteria subCriteria1 = new Criteria();
+        boolean docNbrCriteriaNeeded = false;
+        if (fieldValues.get(DOC_NUMBER) != null) {
+            fieldValues.remove(DOC_NUMBER);
+            subCriteria1 = new Criteria();
+            subCriteria1.addEqualTo(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+            Criteria subCriteria1b = new Criteria();
+            subCriteria1b.addEqualTo(KFSPropertyConstants.REFERENCE_FINANCIAL_DOCUMENT_NUMBER, docNumber);
+            subCriteria1.addAndCriteria(subCriteria1b);           
+            Criteria subCriteria2 = new Criteria();
+            subCriteria2.addEqualTo(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
+            Criteria subCriteria2b = new Criteria();
+            subCriteria2b.addEqualTo(DOC_NUMBER, docNumber);
+            subCriteria2.addAndCriteria(subCriteria2b);           
+            subCriteria1.addOrCriteria(subCriteria2);
+            docNbrCriteriaNeeded = true;
+        }
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance(), currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
         criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Arrays.asList(KFSConstants.ENCUMBRANCE_BALANCE_TYPE));
@@ -376,12 +396,16 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         encumbranceUpdateCodeList.add(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
         encumbranceUpdateCodeList.add(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
         criteria.addIn(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, encumbranceUpdateCodeList);
-
+       
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
 
         // add criteria to exclude fund balance object type code
         criteria.addAndCriteria(buildCriteriaToExcludeFundBalance(currentYearOptions));
+        
+        if (docNbrCriteriaNeeded) {
+            criteria.addAndCriteria(subCriteria1);
+        }
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);

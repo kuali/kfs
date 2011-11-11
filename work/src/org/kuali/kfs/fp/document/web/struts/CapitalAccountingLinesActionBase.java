@@ -28,6 +28,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
+import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.options.CapitalAccountingLinesComparator;
 import org.kuali.kfs.fp.document.CapitalAccountingLinesDocumentBase;
 import org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent;
@@ -107,13 +109,19 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
-        
+         
         capitalAccountingLines = updateCapitalAccountingLines(capitalAccountingLines, tdoc);
         sortCaptitalAccountingLines(capitalAccountingLines);
         caldb.setCapitalAccountingLines(capitalAccountingLines);
 
-        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
+        //now remove distributed accounting lines if they are not in the capital
+        //accounting lines list.
         
+        KualiAccountingDocumentFormBase kadfb = (KualiAccountingDocumentFormBase) form;
+        List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
+        
+        removeOrphanDisributedAccountingLines(capitalAccountingLines, currentCapitalAssetInformation);
+        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
         setTabStatesForCapitalAssets(form);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -303,6 +311,79 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         }
         
         return found;
+    }
+    
+    /**
+     * Method to check for any distributed accounting lines that are not listed in the
+     * capital accounting lines and remove them.
+     * 
+     * @param capitalAccountingLines
+     * @param capitalAssets
+     */
+    protected void removeOrphanDisributedAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, List<CapitalAssetInformation> capitalAssets) {
+        List<CapitalAssetInformation> removalCaiList = new ArrayList<CapitalAssetInformation>();
+        
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            removeOrphanDisributedAccountingLine(capitalAccountingLines, capitalAsset);
+            if (capitalAsset.getCapitalAssetAccountsGroupDetails().size() == 0) {
+                capitalAsset.getCapitalAssetInformationDetails().clear();
+                removalCaiList.add(capitalAsset);
+            }
+        }
+        //if the removal list is not empty, remove these bunch of capital asset records 
+        //for that accounting line.
+        if (ObjectUtils.isNotNull(removalCaiList)) {
+            capitalAssets.removeAll(removalCaiList);
+        }
+    }
+
+    /**
+     * Method to check for any distributed accounting line for a given capital
+     * accounting line that are not listed in the capital assets accounting lines and remove it.
+     * 
+     * @param capitalAccountingLines
+     * @param capitalAsset
+     */
+    protected void removeOrphanDisributedAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, CapitalAssetInformation capitalAsset) {
+        List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
+        CapitalAssetAccountsGroupDetails accountLineToDelete = null;
+        
+        for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+            if (!checkDistributedAccountingLineExists(capitalAccountingLines, groupAccountLine)) {
+                accountLineToDelete = groupAccountLine;
+                break;
+            }
+        }
+
+        if (ObjectUtils.isNotNull(accountLineToDelete)) {
+            capitalAsset.setCapitalAssetLineAmount(capitalAsset.getCapitalAssetLineAmount().subtract(accountLineToDelete.getAmount()));
+            groupAccountLines.remove(accountLineToDelete);
+        }
+        
+    }
+    
+    /**
+     * checks capital accounting lines again the distributed accounting line and if found 
+     * return true else false so that this distributed accounting line may be removed.
+     * 
+     * @param capitalAccountingLines
+     * @param groupAccountLine
+     * @return true if accounting line exists else return false
+     */
+    protected boolean checkDistributedAccountingLineExists(List<CapitalAccountingLines> capitalAccountingLines, CapitalAssetAccountsGroupDetails groupAccountLine) {
+        boolean exists = false;
+        
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (groupAccountLine.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&                        
+                    groupAccountLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
+                    groupAccountLine.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
+                    groupAccountLine.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
+                    groupAccountLine.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     /**

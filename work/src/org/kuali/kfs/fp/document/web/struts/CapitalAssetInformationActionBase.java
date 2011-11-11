@@ -783,6 +783,12 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_CAPITAL_ASSET_MODIFY_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED);
         }
         
+        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiAccountingDocumentFormBase;
+        checkSelectForCapitalAccountingLines(capitalAccountingLinesFormBase);        
+        
+        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
+        calculatePercentsForSelectedCapitalAccountingLines(capitalAccountingLinesFormBase);
+        
         //now process the remaining capital asset records
         processRemainingCapitalAssetInfo(form, capitalAssetInformation);
         
@@ -1059,10 +1065,15 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
         }
         
+        //add any missing accounting lines to the group collection of accounting lines for this capital asset record.
+        for (CapitalAssetInformation capitalAsset : currentCapitalAssetInformation) {
+            if (capitalAsset.getCapitalAssetActionIndicator().equalsIgnoreCase(actionType)) {
+                addMissingAccountingLinesToCapitalAsset(selectedCapitalAccountingLines, capitalAsset);
+            }
+        }
+        
         CapitalAssetInformation existingCapitalAsset = capitalAssetCreated(selectedCapitalAccountingLines, currentCapitalAssetInformation);
         if (ObjectUtils.isNotNull(existingCapitalAsset)) {
-            //add any missing accounting lines to the group collection of accounting lines for this capital asset record.
-            addMissingAccountingLinesToCapitalAsset(selectedCapitalAccountingLines, existingCapitalAsset);
             if (!accountingLinesAmountDistributed(selectedCapitalAccountingLines, existingCapitalAsset)) {
                 //accounting line amount not completely distributed yet so we need to create more assets
                 //add the capital information record to the list of asset information
@@ -1336,7 +1347,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     
     /**
      * adds any missing capital accounting line details as an accounting line into the collection of
-     * accounting lines for this capital asset.
+     * accounting lines for this capital asset based on the action type.
      * 
      * @param capitalAccountingLines
      * @param existingCapitalAsset
@@ -1718,8 +1729,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                 break;
             }
         }
-        
-        //                    groupAccountLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(groupAccountLine.getFinancialDocumentLineTypeCode()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
 
         if (ObjectUtils.isNotNull(accountLineToDelete)) {
             capitalAsset.setCapitalAssetLineAmount(capitalAsset.getCapitalAssetLineAmount().subtract(accountLineToDelete.getAmount()));

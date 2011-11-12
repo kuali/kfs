@@ -322,6 +322,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 // it fails validation. Validation failures will stop routing.
                 GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument.getTotalFromControl());
+                
+                // zero out all the details
+                detailApplication.setAmountApplied(KualiDecimal.ZERO);
+                
                 GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 invoicePaidApplieds.add(invoicePaidApplied);
                 paidAppliedsGenerated++;

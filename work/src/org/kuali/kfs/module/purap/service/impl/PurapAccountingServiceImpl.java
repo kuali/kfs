@@ -41,6 +41,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
@@ -721,7 +722,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
         
-        String accountDistributionMethodString;
+        PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase) document;
+        
+        String accountDistributionMethod = purApDocument.getAccountDistributionMethod();
         
         // the percent at fiscal approve
         // don't update if past the AP review level
@@ -731,8 +734,12 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             return;
         }
         document.fixItemReferences();
-        for (PurApItem item : document.getItems()) {
-            updateItemAccountAmounts(item);
+        
+        //do recalculate only if the account distribution method code is not equal to "S" sequential. 
+        if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+            for (PurApItem item : document.getItems()) {
+                updateItemAccountAmounts(item);
+            }
         }
     }
 
@@ -792,6 +799,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 if (ObjectUtils.isNotNull(lastAccount.getAmount())) {
                     lastAccount.setAmount(lastAccount.getAmount().add(difference));
                 }
+                
                 BigDecimal percentDifference = new BigDecimal(100).subtract(accountTotalPercent).setScale(BIG_DECIMAL_SCALE);
                 if (ObjectUtils.isNotNull(lastAccount.getAccountLinePercent())) {
                     lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
@@ -801,9 +809,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         else {
             // zero out if extended price is zero
             for (T account : sourceAccountingLines) {
-             //   if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-             //       account.setAccountLinePercent(BigDecimal.ZERO);
-             //   }
                 if (ObjectUtils.isNotNull(account.getAmount())) {
                     account.setAmount(KualiDecimal.ZERO);
                 }
@@ -819,8 +824,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     boolean thisAccountAlreadyInSet = false;
                     for (Iterator iter = accounts.iterator(); iter.hasNext();) {
                         PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
-                        
-                        
                         if (alreadyAddedAccount.accountStringsAreEqual(account)) {
                             BigDecimal alreadyAddedAccountLinePercent = BigDecimal.ZERO;
                             if (ObjectUtils.isNotNull(alreadyAddedAccount.getAccountLinePercent())) {

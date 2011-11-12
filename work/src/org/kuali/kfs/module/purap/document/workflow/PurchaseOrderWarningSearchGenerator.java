@@ -21,7 +21,6 @@ import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kns.util.MessageMap;
 
 public class PurchaseOrderWarningSearchGenerator extends DataDictionaryDocumentSearchCustomizer {
-
     /**
      * @see org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer#getMessageMap(org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO)
      */

@@ -51,8 +51,8 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         this.setProjectCode(ra.getProjectCode());
         this.setSubAccountNumber(ra.getSubAccountNumber());
         this.setSequenceNumber(ra.getSequenceNumber());
-     //   this.setAmount(null);
-      //  this.setAccountLinePercent(null);
+        this.setAmount(ra.getAmount());
+        this.setAccountLinePercent(ra.getAccountLinePercent());
     }
 
     /**

@@ -124,7 +124,17 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-       
+
+    /**
+     * Gets the postalCodeValidationService attribute.
+     * 
+     * @return Returns the postalCodeValidationService
+     */
+    
+    public PostalCodeValidationService getPostalCodeValidationService() {
+        return postalCodeValidationService;
+    }
+
     /** 
      * Sets the postalCodeValidationService attribute.
      * 

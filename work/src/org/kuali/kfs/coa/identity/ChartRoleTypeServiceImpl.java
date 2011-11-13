@@ -22,10 +22,6 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 public class ChartRoleTypeServiceImpl extends RoleTypeServiceBase {
-
-    {
-        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-    }
     
     /***
      * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)

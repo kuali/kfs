@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.document.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
@@ -44,7 +45,7 @@ public interface DisbursementVoucherPaymentReasonService {
      * @param payeeTypeCodes the given payee type codes
      * @return true if the given payee is qualified for the payment with the given reason code; otherwise, return false
      */
-    public boolean isPayeeQualifiedForPayment(DisbursementPayee payee, String paymentReasonCode, List<String> payeeTypeCodes);
+    public boolean isPayeeQualifiedForPayment(DisbursementPayee payee, String paymentReasonCode, Collection<String> payeeTypeCodes);
 
     /**
      * determine whether the given payment reason is a non-employee travel payment reason
@@ -117,7 +118,7 @@ public interface DisbursementVoucherPaymentReasonService {
      * @param paymentReasonCode the given payment reason
      * @return the payee type codes valid for the given payment reason
      */
-    public List<String> getPayeeTypesByPaymentReason(String paymentReasonCode);
+    public Collection<String> getPayeeTypesByPaymentReason(String paymentReasonCode);
 
     /**
      * get the payment reason with its primary key: the given payment reason code
@@ -149,5 +150,5 @@ public interface DisbursementVoucherPaymentReasonService {
      * @param paymentReasonCode the given payment reason code
      * @return the vendor owership type codes for the given payment reason code if any; otherwise, null
      */
-    public List<String> getVendorOwnershipTypesByPaymentReason(String paymentReasonCode);
+    public Collection<String> getVendorOwnershipTypesByPaymentReason(String paymentReasonCode);
 }

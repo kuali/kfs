@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -29,7 +28,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -54,20 +54,34 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
 
     protected boolean canApproveOrBlanketApprove(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isApprovalRequested() && !workflowDocument.isAdHocRequested()) {
-            CashReceiptDocument cashReceiptDocument = (CashReceiptDocument) document;
-
-            String campusCode = cashReceiptDocument.getCampusLocationCode();
-            CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode);
-            if (cashDrawer == null) {
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CASH_DRAWER_DOES_NOT_EXIST, campusCode);
-                return false;
+        if (workflowDocument.isApprovalRequested() ) {
+            boolean isAdhocApproval = false;
+            Set<String> currentNodes = workflowDocument.getCurrentNodeNames();
+            if ( currentNodes != null && !currentNodes.isEmpty() ) {
+                String currentNode = currentNodes.iterator().next();
+                List<ActionRequest> requests = SpringContext.getBean(WorkflowDocumentService.class).getActionRequestsForPrincipalAtNode(workflowDocument.getDocumentId(), currentNode, GlobalVariables.getUserSession().getPrincipalId());
+                for ( ActionRequest ar : requests ) {
+                    if ( ar.isActivated() && ar.isCurrent() 
+                            && ar.isApprovalRequest() && ar.isAdHocRequest() ) {
+                        isAdhocApproval = true;
+                        break;
+                    }
+                }
             }
-            if (cashDrawer.isClosed()) {
-                return false;
+            if (!isAdhocApproval) {
+                CashReceiptDocument cashReceiptDocument = (CashReceiptDocument) document;
+    
+                String campusCode = cashReceiptDocument.getCampusLocationCode();
+                CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode);
+                if (cashDrawer == null) {
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CASH_DRAWER_DOES_NOT_EXIST, campusCode);
+                    return false;
+                }
+                if (cashDrawer.isClosed()) {
+                    return false;
+                }
             }
         }
-
         return true;
     }
 
@@ -77,7 +91,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
      */
     @Override
     protected boolean canEdit(Document document) {
-        if (document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) return false;
+        if (document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) return false;
         return super.canEdit(document);
     }
     
@@ -97,7 +111,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.isEnroute()) {
-            List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+            Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
             if(currentRouteLevels.contains("CashManagement")) {
                 editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CASH_MANAGER_CONFIRM_MODE);
             }
@@ -108,15 +122,6 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         boolean IndValue = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(CashReceiptDocument.class, "CHANGE_REQUEST_ENABLED_IND");
         if(IndValue) {
             editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CHANGE_REQUEST_MODE);
-        }
-    }
-    
-    protected List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
-        try {
-            return Arrays.asList(workflowDocument.getNodeNames());
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
         }
     }
     

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
@@ -26,8 +26,8 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
 import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -36,8 +36,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * Validates that if a disbursement voucher had special handling turned off at the campus node, an extra note explaining that change has been added.
  */
 public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericValidation {
-    private DisbursementVoucherDocument disbursementVoucherDocumentForValidation;
-    private DocumentService documentService;
+    protected DisbursementVoucherDocument disbursementVoucherDocumentForValidation;
+    protected DocumentService documentService;
     
     
     public static final String DOCUMENT_EDITOR_ROLE_NAME = "Document Editor";
@@ -65,8 +65,7 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @return true if the document is at the campus route node, false otherwise
      */
     protected boolean isAtNodeToCheck() {
-        String[] names= getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        List<String> currentNodes = Arrays.asList(names);
+        Set<String> currentNodes = getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
         return (!currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.PURCHASING));
     }
     
@@ -115,17 +114,13 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @return true if the note was added by the current approver, false otherwise
      */
     protected boolean noteAddedByApproverForCurrentNode(Note note) {
-        ActionRequest[] actionRequests = null;
+        List<ActionRequest> actionRequests = null;
         try {
-            actionRequests = SpringContext.getBean(WorkflowDocumentService.class).getActionRequests(new Long(getDisbursementVoucherDocumentForValidation().getDocumentNumber()), getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), note.getAuthorUniversalIdentifier());
-        }
-        catch (NumberFormatException nfe) {
+            actionRequests = SpringContext.getBean(WorkflowDocumentService.class).getActionRequestsForPrincipalAtNode(getDisbursementVoucherDocumentForValidation().getDocumentNumber(), getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next(), note.getAuthorUniversalIdentifier());
+        } catch (NumberFormatException nfe) {
             throw new RuntimeException("Could not convert Disbursement Voucher document number "+getDisbursementVoucherDocumentForValidation().getDocumentNumber()+" to long", nfe);
         }
-        catch (WorkflowException we) {
-            throw new RuntimeException("D'oh!  Workflow Exception!", we);
-        }
-        return actionRequests != null && actionRequests.length > 0;
+        return actionRequests != null && !actionRequests.isEmpty();
     }
     
     /**
@@ -151,33 +146,6 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      */
     public void setDisbursementVoucherDocumentForValidation(DisbursementVoucherDocument disbursementVoucherDocumentForValidation) {
         this.disbursementVoucherDocumentForValidation = disbursementVoucherDocumentForValidation;
-    }
-
-    /**
-     * Gets the workflowInfo attribute. 
-     * @return Returns the workflowInfo.
-     */
-    public WorkflowInfo getWorkflowInfo() {
-        if (workflowInfo == null) {
-//            workflowInfo = new WorkflowInfo();
-        }
-        return workflowInfo;
-    }
-
-    /**
-     * Sets the workflowInfo attribute value.
-     * @param workflowInfo The workflowInfo to set.
-     */
-    public void setWorkflowInfo(WorkflowInfo workflowInfo) {
-        this.workflowInfo = workflowInfo;
-    }
-
-    /**
-     * Gets the documentService attribute. 
-     * @return Returns the documentService.
-     */
-    public DocumentService getDocumentService() {
-        return documentService;
     }
 
     /**

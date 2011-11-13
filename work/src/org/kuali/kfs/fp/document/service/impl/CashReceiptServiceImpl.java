@@ -40,19 +40,15 @@ import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.campus.CampusService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -62,12 +58,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CashReceiptServiceImpl implements CashReceiptService {
 
-    private BusinessObjectService businessObjectService;
-    private WorkflowDocumentService workflowDocumentService;
-    private CashManagementDao cashManagementDao;
-    private CashDrawerService cashDrawerService;
-    private ParameterService parameterService;
-    private DictionaryValidationService dictionaryValidationService;
+    protected BusinessObjectService businessObjectService;
+    protected CashManagementDao cashManagementDao;
+    protected CashDrawerService cashDrawerService;
+    protected DataDictionaryService dataDictionaryService;
+    protected DictionaryValidationService dictionaryValidationService;
 
     /**
      * This method verifies the campus code provided exists.  This is done by retrieving all the available campuses from
@@ -77,18 +72,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @return True if the campus code provided is valid and exists, false otherwise.
      */
     protected boolean verifyCampus(String campusCode) {
-        List campusList = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(
-                Campus.class).getExternalizableBusinessObjectsList(Campus.class, new HashMap<String, Object>());
-        Iterator campiiIter = campusList.iterator();
-        boolean foundCampus = false;
-        while (campiiIter.hasNext() && !foundCampus) {
-            Campus campus = (Campus)campiiIter.next();
-            if (campus.getCode().equals(campusCode)) {
-                foundCampus = true;
-            }
-        }
-        return foundCampus;
-        
+        return SpringContext.getBean(CampusService.class).getCampus(campusCode) != null;
     }
 
 
@@ -172,10 +156,10 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param statii A collection of possible statuses that will be used in the lookup of the cash receipts.
      * @return List of CashReceiptDocument instances with their associated workflowDocuments populated.
      */
-    public List getPopulatedCashReceipts(String verificationUnit, String[] statii) {
+    public List<CashReceiptDocument> getPopulatedCashReceipts(String verificationUnit, String[] statii) {
         Map queryCriteria = buildCashReceiptCriteriaMap(verificationUnit, statii);
 
-        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria, KFSPropertyConstants.DOCUMENT_NUMBER, true));
+        List<CashReceiptDocument> documents = new ArrayList<CashReceiptDocument>(businessObjectService.findMatchingOrderBy(CashReceiptDocument.class, queryCriteria, KFSPropertyConstants.DOCUMENT_NUMBER, true));
 
         populateWorkflowFields(documents);
 
@@ -214,18 +198,8 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     protected void populateWorkflowFields(List documents) {
         for (Iterator i = documents.iterator(); i.hasNext();) {
             CashReceiptDocument cr = (CashReceiptDocument) i.next();
-
-            WorkflowDocument workflowDocument = null;
             DocumentHeader docHeader = cr.getDocumentHeader();
-            try {
-                Long documentHeaderId = Long.valueOf(docHeader.getDocumentNumber());
-                Person user = GlobalVariables.getUserSession().getPerson();
-
-                workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
-            }
-            catch (WorkflowException e) {
-                throw new InfrastructureException("unable to retrieve workflow document for documentHeaderId '" + docHeader.getDocumentNumber() + "'", e);
-            }
+            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), docHeader.getDocumentNumber());
 
             docHeader.setWorkflowDocument(workflowDocument);
         }
@@ -260,7 +234,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             drawer.addCoin(crDoc.getConfirmedCoinDetail());
             drawer.removeCoin(crDoc.getChangeCoinDetail());
         }
-        SpringContext.getBean(BusinessObjectService.class).save(drawer);
+        businessObjectService.save(drawer);
     }
     
     /**
@@ -311,19 +285,17 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         String errorProperty = DOCUMENT_ERROR_PREFIX + propertyName;
 
         if (totalAmount != null) {
-            DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
-            String errorLabel = dds.getAttributeLabel(documentEntryName, propertyName);
-
             if (totalAmount.isNegative()) {
+                String errorLabel = dataDictionaryService.getAttributeLabel(documentEntryName, propertyName);
                 GlobalVariables.getMessageMap().putError(errorProperty, CashReceipt.ERROR_NEGATIVE_TOTAL, errorLabel);
 
                 isInvalid = true;
-            }
-            else {
+            } else {
                 int precount = GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors();
 
-                getDictionaryValidationService().validateDocumentAttribute(cashReceiptDocument, propertyName, DOCUMENT_ERROR_PREFIX);
+                dictionaryValidationService.validateDocumentAttribute(cashReceiptDocument, propertyName, DOCUMENT_ERROR_PREFIX);
 
+                String errorLabel = dataDictionaryService.getAttributeLabel(documentEntryName, propertyName);
                 // replace generic error message, if any, with something more readable
                 GlobalVariables.getMessageMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
 
@@ -335,111 +307,21 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         return isInvalid;
     }
 
-    // injection-molding
-    /**
-     * Gets the businessObjectService attribute. 
-     * @return current value of businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-
-    /**
-     * Gets the workflowDocumentService attribute. 
-     * @return current value of workflowDocumentService.
-     */
-    public WorkflowDocumentService getWorkflowDocumentService() {
-        return workflowDocumentService;
-    }
-
-    /**
-     * Sets the workflowDocumentService attribute value.
-     * @param workflowDocumentService The workflowDocumentService to set.
-     */
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
-    /**
-     * Gets the cashManagementDao attribute. 
-     * 
-     * @return Returns the cashManagementDao.
-     */
-    public CashManagementDao getCashManagementDao() {
-        return cashManagementDao;
-    }
-
-
-    /**
-     * Sets the cashManagementDao attribute value.
-     * 
-     * @param cashManagementDao The cashManagementDao to set.
-     */
     public void setCashManagementDao(CashManagementDao cashManagementDao) {
         this.cashManagementDao = cashManagementDao;
     }
-
-    /**
-     * Gets the cashDrawerService attribute. 
-     * 
-     * @return Returns the cashDrawerService.
-     */
-    public CashDrawerService getCashDrawerService() {
-        return cashDrawerService;
-    }
-
-
-    /**
-     * Sets the cashDrawerService attribute value.
-     * 
-     * @param cashDrawerService The cashDrawerService to set.
-     */
     public void setCashDrawerService(CashDrawerService cashDrawerService) {
         this.cashDrawerService = cashDrawerService;
     }
-
-    /**
-     * Gets the parameterService attribute. 
-     * 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-
-    /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-    
-    /**
-     * Gets the dictionaryValidationService attribute. 
-     * @return Returns the dictionaryValidationService.
-     */
-    public DictionaryValidationService getDictionaryValidationService() {
-        return dictionaryValidationService;
-    }
-
-    /**
-     * Sets the dictionaryValidationService attribute value.
-     * @param dictionaryValidationService The dictionaryValidationService to set.
-     */
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
         this.dictionaryValidationService = dictionaryValidationService;
     }
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
 }
 

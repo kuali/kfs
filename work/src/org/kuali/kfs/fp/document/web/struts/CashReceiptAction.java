@@ -79,7 +79,6 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
         // proceed as usual
         ActionForward result = super.execute(mapping, form, request, response);
-        t0.log();
         return result;
 
     }

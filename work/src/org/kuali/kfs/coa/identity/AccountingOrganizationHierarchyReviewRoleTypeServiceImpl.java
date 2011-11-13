@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.KimConstants;
@@ -95,9 +96,9 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
     }
 
     @Override
-    public Map<String,String> validateUnmodifiableAttributes(
+    public List<RemotableAttributeError> validateUnmodifiableAttributes(
             String kimTypeId, Map<String,String> originalAttributeSet, Map<String,String> newAttributeSet){
-        Map<String,String> validationErrors = super.validateUnmodifiableAttributes(kimTypeId, originalAttributeSet, newAttributeSet);
+        List<RemotableAttributeError> validationErrors = super.validateUnmodifiableAttributes(kimTypeId, originalAttributeSet, newAttributeSet);
         List<String> attributeErrors = null;
         KimAttribute attributeImpl;
 

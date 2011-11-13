@@ -29,8 +29,6 @@ import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentatio
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ValidActions;
-import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
-import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.MaintenanceDocumentService;
@@ -65,7 +63,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.contains(KewApiConstants.ACTION_TAKEN_APPROVED_CD);
+            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_APPROVED_CD);
         }
 
         return super.canApprove(document);
@@ -85,7 +83,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
 
             // CM document can only be routed if it contains a Final Deposit
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.contains(KewApiConstants.ACTION_TAKEN_BLANKET_APPROVE_CD);
+            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_BLANKET_APPROVE_CD);
         }
 
         return super.canBlanketApprove(document);
@@ -105,7 +103,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
 
             // CM document can only be routed if it contains a Final Deposit
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.contains(KewApiConstants.ACTION_TAKEN_CANCELED_CD);
+            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_CANCELED_CD);
         }
 
         return super.canCancel(document);
@@ -119,7 +117,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.contains(KewApiConstants.ACTION_TAKEN_DENIED_CD);
+            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_DENIED_CD);
         }
 
         return super.canDisapprove(document);
@@ -139,7 +137,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
 
             // CM document can only be routed if it contains a Final Deposit
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.contains(KewApiConstants.ACTION_TAKEN_ROUTED_CD);
+            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_ROUTED_CD);
         }
 
         return super.canRoute(document);
@@ -159,7 +157,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
 
             // CM document can only be saved (via the save button) if the CashDrawer is not closed
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.contains(KewApiConstants.ACTION_TAKEN_SAVED_CD);
+            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_SAVED_CD);
         }
 
         return super.canRoute(document);
@@ -173,7 +171,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.contains(KewApiConstants.ACTION_TAKEN_FYI_CD);
+            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_FYI_CD);
         }
 
         return super.canAddAdhocRequests(document);
@@ -210,10 +208,10 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @return true if there are no maintenance documents with locks on the cash drawer, false otherwise
      */
     protected boolean noExistCashDrawerMaintLocks(CashDrawer cashDrawer, String documentNumber) {
-       final MaintenanceDocumentEntry cashDrawerMaintDocEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getMaintenanceDocumentEntryForBusinessObjectClass(cashDrawer.getClass());
-       Maintainable cashDrawerMaintainable = createCashDrawerMaintainable(cashDrawerMaintDocEntry);
-       cashDrawerMaintainable.setBoClass(cashDrawer.getClass());
-       cashDrawerMaintainable.setBusinessObject(cashDrawer);
+       final org.kuali.rice.krad.datadictionary.MaintenanceDocumentEntry cashDrawerMaintDocEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getMaintenanceDocumentEntryForBusinessObjectClass(cashDrawer.getClass());
+       org.kuali.rice.krad.maintenance.Maintainable cashDrawerMaintainable = createCashDrawerMaintainable(cashDrawerMaintDocEntry);
+       cashDrawerMaintainable.setDataObjectClass(cashDrawer.getClass());
+       cashDrawerMaintainable.setDataObject(cashDrawer);
        cashDrawerMaintainable.setDocumentNumber(documentNumber);
        
        final String lockingDocument = SpringContext.getBean(MaintenanceDocumentService.class).getLockingDocumentId(cashDrawerMaintainable, documentNumber);
@@ -225,8 +223,8 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @param cashDrawerMaintenanceDocumentEntry the data dictionary entry from the Cash Drawer's maintenance document 
      * @return an appropriate Maintainable
      */
-    protected Maintainable createCashDrawerMaintainable(MaintenanceDocumentEntry cashDrawerMaintenanceDocumentEntry) {
-        Maintainable cashDrawerMaintainable;
+    protected org.kuali.rice.krad.maintenance.Maintainable createCashDrawerMaintainable(org.kuali.rice.krad.datadictionary.MaintenanceDocumentEntry cashDrawerMaintenanceDocumentEntry) {
+        org.kuali.rice.krad.maintenance.Maintainable cashDrawerMaintainable;
         try {
             cashDrawerMaintainable = cashDrawerMaintenanceDocumentEntry.getMaintainableClass().newInstance();
         }

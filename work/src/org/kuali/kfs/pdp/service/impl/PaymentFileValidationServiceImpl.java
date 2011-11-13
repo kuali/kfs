@@ -60,6 +60,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.KualiCodeBase;
@@ -72,20 +73,20 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class PaymentFileValidationServiceImpl implements PaymentFileValidationService {
-    private CustomerProfileService customerProfileService;
-    private PaymentFileLoadDao paymentFileLoadDao;
-    private ParameterService parameterService;
-    private ConfigurationService kualiConfigurationService;
-    private DateTimeService dateTimeService;
-    private AccountService accountService;
-    private SubAccountService subAccountService;
-    private ObjectCodeService objectCodeService;
-    private SubObjectCodeService subObjectCodeService;
-    private ProjectCodeService projectCodeService;
-    private BankService bankService;
-    private OriginationCodeService originationCodeService;
-    private KualiWorkflowInfo workflowInfoService;
-    private BusinessObjectService businessObjectService;
+    protected CustomerProfileService customerProfileService;
+    protected PaymentFileLoadDao paymentFileLoadDao;
+    protected ParameterService parameterService;
+    protected ConfigurationService kualiConfigurationService;
+    protected DateTimeService dateTimeService;
+    protected AccountService accountService;
+    protected SubAccountService subAccountService;
+    protected ObjectCodeService objectCodeService;
+    protected SubObjectCodeService subObjectCodeService;
+    protected ProjectCodeService projectCodeService;
+    protected BankService bankService;
+    protected OriginationCodeService originationCodeService;
+    protected DocumentTypeService documentTypeService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
@@ -223,13 +224,8 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
                 // validate doc type if given
                 if (StringUtils.isNotBlank(paymentDetail.getFinancialDocumentTypeCode())) {
-                    try {
-                        if (!SpringContext.getBean(WorkflowDocumentService.class).isCurrentActiveDocumentType(paymentDetail.getFinancialDocumentTypeCode())) {
-                            errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialDocumentTypeCode());
-                        }
-                    }
-                    catch (WorkflowException e) {
-                        throw new RuntimeException("error trying to validate document type: " + e.getMessage(), e);
+                    if ( !documentTypeService.isActiveByName(paymentDetail.getFinancialDocumentTypeCode()) ) {
+                        errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialDocumentTypeCode());
                     }
                 }
 
@@ -753,24 +749,6 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      */
     public void setOriginationCodeService(OriginationCodeService originationCodeService) {
         this.originationCodeService = originationCodeService;
-    }
-
-    /**
-     * Gets the workflowInfoService attribute.
-     * 
-     * @return Returns the SpringContext.getBean(WorkflowDocumentService.class).
-     */
-    protected KualiWorkflowInfo getWorkflowInfoService() {
-        return workflowInfoService;
-    }
-
-    /**
-     * Sets the workflowInfoService attribute value.
-     * 
-     * @param workflowInfoService The workflowInfoService to set.
-     */
-    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
-        this.workflowInfoService = workflowInfoService;
     }
 
     /**

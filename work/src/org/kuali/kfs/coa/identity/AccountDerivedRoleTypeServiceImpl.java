@@ -43,11 +43,9 @@ import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
-import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -363,7 +361,7 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
             // send it
             getMailService().sendMessage(mailMessage);
         }
-        catch (InvalidAddressException iae) {
+        catch (Exception iae) {
             throw new RuntimeException("Could not mail principal inactivation notification to "+toAddress);
         }
         
@@ -395,7 +393,7 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
             // send it
             getMailService().sendMessage(mailMessage);
         }
-        catch (InvalidAddressException iae) {
+        catch (Exception iae) {
             throw new RuntimeException("Could not mail principal inactivation notification to "+toAddress);
         }
     }
@@ -508,7 +506,7 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
             // send it
             getMailService().sendMessage(mailMessage);
         }
-        catch (InvalidAddressException iae) {
+        catch (Exception iae) {
             throw new RuntimeException("Could not mail principal inactivation notification to "+toAddress);
         }
     }

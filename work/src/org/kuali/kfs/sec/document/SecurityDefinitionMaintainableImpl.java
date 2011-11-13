@@ -32,8 +32,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.service.impl.RoleServiceImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
@@ -97,7 +97,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
      * @param newSecurityDefinition SecurityDefinition after updates
      */
     protected void createOrUpdateDefinitionRole(SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition) {
-        RoleServiceImpl roleService = SpringContext.getBean(RoleServiceImpl.class);
+        RoleService roleService = SpringContext.getBean(RoleService.class);
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
         
         String roleId = oldSecurityDefinition.getRoleId();
@@ -106,12 +106,12 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
             // create new role for definition
             roleId = roleService.getNextAvailableRoleId();
             newSecurityDefinition.setRoleId(roleId);
-            roleService.saveRole(roleId, roleName, newSecurityDefinition.getDescription(), newSecurityDefinition.isActive(), SecConstants.SecurityTypes.SECURITY_DEFINITION_ROLE_TYPE, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE);
+            roleService.createRole(roleId, roleName, newSecurityDefinition.getDescription(), newSecurityDefinition.isActive(), SecConstants.SecurityTypes.SECURITY_DEFINITION_ROLE_TYPE, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE);
         }
         else {
             // update role active indicator if it has been updated on the definition
             if ((oldSecurityDefinition.isActive() && !newSecurityDefinition.isActive()) || (!oldSecurityDefinition.isActive() && newSecurityDefinition.isActive())) {
-                roleService.saveRole(roleId, roleName, newSecurityDefinition.getDescription(), newSecurityDefinition.isActive(), SecConstants.SecurityTypes.SECURITY_DEFINITION_ROLE_TYPE, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE);
+                roleService.createRole(roleId, roleName, newSecurityDefinition.getDescription(), newSecurityDefinition.isActive(), SecConstants.SecurityTypes.SECURITY_DEFINITION_ROLE_TYPE, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE);
             }
         }
 
@@ -193,7 +193,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
             List<Permission> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(),SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId());
             if (permissions != null) {
                 for (Permission permissionInfo : permissions) {
-                    String namespaceCode = permissionInfo.getDetails().get(KimConstants.AttributeConstants.NAMESPACE_CODE);
+                    String namespaceCode = permissionInfo.getAttributes().get(KimConstants.AttributeConstants.NAMESPACE_CODE);
                     if (StringUtils.equals(KFSConstants.ParameterNamespaces.GL, namespaceCode)) {
                         glPermissionId = permissionInfo.getId();
                     }
@@ -355,7 +355,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
         // iterate through permission list finding permissions that have the document type detail
         Permission foundPermission = null;
         for (Permission permissionInfo : permissions) {
-            String permissionDocType = permissionInfo.getDetails().get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
+            String permissionDocType = permissionInfo.getAttributes().get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
             if (StringUtils.equalsIgnoreCase(documentType, permissionDocType)) {
                 foundPermission = permissionInfo;
                 break;
@@ -381,7 +381,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
 
         List<Permission> templatePermissions = new ArrayList<Permission>();
         for (Permission permissionInfo : permissions) {
-            if (StringUtils.equals(templateId, permissionInfo.getTemplateId())) {
+            if (StringUtils.equals(templateId, permissionInfo.getTemplate().getId())) {
                 templatePermissions.add(permissionInfo);
             }
         }
@@ -420,13 +420,13 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
     protected void savePermission(SecurityDefinition securityDefinition, String permissionId, String permissionTemplateId, boolean active, Map<String,String> permissionDetails) {
         LOG.info(String.format("saving permission with id: %s, template ID: %s, name: %s, active: %s", permissionId, permissionTemplateId, securityDefinition.getName(), active));
 
-        PermissionUpdateService permissionUpdateService = SpringContext.getBean(PermissionUpdateService.class);
+        PermissionService permissionUpdateService = SpringContext.getBean(PermissionService.class);
 
         if (StringUtils.isBlank(permissionId)) {
             permissionId = permissionUpdateService.getNextAvailablePermissionId();
         }
 
-        permissionUpdateService.savePermission(permissionId, permissionTemplateId, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, securityDefinition.getName(), securityDefinition.getDescription(), active, permissionDetails);
+        permissionUpdateService.createPermission(permissionId, permissionTemplateId, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, securityDefinition.getName(), securityDefinition.getDescription(), active, permissionDetails);
     }
     
     /**

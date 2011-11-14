@@ -17,11 +17,9 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -262,7 +260,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
      * @param illegalValues - An Array of Strings of the unallowable prefixes.
      * @return false if the accountNumber starts with any of the illegalPrefixes, true otherwise
      */
-    protected boolean accountNumberStartsWithAllowedPrefix(String accountNumber, List<String> illegalValues) {
+    protected boolean accountNumberStartsWithAllowedPrefix(String accountNumber, Collection<String> illegalValues) {
         boolean result = true;
         for (String illegalValue : illegalValues) {
             if (accountNumber.startsWith(illegalValue)) {
@@ -354,7 +352,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
             // test the number
-            success &= new ArrayList<String>( accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), getParameterService().getParameterValuesAsString(Account.class, ACCT_PREFIX_RESTRICTION)) );
+            success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), getParameterService().getParameterValuesAsString(Account.class, ACCT_PREFIX_RESTRICTION));
         }
 
         // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
@@ -787,7 +785,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     protected String replaceTokens(String errorConstant) {
         String cngLabel = getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
         String cngValue = getSubFundGroupService().getContractsAndGrantsDenotingValueForMessage();
-        String result = getConfigurationService().getPropertyValueAsString(errorConstant);
+        String result = getConfigService().getPropertyValueAsString(errorConstant);
         result = StringUtils.replace(result, "{0}", cngLabel);
         result = StringUtils.replace(result, "{1}", cngValue);
         return result;
@@ -1041,7 +1039,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                     if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
 
                         // make sure that primary key fields are upper case
-                        DataDictionaryService dds = getDdService();
+                        org.kuali.rice.krad.service.DataDictionaryService dds = getDdService();
                         Boolean buildingCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.BUILDING_CODE);
                         if (StringUtils.isNotBlank(buildingCode) && buildingCodeForceUppercase != null && buildingCodeForceUppercase.booleanValue() == true) {
                             buildingCode = buildingCode.toUpperCase();

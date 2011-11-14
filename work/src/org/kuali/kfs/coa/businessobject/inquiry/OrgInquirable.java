@@ -21,8 +21,8 @@ import java.util.Properties;
 
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
-import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -61,8 +61,8 @@ public class OrgInquirable extends KfsInquirableImpl {
             f.setPropertyValue("run search");
             f.setFieldType(Field.TEXT);
             Properties parameters = new Properties();
-            parameters.put(OrgReviewRoleLookupableHelperServiceImpl.MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE, org.getChartOfAccountsCode());
-            parameters.put(OrgReviewRoleLookupableHelperServiceImpl.MEMBER_ATTRIBUTE_ORGANIZATION_CODE, org.getOrganizationCode());
+            parameters.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, org.getChartOfAccountsCode());
+            parameters.put(KfsKimAttributes.ORGANIZATION_CODE, org.getOrganizationCode());
             parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
             parameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, KRADConstants.PORTAL_ACTION);
             parameters.put(KRADConstants.DOC_FORM_KEY, KimConstants.KimUIConstants.KIM_ROLE_DOCUMENT_SHORT_KEY);

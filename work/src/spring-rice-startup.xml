@@ -46,6 +46,6 @@
 
   <import resource="spring-jta.xml" />
   <import resource="spring-datasources.xml" />
-  <import resource="spring-rice-configurer.xml" />
+  <import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml" />
 
 </beans>

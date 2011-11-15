@@ -17,6 +17,7 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -375,10 +376,10 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.add(getAccountGlobalDetails());
-        managedLists.add(getSubObjCdGlobalDetails());
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAccountGlobalDetails());
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getSubObjCdGlobalDetails());
 
         return managedLists;
     }

@@ -369,7 +369,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public CashReceiptSummary(CashReceiptDocument crd) {
             documentNumber = crd.getDocumentNumber();
             description = crd.getDocumentHeader().getDocumentDescription();
-            createDate = crd.getDocumentHeader().getWorkflowDocument().getDateCreated();
+            createDate = new Timestamp(crd.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
             checkAmount = crd.getTotalConfirmedCheckAmount();
             cashAmount = crd.getTotalConfirmedCashAmount();
             totalAmount = crd.getTotalConfirmedDollarAmount().subtract(crd.getTotalChangeAmount());
@@ -530,7 +530,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         protected KualiDecimal finalDepositedCashieringChecksTotal;
 
         public CashDrawerSummary(CashManagementDocument cmDoc) {
-            timeOpened = cmDoc.getDocumentHeader().getWorkflowDocument().getDateCreated();
+            timeOpened = new Timestamp(cmDoc.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
 
             resummarize(cmDoc);
         }

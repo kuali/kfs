@@ -191,7 +191,7 @@ public class DepositWizardAction extends KualiAction {
                     dform.getDepositableCashReceipts().add(receipt);
                     DepositWizardHelper d = dform.getDepositWizardHelper(index++);
                     // KFSMI-5232 Jira fix. Convert the time stamp to SQL date format
-                    Timestamp ts = receipt.getDocumentHeader().getWorkflowDocument().getDateCreated();
+                    Timestamp ts = new Timestamp(receipt.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
                     try {
                         d.setCashReceiptCreateDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate(ts));
                     }

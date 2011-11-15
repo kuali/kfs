@@ -346,7 +346,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
 
     // remove its return URLs if a row is not qualified for returning
     protected void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {
-        List<String> payeeTypeCodes = disbursementVoucherPaymentReasonService.getPayeeTypesByPaymentReason(paymentReasonCode);
+        Collection<String> payeeTypeCodes = disbursementVoucherPaymentReasonService.getPayeeTypesByPaymentReason(paymentReasonCode);
         if (payeeTypeCodes == null || payeeTypeCodes.isEmpty()) {
             return;
         }

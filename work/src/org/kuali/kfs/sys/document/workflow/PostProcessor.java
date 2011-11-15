@@ -75,10 +75,10 @@ public class PostProcessor implements org.kuali.rice.kew.framework.postprocessor
     }
 
     public ProcessDocReport afterProcess(AfterProcessEvent arg0) throws Exception {
-        return true;
+        return new ProcessDocReport(true);
     }
 
     public ProcessDocReport beforeProcess(BeforeProcessEvent arg0) throws Exception {
-        return true;
+        return new ProcessDocReport(true);
     }
 }

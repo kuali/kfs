@@ -17,6 +17,8 @@ package org.kuali.kfs.sys.context;
 
 import javax.servlet.ServletContextEvent;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
 
 public class KFSInitializeListener extends KualiInitializeListener {

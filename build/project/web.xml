@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <display-name>${application.id}</display-name>
+  
   <context-param>
     <param-name>web.bootstrap.spring.file</param-name>
     <param-value>${bootstrap.spring.file}</param-value>
@@ -126,7 +126,7 @@
   </listener>
 
   <listener>
-    <listener-class>org.kuali.rice.core.web.listener.KualiInitializeListener</listener-class>
+    <listener-class>org.kuali.kfs.sys.context.KFSInitializeListener</listener-class>
   </listener>
 
   <listener>
@@ -328,6 +328,7 @@
 		<servlet-name>batchFileUpload</servlet-name>
 		<url-pattern>/batchFileUpload</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>heartbeat</servlet-name>
 		<url-pattern>/heartbeat</url-pattern>
 	</servlet-mapping>

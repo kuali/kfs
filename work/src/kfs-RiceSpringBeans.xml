@@ -57,8 +57,15 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	
-	<!-- What should be in here? 
-	<import resource="classpath:org/kuali/rice/core/config/COREConfigSpringBeans.xml"/>
-	 -->
+
+	<bean name="kfsConfigurer" class="org.kuali.rice.core.impl.config.module.ModuleConfigurer"
+		p:moduleName="KFS"
+		p:hasWebInterface="true">
+		<property name="validRunModes">
+			<list>
+				<value>LOCAL</value>
+			</list>
+		</property>
 	
+	</bean>	
 </beans>

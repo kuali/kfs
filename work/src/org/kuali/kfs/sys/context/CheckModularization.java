@@ -43,15 +43,15 @@ import org.directwebremoting.util.LogErrorHandler;
 import org.hibernate.util.DTDEntityResolver;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableItemDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
-import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
-import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
-import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.datadictionary.MaintenanceDocumentEntry;
+import org.kuali.rice.krad.datadictionary.TransactionalDocumentEntry;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.datadictionary.InactivationBlockingDefinition;
@@ -467,8 +467,8 @@ public class CheckModularization {
         System.out.println( "---Processing DD for Module: " + moduleGroup.namespaceCode );
         System.out.println( "---Disallowed packages: " + disallowedPackagesForModule );
         DataDictionary dd = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
-        Collection<BusinessObjectEntry> bos = dd.getBusinessObjectEntries().values();
-        for ( BusinessObjectEntry bo : bos ) {
+        Collection<org.kuali.rice.krad.datadictionary.BusinessObjectEntry> bos = dd.getBusinessObjectEntries().values();
+        for ( org.kuali.rice.krad.datadictionary.BusinessObjectEntry bo : bos ) {
             // only check bos for the current module (or all modules if checking the core)
             if ( ("KFS-SYS".equals( moduleGroup.namespaceCode) 
                     || doesPackagePrefixMatch( bo.getFullClassName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ) ))
@@ -512,9 +512,9 @@ public class CheckModularization {
             }
         }
         
-        for ( DocumentEntry de : dd.getDocumentEntries().values() ) {
-            if ( (de instanceof MaintenanceDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( ((MaintenanceDocumentEntry)de).getBusinessObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode )) ))
-                    || (de instanceof TransactionalDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( de.getDocumentClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ))) ) ) {
+        for ( org.kuali.rice.krad.datadictionary.DocumentEntry de : dd.getDocumentEntries().values() ) {
+            if ( (de instanceof org.kuali.rice.krad.datadictionary.MaintenanceDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( ((org.kuali.rice.krad.datadictionary.MaintenanceDocumentEntry)de).getDataObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode )) ))
+                    || (de instanceof org.kuali.rice.krad.datadictionary.TransactionalDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( de.getDocumentClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ))) ) ) {
                 try {
                     if ( de instanceof MaintenanceDocumentEntry ) {
                         MaintenanceDocumentEntry mde = (MaintenanceDocumentEntry)de;

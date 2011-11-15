@@ -108,7 +108,7 @@ public class BatchStepRunner {
     }
     
     protected static String getLogFileName(String nestedDiagnosticContext) {
-        return SpringContext.getBean( ConfigurationService.class ).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY) 
+        return SpringContext.getBean( ConfigurationService.class ).getPropertyValueAsString(KFSConstants.REPORTS_DIRECTORY_KEY) 
                 + File.separator 
                 + nestedDiagnosticContext + ".log";
     }

@@ -24,7 +24,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kim.api.KimApiConstants;
 import org.kuali.rice.kim.api.KimConstants;
 
@@ -47,13 +47,12 @@ public class KimCommonUtils {
         if (potentialParentDocumentTypeNames.contains(documentType.getName())) {
             return documentType.getName();
         } else {
-            if ((documentType.getDocTypeParentId() == null)
-                    || documentType.getDocTypeParentId().equals(
-                            documentType.getDocumentTypeId())) {
+            if ((documentType.getParentId() == null)
+                    || documentType.getParentId().equals(
+                            documentType.getId())) {
                 return null;
             } else {
-                return getClosestParentDocumentTypeName(documentType
-                        .getParentDocType(), potentialParentDocumentTypeNames);
+                return getClosestParentDocumentTypeName(documentType, potentialParentDocumentTypeNames);
             }
         }
     }

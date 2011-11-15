@@ -35,16 +35,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
@@ -283,11 +281,6 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return problemChildField.replace(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNTS_COA_CODE, CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
     }
 
-    
-    protected void checkAssetNumber() {
-            boolean success = true;
-  
-    }
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         // perform the lookup on the asset representative first
@@ -304,10 +297,8 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         }
 
         return super.getSearchResultsHelper(fieldValues, unbounded);
-     }
+    }
     
-
-
     /**
      * @return Returns the personService.
      */
@@ -315,18 +306,6 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnInputHtmlData(org.kuali.rice.kns.bo.BusinessObject, java.util.Properties, org.kuali.rice.kns.web.struts.form.LookupForm, java.util.List, org.kuali.rice.kns.authorization.BusinessObjectRestrictions)
-     */
-    @Override
-    protected HtmlData getReturnInputHtmlData(BusinessObject businessObject, Properties parameters, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
-  
-        HtmlData data = new AnchorHtmlData();
-        Asset asset = (Asset) businessObject;
-        if (! super.allowsMaintenanceEditAction(asset)) return ( data );
-        return super.getReturnInputHtmlData(businessObject, parameters, lookupForm, returnKeys, businessObjectRestrictions);
     }
 
 }

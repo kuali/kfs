@@ -39,6 +39,7 @@ import org.kuali.rice.krad.dao.MaintenanceDocumentDao;
 import org.kuali.rice.krad.document.MaintenanceLock;
 import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -156,7 +157,7 @@ public class SubAccountTrickleDownInactivationServiceImpl implements SubAccountT
                 if (StringUtils.isNotBlank(subAccountString)) {
                     String noteTextTemplate = kualiConfigurationService.getPropertyValueAsString(messageKey);
                     String noteText = MessageFormat.format(noteTextTemplate, subAccountString, entry.getValue());
-                    Note note = noteService.createNote(noteTemplate, noteParent);
+                    Note note = noteService.createNote(noteTemplate, noteParent, GlobalVariables.getUserSession().getPrincipalId());
                     note.setNoteText(noteText);
                     noteService.save(note);
                 }
@@ -175,7 +176,7 @@ public class SubAccountTrickleDownInactivationServiceImpl implements SubAccountT
                 if (StringUtils.isNotBlank(subAccountString)) {
                     String noteTextTemplate = kualiConfigurationService.getPropertyValueAsString(messageKey);
                     String noteText = MessageFormat.format(noteTextTemplate, subAccountString);
-                    Note note = noteService.createNote(noteTemplate, noteParent);
+                    Note note = noteService.createNote(noteTemplate, noteParent, GlobalVariables.getUserSession().getPrincipalId());
                     note.setNoteText(noteText);
                     noteService.save(note);
                 }

@@ -182,7 +182,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         newBONote.setNoteText(noteText);
         try {
             NoteService noteService = SpringContext.getBean(NoteService.class);
-            newBONote = noteService.createNote(newBONote, oldVendorDetail);
+            newBONote = noteService.createNote(newBONote, oldVendorDetail, GlobalVariables.getUserSession().getPrincipalId());
             noteService.save(newBONote);
         }
         catch (Exception e) {
@@ -287,7 +287,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             Note newBONote = new Note();
             newBONote.setNoteText(prefix + " vendor document ID " + getDocumentNumber());
             try {
-                newBONote = SpringContext.getBean(NoteService.class).createNote(newBONote, this.getBusinessObject());
+                newBONote = SpringContext.getBean(NoteService.class).createNote(newBONote, this.getBusinessObject(), GlobalVariables.getUserSession().getPrincipalId());
             }
             catch (Exception e) {
                 throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);

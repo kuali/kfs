@@ -47,6 +47,7 @@ import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -428,10 +429,11 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      *     
      */
     protected void autoDisapprovalYearEndDocument(Document document, String annotationForAutoDisapprovalDocument)  throws Exception {
-        Note approveNote = noteService.createNote(new Note(), document.getDocumentHeader());
+        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);      
+        
+        Note approveNote = noteService.createNote(new Note(), document.getDocumentHeader(), systemUser.getPrincipalId());
         approveNote.setNoteText(annotationForAutoDisapprovalDocument);
 
-        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         approveNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
         
         noteService.save(approveNote);

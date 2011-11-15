@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -43,6 +44,7 @@ import org.kuali.rice.krad.document.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -199,7 +201,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
                 if (StringUtils.isNotBlank(subAccountString)) {
                     String noteTextTemplate = kualiConfigurationService.getPropertyValueAsString(messageKey);
                     String noteText = MessageFormat.format(noteTextTemplate, subAccountString);
-                    Note note = noteService.createNote(noteTemplate, noteParent);
+                    Note note = noteService.createNote(noteTemplate, noteParent, GlobalVariables.getUserSession().getPrincipalId());
                     note.setNoteText(noteText);
                     noteService.save(note);
                 }
@@ -219,7 +221,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
                 if (StringUtils.isNotBlank(subObjectString)) {
                     String noteTextTemplate = kualiConfigurationService.getPropertyValueAsString(messageKey);
                     String noteText = MessageFormat.format(noteTextTemplate, subObjectString, entry.getValue());
-                    Note note = noteService.createNote(noteTemplate, noteParent);
+                    Note note = noteService.createNote(noteTemplate, noteParent, GlobalVariables.getUserSession().getPrincipalId());
                     note.setNoteText(noteText);
                     noteService.save(note);
                 }

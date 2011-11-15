@@ -36,6 +36,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -244,7 +245,7 @@ public class OrganizationReversionDetailTrickleDownInactivationServiceImpl imple
             try {
                 final String noteTextTemplate = kualiConfigurationService.getPropertyValueAsString(messageKey);
                 final String noteText = MessageFormat.format(noteTextTemplate, description);
-                note = noteService.createNote(noteTemplate, noteParent);
+                note = noteService.createNote(noteTemplate, noteParent, GlobalVariables.getUserSession().getPrincipalId());
                 note.setNoteText(noteText);
             }
             catch (Exception e) {

@@ -43,6 +43,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     protected static Logger LOG = Logger.getLogger(CollectorFlatFileInputType.class);
@@ -187,9 +188,9 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         copyAllMessagesHelper(sourceMap.getErrorMessages(), "error", destMap);
     }
     
-    private void copyAllMessagesHelper(Map<String, ArrayList> sourceMessages, String type, MessageMap destMap) {
+    private void copyAllMessagesHelper(Map<String, AutoPopulatingList<ErrorMessage>> sourceMessages, String type, MessageMap destMap) {
         for (String key : sourceMessages.keySet()) {
-            ArrayList messages = sourceMessages.get(key);
+            AutoPopulatingList<ErrorMessage> messages = sourceMessages.get(key);
             if (messages != null) {
                 for (Object o : messages) {
                     ErrorMessage message = (ErrorMessage) o;

@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.type.KimAttributeField;
 import org.kuali.rice.kim.api.type.KimTypeAttribute;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
@@ -54,16 +55,4 @@ public class SubFundReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
         return this.documentTypeService;
     }
 
-    @Override
-    protected AttributeDefinition getDataDictionaryAttributeDefinition(String namespaceCode, String kimTypeId, KimTypeAttribute typeAttribute) {
-        
-        AttributeDefinition definition = super.getDataDictionaryAttributeDefinition(namespaceCode, kimTypeId, typeAttribute);
-        
-        //if Document Type, set to required
-        if( StringUtils.equalsIgnoreCase(definition.getName(), KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME) ){
-            definition.setRequired(true);    
-        }
-        
-        return definition;
-    }
 }

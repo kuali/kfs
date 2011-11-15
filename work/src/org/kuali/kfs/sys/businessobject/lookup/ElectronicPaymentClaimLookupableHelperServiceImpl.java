@@ -63,7 +63,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
             }
         }
         String organizationReferenceId = fieldValues.remove("generatingAccountingLine.organizationReferenceId");
-        List<PersistableBusinessObject> resultsList = (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, null);
+        List<PersistableBusinessObject> resultsList = (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false);
         if (!StringUtils.isBlank(organizationReferenceId)) {
             
             List<PersistableBusinessObject> prunedResults = pruneResults(resultsList, organizationReferenceId);

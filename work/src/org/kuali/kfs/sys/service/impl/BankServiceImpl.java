@@ -56,7 +56,7 @@ public class BankServiceImpl implements BankService {
      */
     public Bank getDefaultBankByDocType(String documentTypeCode) {
         if (parameterService.parameterExists(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE)) {
-            List<String> parmValues = new ArrayList<String>( parameterService.getParameterValuesAsString(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode) );
+            List<String> parmValues = new ArrayList<String>( parameterService.getParameterValuesAsString(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE) );
             if (parmValues != null && !parmValues.isEmpty()) {
                 String defaultBankCode = parmValues.get(0);
                 

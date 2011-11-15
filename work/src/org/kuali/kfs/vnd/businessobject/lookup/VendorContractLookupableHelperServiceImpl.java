@@ -67,7 +67,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
 
         // We ought to call the findCollectionBySearchHelper that would accept the additionalCriteria
         boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
-        List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly, additionalCriteria);
+        List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly);
 
         List<PersistableBusinessObject> finalSearchResults = new ArrayList();
         // loop through results to eliminate inactive or debarred vendors

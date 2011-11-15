@@ -21,6 +21,8 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -57,13 +59,13 @@ public class WebApplicationInitListener implements ServletContextListener {
         ServletContext context = sce.getServletContext();
 
         // publish application constants into JSP app context with name "Constants"
-        context.setAttribute("Constants", new KRADConstants());
+        context.setAttribute("Constants", new JSTLConstants(KRADConstants.class));
 
         // publish application constants into JSP app context with name "Constants"
-        context.setAttribute("RiceConstants", new RiceConstants());
+        context.setAttribute("RiceConstants", new JSTLConstants(RiceConstants.class));
 
         // publish application constants into JSP app context with name "Constants"
-        context.setAttribute("KewApiConstants", new KewConstants());
+        context.setAttribute("KewApiConstants", new JSTLConstants(KewApiConstants.class));
 
         // publish configuration properties into JSP app context with name "ConfigProperties"
         context.setAttribute("ConfigProperties", new ConfigProperties());

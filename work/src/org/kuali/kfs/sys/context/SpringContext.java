@@ -53,8 +53,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 @SuppressWarnings("deprecation")
 public class SpringContext {
     protected static final Logger LOG = Logger.getLogger(SpringContext.class);
-    protected static final String APPLICATION_CONTEXT_DEFINITION = "spring-rice-startup.xml";
-    protected static final String TEST_CONTEXT_DEFINITION = "spring-rice-startup-test.xml";
+    protected static final String APPLICATION_CONTEXT_DEFINITION = "kfs-startup.xml";
+    protected static final String TEST_CONTEXT_DEFINITION = "kfs-startup-test.xml";
     protected static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
     protected static final String USE_QUARTZ_SCHEDULING_KEY = "use.quartz.scheduling";
     protected static ConfigurableApplicationContext applicationContext;
@@ -244,24 +244,15 @@ public class SpringContext {
             }
             processWatchThread = null;
         }
-        if ( applicationContext == null ) {
-            applicationContext = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
+        if ( applicationContext != null ) {
+            try {
+                applicationContext.close();
+                ConfigContext.destroy();
+                PropertyLoadingFactoryBean.clear();
+            } catch ( Exception ex ) {
+                LOG.error( "Unable to close SpringContext - unable to get a handle to a RiceConfigurer object." );
+            }
         }
-        DisposableBean riceConfigurer = null;
-        try {
-            riceConfigurer = (DisposableBean) applicationContext.getBean( "rice" );
-        } catch ( Exception ex ) {
-            LOG.debug( "Unable to get 'rice' bean - attempting to get from the Rice ConfigContext", ex );
-            riceConfigurer = (DisposableBean)ConfigContext.getObjectFromConfigHierarchy(RiceConstants.RICE_CONFIGURER_CONFIG_NAME);
-        }
-        applicationContext = null;
-        if ( riceConfigurer != null ) {
-            riceConfigurer.destroy();
-        } else {
-            LOG.error( "Unable to close SpringContext - unable to get a handle to a RiceConfigurer object." );
-        }
-        ConfigContext.destroy();
-        PropertyLoadingFactoryBean.clear();
     }
 
     public static boolean isInitialized() {
@@ -285,16 +276,7 @@ public class SpringContext {
         }
     }
 
-    private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {
-        LOG.info( "Starting Spring context initialization" );
-        // use the base config file to bootstrap the real application context started by Rice
-        new ClassPathXmlApplicationContext(riceInitializationSpringFile);
-        // pull the Rice application context into here for further use and efficiency
-        applicationContext = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
-        LOG.info( "Completed Spring context initialization" );
-        
-        SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
-        
+    protected static void initMemoryMonitor() {
         if (Double.valueOf((getBean(ConfigurationService.class)).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
             MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(ConfigurationService.class)).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
             MemoryMonitor memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
@@ -311,7 +293,7 @@ public class SpringContext {
                         for (Map.Entry<Thread, StackTraceElement[]> threadStackTrace : Thread.getAllStackTraces().entrySet()) {
                             logStatement.append("\n\t\tThread: name=").append(threadStackTrace.getKey().getName()).append(", id=").append(threadStackTrace.getKey().getId()).append(", priority=").append(threadStackTrace.getKey().getPriority()).append(", state=").append(threadStackTrace.getKey().getState());
                             for (StackTraceElement stackTraceElement : threadStackTrace.getValue()) {
-                                logStatement.append("\n\t\t\t" + stackTraceElement);
+                                logStatement.append("\n\t\t\t").append(stackTraceElement);
                             }
                         }
                         LOG.warn(logStatement);
@@ -320,27 +302,9 @@ public class SpringContext {
                 }
             });
         }
-        if (getBean(ConfigurationService.class).getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
-            try {
-                if (initializeSchedule) {
-                    LOG.info("Attempting to initialize the scheduler");
-                    (getBean(SchedulerService.class)).initialize();
-                }
-                LOG.info("Starting the scheduler");
-                try {
-                    (getBean(Scheduler.class)).start();
-                } catch ( NullPointerException ex ) {
-                    LOG.error("Caught NPE while starting the scheduler", ex);
-                }
-            }
-            catch (NoSuchBeanDefinitionException e) {
-                LOG.info("Not initializing the scheduler because there is no scheduler bean");
-            }
-            catch (SchedulerException e) {
-                LOG.error("Caught exception while starting the scheduler", e);
-            }
-        }
-        
+    }
+    
+    protected static void initMonitoringThread() {
         if ( getBean(ConfigurationService.class).getPropertyValueAsBoolean( "periodic.thread.dump" ) ) {
             final long sleepPeriod = Long.parseLong( getBean(ConfigurationService.class).getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
             final File logDir = new File( getBean(ConfigurationService.class).getPropertyValueAsString( "logs.directory" ) );
@@ -402,5 +366,35 @@ public class SpringContext {
             processWatchThread.setDaemon(true);
             processWatchThread.start();
         }        
+    }
+    
+    protected static void initScheduler() {
+        if (getBean(ConfigurationService.class).getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
+            try {
+                LOG.info("Attempting to initialize the scheduler");
+                getBean(SchedulerService.class).initialize();
+                LOG.info("Starting the scheduler");
+                getBean(Scheduler.class).start();
+            } catch (NoSuchBeanDefinitionException e) {
+                LOG.warn("Not initializing the scheduler because there is no scheduler bean");
+            } catch ( Exception ex ) {
+                LOG.error("Caught Exception while starting the scheduler", ex);
+            }
+        }
+    }
+    
+    private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {
+        LOG.info( "Starting Spring context initialization" );
+        // use the base config file to bootstrap the real application context started by Rice
+        applicationContext = new ClassPathXmlApplicationContext(riceInitializationSpringFile);
+        LOG.info( "Completed Spring context initialization" );
+        
+        SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
+        
+        initMemoryMonitor();
+        if ( initializeSchedule ) {
+            initScheduler();
+        }
+        initMonitoringThread();        
     }
 }

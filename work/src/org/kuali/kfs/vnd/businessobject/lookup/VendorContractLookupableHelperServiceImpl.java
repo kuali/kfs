@@ -63,8 +63,8 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
 
         Date now = dateTimeService.getCurrentSqlDate();
         String nowString = dateTimeService.toDateString(now);
-        fieldValues.put("vendorContractBeginningDate", SearchOperator.LESS_THAN_EQUAL.op()+nowString);
-        fieldValues.put("vendorContractEndDate", SearchOperator.GREATER_THAN_EQUAL.op()+nowString);
+        fieldValues.put("vendorContractBeginningDate", SearchOperator.LESS_THAN_EQUAL.op()+SearchOperator.OR.op()+nowString);
+        fieldValues.put("vendorContractEndDate", SearchOperator.GREATER_THAN_EQUAL.op()+SearchOperator.OR.op()+nowString);
 
         // We ought to call the findCollectionBySearchHelper that would accept the additionalCriteria
         boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);

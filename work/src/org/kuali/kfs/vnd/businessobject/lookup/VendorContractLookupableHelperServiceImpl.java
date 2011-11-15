@@ -29,6 +29,7 @@ import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
@@ -61,13 +62,13 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         Date now = dateTimeService.getCurrentSqlDate();
-        Criteria additionalCriteria = new Criteria();
-        additionalCriteria.addLessOrEqualThan("vendorContractBeginningDate", now);
-        additionalCriteria.addGreaterOrEqualThan("vendorContractEndDate", now);
+        String nowString = dateTimeService.toDateString(now);
+        fieldValues.put("vendorContractBeginningDate", SearchOperator.LESS_THAN_EQUAL.op()+nowString);
+        fieldValues.put("vendorContractEndDate", SearchOperator.GREATER_THAN_EQUAL.op()+nowString);
 
         // We ought to call the findCollectionBySearchHelper that would accept the additionalCriteria
         boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
-        List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly, additionalCriteria);
+        List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly);
 
         List<PersistableBusinessObject> finalSearchResults = new ArrayList();
         // loop through results to eliminate inactive or debarred vendors

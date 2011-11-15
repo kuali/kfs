@@ -39,99 +39,6 @@
     
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
 
-	<property name="local.env.config.file" location="${user.home}/kfs-build.properties" />
-	
-	<target name="check-for-kfs-build">
-		<if>
-			<not>
-				<available file="${local.env.config.file}" />
-			</not>
-			<then>
-    			<property name="input.default.base.directory" location="${basedir}/.."/>
-    			<property name="input.default.datasource.ojb.platform" value="Oracle9i"/>
-    			<property name="input.default.datasource.username" value="kuldev"/>
-    			<property name="input.default.datasource.password" value="kuldev"/>
-    			<property name="input.default.mysql.datasource.url" value="jdbc:mysql://localhost:3306/${input.default.datasource.username}"/>
-    			<property name="input.default.oracle.datasource.url" value="jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI"/>
-				<echo>
-*******************************************************************************					
-Welcome to the Kuali Financial System, the most advanced financial information system
-ever developed by a consortium of educational institutions fed up with paying
-vendors for products which did not meet the needs of higher education.
-					
-It looks like you have never attempted to build KFS before (at least on this system.)
-
-Let me ask you a few questions about your environment.
-*******************************************************************************
-				</echo>	
-				<input message="Do you have a PhD in Kualiology?" 
-					validargs="yes,no" 
-					defaultvalue="no" 
-					addproperty="input.kualiology" />
-				<if>
-					<equals arg1="yes" arg2="${input.kualiology}" />
-					<then>
-						<echo>
-
-
-If you say so...exiting...you're on your own. :)
-
-						</echo>
-						<fail />
-					</then>
-				</if>
-				
-    			<input message="What is your base directory?  This would be the directory containing your eclipse workspace." 
-    				defaultvalue="${input.default.base.directory}" 
-    				addproperty="input.base.directory" />
-				
-    			<input message="What type of database will you be using for development?"
-    				validargs="Oracle9i,MySQL"
-    				defaultvalue="${input.default.datasource.ojb.platform}" 
-    				addproperty="input.datasource.ojb.platform" />
-				<if>
-					<equals arg1="MySQL" arg2="${input.datasource.ojb.platform}" />
-					<then>
-		    			<input message="And where is this database?  (Don't forget the schema name suffix.)"
-		    				defaultvalue="${input.default.mysql.datasource.url}" 
-		    				addproperty="input.mysql.datasource.url" />
-					</then>
-					<else>
-		    			<input message="And where is this database?"
-		    				defaultvalue="${input.default.oracle.datasource.url}" 
-		    				addproperty="input.oracle.datasource.url" />
-					</else>
-				</if>
-    			<input message="Where are my tables in that database? (user/schema name)"
-    				defaultvalue="${input.default.datasource.username}" 
-    				addproperty="input.datasource.username" />
-    			<input message="What is the password for that account? (I promise I won't tell...)"
-    				defaultvalue="${input.default.datasource.password}" 
-    				addproperty="input.datasource.password" />
-
-				<copy tofile="${local.env.config.file}" file="build/external/user/template-kfs-build.properties" verbose="true">
-					<filterset begintoken="@" endtoken="@">
-						<filter token="input.base.directory" value="${input.base.directory}" />
-						<filter token="input.datasource.ojb.platform" value="${input.datasource.ojb.platform}" />
-						<filter token="input.datasource.username" value="${input.datasource.username}" />
-						<filter token="input.datasource.password" value="${input.datasource.password}" />
-						<filter token="input.mysql.datasource.url" value="${input.mysql.datasource.url}" />
-						<filter token="input.oracle.datasource.url" value="${input.oracle.datasource.url}" />
-					</filterset>
-				</copy>
-				<copy todir="${user.home}" file="build/external/log4j.properties" verbose="true" />
-				<echo>
-*******************************************************************************					
-That's it!  You should now be able to run KFS from the command line.  For further
-setup instructions within Eclipse, please visit:
-					
-https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
-*******************************************************************************
-				</echo>	
-			</then>
-		</if>
-	</target>
-	
 	<target name="check-rice-lib">
 		<if>
 			<not>
@@ -287,6 +194,8 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		<condition property="datasource.driver.class" value="${p6spy.driver.class}"><isset property="use.p6spy.local" /></condition>
 		<condition property="datasource.driver.class" value="${mysql.driver.class}" else="${oracle.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}" else="${oracle.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="pool.datasource.class" value="${non.xa.pool.datasource.class}"><not><equals arg1="${connection.pool.impl}" arg2="XAPool" /></not></condition>
+		<condition property="pool.datasource.class" value="${mysql.pool.datasource.class}" else="${oracle.pool.datasource.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}" else="${oracle.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
@@ -392,9 +301,10 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		<condition property="rice.url" value="${appserver.url}/${rice.application}-${build.environment}" else="${application.url}">
 		    <istrue value="${rice.standalone}" />
 		</condition>
-        <property name="rice.kr.url" value="${rice.url}/${rice.application}"/>
-        <property name="rice.kim.url" value="${rice.url}/${kim.application}"/>
-        <property name="rice.kew.url" value="${rice.url}/${kew.application}"/>
+        <property name="rice.kr.url" value="${rice.url}/kr"/>
+        <property name="rice.krad.url" value="${rice.url}/kr-krad"/>
+        <property name="rice.kim.url" value="${rice.url}/kim"/>
+        <property name="rice.kew.url" value="${rice.url}/kew"/>
         <property name="rice.externalizable.images.url" value="${application.url}/kr/static/images/"/>
 		<condition property="rice.ksb.message.persistence" value="false" else="true"><isset property="is.local.build" /></condition>
 		<condition property="rice.ksb.use.quartz.database" value="true" else="false">

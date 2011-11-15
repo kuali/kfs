@@ -37,7 +37,7 @@
 		<property name="initialSize" value="${kfs.datasource.pool.initialSize}" />
     </bean>
 
-    <bean id="abstractTransactionalDataSource" parent="abstractDataSourceBase" class="org.kuali.rice.core.database.XAPoolDataSource">
+    <bean id="abstractTransactionalDataSource" parent="abstractDataSourceBase" class="${pool.datasource.class}">
 		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
 		<property name="maxSize" value="${kfs.datasource.pool.maxSize}" />
 		<property name="minSize" value="${kfs.datasource.pool.minSize}" />

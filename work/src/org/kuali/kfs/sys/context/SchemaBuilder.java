@@ -109,7 +109,8 @@ public class SchemaBuilder {
 
             // if using dd validation must start up spring so we can read DD
             if (useDataDictionaryValidation && rebuildDDTypes) {
-                SpringContext.initializeApplicationContextWithoutSchedule();
+                // RICE20: need to update how to handle app contexts without web
+//                SpringContext.initializeApplicationContextWithoutSchedule();
             }
 
             LOG.debug("Getting build schema files");

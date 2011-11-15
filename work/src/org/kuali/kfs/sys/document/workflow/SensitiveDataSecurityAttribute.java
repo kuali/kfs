@@ -28,6 +28,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.krad.service.DocumentHelperService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.workflow.WorkflowUtils;
 import org.omg.Security.SecurityAttribute;
 
 /**
@@ -35,7 +36,7 @@ import org.omg.Security.SecurityAttribute;
  */
 public class SensitiveDataSecurityAttribute implements SecurityAttribute {
 
-    private WorkflowUtility workflowUtils = SpringContext.getBean(WorkflowUtility.class);
+    private WorkflowUtils workflowUtils = SpringContext.getBean(WorkflowUtils.class);
     private DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);
     private DocumentService docService = SpringContext.getBean(DocumentService.class);
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-2.5.xsd	
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
+
+	<bean id="abstractDataSourceBase" abstract="true">
+        <property name="driverClassName" value="${kfs.datasource.driver.name}"/>
+        <property name="validationQuery" value="${kfs.datasource.validating.query}"/>
+        <property name="url" value="${kfs.datasource.url}"/>    
+        <property name="username" value="${kfs.datasource.username}" />
+        <property name="password" value="${kfs.datasource.password}" />
+	</bean>
+
+    <bean id="kfsNonTransactionalDataSource" parent="abstractDataSourceBase" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="accessToUnderlyingConnectionAllowed" value="${kfs.datasource.pool.accessToUnderlyingConnectionAllowed}"/>
+        <property name="maxActive" value="${kfs.datasource.pool.maxActive}"/>
+		<property name="minIdle" value="${kfs.datasource.pool.minIdle}" />
+		<property name="initialSize" value="${kfs.datasource.pool.initialSize}" />
+    </bean>
+
+    <bean id="abstractTransactionalDataSource" parent="abstractDataSourceBase" class="org.kuali.rice.core.database.XAPoolDataSource">
+		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
+		<property name="maxSize" value="${kfs.datasource.pool.maxSize}" />
+		<property name="minSize" value="${kfs.datasource.pool.minSize}" />
+		<property name="maxWait" value="${kfs.datasource.pool.maxWait}" />
+    </bean>
+
+	<bean id="kfsDataSource" parent="abstractTransactionalDataSource">
+	<!-- 
+		<property name="preparedStmtCacheSize" value="${kfs.datasource.maximum.cached.preparedstatements}" />
+		<property name="checkLevelObject" value="${kfs.datasource.xapool.connection.test.mode}" />
+	 -->
+	</bean>
+
+    <bean id="riceDataSource" parent="kfsDataSource">
+	    <property name="driverClassName" value="${rice.datasource.driver.name}" />
+	    <property name="validationQuery" value="${rice.datasource.validating.query}" />
+	    <property name="url"             value="${rice.datasource.url}" />
+	    <property name="username"        value="${rice.datasource.username}" />
+	    <property name="password"        value="${rice.datasource.password}" />
+    </bean>
+                           
+</beans>

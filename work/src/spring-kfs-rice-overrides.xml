@@ -25,7 +25,7 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-
+<!-- We should not need to override these here in Rice 2.0
   <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
 
   <bean id="securityProperties"
@@ -74,7 +74,7 @@
     <bean id="persistenceService" class="org.kuali.rice.krad.service.impl.PersistenceServiceOjbImpl">
       <property name="persistenceDao" ref="persistenceDao" />
     </bean>
-
+ -->
 	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
@@ -91,7 +91,7 @@
 	</bean>
 
   <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb" />
-
+<!-- 
   <bean id="userTransaction" class="org.kuali.rice.core.jta.UserTransactionFactoryBean" lazy-init="true" />
 
   <bean id="jtaTransactionManager" class="org.kuali.rice.core.jta.TransactionManagerFactoryBean" lazy-init="true" />
@@ -132,27 +132,6 @@
 
 	<bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
 	
-	<!-- batch transactional settings -->
-    <!--bean id="batchAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
-		<property name="classFilter" ref="batchTransactionAdvisorClassFilter" />
-		<property name="transactionInterceptor" ref="batchTransactionInterceptor" />
-	</bean>
-
-	<bean id="batchTransactionAdvisorClassFilter" class="org.kuali.kfs.sys.context.BatchStepClassFilter"/>
-
-	<bean id="batchTransactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
-		<property name="transactionManager" ref="transactionManager" />
-		<property name="transactionAttributeSource" ref="batchTransactionAttributeSource" />
-	</bean>
-	
-	<bean id="batchTransactionAttributeSource" class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource">
-		<property name="transactionAttribute">
-		    <bean class="org.springframework.transaction.interceptor.DefaultTransactionAttribute">
-		        <property name="propagationBehaviorName" value="PROPAGATION_REQUIRES_NEW"/>
-		        <property name="timeout" value="${batch.transaction.timeout}"/>
-		    </bean>
-		</property>
-	</bean>-->
 
  	<bean id="methodCacheAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
 		<property name="advice" ref="methodCacheInterceptor" />
@@ -241,6 +220,7 @@
 		<property name="moduleKeyStoreAlias" value="${keystore.alias}" />
 		<property name="moduleKeyStorePassword" value="${keystore.password}" />
 	</bean>	
+ -->
 	
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
 		<property name="defaultLocale" value="${kfs.locale}" />

@@ -33,22 +33,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
-import org.directwebremoting.spring.SpringCreator;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.core.impl.resourceloader.RiceResourceLoaderFactory;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.aop.support.AopUtils;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @SuppressWarnings("deprecation")
 public class SpringContext {
@@ -221,38 +216,47 @@ public class SpringContext {
         return applicationContext.getBeanDefinitionNames();
     }
 
-    protected static void initializeApplicationContext() {
-        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
-    }
-    
-    protected static void initializeApplicationContextWithoutSchedule() {
-        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, false);
-    }
+//    protected static void initializeApplicationContext() {
+//        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
+//    }
+//    
+//    protected static void initializeApplicationContextWithoutSchedule() {
+//        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, false);
+//    }
+//
+//    protected static void initializeBatchApplicationContext() {
+//        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
+//    }
+//
+//    protected static void initializeTestApplicationContext() {
+//        initializeApplicationContext(TEST_CONTEXT_DEFINITION, false);
+//    }
 
-    protected static void initializeBatchApplicationContext() {
-        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
-    }
-
-    protected static void initializeTestApplicationContext() {
-        initializeApplicationContext(TEST_CONTEXT_DEFINITION, false);
-    }
-
-    protected static void close() throws Exception {
+    protected static void close() {
         if ( processWatchThread != null ) {
             if ( processWatchThread.isAlive() ) {
                 processWatchThread.stop();
             }
             processWatchThread = null;
         }
-        if ( applicationContext != null ) {
-            try {
-                applicationContext.close();
-                ConfigContext.destroy();
-                PropertyLoadingFactoryBean.clear();
-            } catch ( Exception ex ) {
-                LOG.error( "Unable to close SpringContext - unable to get a handle to a RiceConfigurer object." );
+        
+        try {
+            if ( getBean(Scheduler.class) != null ) {
+                getBean(Scheduler.class).shutdown();
             }
+        } catch (SchedulerException ex) {
+            LOG.error( "Exception while shutting down the scheduler", ex );
         }
+        memoryMonitor.stop();
+//        if ( applicationContext != null ) {
+//            try {
+//                applicationContext.close();
+//                ConfigContext.destroy();
+//                PropertyLoadingFactoryBean.clear();
+//            } catch ( Exception ex ) {
+//                LOG.error( "Unable to close SpringContext - unable to get a handle to a RiceConfigurer object." );
+//            }
+//        }
     }
 
     public static boolean isInitialized() {
@@ -275,11 +279,13 @@ public class SpringContext {
             throw new IllegalStateException("Spring not initialized properly.  Initialization has begun and the application context is null.  Probably spring loaded bean is trying to use SpringContext.getBean() before the application context is initialized.");
         }
     }
-
-    protected static void initMemoryMonitor() {
-        if (Double.valueOf((getBean(ConfigurationService.class)).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
+    static MemoryMonitor memoryMonitor;
+    static void initMemoryMonitor() {
+        if ( NumberUtils.isNumber(getBean(ConfigurationService.class).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)))
+        
+        if (Double.valueOf(getBean(ConfigurationService.class).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
             MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(ConfigurationService.class)).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
-            MemoryMonitor memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
+            memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
             memoryMonitor.addListener(new MemoryMonitor.Listener() {
                 org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
 
@@ -304,7 +310,7 @@ public class SpringContext {
         }
     }
     
-    protected static void initMonitoringThread() {
+    static void initMonitoringThread() {
         if ( getBean(ConfigurationService.class).getPropertyValueAsBoolean( "periodic.thread.dump" ) ) {
             final long sleepPeriod = Long.parseLong( getBean(ConfigurationService.class).getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
             final File logDir = new File( getBean(ConfigurationService.class).getPropertyValueAsString( "logs.directory" ) );
@@ -368,7 +374,7 @@ public class SpringContext {
         }        
     }
     
-    protected static void initScheduler() {
+    static void initScheduler() {
         if (getBean(ConfigurationService.class).getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
             try {
                 LOG.info("Attempting to initialize the scheduler");
@@ -383,18 +389,18 @@ public class SpringContext {
         }
     }
     
-    private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {
-        LOG.info( "Starting Spring context initialization" );
-        // use the base config file to bootstrap the real application context started by Rice
-        applicationContext = new ClassPathXmlApplicationContext(riceInitializationSpringFile);
-        LOG.info( "Completed Spring context initialization" );
-        
-        SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
-        
-        initMemoryMonitor();
-        if ( initializeSchedule ) {
-            initScheduler();
-        }
-        initMonitoringThread();        
-    }
+//    private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {
+//        LOG.info( "Starting Spring context initialization" );
+//        // use the base config file to bootstrap the real application context started by Rice
+//        applicationContext = new ClassPathXmlApplicationContext(riceInitializationSpringFile);
+//        LOG.info( "Completed Spring context initialization" );
+//        
+//        SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
+//        
+//        initMemoryMonitor();
+//        if ( initializeSchedule ) {
+//            initScheduler();
+//        }
+//        initMonitoringThread();        
+//    }
 }

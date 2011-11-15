@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.management.ListenerNotFoundException;
 import javax.management.Notification;
 import javax.management.NotificationEmitter;
 import javax.management.NotificationListener;
@@ -39,13 +40,13 @@ public class MemoryMonitor {
     public interface Listener {
         public void memoryUsageLow(String springContextId, Map<String, String> memoryUsageStatistics, String deadlockedThreadIds);
     }
-
+    NotificationListener lowMemoryListener;
     public MemoryMonitor() {
         LOG.info("initializing");
         this.springContextId = "Unknown";
         ManagementFactory.getThreadMXBean().setThreadContentionMonitoringEnabled(true);
         ManagementFactory.getThreadMXBean().setThreadCpuTimeEnabled(true);
-        ((NotificationEmitter) ManagementFactory.getMemoryMXBean()).addNotificationListener(new NotificationListener() {
+        lowMemoryListener = new NotificationListener() {
             public void handleNotification(Notification n, Object hb) {
                 if (n.getType().equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED)) {
                     Map<String, String> memoryUsageStatistics = new HashMap<String, String>();
@@ -59,7 +60,21 @@ public class MemoryMonitor {
                     }
                 }
             }
-        }, null, null);
+        };
+        ((NotificationEmitter) ManagementFactory.getMemoryMXBean()).addNotificationListener(lowMemoryListener, null, null);
+    }
+    
+    public void stop() {
+        try {
+            removeAllListeners();
+            ((NotificationEmitter) ManagementFactory.getMemoryMXBean()).removeNotificationListener(lowMemoryListener);
+        } catch (ListenerNotFoundException ex) {
+            LOG.error( "Unable to unregister mbean listener", ex);
+        }
+    }
+    
+    public void removeAllListeners() {
+        listeners.clear();
     }
 
     public MemoryMonitor(String springContextId) {

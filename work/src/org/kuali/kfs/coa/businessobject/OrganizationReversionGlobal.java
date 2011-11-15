@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -464,10 +465,10 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.add(getOrganizationReversionGlobalDetails());
-        managedLists.add(getOrganizationReversionGlobalOrganizations());
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getOrganizationReversionGlobalDetails());
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getOrganizationReversionGlobalOrganizations());
 
         return managedLists;
     }

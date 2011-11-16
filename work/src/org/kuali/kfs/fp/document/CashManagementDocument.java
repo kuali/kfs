@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.KRADPropertyConstants;

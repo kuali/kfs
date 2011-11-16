@@ -1,4 +1,4 @@
-"NMSPC_CD","PARM_DTL_TYP_CD","OBJ_ID","VER_NBR","NM","ACTV_IND"
+"NMSPC_CD","CMPNT_CD","OBJ_ID","VER_NBR","NM","ACTV_IND"
 "KFS-AR","All","KFS1","1","All","Y"
 "KFS-AR","Batch","KFS2","1","Batch","Y"
 "KFS-AR","Document","KFS3","1","Document","Y"

@@ -24,6 +24,7 @@ import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.location.framework.campus.CampusValuesFinder;
+import org.springframework.cache.annotation.CacheEvict;
 
 /**
  * @see org.kuali.kfs.sys.batch.service.CacheService
@@ -32,7 +33,6 @@ import org.kuali.rice.location.framework.campus.CampusValuesFinder;
 public class CacheServiceImpl implements CacheService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CacheServiceImpl.class);
 
-    private List<GeneralCacheAdministrator> cacheAdminstrators;
     private RoleService roleManagementService;
     private IdentityManagementService identityManagementService;
     private ParameterService parameterService;
@@ -50,14 +50,9 @@ public class CacheServiceImpl implements CacheService {
     /**
      * Clears out service methods cache by calling adminstrators flushAll
      */
+    @CacheEvict(allEntries=true, value = { "" })
     protected void clearMethodCache() {
         LOG.info("clearing spring method cache ...");
-
-        if (cacheAdminstrators != null) {
-            for (GeneralCacheAdministrator cache : cacheAdminstrators) {
-                cache.flushAll();
-            }
-        }
     }
 
     /**
@@ -79,25 +74,7 @@ public class CacheServiceImpl implements CacheService {
 
         parameterService.clearCache();
     }
-
-    /**
-     * Gets the cacheAdminstrators attribute.
-     * 
-     * @return Returns the cacheAdminstrators.
-     */
-    protected List<GeneralCacheAdministrator> getCacheAdminstrators() {
-        return cacheAdminstrators;
-    }
-
-    /**
-     * Sets the cacheAdminstrators attribute value.
-     * 
-     * @param cacheAdminstrators The cacheAdminstrators to set.
-     */
-    public void setCacheAdminstrators(List<GeneralCacheAdministrator> cacheAdminstrators) {
-        this.cacheAdminstrators = cacheAdminstrators;
-    }
-
+    
     /**
      * Gets the roleManagementService attribute.
      * 

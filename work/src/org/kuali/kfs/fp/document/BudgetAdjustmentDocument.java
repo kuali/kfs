@@ -19,7 +19,6 @@ package org.kuali.kfs.fp.document;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +33,6 @@ import org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleCon
 import org.kuali.kfs.fp.document.validation.impl.TransferOfFundsDocumentRuleConstants;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountResponsibility;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -51,6 +49,7 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.core.framework.parameter.ParameterService;
@@ -811,14 +810,14 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         List<BudgetAdjustmentAccountingLine> accountingLines = new ArrayList<BudgetAdjustmentAccountingLine>();
         accountingLines.addAll(getSourceAccountingLines());
         accountingLines.addAll(getTargetAccountingLines());
+        
+        ParameterEvaluatorService parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
+        
         for (BudgetAdjustmentAccountingLine budgetAccountingLine : accountingLines) {
-            
             Account baAccount = budgetAccountingLine.getAccount();
             
-            ParameterService paramService = SpringContext.getBean(ParameterService.class);
-            
-            if(paramService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS, baAccount.getSubFundGroup().getFundGroupCode()).evaluationSucceeds() &&
-               paramService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS, baAccount.getSubFundGroupCode()).evaluationSucceeds()) {
+            if(parameterEvaluatorService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS, baAccount.getSubFundGroup().getFundGroupCode()).evaluationSucceeds() &&
+               parameterEvaluatorService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS, baAccount.getSubFundGroupCode()).evaluationSucceeds()) {
                 
                 String incomeStreamKey = baAccount.getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + baAccount.getIncomeStreamAccountNumber();
     

@@ -1837,8 +1837,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
    @Override
    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
-       managedLists.add(getIndirectCostRecoveryAccounts());
+       managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getIndirectCostRecoveryAccounts());
        return managedLists;
    }
-   
 }

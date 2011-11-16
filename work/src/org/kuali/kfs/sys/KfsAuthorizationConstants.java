@@ -15,9 +15,8 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.rice.core.util.JSTLConstants;
 
-public class KfsAuthorizationConstants extends JSTLConstants {
+public class KfsAuthorizationConstants  {
 
     public static class TransactionalEditMode {
         public static final String EXPENSE_ENTRY = "expenseEntry";

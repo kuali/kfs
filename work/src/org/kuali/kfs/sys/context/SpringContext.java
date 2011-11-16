@@ -234,6 +234,7 @@ public class SpringContext {
 
     protected static void close() {
         if ( processWatchThread != null ) {
+            LOG.info("Shutting down the ProcessWatch thread" );
             if ( processWatchThread.isAlive() ) {
                 processWatchThread.stop();
             }
@@ -242,11 +243,13 @@ public class SpringContext {
         
         try {
             if ( isInitialized() && getBean(Scheduler.class) != null ) {
+                LOG.info( "Shutting Down scheduler" );
                 getBean(Scheduler.class).shutdown();
             }
         } catch (SchedulerException ex) {
             LOG.error( "Exception while shutting down the scheduler", ex );
         }
+        LOG.info( "Stopping the MemoryMonitor thread" );
         memoryMonitor.stop();
     }
 
@@ -272,16 +275,15 @@ public class SpringContext {
     }
     static MemoryMonitor memoryMonitor;
     static void initMemoryMonitor() {
-        if ( NumberUtils.isNumber(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)))
-        
-        if (Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
-            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
-            memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
-            memoryMonitor.addListener(new MemoryMonitor.Listener() {
-                org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
-
-                public void memoryUsageLow(String springContextId, Map<String, String> memoryUsageStatistics, String deadlockedThreadIds) {
-                    if ( LOG.isInfoEnabled() ) {
+        if ( NumberUtils.isNumber(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY))) {        
+            if (Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
+                LOG.info( "Starting up MemoryMonitor thread" );
+                MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
+                memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
+                memoryMonitor.addListener(new MemoryMonitor.Listener() {
+                    org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
+    
+                    public void memoryUsageLow(String springContextId, Map<String, String> memoryUsageStatistics, String deadlockedThreadIds) {
                         StringBuilder logStatement = new StringBuilder(springContextId).append("\n\tMemory Usage");
                         for (String memoryType : memoryUsageStatistics.keySet()) {
                             logStatement.append("\n\t\t").append(memoryType.toUpperCase()).append(": ").append(memoryUsageStatistics.get(memoryType));
@@ -294,10 +296,12 @@ public class SpringContext {
                             }
                         }
                         LOG.warn(logStatement);
+                        MemoryMonitor.setPercentageUsageThreshold(0.95);
                     }
-                    MemoryMonitor.setPercentageUsageThreshold(0.95);
-                }
-            });
+                });
+            }
+        } else {
+            LOG.warn( MEMORY_MONITOR_THRESHOLD_KEY + " is not a number: " + KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY) );
         }
     }
     
@@ -368,9 +372,9 @@ public class SpringContext {
     static void initScheduler() {
         if (KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
             try {
-                LOG.info("Attempting to initialize the scheduler");
+                LOG.info("Attempting to initialize the SchedulerService");
                 getBean(SchedulerService.class).initialize();
-                LOG.info("Starting the scheduler");
+                LOG.info("Starting the Quartz scheduler");
                 getBean(Scheduler.class).start();
             } catch (NoSuchBeanDefinitionException e) {
                 LOG.warn("Not initializing the scheduler because there is no scheduler bean");

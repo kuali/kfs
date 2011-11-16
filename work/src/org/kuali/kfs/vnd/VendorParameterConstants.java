@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.vnd;
 
-import org.kuali.kfs.sys.ParameterKeyConstants;
 
 /**
  * Holds constants for Vendor business parameters.
  */
-public class VendorParameterConstants implements ParameterKeyConstants {
+public class VendorParameterConstants {
     public static final String DEFAULT_TAX_NUMBER_DIGITS = "DEFAULT_TAX_NUMBER_DIGITS";
     public static final String NOT_ALLOWED_TAX_NUMBERS = "TAX_NUMBERS";
     public static final String TAX_FEIN_NUMBER_FORMATS = "TAX_FEIN_NUMBER_FORMATS";

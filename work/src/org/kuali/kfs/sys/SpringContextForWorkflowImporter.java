@@ -22,7 +22,7 @@ public class SpringContextForWorkflowImporter extends SpringContext {
         SpringContext.initializeBatchApplicationContext();
     }
     
-    public static void close() throws Exception {
+    public static void close() {
     	SpringContext.close();
     }
 }

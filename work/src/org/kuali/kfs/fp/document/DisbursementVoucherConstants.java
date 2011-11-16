@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ParameterKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
@@ -32,7 +31,7 @@ import org.kuali.rice.kim.api.KimApiConstants;
  * Holds constants for disbursement voucher and payee documents.
  */
 // TODO: after DisbursementVoucherDocumentRule is remove, it is good to change this interface into a class
-public interface DisbursementVoucherConstants extends ParameterKeyConstants {
+public interface DisbursementVoucherConstants {
 
     // Text limits
     public static final int MAX_NOTE_LINE_SIZE = 90;

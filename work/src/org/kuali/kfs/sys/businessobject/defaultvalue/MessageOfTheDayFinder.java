@@ -17,21 +17,26 @@ package org.kuali.kfs.sys.businessobject.defaultvalue;
 
 import java.util.Collection;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.MessageOfTheDay;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
+import org.springframework.cache.annotation.Cacheable;
 
 public class MessageOfTheDayFinder implements ValueFinder {
 
-    @CacheNoCopy
+    @Cacheable(value="KFS-MOTD")
     public String getValue() {
-        String motd = "unable to retrieve message of the day";
-        Collection collection = SpringContext.getBean(BusinessObjectService.class).findAll(MessageOfTheDay.class);
-        if (collection != null && !collection.isEmpty()) {
-            motd = ((MessageOfTheDay) collection.iterator().next()).getFinancialSystemMessageOfTheDayText();
+        try {
+            Collection<MessageOfTheDay> collection = SpringContext.getBean(BusinessObjectService.class).findAll(MessageOfTheDay.class);
+            if (collection != null && !collection.isEmpty()) {
+                return collection.iterator().next().getFinancialSystemMessageOfTheDayText();
+            }            
+        } catch ( Exception ex ) {
+            Logger.getLogger(getClass()).error("Unable to retrieve the message of the day",ex);
         }
-        return motd;
+        return "unable to retrieve message of the day";
     }
 
 }

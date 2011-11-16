@@ -158,7 +158,7 @@ public class MaintenancePreRulesBase extends PromptBeforeValidationBase {
      * @return the question to the user about the continuation account
      */
     protected String buildContinuationConfirmationQuestion(String accName, String expiredAccount, String continuationAccount) {
-        String result = configService.getPropertyString(KFSKeyConstants.QUESTION_CONTINUATION_ACCOUNT_SELECTION);
+        String result = configService.getPropertyValueAsString(KFSKeyConstants.QUESTION_CONTINUATION_ACCOUNT_SELECTION);
         result = StringUtils.replace(result, "{0}", accName);
         result = StringUtils.replace(result, "{1}", expiredAccount);
         result = StringUtils.replace(result, "{2}", continuationAccount);

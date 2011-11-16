@@ -48,7 +48,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.InactivationBlockingDetectionService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 /**

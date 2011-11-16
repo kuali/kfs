@@ -97,7 +97,7 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
     public String getFieldName(String fieldDisplayName) {
         for (Iterator iter = getKeyValues().iterator(); iter.hasNext();) {
             KeyValue klp = (KeyValue) iter.next();
-            if (klp.getLabel().equals(fieldDisplayName)) {
+            if (klp.getValue().equals(fieldDisplayName)) {
                 return (String) klp.getKey();
             }
         }

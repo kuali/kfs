@@ -59,11 +59,13 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -164,8 +166,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 documentService.prepareWorkflowDocument(pcardDocument);
 
                 // calling workflow service to bypass business rule checks
-                workflowDocumentService.route(pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-            }
+                documentService.routeDocument( pcardDocument, "", null);
+             }
             catch (WorkflowException e) {
                 LOG.error("Error routing document # " + pcardDocumentId + " " + e.getMessage());
                 throw new RuntimeException(e.getMessage(),e);

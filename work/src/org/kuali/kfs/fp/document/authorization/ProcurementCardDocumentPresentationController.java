@@ -59,7 +59,7 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
 
         // FULL_ENTRY only if: a) person has an approval request, b) we are at the correct level, c) it's not a correction document,
         // d) it is not an ADHOC request (important so that ADHOC don't get full entry).
-        if (workflowDocument.isApprovalRequested() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT) && (((FinancialSystemDocumentHeader) document.getDocumentHeader()).getFinancialDocumentInErrorNumber() == null) && !workflowDocument.isAdHocRequested()) {
+        if (workflowDocument.isApprovalRequested() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT) && (((FinancialSystemDocumentHeader) document.getDocumentHeader()).getFinancialDocumentInErrorNumber() == null) && !workflowDocument.isAcknowledgeRequested()) {
             return true;
         }
 

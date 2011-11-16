@@ -20,6 +20,7 @@ import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_PC_TRANSACTION_TO
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
@@ -50,12 +51,19 @@ public class ProcurementCardAccountAccessibilityValidation extends GenericValida
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) getAccountingDocumentForValidation();
 
         WorkflowDocument workflowDocument = pcDocument.getDocumentHeader().getWorkflowDocument();
+       
+        Set<String> activeNodes = workflowDocument.getCurrentNodeNames();
+        if (workflowDocument.isEnroute() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT)) {
+            isValid = true;
+        }
+        /*
         List<String> activeNodes = null;
         String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         activeNodes = Arrays.asList(names);
         if (workflowDocument.isEnroute() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT)) {
             isValid = true;
         }
+        */
         return isValid;
     }
 

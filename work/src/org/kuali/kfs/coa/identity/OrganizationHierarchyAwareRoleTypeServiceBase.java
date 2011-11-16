@@ -30,7 +30,9 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleMembership.Builder;
 import org.kuali.rice.kim.framework.common.delegate.DelegationTypeService;
+import org.kuali.rice.kim.impl.common.delegate.DelegateMemberBo;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends RoleTypeServiceBase implements DelegationTypeService {
@@ -105,15 +107,15 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
     }
 
     public boolean doesDelegationQualifierMatchQualification(Map<String,String> qualification, Map<String,String> delegationQualifier) {
-        return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
+        return performMatch(translateInputAttributes(qualification), delegationQualifier);
     }
 
-    public List<DelegateMember> doDelegationQualifiersMatchQualification(Map<String,String> qualification, List<DelegateMember> delegationMemberList) {
-        Map<String,String> translatedQualification = translateInputAttributeSet(qualification);
+    public List<DelegateMember> doDelegationQualifiersMatchQualification(Map<String,String> qualification, List<DelegateMemberBo> delegationMemberList) {
+        Map<String,String> translatedQualification = translateInputAttributes(qualification);
         List<DelegateMember> matchingMemberships = new ArrayList<DelegateMember>();
-        for (DelegateMember dmi : delegationMemberList) {
-            if (performMatch(translatedQualification, dmi.getQualifier())) {
-                matchingMemberships.add(dmi);
+        for (DelegateMemberBo dmi : delegationMemberList) {
+             if (performMatch(translatedQualification, dmi.getQualifier())) {
+                matchingMemberships.add(DelegateMemberBo.to(dmi));
             }
         }
         return matchingMemberships;
@@ -146,9 +148,9 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
                 group++;
                 lastRoleSortingCode = srmh.rmi.getRoleSortingCode();
             }
-            
-            srmh.rmi.setRoleSortingCode( StringUtils.leftPad(Integer.toString(group), 3, '0') + "/" + srmh.rmi.getRoleSortingCode() );
-            roleMembers.add( srmh.rmi );
+            Builder builder = RoleMembership.Builder.create( srmh.rmi);
+            builder.setRoleSortingCode(StringUtils.leftPad(Integer.toString(group), 3, '0') + "/" + srmh.rmi.getRoleSortingCode() );
+            roleMembers.add(builder.build());
         }
         return roleMembers;
     }
@@ -160,10 +162,11 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
         public RoleMembership rmi;
         
         public SortableRoleMembershipHolder( RoleMembership rmi ) {
-            this.rmi = rmi;
             chart = rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             org = rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE);
-            rmi.setRoleSortingCode( chart+"-"+org );
+            Builder builder = RoleMembership.Builder.create(rmi);
+            builder.setRoleSortingCode(chart+"-"+org);
+            this.rmi = builder.build();
         }
         
         public int compareTo(SortableRoleMembershipHolder o) {

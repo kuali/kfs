@@ -47,9 +47,9 @@ public class TaxRegionServiceImpl implements TaxRegionService {
 
         PostalCode postalCodeObj = postalCodeService.getPostalCode( "US"/*RICE_20_REFACTORME*/, postalCode );
         if(ObjectUtils.isNotNull(postalCodeObj)) {
-            salesTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getPostalCode(), postalCodeObj.getPostalCountryCode(), false));
-            salesTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getStateCode(), postalCodeObj.getPostalCountryCode(), false));
-            salesTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getStateCode(), postalCodeObj.getPostalCountryCode(), false));
+            salesTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getCode(), postalCodeObj.getCountryCode(), false));
+            salesTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getStateCode(), postalCodeObj.getCountryCode(), false));
+            salesTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getStateCode(), postalCodeObj.getCountryCode(), false));
         }
 
         return salesTaxRegions;
@@ -63,9 +63,9 @@ public class TaxRegionServiceImpl implements TaxRegionService {
         List<TaxRegion> useTaxRegions = new ArrayList<TaxRegion>();
 
         PostalCode postalCodeObj = postalCodeService.getPostalCode( "US"/*RICE_20_REFACTORME*/, postalCode );
-        useTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getPostalCode(), postalCodeObj.getPostalCountryCode(), true));
-        useTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getStateCode(), postalCodeObj.getPostalCountryCode(), true));
-        useTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getStateCode(), postalCodeObj.getPostalCountryCode(), true));
+        useTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getCode(), postalCodeObj.getCountryCode(), true));
+        useTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getStateCode(), postalCodeObj.getCountryCode(), true));
+        useTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getStateCode(), postalCodeObj.getCountryCode(), true));
 
         return useTaxRegions;
     }

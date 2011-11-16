@@ -321,7 +321,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
 
-        LookupUtils.applySearchResultsLimit(criteria, getDbPlatform());
+        LookupUtils.applySearchResultsLimit(this.getEntryClass(), criteria, getDbPlatform());
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
@@ -604,7 +604,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
 
-        LookupUtils.applySearchResultsLimit(criteria, getDbPlatform());
+        LookupUtils.applySearchResultsLimit(this.getEntryClass(), criteria, getDbPlatform());
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);

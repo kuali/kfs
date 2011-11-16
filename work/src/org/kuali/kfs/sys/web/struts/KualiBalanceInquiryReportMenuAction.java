@@ -155,7 +155,7 @@ public class KualiBalanceInquiryReportMenuAction extends KualiAction {
 
         // now add required parameters
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "start");
-        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form));
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boClassName);
         parameters.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
 

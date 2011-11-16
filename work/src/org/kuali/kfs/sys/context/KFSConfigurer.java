@@ -31,4 +31,14 @@ public class KFSConfigurer extends ModuleConfigurer {
     public List<String> getPrimarySpringFiles() {
         return Collections.emptyList();
     }
+    
+    @Override
+    public String getWebModuleConfigName() {
+        return "config";
+    }
+    
+    @Override
+    public String getWebModuleConfigurationFiles() {
+        return "WEB-INF/struts-config.xml";
+    }
 }

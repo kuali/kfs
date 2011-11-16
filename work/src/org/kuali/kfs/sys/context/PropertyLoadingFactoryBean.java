@@ -24,12 +24,13 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.DefaultResourceLoader;
 
-public class PropertyLoadingFactoryBean implements FactoryBean {
+public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
     private static final String PROPERTY_FILE_NAMES_KEY = "property.files";
     private static final String PROPERTY_TEST_FILE_NAMES_KEY = "property.test.files";
     private static final String SECURITY_PROPERTY_FILE_NAME_KEY = "security.property.file";
@@ -42,7 +43,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
     private boolean testMode;
     private boolean secureMode;
 
-    public Object getObject() throws Exception {
+    public Properties getObject() {
         loadBaseProperties();
         props.putAll(BASE_PROPERTIES);
         if (secureMode) {
@@ -57,13 +58,14 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
             props.put(KSB_REMOTING_URL_PROPERTY_NAME, props.getProperty(KFSConstants.APPLICATION_URL_KEY) + REMOTING_URL_SUFFIX);
         }
         else {
-            props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuffer("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty(KFSConstants.ENVIRONMENT_KEY)).append(REMOTING_URL_SUFFIX).toString());
+            props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuilder("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty(KFSConstants.ENVIRONMENT_KEY)).append(REMOTING_URL_SUFFIX).toString());
         }
+        
         System.out.println(KSB_REMOTING_URL_PROPERTY_NAME + " set to " + props.getProperty(KSB_REMOTING_URL_PROPERTY_NAME));
         return props;
     }
 
-    public Class getObjectType() {
+    public Class<Properties> getObjectType() {
         return Properties.class;
     }
 
@@ -110,9 +112,13 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
             List<String> riceXmlConfigurations = new ArrayList<String>();
             riceXmlConfigurations.add("classpath:META-INF/common-config-defaults.xml");
             JAXBConfigImpl riceXmlConfigurer = new JAXBConfigImpl(riceXmlConfigurations);
-            BASE_PROPERTIES.putAll(riceXmlConfigurer.getProperties());
-            
-            loadProperties(BASE_PROPERTIES, new StringBuffer("classpath:").append(CONFIGURATION_FILE_NAME).append(".properties").toString());
+            try {
+                riceXmlConfigurer.parseConfig();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            BASE_PROPERTIES.putAll(riceXmlConfigurer.getProperties());            
+            loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(CONFIGURATION_FILE_NAME).append(".properties").toString());
         }
     }
 

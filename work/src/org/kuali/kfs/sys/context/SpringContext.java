@@ -241,22 +241,13 @@ public class SpringContext {
         }
         
         try {
-            if ( getBean(Scheduler.class) != null ) {
+            if ( isInitialized() && getBean(Scheduler.class) != null ) {
                 getBean(Scheduler.class).shutdown();
             }
         } catch (SchedulerException ex) {
             LOG.error( "Exception while shutting down the scheduler", ex );
         }
         memoryMonitor.stop();
-//        if ( applicationContext != null ) {
-//            try {
-//                applicationContext.close();
-//                ConfigContext.destroy();
-//                PropertyLoadingFactoryBean.clear();
-//            } catch ( Exception ex ) {
-//                LOG.error( "Unable to close SpringContext - unable to get a handle to a RiceConfigurer object." );
-//            }
-//        }
     }
 
     public static boolean isInitialized() {

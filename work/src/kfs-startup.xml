@@ -54,7 +54,7 @@
   <bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean"
     p:secureMode="true" />
 
-  <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+  <bean id="propertyPlaceholderConfigurer" class="org.kuali.kfs.sys.context.ConfigPropertyPlaceholderConfigurer">
     <property name="ignoreUnresolvablePlaceholders" value="true" />
     <property name="propertiesArray">
       <list>
@@ -63,27 +63,6 @@
       </list>
     </property>
   </bean>
-
-<!-- CHECK ME : Do we need this? -->
-	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
-		<property name="configLocations">
-			<list>
-				<value>classpath:META-INF/kfs-config.xml</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
-		<property name="arguments">
-			<list><ref bean="bootstrapConfig"/></list>
-		</property>
-	</bean>
-	
-	<bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetObject" ref="bootstrapConfig" />
-		<property name="targetMethod" value="getProperties" />
-	</bean>
 	
 	<import resource="classpath:kfs-RiceJTASpringBeans.xml"/>
 	<import resource="classpath:kfs-RiceDataSourceSpringBeans.xml"/>

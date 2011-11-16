@@ -15,11 +15,12 @@
  */
 package org.kuali.kfs.sys.context;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.util.collect.ConstantsMap;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class KFSInitializeListener extends KualiInitializeListener {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSInitializeListener.class);
@@ -49,11 +50,13 @@ public class KFSInitializeListener extends KualiInitializeListener {
 //            }
 //        }
 //        LOG.info("Starting " + getClass().getName() + "...");
-//        ServletContext context = sce.getServletContext();
-//
-//        // publish application constants into JSP app context with name "Constants"
-//        context.setAttribute("Constants", new JSTLConstants(KRADConstants.class));
-//
+        ServletContext context = sce.getServletContext();
+
+        // publish application constants into JSP app context with name "Constants"
+        ConstantsMap constantsMap = new ConstantsMap();
+        constantsMap.setConstantClass(KRADConstants.class);
+        context.setAttribute("Constants", constantsMap);
+// FIXME: handle rest of constant prefixes
 //        // publish application constants into JSP app context with name "Constants"
 //        context.setAttribute("RiceConstants", new JSTLConstants(RiceConstants.class));
 //

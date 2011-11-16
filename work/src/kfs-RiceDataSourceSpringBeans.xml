@@ -22,7 +22,8 @@
 
 	<import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
 
-	<bean id="abstractDataSourceBase" abstract="true">
+
+	<bean id="abstractDataSourceBase" abstract="true"  class="org.apache.commons.dbcp.BasicDataSource" >
         <property name="driverClassName" value="${kfs.datasource.driver.name}"/>
         <property name="validationQuery" value="${kfs.datasource.validating.query}"/>
         <property name="url" value="${kfs.datasource.url}"/>    
@@ -30,27 +31,40 @@
         <property name="password" value="${kfs.datasource.password}" />
 	</bean>
 
-    <bean id="kfsNonTransactionalDataSource" parent="abstractDataSourceBase" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="kfsNonTransactionalDataSource" parent="abstractDataSourceBase" destroy-method="close">
         <property name="accessToUnderlyingConnectionAllowed" value="${kfs.datasource.pool.accessToUnderlyingConnectionAllowed}"/>
         <property name="maxActive" value="${kfs.datasource.pool.maxActive}"/>
 		<property name="minIdle" value="${kfs.datasource.pool.minIdle}" />
 		<property name="initialSize" value="${kfs.datasource.pool.initialSize}" />
     </bean>
 
-    <bean id="abstractTransactionalDataSource" parent="abstractDataSourceBase" class="${pool.datasource.class}">
+    <bean id="riceNonTransactionalDataSource" parent="abstractDataSourceBase" destroy-method="close">
+        <property name="driverClassName" value="${rice.datasource.driver.name}"/>
+        <property name="validationQuery" value="${rice.datasource.validating.query}"/>
+        <property name="url" value="${rice.datasource.url}"/>    
+        <property name="username" value="${rice.datasource.username}" />
+        <property name="password" value="${rice.datasource.password}" />
+        <property name="accessToUnderlyingConnectionAllowed" value="${rice.datasource.pool.accessToUnderlyingConnectionAllowed}"/>
+        <property name="maxActive" value="${rice.datasource.pool.maxActive}"/>
+		<property name="minIdle" value="${rice.datasource.pool.minIdle}" />
+		<property name="initialSize" value="${rice.datasource.pool.initialSize}" />
+    </bean>
+
+
+    <bean id="abstractTransactionalDataSource" parent="abstractDataSourceBase" abstract="true"><!--  class="${pool.datasource.class}">-->
 		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
 		<property name="maxSize" value="${kfs.datasource.pool.maxSize}" />
 		<property name="minSize" value="${kfs.datasource.pool.minSize}" />
 		<property name="maxWait" value="${kfs.datasource.pool.maxWait}" />
     </bean>
 
-	<bean id="kfsDataSource" parent="abstractTransactionalDataSource">
 	<!-- 
+	<bean id="kfsDataSource" parent="abstractTransactionalDataSource">
 		<property name="preparedStmtCacheSize" value="${kfs.datasource.maximum.cached.preparedstatements}" />
 		<property name="checkLevelObject" value="${kfs.datasource.xapool.connection.test.mode}" />
-	 -->
 	</bean>
-
+	 -->
+<!-- 
     <bean id="riceDataSource" parent="kfsDataSource">
 	    <property name="driverClassName" value="${rice.datasource.driver.name}" />
 	    <property name="validationQuery" value="${rice.datasource.validating.query}" />
@@ -58,5 +72,100 @@
 	    <property name="username"        value="${rice.datasource.username}" />
 	    <property name="password"        value="${rice.datasource.password}" />
     </bean>
+     -->
+<!-- 
+	<bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+		<property name="transactionManager" ref="transactionManagerXAPool" />
+		<property name="driverClassName" value="${datasource.driver.name}" />
+		<property name="url" value="${datasource.url}" />
+		<property name="maxSize" value="${datasource.pool.maxSize}" />
+		<property name="minSize" value="${datasource.pool.minSize}" />
+		<property name="maxWait" value="${datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${datasource.pool.validationQuery}" />
+		<property name="username" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+	</bean>
+ -->
+  <bean id="ds-random-string" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod" value="org.apache.commons.lang.RandomStringUtils.randomAlphanumeric"/>
+    <property name="arguments"><list><value>20</value></list></property>
+  </bean>
+
+  <bean id="riceDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
+        destroy-method="close" lazy-init="true">
+    <property name="className" value="${datasource.pool.class.non.xa}" />
+    <property name="uniqueName" ref="ds-random-string" />
+    <property name="minPoolSize" value="${rice.datasource.pool.minSize}" />
+    <property name="maxPoolSize" value="${rice.datasource.pool.maxSize}" />
+    <property name="useTmJoin" value="true" />
+    <property name="testQuery" value="${rice.datasource.validating.query}" />
+    <property name="allowLocalTransactions" value="true" />
+    <property name="driverProperties">
+      <props>
+        <prop key="Url">${rice.datasource.url}</prop>
+        <prop key="driverClassName">${rice.datasource.driver.name}</prop>
+        <prop key="user">${rice.datasource.username}</prop>
+        <prop key="password">${rice.datasource.password}</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="riceDataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
+ 	      destroy-method="close" lazy-init="true">
+    <property name="className" value="${datasource.pool.class}" />
+    <property name="uniqueName" ref="ds-random-string" />
+    <property name="minPoolSize" value="${rice.datasource.pool.minSize}" />
+    <property name="maxPoolSize" value="${rice.datasource.pool.maxSize}" />
+    <property name="useTmJoin" value="true" />
+    <property name="testQuery" value="${rice.datasource.validating.query}" />
+    <property name="allowLocalTransactions" value="true" />
+    <property name="driverProperties">
+      <props>
+        <prop key="URL">${rice.datasource.url}</prop>
+        <prop key="user">${rice.datasource.username}</prop>
+        <prop key="password">${rice.datasource.password}</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="kfsDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
+        destroy-method="close" lazy-init="true">
+    <property name="className" value="${datasource.pool.class.non.xa}" />
+    <property name="uniqueName" ref="ds-random-string" />
+    <property name="minPoolSize" value="${kfs.datasource.pool.minSize}" />
+    <property name="maxPoolSize" value="${kfs.datasource.pool.maxSize}" />
+    <property name="useTmJoin" value="true" />
+    <property name="testQuery" value="${kfs.datasource.validating.query}" />
+    <property name="allowLocalTransactions" value="true" />
+    <property name="driverProperties">
+      <props>
+        <prop key="Url">${kfs.datasource.url}</prop>
+        <prop key="driverClassName">${kfs.datasource.driver.name}</prop>
+        <prop key="user">${kfs.datasource.username}</prop>
+        <prop key="password">${kfs.datasource.password}</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="kfsDataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
+ 	      destroy-method="close" lazy-init="true">
+    <property name="className" value="${datasource.pool.class}" />
+    <property name="uniqueName" ref="ds-random-string" />
+    <property name="minPoolSize" value="${kfs.datasource.pool.minSize}" />
+    <property name="maxPoolSize" value="${kfs.datasource.pool.maxSize}" />
+    <property name="useTmJoin" value="true" />
+    <property name="testQuery" value="${kfs.datasource.validating.query}" />
+    <property name="allowLocalTransactions" value="true" />
+    <property name="driverProperties">
+      <props>
+        <prop key="URL">${kfs.datasource.url}</prop>
+        <prop key="user">${kfs.datasource.username}</prop>
+        <prop key="password">${kfs.datasource.password}</prop>
+      </props>
+    </property>
+  </bean>
+
+  <alias name="riceDataSource${connection.pool.impl}" alias="riceDataSource"/>
+  <alias name="kfsDataSource${connection.pool.impl}" alias="dataSource"/>
                            
 </beans>

@@ -296,8 +296,8 @@
 		    # local - used in development - embedding everything, including web content
 		    # embedded - using standalone rice server but running KEW / KIM services locally
 			# remote - accessing KIM core services over the KSB - not currently supported by KFS for KEW - KSB is always local  -->
-		<condition property="kim.mode" value="embedded" else="local"><equals arg1="${rice.standalone}" arg2="true" /></condition>
-		<condition property="kew.mode" value="embedded" else="local"><equals arg1="${rice.standalone}" arg2="true" /></condition>
+		<condition property="kim.mode" value="EMBEDDED" else="LOCAL"><equals arg1="${rice.standalone}" arg2="true" /></condition>
+		<condition property="kew.mode" value="EMBEDDED" else="LOCAL"><equals arg1="${rice.standalone}" arg2="true" /></condition>
 		<condition property="rice.url" value="${appserver.url}/${rice.application}-${build.environment}" else="${application.url}">
 		    <istrue value="${rice.standalone}" />
 		</condition>

@@ -37,8 +37,8 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.aop.support.AopUtils;
@@ -272,10 +272,10 @@ public class SpringContext {
     }
     static MemoryMonitor memoryMonitor;
     static void initMemoryMonitor() {
-        if ( NumberUtils.isNumber(getBean(ConfigurationService.class).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)))
+        if ( NumberUtils.isNumber(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)))
         
-        if (Double.valueOf(getBean(ConfigurationService.class).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
-            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(ConfigurationService.class)).getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
+        if (Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
+            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
             memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
             memoryMonitor.addListener(new MemoryMonitor.Listener() {
                 org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
@@ -302,9 +302,9 @@ public class SpringContext {
     }
     
     static void initMonitoringThread() {
-        if ( getBean(ConfigurationService.class).getPropertyValueAsBoolean( "periodic.thread.dump" ) ) {
-            final long sleepPeriod = Long.parseLong( getBean(ConfigurationService.class).getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
-            final File logDir = new File( getBean(ConfigurationService.class).getPropertyValueAsString( "logs.directory" ) );
+        if ( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean( "periodic.thread.dump" ) ) {
+            final long sleepPeriod = Long.parseLong( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
+            final File logDir = new File( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString( "logs.directory" ) );
             final File monitoringLogDir = new File( logDir, "monitoring" );
             if ( !monitoringLogDir.exists() ) {
                 monitoringLogDir.mkdir();
@@ -366,7 +366,7 @@ public class SpringContext {
     }
     
     static void initScheduler() {
-        if (getBean(ConfigurationService.class).getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
+        if (KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
             try {
                 LOG.info("Attempting to initialize the scheduler");
                 getBean(SchedulerService.class).initialize();

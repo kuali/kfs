@@ -55,11 +55,11 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-<!-- 
+
   <bean id="transactionManagerXAPool" class="org.springframework.transaction.jta.JotmFactoryBean">
     <property name="defaultTimeout" value="${transaction.timeout}"/>
   </bean>
- -->
+
   <bean id="btmConfig" factory-method="getConfiguration" class="bitronix.tm.TransactionManagerServices" lazy-init="true">
     <!-- best to set from command line -Dbitronix.tm.Configuration= -->
     <!--<property name="serverId" value="spring-btm" />
@@ -71,5 +71,6 @@
         
   <alias name="transactionManager${connection.pool.impl}" alias="jtaTransactionManager"/>
   <alias name="transactionManager${connection.pool.impl}" alias="jtaUserTransaction"/>
+  <alias name="transactionManager${connection.pool.impl}" alias="transactionManager"/>
 
 </beans>

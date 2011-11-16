@@ -57,7 +57,21 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	
 
-	<bean name="kfsConfigurer" class="org.kuali.rice.core.impl.config.module.ModuleConfigurer"
+	<import resource="classpath:org/kuali/rice/core/config/COREConfigSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/ksb/config/KSBConfigSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/krad/config/KRADConfigSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/kim/impl/config/KIMConfigSpringBeans.xml"/>
+	<!-- 
+	<import resource="classpath:org/kuali/rice/kcb/config/KCBConfigSpringBeans.xml"/>
+	 -->
+	<import resource="classpath:org/kuali/rice/kew/config/KEWConfigSpringBeans.xml"/>
+	<!-- 
+	<import resource="classpath:org/kuali/rice/ken/config/KENConfigSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/edl/impl/config/EDLConfigSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/rice/krms/config/KRMSConfigSpringBeans.xml"/>
+    -->
+    <import resource="classpath:org/kuali/rice/location/config/LocationConfigSpringBeans.xml"/>
+	<bean name="kfsConfigurer" class="org.kuali.kfs.sys.context.KFSConfigurer"
 		p:moduleName="KFS"
 		p:hasWebInterface="true">
 		<property name="validRunModes">

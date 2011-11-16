@@ -175,6 +175,7 @@
 
   <!-- Notification system servlets -->
   <!-- Notification System Spring MVC UI -->
+  <!-- 
   <servlet>
     <servlet-name>notification</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -191,7 +192,7 @@
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
-
+	 -->
   <servlet>
     <servlet-name>dwr-invoker</servlet-name>
     <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
@@ -201,16 +202,17 @@
     </init-param>
     <init-param>
       <param-name>config-kew</param-name>
-      <param-value>/WEB-INF/dwr-kew.xml</param-value>
+      <param-value>WEB-INF/dwr-kew.xml</param-value>
     </init-param>
     <init-param>
       <param-name>config-kns</param-name>
-      <param-value>/WEB-INF/dwr-kns.xml</param-value>
+      <param-value>WEB-INF/dwr-kns.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <!-- KCB servlets -->
+  <!-- 
   <servlet>
     <servlet-name>kcb</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -227,7 +229,7 @@
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
-
+  -->
   <servlet>
     <servlet-name>remoting</servlet-name>
     <servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
@@ -252,12 +254,12 @@
     <servlet-name>attachment</servlet-name>
     <servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
   </servlet>
-
+<!-- 
   <servlet>
     <servlet-name>edoclite</servlet-name>
     <servlet-class>org.kuali.rice.edl.impl.EDLServlet</servlet-class>
   </servlet>
-
+ -->
   <servlet>
     <servlet-name>krad</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -274,16 +276,16 @@
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
 
+<!-- 
   <servlet-mapping>
     <servlet-name>notification</servlet-name>
     <url-pattern>*.form</url-pattern>
   </servlet-mapping>
-
   <servlet-mapping>
     <servlet-name>kcb</servlet-name>
     <url-pattern>*.kcb</url-pattern>
   </servlet-mapping>
-
+ -->
   <servlet-mapping>
     <servlet-name>dwr-invoker</servlet-name>
     <url-pattern>/dwr/*</url-pattern>
@@ -303,12 +305,12 @@
     <servlet-name>attachment</servlet-name>
     <url-pattern>/kew/attachment/*</url-pattern>
   </servlet-mapping>
-
+<!-- 
   <servlet-mapping>
     <servlet-name>edoclite</servlet-name>
     <url-pattern>/kew/EDocLite</url-pattern>
   </servlet-mapping>
-
+ -->
   <servlet-mapping>
     <servlet-name>krad</servlet-name>
     <url-pattern>/kr-krad/*</url-pattern>

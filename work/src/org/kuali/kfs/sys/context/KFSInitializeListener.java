@@ -26,6 +26,7 @@ public class KFSInitializeListener extends KualiInitializeListener {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSInitializeListener.class);
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        Log4jConfigurer.configureLogging(true);
         super.contextInitialized(sce);
         
         // the super implementation above will handle the loading of Spring

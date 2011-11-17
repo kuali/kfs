@@ -75,8 +75,9 @@ public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         }
         if ((KFSConstants.SysKimApiConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME.equals(roleName) || KFSConstants.SysKimApiConstants.ACTIVE_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME.equals(roleName))) {
             List<String> roleIds = new ArrayList<String>(1);
-            roleIds.add(getRoleService().getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME));
-            if (!getRoleService().principalHasRole(principalId, roleIds, null)) {
+
+            roleIds.add(getRoleService().getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME));
+             if (!getRoleService().principalHasRole(principalId, roleIds, null)) {
                 return false;
             }
         }

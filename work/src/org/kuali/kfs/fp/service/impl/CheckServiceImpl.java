@@ -15,9 +15,10 @@
  */
 package org.kuali.kfs.fp.service.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.dataaccess.CheckDao;
 import org.kuali.kfs.fp.service.CheckService;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -30,9 +31,9 @@ import org.kuali.kfs.sys.service.NonTransactional;
 @NonTransactional
 public class CheckServiceImpl implements CheckService {
     // set up logging
-    private static Logger LOG = Logger.getLogger(CheckServiceImpl.class);
+    private static final Logger LOG = Logger.getLogger(CheckServiceImpl.class);
 
-    private CheckDao checkDao;
+    protected CheckDao checkDao;
 
     /**
      * Retrieves a List of Checks by using the document header id given to retrieve a document and then 
@@ -41,7 +42,7 @@ public class CheckServiceImpl implements CheckService {
      * @param documentHeaderId The document header id to use to find the associated collection of checks.
      * @return A collection of checks associated with a document with the provided document header id.
      */
-    public List getByDocumentHeaderId(String documentHeaderId) {
+    public Collection<CheckBase> getByDocumentHeaderId(String documentHeaderId) {
         // retrieve the check
         return checkDao.findByDocumentHeaderId(documentHeaderId);
     }

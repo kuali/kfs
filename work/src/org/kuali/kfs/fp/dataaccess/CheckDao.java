@@ -15,9 +15,10 @@
  */
 package org.kuali.kfs.fp.dataaccess;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CheckBase;
 
 /**
  * The data access interface for persisting Check objects.
@@ -37,5 +38,5 @@ public interface CheckDao {
      * @param documentHeaderId
      * @return List of checks
      */
-    public List findByDocumentHeaderId(String documentHeaderId);
+    public Collection<CheckBase> findByDocumentHeaderId(String documentHeaderId);
 }

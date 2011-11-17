@@ -15,15 +15,12 @@
  */
 package org.kuali.kfs.fp.dataaccess.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.dataaccess.CheckDao;
@@ -35,14 +32,7 @@ import org.springframework.dao.DataAccessException;
  */
 
 public class CheckDaoOjb extends PlatformAwareDaoBaseOjb implements CheckDao {
-    private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);
-
-    /**
-     * Default constructor.
-     */
-    public CheckDaoOjb() {
-        super();
-    }
+    private static final Logger LOG = Logger.getLogger(CheckDaoOjb.class);
 
     /**
      * @param line
@@ -59,14 +49,14 @@ public class CheckDaoOjb extends PlatformAwareDaoBaseOjb implements CheckDao {
      * @param id
      * @return
      */
-    public List findByDocumentHeaderId(String documentHeaderId) throws DataAccessException {
+    public Collection<CheckBase> findByDocumentHeaderId(String documentHeaderId) throws DataAccessException {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("FDOC_NBR", documentHeaderId);
 
         QueryByCriteria query = QueryFactory.newQuery(CheckBase.class, criteria);
 
-        Collection lines = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        Collection<CheckBase> lines = getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
-        return new ArrayList(lines);
+        return lines;
     }
 }

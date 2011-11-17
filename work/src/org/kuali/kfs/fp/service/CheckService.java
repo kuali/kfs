@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.fp.service;
 
-import java.util.List;
+import java.util.Collection;
+
+import org.kuali.kfs.fp.businessobject.CheckBase;
 
 /**
  * This service interface defines methods that a Check service implementation must provide.
@@ -30,6 +32,6 @@ public interface CheckService {
      * @param documentHeaderId The document header id.
      * @return A list of Check instances associated with the doc header id provided.
      */
-    public List getByDocumentHeaderId(String documentHeaderId);
+    public Collection<CheckBase> getByDocumentHeaderId(String documentHeaderId);
 
 }

@@ -141,6 +141,10 @@
  	<bean id="maintenanceDocumentDictionaryService" p:serviceName="maintenanceDocumentDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
  	<bean id="documentHeaderService" p:serviceName="documentHeaderService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
  	<bean id="maintenanceDocumentDao" p:serviceName="maintenanceDocumentDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="postalCodeService" p:serviceName="postalCodeService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="stateService" p:serviceName="stateService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="countryService" p:serviceName="countryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="countyService" p:serviceName="countyService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
     <!--  -->
     <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">

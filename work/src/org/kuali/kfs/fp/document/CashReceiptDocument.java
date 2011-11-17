@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -58,7 +59,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * only.
  */
 public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling, CapitalAssetEditable {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptDocument.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptDocument.class);
 
     public static final String CHECK_ENTRY_DETAIL = "individual";
     public static final String CHECK_ENTRY_TOTAL = "totals";
@@ -1030,7 +1031,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         // 2. retrieve current checks from given document
         // 3. compare, creating add/delete/update events as needed
         // 4. apply rules as appropriate returned events
-        List persistedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(getDocumentNumber());
+        Collection<CheckBase> persistedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(getDocumentNumber());
         List currentChecks = getChecks();
 
         List events = generateEvents(persistedChecks, currentChecks, KFSConstants.EXISTING_CHECK_PROPERTY_NAME, this);
@@ -1050,7 +1051,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @param crdoc
      * @return List of CheckEvent subclass instances
      */
-    protected List generateEvents(List persistedChecks, List currentChecks, String errorPathPrefix, CashReceiptFamilyBase crdoc) {
+    protected List generateEvents(Collection persistedChecks, List currentChecks, String errorPathPrefix, CashReceiptFamilyBase crdoc) {
         List addEvents = new ArrayList();
         List updateEvents = new ArrayList();
         List deleteEvents = new ArrayList();
@@ -1111,7 +1112,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @param checks
      * @return Map containing Checks from the given List, indexed by their sequenceId
      */
-    protected Map buildCheckMap(List checks) {
+    protected Map buildCheckMap(Collection checks) {
         Map checkMap = new HashMap();
 
         for (Iterator i = checks.iterator(); i.hasNext();) {

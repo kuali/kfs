@@ -399,6 +399,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	-->
+	<!-- RICE20: We need to find a replacement for the RiceApplicationConfigurationService
     <bean id="riceApplicationConfigurationService" parent="riceApplicationConfigurationService-parentBean"/>
 	
     <bean id="riceApplicationConfigurationService-parentBean" class="org.kuali.kfs.sys.service.impl.KFSApplicationConfigurationServiceImpl" abstract="true">
@@ -408,6 +409,7 @@
             </list>
         </property> 
     </bean>
+     -->
     <bean id="universityDateDao" parent="universityDateDao-parentBean"/>
 
 	<bean id="universityDateDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UniversityDateDaoOjb" abstract="true" />

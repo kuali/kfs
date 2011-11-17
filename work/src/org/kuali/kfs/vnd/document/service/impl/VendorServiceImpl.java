@@ -47,13 +47,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class VendorServiceImpl implements VendorService {
-    private static Logger LOG = Logger.getLogger(VendorServiceImpl.class);
+    private static final Logger LOG = Logger.getLogger(VendorServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private PersistenceService persistenceService;
+    protected BusinessObjectService businessObjectService;
+    protected DocumentService documentService;
     protected DateTimeService dateTimeService;
-    private VendorDao vendorDao;
+    protected VendorDao vendorDao;
 
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#saveVendorHeader(org.kuali.kfs.vnd.businessobject.VendorDetail)
@@ -119,6 +118,7 @@ public class VendorServiceImpl implements VendorService {
 
         // check for the special case of a contractOrg for this contract in the contract-orgs table
         if (ObjectUtils.isNotNull(contractId) && ObjectUtils.isNotNull(chart) && ObjectUtils.isNotNull(org)) {
+            // RICE20: update this to build the map, not use an example object
             VendorContractOrganization exampleContractOrg = new VendorContractOrganization();
             exampleContractOrg.setVendorContractGeneratedIdentifier(contractId);
             exampleContractOrg.setChartOfAccountsCode(chart);
@@ -140,6 +140,7 @@ public class VendorServiceImpl implements VendorService {
         // didn't search the contract-org table or not found in the table but contract exists, return the default APO limit in
         // contract
         if (ObjectUtils.isNotNull(contractId)) {
+            // RICE20: update this to build the map, not use an example object
             VendorContract exampleContract = new VendorContract();
             exampleContract.setVendorContractGeneratedIdentifier(contractId);
             Map contractKeys = persistenceService.getPrimaryKeyFieldValues(exampleContract);
@@ -339,7 +340,7 @@ public class VendorServiceImpl implements VendorService {
         if (VendorConstants.TAX_TYPE_SSN.equals(vendorToUse.getVendorHeader().getVendorTaxTypeCode())) {
             String ssnTaxId = vendorToUse.getVendorHeader().getVendorTaxNumber();
             if (StringUtils.isNotBlank(ssnTaxId)) {
-                List<Person> personList = SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.api.KimApiConstants.PersonExternalIdentifierTypes.TAX, ssnTaxId);
+                List<Person> personList = SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.api.KimConstants.PersonExternalIdentifierTypes.TAX, ssnTaxId);
                 if (personList != null && !personList.isEmpty()) {
                     return ObjectUtils.isNotNull(personList.get(0));
                 }
@@ -391,35 +392,18 @@ public class VendorServiceImpl implements VendorService {
         return VendorConstants.VendorTypes.REVOLVING_FUND.equals(vendorToUse.getVendorHeader().getVendorTypeCode());
     }
 
-    /**
-     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorB2BContract(org.kuali.kfs.vnd.businessobject.VendorDetail,
-     *      java.lang.String)
-     */
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
         return vendorDao.getVendorB2BContract(vendorDetail, campus, dateTimeService.getCurrentSqlDate());
     }
-
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
-
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-
-    public void setPersistenceService(PersistenceService persistenceService) {
-        this.persistenceService = persistenceService;
-    }
-
     public void setVendorDao(VendorDao vendorDao) {
         this.vendorDao = vendorDao;
     }
-
-    /**
-     * Sets the dateTimeService.
-     * 
-     * @param dateTimeService
-     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

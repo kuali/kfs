@@ -379,7 +379,7 @@
 	
 	<bean id="assetDerivedRoleTypeService" parent="assetDerivedRoleTypeService-parentBean"/> 
 	<bean id="assetDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.cam.identity.AssetDerivedRoleTypeServiceImpl" abstract="true"/>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="assetDerivedRoleTypeService"

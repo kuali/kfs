@@ -130,8 +130,17 @@
  	<bean id="lookupableHelperService" p:serviceName="lookupableHelperService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="false" p:mustExist="true" scope="prototype" />
  	<bean id="businessObjectMetaDataService" p:serviceName="businessObjectMetaDataService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
  	<bean id="lookupService" p:serviceName="lookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="lookupResultsService" p:serviceName="lookupResultsService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
  	<bean id="lookupDao" p:serviceName="lookupDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
  	<bean id="documentAdHocService" p:serviceName="documentAdHocService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="maintenanceDocumentService" p:serviceName="maintenanceDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="workflowDocumentService" p:serviceName="workflowDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="dictionaryValidationService" p:serviceName="dictionaryValidationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<!-- <bean id="persistenceService" p:serviceName="persistenceService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" /> -->
+ 	<bean id="businessObjectDictionaryService" p:serviceName="businessObjectDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="maintenanceDocumentDictionaryService" p:serviceName="maintenanceDocumentDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="documentHeaderService" p:serviceName="documentHeaderService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="maintenanceDocumentDao" p:serviceName="maintenanceDocumentDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
     <!--  -->
     <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">

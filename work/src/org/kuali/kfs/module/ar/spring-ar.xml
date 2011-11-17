@@ -983,7 +983,7 @@
     <bean id="accountsReceivableOrganizationDerivedRoleTypeService"  parent="accountsReceivableOrganizationDerivedRoleTypeService-parentBean"/>
     <bean id="accountsReceivableOrganizationDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.AccountsReceivableOrganizationDerivedRoleTypeServiceImpl"
       p:businessObjectService-ref="businessObjectService" abstract="true"/>
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     	<property name="serviceDefinition">
 		<bean parent="kfsService"
         	p:service-ref="accountsReceivableOrganizationDerivedRoleTypeService"
@@ -993,7 +993,7 @@
 
     <bean id="invoiceRecurrenceDerivedRoleTypeService"  parent="invoiceRecurrenceDerivedRoleTypeService-parentBean"/>
     <bean id="invoiceRecurrenceDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.InvoiceRecurrenceDerivedRoleTypeServiceImpl" abstract="true"/>  
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     	<property name="serviceDefinition">
       	<bean parent="kfsService"
         	p:service-ref="invoiceRecurrenceDerivedRoleTypeService"

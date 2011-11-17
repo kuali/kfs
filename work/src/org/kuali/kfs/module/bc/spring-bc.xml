@@ -1072,7 +1072,7 @@
 		class="org.kuali.kfs.module.bc.identity.AccountOrganizationHierarchyRoleTypeServiceImpl" abstract="true"
 		p:budgetDocumentService-ref="budgetDocumentService" />
 		
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService"
 				p:service-ref="budgetConstructionAccountOrganizationHierarchyRoleTypeService"
@@ -1093,7 +1093,7 @@
 		</property>		
 	</bean>
 				
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="budgetConstructionDocumentDerivedRoleTypeService"
 				p:localServiceName="budgetConstructionDocumentDerivedRoleTypeService" />

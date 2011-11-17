@@ -70,7 +70,7 @@
     <bean id="securityAttributePermissionTypeService" parent="securityAttributePermissionTypeService-parent"/>
 	
 	<bean id="securityAttributePermissionTypeService-parent" class="org.kuali.kfs.sec.identity.SecurityAttributePermissionTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="securityAttributePermissionTypeService"
@@ -80,7 +80,7 @@
     <bean id="securityAttributeDocTypePermissionTypeService" parent="securityAttributeDocTypePermissionTypeService-parent"/>
 	
 	<bean id="securityAttributeDocTypePermissionTypeService-parent" class="org.kuali.kfs.sec.identity.SecurityAttributeDocTypePermissionTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="securityAttributeDocTypePermissionTypeService"
@@ -90,7 +90,7 @@
     <bean id="securityAttributeNamespacePermissionTypeService" parent="securityAttributeNamespacePermissionTypeService-parent"/>
 	
 	<bean id="securityAttributeNamespacePermissionTypeService-parent" class="org.kuali.kfs.sec.identity.SecurityAttributeNamespacePermissionTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="securityAttributeNamespacePermissionTypeService"
@@ -100,7 +100,7 @@
     <bean id="securityAttributeRoleTypeService" parent="securityAttributeRoleTypeService-parent"/>
 	
 	<bean id="securityAttributeRoleTypeService-parent" class="org.kuali.kfs.sec.identity.SecurityAttributeRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="securityAttributeRoleTypeService"

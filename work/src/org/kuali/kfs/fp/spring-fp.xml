@@ -442,9 +442,6 @@
 		<property name="disbursementVoucherPaymentReasonService">
 			<ref bean="disbursementVoucherPaymentReasonService" />
 		</property>	
-	    <property name="personService">
-			<ref bean="personService" />
-		</property>		
 	</bean>
 	
 	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" scope="prototype" parent="kualiInquirable"/>
@@ -481,7 +478,7 @@
 	
 	<bean id="paymentMethodRoleTypeService"  parent="paymentMethodRoleTypeService-parentBean"/>
 	<bean id="paymentMethodRoleTypeService-parentBean" class="org.kuali.kfs.fp.identity.PaymentMethodRoleTypeServiceImpl" abstract="true"/>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="paymentMethodRoleTypeService"
@@ -491,7 +488,7 @@
 	
 	<bean id="cashReceiptInitiatorDerivedRoleTypeService"  parent="cashReceiptInitiatorDerivedRoleTypeService-parentBean"/>
 	<bean id="cashReceiptInitiatorDerivedRoleTypeService-parentBean" class="org.kuali.kfs.fp.identity.CashReceiptInitiatorDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="cashReceiptInitiatorDerivedRoleTypeService"

@@ -97,27 +97,27 @@
 	<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService" p:service-ref="accountCreationService" p:localServiceName="accountCreationService" />
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService" p:service-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentService" />
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService" p:service-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeService" />
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService" p:service-ref="kcRiceApplicationConfigurationService" p:localServiceName="kcRiceApplicationConfigurationService" />
         </property>
     </bean>    
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
             <bean parent="kfsJaxWsSoapService" p:service-ref="accountCreationService" p:localServiceName="accountCreationServiceSOAP" />
@@ -128,7 +128,7 @@
             </list>
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
             <bean parent="kfsJaxWsSoapService" p:service-ref="kcRiceApplicationConfigurationService" p:localServiceName="kcRiceApplicationConfigurationServiceSOAP" />
@@ -139,7 +139,7 @@
             </list>
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
             <bean parent="kfsJaxWsSoapService" p:service-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentServiceSOAP" />
@@ -150,7 +150,7 @@
             </list>
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
             <bean parent="kfsJaxWsSoapService" p:service-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeServiceSOAP" />

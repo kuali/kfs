@@ -66,29 +66,6 @@
 		<property name="moduleConfiguration" ref="vndModuleConfiguration" />
 	</bean>
 
-	<!-- TODO: ewestfal
-	     12-23-2008
-	     commented out since the workflow lookup framework no longer exists
-	     
-	<bean id="workflow-org.kuali.kfs.vnd.businessobject.VendorType-Lookupable" parent="workflowLookupable" scope="prototype">
-		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.vnd.businessobject.VendorType</value>
-		</property>
-	</bean>
-
-	<bean id="workflow-org.kuali.kfs.vnd.businessobject.ContractManager-Lookupable" parent="workflowLookupable" scope="prototype">
-		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.vnd.businessobject.ContractManager</value>
-		</property>
-	</bean>
-
-    <bean id="workflow-org.kuali.kfs.vnd.businessobject.CommodityCode-Lookupable" parent="workflowLookupable" scope="prototype">
-        <property name="businessObjectClassName">
-            <value>org.kuali.kfs.vnd.businessobject.CommodityCode</value>
-        </property>
-    </bean>
-    -->
-    
     <bean id="vendorDao" parent="platformAwareDao" class="org.kuali.kfs.vnd.dataaccess.impl.VendorDaoOjb" />
    
     <bean id="vendorService" parent="vendorService-parentBean"/>
@@ -98,7 +75,6 @@
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="documentService" ref="documentService"/>
         <property name="dateTimeService" ref="dateTimeService"/>
-        <property name="persistenceService" ref="persistenceService" />
     </bean>
     <bean id="phoneNumberService" parent="phoneNumberService-parentBean"/>
 
@@ -301,7 +277,7 @@
     <bean id="commodityReviewRoleTypeService" parent="commodityReviewRoleTypeService-parentBean"/>
     
     <bean id="commodityReviewRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.CommodityReviewRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="commodityReviewRoleTypeService"
@@ -311,7 +287,7 @@
     <bean id="contractManagerRoleTypeService" parent="contractManagerRoleTypeService-parentBean"/>
 
     <bean id="contractManagerRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="contractManagerRoleTypeService"
@@ -321,7 +297,7 @@
     <bean id="vendorTypeRoleTypeService" parent="vendorTypeRoleTypeService-parentBean"/>
 
     <bean id="vendorTypeRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.VendorTypeRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="vendorTypeRoleTypeService"

@@ -138,12 +138,8 @@
 		
 	<bean id="chartService"  parent="chartService-parentBean"/>
 	<bean id="chartService-parentBean" class="org.kuali.kfs.coa.service.impl.ChartServiceImpl" abstract="true">
-		<property name="chartDao">
-			<ref bean="chartDao" />
-		</property>
-		<property name="roleManagementService">
-			<ref bean="kimRoleService" />
-		</property>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="chartDao" ref="chartDao" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
@@ -436,7 +432,7 @@
     	</property>
     </bean>
 	<bean name="chartRoleTypeService" class="org.kuali.kfs.coa.identity.ChartRoleTypeServiceImpl" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="chartRoleTypeService"
 				p:localServiceName="chartRoleTypeService" />
@@ -445,7 +441,7 @@
 
 	<bean name="organizationRoleTypeService"
 		class="org.kuali.kfs.coa.identity.OrganizationRoleTypeServiceImpl" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="organizationRoleTypeService"
 				p:localServiceName="organizationRoleTypeService" />
@@ -460,7 +456,7 @@
 	<bean id="organizationOptionalHierarchyQualifierRoleTypeService"
 		class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="organizationOptionalHierarchyQualifierRoleTypeService"
 				p:localServiceName="organizationOptionalHierarchyQualifierRoleTypeService" />
@@ -470,7 +466,7 @@
 	<bean id="organizationHierarchyReviewRoleTypeService"
 		class="org.kuali.kfs.coa.identity.OrganizationHierarchyReviewRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
-  <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+  <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="organizationHierarchyReviewRoleTypeService"
 				p:localServiceName="organizationHierarchyReviewRoleTypeService" />
@@ -480,7 +476,7 @@
 	<bean id="accountingOrganizationHierarchyReviewRoleTypeService"
 		class="org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
-  <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+  <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
       <bean parent="kfsService"
 				p:service-ref="accountingOrganizationHierarchyReviewRoleTypeService"
@@ -489,7 +485,7 @@
     </bean>
 	
     <bean id="accountRoleTypeService" class="org.kuali.kfs.coa.identity.AccountRoleTypeServiceImpl"/>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="accountRoleTypeService"
 	      p:localServiceName="accountRoleTypeService" />
@@ -504,7 +500,7 @@
 		</property>
 		<property name="accountDelegateService" ref="accountDelegateService" />
 	</bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="accountDerivedRoleTypeService"
 	      p:localServiceName="accountDerivedRoleTypeService" />
@@ -514,7 +510,7 @@
 	<bean id="subAccountReviewRoleTypeService" parent="subAccountReviewRoleTypeService-parentBean"/>
 	<bean id="subAccountReviewRoleTypeService-parentBean"
 		class="org.kuali.kfs.coa.identity.SubAccountReviewRoleTypeServiceImpl" abstract="true" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="subAccountReviewRoleTypeService"
 				p:localServiceName="subAccountReviewRoleTypeService" />
@@ -524,7 +520,7 @@
 	<bean id="subFundReviewRoleTypeService" parent="subFundReviewRoleTypeService-parentBean"/>
 	<bean id="subFundReviewRoleTypeService-parentBean"
 		class="org.kuali.kfs.coa.identity.SubFundReviewRoleTypeServiceImpl" abstract="true" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="subFundReviewRoleTypeService"
 				p:localServiceName="subFundReviewRoleTypeService" />
@@ -538,7 +534,7 @@
 			<ref bean="organizationService" />
 		</property>
 	</bean>
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="chartDerivedRoleTypeService"
 				p:localServiceName="chartDerivedRoleTypeService" />
@@ -548,7 +544,7 @@
 	<bean id="organizationGroupTypeService" parent="organizationGroupTypeService-parentBean"/>
 	<bean id="organizationGroupTypeService-parentBean"
 		class="org.kuali.kfs.coa.identity.OrganizationGroupTypeServiceImpl" abstract="true" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="organizationGroupTypeService"
 				p:localServiceName="organizationGroupTypeService" />
@@ -557,7 +553,7 @@
 	
 	<bean id="contractsAndGrantsResponsibilityRoleTypeService"  parent="contractsAndGrantsResponsibilityRoleTypeService-parentBean"/>
 	<bean id="contractsAndGrantsResponsibilityRoleTypeService-parentBean" class="org.kuali.kfs.coa.identity.ContractsAndGrantsResponsibilityRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
 	      p:service-ref="contractsAndGrantsResponsibilityRoleTypeService"
@@ -643,10 +639,12 @@
     	
 	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
 
+	<!-- RICE20 : need to restore this when we can compile org review
 	<bean id="orgReviewRoleService"  parent="orgReviewRoleService-parentBean"/>
 	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" >
 		<property name="roleManagementService" ref="kimRoleService" />
 		<property name="kimTypeInfoService" ref="kimTypeInfoService" />
 	</bean>
+	 -->
 	 
 </beans>

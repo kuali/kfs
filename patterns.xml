@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules>
 	<rule name="new_rule_testing_1" alsoRenameClass="true">
+
+		<pattern>
+			<match>org\.kuali\.rice\.ksb\.messaging\.KSBExporter</match>
+			<replacement>org.kuali.rice.ksb.api.bus.support.ServiceBusExporter</replacement>
+		</pattern>
+	<!-- 
 		<pattern>
 			<match>org\.kuali\.rice\.ksb\.messaging\.JavaServiceDefinition</match>
 			<replacement>org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition</replacement>
@@ -17,7 +23,6 @@
 			<match><![CDATA[<property name="kualiConfigurationService"]]></match>
 			<replacement><![CDATA[<property name="configurationService"]]></replacement>
 		</pattern>
-	<!-- 
 		<pattern>
 			<match>org\.kuali\.rice\.kew\.dto\.DocumentRouteStatusChangeDTO</match>
 			<replacement>org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange</replacement>

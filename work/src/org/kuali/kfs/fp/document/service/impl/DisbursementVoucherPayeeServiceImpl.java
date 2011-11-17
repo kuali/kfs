@@ -46,6 +46,7 @@ import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * implementing the service methods defined in DisbursementVoucherPayeeService
@@ -181,12 +182,12 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
                         String noteText1 = noteText.substring(0, fromIndex);
                         Note note1 = documentService.createNoteFromDocument(dvDoc, noteText1);
-                        documentService.addNoteToDocument(dvDoc, note1);
+                        dvDoc.addNote(note1);
                         noteText = noteText.substring(fromIndex);
                     }
 
                     Note note = documentService.createNoteFromDocument(dvDoc, noteText);
-                    documentService.addNoteToDocument(dvDoc, note);
+                    dvDoc.addNote(note);
                 }
                 catch (Exception e) {
                     LOG.error("Exception while attempting to create or add note: " + e);
@@ -195,6 +196,8 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
                 // Send out FYIs to all previous approvers so they're aware of the changes to the address
                 try {
                     Set<Person> priorApprovers = dvDoc.getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
+                    Set<Person> priorApprovers = dvDoc.getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
+                    
                     String initiatorUserId = dvDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
                     Person finSysUser = SpringContext.getBean(PersonService.class).getPerson(initiatorUserId);
                     setupFYIs(dvDoc, priorApprovers, finSysUser.getPrincipalName());

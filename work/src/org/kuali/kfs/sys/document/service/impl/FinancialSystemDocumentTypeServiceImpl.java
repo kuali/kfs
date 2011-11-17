@@ -43,7 +43,7 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * @see org.kuali.kfs.coa.service.AccountDelegateService#isFinancialSystemDocumentType(java.lang.String)
      */
     public boolean isFinancialSystemDocumentType(String documentTypeCode) {
-        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.ROOT_DOCUMENT_TYPE, new WorkflowInfo());
+        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.ROOT_DOCUMENT_TYPE);
     }
     
     /**
@@ -51,21 +51,20 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * given parent document type code
      * @param documentTypeCode the document type to check
      * @param parentDocumentTypeCode the parent document type code that the documentTypeCode should either represent or be an active, current child of
-     * @param workflowInfo a workflowInfo object to help us
      * @return true if the doc type is a child or represents the parent document type, false otherwise
      */
-    protected boolean isActiveCurrentChildDocumentType(String documentTypeCode, String parentDocumentTypeCode, WorkflowInfo workflowInfo) {
+    protected boolean isActiveCurrentChildDocumentType(String documentTypeCode, String parentDocumentTypeCode) {
         if (StringUtils.isBlank(documentTypeCode)) return false;
         if (documentTypeCode.equals(parentDocumentTypeCode)) return true;
         try {
-            if (!workflowInfo.isCurrentActiveDocumentType(documentTypeCode)) return false;
-
-            final DocumentType documentType = workflowInfo.getDocType(documentTypeCode);
-            String parentId = documentType.getParentId();
             DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);        
+
+            if (!documentTypeService.isActiveByName(documentTypeCode)) return false;
+            final DocumentType documentType = documentTypeService.getDocumentTypeByName(documentTypeCode);
+            String parentId = documentType.getParentId();
             String parentName = documentTypeService.getNameById(parentId);
             if (StringUtils.isBlank(parentName)) return false;
-            return isActiveCurrentChildDocumentType(parentName, parentDocumentTypeCode, workflowInfo);
+            return isActiveCurrentChildDocumentType(parentName, parentDocumentTypeCode);
         } catch (WorkflowException we) {
             throw new RuntimeException("Could not retrieve document type "+documentTypeCode, we);
         }
@@ -109,7 +108,7 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * @return true if the documentTypeCode is a current active child of the Financial System Ledger Only document type, false otherwise
      */
     protected boolean isFinancialSystemLedgerOnlyDocumentType(String documentTypeCode) {
-        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.FINANCIAL_SYSTEM_LEDGER_ONLY_ROOT_DOCUMENT_TYPE, new WorkflowInfo());
+        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.FINANCIAL_SYSTEM_LEDGER_ONLY_ROOT_DOCUMENT_TYPE);
     }
 
     /**

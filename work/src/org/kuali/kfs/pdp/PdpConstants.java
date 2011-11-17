@@ -120,7 +120,7 @@ public class PdpConstants {
     public static final String MAPPING_CONTINUE = "continue";
     public static final String MAPPING_FINISHED = "finished";
     
-    public static class PDPEditMode extends EditMode {
+    public static class PDPEditMode {
         public static final String ENTRY = "entry";
     }
     

@@ -83,7 +83,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCardCreateDocumentService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
     
-    protected static final String WORKFLOW_SEARCH_RESULT_KEY = KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID;
+    protected static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
 
     protected ParameterService parameterService;
     protected BusinessObjectService businessObjectService;

@@ -47,6 +47,7 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ExternalizableBusinessObjectUtils;
@@ -181,7 +182,7 @@ public class ObjectUtils {
     public static BusinessObject createHybridBusinessObject(Class businessObjectClass, BusinessObject source, Map<String, String> template) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         BusinessObject obj = null;
         try {
-    		ModuleService moduleService = KNSServiceLocator.getKualiModuleService().getResponsibleModuleService(businessObjectClass);
+    		ModuleService moduleService = KRADServiceLocatorWeb.getKualiModuleService().getResponsibleModuleService(businessObjectClass);
     		if (moduleService != null && moduleService.isExternalizable(businessObjectClass))
     			obj = (BusinessObject)moduleService.createNewObjectFromExternalizableClass(businessObjectClass);
     		else
@@ -643,7 +644,7 @@ public class ObjectUtils {
         if (isNotNull(bo)) {
             PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(bo.getClass());
             for (int i = 0; i < propertyDescriptors.length; i++) {
-                if (KRADServiceLocator.getPersistenceStructureService().hasCollection(bo.getClass(), propertyDescriptors[i].getName()) && KNSServiceLocator.getPersistenceStructureService().isCollectionUpdatable(bo.getClass(), propertyDescriptors[i].getName())) {
+                if (KRADServiceLocator.getPersistenceStructureService().hasCollection(bo.getClass(), propertyDescriptors[i].getName()) && KRADServiceLocator.getPersistenceStructureService().isCollectionUpdatable(bo.getClass(), propertyDescriptors[i].getName())) {
                     Collection updateableCollection = (Collection) getPropertyValue(bo, propertyDescriptors[i].getName());
                     if ((updateableCollection != null) && ProxyHelper.isCollectionProxy(updateableCollection)) {
                         materializeObjects(updateableCollection);
@@ -1079,7 +1080,7 @@ public class ObjectUtils {
 		try {
 			if (ExternalizableBusinessObject.class.isAssignableFrom(clazz)) {
 				Class eboInterface = ExternalizableBusinessObjectUtils.determineExternalizableBusinessObjectSubInterface(clazz);
-				ModuleService moduleService = KRADServiceLocator.getKualiModuleService().getResponsibleModuleService(eboInterface);
+				ModuleService moduleService = KRADServiceLocatorWeb.getKualiModuleService().getResponsibleModuleService(eboInterface);
 				return moduleService.createNewObjectFromExternalizableClass(eboInterface);
 			}
 			else {

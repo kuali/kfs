@@ -156,8 +156,8 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * 
      * @param document - vendordetail document
      */
-    public void displayReview(Document document) {
-        VendorDetail vendorDetail = (VendorDetail) document.getDocumentBusinessObject();
+    public void displayReview(MaintenanceDocument document) {
+        VendorDetail vendorDetail = (VendorDetail)  document.getDocumentBusinessObject();
 
         VendorType vendorType = vendorDetail.getVendorHeader().getVendorType();
 

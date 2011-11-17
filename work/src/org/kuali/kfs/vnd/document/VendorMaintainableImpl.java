@@ -35,6 +35,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -42,6 +43,7 @@ import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -55,7 +57,9 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
 	@Override
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
-        if (this.getBusinessObject().getNotes().isEmpty()) {
+        NoteService noteService = KRADServiceLocator.getNoteService();
+        List<Note> notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
+        if (notes.isEmpty()) {
             setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
         }
     }
@@ -188,8 +192,11 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         catch (Exception e) {
             throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
         }
-        oldVendorDetail.getNotes().add(newBONote);
-        
+
+        NoteService noteService = KRADServiceLocator.getNoteService();
+        List<Note> notes = noteService.getByRemoteObjectId(oldVendorDetail.getObjectId());
+        notes.add(newBONote);
+       
     }
     
     /**
@@ -276,8 +283,10 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         boolean shouldAddNote = true;
         if (prefix.equals(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE)) {
             // Check whether the previous note was an "Add" with the same document number as this one
-            if (!this.getBusinessObject().getNotes().isEmpty()) {
-                Note previousNote = this.getBusinessObject().getNote(this.getBusinessObject().getNotes().size() - 1);
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            List<Note> notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
+            if (!notes.isEmpty()) {
+                Note previousNote = notes.get(notes.size() - 1 );
                 if (previousNote.getNoteText().contains(getDocumentNumber())) {
                     shouldAddNote = false;
                 }
@@ -292,7 +301,10 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             catch (Exception e) {
                 throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
             }
-            this.getBusinessObject().getNotes().add(newBONote);
+        
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            List<Note> notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
+            notes.add(newBONote);
         }
     }
 

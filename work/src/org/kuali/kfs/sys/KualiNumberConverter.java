@@ -23,7 +23,8 @@ import org.directwebremoting.extend.OutboundContext;
 import org.joda.time.convert.ConverterManager;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
-import org.kuali.rice.krad.uif.UifConstants.Messages;
+import org.kuali.rice.krad.util.MessageUtils;
+
 
 import uk.ltd.getahead.dwr.compat.BaseV10Converter;
 
@@ -54,12 +55,13 @@ public class KualiNumberConverter extends BaseV10Converter implements Converter 
             if (paramType == KualiInteger.class) {
                 return new KualiInteger(value.trim());
             }
-
-            throw new ConversionException(Messages.getString("BigNumberConverter.NonPrimitive", paramType.getName())); //$NON-NLS-1$
+            String message = MessageBuilder.buildMessage("BigNumberConverter.NonPrimitive", paramType.getName()).getMessage();
+            throw new ConversionException(paramType,message);
         }
         catch (NumberFormatException ex) {
-            throw new ConversionException(Messages.getString("BigNumberConverter.FormatError", value, paramType.getName()), ex); //$NON-NLS-1$
-        }
+            String message = MessageBuilder.buildMessage("BigNumberConverter.FormatError", paramType.getName()).getMessage();
+            throw new ConversionException(paramType, message, ex);
+         }
     }
 
     /*

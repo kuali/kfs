@@ -40,6 +40,7 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 public class KualiBatchJobModifyAction extends KualiAction {
@@ -59,7 +60,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         if (form instanceof KualiBatchJobModifyForm) {
-            if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.LOOK_UP_RECORDS, KimCommonUtils.getNamespaceAndComponentSimpleName(BatchJobStatus.class), new HashMap<String,String>(getRoleQualification(form, "use")))) {
+            if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.LOOK_UP_RECORDS, KRADUtils.getNamespaceAndComponentSimpleName(BatchJobStatus.class), new HashMap<String,String>(getRoleQualification(form, "use")))) {
                 throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), "view", "batch jobs");
             }
         }

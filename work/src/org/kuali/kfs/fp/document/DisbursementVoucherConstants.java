@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.kim.api.KimConstants;
 
 /**
  * Holds constants for disbursement voucher and payee documents.
@@ -188,7 +189,7 @@ public interface DisbursementVoucherConstants {
     public static final String TAX_TYPE_SSN = "1";
     public static final String TAX_TYPE_FEIN = "0";
     
-    public static final String TAX_ID_TYPE_SSN = KimApiConstants.PersonExternalIdentifierTypes.TAX;
+    public static final String TAX_ID_TYPE_SSN = KimConstants.PersonExternalIdentifierTypes.TAX;
     //public static final String TAX_ID_TYPE_FEIN = "F";
 
     public static final String NRA_TAX_INCOME_CLASS_FELLOWSHIP = "F";

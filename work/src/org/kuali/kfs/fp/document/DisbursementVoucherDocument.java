@@ -78,7 +78,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.address.EntityAddress;
@@ -999,7 +999,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'TAX' is present, then the employee must be foreign
         for ( String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet() ) {
-            if (KimApiConstants.PersonExternalIdentifierTypes.TAX.equals(externalIdentifierTypeCode)) {
+            if (KimConstants.PersonExternalIdentifierTypes.TAX.equals(externalIdentifierTypeCode)) {
                 this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
             }
         }
@@ -1054,7 +1054,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         EntityTypeContactInfo foundInfo = null;
         
         while (count < entityEntityTypes.size() && foundInfo == null) {
-            if (entityEntityTypes.get(count).getEntityTypeCode().equals(KimApiConstants.EntityTypes.PERSON)) {
+            if (entityEntityTypes.get(count).getEntityTypeCode().equals(KimConstants.EntityTypes.PERSON)) {
                 foundInfo = entityEntityTypes.get(count);
             }
             count += 1;

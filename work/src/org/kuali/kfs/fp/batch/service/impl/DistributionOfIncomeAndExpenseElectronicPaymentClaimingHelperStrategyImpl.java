@@ -98,8 +98,8 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
         for (String noteText : electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
             try {
                 Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
-                documentService.addNoteToDocument(claimingDoc, note);
-            }
+                claimingDoc.addNote(note);
+             }
             catch (Exception e) {
                 LOG.error("Exception while attempting to create or add note: ", e);
             }

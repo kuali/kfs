@@ -90,8 +90,8 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
             if (correctingDocumentHeader != null) {
                 getDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
             }
-        } catch (WorkflowException e) {
-            LOG.error("Received WorkflowException trying to get route header id from workflow document");
+        } catch (Exception e) {
+            LOG.error("Received WorkflowException trying to get route header id from workflow document. Exception was " + e);
             throw new WorkflowRuntimeException(e);
         }
         // set the ad hoc route recipients too, since OJB doesn't maintain that relationship

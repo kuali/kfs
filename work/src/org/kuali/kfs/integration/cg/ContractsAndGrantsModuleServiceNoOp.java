@@ -16,6 +16,7 @@
 package org.kuali.kfs.integration.cg;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -46,7 +47,7 @@ public class ContractsAndGrantsModuleServiceNoOp implements ContractsAndGrantsMo
         return true;
     }
 
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, Collection<String> federalAgencyTypeCodes) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return false;
     }

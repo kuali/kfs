@@ -120,7 +120,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         if ( LOG.isInfoEnabled() ) {
-            LOG.info("Document: " + statusChangeEvent.getRouteHeaderId() + " -- Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+            LOG.info("Document: " + statusChangeEvent.getDocumentId() + " -- Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
         }
        
         super.doRouteStatusChange(statusChangeEvent);

@@ -15,16 +15,17 @@
  */
 package org.kuali.kfs.module.ar.dataaccess.impl;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -65,7 +66,15 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
      */
     public HashMap<String, KualiDecimal> findAppliedAmountByProcessingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end) {
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
+        
+        // get approved application payments only
+        Criteria subCriteria = new Criteria();
+        subCriteria.addEqualTo("financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(FinancialSystemDocumentHeader.class, subCriteria);
+        subQuery.setAttributes(new String[] {"documentNumber"});
+        
         Criteria criteria = new Criteria();
+        criteria.addIn("documentNumber", subQuery);        
         if (begin != null) {
             criteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
@@ -75,7 +84,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingChartOfAccountCode", chart);
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingOrganizationCode", org);
-        criteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
+        criteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);        
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName", "sum(invoiceItemAppliedAmount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
@@ -160,7 +169,15 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
      */
     public HashMap<String, KualiDecimal> findAppliedAmountByBillingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end) {
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
+        
+        // get approved application payments only
+        Criteria subCriteria = new Criteria();
+        subCriteria.addEqualTo("financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(FinancialSystemDocumentHeader.class, subCriteria);
+        subQuery.setAttributes(new String[] {"documentNumber"});
+        
         Criteria criteria = new Criteria();
+        criteria.addIn("documentNumber", subQuery);
         if (begin != null) {
             criteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
@@ -255,7 +272,15 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
      */
     public HashMap<String, KualiDecimal> findAppliedAmountByAccount(String chart, String account, java.sql.Date begin, java.sql.Date end) {
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
+        
+        // get approved application payments only
+        Criteria subCriteria = new Criteria();
+        subCriteria.addEqualTo("financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(FinancialSystemDocumentHeader.class, subCriteria);
+        subQuery.setAttributes(new String[] {"documentNumber"});
+        
         Criteria criteria = new Criteria();
+        criteria.addIn("documentNumber", subQuery);
         if (begin != null) {
             criteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }

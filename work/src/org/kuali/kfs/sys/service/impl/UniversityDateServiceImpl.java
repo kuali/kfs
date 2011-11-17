@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
@@ -24,6 +25,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * 
@@ -74,7 +76,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @see org.kuali.rice.core.api.datetime.DateTimeService#getFiscalYear(java.util.Date)
      */
-    @CacheNoCopy
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getFiscalYear} date=' + #p0")
     public Integer getFiscalYear(java.util.Date date) {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
@@ -91,7 +93,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @see org.kuali.kfs.sys.service.UniversityDateService#getFirstDateOfFiscalYear(java.lang.Integer)
      */
-    @CacheNoCopy
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getFirstDateOfFiscalYear} fiscalYear=' + #p0")
     public java.util.Date getFirstDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getFirstFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
@@ -105,7 +107,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @see org.kuali.kfs.sys.service.UniversityDateService#getLastDateOfFiscalYear(java.lang.Integer)
      */
-    @CacheNoCopy
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getLastDateOfFiscalYear} fiscalYear=' + #p0")
     public java.util.Date getLastDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();

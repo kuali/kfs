@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -39,6 +40,8 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCode.class);
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "ObjectCode";
+    
     private static final long serialVersionUID = -965833141452795485L;
     protected Integer universityFiscalYear;
     protected String chartOfAccountsCode;

@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali. It uses the
@@ -93,7 +94,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
     /**
      * @see org.kuali.kfs.coa.service.BalanceTypeService#getCostShareEncumbranceBalanceType(java.lang.Integer)
      */
-    @CacheNoCopy
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCostShareEncumbranceBalanceType} universityFiscalYear=' + #p0")
     public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
@@ -105,7 +106,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * 
      * @see org.kuali.kfs.coa.service.BalanceTypeService#getEncumbranceBalanceTypes(java.lang.Integer)
      */
-    @CacheNoCopy
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getEncumbranceBalanceTypes} universityFiscalYear=' + #p0")
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
@@ -122,7 +123,8 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * 
      * @see org.kuali.kfs.coa.service.BalanceTypService#getCurrentYearCostShareEncumbranceBalanceType()
      */
-    @CacheNoCopy
+    //RICE20 - necessary to recache?
+    //@CacheNoCopy
     public String getCurrentYearCostShareEncumbranceBalanceType() {
         return getCostShareEncumbranceBalanceType(universityDateService.getCurrentFiscalYear());
     }
@@ -131,7 +133,8 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * 
      * @see org.kuali.kfs.coa.service.BalanceTypService#getCurrentYearEncumbranceBalanceTypes()
      */
-    @CacheNoCopy
+    //RICE20 - necessary to recache?
+    //@CacheNoCopy
     public List<String> getCurrentYearEncumbranceBalanceTypes() {
         return getEncumbranceBalanceTypes(universityDateService.getCurrentFiscalYear());
     }
@@ -140,7 +143,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * 
      * @see org.kuali.kfs.coa.service.BalanceTypService#getContinuationAccountBypassBalanceTypeCodes(java.lang.Integer)
      */
-    @CacheNoCopy
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getContinuationAccountBypassBalanceTypeCodes} universityFiscalYear=' + #p0")
     public List<String> getContinuationAccountBypassBalanceTypeCodes(Integer universityFiscalYear) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);

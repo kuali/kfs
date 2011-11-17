@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,6 +33,8 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 public class AccountingPeriod extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "AccountingPeriod";
+    
     private Integer universityFiscalYear;
     private String universityFiscalPeriodCode;
     private String universityFiscalPeriodName;

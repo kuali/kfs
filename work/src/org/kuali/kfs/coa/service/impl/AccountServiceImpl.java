@@ -45,6 +45,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
@@ -86,7 +87,7 @@ public class AccountServiceImpl implements AccountService {
      * 
      * @see org.kuali.kfs.coa.service.impl.AccountServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    @Cached
+    @Cacheable(value=Account.CACHE_NAME, key="'chartOfAccountsCode=' + #p0 + '|' + 'accountNumber=' + #p1")
     public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.kim.api.identity.Person;
@@ -27,6 +28,8 @@ public class ProjectCode extends KualiCodeBase implements Inactivatable {
 
     private static final long serialVersionUID = 4529316062843227897L;
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "ProjectCode";
+    
     private String projectDescription;
     private String projectManagerUniversalId;
     private String chartOfAccountsCode;

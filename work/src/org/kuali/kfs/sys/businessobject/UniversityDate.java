@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -28,6 +29,8 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public class UniversityDate extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
     static final long serialVersionUID = 2587833750168955556L;
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "UniversityDate";
+    
     private Date universityDate;
     private Integer universityFiscalYear;
     private String universityFiscalAccountingPeriod;

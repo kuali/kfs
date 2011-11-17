@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This service implementation is the default implementation of the ObjectType service that is delivered with Kuali.
@@ -134,7 +135,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     /**
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getCurrentYearBasicIncomeObjectTypes()
      */
-    @CacheNoCopy
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCurrentYearBasicIncomeObjectTypes}'")
     public List<String> getCurrentYearBasicIncomeObjectTypes() {
         return getBasicIncomeObjectTypes(universityDateService.getCurrentFiscalYear());
     }

@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This class is the service implementation for the Org structure. This is the default implementation, that is delivered with Kuali.
@@ -65,7 +66,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * 
      * @see org.kuali.kfs.coa.service.impl.OrganizationServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    @Cached
+    @Cacheable(value=Organization.CACHE_NAME, key="'chartOfAccountsCode=' + #p0 + '|' + 'organizationCode=' + #p1")
     public Organization getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);

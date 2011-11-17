@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
-import java.util.List;
-
 import org.kuali.kfs.sys.batch.service.CacheService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.common.template.Template;
+import org.kuali.rice.kim.api.responsibility.Responsibility;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.location.framework.campus.CampusValuesFinder;
@@ -58,12 +57,15 @@ public class CacheServiceImpl implements CacheService {
     /**
      * Clears out KIM cache by calling flush methods on role and identity services
      */
+    @CacheEvict(value={Responsibility.Cache.NAME, Template.Cache.NAME + "{Responsibility}"}, allEntries = true)
     protected void clearKIMCache() {
         LOG.info("clearing KIM role & identity service cache ...");
 
         roleManagementService.flushRoleCaches();
         identityManagementService.flushAllCaches();
-        SpringContext.getBean(RiceCacheAdministrator.class).flushGroup("ResponsibilityImpl");
+        //RICE20 need to find out how to flush the Responsibility Cache in rice; can we flush this on our own?? 
+        //       added @CacheEvict to function (ref - org.kuali.rice.kim.api.responsibility.ResponsibilityService) 
+        //SpringContext.getBean(RiceCacheAdministrator.class).flushGroup("ResponsibilityImpl");
     }
 
     /**

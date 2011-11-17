@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * The OJB implementation of the UniversityDateDao
@@ -40,7 +41,9 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * @return a University Date record if found, null if not
      * @see org.kuali.kfs.sys.dataaccess.UniversityDateDao#getByPrimaryKey(java.sql.Date)
      */
-    @CacheNoCopy
+    //RICE20 - seems safe to remove both getByPrimarykey functions - not called by any one
+    //@CacheNoCopy
+    //@Cacheable(value=UniversityDate.CACHE_NAME, key="'{getByPrimaryKey} date=' + #p0")
     public UniversityDate getByPrimaryKey(Date date) {
         LOG.debug("getByPrimaryKey() started");
 
@@ -59,7 +62,8 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * @return a University Date record if found, null if not
      * @see org.kuali.kfs.sys.dataaccess.UniversityDateDao#getByPrimaryKey(java.sql.Date)
      */
-    @CacheNoCopy
+    //RICE20 No need to cache both functions 
+    //@CacheNoCopy
     public UniversityDate getByPrimaryKey(java.util.Date date) {
         return getByPrimaryKey(convertDate(date));
     }

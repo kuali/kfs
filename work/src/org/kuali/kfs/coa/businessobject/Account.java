@@ -32,10 +32,12 @@ import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -53,6 +55,8 @@ import org.joda.time.DateTime;
  */
 public class Account extends PersistableBusinessObjectBase implements AccountIntf, Inactivatable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
+    
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Account";
 
     private String chartOfAccountsCode;
     private String accountNumber;

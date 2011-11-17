@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.dataaccess.SubAccountDao;
 import org.kuali.kfs.coa.service.SubAccountService;
@@ -27,6 +28,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This class is the service implementation for the SubAccount structure. This is the default implementation that gets delivered
@@ -55,7 +57,7 @@ public class SubAccountServiceImpl implements SubAccountService {
      * 
      * @see org.kuali.kfs.coa.service.impl.SubAccountServiceImpl#getByPrimaryId(String, String, String)
      */
-    @Cached
+    @Cacheable(value=SubAccount.CACHE_NAME, key="'chartOfAccountsCode=' + #p0 + '|' + 'accountNumber=' + #p1 + '|' + 'subAccountNumber=' + #p2")
     public SubAccount getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);

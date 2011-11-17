@@ -46,6 +46,8 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
 
     private static final long serialVersionUID = 121873645110037203L;
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Organization";
+    
     /**
      * Default no-arg constructor.
      */

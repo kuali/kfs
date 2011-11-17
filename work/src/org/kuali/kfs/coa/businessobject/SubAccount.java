@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -28,6 +29,8 @@ public class SubAccount extends PersistableBusinessObjectBase implements Inactiv
 
     private static final long serialVersionUID = 6853259976912014273L;
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "SubAccount";
+    
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;

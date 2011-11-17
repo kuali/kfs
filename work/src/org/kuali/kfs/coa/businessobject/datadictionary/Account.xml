@@ -276,7 +276,7 @@
 
 	<bean id="Account-accountPhysicalCampusCode" parent="Account-accountPhysicalCampusCode-parentBean" />
 	<bean id="Account-accountPhysicalCampusCode-parentBean" abstract="true"
-		parent="Campus-campusCode" p:name="accountPhysicalCampusCode">
+		parent="Campus-code" p:name="accountPhysicalCampusCode">
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" />
@@ -399,7 +399,7 @@
 	<bean id="Account-postalZipCode.postalCode" parent="Account-postalZipCode.postalCode-parentBean" />
 
 	<bean id="Account-postalZipCode.postalCode-parentBean" abstract="true"
-		parent="PostalCode-postalCode" p:name="postalZipCode.postalCode"
+		parent="PostalCode-code" p:name="postalZipCode.postalCode"
 		p:label="Account Postal Code" p:shortLabel="ZipCode" />
 	<bean id="Account-reportsToChartOfAccountsCode" parent="Account-reportsToChartOfAccountsCode-parentBean" />
 

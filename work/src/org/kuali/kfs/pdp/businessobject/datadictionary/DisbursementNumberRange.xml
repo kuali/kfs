@@ -60,7 +60,7 @@
 <!-- Attribute Definitions -->
   
   <bean id="DisbursementNumberRange-physCampusProcCode" parent="DisbursementNumberRange-physCampusProcCode-parentBean"/>
-  <bean id="DisbursementNumberRange-physCampusProcCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="DisbursementNumberRange-physCampusProcCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="physCampusProcCode"/>
     <property name="label" value="Campus Processing Location"/>
     <property name="shortLabel" value="Campus Processing Location"/>

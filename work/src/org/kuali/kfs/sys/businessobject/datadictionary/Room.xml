@@ -52,7 +52,7 @@
 
   <bean id="Room-campusCode" parent="Room-campusCode-parentBean"/>
 
-  <bean id="Room-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="Room-campusCode-parentBean" abstract="true" parent="Campus-code">
   	<property name="forceUppercase" value="true"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" p:includeKeyInLabel="false"/>

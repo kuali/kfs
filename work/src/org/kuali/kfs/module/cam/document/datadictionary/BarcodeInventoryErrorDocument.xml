@@ -98,7 +98,7 @@
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentCampusCode" parent="BarcodeInventoryErrorDocument-currentCampusCode-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-currentCampusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="BarcodeInventoryErrorDocument-currentCampusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="currentCampusCode"/>
     <property name="required" value="false"/>    
   </bean>
@@ -155,7 +155,7 @@
   </bean>
 		
   <bean id="BarcodeInventoryErrorDocument-newCampusCode" parent="BarcodeInventoryErrorDocument-newCampusCode-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-newCampusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="BarcodeInventoryErrorDocument-newCampusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="newCampusCode"/>
     <property name="required" value="false"/>    
   </bean>

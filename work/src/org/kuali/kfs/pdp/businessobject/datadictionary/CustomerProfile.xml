@@ -189,7 +189,7 @@
   </bean>
   
   <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode" parent="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean"/>
-  <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="defaultPhysicalCampusProcessingCode"/>
     <property name="label" value="Campus Process Location"/>
     <property name="shortLabel" value="Campus Process Location"/>

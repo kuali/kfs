@@ -912,7 +912,7 @@
   </bean>
   
   <bean id="Asset-campusCode" parent="Asset-campusCode-parentBean"/>
-  <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="label" value="Campus"/>
     <property name="required" value="false"/>
     <property name="forceUppercase" value="true"/>    
@@ -1417,7 +1417,7 @@
 
 
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName" parent="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean"/>
-  <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+  <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-name">
 	<property name="name" value="offCampusLocation.assetLocationCountry.postalCountryName"/>
   </bean>
   
@@ -1432,7 +1432,7 @@
   </bean>
 
   <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName" parent="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean"/>
-  <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+  <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-name">
     <property name="name" value="borrowerLocation.assetLocationCountry.postalCountryName"/>
   </bean>
   
@@ -1447,7 +1447,7 @@
   </bean>
 
   <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName" parent="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean"/>
-  <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+  <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-name">
     <property name="name" value="borrowerStorageLocation.assetLocationCountry.postalCountryName"/>
   </bean>
 

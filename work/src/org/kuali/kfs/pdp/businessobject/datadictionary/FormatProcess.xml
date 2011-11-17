@@ -43,7 +43,7 @@
 
   <bean id="FormatProcess-physicalCampusProcessCode" parent="FormatProcess-physicalCampusProcessCode-parentBean"/>
 
-  <bean id="FormatProcess-physicalCampusProcessCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="FormatProcess-physicalCampusProcessCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="physicalCampusProcessCode"/>
     <property name="shortLabel" value="Campus"/>
   </bean>

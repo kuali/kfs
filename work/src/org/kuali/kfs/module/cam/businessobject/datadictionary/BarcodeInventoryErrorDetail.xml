@@ -111,7 +111,7 @@
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-campusCode" parent="BarcodeInventoryErrorDetail-campusCode-parentBean"/>
-  <bean id="BarcodeInventoryErrorDetail-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="BarcodeInventoryErrorDetail-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="shortLabel" value="Campus"/>
   </bean>
   

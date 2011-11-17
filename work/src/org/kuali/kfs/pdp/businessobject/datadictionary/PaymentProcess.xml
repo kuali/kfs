@@ -70,7 +70,7 @@
   </bean>
   <bean id="PaymentProcess-campusCode" parent="PaymentProcess-campusCode-parentBean"/>
 
-  <bean id="PaymentProcess-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="PaymentProcess-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="campusCode"/>
     <property name="label" value="Process Campus"/>
     <property name="shortLabel" value="campusCode"/>

@@ -79,7 +79,7 @@
 	<bean id="CashDrawer-campusCode" parent="CashDrawer-campusCode-parentBean" />
 
 	<bean id="CashDrawer-campusCode-parentBean" abstract="true"
-		parent="Campus-campusCode">
+		parent="Campus-code">
 		<property name="name" value="campusCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Campus Code" />

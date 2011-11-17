@@ -100,7 +100,7 @@
   </bean>
   <bean id="CollectorBatch-campusCode" parent="CollectorBatch-campusCode-parentBean"/>
   
-  <bean id="CollectorBatch-campusCode-parentBean" abstract="true" parent="Campus-campusCode-parentBean">
+  <bean id="CollectorBatch-campusCode-parentBean" abstract="true" parent="Campus-code-parentBean">
     <property name="name" value="campusCode"/>
     <property name="label" value="Campus Code"/>
   </bean>

@@ -2,11 +2,11 @@
 <rules>
 	<rule name="new_rule_testing_1" alsoRenameClass="true">
 
+	<!-- 
 		<pattern>
 			<match>org\.kuali\.rice\.kns\.document\.authorization\.PermissionDerivedRoleTypeServiceImpl</match>
 			<replacement>org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl</replacement>
 		</pattern>
-	<!-- 
 		<pattern>
 			<match>org\.kuali\.rice\.ksb\.messaging\.KSBExporter</match>
 			<replacement>org.kuali.rice.ksb.api.bus.support.ServiceBusExporter</replacement>
@@ -50,6 +50,27 @@
  -->	
     </rule>
 	<rule name="new_rule_testing_2">
+		<pattern>
+			<match>"Campus-campusCode</match>
+			<replacement>"Campus-code</replacement>
+		</pattern>
+		<pattern>
+			<match>"PostalCode-postalCode</match>
+			<replacement>"PostalCode-code</replacement>
+		</pattern>
+		postalCountryCode
+		<pattern>
+			<match>"State-stateCode</match>
+			<replacement>"State-code</replacement>
+		</pattern>
+		<pattern>
+			<match>"Country-postalCountryCode</match>
+			<replacement>"Country-code</replacement>
+		</pattern>
+		<pattern>
+			<match>"Country-postalCountryName</match>
+			<replacement>"Country-name</replacement>
+		</pattern>
 	<!-- 
 		<pattern>
 			<match>\.getBoNotes\(\)</match>

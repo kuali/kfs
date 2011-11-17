@@ -89,7 +89,7 @@
 	<bean id="CampusParameter-campusCode" parent="CampusParameter-campusCode-parentBean" />
 
 	<bean id="CampusParameter-campusCode-parentBean" abstract="true"
-		parent="Campus-campusCode">
+		parent="Campus-code">
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="45" />
 		</property>

@@ -73,7 +73,7 @@
     <import resource="classpath:org/kuali/rice/location/config/LocationConfigSpringBeans.xml"/>
 	<bean name="kfsConfigurer" class="org.kuali.kfs.sys.context.KFSConfigurer"
 		p:moduleName="KFS"
-		p:hasWebInterface="true">
+		p:hasWebInterface="true" lazy-init="true">
 		<property name="validRunModes">
 			<list>
 				<value>LOCAL</value>

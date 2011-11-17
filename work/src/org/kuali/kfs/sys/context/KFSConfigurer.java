@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.sys.context;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.kuali.rice.core.impl.config.module.ModuleConfigurer;
+import org.kuali.rice.krad.config.KRADConfigurer;
 
 public class KFSConfigurer extends ModuleConfigurer {
 
@@ -40,5 +42,9 @@ public class KFSConfigurer extends ModuleConfigurer {
     @Override
     public String getWebModuleConfigurationFiles() {
         return "WEB-INF/struts-config.xml";
+    }
+    @Override
+    public List<String> getAdditionalSpringFiles() {        
+        return super.getAdditionalSpringFiles();
     }
 }

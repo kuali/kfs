@@ -19,14 +19,16 @@ import java.util.Collection;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.MessageOfTheDay;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
 import org.springframework.cache.annotation.Cacheable;
 
 public class MessageOfTheDayFinder implements ValueFinder {
-
-    @Cacheable(value="KFS-MOTD")
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/MessageOfTheDayFinder";
+    
+    @Cacheable(value=CACHE_NAME)
     public String getValue() {
         try {
             Collection<MessageOfTheDay> collection = SpringContext.getBean(BusinessObjectService.class).findAll(MessageOfTheDay.class);

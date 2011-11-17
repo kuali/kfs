@@ -31,7 +31,7 @@
         <property name="password" value="${kfs.datasource.password}" />
 	</bean>
 
-    <bean id="kfsNonTransactionalDataSource" parent="abstractDataSourceBase" destroy-method="close">
+    <bean id="nonTransactionalDataSource" parent="abstractDataSourceBase" destroy-method="close">
         <property name="accessToUnderlyingConnectionAllowed" value="${kfs.datasource.pool.accessToUnderlyingConnectionAllowed}"/>
         <property name="maxActive" value="${kfs.datasource.pool.maxActive}"/>
 		<property name="minIdle" value="${kfs.datasource.pool.minIdle}" />

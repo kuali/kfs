@@ -75,22 +75,93 @@
       <property name="persistenceDao" ref="persistenceDao" />
     </bean>
  -->
-	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl">
+
+  <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
+
+  <bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean"
+    p:secureMode="true" />
+
+  <bean id="propertyPlaceholderConfigurer" class="org.kuali.kfs.sys.context.ConfigPropertyPlaceholderConfigurer">
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+    <property name="propertiesArray">
+      <list>
+        <ref bean="properties" />
+        <ref bean="securityProperties" />
+      </list>
+    </property>
+  </bean>
+
+    <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${kfs.datasource.driver.name}"/>
+        <property name="validationQuery" value="${kfs.datasource.validating.query}"/>
+        <property name="url" value="${kfs.datasource.url}"/>    
+        <property name="username" value="${kfs.datasource.username}" />
+        <property name="password" value="${kfs.datasource.password}" />
+        <property name="accessToUnderlyingConnectionAllowed" value="${kfs.datasource.pool.accessToUnderlyingConnectionAllowed}"/>
+        <property name="maxActive" value="${kfs.datasource.pool.maxActive}"/>
+		<property name="minIdle" value="${kfs.datasource.pool.minIdle}" />
+		<property name="initialSize" value="${kfs.datasource.pool.initialSize}" />
+    </bean>
+
+ 	<bean id="dataSource" p:serviceName="dataSource" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="riceDataSource" p:serviceName="riceDataSource" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<!-- 
+ 	<bean id="nonTransactionalDataSource" p:serviceName="nonTransactionalDataSource" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="riceNonTransactionalDataSource" p:serviceName="riceNonTransactionalDataSource" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+    -->  
+    	   <!-- These are beans we need to export from Rice -->
+ 	<bean id="dataDictionaryService" p:serviceName="dataDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="dateTimeService" p:serviceName="dateTimeService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<!-- <bean id="platformAwareDao" p:serviceName="platformAwareDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="platformAwareDaoJdbc" p:serviceName="platformAwareDaoJdbc" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" /> -->
+
+ 	<bean id="mailService" p:serviceName="mailService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="kualiModuleService" p:serviceName="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="parameterService" p:serviceName="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="configurationService" p:serviceName="kualiConfigurationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<alias name="configurationService" alias="kualiConfigurationService" />
+ 	<bean id="attachmentService" p:serviceName="attachmentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="sessionDocumentService" p:serviceName="sessionDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="noteService" p:serviceName="noteService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="documentService" p:serviceName="documentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="businessObjectService" p:serviceName="businessObjectService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="persistenceStructureService" p:serviceName="persistenceStructureService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="kualiRuleService" p:serviceName="kualiRuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="lookupableHelperService" p:serviceName="lookupableHelperService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="false" p:mustExist="true" scope="prototype" />
+ 	<bean id="businessObjectMetaDataService" p:serviceName="businessObjectMetaDataService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="lookupService" p:serviceName="lookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="lookupDao" p:serviceName="lookupDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="documentAdHocService" p:serviceName="documentAdHocService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+
+    <!--  -->
+    <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">
+        <property name="objectType">
+          <value>${datasource.platform}</value>
+       </property>
+    </bean>
+
+   <bean id="platformAwareDao" abstract="true"
+        class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
+    <property name="jcdAlias" value="dataSource"/>
+    <property name="dbPlatform" ref="dbPlatform"/>
+  </bean>
+   <bean id="platformAwareDaoJdbc" abstract="true"
+        class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="dbPlatform" ref="dbPlatform"/>
+  </bean>
+ 
+	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl" >
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>
   
   	<bean id="postProcessorService" class="org.kuali.kfs.sys.service.impl.PostProcessorServiceImpl">
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
+		<property name="documentService" ref="documentService" />
 	</bean>
 
-  <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb" />
+  <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb"/>
 <!-- 
   <bean id="userTransaction" class="org.kuali.rice.core.jta.UserTransactionFactoryBean" lazy-init="true" />
 
@@ -222,7 +293,7 @@
 	</bean>	
  -->
 	
-	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver" lazy-init="true">
 		<property name="defaultLocale" value="${kfs.locale}" />
 	</bean>
 	

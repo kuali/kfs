@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.sys.context;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.collect.ConstantsMap;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
@@ -57,6 +59,10 @@ public class KFSInitializeListener extends KualiInitializeListener {
         
         // the super implementation above will handle the loading of Spring
         SpringContext.applicationContext = getContext();
+        LOG.info( "Loaded Spring Context from the following locations: " + Arrays.asList( getContext().getConfigLocations() ) );
+        
+        GlobalResourceLoader.logAllContents();
+        
         SpringContext.initMemoryMonitor();
         SpringContext.initMonitoringThread();
         SpringContext.initScheduler();

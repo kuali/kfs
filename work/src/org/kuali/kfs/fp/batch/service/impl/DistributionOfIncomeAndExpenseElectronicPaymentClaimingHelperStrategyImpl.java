@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStra
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.Note;

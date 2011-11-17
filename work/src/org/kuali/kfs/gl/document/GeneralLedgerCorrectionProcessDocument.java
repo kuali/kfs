@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -255,7 +256,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
      * @see org.kuali.rice.krad.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+    public void doRouteLevelChange(DocumentRouteLevelChange change) {
         super.doRouteLevelChange(change);
     }
 

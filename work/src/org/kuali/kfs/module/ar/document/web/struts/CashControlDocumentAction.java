@@ -182,13 +182,15 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             if (KFSConstants.DocumentStatusCodes.CANCELLED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
                 // Ignore this case, as it should not impact the ability to cancel a cash control doc.
             }
+            else if (KFSConstants.DocumentStatusCodes.DISAPPROVED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+                // Ignore this case, as it should not impact the ability to cancel a cash control doc.
+            }
             else if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
                 documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
             }
             else {
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDetailFields.CASH_CONTROL_DETAILS_TAB, ArKeyConstants.ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION);
                 success = false;
-                ;
             }
         }
         return success;

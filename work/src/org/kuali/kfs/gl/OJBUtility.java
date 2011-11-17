@@ -31,10 +31,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.dao.LookupDao;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 /**
  * This class provides a set of utilities that can handle common tasks related to business objects.
@@ -80,8 +81,8 @@ public class OJBUtility {
     public static Criteria buildCriteriaFromMap(Map fieldValues, Object businessObject) {
 
         Criteria criteria = new Criteria();
-        BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
-        //FieldDefinition lookupField = entry.getLookupDefinition().getLookupField(attributeName);
+        BusinessObjectEntry entry = (BusinessObjectEntry) KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
+           //FieldDefinition lookupField = entry.getLookupDefinition().getLookupField(attributeName);
         //System.out.println(entry.getTitleAttribute());
         try {
             Iterator propsIter = fieldValues.keySet().iterator();
@@ -89,7 +90,8 @@ public class OJBUtility {
                 String propertyName = (String) propsIter.next();
                 Object propertyValueObject = fieldValues.get(propertyName);
                 String propertyValue = "";
-                  
+         
+                 
                 FieldDefinition lookupField = (entry != null) ? entry.getLookupDefinition().getLookupField(propertyName) : null;
                 if (lookupField != null && lookupField.isTreatWildcardsAndOperatorsAsLiteral()) {
                     propertyValue = (propertyValueObject != null) ? StringUtils.replace(propertyValueObject.toString().trim(), "*", "\\*") : "";

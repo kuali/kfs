@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import AssetService;
-
 import java.util.List;
 import java.util.Set;
 

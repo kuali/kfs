@@ -17,15 +17,18 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Default implementation of the FinancialSystemDocumentTypeService
@@ -58,8 +61,11 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
             if (!workflowInfo.isCurrentActiveDocumentType(documentTypeCode)) return false;
 
             final DocumentType documentType = workflowInfo.getDocType(documentTypeCode);
-            if (StringUtils.isBlank(documentType.getDocTypeParentName())) return false;
-            return isActiveCurrentChildDocumentType(documentType.getDocTypeParentName(), parentDocumentTypeCode, workflowInfo);
+            String parentId = documentType.getParentId();
+            DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);        
+            String parentName = documentTypeService.getNameById(parentId);
+            if (StringUtils.isBlank(parentName)) return false;
+            return isActiveCurrentChildDocumentType(parentName, parentDocumentTypeCode, workflowInfo);
         } catch (WorkflowException we) {
             throw new RuntimeException("Could not retrieve document type "+documentTypeCode, we);
         }

@@ -143,16 +143,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#routeProcurementCardDocuments(java.util.List)
      */
     public boolean routeProcurementCardDocuments() {
-        List<String> documentIdList = null;
-        try {
-            documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
-        } catch (WorkflowException e1) {
-            LOG.error("Error retrieving pcdo documents for routing: " + e1.getMessage(),e1);
-            throw new RuntimeException(e1.getMessage(),e1);
-        } catch (RemoteException re) {
-            LOG.error("Error retrieving pcdo documents for routing: " + re.getMessage(),re);
-            throw new RuntimeException(re.getMessage(),re);
-        }
+
+        List<String> documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
         
         //Collections.reverse(documentIdList);
         if ( LOG.isInfoEnabled() ) {
@@ -183,7 +175,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Returns a list of all initiated but not yet routed procurement card documents, using the KualiWorkflowInfo service.
      * @return a list of procurement card documents to route
      */
-    protected List<String> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
+    protected List<String> retrieveProcurementCardDocumentsToRoute(String statusCode){
         List<String> documentIds = new ArrayList<String>();
         
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
@@ -217,16 +209,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             return true;
         }
 
-        List<String> documentIdList = null;
-        try {
-            documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
-        }
-        catch (WorkflowException e1) {
-            throw new RuntimeException(e1.getMessage(),e1);
-        }
-        catch (RemoteException re) {
-            throw new RuntimeException(re.getMessage(),re);
-        }
+        List<String> documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
 
         // get number of days and type for auto approve
         int autoApproveNumberDays = Integer.parseInt(parameterService.getParameterValueAsString(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_NUMBER_OF_DAYS));

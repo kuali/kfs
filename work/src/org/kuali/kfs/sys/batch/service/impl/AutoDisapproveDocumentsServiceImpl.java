@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collections;
@@ -34,12 +33,16 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowRuntimeException;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.docsearch.service.DocumentSearchService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
@@ -47,7 +50,6 @@ import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -232,7 +234,8 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     }
     
     /**
-     * This method will use documentsearchcriteriaDTO to search for the documents that are in enroute status and disapproves them
+     * This method will use DocumentSearchCriteria to search for the documents that are in enroute status and disapproves them
+     * 
      * @param principalId The principal id which is KFS-SYS System user to run the process under.
      * @param annotation The annotation to be set as note in the note of the document.
      * @param documentCompareDate The document create date to compare to
@@ -240,25 +243,18 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     protected boolean processAutoDisapproveDocuments(String principalId, String annotation, Date documentCompareDate) {
         boolean success = true;
         
-//        WorkflowInfo workflowInfo = new WorkflowInfo();
-        
-        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        documentSearchCriteriaDTO.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
-        documentSearchCriteriaDTO.setSaveName(null);
+        DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
+        criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
+        criteria.setSaveName(null);
         
         try {
-            DocumentSearchResult documentSearchResultDTO = workflowInfo.performDocumentSearch(principalId, documentSearchCriteriaDTO);
-            List<DocumentSearchResultRowDTO> autoDisapproveDocumentsList = documentSearchResultDTO.getSearchResults();
-
+            DocumentSearchService documentSearch = KEWServiceLocator.getDocumentSearchService();
+            DocumentSearchResults results = documentSearch.lookupDocuments(principalId, criteria.build());
+            
             String documentHeaderId = null;
             
-            for (DocumentSearchResultRowDTO autoDisapproveDocument : autoDisapproveDocumentsList) {
-                for (KeyValue keyValueDTO : autoDisapproveDocument.getFieldValues()) {
-                    if (keyValueDTO.getKey().equals(WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY)) {
-                        documentHeaderId = keyValueDTO.getUserDisplayValue();
-                    }
-                }
-                
+            for (DocumentSearchResult result : results.getSearchResults()) {
+                documentHeaderId = result.getDocument().getDocumentId();
                 Document document = findDocumentForAutoDisapproval(documentHeaderId);
                 if (document != null) {
                     if (checkIfDocumentEligibleForAutoDispproval(document)) {
@@ -266,30 +262,27 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
                             try {
                                 autoDisapprovalYearEndDocument(document, annotation);
                                 LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
-                            }
-                            catch (Exception e) {
+                            }catch (Exception e) {
                                 LOG.error("Exception encountered trying to auto disapprove the document " + e.getMessage());
                                 String message = ("Exception encountered trying to auto disapprove the document: ").concat(documentHeaderId);                                    
                                 autoDisapproveErrorReportWriterService.writeFormattedMessageLine(message); 
                             }
-                        }
-                        else {
+                        }else {
                             LOG.info("Year End Auto Disapproval Exceptions:  The document: " + documentHeaderId + " is NOT AUTO DISAPPROVED.");
                         }
                     } 
-                }
-                else {
+                }else{
                         LOG.error("Document is NULL.  It should never have been null");
                         String message = ("Error: Document with id: ").concat(documentHeaderId).concat(" - Document is NULL.  It should never have been null");
                         autoDisapproveErrorReportWriterService.writeFormattedMessageLine(message);                         
                 }
             } 
-       } catch (WorkflowException wfe) {
+       } catch (WorkflowRuntimeException wfre) {
             success = false;
             LOG.warn("Error with workflow search for documents for auto disapproval");
             String message = ("Error with workflow search for documents for auto disapproval.  The auto disapproval job is stopped.");
             autoDisapproveErrorReportWriterService.writeFormattedMessageLine(message);                                     
-            }
+        }
        
        return success;
     }

@@ -43,7 +43,9 @@ public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationR
      * @see org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService#loadCategories(org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork)
      */
     public OrgReversionUnitOfWork loadCategories(OrgReversionUnitOfWork orgRevUnitOfWork) {
-        Collection categoryAmounts = businessObjectService.findMatching(OrgReversionUnitOfWorkCategoryAmount.class, orgRevUnitOfWork.toStringMapper());
+        //RICE20 orgRevUnitOfWork.toString_refactor_me 
+        //Collection categoryAmounts = businessObjectService.findMatching(OrgReversionUnitOfWorkCategoryAmount.class, orgRevUnitOfWork.toStringMapper());
+        Collection categoryAmounts = null;
         Map<String, OrgReversionUnitOfWorkCategoryAmount> categories = orgRevUnitOfWork.getCategoryAmounts();
         Iterator iter = categoryAmounts.iterator();
         while (iter.hasNext()) {

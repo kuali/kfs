@@ -64,7 +64,7 @@ public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase 
 
     @Override
     public List<RoleMembership> doRoleQualifiersMatchQualification(Map<String,String> qualification, List<RoleMembership> roleMemberList) {
-        Map<String,String> translatedQualification = translateInputAttributeSet(qualification);
+        Map<String,String> translatedQualification = translateInputAttributes(qualification);
         validateRequiredAttributesAgainstReceived(translatedQualification);
         // if we can not find the qualifier which tells us to perform the match, just return all rows
         if (translatedQualification == null || translatedQualification.isEmpty() || !Boolean.parseBoolean(translatedQualification.get(PERFORM_QUALIFIER_MATCH))) {
@@ -131,10 +131,23 @@ public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase 
 
     @Override
     public boolean validateUniqueAttributes(String kimTypeId, Map<String,String> newAttributes, Map<String,String> oldAttributes){
+
         if(areAllAttributeValuesEmpty(newAttributes)){
             return false;
         } else
             return super.validateUniqueAttributes(kimTypeId, newAttributes, oldAttributes);
+    }
+
+    protected boolean areAllAttributeValuesEmpty( Map<String,String> attributes){
+        boolean areAllAttributesEmpty = true;
+        if(attributes!=null)
+            for(String attributeNameKey: attributes.keySet()){
+                if(StringUtils.isNotEmpty(attributes.get(attributeNameKey))){
+                    areAllAttributesEmpty = false;
+                    break;
+                }
+            }
+        return areAllAttributesEmpty;
     }
 
     @Override

@@ -130,7 +130,7 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
         this.chartService = chartService;
     }
     
-    @Override
+
     public List<RoleMembership> sortRoleMembers(List<RoleMembership> roleMembers) {
         List<SortableRoleMembershipHolder> listToSort = new ArrayList<SortableRoleMembershipHolder>( roleMembers.size() );
         // build the sortable list

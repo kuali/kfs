@@ -77,7 +77,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
 
     protected String getUserRoleId() {
         if (userRoleId == null) {
-            userRoleId = getRoleService().getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME);
+            userRoleId = getRoleService().getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME);
         }
         return userRoleId;
     }
@@ -137,7 +137,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         Map<String,String> qualification = new HashMap<String,String>(2);
         qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
         qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
-        List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification); 
+        List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification); 
         if ((roleQualifiers != null) && !roleQualifiers.isEmpty()) {
             return new ChartOrgHolderImpl(roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), roleQualifiers.get(0).get(KfsKimAttributes.ORGANIZATION_CODE));
         }

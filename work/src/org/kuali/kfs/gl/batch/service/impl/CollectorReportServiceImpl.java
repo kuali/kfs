@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorStep;
@@ -578,6 +580,10 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
+//RICE20
+        catch (MessagingException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
+        }
     }
     
     /**
@@ -619,6 +625,11 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             }
         }
         catch (InvalidAddressException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
+        }
+        //RICE20
+        catch (MessagingException e) {
+            // TODO Auto-generated catch block
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }

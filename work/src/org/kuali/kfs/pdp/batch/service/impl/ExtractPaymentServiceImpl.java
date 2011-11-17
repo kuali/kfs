@@ -528,7 +528,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         // get country name for code
         Country country = countryService.getCountry(pg.getCountry());
         if (country != null) {
-            writeTag(os, indent + 2, "country", country.getPostalCountryName());
+            writeTag(os, indent + 2, "country", country.getName());
         }
         else {
             writeTag(os, indent + 2, "country", pg.getCountry());

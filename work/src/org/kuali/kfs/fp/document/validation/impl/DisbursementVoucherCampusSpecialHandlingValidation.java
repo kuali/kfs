@@ -39,7 +39,6 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
     protected DisbursementVoucherDocument disbursementVoucherDocumentForValidation;
     protected DocumentService documentService;
     
-    
     public static final String DOCUMENT_EDITOR_ROLE_NAME = "Document Editor";
 
     /**
@@ -154,5 +153,9 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+ 
+    public DocumentService getDocumentService() {
+        return documentService;
     }
 }

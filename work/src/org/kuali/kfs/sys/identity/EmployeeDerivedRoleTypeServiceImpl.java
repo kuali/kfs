@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -62,11 +63,11 @@ public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         if (StringUtils.isBlank(principalId)) {
             return false;
         }
-        EntityDefaultInfo entity = getIdentityManagementService().getEntityDefaultInfoByPrincipalId(principalId);
-        if ((entity == null) || (entity.getPrimaryEmployment() == null)) {
+        EntityDefault entity = getIdentityManagementService().getEntityDefaultInfoByPrincipalId(principalId);
+        if ((entity == null) || (entity.getEmployment() == null)) {
             return false;
         }
-        if (!entity.isActive() || !entity.getPrimaryEmployment().isActive() || !ACTIVE_EMPLOYEE_STATUSES.contains(entity.getPrimaryEmployment().getEmployeeStatusCode())) {
+        if (!entity.isActive() || !entity.getEmployment().isActive() || !ACTIVE_EMPLOYEE_STATUSES.contains(entity.getPrimaryEmployment().getEmployeeStatusCode())) {
             return false;
         }
         if ((KFSConstants.SysKimApiConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME.equals(roleName) || KFSConstants.SysKimApiConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME.equals(roleName)) && !PROFESSIONAL_EMPLOYEE_TYPE_CODE.equals(entity.getPrimaryEmployment().getEmployeeTypeCode())) {

@@ -82,6 +82,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.address.EntityAddress;
+import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -1030,9 +1031,9 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     protected EntityAddress getNonDefaultAddress(Person employee) {
         final String addressType = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherDocument.DEFAULT_EMPLOYEE_ADDRESS_TYPE_PARAMETER_NAME);
-        final EntityInfo entityInfo = getIdentityManagementService().getEntityInfoByPrincipalId(employee.getPrincipalId());
-        if (entityInfo != null) {
-            final EntityTypeContactInfo entityEntityType = getPersonEntityEntityType(entityInfo);
+        final Entity entity = getIdentityManagementService().getEntityByPrincipalId(employee.getPrincipalId());
+        if (entity != null) {
+            final EntityTypeContactInfo entityEntityType = getPersonEntityEntityType(entity);
             if (entityEntityType != null) {
                 final List<? extends EntityAddress> addresses = entityEntityType.getAddresses();
         
@@ -1048,8 +1049,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param entityInfo the entity info to loop through entity entity types of
      * @return a found entity entity type or null if a PERSON entity entity type is not associated with the given EntityInfo record
      */
-    protected EntityTypeContactInfo getPersonEntityEntityType(EntityInfo entityInfo) {
-        final List<EntityTypeContactInfoInfo> entityEntityTypes = entityInfo.getEntityTypes();
+    protected EntityTypeContactInfo getPersonEntityEntityType(Entity entity) {
+        final List<EntityTypeContactInfo> entityEntityTypes = entity.getEntityTypeContactInfos();
         int count = 0;
         EntityTypeContactInfo foundInfo = null;
         

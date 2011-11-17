@@ -34,6 +34,7 @@ import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.KimConstants.PersonExternalIdentifierTypes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -60,8 +61,8 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
         if (!payeeDetail.isVendor()) {
             
             String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-            final EntityInfo entityInfo= SpringContext.getBean(IdentityManagementService.class).getEntityInfoByPrincipalId(initiator);
-            String originatorId = entityInfo.getEmploymentInformation().get(0).getEmployeeId();
+            final Entity entity= SpringContext.getBean(IdentityManagementService.class).getEntityByPrincipalId(initiator);
+            String originatorId = entity.getEmploymentInformation().get(0).getEmployeeId();
             String employeeId = payeeDetail.getDisbVchrEmployeeIdNumber();
             // verify that originator does not equal payee
             if (originatorId.equals(employeeId)) {

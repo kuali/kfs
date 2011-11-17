@@ -191,8 +191,8 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     public String getDocumentLabel() {
         try {
             return SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(getClaimingDocumentWorkflowDocumentType()).getLabel();
-        } catch (WorkflowException e) {
-            LOG.error("Caught Exception trying to get Workflow Document Type", e);
+        } catch (Exception e) {
+            LOG.error("Caught Exception trying to get Workflow Document Type" + e);
         }
         return "DI";
     }

@@ -86,7 +86,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     public void processAfterRetrieve() {
         // set correctedByDocumentId manually, since OJB doesn't maintain that relationship
         try {
-            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getRouteHeaderId().toString());
+            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getDocumentId().toString());
             if (correctingDocumentHeader != null) {
                 getDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
             }

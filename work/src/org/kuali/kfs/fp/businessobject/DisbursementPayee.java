@@ -161,7 +161,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
         
         disbursementPayee.setPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
 
-        String personAddress = MessageFormat.format(addressPattern, person.getAddressLine1(), person.getAddressCityName(), person.getAddressStateCode(), person.getAddressCountryCode());
+        String personAddress = MessageFormat.format(addressPattern, person.getAddressLine1(), person.getAddressCity(), person.getAddressPostalCode(), person.getAddressCountryCode());
         disbursementPayee.setAddress(personAddress);
 
         return disbursementPayee;

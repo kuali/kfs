@@ -59,7 +59,7 @@ public class LaborModuleServiceNoOp implements LaborModuleService {
         return Collections.emptyList();
     }
 
-    public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes) {
+    public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, Collection<String>> fieldValues, Map<String, Collection<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return Collections.emptyList();
     }

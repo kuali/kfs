@@ -37,6 +37,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -102,26 +103,26 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
                 if(ObjectUtils.isNotNull(roleMembershipInfo)) {
                     members.add(roleMembershipInfo);
                 }
-            }
+            }                        
     
             if (KFSConstants.SysKimApiConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)) {
                 Account account = getAccount(chartOfAccountsCode, accountNumber);
                 if (account != null) {
-                    members.add(new RoleMembership(null, null, account.getAccountsSupervisorySystemsIdentifier(), KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(RoleMembership.Builder.create(null, null, account.getAccountsSupervisorySystemsIdentifier(), MemberType.PRINCIPAL, roleQualifier).build());
                 }
                 // only add the additional approver if they are different
-                if (StringUtils.isNotBlank(accountSupervisorPrincipalID) && (account == null || !StringUtils.equals(accountSupervisorPrincipalID, account.getAccountsSupervisorySystemsIdentifier()))) {
-                    members.add(new RoleMembership(null, null, accountSupervisorPrincipalID, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                if (StringUtils.isNotBlank(accountSupervisorPrincipalID) && (account == null || !StringUtils.equals(accountSupervisorPrincipalID, account.getAccountsSupervisorySystemsIdentifier()))) {                    
+                    members.add(RoleMembership.Builder.create(null, null, accountSupervisorPrincipalID, MemberType.PRINCIPAL, roleQualifier).build());
                 }
             }
             else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)) {
                 Account account = getAccount(chartOfAccountsCode, accountNumber);
-                if (account != null) {
-                    members.add(new RoleMembership(null, null, account.getAccountFiscalOfficerSystemIdentifier(), KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                if (account != null) {                    
+                    members.add(RoleMembership.Builder.create(null, null, account.getAccountFiscalOfficerSystemIdentifier(), MemberType.PRINCIPAL, roleQualifier).build());
                 }
                 // only add the additional approver if they are different
                 if (StringUtils.isNotBlank(fiscalOfficerPrincipalID) && (account == null || !StringUtils.equals(fiscalOfficerPrincipalID, account.getAccountFiscalOfficerSystemIdentifier()))) {
-                    members.add(new RoleMembership(null, null, fiscalOfficerPrincipalID, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(RoleMembership.Builder.create(null, null, fiscalOfficerPrincipalID, MemberType.PRINCIPAL, roleQualifier).build());                    
                 }
             }
             else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
@@ -130,7 +131,7 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
                     roleQualifier.put(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE, delegate.getFinancialDocumentTypeCode());
                     roleQualifier.put(KfsKimAttributes.FROM_AMOUNT, (delegate.getFinDocApprovalFromThisAmt() == null) ? "0" : delegate.getFinDocApprovalFromThisAmt().toString());
                     roleQualifier.put(KfsKimAttributes.TO_AMOUNT, (delegate.getFinDocApprovalToThisAmount() == null) ? "NOLIMIT" : delegate.getFinDocApprovalToThisAmount().toString());
-                    members.add(new RoleMembership(null, null, delegate.getAccountDelegateSystemId(), KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(RoleMembership.Builder.create(null, null, delegate.getAccountDelegateSystemId(), MemberType.PRINCIPAL, roleQualifier).build());                       
                 }
             }
             else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
@@ -139,13 +140,13 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
                     roleQualifier.put(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE, delegate.getFinancialDocumentTypeCode());
                     roleQualifier.put(KfsKimAttributes.FROM_AMOUNT, (delegate.getFinDocApprovalFromThisAmt() == null) ? "0" : delegate.getFinDocApprovalFromThisAmt().toString());
                     roleQualifier.put(KfsKimAttributes.TO_AMOUNT, (delegate.getFinDocApprovalToThisAmount() == null) ? "NOLIMIT" : delegate.getFinDocApprovalToThisAmount().toString());
-                    members.add(new RoleMembership(null, null, delegate.getAccountDelegateSystemId(), KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(RoleMembership.Builder.create(null, null, delegate.getAccountDelegateSystemId(), MemberType.PRINCIPAL, roleQualifier).build());                    
                 }
             }
             else if (KFSConstants.SysKimApiConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME.equals(roleName)) {
                 Person person = getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);
                 if (person != null) {
-                    members.add(new RoleMembership(null, null, person.getPrincipalId(), KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier));
+                    members.add(RoleMembership.Builder.create(null, null, person.getPrincipalId(), MemberType.PRINCIPAL, roleQualifier).build());                    
                 }
             }
         }
@@ -157,13 +158,13 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         
-        RoleMembership roleMembershipInfo = null;
+        RoleMembership roleMembership = null;
 
         if ((KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName))) {
             fieldValues.put(KFSPropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, principalId);
 
             if (businessObjectService.countMatching(Account.class, fieldValues) > 0) {
-                roleMembershipInfo = new RoleMembership(null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier);
+                roleMembership = RoleMembership.Builder.create(null, null, principalId, MemberType.PRINCIPAL, roleQualifier).build();
             }
         }
         else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
@@ -171,7 +172,7 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
             fieldValues.put(KFSPropertyConstants.ACCOUNTS_DELEGATE_PRMRT_INDICATOR, Boolean.TRUE);
 
             if (businessObjectService.countMatching(AccountDelegate.class, fieldValues) > 0) {
-                roleMembershipInfo = new RoleMembership(null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier);
+                roleMembership = RoleMembership.Builder.create(null, null, principalId, MemberType.PRINCIPAL, roleQualifier).build();
             }
         }
         else if (KFSConstants.SysKimApiConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
@@ -179,11 +180,11 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
             fieldValues.put(KFSPropertyConstants.ACCOUNTS_DELEGATE_PRMRT_INDICATOR, Boolean.FALSE);
 
             if (businessObjectService.countMatching(AccountDelegate.class, fieldValues) > 0) {
-                roleMembershipInfo = new RoleMembership(null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier);
+                roleMembership = RoleMembership.Builder.create(null, null, principalId, MemberType.PRINCIPAL, roleQualifier).build();
             }
         }
         
-        return roleMembershipInfo;
+        return roleMembership;
     }
 
     protected Account getAccount(String chartOfAccountsCode, String accountNumber) {

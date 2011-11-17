@@ -32,11 +32,11 @@ public class CashDrawerMaintenanceDocumentAuthorizer extends FinancialSystemMain
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> qualifications) {
-        super.addRoleQualification(businessObject, qualifications);
+    protected void addRoleQualification(Object dataObject, Map<String, String> qualifications) {
+        super.addRoleQualification(dataObject, qualifications);
         
-        if (businessObject instanceof CashDrawer) {
-            final CashDrawer cashDrawer = (CashDrawer)businessObject;
+        if (dataObject instanceof CashDrawer) {
+            final CashDrawer cashDrawer = (CashDrawer)dataObject;
             qualifications.put(KimConstants.AttributeConstants.CAMPUS_CODE, cashDrawer.getCampusCode());
         }
     }
@@ -45,9 +45,9 @@ public class CashDrawerMaintenanceDocumentAuthorizer extends FinancialSystemMain
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase#addPermissionDetails(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addPermissionDetails(BusinessObject businessObject, Map<String, String> permissionDetails) {
-        super.addPermissionDetails(businessObject, permissionDetails);
-        if (businessObject instanceof CashDrawer) {
+    protected void addPermissionDetails(Object dataObject, Map<String, String> permissionDetails) {
+        super.addPermissionDetails(dataObject, permissionDetails);
+        if (dataObject instanceof CashDrawer) {
             permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, "CDS");
         }
     }

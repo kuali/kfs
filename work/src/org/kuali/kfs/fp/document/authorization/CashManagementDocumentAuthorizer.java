@@ -35,10 +35,10 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
      *      java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
-        CashManagementDocument cashManagementDocument = (CashManagementDocument) businessObject;
+    protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
+        CashManagementDocument cashManagementDocument = (CashManagementDocument) dataObject;
         attributes.put(KimConstants.AttributeConstants.CAMPUS_CODE, cashManagementDocument.getCampusCode());
 
-        super.addRoleQualification(businessObject, attributes);
+        super.addRoleQualification(dataObject, attributes);
     }
 }

@@ -40,9 +40,9 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
-        super.addRoleQualification(businessObject, attributes);
-        final DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument)businessObject;
+    protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
+        super.addRoleQualification(dataObject, attributes);
+        final DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument)dataObject;
         
         // are we add Account level?  Then let's add our qualifiers
         if (isAtAccountLevel(disbursementVoucherDocument)) {

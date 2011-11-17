@@ -49,9 +49,9 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
     }
     
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String,String> attributes) {
-        super.addRoleQualification(businessObject, attributes);
-        Document document = (Document)businessObject;
+    protected void addRoleQualification(Object dataObject, Map<String,String> attributes) {
+        super.addRoleQualification(dataObject, attributes);
+        Document document = (Document)dataObject;
         // add the document amount
         if ( ((AccountingDocument)document).getSourceTotal() != null && ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount() != null ) {
             attributes.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount().toString());

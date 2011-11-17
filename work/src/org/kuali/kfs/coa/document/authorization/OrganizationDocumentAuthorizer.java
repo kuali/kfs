@@ -106,11 +106,11 @@ public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDo
     
     @SuppressWarnings("unchecked")
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
-        super.addRoleQualification(businessObject, attributes);
+    protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
+        super.addRoleQualification(dataObject, attributes);
 
-        if (businessObject instanceof MaintenanceDocument) {
-            MaintenanceDocument maintDoc = (MaintenanceDocument)businessObject;
+        if (dataObject instanceof MaintenanceDocument) {
+            MaintenanceDocument maintDoc = (MaintenanceDocument)dataObject;
             if ( maintDoc.getNewMaintainableObject() != null ) {
                 Organization newOrg = (Organization) maintDoc.getNewMaintainableObject().getBusinessObject();
                 if (!StringUtils.isBlank(newOrg.getChartOfAccountsCode())) {
@@ -118,8 +118,8 @@ public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDo
                 }
             }
         }
-        else if (businessObject instanceof Organization) {
-            Organization newOrg = (Organization) businessObject;
+        else if (dataObject instanceof Organization) {
+            Organization newOrg = (Organization) dataObject;
             if (!StringUtils.isBlank(newOrg.getChartOfAccountsCode())) {
                 attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, newOrg.getChartOfAccountsCode());
             }

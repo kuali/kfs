@@ -29,7 +29,7 @@ public class ContractsAndGrantsResponsibilityRoleTypeServiceImpl extends RoleTyp
     public static final String AWARD_ROUTE_NODE_NAME = "Award";
 
     @Override
-    public List<RoleMembership> doRoleQualifiersMatchQualification(Map<String,String> qualification, List<RoleMembership> roleMemberList) {
+    public List<RoleMembership> getMatchingRoleMemberships(Map<String,String> qualification, List<RoleMembership> roleMemberList) {
         // special handling for where the code is being called for a particular route node
         // and the code is blank
         if ( qualification != null ) {
@@ -40,6 +40,6 @@ public class ContractsAndGrantsResponsibilityRoleTypeServiceImpl extends RoleTyp
             }
         }
         // otherwise, default to the normal behavior
-        return super.doRoleQualifiersMatchQualification(qualification, roleMemberList);
+        return super.getMatchingRoleMemberships(qualification, roleMemberList);
     }
 }

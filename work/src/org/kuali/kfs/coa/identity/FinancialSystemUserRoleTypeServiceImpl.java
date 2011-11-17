@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +24,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
+import org.kuali.rice.core.api.uif.RemotableAttributeField;
+import org.kuali.rice.kew.framework.document.search.AttributeFields;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.type.KimAttributeField;
 import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
@@ -63,7 +68,7 @@ public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase 
     }
 
     @Override
-    public List<RoleMembership> doRoleQualifiersMatchQualification(Map<String,String> qualification, List<RoleMembership> roleMemberList) {
+    public List<RoleMembership> getMatchingRoleMemberships(Map<String,String> qualification, List<RoleMembership> roleMemberList) {
         Map<String,String> translatedQualification = translateInputAttributes(qualification);
         validateRequiredAttributesAgainstReceived(translatedQualification);
         // if we can not find the qualifier which tells us to perform the match, just return all rows
@@ -102,8 +107,8 @@ public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase 
      * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#validateAttributes(org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public Map<String,String> validateAttributes(String kimTypeId, Map<String,String> attributes) {
-        Map<String,String> errorMap = super.validateAttributes(kimTypeId, attributes);
+    public List<RemotableAttributeError> validateAttributes(String kimTypeId, Map<String,String> attributes) {
+        List<RemotableAttributeError> errorList = super.validateAttributes(kimTypeId, attributes);
         String chartCode = attributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String organizationCode = attributes.get(KfsKimAttributes.ORGANIZATION_CODE);
         String namespaceCode = attributes.get(KimConstants.AttributeConstants.NAMESPACE_CODE);
@@ -111,29 +116,29 @@ public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase 
             //remove chartofAccountCode, organizationCode and namespaceCode errors
             //Object results = GlobalVariables.getMessageMap().getErrorMessagesForProperty(attributeName);
             //RiceKeyConstants.ERROR_REQUIRED
-            errorMap.remove(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-            errorMap.remove(KfsKimAttributes.ORGANIZATION_CODE);
+            errorList.remove(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+            errorList.remove(KfsKimAttributes.ORGANIZATION_CODE);
             if(StringUtils.isEmpty(namespaceCode))
-                errorMap.remove(KimConstants.AttributeConstants.NAMESPACE_CODE);
+                errorList.remove(KimConstants.AttributeConstants.NAMESPACE_CODE);
         } //- if chart or org are specified, chart, org, and namespace are all required 
           //- none are required if not 
         else if (StringUtils.isNotEmpty(chartCode) || StringUtils.isNotEmpty(organizationCode)){
             if(StringUtils.isEmpty(chartCode))
-                errorMap.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+                errorList.add(RemotableAttributeError.Builder.create(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED).build());
             if(StringUtils.isEmpty(organizationCode))
-                errorMap.put(KfsKimAttributes.ORGANIZATION_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+                errorList.add(RemotableAttributeError.Builder.create(KfsKimAttributes.ORGANIZATION_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED).build());
             if(StringUtils.isEmpty(namespaceCode))
-                errorMap.put(KimConstants.AttributeConstants.NAMESPACE_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+                errorList.add(RemotableAttributeError.Builder.create(KimConstants.AttributeConstants.NAMESPACE_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED).build());
         }
 
-        return errorMap;
+        return errorList;
     }
 
     @Override
-    public boolean validateUniqueAttributes(String kimTypeId, Map<String,String> newAttributes, Map<String,String> oldAttributes){
+    public List<RemotableAttributeError> validateUniqueAttributes(String kimTypeId, Map<String,String> newAttributes, Map<String,String> oldAttributes){
 
         if(areAllAttributeValuesEmpty(newAttributes)){
-            return false;
+            return Collections.emptyList();
         } else
             return super.validateUniqueAttributes(kimTypeId, newAttributes, oldAttributes);
     }
@@ -163,15 +168,16 @@ public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase 
      * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#getAttributeDefinitions(java.lang.String)
      */
     @Override
-    public AttributeDefinitionMap getAttributeDefinitions(String kimTypeId) {
-        AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypeId);
-        for (AttributeDefinition definition : map.values()) {
-            if (KimConstants.AttributeConstants.NAMESPACE_CODE.equals(definition.getName()) || KfsKimAttributes.CHART_OF_ACCOUNTS_CODE.equals(definition.getName())
-                    || KfsKimAttributes.ORGANIZATION_CODE.equals(definition.getName())) {
-                definition.setRequired(Boolean.FALSE);
+    public List<KimAttributeField> getAttributeDefinitions(String kimTypeId) {
+        List<KimAttributeField> kimAttributeList = super.getAttributeDefinitions(kimTypeId);
+        for (KimAttributeField field : kimAttributeList) {
+            if (KimConstants.AttributeConstants.NAMESPACE_CODE.equals(field.getAttributeField().getName()) || KfsKimAttributes.CHART_OF_ACCOUNTS_CODE.equals(field.getAttributeField().getName())
+                    || KfsKimAttributes.ORGANIZATION_CODE.equals(field.getAttributeField().getName())) {
+                //RICE20 update field using builder 
+                //field.setRequired(Boolean.FALSE);
             }
         }
-        return map;
+        return kimAttributeList;
     }
     
     

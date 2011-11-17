@@ -29,7 +29,7 @@ import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.web.KeyValueSort;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.krad.datadictionary.SearchingAttribute;

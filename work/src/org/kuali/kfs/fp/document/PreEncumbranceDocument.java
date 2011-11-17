@@ -149,7 +149,10 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
             explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
         }
         else {
+            /*
+             * RICE20
             assertThat(accountingLine.isTargetAccountingLine(), accountingLine);
+             */
             explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
             explicitEntry.setReferenceFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
             explicitEntry.setReferenceFinancialDocumentNumber(accountingLine.getReferenceNumber());

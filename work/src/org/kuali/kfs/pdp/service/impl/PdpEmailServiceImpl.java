@@ -43,6 +43,7 @@ import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
@@ -154,7 +155,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      */
     @SuppressWarnings("rawtypes")
     public void alterMessageWhenNonProductionInstance( MailMessage message, String environmentCode ) {
-        if ( !kualiConfigurationService.isProductionEnvironment() ) {
+        if (! ConfigContext.getCurrentContextConfig().isProductionEnvironment()) {
             if ( environmentCode == null ) {
                 environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
             }

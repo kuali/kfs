@@ -57,7 +57,7 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
         }
         
         for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
-            if (keyValueSort.getkey().equalsIgnoreCase(KFSPropertyConstants.PURAP_DOC_ID)) {
+            if (keyValueSort.getKey().equalsIgnoreCase(KFSPropertyConstants.PURAP_DOC_ID)) {
                 //KFSMI-4576 masking PO number...
                 String docStatus = docCriteriaDTO.getStatusCode();
                 if (!docStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {

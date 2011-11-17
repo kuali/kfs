@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.krad.util.KRADUtils;
@@ -65,8 +66,9 @@ public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfi
     }
 
     protected String getDetailTypeName(Class documentOrStepClass) {
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         if (documentOrStepClass.isAnnotationPresent(COMPONENT.class)) {
-            BusinessObjectEntry boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
+            BusinessObjectEntry boe = (BusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
             if (boe != null) {
                 return boe.getObjectLabel();
             }
@@ -75,11 +77,12 @@ public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfi
             }
         }
         if (TransactionalDocument.class.isAssignableFrom(documentOrStepClass)) {
-            return getDataDictionaryService().getDocumentLabelByClass(documentOrStepClass);
+            return dataDictionaryService.getDocumentLabelByClass(documentOrStepClass);
         }
         else if (BusinessObject.class.isAssignableFrom(documentOrStepClass) || Step.class.isAssignableFrom(documentOrStepClass)) {
-            BusinessObjectEntry boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
-            if (boe != null) {
+            
+            BusinessObjectEntry boe = (BusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
+             if (boe != null) {
                 return boe.getObjectLabel();
             }
             else {

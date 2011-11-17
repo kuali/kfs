@@ -117,7 +117,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         if(attributeErrors!=null){
             for(String err: attributeErrors){
                 Builder b = RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT, err);
-                RemotableAttributeError rae = RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT, err);
+                RemotableAttributeError rae = new RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT, err);
                 
                 validationErrors.add(rae);
             }

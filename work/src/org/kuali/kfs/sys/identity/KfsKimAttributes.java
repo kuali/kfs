@@ -47,6 +47,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public static final String CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID = "contractsAndGrantsAccountResponsibilityId";
     public static final String DISBURSEMENT_VOUCHER_PAYMENT_METHOD_CODE = "disbursementVoucherPaymentMethodCode";
     public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
+    public static final String ROUTE_NODE_NAME = "rounteNodeName";
     
     protected String chartOfAccountsCode;
     protected String accountNumber;

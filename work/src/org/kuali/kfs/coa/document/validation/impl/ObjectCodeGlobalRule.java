@@ -254,7 +254,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         keys.put("chartOfAccountsCode", objectCode.getChartOfAccountsCode());
         keys.put("financialObjectCode", objectCode.getFinancialObjectCode());
         
-        Collection<BusinessObject> offsetDefinitions = (Collection<BusinessObject>)businessObjectService.findMatching(OffsetDefinition.class, keys);
+        Collection<OffsetDefinition> offsetDefinitions = (Collection<OffsetDefinition>)businessObjectService.findMatching(OffsetDefinition.class, keys);
         if (offsetDefinitions != null && !offsetDefinitions.isEmpty()) {
             additionalBlockingObjects.addAll(offsetDefinitions);
         }
@@ -274,7 +274,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
             keys.put("financialObjectChartOfAccountCode", objectCode.getChartOfAccountsCode());
             keys.put("financialObjectCode", objectCode.getFinancialObjectCode());
             
-            Collection<BusinessObject> icrExclusionAccounts = (Collection<BusinessObject>)businessObjectService.findMatching(IndirectCostRecoveryExclusionAccount.class, keys);
+            Collection<IndirectCostRecoveryExclusionAccount> icrExclusionAccounts = (Collection<IndirectCostRecoveryExclusionAccount>)businessObjectService.findMatching(IndirectCostRecoveryExclusionAccount.class, keys);
             if (icrExclusionAccounts != null && !icrExclusionAccounts.isEmpty()) {
                 additionalBlockingObjects.addAll(icrExclusionAccounts);
             }

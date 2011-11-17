@@ -123,7 +123,7 @@ public class VendorServiceImpl implements VendorService {
             exampleContractOrg.setVendorContractGeneratedIdentifier(contractId);
             exampleContractOrg.setChartOfAccountsCode(chart);
             exampleContractOrg.setOrganizationCode(org);
-            Map orgKeys = persistenceService.getPrimaryKeyFieldValues(exampleContractOrg);
+            Map orgKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContractOrg);
             VendorContractOrganization contractOrg = (VendorContractOrganization) businessObjectService.findByPrimaryKey(VendorContractOrganization.class, orgKeys);
             // if the contractOrg is found
             if (ObjectUtils.isNotNull(contractOrg)) {
@@ -143,7 +143,7 @@ public class VendorServiceImpl implements VendorService {
             // RICE20: update this to build the map, not use an example object
             VendorContract exampleContract = new VendorContract();
             exampleContract.setVendorContractGeneratedIdentifier(contractId);
-            Map contractKeys = persistenceService.getPrimaryKeyFieldValues(exampleContract);
+            Map contractKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContract);
             VendorContract contract = (VendorContract) businessObjectService.findByPrimaryKey(VendorContract.class, contractKeys);
             if (ObjectUtils.isNotNull(contract)) {
                 return contract.getOrganizationAutomaticPurchaseOrderLimit();

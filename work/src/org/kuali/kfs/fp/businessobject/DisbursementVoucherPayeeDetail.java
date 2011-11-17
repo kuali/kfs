@@ -847,16 +847,33 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     public boolean hasSameAddress(DisbursementVoucherPayeeDetail compareDetail) {
         boolean isEqual = true;
 
-        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeLine1Addr(), compareDetail.getDisbVchrPayeeLine1Addr());
-        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeLine2Addr(), compareDetail.getDisbVchrPayeeLine2Addr());
-        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeCityName(), compareDetail.getDisbVchrPayeeCityName());
-        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeStateCode(), compareDetail.getDisbVchrPayeeStateCode());
-        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeZipCode(), compareDetail.getDisbVchrPayeeZipCode());
-        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeCountryCode(), compareDetail.getDisbVchrPayeeCountryCode());
+        isEqual &= nullSafeEquals(this.getDisbVchrPayeeLine1Addr(), compareDetail.getDisbVchrPayeeLine1Addr());
+        isEqual &= nullSafeEquals(this.getDisbVchrPayeeLine2Addr(), compareDetail.getDisbVchrPayeeLine2Addr());
+        isEqual &= nullSafeEquals(this.getDisbVchrPayeeCityName(), compareDetail.getDisbVchrPayeeCityName());
+        isEqual &= nullSafeEquals(this.getDisbVchrPayeeStateCode(), compareDetail.getDisbVchrPayeeStateCode());
+        isEqual &= nullSafeEquals(this.getDisbVchrPayeeZipCode(), compareDetail.getDisbVchrPayeeZipCode());
+        isEqual &= nullSafeEquals(this.getDisbVchrPayeeCountryCode(), compareDetail.getDisbVchrPayeeCountryCode());
 
         return isEqual;
     }
-
+    
+    /**
+     * Returns the equality of the two given objects, automatically handling when one or both of the objects is null.
+     * 
+     * @param obj1
+     * @param obj2
+     * 
+     * @return true if both objects are null or both are equal
+     */
+    private boolean nullSafeEquals(Object obj1, Object obj2) {
+        if (obj1 != null && obj2 != null) {
+            return obj1.equals(obj2);
+        }
+        else {
+            return (obj1 == obj2);
+        }
+    }
+    
     /**
      * This method creates a string representation of the address assigned to this payee.
      * 

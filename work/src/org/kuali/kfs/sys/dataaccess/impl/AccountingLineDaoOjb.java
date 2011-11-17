@@ -24,7 +24,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -38,14 +37,7 @@ import org.springframework.dao.DataAccessException;
  */
 
 public class AccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements AccountingLineDao {
-    private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);
-
-    /**
-     * Default constructor.
-     */
-    public AccountingLineDaoOjb() {
-        super();
-    }
+    private static final Logger LOG = Logger.getLogger(AccountingLineDaoOjb.class);
 
     /**
      * Deletes an accounting line from the DB using OJB.

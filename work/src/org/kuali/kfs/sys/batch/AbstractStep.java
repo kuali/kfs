@@ -28,12 +28,12 @@ public abstract class AbstractStep extends InitiateDirectoryBase implements Step
   
     private static final Logger LOG = Logger.getLogger(AbstractStep.class);
     
-    private String name;
-    private ParameterService parameterService;
-    private DateTimeService dateTimeService;
-    private BatchInputFileType batchInputFileType = null;
+    protected String name;
+    protected ParameterService parameterService;
+    protected DateTimeService dateTimeService;
+    protected BatchInputFileType batchInputFileType = null;
     
-    private boolean interrupted = false;
+    protected boolean interrupted = false;
 
     /**
      * Initialization  after bean properties are instantiate, 

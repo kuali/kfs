@@ -19,14 +19,16 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.service.SessionDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.SessionDocumentService;
 
 public class PurgeSessionDocumentsStep extends AbstractStep {
-    private SessionDocumentService sessionDocumentService;
-    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeSessionDocumentsStep.class);
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeSessionDocumentsStep.class);
+    protected SessionDocumentService sessionDocumentService;
 
     /**
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
@@ -34,37 +36,22 @@ public class PurgeSessionDocumentsStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) {
         try {
             LOG.info("executing PurgeSessionDocumentsStep");
-            String maxAgeInDaysStr = getParameterService().getParameterValueAsString(PurgeSessionDocumentsStep.class, KFSConstants.SystemGroupParameterNames.NUMBER_OF_DAYS_SINCE_LAST_UPDATE);
+            String maxAgeInDaysStr = parameterService.getParameterValueAsString(PurgeSessionDocumentsStep.class, KFSConstants.SystemGroupParameterNames.NUMBER_OF_DAYS_SINCE_LAST_UPDATE);
             int maxAgeInDays = Integer.parseInt(maxAgeInDaysStr);
 
-            Calendar expirationCal = getDateTimeService().getCurrentCalendar();
-            expirationCal.add(Calendar.DATE, -maxAgeInDays);
-            Timestamp expirationDate = new Timestamp(expirationCal.getTime().getTime());
+            Timestamp expirationDate = new Timestamp(DateUtils.addDays(getDateTimeService().getCurrentDate(), -maxAgeInDays).getTime());
 
             sessionDocumentService.purgeAllSessionDocuments(expirationDate);
             return true;
         }
         catch (Exception e) {
             LOG.error("error occured trying to purge session document from DB: ", e);
-            return false;
         }
+        return false;
     }
 
-    /**
-     * Gets the sessionDocumentService attribute. 
-     * @return Returns the sessionDocumentService.
-     */
-    public SessionDocumentService getSessionDocumentService() {
-        return sessionDocumentService;
-    }
-
-    /**
-     * Sets the sessionDocumentService attribute value.
-     * @param sessionDocumentService The sessionDocumentService to set.
-     */
     public void setSessionDocumentService(SessionDocumentService sessionDocumentService) {
         this.sessionDocumentService = sessionDocumentService;
     }
-
 
 }

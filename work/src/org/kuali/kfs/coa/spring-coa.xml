@@ -139,7 +139,6 @@
 	<bean id="chartService"  parent="chartService-parentBean"/>
 	<bean id="chartService-parentBean" class="org.kuali.kfs.coa.service.impl.ChartServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="chartDao" ref="chartDao" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
@@ -239,9 +238,6 @@
 		
 	<bean id="accountDelegateGlobalDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.AccountDelegateGlobalDaoOjb" />
-
-	<bean id="chartDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb"/>
 
 	<bean id="objectCodeDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb" />

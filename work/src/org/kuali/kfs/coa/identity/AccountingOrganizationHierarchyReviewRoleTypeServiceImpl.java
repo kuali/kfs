@@ -112,15 +112,17 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
             GlobalVariables.getMessageMap().putError(
                     KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
                     getDataDictionaryService().getAttributeLabel(attributeInfo.getKimAttribute().getComponentName(), KfsKimAttributes.FROM_AMOUNT));
-            attributeErrors = extractErrorsFromGlobalVariablesMessageMap(KfsKimAttributes.FROM_AMOUNT);
+            attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.FROM_AMOUNT);
         }
+        
+        Builder fromBuilder = RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT);
+        
         if(attributeErrors!=null){
             for(String err: attributeErrors){
-                Builder b = RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT, err);
-                RemotableAttributeError rae = new RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT, err);
-                
-                validationErrors.add(rae);
+                fromBuilder.getErrors().add(err);
             }
+            
+            validationErrors.add(fromBuilder.build());
             
             attributeErrors = null;
         }
@@ -128,17 +130,23 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         String toAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.TO_AMOUNT);
         String toAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.TO_AMOUNT);
         if(StringUtils.isNotEmpty(toAmountRoleMember) && isGreaterNumber(toAmountDelegationMember, toAmountRoleMember)){
-            attributeInfo = kimType.getAttributeDefinitionByIdByName(KfsKimAttributes.TO_AMOUNT);
+            attributeInfo = kimType.getAttributeDefinitionById(KfsKimAttributes.TO_AMOUNT);
             GlobalVariables.getMessageMap().putError(
                     KfsKimAttributes.TO_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER, 
-                    getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.TO_AMOUNT));
-            attributeErrors = extractErrorsFromGlobalVariablesMessageMap(KfsKimAttributes.TO_AMOUNT);
+                    getDataDictionaryService().getAttributeLabel(attributeInfo.getKimAttribute().getComponentName(), KfsKimAttributes.TO_AMOUNT));
+            attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.TO_AMOUNT);
         }
+        
+        Builder toBuilder = RemotableAttributeError.Builder.create(KfsKimAttributes.TO_AMOUNT);
+        
         if(attributeErrors!=null){
+            
+            
             for(String err: attributeErrors){
-                
-                validationErrors.put(KfsKimAttributes.TO_AMOUNT, err);
+                toBuilder.getErrors().add(err);
             }
+            validationErrors.add(toBuilder.build());
+            
             attributeErrors = null;
         }
 

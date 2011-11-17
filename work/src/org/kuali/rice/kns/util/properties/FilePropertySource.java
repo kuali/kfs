@@ -23,7 +23,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.rice.kns.exception.PropertiesException;
+import org.kuali.rice.krad.exception.PropertiesException;
 
 /**
  * This class is used to obtain properties from a properites file.

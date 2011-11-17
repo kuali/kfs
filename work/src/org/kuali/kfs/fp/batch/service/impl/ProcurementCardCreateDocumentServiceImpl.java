@@ -28,6 +28,7 @@ import static org.kuali.kfs.sys.KFSConstants.FinancialDocumentTypeCodes.PROCUREM
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -54,19 +55,20 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -184,34 +186,19 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     protected List<String> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
+        DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
+        criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
+        criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
+        DocumentSearchResults results = KEWServiceLocator.getDocumentSearchService().lookupDocuments(
+                GlobalVariables.getUserSession().getPrincipalId(), criteria.build());
         
-        DocumentSearchCriteria criteria = new DocumentSearchCriteria();
-        criteria.setDocTypeFullName(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
-        criteria.setDocRouteStatus(statusCode);
-        DocumentSearchResult results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(), criteria);
-        
-        for (DocumentSearchResultRowDTO resultRow: results.getSearchResults()) {
-            for (KeyValue field : resultRow.getFieldValues()) {
-                if (field.getKey().equals(WORKFLOW_SEARCH_RESULT_KEY)) {
-                    documentIds.add(parseDocumentIdFromRouteDocHeader(field.getValue()));
-                }
-            }
+        for (DocumentSearchResult resultRow: results.getSearchResults()) {
+            documentIds.add(resultRow.getDocument().getDocumentId());
         }
         
         return documentIds;
     }
     
-    /**
-     * Retrieves the document id out of the route document header
-     * @param routeDocHeader the String representing an HTML link to the document
-     * @return the document id
-     */
-    protected String parseDocumentIdFromRouteDocHeader(String routeDocHeader) {
-        int rightBound = routeDocHeader.indexOf('>') + 1;
-        int leftBound = routeDocHeader.indexOf('<', rightBound);
-        return routeDocHeader.substring(rightBound, leftBound);
-    }
-
     /**
      * This method determines if procurement card documents can be auto approved.  A document can be auto approved if 
      * the grace period for allowing auto approval of a procurement card document has passed.  The grace period is defined
@@ -255,7 +242,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 }
 
                 // if number of days in route is passed the allowed number, call doc service for super user approve
-                Timestamp docCreateDate = pcardDocument.getDocumentHeader().getWorkflowDocument().getDateCreated();
+                Timestamp docCreateDate = new Timestamp( pcardDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis() );
                 if (DateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
                     // update document description to reflect the auto approval
                     pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");

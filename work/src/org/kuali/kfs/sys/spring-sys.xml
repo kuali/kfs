@@ -610,13 +610,6 @@
     
      -->
      
-	<bean id="kualiInquirable" parent="kualiInquirable-parentBean"/>
-
-    <bean id="kualiInquirable-parentBean" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" abstract="true">
-    	<property name="configurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-	</bean>
 	<bean id="accountingDocumentRuleHelperService" parent="accountingDocumentRuleHelperService-parentBean"/>
     
     <bean id="accountingDocumentRuleHelperService-parentBean" class="org.kuali.kfs.sys.document.service.impl.AccountingDocumentRuleHelperServiceImpl" abstract="true">

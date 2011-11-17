@@ -596,16 +596,11 @@
 	      p:localServiceName="customerRoleTypeService" />
 	  </property>
 	</bean>
-    <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean">
-       	<property name="identityManagementService">
-			<ref bean="kimIdentityManagementService" />
-		</property>
-	</bean>
 	
-    <bean id="pdpAuthorizationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl" abstract="true">
-	</bean>
-    <bean id="pdpExtractGlTransactionsReportWriterService" parent="pdpExtractGlTransactionsReportWriterService-parentBean"/>
+    <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean" />
+    <bean id="pdpAuthorizationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl" abstract="true" />
 
+    <bean id="pdpExtractGlTransactionsReportWriterService" parent="pdpExtractGlTransactionsReportWriterService-parentBean"/>
 	<bean id="pdpExtractGlTransactionsReportWriterService-parentBean" parent="reportWriterService" abstract="true">
 		<property name="filePath" value="${reports.directory}/pdp"/>
 		<property name="fileNamePrefix" value="pdp_ledger_"/>

@@ -150,6 +150,8 @@
  	<bean id="countyService" p:serviceName="countyService" parent="grlBeanImporter" />
  	<bean id="encryptionService" p:serviceName="encryptionService" parent="grlBeanImporter" />
  	<bean id="sequenceAccessorService" p:serviceName="sequenceAccessorService" parent="grlBeanImporter" />
+ 	<bean id="rice.kew.documentTypeService" p:serviceName="rice.kew.documentTypeService" parent="grlBeanImporter" />
+ 	<bean id="documentDao" p:serviceName="documentDao" parent="grlBeanImporter" />
 
     <!--  -->
     <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">
@@ -205,6 +207,47 @@
 			<ref bean="lookupResultsService" />
 		</property>
 	</bean>
+ 
+    <bean id="kualiInquirable" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" />
+
+    <bean id="kualiMaintainable" class="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" scope="prototype">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="maintenanceDocumentDictionaryService">
+            <ref bean="maintenanceDocumentDictionaryService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="encryptionService">
+            <ref bean="encryptionService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="businessObjectAuthorizationService">
+            <ref bean="businessObjectAuthorizationService" />
+        </property>
+        <property name="maintenanceDocumentService">
+            <ref bean="maintenanceDocumentService" />
+        </property>
+        <property name="documentHelperService">
+            <ref bean="documentHelperService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+    </bean>
+ 
+ 
+ 
  
 	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl" >
 		<property name="dataDictionaryService">

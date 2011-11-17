@@ -206,30 +206,13 @@
 
 	<bean id="procurementCardCreateDocumentService"  parent="procurementCardCreateDocumentService-parentBean"/>
 	<bean id="procurementCardCreateDocumentService-parentBean" class="org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl" abstract="true">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>
-		<property name="accountingLineRuleUtil">
-			<ref bean="accountingLineRuleHelperService" />
-		</property>
-		<property name="capitalAssetBuilderModuleService">
-			<ref bean="capitalAssetBuilderModuleService" />
-		</property>
+		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="documentService" ref="documentService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="accountingLineRuleUtil" ref="accountingLineRuleHelperService" />
+		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
 
 	<bean id="procurementCardLoadTransactionsService"  parent="procurementCardLoadTransactionsService-parentBean"/>

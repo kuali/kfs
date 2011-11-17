@@ -93,7 +93,6 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     protected DocumentService documentService;
     protected DataDictionaryService dataDictionaryService;
     protected DateTimeService dateTimeService;
-    protected WorkflowDocumentService workflowDocumentService;
     protected AccountingLineRuleHelperService accountingLineRuleUtil;
     protected CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
 
@@ -186,6 +185,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     protected List<String> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
+        
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
@@ -767,22 +767,6 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
-    }
-
-    /**
-     * Gets the workflowDocumentService attribute.
-     * @return Returns the workflowDocumentService.
-     */
-    public WorkflowDocumentService getWorkflowDocumentService() {
-        return workflowDocumentService;
-    }
-
-    /**
-     * Sets the workflowDocumentService attribute value.
-     * @param workflowDocumentService The workflowDocumentService to set.
-     */
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
     }
 
     /**

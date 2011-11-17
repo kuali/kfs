@@ -769,4 +769,8 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         this.businessObjectService = businessObjectService;
     }
 
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
+
 }

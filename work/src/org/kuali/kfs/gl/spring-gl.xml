@@ -1238,8 +1238,8 @@
 		<property name="correctionCriteriaDao">
 			<ref bean="glCorrectionCriteriaDao" />
 		</property>
-		<property name="documentDao">
-			<ref bean="documentDao" />
+		<property name="documentService">
+			<ref bean="documentService" />
 		</property>
 		<property name="originEntryService">
 			<ref bean="originEntryService" />

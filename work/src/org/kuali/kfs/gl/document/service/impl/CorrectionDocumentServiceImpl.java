@@ -63,11 +63,12 @@ import org.kuali.kfs.sys.service.ReportAggregatorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.krad.comparator.NumericValueComparator;
 import org.kuali.rice.krad.comparator.StringValueComparator;
 import org.kuali.rice.krad.comparator.TemporalValueComparator;
-import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -80,12 +81,13 @@ public class CorrectionDocumentServiceImpl extends InitiateDirectoryBase impleme
     protected CorrectionChangeGroupDao correctionChangeGroupDao;
     protected CorrectionChangeDao correctionChangeDao;
     protected CorrectionCriteriaDao correctionCriteriaDao;
-    protected DocumentDao documentDao;
+    
+    protected DocumentService documentService;
     protected ConfigurationService kualiConfigurationService;
-    private OriginEntryService originEntryService;
-    private String glcpDirectoryName;
+    protected OriginEntryService originEntryService;
+    protected String glcpDirectoryName;
     protected OriginEntryGroupService originEntryGroupService;
-    private DocumentNumberAwareReportWriterService glCorrectionDocumentReportWriterService;
+    protected DocumentNumberAwareReportWriterService glCorrectionDocumentReportWriterService;
     protected DateTimeService dateTimeService;
     protected ReportAggregatorService reportAggregatorService;
     
@@ -102,7 +104,7 @@ public class CorrectionDocumentServiceImpl extends InitiateDirectoryBase impleme
     protected static final String CORRECTION_FILE_FILTER = "put.txt";
 
     protected CorrectionDocumentDao correctionDocumentDao;
-    private String batchFileDirectoryName;
+    protected String batchFileDirectoryName;
 
     /**
      * Returns a specific correction change group for a GLCP document. Defers to DAO.
@@ -154,8 +156,11 @@ public class CorrectionDocumentServiceImpl extends InitiateDirectoryBase impleme
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#findByCorrectionDocumentHeaderId(java.lang.String)
      */
     public GeneralLedgerCorrectionProcessDocument findByCorrectionDocumentHeaderId(String docId) {
-
-        return (GeneralLedgerCorrectionProcessDocument) documentDao.findByDocumentHeaderId(GeneralLedgerCorrectionProcessDocument.class, docId);
+        try {
+            return (GeneralLedgerCorrectionProcessDocument) documentService.getByDocumentHeaderIdSessionless(docId);
+        } catch (WorkflowException ex) {
+            throw new RuntimeException( "Unable to retrieve document for GLCP process", ex );
+        }
     }
 
     public void setCorrectionChangeDao(CorrectionChangeDao correctionChangeDao) {
@@ -168,10 +173,6 @@ public class CorrectionDocumentServiceImpl extends InitiateDirectoryBase impleme
 
     public void setCorrectionCriteriaDao(CorrectionCriteriaDao correctionCriteriaDao) {
         this.correctionCriteriaDao = correctionCriteriaDao;
-    }
-
-    public void setDocumentDao(DocumentDao documentDao) {
-        this.documentDao = documentDao;
     }
 
     private List<Column> cachedColumns = null;
@@ -833,7 +834,7 @@ public class CorrectionDocumentServiceImpl extends InitiateDirectoryBase impleme
             inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
         }
         else {
-            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " + workflowDocument.getStatusDisplayValue() + " selected input group: " + document.getCorrectionInputFileName() + " last saved input group: " + correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad());
+            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " + workflowDocument.getStatus() + " selected input group: " + document.getCorrectionInputFileName() + " last saved input group: " + correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad());
             throw new RuntimeException("Error persisting GLCP document origin entries.");
         }
 
@@ -1160,5 +1161,9 @@ public class CorrectionDocumentServiceImpl extends InitiateDirectoryBase impleme
     @Override
     public List<String> getRequiredDirectoryNames() {
         return new ArrayList<String>() {{add(getOriginEntryStagingDirectoryPath()); }};
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 }

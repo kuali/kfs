@@ -512,7 +512,7 @@
 		<property name="universityDateDao">
 			<ref bean="universityDateDao" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="scrubberService">
@@ -691,7 +691,7 @@
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="parameterService">
@@ -735,7 +735,7 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="balanceDao">
@@ -883,7 +883,7 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="businessObjectService">
@@ -963,7 +963,7 @@
 		<property name="accountBalanceDao">
 			<ref bean="glAccountBalanceDao" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="universityDateService">
@@ -1132,7 +1132,7 @@
 	</bean>
 
 	<bean id="glVerifyTransaction" class="org.kuali.kfs.gl.batch.service.impl.VerifyTransactionImpl">
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
@@ -1206,7 +1206,7 @@
 		 <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="sufficientFundsDao">

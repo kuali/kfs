@@ -350,7 +350,7 @@
 		<property name="noteService">
 			<ref bean="noteService" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="documentHeaderService">
@@ -378,7 +378,7 @@
 		<property name="documentHeaderService">
 			<ref bean="documentHeaderService" />
 		</property>
-    	<property name="kualiConfigurationService">
+    	<property name="configurationService">
     		<ref bean="kualiConfigurationService"/>
     	</property>
     </bean>
@@ -394,7 +394,7 @@
 		<property name="documentHeaderService">
 			<ref bean="documentHeaderService" />
 		</property>
-    	<property name="kualiConfigurationService">
+    	<property name="configurationService">
     		<ref bean="kualiConfigurationService"/>
     	</property>
     </bean>

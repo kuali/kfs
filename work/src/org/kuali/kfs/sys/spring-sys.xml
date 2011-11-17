@@ -105,13 +105,13 @@
 	</bean>
 	
     <bean id="kfsService" parent="kfsService-parentBean"/>
-	<bean id="kfsService-parentBean" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
+	<bean id="kfsService-parentBean" class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition" abstract="true">
       <property name="serviceNameSpaceURI" value="" />
       <property name="retryAttempts" value="0" />
     </bean>
     
     <bean id="kfsJaxWsSoapService" parent="kfsJaxWsSoapService-parentBean"/>
-    <bean id="kfsJaxWsSoapService-parentBean" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition" abstract="true">
+    <bean id="kfsJaxWsSoapService-parentBean" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
        <property name="serviceNameSpaceURI" value="KFS"/>
        <property name="jaxWsService" value="true"/>
        <property name="priority" value="3" />
@@ -121,7 +121,7 @@
     </bean>
     
     <bean id="kfsJaxWsRestService" parent="kfsJaxWsRestService-parentBean"/>
-    <bean id="kfsJaxWsRestService-parentBean" class="org.kuali.rice.ksb.messaging.RESTServiceDefinition" abstract="true">
+    <bean id="kfsJaxWsRestService-parentBean" class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition" abstract="true">
        <property name="serviceNameSpaceURI" value="KFS"/>
        <property name="priority" value="3" />
        <property name="retryAttempts" value="0" />
@@ -234,18 +234,20 @@
 
     <bean id="batchInputFileSetService" parent="batchInputFileSetService-parentBean"/>	
 	<bean id="batchInputFileSetService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl" abstract="true">
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
 	<!-- end batch framework -->
 	
 	<!--  begin core batch jobs -->
+	<!-- RICE20: do we need to restore this?
     <bean id="postDataLoadEncryptionStep" parent="postDataLoadEncryptionStep-parentBean"/>	
 	<bean id="postDataLoadEncryptionStep-parentBean" parent="step" class="org.kuali.kfs.sys.batch.PostDataLoadEncryptionStep" abstract="true">
 		<property name="postDataLoadEncryptionService" ref="postDataLoadEncryptionService" />
 		<property name="attributesToEncryptProperties" value="${encrypt.attributes.properties.file}" />
 	</bean>
+	 -->
 
     <bean id="purgeOldLookupResultsStep" parent="purgeOldLookupResultsStep-parentBean"/>
 	<bean id="purgeOldLookupResultsStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeOldLookupResultsStep" parent="step" abstract="true">
@@ -275,7 +277,7 @@
 
     <bean id="purgeTempFilesStep" parent="purgeTempFilesStep-parentBean"/>
 	<bean id="purgeTempFilesStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeTempFilesStep" parent="step" abstract="true">
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
@@ -620,7 +622,7 @@
 	<bean id="kualiInquirable" parent="kualiInquirable-parentBean"/>
 
     <bean id="kualiInquirable-parentBean" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" abstract="true">
-    	<property name="kualiConfigurationService">
+    	<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>

@@ -307,7 +307,7 @@
         <property name="objectCodeService">
             <ref bean="objectCodeService" />
         </property>
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="universityDateDao">
@@ -364,7 +364,7 @@
         <property name="scrubberValidator">
             <ref bean="laborGLScrubberValidator" />
         </property>
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="accountService">
@@ -472,7 +472,7 @@
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="businessObjectService">
@@ -1498,7 +1498,7 @@
         <property name="noteService">
             <ref bean="noteService" />
         </property>
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
     </bean>

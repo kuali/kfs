@@ -160,7 +160,7 @@
         <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService"/>
         <property name="dateTimeService" ref="dateTimeService"/>
 		<property name="documentService" ref="documentService"/>
-        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="postalCodeValidationService" ref="postalCodeValidationService"/>
     	<property name="purapService" ref="purapService"/>
@@ -271,7 +271,7 @@
 		<property name="creditMemoDao" ref="creditMemoDao" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="documentService" ref="documentService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
         <property name="noteService" ref="noteService" />
         <property name="paymentRequestService" ref="paymentRequestService" />
         <property name="purapAccountingService" ref="purapAccountingService" />
@@ -287,13 +287,13 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
         <property name="imageService" ref="imageService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
         <property name="purchaseOrderParameters" ref="purchaseOrderParameters"/>
 	</bean>
 	
 	<bean id="faxService" parent="FaxService-parentBean"/>		
 	<bean id="FaxService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.FaxServiceImpl" abstract="true">
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
         <property name="vendorService" ref="vendorService" />
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -310,7 +310,7 @@
         <property name="noteService" ref="noteService" />
         <property name="purchaseOrderDao" ref="purchaseOrderDao" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
         <property name="kualiRuleService" ref="kualiRuleService" />
         <property name="vendorService" ref="vendorService" />
         <property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
@@ -345,7 +345,7 @@
 	<bean id="b2BShoppingService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.B2BShoppingServiceImpl" abstract="true">
         <property name="b2bDao" ref="b2bDao"/>
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
         <property name="documentService" ref="documentService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="persistenceService" ref="persistenceService"/>
@@ -609,7 +609,7 @@
 		<property name="vendorService" ref="vendorService"/>
 		<property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="paymentRequestService" ref="paymentRequestService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="parameterService" ref="parameterService" />
 	</bean>

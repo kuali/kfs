@@ -280,7 +280,7 @@
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 	</bean>
 
     <bean id="pdpExtractPaymentService" parent="PdpExtractPaymentService-parentBean"/>
@@ -295,7 +295,7 @@
 		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="countryService" ref="countryService"/>		
 	</bean>
     <bean id="pdpExtractGlTransactionService" parent="pdpExtractGlTransactionService-parentBean"/>
@@ -305,7 +305,7 @@
 		<property name="originEntryGroupService" ref="originEntryGroupService" />
 		<property name="originEntryService" ref="originEntryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reportWriterService" ref="pdpExtractGlTransactionsReportWriterService" />
 	</bean>
@@ -353,7 +353,7 @@
 	<bean id="pdpGlPendingTransactionService-parentBean" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl" abstract="true">
 		<property name="glPendingTransactionDao" ref="pdpGlPendingTransactionDao"/>
 		<property name="accountingPeriodService" ref="accountingPeriodService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="bankService" ref="bankService"/>
@@ -374,7 +374,7 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="outgoingDirectoryName" value="${staging.directory}/pdp/paymentLoadSummary"/>
 	</bean>
     <bean id="pdpEmailService" parent="pdpEmailService-parentBean"/>
@@ -384,7 +384,7 @@
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="mailService" ref="mailService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="achBankService" ref="pdpAchBankService" />
 	</bean>
     <bean id="paymentFileValidationService" parent="paymentFileValidationService-parentBean"/>
@@ -393,7 +393,7 @@
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao" />
 		<property name="parameterService" ref="parameterService" />
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="accountService" ref="accountService" />
 		<property name="subAccountService" ref="subAccountService"/>
@@ -502,7 +502,7 @@
     <bean id="paymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService-parentBean"/>
 	
 	<bean id="paymentDetailLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype" abstract="true">
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="pdpAuthorizationService">

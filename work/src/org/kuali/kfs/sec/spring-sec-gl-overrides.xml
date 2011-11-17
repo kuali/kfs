@@ -53,7 +53,7 @@
 		<property name="objectTypeService">
 			<ref bean="objectTypeService" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>		
 	</bean>

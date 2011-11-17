@@ -42,14 +42,15 @@ import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Base implementation to manipulate batch input file sets from the batch upload screen
  */
 public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implements BatchInputFileSetService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchInputFileSetServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchInputFileSetServiceImpl.class);
 
-    private ConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
 
     /**
      * Generates the file name of a file (not the done file)
@@ -134,7 +135,7 @@ public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implemen
         if (!inputType.validate(typeToTempFiles)) {
             deleteTempFiles(typeToTempFiles);
             LOG.error("Upload file validation failed for user " + user.getName() + " identifier " + fileUserIdentifier);
-            throw new ValidationException("File validation failed");
+            throw new ValidationException("File validation failed: " + GlobalVariables.getMessageMap().getErrorMessages());
         }
         
         byte[] buf = new byte[1024];
@@ -205,7 +206,7 @@ public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implemen
         }
         catch (IOException e) {
             LOG.error("Error creating temporary files", e);
-            throw new FileStorageException("Error creating temporary files");
+            throw new FileStorageException("Error creating temporary files",e);
             
         }
         return tempFiles;
@@ -223,8 +224,7 @@ public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implemen
     }
     
     protected String getTempDirectoryName() {
-        String tempDirectoryName = getConfigurationService().getPropertyValueAsString(KFSConstants.TEMP_DIRECTORY_KEY);
-        return tempDirectoryName;
+        return kualiConfigurationService.getPropertyValueAsString(KFSConstants.TEMP_DIRECTORY_KEY);
     }
 
     /**
@@ -242,10 +242,6 @@ public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implemen
             }
         }
         return true;
-    }
-
-    protected ConfigurationService getConfigurationService() {
-        return kualiConfigurationService;
     }
 
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {

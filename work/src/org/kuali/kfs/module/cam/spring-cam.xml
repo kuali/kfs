@@ -109,7 +109,7 @@
         <property name="camsReportService">
             <ref bean="camsReportService" />
         </property>        
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>                
 		<property name="generalLedgerPendingEntryService">
@@ -354,7 +354,7 @@
 
     <bean id="assetBarcodeInventoryInputFileService"  parent="assetBarcodeInventoryInputFileService-parentBean"/>
     <bean id="assetBarcodeInventoryInputFileService-parentBean" class="org.kuali.kfs.module.cam.batch.service.impl.AssetBarcodeInventoryInputFileServiceImpl">
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
 	</bean>
 	
 <!-- END of Asset Bar Code inventory batch job -->

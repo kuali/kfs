@@ -169,7 +169,7 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="balanceDao">
@@ -236,7 +236,7 @@
 <!--		<property name="objectCodeService">-->
 <!--			<ref bean="objectCodeService" />-->
 <!--		</property>-->
-<!--		<property name="kualiConfigurationService">-->
+<!--		<property name="configurationService">-->
 <!--			<ref bean="kualiConfigurationService" />-->
 <!--		</property>-->
 <!--		<property name="universityDateDao">-->

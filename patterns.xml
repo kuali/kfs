@@ -2,6 +2,23 @@
 <rules>
 	<rule name="new_rule_testing_1" alsoRenameClass="true">
 		<pattern>
+			<match>org\.kuali\.rice\.ksb\.messaging\.JavaServiceDefinition</match>
+			<replacement>org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.ksb\.messaging\.SOAPServiceDefinition</match>
+			<replacement>org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.ksb\.messaging\.RESTServiceDefinition</match>
+			<replacement>org.kuali.rice.ksb.api.bus.support.RestServiceDefinition</replacement>
+		</pattern>
+		<pattern>
+			<match><![CDATA[<property name="kualiConfigurationService"]]></match>
+			<replacement><![CDATA[<property name="configurationService"]]></replacement>
+		</pattern>
+	<!-- 
+		<pattern>
 			<match>org\.kuali\.rice\.kew\.dto\.DocumentRouteStatusChangeDTO</match>
 			<replacement>org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange</replacement>
 		</pattern>
@@ -13,7 +30,7 @@
 			<match>org\.kuali\.rice\.kew\.dto\.DocumentSearchResultDTO</match>
 			<replacement>org.kuali.rice.kew.api.document.search.DocumentSearchResult</replacement>
 		</pattern>
-
+ -->
 	
 <!-- 		
 		<pattern>
@@ -23,6 +40,7 @@
  -->	
     </rule>
 	<rule name="new_rule_testing_2">
+	<!-- 
 		<pattern>
 			<match>\.getBoNotes\(\)</match>
 			<replacement>.getNotes()</replacement>
@@ -35,6 +53,7 @@
 			<match>RoleManagementService</match>
 			<replacement>RoleService</replacement>
 		</pattern>
+	 -->
  	</rule>
 
 	<rule name="handle_RICE_20_conversion_comments">

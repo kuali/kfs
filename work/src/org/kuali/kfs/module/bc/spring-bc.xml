@@ -184,7 +184,7 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="laborModuleService">
@@ -215,7 +215,7 @@
 
 	<bean id="benefitsCalculationService"  parent="benefitsCalculationService-parentBean"/>
 	<bean id="benefitsCalculationService-parentBean" class="org.kuali.kfs.module.bc.document.service.impl.BenefitsCalculationServiceImpl" abstract="true">
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="optionsService">
@@ -281,7 +281,7 @@
 	</bean>	
 	
 	<bean id="budgetPositionLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
@@ -294,7 +294,7 @@
 	</bean>	
 	
 	<bean id="budgetIntendedIncumbentLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">	
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
@@ -349,7 +349,7 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>		
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>		
 	</bean>
@@ -451,7 +451,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	</bean>
@@ -464,7 +464,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
     </property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	</bean>
@@ -474,7 +474,7 @@
 	<property name="budgetConstructionLevelSummaryReportDao">
 		<ref bean="budgetConstructionLevelSummaryReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="budgetConstructionReportsServiceHelper">
@@ -487,7 +487,7 @@
 	<property name="budgetConstructionObjectSummaryReportDao">
 		<ref bean="budgetConstructionObjectSummaryReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	<property name="budgetConstructionReportsServiceHelper">
@@ -503,7 +503,7 @@
 	<property name="budgetConstructionOrganizationReportsService">
 		<ref bean="budgetConstructionOrganizationReportsService" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -519,7 +519,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	</bean>
@@ -529,7 +529,7 @@
 	<property name="budgetConstructionPositionFundingDetailReportDao">
 		<ref bean="budgetConstructionPositionFundingDetailReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="budgetConstructionReportsServiceHelper">
@@ -545,7 +545,7 @@
 	<property name="budgetConstructionMonthSummaryReportDao">
 		<ref bean="budgetConstructionMonthSummaryReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="budgetConstructionReportsServiceHelper">
@@ -558,7 +558,7 @@
 	<property name="budgetConstructionSalarySummaryReportDao">
 		<ref bean="budgetConstructionSalarySummaryReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="budgetConstructionReportsServiceHelper">
@@ -577,7 +577,7 @@
     <property name="budgetConstructionReportsServiceHelper">
     	<ref bean="budgetConstructionReportsServiceHelper" />
     </property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -595,7 +595,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>	
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -614,7 +614,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>	
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -630,7 +630,7 @@
 	<property name="budgetConstructionOrganizationReportsService">
 		<ref bean="budgetConstructionOrganizationReportsService" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -646,7 +646,7 @@
 	<property name="budgetConstructionOrganizationReportsService">
 		<ref bean="budgetConstructionOrganizationReportsService" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -672,7 +672,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     </bean>
@@ -682,7 +682,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	<property name="salarySettingService">
@@ -695,7 +695,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	</bean>

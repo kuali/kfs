@@ -555,26 +555,12 @@
 		</property>
 	</bean>
 
-    <!-- 
-    <bean id="parameterLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
-        <property name="lookupableHelperService">
-            <bean id="parameterLookupableHelperService" class="org.kuali.rice.kns.lookup.ParameterLookupableHelperServiceImpl" parent="lookupableHelperService">
-                <property name="parameterService" ref="parameterService" />
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="parameterDetailTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
-        <property name="lookupableHelperService">
-            <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.rice.kns.lookup.ParameterDetailTypeLookupableHelperServiceImpl" parent="lookupableHelperService">
-				<property name="parameterService" ref="parameterService" />
-            </bean>
-        </property>
-    </bean>
-    -->
+    
+    <!-- RICE20: Restore these after other conversions complete
 	<bean id="businessObjectMetaDataDao" parent="businessObjectMetaDataDao-parentBean"/>
 
     <bean id="businessObjectMetaDataDao-parentBean" class="org.kuali.kfs.sys.dataaccess.impl.BusinessObjectMetaDataDaoJdbc" parent="platformAwareDaoJdbc" abstract="true" />
+    
 	<bean id="kfsBusinessObjectMetaDataService" parent="kfsBusinessObjectMetaDataService-parentBean"/>
 
     <bean id="kfsBusinessObjectMetaDataService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl" abstract="true">
@@ -621,6 +607,9 @@
             </bean>
         </property>
     </bean>
+    
+     -->
+     
 	<bean id="kualiInquirable" parent="kualiInquirable-parentBean"/>
 
     <bean id="kualiInquirable-parentBean" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" abstract="true">
@@ -785,7 +774,7 @@
 	<bean id="batchJobModifierRoleTypeService" parent="batchJobModifierRoleTypeService-parentBean"/>
 
 	<bean id="batchJobModifierRoleTypeService-parentBean"
-		class="org.kuali.rice.kns.document.authorization.PermissionDerivedRoleTypeServiceImpl" abstract="true">
+		class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl" abstract="true">
 		<property name="permissionTemplateNamespace" value="KR-NS" />
 		<property name="permissionTemplateName" value="Modify Batch Job" />
 	</bean>

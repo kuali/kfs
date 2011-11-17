@@ -103,48 +103,53 @@
 		<property name="initialSize" value="${kfs.datasource.pool.initialSize}" />
     </bean>
 
- 	<bean id="dataSource" p:serviceName="dataSource" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="riceDataSource" p:serviceName="riceDataSource" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+	<bean id="grlBeanImporter" abstract="true" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+
+ 	<bean id="dataSource" p:serviceName="dataSource" parent="grlBeanImporter" />
+ 	<bean id="riceDataSource" p:serviceName="riceDataSource" parent="grlBeanImporter" />
  	<!-- 
- 	<bean id="nonTransactionalDataSource" p:serviceName="nonTransactionalDataSource" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="riceNonTransactionalDataSource" p:serviceName="riceNonTransactionalDataSource" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="nonTransactionalDataSource" p:serviceName="nonTransactionalDataSource" parent="grlBeanImporter" />
+ 	<bean id="riceNonTransactionalDataSource" p:serviceName="riceNonTransactionalDataSource" parent="grlBeanImporter" />
     -->  
     	   <!-- These are beans we need to export from Rice -->
- 	<bean id="dataDictionaryService" p:serviceName="dataDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="dateTimeService" p:serviceName="dateTimeService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<!-- <bean id="platformAwareDao" p:serviceName="platformAwareDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="platformAwareDaoJdbc" p:serviceName="platformAwareDaoJdbc" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" /> -->
+ 	<bean id="dataDictionaryService" p:serviceName="dataDictionaryService" parent="grlBeanImporter" />
+ 	<bean id="dateTimeService" p:serviceName="dateTimeService" parent="grlBeanImporter" />
+ 	<!-- <bean id="platformAwareDao" p:serviceName="platformAwareDao" parent="grlBeanImporter" />
+ 	<bean id="platformAwareDaoJdbc" p:serviceName="platformAwareDaoJdbc" parent="grlBeanImporter" /> -->
 
- 	<bean id="mailService" p:serviceName="mailService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="kualiModuleService" p:serviceName="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="parameterService" p:serviceName="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="configurationService" p:serviceName="kualiConfigurationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="mailService" p:serviceName="mailService" parent="grlBeanImporter" />
+ 	<bean id="kualiModuleService" p:serviceName="kualiModuleService" parent="grlBeanImporter" />
+ 	<bean id="parameterService" p:serviceName="parameterService" parent="grlBeanImporter" />
+ 	<bean id="configurationService" p:serviceName="kualiConfigurationService" parent="grlBeanImporter" />
  	<alias name="configurationService" alias="kualiConfigurationService" />
- 	<bean id="attachmentService" p:serviceName="attachmentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="sessionDocumentService" p:serviceName="sessionDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="noteService" p:serviceName="noteService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="documentService" p:serviceName="documentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="businessObjectService" p:serviceName="businessObjectService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="persistenceStructureService" p:serviceName="persistenceStructureService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="kualiRuleService" p:serviceName="kualiRuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="lookupableHelperService" p:serviceName="lookupableHelperService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="false" p:mustExist="true" scope="prototype" />
- 	<bean id="businessObjectMetaDataService" p:serviceName="businessObjectMetaDataService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="lookupService" p:serviceName="lookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="lookupResultsService" p:serviceName="lookupResultsService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="lookupDao" p:serviceName="lookupDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="documentAdHocService" p:serviceName="documentAdHocService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="maintenanceDocumentService" p:serviceName="maintenanceDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="workflowDocumentService" p:serviceName="workflowDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="dictionaryValidationService" p:serviceName="dictionaryValidationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<!-- <bean id="persistenceService" p:serviceName="persistenceService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" /> -->
- 	<bean id="businessObjectDictionaryService" p:serviceName="businessObjectDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="maintenanceDocumentDictionaryService" p:serviceName="maintenanceDocumentDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="documentHeaderService" p:serviceName="documentHeaderService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="maintenanceDocumentDao" p:serviceName="maintenanceDocumentDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="postalCodeService" p:serviceName="postalCodeService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="stateService" p:serviceName="stateService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="countryService" p:serviceName="countryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="countyService" p:serviceName="countyService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+ 	<bean id="attachmentService" p:serviceName="attachmentService" parent="grlBeanImporter" />
+ 	<bean id="sessionDocumentService" p:serviceName="sessionDocumentService" parent="grlBeanImporter" />
+ 	<bean id="noteService" p:serviceName="noteService" parent="grlBeanImporter" />
+ 	<bean id="documentService" p:serviceName="documentService" parent="grlBeanImporter" />
+ 	<bean id="businessObjectService" p:serviceName="businessObjectService" parent="grlBeanImporter" />
+ 	<bean id="persistenceStructureService" p:serviceName="persistenceStructureService" parent="grlBeanImporter" />
+ 	<bean id="persistenceStructureServiceJpa" p:serviceName="persistenceStructureServiceJpa" parent="grlBeanImporter" />
+ 	<bean id="persistenceStructureServiceOjb" p:serviceName="persistenceStructureServiceOjb" parent="grlBeanImporter" />
+ 	<bean id="kualiRuleService" p:serviceName="kualiRuleService" parent="grlBeanImporter" />
+ 	<bean id="businessObjectMetaDataService" p:serviceName="businessObjectMetaDataService" parent="grlBeanImporter" />
+ 	<bean id="lookupService" p:serviceName="lookupService" parent="grlBeanImporter" />
+ 	<bean id="lookupResultsService" p:serviceName="lookupResultsService" parent="grlBeanImporter" />
+ 	<bean id="lookupDao" p:serviceName="lookupDao" parent="grlBeanImporter" />
+ 	<bean id="documentAdHocService" p:serviceName="documentAdHocService" parent="grlBeanImporter" />
+ 	<bean id="maintenanceDocumentService" p:serviceName="maintenanceDocumentService" parent="grlBeanImporter" />
+ 	<bean id="workflowDocumentService" p:serviceName="workflowDocumentService" parent="grlBeanImporter" />
+ 	<bean id="dictionaryValidationService" p:serviceName="dictionaryValidationService" parent="grlBeanImporter" />
+ 	<bean id="persistenceService" p:serviceName="persistenceService" parent="grlBeanImporter" />
+ 	<bean id="businessObjectDictionaryService" p:serviceName="businessObjectDictionaryService" parent="grlBeanImporter" />
+ 	<bean id="maintenanceDocumentDictionaryService" p:serviceName="maintenanceDocumentDictionaryService" parent="grlBeanImporter" />
+ 	<bean id="documentHeaderService" p:serviceName="documentHeaderService" parent="grlBeanImporter" />
+ 	<bean id="maintenanceDocumentDao" p:serviceName="maintenanceDocumentDao" parent="grlBeanImporter" />
+ 	<bean id="postalCodeService" p:serviceName="postalCodeService" parent="grlBeanImporter" />
+ 	<bean id="stateService" p:serviceName="stateService" parent="grlBeanImporter" />
+ 	<bean id="countryService" p:serviceName="countryService" parent="grlBeanImporter" />
+ 	<bean id="countyService" p:serviceName="countyService" parent="grlBeanImporter" />
+ 	<bean id="encryptionService" p:serviceName="encryptionService" parent="grlBeanImporter" />
+ 	<bean id="sequenceAccessorService" p:serviceName="sequenceAccessorService" parent="grlBeanImporter" />
 
     <!--  -->
     <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">
@@ -163,6 +168,43 @@
     <property name="dataSource" ref="dataSource"/>
     <property name="dbPlatform" ref="dbPlatform"/>
   </bean>
+ 
+   <bean id="kualiLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <property name="lookupableHelperService">
+      <ref bean="lookupableHelperService"/>
+    </property>
+
+  </bean>
+
+	<bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="encryptionService">
+			<ref bean="encryptionService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="lookupResultsService">
+			<ref bean="lookupResultsService" />
+		</property>
+	</bean>
  
 	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl" >
 		<property name="dataDictionaryService">

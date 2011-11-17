@@ -36,7 +36,7 @@ public class IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceI
     protected Map<String, String> buildInactivationBlockerQueryMap(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
         Class<? extends BusinessObject> boClass = blockedBo.getClass();
         if (!(Account.class.isAssignableFrom(boClass) || SubAccount.class.isAssignableFrom(boClass) || ObjectCode.class.isAssignableFrom(boClass) || SubObjectCode.class.isAssignableFrom(boClass))) {
-            throw new IllegalArgumentException("BO must be either an Account, SubAccount, ObjectCode, or SubObjCd");
+            throw new IllegalArgumentException("BO must be either an Account, SubAccount, ObjectCode, or SubObjectCode (was: " + boClass + ")");
         }
         
         // this code assumes that the PK field names in the BO are identical to the field names in the ICR Rate Detail BO

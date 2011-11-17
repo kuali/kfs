@@ -3,10 +3,15 @@
 	<rule name="new_rule_testing_1" alsoRenameClass="true">
 
 		<pattern>
+			<match>org\.kuali\.rice\.kns\.document\.authorization\.PermissionDerivedRoleTypeServiceImpl</match>
+			<replacement>org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl</replacement>
+		</pattern>
+	<!-- 
+		<pattern>
 			<match>org\.kuali\.rice\.ksb\.messaging\.KSBExporter</match>
 			<replacement>org.kuali.rice.ksb.api.bus.support.ServiceBusExporter</replacement>
 		</pattern>
-	<!-- 
+
 		<pattern>
 			<match>org\.kuali\.rice\.ksb\.messaging\.JavaServiceDefinition</match>
 			<replacement>org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition</replacement>

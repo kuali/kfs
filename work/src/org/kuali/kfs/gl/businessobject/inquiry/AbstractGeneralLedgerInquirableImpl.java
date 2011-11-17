@@ -45,6 +45,7 @@ import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.kew.api.doctype.DocumentType;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
@@ -412,7 +413,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
      * @return {@link HtmlData} representing inquiry URL
      */
     protected HtmlData getDocTypeInquiryUrl(String docTypeCode) {
-        DocumentType docTypeDTO = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(docTypeCode);
+        DocumentType docTypeDTO = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeById(docTypeCode);// .getDocumentTypeVO(docTypeCode);
         if ( docTypeDTO == null ) {
             return new AnchorHtmlData();
         }
@@ -422,10 +423,10 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentTypeEBO.class.getName());
         parameters.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getDocTypeId().toString());
+        parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getId().toString());
 
         Map<String, String> inquiryFields = new HashMap<String, String>();
-        inquiryFields.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getDocTypeId().toString());
+        inquiryFields.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getId().toString());
 
         return getHyperLink(DocumentTypeEBO.class, inquiryFields, UrlFactory.parameterizeUrl(baseUrl, parameters));
     }

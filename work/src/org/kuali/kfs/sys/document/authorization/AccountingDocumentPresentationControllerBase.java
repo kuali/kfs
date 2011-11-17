@@ -16,20 +16,18 @@
 package org.kuali.kfs.sys.document.authorization;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.RouteLevelNames;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.KFSConstants.RouteLevelNames;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -51,7 +49,7 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
     // add expense entry edit mode when the given document is enroute for account review
     protected void addExpenseEntryEditMode(Document document, Set<String> editModes) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+        Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
 
         if (workflowDocument.isEnroute() && currentRouteLevels.contains(KFSConstants.RouteLevelNames.ACCOUNT)) {
             AccountingDocument accountingDocument = (AccountingDocument) document;
@@ -79,7 +77,7 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
             return false;
         }
         else if (workflowDocument.isEnroute()) {
-            List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+            Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
 
             if (currentRouteLevels.contains(RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
                 return false;
@@ -87,17 +85,6 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
         }
 
         return super.canEdit(document);
-    }
-
-    /**
-     * A helper method for determining the route levels for a given document.
-     * 
-     * @param workflowDocument
-     * @return List
-     */
-    protected List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
-        String[] names= workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        return Arrays.asList(names);
     }
 
     /**

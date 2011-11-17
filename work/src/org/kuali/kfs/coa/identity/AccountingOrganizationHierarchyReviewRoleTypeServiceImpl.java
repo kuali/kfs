@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
+import org.kuali.rice.core.api.uif.RemotableAttributeError.Builder;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.KimConstants;
@@ -107,16 +108,20 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         KimType kimType = getTypeInfoService().getKimType(kimTypeId);
         KimTypeAttribute attributeInfo;
         if(isLesserNumber(fromAmountDelegationMember, fromAmountRoleMember)){
-            attributeInfo = kimType.getAttributeDefinitionByIdByName(KfsKimAttributes.FROM_AMOUNT);
+            attributeInfo = kimType.getAttributeDefinitionById(KfsKimAttributes.FROM_AMOUNT);
             GlobalVariables.getMessageMap().putError(
                     KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
-                    getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.FROM_AMOUNT));
+                    getDataDictionaryService().getAttributeLabel(attributeInfo.getKimAttribute().getComponentName(), KfsKimAttributes.FROM_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesMessageMap(KfsKimAttributes.FROM_AMOUNT);
         }
         if(attributeErrors!=null){
             for(String err: attributeErrors){
-                validationErrors.put(KfsKimAttributes.FROM_AMOUNT, err);
+                Builder b = RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT, err);
+                RemotableAttributeError rae = RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT, err);
+                
+                validationErrors.add(rae);
             }
+            
             attributeErrors = null;
         }
         
@@ -131,6 +136,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         }
         if(attributeErrors!=null){
             for(String err: attributeErrors){
+                
                 validationErrors.put(KfsKimAttributes.TO_AMOUNT, err);
             }
             attributeErrors = null;

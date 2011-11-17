@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -188,15 +189,17 @@ public class AccountPreRules extends MaintenancePreRulesBase {
          */
 
         // TODO: this is not needed any more, is in maintdoc xml defaults
-        Date ts = new Date(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().getTime());
+        DateTime ts = new DateTime(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDateCreated());
+        Date newts = new Date(ts.getMillis());
+        
         if (ts != null) {
             // On new Accounts AccountCreateDate is defaulted to the doc creation date
             if (newAccount.getAccountCreateDate() == null) {
-                newAccount.setAccountCreateDate(ts);
+                newAccount.setAccountCreateDate(newts);
             }
             // On new Accounts acct_effect_date is defaulted to the doc creation date
             if (newAccount.getAccountEffectiveDate() == null) {
-                newAccount.setAccountEffectiveDate(ts);
+                newAccount.setAccountEffectiveDate(newts);
             }
         }
     }

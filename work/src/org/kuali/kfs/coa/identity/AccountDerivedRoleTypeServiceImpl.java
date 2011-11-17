@@ -61,13 +61,6 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
     protected ParameterService parameterService;
     
     protected final static String DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES_PARAMETER_NAME = "DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES";
-    
-
-
-
-
-
-
 
     /**
      * Attributes: Chart Code Account Number Requirements: - KFS-COA Account Supervisor: CA_ACCOUNT_T.ACCT_SPVSR_UNVL_ID - KFS-SYS
@@ -163,6 +156,7 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
     protected RoleMembership getRoleMembershipWhenAccountInfoUnavailable(String roleName, String principalId, Map<String,String> roleQualifier) {
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
+        
         RoleMembership roleMembershipInfo = null;
 
         if ((KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName))) {
@@ -310,9 +304,10 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
     /**
      * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#principalInactivated(java.lang.String, java.lang.String, java.lang.String)
      */
-    @Override
+ //   @Override
     public void principalInactivated(String principalId, String namespaceCode, String roleName) {
-        super.principalInactivated(principalId, namespaceCode, roleName);
+    //    super.principalInactivated(principalId, namespaceCode, roleName);
+        
         if (KFSConstants.SysKimApiConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)) {
             if (getAccountService().isPrincipalInAnyWayShapeOrFormAccountSupervisor(principalId)) {
                 handleAccountSupervisorInactivation(principalId, namespaceCode, roleName);

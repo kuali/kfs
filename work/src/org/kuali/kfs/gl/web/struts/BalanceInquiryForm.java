@@ -29,7 +29,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
@@ -145,7 +144,7 @@ public class BalanceInquiryForm extends LookupForm {
                     }
 
                     // force uppercase if necessary
-                    field.setPropertyValue(LookupUtils.forceUppercase(boClass, field.getPropertyName(), field.getPropertyValue()));
+                    field.setPropertyValue(org.kuali.rice.krad.lookup.LookupUtils.forceUppercase(boClass, field.getPropertyName(), field.getPropertyValue()));
 
                     fieldValues.put(field.getPropertyName(), field.getPropertyValue());
                 }

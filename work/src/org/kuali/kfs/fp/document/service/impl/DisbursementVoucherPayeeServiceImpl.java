@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,9 +37,11 @@ import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.Note;
@@ -195,9 +198,8 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
                 // Send out FYIs to all previous approvers so they're aware of the changes to the address
                 try {
-                    Set<Person> priorApprovers = dvDoc.getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
-                    Set<Person> priorApprovers = dvDoc.getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
-                    
+                    Set<Person> priorApprovers = dvDoc.getAllPriorApprovers();
+                     
                     String initiatorUserId = dvDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
                     Person finSysUser = SpringContext.getBean(PersonService.class).getPerson(initiatorUserId);
                     setupFYIs(dvDoc, priorApprovers, finSysUser.getPrincipalName());
@@ -211,7 +213,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
             }
         }
     }
-
+    
     /**
      * Creates text for a note which records changes to the payee
      * @param newPayeeDetail the changed payee detail

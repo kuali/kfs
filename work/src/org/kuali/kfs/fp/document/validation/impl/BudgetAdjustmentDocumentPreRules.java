@@ -105,7 +105,7 @@ public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase
     protected boolean canGenerateLaborBenefitsByRouteStatus(BudgetAdjustmentDocument budgetAdjustmentDocument) {
         final WorkflowDocument workflowDocument = budgetAdjustmentDocument.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isInitiated() || workflowDocument.isSaved()) return true; // we're pre-route; we can add labor benefits
-        if (workflowDocument.isEnroute() && workflowDocument.getCurrentRouteNodeNames().contains(KFSConstants.RouteLevelNames.ACCOUNT)) return true; // we're fiscal officers approving; we can add labor benefits
+        if (workflowDocument.isEnroute() && workflowDocument.getCurrentRouteNodeInstances().contains(KFSConstants.RouteLevelNames.ACCOUNT)) return true; // we're fiscal officers approving; we can add labor benefits
         return false; // we're someone else and we're plum out of luck
     }
 }

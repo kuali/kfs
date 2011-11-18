@@ -301,9 +301,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         
         String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         DocumentType childDocumentType = (DocumentType) getDocumentTypeService().getDocumentTypeByName(documentTypeName);
-     
-        documentEligible = parentDocumentType.isParentOf(childDocumentType);
-     
+        documentEligible = childDocumentType.getParentId().equals(parentDocumentType.getId());     
         return documentEligible;
     }
     

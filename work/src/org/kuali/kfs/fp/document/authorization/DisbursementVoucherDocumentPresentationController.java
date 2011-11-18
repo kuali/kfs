@@ -62,7 +62,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
         }
         else if (workflowDocument.isEnroute()) {
-            List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+            Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
             if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.AWARD) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TRAVEL)) {
                 editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
             }
@@ -88,7 +88,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYMENT_HANDLING_ENTRY);
         }
-        final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+        final Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
         if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TRAVEL) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX)) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYMENT_HANDLING_ENTRY);
         }
@@ -105,7 +105,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.VOUCHER_DEADLINE_ENTRY);
         }
-        final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+        final Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
         if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TRAVEL)) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.VOUCHER_DEADLINE_ENTRY);
         }
@@ -119,7 +119,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     protected void addTravelEntryMode(Document document, Set<String> editModes) {
         final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
-        final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+        final Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
         if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT)) {  //FO? 
         } else if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX)) { //tax manager? Then only allow this if we're going to route to travel node anyway
             if (((DisbursementVoucherDocument)document).isTravelReviewRequired()) {
@@ -139,7 +139,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
      */
     protected void addSpecialHandlingChagingEntryMode(Document document, Set<String> editModes) {
         final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+        final Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
         
         if (!currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.PURCHASING)) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.SPECIAL_HANDLING_CHANGING_ENTRY);

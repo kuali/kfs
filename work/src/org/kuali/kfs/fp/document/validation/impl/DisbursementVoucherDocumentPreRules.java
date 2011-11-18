@@ -380,7 +380,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
         List<KeyValue> reasons = new PaymentReasonValuesFinder().getKeyValues();
         for (KeyValue reason : reasons) {
             if (validPaymentReasonCodes.contains(reason.getKey())) {
-                payementReasonString.add(reason.getLabel());
+                payementReasonString.add(reason.getValue());
             }
         }
 

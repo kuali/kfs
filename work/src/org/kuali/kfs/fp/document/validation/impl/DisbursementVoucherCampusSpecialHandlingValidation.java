@@ -99,9 +99,9 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
     protected boolean isNoteAdded() {
        boolean foundNoteByCurrentApprover = false;
        int count = 0;
-       final int noteCount = getDisbursementVoucherDocumentForValidation().getDocumentHeader().getNotes().size();
+       final int noteCount = getDisbursementVoucherDocumentForValidation().getNotes().size();
        while (!foundNoteByCurrentApprover && count < noteCount) {
-           foundNoteByCurrentApprover |= noteAddedByApproverForCurrentNode(getDisbursementVoucherDocumentForValidation().getDocumentHeader().getNote(count));
+           foundNoteByCurrentApprover |= noteAddedByApproverForCurrentNode(getDisbursementVoucherDocumentForValidation().getNote(count));
            count += 1;
        }
        return foundNoteByCurrentApprover;
@@ -128,7 +128,7 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @return the count of notes on the document
      */
     protected int getNoteCount(DisbursementVoucherDocument dvDoc) {
-        return dvDoc.getDocumentHeader().getNotes().size();
+        return dvDoc.getNotes().size();
     }
 
     /**

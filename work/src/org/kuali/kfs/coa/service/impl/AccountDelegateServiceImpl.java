@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
@@ -30,11 +33,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.api.role.RoleResponsibility;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -185,8 +191,18 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
         final RoleService roleManagementService = SpringContext.getBean(RoleService.class);
         final String roleId = roleManagementService.getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
         if (!StringUtils.isBlank(roleId)) {
-            roleManagementService.applicationRoleMembershipChanged(roleId);
+            List<RoleResponsibility> newRoleResp = roleManagementService.getRoleResponsibilities(roleId);
+            KEWServiceLocator.getActionRequestService().updateActionRequestsForResponsibilityChange(getChangedRoleResponsibilityIds(newRoleResp));
         }
+    }
+    protected Set<String> getChangedRoleResponsibilityIds( List<RoleResponsibility> newRoleResp){
+        Set<String> lRet = new HashSet<String>();
+          if(ObjectUtils.isNotNull(newRoleResp)){
+            for(RoleResponsibility roleResp: newRoleResp){
+                lRet.add(roleResp.getResponsibilityId());
+            }
+        }
+        return lRet;
     }
 
     @NonTransactional

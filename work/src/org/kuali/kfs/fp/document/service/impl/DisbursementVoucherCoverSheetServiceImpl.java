@@ -187,7 +187,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
         for (Iterator i = keyValuesFinder.getKeyValues().iterator(); i.hasNext();) {
             KeyValue pair = (KeyValue) i.next();
             if (StringUtils.equals((String) pair.getKey(), key)) {
-                return pair.getLabel();
+                return pair.getValue();
             }
         }
         return "";

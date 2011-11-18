@@ -78,7 +78,7 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends DerivedRoleT
      * @return true if the principal is a member of the role, false otherwise
      */
     protected boolean hasRoleMembership(String principalId, Map<String,String> qualification, String namespaceCode, String roleName) {
-        String roleId = getRoleService().getRoleIdByName(namespaceCode, roleName);        
+        String roleId = getRoleService().getRoleIdByNameAndNamespaceCode(namespaceCode, roleName);        
         return getRoleService().principalHasRole(principalId, Collections.singletonList(roleId), qualification);
     }
 

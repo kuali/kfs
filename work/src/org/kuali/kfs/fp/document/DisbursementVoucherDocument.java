@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -76,6 +77,9 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.KimConstants;
@@ -85,6 +89,7 @@ import org.kuali.rice.kim.api.identity.address.EntityAddress;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Copyable;
@@ -973,8 +978,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         if (parameterService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherDocument.USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME) && parameterService.getParameterValueAsBoolean(DisbursementVoucherDocument.class, DisbursementVoucherDocument.USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME)) {
             this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getAddressLine1Unmasked());
             this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(employee.getAddressLine2Unmasked());
-            this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getAddressCityNameUnmasked());
-            this.getDvPayeeDetail().setDisbVchrPayeeStateCode(employee.getAddressStateCodeUnmasked());
+            this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getAddressCityUnmasked());
+            this.getDvPayeeDetail().setDisbVchrPayeeStateCode(employee.getAddressStateProvinceCodeUnmasked());
             this.getDvPayeeDetail().setDisbVchrPayeeZipCode(employee.getAddressPostalCodeUnmasked());
             this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(employee.getAddressCountryCodeUnmasked());
         } else {
@@ -982,8 +987,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             if (address != null) {
                 this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(address.getLine1Unmasked());
                 this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(address.getLine2Unmasked());
-                this.getDvPayeeDetail().setDisbVchrPayeeCityName(address.getCityNameUnmasked());
-                this.getDvPayeeDetail().setDisbVchrPayeeStateCode(address.getStateCodeUnmasked());
+                this.getDvPayeeDetail().setDisbVchrPayeeCityName(address.getCityUnmasked());
+                this.getDvPayeeDetail().setDisbVchrPayeeStateCode(address.getStateProvinceCodeUnmasked());
                 this.getDvPayeeDetail().setDisbVchrPayeeZipCode(address.getPostalCodeUnmasked());
                 this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(address.getCountryCodeUnmasked());
             }
@@ -1076,7 +1081,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         
         while (count < addresses.size() && foundAddress == null) {
             final EntityAddress currentAddress = addresses.get(count);
-            if (currentAddress.getAddressTypeCode().equals(addressType)) {
+            if (currentAddress.getAddressType().getCode().equals(addressType)) {
                 foundAddress = currentAddress;
             }
             count += 1;
@@ -1126,8 +1131,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected boolean shouldClearSpecialHandling() {
         if (!isDisbVchrSpecialHandlingCode()) {
             // are we at the campus route node?
-            String[] names = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-            List<String> currentNodes = Arrays.asList(names);
+            List<RouteNodeInstance> currentNodes = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeInstances();
             return (currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
         }
         return false;
@@ -1717,7 +1721,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         
         if (sepOfDutiesRequired) {
             try {    
-                Set<Person> priorApprovers = getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();               
+                Set<Person> priorApprovers = getAllPriorApprovers();               
                 // The payee cannot be the only approver
                 String payeeEmployeeId = this.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
                 Person payee = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeEmployeeId);
@@ -1738,6 +1742,24 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             }
         }
             return false;
+    }
+  
+    public Set<Person> getAllPriorApprovers() throws WorkflowException {
+        PersonService personService = KimApiServiceLocator.getPersonService();
+         List<ActionTaken> actionsTaken = getDocumentHeader().getWorkflowDocument().getActionsTaken();
+        Set<String> principalIds = new HashSet<String>();
+        Set<Person> persons = new HashSet<Person>();
+        
+        for (ActionTaken actionTaken : actionsTaken) {
+            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken())) {
+                String principalId = actionTaken.getPrincipalId();
+                if (!principalIds.contains(principalId)) {
+                    principalIds.add(principalId);
+                    persons.add(personService.getPerson(principalId));
+                }
+            }
+        }
+        return persons;
     }
     
     /**

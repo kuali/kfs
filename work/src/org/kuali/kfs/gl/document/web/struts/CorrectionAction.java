@@ -1224,7 +1224,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             // Get field name, type, length & value on the form
             String fieldName = (String) lkp.getKey();
-            String fieldDisplayName = lkp.getLabel();
+            String fieldDisplayName = lkp.getValue();
             String fieldType = oeff.getFieldType(fieldName);
             int fieldLength = oeff.getFieldLength(fieldName);
             String fieldValue = null;

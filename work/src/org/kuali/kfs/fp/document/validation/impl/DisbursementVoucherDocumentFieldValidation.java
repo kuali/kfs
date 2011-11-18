@@ -59,7 +59,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
-        if (!errors.isEmpty()) {
+        if (!errors.hasErrors()) {
             return false;
         }
 
@@ -101,7 +101,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      * @return whether the given document has no notes
      */
     protected boolean hasNoNotes(DisbursementVoucherDocument document) {
-        List<Note> notes = document.getDocumentHeader().getNotes();
+        List<Note> notes = document.getNotes();
 
         if(notes == null || notes.isEmpty()) {
             String remoteObjectId = document.getDocumentHeader().getObjectId();

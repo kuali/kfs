@@ -26,7 +26,9 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
+import org.kuali.rice.core.api.uif.RemotableAttributeError.Builder;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.type.KimAttributeField;
@@ -80,13 +82,13 @@ public class SubAccountReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
      * 
      * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#validateAttributes(org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
-    @Override
-    public Map<String,String> validateAttributes(String kimTypeId, Map<String,String> attributes) {
-        Map<String,String> errorMap = super.validateAttributes(kimTypeId, attributes);
+    public List<RemotableAttributeError> validateAttributes(String kimTypeId, Map<String,String> attributes) {
+        List<RemotableAttributeError> errorMap = super.validateAttributes(kimTypeId, attributes);
         String chartCode = attributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String organizationCode = attributes.get(KfsKimAttributes.ORGANIZATION_CODE);
         String accountNumber = attributes.get(KfsKimAttributes.ACCOUNT_NUMBER);
         String subAccountNumber = attributes.get(KfsKimAttributes.SUB_ACCOUNT_NUMBER);
+        
         if (StringUtils.isEmpty(accountNumber) && StringUtils.isEmpty(organizationCode)) {
             // remove chartofAccountCode, organizationCode and account number and sub-account number errors
             errorMap.remove(KfsKimAttributes.ACCOUNT_NUMBER);
@@ -97,10 +99,18 @@ public class SubAccountReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
                 errorMap.remove(KfsKimAttributes.SUB_ACCOUNT_NUMBER);
         }
         else if (StringUtils.isNotEmpty(accountNumber) || StringUtils.isNotEmpty(organizationCode)) {
-            if (StringUtils.isEmpty(chartCode))
-                errorMap.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
-            if (StringUtils.isEmpty(subAccountNumber))
-                errorMap.put(KfsKimAttributes.SUB_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+            if (StringUtils.isEmpty(chartCode)) {
+                Builder caBuilder = RemotableAttributeError.Builder.create(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+                caBuilder.getErrors().add(KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+                errorMap.add(caBuilder.build());
+            }
+                
+            if (StringUtils.isEmpty(subAccountNumber)) {
+                Builder caBuilder = RemotableAttributeError.Builder.create(KfsKimAttributes.SUB_ACCOUNT_NUMBER);
+                caBuilder.getErrors().add(KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+                errorMap.add(caBuilder.build());
+                
+            }
         }
         return errorMap;
     }

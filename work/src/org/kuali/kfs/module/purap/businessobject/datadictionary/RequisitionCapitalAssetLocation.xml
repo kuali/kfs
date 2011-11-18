@@ -48,7 +48,7 @@
               <property name="objectAttributeName" value="campus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="campusCode"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="code"/>
                 </list>
               </property>
     		</bean>
@@ -130,7 +130,7 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address" parent="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean"/>
@@ -164,12 +164,12 @@
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean"/>
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="ExternalizableAttributeDefinitionProxy" abstract="true" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode" p:sourceAttributeName="postalCode" p:name="capitalAssetPostalCode" p:label="Postal Code" p:shortLabel="Postal Code" p:required="false">
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="ExternalizableAttributeDefinitionProxy" abstract="true" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode" p:sourceAttributeName="code" p:name="capitalAssetPostalCode" p:label="Postal Code" p:shortLabel="Postal Code" p:required="false">
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode" parent="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean"/>
 
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State" p:sourceAttributeName="stateCode">
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo" p:sourceAttributeName="code">
     <property name="name" value="capitalAssetStateCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="State"/>
@@ -179,7 +179,7 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean"/>

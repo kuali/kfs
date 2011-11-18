@@ -142,8 +142,8 @@
 
 	<bean id="SubContractor-subcontractorStateCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
-		p:sourceAttributeName="stateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo"
+		p:sourceAttributeName="code">
 		<property name="name" value="subcontractorStateCode" />
 		<property name="label" value="State Code" />
 		<property name="shortLabel" value="State" />
@@ -152,8 +152,8 @@
 
 	<bean id="SubContractor-subcontractorZipCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceAttributeName="code">
 		<property name="name" value="subcontractorZipCode" />
 		<property name="required" value="true" />
 	</bean>
@@ -161,8 +161,8 @@
 
 	<bean id="SubContractor-subcontractorCountryCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country"
-		p:sourceAttributeName="postalCountryCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.country.Country"
+		p:sourceAttributeName="code">
 		<property name="name" value="subcontractorCountryCode" />
 		<property name="shortLabel" value="Country" />
 		<property name="maxLength" value="15" />

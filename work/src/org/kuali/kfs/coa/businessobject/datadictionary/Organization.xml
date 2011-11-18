@@ -130,7 +130,7 @@
             <dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode"/>
         </dd:relationship>       
         <dd:relationship objectAttribute="organizationPhysicalCampus">
-            <dd:primitiveAttribute source="organizationPhysicalCampusCode" target="campusCode"/>
+            <dd:primitiveAttribute source="organizationPhysicalCampusCode" target="code"/>
         </dd:relationship>        
       </list>
     </property>
@@ -243,8 +243,8 @@
 	</bean>
 	<bean id="Organization-organizationPhysicalCampusCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Campus"
-		p:sourceAttributeName="campusCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.campus.CampusBo"
+		p:sourceAttributeName="code">
 		<property name="name" value="organizationPhysicalCampusCode" />
 		<property name="label" value="Organization Physical Campus Code" />
 		<property name="forceUppercase" value="true"/>
@@ -294,8 +294,8 @@
 
 	<bean id="Organization-organizationZipCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceAttributeName="code">
 		<property name="name" value="organizationZipCode" />
 		<property name="label" value="Organization Postal Code" />
 		<property name="shortLabel" value="Postal Code" />
@@ -305,8 +305,8 @@
 
 	<bean id="Organization-organizationStateCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
-		p:sourceAttributeName="stateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo"
+		p:sourceAttributeName="code">
 		<property name="name" value="organizationStateCode" />
 		<property name="label" value="Organization State/Province Code" />
 		<property name="shortLabel" value="St Cd" />
@@ -323,8 +323,8 @@
 
 	<bean id="Organization-organizationCountryCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country"
-		p:sourceAttributeName="postalCountryCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.country.Country"
+		p:sourceAttributeName="code">
 		<property name="name" value="organizationCountryCode" />
 		<property name="label" value="Organization Country Code" />
 		<property name="shortLabel" value="Country Cd" />
@@ -334,7 +334,7 @@
 		</property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

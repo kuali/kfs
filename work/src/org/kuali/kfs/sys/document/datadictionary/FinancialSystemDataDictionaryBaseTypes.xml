@@ -193,7 +193,7 @@
     </bean>
    
     <bean id="SearchingAttribute-campusCode" class="org.kuali.rice.krad.datadictionary.SearchingAttribute" >
-    	<property name="businessObjectClassName" value="org.kuali.rice.krad.bo.Campus" />
+    	<property name="businessObjectClassName" value="org.kuali.rice.location.impl.campus.CampusBo" />
     	<property name="attributeName" value="campusCode" />
     </bean>
     <bean id="RoutingAttribute-campusCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute" >

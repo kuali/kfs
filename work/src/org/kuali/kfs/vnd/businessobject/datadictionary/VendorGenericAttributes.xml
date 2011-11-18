@@ -48,7 +48,7 @@
 
   <bean id="VendorGenericAttributes-stateCode" parent="VendorGenericAttributes-stateCode-parentBean"/>
 
-  <bean id="VendorGenericAttributes-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State" p:sourceAttributeName="stateCode">
+  <bean id="VendorGenericAttributes-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo" p:sourceAttributeName="code">
     <property name="name" value="stateCode"/>
     <property name="label" value="State"/>
     <property name="shortLabel" value="State"/>
@@ -56,7 +56,7 @@
   </bean>
   
   <bean id="VendorGenericAttributes-campusCode" parent="VendorGenericAttributes-campusCode-parentBean"/>
-  <bean id="VendorGenericAttributes-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Campus" p:sourceAttributeName="campusCode">
+  <bean id="VendorGenericAttributes-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.campus.CampusBo" p:sourceAttributeName="code">
     <property name="name" value="campusCode"/>
     <property name="label" value="Campus"/>
     <property name="shortLabel" value="Campus"/>
@@ -150,7 +150,7 @@
   </bean>
 
   <bean id="VendorGenericAttributes-zipCode" parent="VendorGenericAttributes-zipCode-parentBean"/>
-  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode" p:sourceAttributeName="postalCode">
+  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode" p:sourceAttributeName="code">
     <property name="name" value="zipCode"/>
     <property name="required" value="false"/>
     <property name="validationPattern">
@@ -166,12 +166,12 @@
   </bean>
 
   <bean id="VendorGenericAttributes-countryCode" parent="VendorGenericAttributes-countryCode-parentBean"/>
-  <bean id="VendorGenericAttributes-countryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country" p:sourceAttributeName="postalCountryCode">
+  <bean id="VendorGenericAttributes-countryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.country.Country" p:sourceAttributeName="code">
     <property name="name" value="countryCode"/>
     <property name="label" value="Country"/>
     <property name="shortLabel" value="Country"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   

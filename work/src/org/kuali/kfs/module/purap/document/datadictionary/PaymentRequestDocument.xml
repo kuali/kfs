@@ -147,7 +147,7 @@
               <property name="objectAttributeName" value="processingCampus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingCampusCode" p:targetName="campusCode"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingCampusCode" p:targetName="code"/>
                 </list>
               </property>
     		</bean>
@@ -155,7 +155,7 @@
               <property name="objectAttributeName" value="processingCampus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingCampusCodeForSearch" p:targetName="campusCode"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingCampusCodeForSearch" p:targetName="code"/>
                 </list>
               </property>
     		</bean>
@@ -902,7 +902,7 @@
   </bean>
   <bean id="PaymentRequestDocument-taxCountryCode" parent="PaymentRequestDocument-taxCountryCode-parentBean"/>
 
-  <bean id="PaymentRequestDocument-taxCountryCode-parentBean" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country" p:sourceAttributeName="postalCountryCode">
+  <bean id="PaymentRequestDocument-taxCountryCode-parentBean" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.country.Country" p:sourceAttributeName="code">
     <property name="name" value="taxCountryCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Country"/>
@@ -912,7 +912,7 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="PaymentRequestDocument-taxGrossUpIndicator" parent="PaymentRequestDocument-taxGrossUpIndicator-parentBean"/>

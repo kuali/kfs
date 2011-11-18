@@ -108,7 +108,7 @@
             <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode"/>
         </dd:relationship>
         <dd:relationship objectAttribute="deliveryCampus">
-            <dd:primitiveAttribute source="deliveryCampusCode" target="campusCode"/>
+            <dd:primitiveAttribute source="deliveryCampusCode" target="code"/>
         </dd:relationship>
         <bean parent="RelationshipDefinition">
              <property name="objectAttributeName" value="vendorDetail"/>

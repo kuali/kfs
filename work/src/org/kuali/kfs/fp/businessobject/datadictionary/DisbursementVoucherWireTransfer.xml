@@ -105,7 +105,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="DisbursementVoucherWireTransfer-disbVchrAttentionLineText" parent="DisbursementVoucherWireTransfer-disbVchrAttentionLineText-parentBean"/>

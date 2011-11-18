@@ -33,7 +33,7 @@
 			<list>
 				<ref bean="CampusParameter-campusAccountsPayableEmailAddress" />
 				<ref bean="CampusParameter-campusCode" />
-				<ref bean="CampusParameter-campus.campusName" />
+				<ref bean="CampusParameter-campus.name" />
 				<ref bean="CampusParameter-campusPurchasingDirectorName" />
 				<ref bean="CampusParameter-campusPurchasingDirectorTitle" />
 				<ref bean="CampusParameter-purchasingInstitutionName" />
@@ -61,7 +61,7 @@
 				</dd:relationship>
 				<dd:relationship objectAttribute="campus">
 					<dd:primitiveAttribute source="campusCode"
-						target="campusCode" />
+						target="code" />
 				</dd:relationship>
 			</list>
 		</property>
@@ -94,11 +94,11 @@
 			<bean parent="TextControlDefinition" p:size="45" />
 		</property>
 	</bean>
-	<bean id="CampusParameter-campus.campusName" parent="CampusParameter-campus.campusName-parentBean" />
+	<bean id="CampusParameter-campus.name" parent="CampusParameter-campus.name-parentBean" />
 
-	<bean id="CampusParameter-campus.campusName-parentBean" abstract="true"
+	<bean id="CampusParameter-campus.name-parentBean" abstract="true"
 		parent="Campus-name">
-		<property name="name" value="campus.campusName" />
+		<property name="name" value="campus.name" />
 	</bean>
 
 	<bean id="CampusParameter-campusPurchasingDirectorName" parent="CampusParameter-campusPurchasingDirectorName-parentBean" />
@@ -282,7 +282,7 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="campusCode" />
-				<bean parent="FieldDefinition" p:attributeName="campus.campusName" />
+				<bean parent="FieldDefinition" p:attributeName="campus.name" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

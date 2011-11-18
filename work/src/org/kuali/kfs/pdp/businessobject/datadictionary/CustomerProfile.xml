@@ -113,7 +113,7 @@
               <property name="objectAttributeName" value="defaultProcessingCampus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultPhysicalCampusProcessingCode" p:targetName="campusCode"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultPhysicalCampusProcessingCode" p:targetName="code"/>
                 </list>
               </property>
     		</bean>

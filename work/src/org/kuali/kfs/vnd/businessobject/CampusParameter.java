@@ -32,32 +32,25 @@ import org.kuali.rice.location.api.state.StateService;
 /**
  * Campus Parameter Business Object. Maintenance document for campus parameters.
  */
-public class CampusParameter extends PersistableBusinessObjectBase implements Inactivatable{
+public class CampusParameter extends PersistableBusinessObjectBase implements Inactivatable {
 
-    private String campusCode;
-    private String campusPurchasingDirectorName;
-    private String campusPurchasingDirectorTitle;
-    private String campusAccountsPayableEmailAddress;
-    private String purchasingInstitutionName;
-    private String purchasingDepartmentName;
-    private String purchasingDepartmentLine1Address;
-    private String purchasingDepartmentLine2Address;
-    private String purchasingDepartmentCityName;
-    private String purchasingDepartmentStateCode;
-    private String purchasingDepartmentZipCode;
-    private String purchasingDepartmentCountryCode;
-    private boolean active;
+    protected String campusCode;
+    protected String campusPurchasingDirectorName;
+    protected String campusPurchasingDirectorTitle;
+    protected String campusAccountsPayableEmailAddress;
+    protected String purchasingInstitutionName;
+    protected String purchasingDepartmentName;
+    protected String purchasingDepartmentLine1Address;
+    protected String purchasingDepartmentLine2Address;
+    protected String purchasingDepartmentCityName;
+    protected String purchasingDepartmentStateCode;
+    protected String purchasingDepartmentZipCode;
+    protected String purchasingDepartmentCountryCode;
+    protected boolean active;
 
-    private Campus campus;
-    private State purchasingDepartmentState;
-    private Country purchasingDepartmentCountry;
-
-    /**
-     * Default constructor.
-     */
-    public CampusParameter() {
-
-    }
+    protected Campus campus;
+    protected State purchasingDepartmentState;
+    protected Country purchasingDepartmentCountry;
 
     public Campus getCampus() {
         return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
@@ -188,15 +181,6 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
 
     public void setPurchasingInstitutionName(String purchasingInstitutionName) {
         this.purchasingInstitutionName = purchasingInstitutionName;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("campusCode", this.campusCode);
-        return m;
     }
 
     public boolean isActive() {

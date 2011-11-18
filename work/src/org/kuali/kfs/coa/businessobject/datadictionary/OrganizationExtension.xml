@@ -77,7 +77,7 @@
           <property name="objectAttributeName" value="hrmsIuCampus"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrmsIuCampusCode" p:targetName="campusCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrmsIuCampusCode" p:targetName="code"/>
             </list>
           </property>
 		</bean>

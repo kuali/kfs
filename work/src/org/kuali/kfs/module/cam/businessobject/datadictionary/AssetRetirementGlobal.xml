@@ -210,7 +210,7 @@
     <property name="label" value="State Code"/>
     <property name="shortLabel" value="Code"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.StateValuesFinder"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"/>
     </property>
   </bean>
   
@@ -226,7 +226,7 @@
     <property name="name" value="retirementCountryCode"/>
     <property name="label" value="Country Code"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryValuesFinder"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder"/>
     </property>
   </bean>
   

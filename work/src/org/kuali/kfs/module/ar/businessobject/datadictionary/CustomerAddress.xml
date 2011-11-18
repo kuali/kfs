@@ -222,8 +222,8 @@
 
 	<bean id="CustomerAddress-customerStateCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
-		p:sourceAttributeName="stateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo"
+		p:sourceAttributeName="code">
 		<property name="name" value="customerStateCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="State" />
@@ -233,7 +233,7 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.StateValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
@@ -241,8 +241,8 @@
 
 	<bean id="CustomerAddress-customerZipCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceAttributeName="code">
 		<property name="name" value="customerZipCode" />
 	</bean>
 
@@ -250,8 +250,8 @@
 
 	<bean id="CustomerAddress-customerCountryCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country"
-		p:sourceAttributeName="postalCountryCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.country.Country"
+		p:sourceAttributeName="code">
 		<property name="name" value="customerCountryCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Country" />
@@ -262,7 +262,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.krad.bo.options.CountryNotRestrictedValuesFinder"
+				p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

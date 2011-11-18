@@ -197,7 +197,7 @@
         <bean parent="RelationshipDefinition" p:objectAttributeName="accountPhysicalCampus">
         	<property name="primitiveAttributes">
         		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountPhysicalCampusCode" p:targetName="campusCode" />
+        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountPhysicalCampusCode" p:targetName="code" />
         		</list>
         	</property>
         </bean>        
@@ -357,8 +357,8 @@
 
 	<bean id="Account-accountStateCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
-		p:sourceAttributeName="stateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo"
+		p:sourceAttributeName="code">
 		<property name="name" value="accountStateCode" />
 		<property name="label" value="Account State Code" />
 		<property name="shortLabel" value="StateCd" />
@@ -392,8 +392,8 @@
 
 	<bean id="Account-accountZipCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceAttributeName="code">
 		<property name="name" value="accountZipCode" />
 		<property name="label" value="Account Postal Code" />
 		<property name="shortLabel" value="ZipCode" />

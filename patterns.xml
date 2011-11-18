@@ -4,6 +4,10 @@
 
 	<!-- 
 		<pattern>
+			<match>org.kuali.rice.kns.lookup.keyvalues.NamespaceValuesFinder</match>
+			<replacement>org.kuali.rice.core.web.namespace.NamespaceValuesFinder</replacement>
+		</pattern>
+		<pattern>
 			<match>org\.kuali\.rice\.kns\.document\.authorization\.PermissionDerivedRoleTypeServiceImpl</match>
 			<replacement>org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl</replacement>
 		</pattern>
@@ -50,6 +54,61 @@
  -->	
     </rule>
 	<rule name="new_rule_testing_2">
+	
+	<pattern fileType="xml">
+		<match>org.kuali.rice.krad.bo.State</match>
+		<replacement>org.kuali.rice.location.impl.state.StateBo</replacement>
+	</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.PostalCode</match>
+			<replacement>org.kuali.rice.location.impl.postalcode.PostalCode</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.Country</match>
+			<replacement>org.kuali.rice.location.impl.country.Country</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.County</match>
+			<replacement>org.kuali.rice.location.impl.county.County</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.options.CountryValuesFinder</match>
+			<replacement>org.kuali.rice.location.framework.country.CountryValuesFinder</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.options.StateValuesFinder</match>
+			<replacement>org.kuali.rice.location.framework.state.StateValuesFinder</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.options.CountryNotRestrictedValuesFinder</match>
+			<replacement>org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>sourceAttributeName="(state|postal|postalCountry|campus)Code"</match>
+			<replacement>sourceAttributeName="code"</replacement>
+		</pattern>
+
+		<pattern fileType="xml">
+			<match>targetName="campusCode"</match>
+			<replacement>targetName="code"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>target="campusCode"</match>
+			<replacement>target="code"</replacement>
+		</pattern>
+
+	<!-- 
+		<pattern fileType="xml">
+			<match>org\.kuali\.rice\.krad\.bo\.Campus</match>
+			<replacement>org.kuali.rice.location.impl.campus.CampusBo</replacement>
+		</pattern>
 		<pattern>
 			<match>ref="CheckboxControl"</match>
 			<replacement>ref="KfsCheckboxControl"</replacement>
@@ -58,7 +117,6 @@
 			<match>id="CheckboxControl"</match>
 			<replacement>id="KfsCheckboxControl"</replacement>
 		</pattern>
-	<!-- 
 		<pattern>
 			<match>"Campus-campusName</match>
 			<replacement>"Campus-name</replacement>

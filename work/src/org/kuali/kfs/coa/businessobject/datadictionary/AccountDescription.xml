@@ -85,7 +85,7 @@
   </bean>
 
   <bean id="AccountDescription-campusCode" parent="AccountDescription-campusCode-parentBean"/>
-  <bean id="AccountDescription-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Campus" p:sourceAttributeName="campusCode">
+  <bean id="AccountDescription-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.campus.CampusBo" p:sourceAttributeName="code">
     <property name="name" value="campusCode"/>
     <property name="label" value="Building Campus Code"/>
     <property name="shortLabel" value="BldgCmpCd"/>

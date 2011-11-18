@@ -335,8 +335,8 @@
 
 	<bean id="OrganizationOptions-organizationRemitToStateCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State"
-		p:sourceAttributeName="stateCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo"
+		p:sourceAttributeName="code">
 		<property name="name" value="organizationRemitToStateCode" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
@@ -349,8 +349,8 @@
 
 	<bean id="OrganizationOptions-organizationRemitToZipCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceAttributeName="code">
 		<property name="name" value="organizationRemitToZipCode" />
 		<property name="required" value="true" />
 	</bean>
@@ -392,8 +392,8 @@
 
 	<bean id="OrganizationOptions-organizationPostalZipCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceAttributeName="code">
 		<property name="name" value="organizationPostalZipCode" />
 		<property name="label" value="Organization Postal Code" />
 		<property name="shortLabel" value="Org Postal Cd" />
@@ -405,8 +405,8 @@
 
 	<bean id="OrganizationOptions-organizationPostalCountryCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode"
-		p:sourceAttributeName="postalCountryCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceAttributeName="code">
 		<property name="name" value="organizationPostalCountryCode" />
 		<property name="label" value="Organization Postal Country Code" />
 		<property name="shortLabel" value="Org Country Cd" />

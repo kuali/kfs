@@ -41,7 +41,7 @@
 			<list>
 				<dd:relationship objectAttribute="campus">
 					<dd:primitiveAttribute source="campusCode"
-						target="campusCode" />
+						target="code" />
 				</dd:relationship>
 			</list>
 		</property>
@@ -52,8 +52,8 @@
 	<bean id="CommodityContractManager-campusCode" parent="CommodityContractManager-campusCode-parentBean" />
 	<bean id="CommodityContractManager-campusCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Campus"
-		p:sourceAttributeName="campusCode">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.campus.CampusBo"
+		p:sourceAttributeName="code">
 		<property name="name" value="campusCode" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"

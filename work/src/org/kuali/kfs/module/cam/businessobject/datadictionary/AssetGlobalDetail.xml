@@ -82,7 +82,7 @@
             <dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode"/>
         </dd:relationship>
 		<dd:relationship objectAttribute="campus">
-            <dd:primitiveAttribute source="campusCode" target="campusCode"/>
+            <dd:primitiveAttribute source="campusCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="capitalAssetType">
             <dd:primitiveAttribute source="capitalAssetTypeCode" target="capitalAssetTypeCode"/>

@@ -114,7 +114,7 @@
       <bean parent="TextControlDefinition" p:datePicker="true" p:size="10"/>
     </property>
     <property name="summary" value="&amp;nbsp;"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     <property name="name" value="genericDate"/>
     <property name="label" value="Generic Date Style Attribute"/>
     <property name="description" value="This attribute should always be overriden on the descriptive elements."/>
@@ -129,7 +129,7 @@
       <bean parent="TextControlDefinition" p:datePicker="true" p:size="10"/>
     </property>
     <property name="summary" value="&amp;nbsp;"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     <property name="name" value="genericTimestamp"/>
     <property name="label" value="Generic Timestamp Style Attribute"/>
     <property name="description" value="This attribute should always be overriden on the descriptive elements."/>
@@ -144,7 +144,7 @@
       <bean parent="CheckboxControlDefinition"/>
     </property>
     <property name="summary" value="&amp;nbsp;"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
     <property name="name" value="genericBoolean"/>
     <property name="label" value="Generic Boolean Attribute"/>
     <property name="description" value="This attribute should always be overriden on the descriptive elements."/>
@@ -162,7 +162,7 @@
       <bean parent="CheckboxControlDefinition"/>
     </property>
     <property name="summary" value="Active Indicator"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
     <property name="name" value="activeIndicator"/>
     <property name="label" value="Active Indicator"/>
     <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
@@ -301,7 +301,7 @@
       <bean parent="HiddenControlDefinition"/>
     </property>
     <property name="summary" value="&amp;nbsp;"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
     <property name="name" value="newCollectionRecord"/>
     <property name="label" value="New Collection Record Indicator"/>
     <property name="description" value="This attribute indicates whether the object is a new record for a collection."/>
@@ -330,7 +330,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:datePicker="true" p:size="10" p:ranged="false"/>
     </property>  
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateDisplayTimestampObjectFormatter"/>  
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateDisplayTimestampObjectFormatter"/>  
     <property name="summary" value="Start Date"/>
     <property name="description" value="Start Date"/>
   </bean>
@@ -344,7 +344,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:datePicker="true" p:size="10" p:ranged="false"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateDisplayTimestampObjectFormatter"/>  
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateDisplayTimestampObjectFormatter"/>  
     <property name="summary" value="End Date"/>
     <property name="description" value="End Date"/>
   </bean>
@@ -358,7 +358,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:datePicker="true" p:size="10" p:ranged="false"/>
     </property> 
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateDisplayTimestampObjectFormatter"/>     
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateDisplayTimestampObjectFormatter"/>     
     <property name="summary" value="Date for which a record is determined active or inactive."/>
     <property name="description" value="Date for which a record is determined active or inactive."/>
   </bean>

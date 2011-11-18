@@ -72,7 +72,7 @@
   <bean id="KfsCheckboxControl" parent="CheckboxControlDefinition"/>
   <bean id="GenericAmountControl" parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
   <bean id="GenericBigTextControl" parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
-  <bean id="StateCodeSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
+  <bean id="StateCodeSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
   <bean id="IndicatorYNNullSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
 
 

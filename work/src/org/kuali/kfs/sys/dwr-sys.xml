@@ -28,7 +28,7 @@
 			<param name="beanName" value="originationCodeService" />
 			<include method="getByPrimaryKey" />
 		</create>
-		<convert converter="bean" match="org.kuali.rice.krad.bo.PostalCode">
+		<convert converter="bean" match="org.kuali.rice.location.api.postalcode.PostalCode">
 			<param name="include" value="postalCode,stateCode,cityName,buildingCode,buildingRoomNumber" />
 		</convert>
 		<create creator="spring" javascript="PostalCodeService">

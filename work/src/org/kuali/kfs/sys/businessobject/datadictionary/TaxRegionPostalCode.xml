@@ -45,14 +45,14 @@
 <!-- Attribute Definitions -->
   <bean id="TaxRegionPostalCode-postalCountryCode" parent="TaxRegionPostalCode-postalCountryCode-parentBean"/>
   
-  <bean id="TaxRegionPostalCode-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.Country" p:sourceAttributeName="postalCountryCode">
+  <bean id="TaxRegionPostalCode-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.country.Country" p:sourceAttributeName="code">
 	<property name="name" value="postalCountryCode"/>
 	<property name="forceUppercase" value="true"/>
   </bean>	
   
  <bean id="TaxRegionPostalCode-postalCode" parent="TaxRegionPostalCode-postalCode-parentBean"/>
 
-  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode" p:sourceAttributeName="postalCode">
+  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode" p:sourceAttributeName="code">
     <property name="name" value="postalCode"/>
     <property name="forceUppercase" value="true"/>
   </bean>

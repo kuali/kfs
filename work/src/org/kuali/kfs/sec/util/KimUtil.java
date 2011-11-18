@@ -47,7 +47,7 @@ public class KimUtil {
 
         RoleMembership modelMembershipInfo = null;
         for (RoleMembership roleMembershipInfo : roleMembers) {
-            if (roleMembershipInfo.getMemberTypeCode().equals(memberType) && roleMembershipInfo.getMemberId().equals(memberRoleId)) {
+            if (roleMembershipInfo.getMemberType().code.equals(memberType) && roleMembershipInfo.getMemberId().equals(memberRoleId)) {
                 if (membershipQualifications != null) {
                     boolean qualficationsMatch = doQualficationsMatch(membershipQualifications, roleMembershipInfo.getQualifier());
 
@@ -106,7 +106,7 @@ public class KimUtil {
     public static boolean doMembershipQualificationsMatchValues(Map<String,String> membershipQualifications, String constraintCode, String operator, String attributeValue) {
         String constraintQualifyValue = membershipQualifications.get(SecKimAttributes.CONSTRAINT_CODE);
         String operatorQualifyValue = membershipQualifications.get(SecKimAttributes.OPERATOR);
-        String propertyValueQualifyValue = membershipQualifications.get(KimConstants.AttributeConstants.PROPERTY_VALUE);
+        String propertyValueQualifyValue = membershipQualifications.get(SecKimAttributes.PROPERTY_VALUE);
 
         if (!StringUtils.equals(constraintQualifyValue, constraintCode)) {
             return false;

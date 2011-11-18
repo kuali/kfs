@@ -59,7 +59,7 @@ public class SecUtil {
         boolean canView = true;
 
         // If the module has not been loaded, then just skip any further checks as the services will not be defined
-        if ( SpringContext.getBean(ConfigurationService.class).getPropertyAsBoolean(SecConstants.ACCESS_SECURITY_MODULE_ENABLED_PROPERTY_NAME) ) {   
+        if ( SpringContext.getBean(ConfigurationService.class).getPropertyValueAsBoolean(SecConstants.ACCESS_SECURITY_MODULE_ENABLED_PROPERTY_NAME) ) {   
             if (document instanceof AccountingDocument) {
                 AccountingLine line = new SourceAccountingLine();
     

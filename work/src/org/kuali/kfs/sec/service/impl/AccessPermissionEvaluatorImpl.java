@@ -27,7 +27,7 @@ import org.kuali.rice.kim.api.identity.Person;
  * @see org.kuali.kfs.sec.service.AccessPermissionEvaluator
  */
 public class AccessPermissionEvaluatorImpl implements AccessPermissionEvaluator {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccessSecurityServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccessPermissionEvaluatorImpl.class);
 
     protected String constraintCode;
     protected String operatorCode;

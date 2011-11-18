@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.businessobject.datadictionary;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 
 /**

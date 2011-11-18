@@ -21,7 +21,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.Permission;
 
@@ -75,27 +79,18 @@ public class SecurityAttributeDocTypePermissionTypeServiceImpl extends SecurityA
      * @return boolean true if the first document type is a child of the second
      */
     protected boolean isParentDocType(String docTypeName, String potentialParentDocTypeName) {
-//        WorkflowInfo workflowInfo = new WorkflowInfo();
-
         DocumentType documentType = null;
-        try {
-            documentType = workflowInfo.getDocType(docTypeName);
-            String parentDocTypeName = documentType.getDocTypeParentName();
-
-            if (StringUtils.equals(docTypeName, parentDocTypeName)) {
-                return true;
-            }
-            else if ((documentType.getDocTypeParentId() == null) || documentType.getDocTypeParentId().equals(documentType.getDocTypeId())) {
-                return false;
-            }
-            else {
-                return isParentDocType(parentDocTypeName, potentialParentDocTypeName);
-            }
+        documentType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(docTypeName);
+        
+        if ( documentType == null || StringUtils.isBlank( documentType.getParentId() ) ) {
+            return false;
         }
-        catch (WorkflowException e) {
-            LOG.error("Invalid document type found " + docTypeName);
-            throw new RuntimeException("Invalid document type found: " + docTypeName);
-        }
+        
+        DocumentType parentDocType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeById(documentType.getParentId());
+        if ( parentDocType == null ) {
+            return false;
+        }            
+        return isParentDocType(parentDocType.getName(), potentialParentDocTypeName);
     }
 
 }

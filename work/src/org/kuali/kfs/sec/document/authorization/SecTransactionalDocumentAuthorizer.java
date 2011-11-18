@@ -182,7 +182,10 @@ public class SecTransactionalDocumentAuthorizer implements TransactionalDocument
     public boolean isAuthorizedByTemplate(BusinessObject businessObject, String namespaceCode, String permissionTemplateName, String principalId, Map<String, String> additionalPermissionDetails, Map<String, String> additionalRoleQualifiers) {
         return documentAuthorizer.isAuthorizedByTemplate(businessObject, namespaceCode, permissionTemplateName, principalId, additionalPermissionDetails, additionalRoleQualifiers);
     }
-
+    @Override
+    public boolean isAuthorizedByTemplate(Object dataObject, String namespaceCode, String permissionTemplateName, String principalId, Map<String, String> additionalPermissionDetails, Map<String, String> additionalRoleQualifiers) {
+        return documentAuthorizer.isAuthorizedByTemplate(dataObject, namespaceCode, permissionTemplateName, principalId, additionalPermissionDetails, additionalRoleQualifiers);
+    }
     /**
      * Sets the documentAuthorizer attribute value.
      * 

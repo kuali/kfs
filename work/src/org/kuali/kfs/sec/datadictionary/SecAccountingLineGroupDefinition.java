@@ -34,18 +34,13 @@ public class SecAccountingLineGroupDefinition extends AccountingLineGroupDefinit
     protected AccountingLineAuthorizer createAccountingLineAuthorizer() {
         Class<? extends AccountingLineAuthorizer> authorizerClass = getAccountingLineAuthorizerClass();
 
-        SecAccountingLineAuthorizer secAuthorizer = null;
-        AccountingLineAuthorizer authorizer = null;
+        SecAccountingLineAuthorizer secAuthorizer = new SecAccountingLineAuthorizer();
         try {
-            secAuthorizer = SecAccountingLineAuthorizer.class.newInstance();
-            authorizer = authorizerClass.newInstance();
-
+            AccountingLineAuthorizer authorizer = authorizerClass.newInstance();
             secAuthorizer.setLineAuthorizer(authorizer);
-        }
-        catch (InstantiationException ie) {
+        } catch (InstantiationException ie) {
             throw new IllegalArgumentException("InstantiationException while attempting to instantiate AccountingLineAuthorization class", ie);
-        }
-        catch (IllegalAccessException iae) {
+        } catch (IllegalAccessException iae) {
             throw new IllegalArgumentException("IllegalAccessException while attempting to instantiate AccountingLineAuthorization class", iae);
         }
         

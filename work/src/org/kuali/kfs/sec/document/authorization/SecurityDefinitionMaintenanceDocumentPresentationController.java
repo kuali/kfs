@@ -19,7 +19,7 @@ import java.util.Set;
 
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.document.MaintenanceDocument;
 import org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase;
 
 
@@ -28,6 +28,7 @@ import org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentatio
  */
 public class SecurityDefinitionMaintenanceDocumentPresentationController extends MaintenanceDocumentPresentationControllerBase {
 
+    
     /**
      * Don't allow editing of definition name on edit
      * 

@@ -165,22 +165,22 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
         }
 
         if (StringUtils.isNotBlank(memberTypeCode) && StringUtils.isNotBlank(memberId)) {
-            if (KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(memberTypeCode)) {
+            if (KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(memberTypeCode)) {
                 Person person = SpringContext.getBean(PersonService.class).getPerson(memberId);
                 if (person != null) {
                     return person.getName();
                 }
             }
-            else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)) {
+            else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)) {
                 Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
                 if (roleInfo != null) {
                     return roleInfo.getName();
                 }
             }
-            else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)) {
+            else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(memberTypeCode)) {
                 Group groupInfo = SpringContext.getBean(GroupService.class).getGroup(memberId);
                 if (groupInfo != null) {
-                    return groupInfo.getGroupName();
+                    return groupInfo.getName();
                 }
             }
         }

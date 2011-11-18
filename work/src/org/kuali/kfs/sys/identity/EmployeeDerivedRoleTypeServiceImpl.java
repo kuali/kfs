@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -53,7 +54,7 @@ public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
     public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         List<RoleMembership> members = new ArrayList<RoleMembership>();
         if (qualification!=null && StringUtils.isNotBlank(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID)) && hasApplicationRole(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID), null, namespaceCode, roleName, qualification)) {
-            members.add(new RoleMembership(null, null, qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID), Role.PRINCIPAL_MEMBER_TYPE, null));
+            members.add(RoleMembership.Builder.create(null, null, qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID), MemberType.PRINCIPAL, null).build());
         }
         return members;
     }

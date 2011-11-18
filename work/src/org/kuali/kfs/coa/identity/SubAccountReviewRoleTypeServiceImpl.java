@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,12 +26,12 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
+import org.kuali.rice.kim.api.type.KimAttributeField;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
-import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
 public class SubAccountReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
     protected DocumentTypeService documentTypeService;
@@ -104,13 +106,28 @@ public class SubAccountReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
     }
 
     @Override
-    public AttributeDefinitionMap getAttributeDefinitions(String kimTypeId) {
-        AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypeId);
-        for (AttributeDefinition definition : map.values()) {
-            if (KfsKimAttributes.SUB_ACCOUNT_NUMBER.equals(definition.getName()) || KfsKimAttributes.CHART_OF_ACCOUNTS_CODE.equals(definition.getName()) || KfsKimAttributes.ACCOUNT_NUMBER.equals(definition.getName()) || KfsKimAttributes.ORGANIZATION_CODE.equals(definition.getName())) {
-                definition.setRequired(Boolean.FALSE);
+    public List<KimAttributeField> getAttributeDefinitions(String kimTypeId) {
+        List<KimAttributeField> attributeDefinitionList = new ArrayList<KimAttributeField>();
+        for (KimAttributeField definition : super.getAttributeDefinitions(kimTypeId)) {
+            RemotableAttributeField attribute = definition.getAttributeField();
+            
+            List<String> attributeList = new ArrayList<String>(){{
+                add(KfsKimAttributes.SUB_ACCOUNT_NUMBER);
+                add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+                add(KfsKimAttributes.ACCOUNT_NUMBER);
+                add(KfsKimAttributes.ORGANIZATION_CODE);
+            }};
+            
+            //for any of the checked attribute fields
+            if (attributeList.contains(attribute.getName())) {
+                //create a new AttributeField with the existing attribute require set to false
+                RemotableAttributeField.Builder nonRequiredAttributeBuilder = RemotableAttributeField.Builder.create(attribute);
+                nonRequiredAttributeBuilder.setRequired(Boolean.FALSE);
+                attributeDefinitionList.add(KimAttributeField.Builder.create(nonRequiredAttributeBuilder, definition.getId()).build());
+            }else{
+                attributeDefinitionList.add(definition);
             }
         }
-        return map;
+        return attributeDefinitionList;
     }
 }

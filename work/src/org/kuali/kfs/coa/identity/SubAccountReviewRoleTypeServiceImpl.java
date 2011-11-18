@@ -80,7 +80,7 @@ public class SubAccountReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
     /**
      * note: for validating Sub-account review role - if acct or org are specified, sub-account and chart are all required
      * 
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#validateAttributes(org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kns.kim.type.DataDictionaryTypeServiceBase#validateAttributes(java.lang.String, java.util.Map)
      */
     public List<RemotableAttributeError> validateAttributes(String kimTypeId, Map<String,String> attributes) {
         List<RemotableAttributeError> errorMap = super.validateAttributes(kimTypeId, attributes);
@@ -89,6 +89,7 @@ public class SubAccountReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
         String accountNumber = attributes.get(KfsKimAttributes.ACCOUNT_NUMBER);
         String subAccountNumber = attributes.get(KfsKimAttributes.SUB_ACCOUNT_NUMBER);
         
+        //RICE20 removing of the error from errorMap will need to be reviewed (errorMap is no longer a Map<String,String>)
         if (StringUtils.isEmpty(accountNumber) && StringUtils.isEmpty(organizationCode)) {
             // remove chartofAccountCode, organizationCode and account number and sub-account number errors
             errorMap.remove(KfsKimAttributes.ACCOUNT_NUMBER);
@@ -115,6 +116,9 @@ public class SubAccountReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
         return errorMap;
     }
 
+    /**
+     * @see org.kuali.rice.kns.kim.type.DataDictionaryTypeServiceBase#getAttributeDefinitions(java.lang.String)
+     */
     @Override
     public List<KimAttributeField> getAttributeDefinitions(String kimTypeId) {
         List<KimAttributeField> attributeDefinitionList = new ArrayList<KimAttributeField>();
@@ -133,7 +137,11 @@ public class SubAccountReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
                 //create a new AttributeField with the existing attribute require set to false
                 RemotableAttributeField.Builder nonRequiredAttributeBuilder = RemotableAttributeField.Builder.create(attribute);
                 nonRequiredAttributeBuilder.setRequired(Boolean.FALSE);
-                attributeDefinitionList.add(KimAttributeField.Builder.create(nonRequiredAttributeBuilder, definition.getId()).build());
+                
+                //setUnique should have been part of the creat() 
+                KimAttributeField.Builder nonRequiredAttribute = KimAttributeField.Builder.create(nonRequiredAttributeBuilder, definition.getId());
+                nonRequiredAttribute.setUnique(definition.isUnique());
+                attributeDefinitionList.add(nonRequiredAttribute.build());
             }else{
                 attributeDefinitionList.add(definition);
             }

@@ -23,7 +23,40 @@ import org.kuali.rice.core.impl.config.module.ModuleConfigurer;
 import org.kuali.rice.krad.config.KRADConfigurer;
 
 public class KFSConfigurer extends ModuleConfigurer {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSConfigurer.class);
+    
+    @Override
+    protected void doAdditionalContextStartedLogic() {
+        LOG.info( "*********************************************************" );
+        LOG.info( "KFS Starting Context" );
+        LOG.info( "*********************************************************" );
+        super.doAdditionalContextStartedLogic();
+    }
+    
+    @Override
+    protected void doAdditionalModuleStartLogic() throws Exception {
+        LOG.info( "*********************************************************" );
+        LOG.info( "KFS Starting Module" );
+        LOG.info( "*********************************************************" );
+        super.doAdditionalModuleStartLogic();
+    }
+    
+    @Override
+    protected void doAdditionalContextStoppedLogic() {
+        LOG.info( "*********************************************************" );
+        LOG.info( "KFS Stopping Context" );
+        LOG.info( "*********************************************************" );
+        super.doAdditionalContextStoppedLogic();
+    }
 
+    @Override
+    protected void doAdditionalModuleStopLogic() throws Exception {
+        LOG.info( "*********************************************************" );
+        LOG.info( "KFS Stopping Module" );
+        LOG.info( "*********************************************************" );
+        super.doAdditionalModuleStopLogic();
+    }
+    
     /**
      * Overridden to do nothing, since the default path from Rice is not one we want to use.
      * 

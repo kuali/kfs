@@ -50,6 +50,14 @@
  -->	
     </rule>
 	<rule name="new_rule_testing_2">
+		<pattern>
+			<match>ref="CheckboxControl"</match>
+			<replacement>ref="KfsCheckboxControl"</replacement>
+		</pattern>
+		<pattern>
+			<match>id="CheckboxControl"</match>
+			<replacement>id="KfsCheckboxControl"</replacement>
+		</pattern>
 	<!-- 
 		<pattern>
 			<match>"Campus-campusName</match>

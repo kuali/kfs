@@ -69,7 +69,7 @@
   
   <bean id="DateControl" parent="TextControlDefinition" p:size="10" p:datePicker="true"/>
   <bean id="HiddenControl" parent="HiddenControlDefinition" />
-  <bean id="CheckboxControl" parent="CheckboxControlDefinition"/>
+  <bean id="KfsCheckboxControl" parent="CheckboxControlDefinition"/>
   <bean id="GenericAmountControl" parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
   <bean id="GenericBigTextControl" parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
   <bean id="StateCodeSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
@@ -139,7 +139,7 @@
     <property name="label" value="Generic Boolean Attribute"/>
     <property name="shortLabel" value="GenericBool"/>
     <property name="maxLength" value="1"/>
-    <property name="control" ref="CheckboxControl" />
+    <property name="control" ref="KfsCheckboxControl" />
     <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
   <bean id="GenericAttributes-activeIndicator" parent="GenericAttributes-activeIndicator-parentBean"/>
@@ -150,7 +150,7 @@
     <property name="label" value="Active Indicator"/>
     <property name="shortLabel" value="active"/>
     <property name="maxLength" value="1"/>
-    <property name="control" ref="CheckboxControl" />
+    <property name="control" ref="KfsCheckboxControl" />
     <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
   

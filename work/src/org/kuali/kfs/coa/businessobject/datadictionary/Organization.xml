@@ -450,7 +450,7 @@
 		<property name="label" value="EDIT PLANT ACCOUNT SECTION" />
 		<property name="shortLabel" value="EDIT PLANT ACCOUNT SECTION" />
 		<property name="maxLength" value="50" />
-		<property name="control" ref="CheckboxControl" />
+		<property name="control" ref="KfsCheckboxControl" />
 	</bean>
 	<bean id="Organization-active" parent="Organization-active-parentBean" />
 
@@ -466,7 +466,7 @@
 		<property name="label" value="EDIT HRMS UNIT SECTION" />
 		<property name="shortLabel" value="EDIT HRMS UNIT SECTION" />
 		<property name="maxLength" value="50" />
-		<property name="control" ref="CheckboxControl" />
+		<property name="control" ref="KfsCheckboxControl" />
 	</bean>
 	<bean id="Organization-organizationExtension.hrmsCompany"
 		parent="Organization-organizationExtension.hrmsCompany-parentBean" />

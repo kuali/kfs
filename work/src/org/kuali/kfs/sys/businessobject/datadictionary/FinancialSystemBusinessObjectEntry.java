@@ -37,17 +37,17 @@ public class FinancialSystemBusinessObjectEntry extends BusinessObjectEntry {
      * 
      * @return Returns the accessRestrictedAttributes.
      */
-//    public List<AccessSecurityAttributeRestrictionEntry> getAccessRestrictedAttributes() {
-//        return accessRestrictedAttributes;
-//    }
+    public List<AccessSecurityAttributeRestrictionEntry> getAccessRestrictedAttributes() {
+        return accessRestrictedAttributes;
+    }
 
     /**
      * Sets the accessRestrictedAttributes attribute value.
      * 
      * @param accessRestrictedAttributes The accessRestrictedAttributes to set.
      */
-//    public void setAccessRestrictedAttributes(List<AccessSecurityAttributeRestrictionEntry> accessRestrictedAttributes) {
-//        this.accessRestrictedAttributes = accessRestrictedAttributes;
-//    }
+    public void setAccessRestrictedAttributes(List<AccessSecurityAttributeRestrictionEntry> accessRestrictedAttributes) {
+        this.accessRestrictedAttributes = accessRestrictedAttributes;
+    }
 
 }

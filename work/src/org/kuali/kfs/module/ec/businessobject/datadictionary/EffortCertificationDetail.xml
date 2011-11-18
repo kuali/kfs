@@ -159,7 +159,7 @@
     <property name="shortLabel" value="Expired Override"/>
     <property name="maxLength" value="1"/>
     <property name="required" value="true"/>
-    <property name="control" ref="CheckboxControl" />
+    <property name="control" ref="KfsCheckboxControl" />
   </bean>
 
   <bean id="EffortCertificationDetail-originalFringeBenefitAmount" parent="EffortCertificationDetail-originalFringeBenefitAmount-parentBean"/>

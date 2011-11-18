@@ -69,7 +69,7 @@
 		<property name="label" value="Taxable" />
 		<property name="shortLabel" value="Taxable" />
 		<property name="maxLength" value="1" />
-		<property name="control" ref="CheckboxControl" />
+		<property name="control" ref="KfsCheckboxControl" />
 	</bean>
 
 	<bean id="CustomerInvoiceItemCode-chartOfAccountsCode" parent="CustomerInvoiceItemCode-chartOfAccountsCode-parentBean" />

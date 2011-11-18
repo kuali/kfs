@@ -230,7 +230,7 @@
 		<property name="label" value="FINANCIAL REPORTING CODE SECTION" />
 		<property name="shortLabel" value="FINANCIAL REPORTING CODE SECTION" />
 		<property name="maxLength" value="50" />
-		<property name="control" ref="CheckboxControl" />
+		<property name="control" ref="KfsCheckboxControl" />
 	</bean>
 	<bean id="SubAccount-cgCostSharingSection" parent="SubAccount-cgCostSharingSection-parentBean" />
 
@@ -240,7 +240,7 @@
 		<property name="label" value="CG COST SHARING SECTION" />
 		<property name="shortLabel" value="CG COST SHARING SECTION" />
 		<property name="maxLength" value="50" />
-		<property name="control" ref="CheckboxControl" />
+		<property name="control" ref="KfsCheckboxControl" />
 	</bean>
 	<bean id="SubAccount-cgICRSection" parent="SubAccount-cgICRSection-parentBean" />
 
@@ -250,7 +250,7 @@
 		<property name="label" value="CG ICR SECTION" />
 		<property name="shortLabel" value="CG ICR SECTION" />
 		<property name="maxLength" value="50" />
-		<property name="control" ref="CheckboxControl" />
+		<property name="control" ref="KfsCheckboxControl" />
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

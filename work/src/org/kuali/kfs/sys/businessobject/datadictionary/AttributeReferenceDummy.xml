@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="AttributeReferenceDummy" parent="AttributeReferenceDummy-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.kns.bo.AttributeReferenceDummy"/>
+    <property name="attributes">
+      <list>
+        <ref bean="AttributeReferenceDummy-oneDigitTextCode"/>
+        <ref bean="AttributeReferenceDummy-twoDigitTextCode"/>
+        <ref bean="AttributeReferenceDummy-genericSystemId"/>
+        <ref bean="AttributeReferenceDummy-genericDate"/>
+        <ref bean="AttributeReferenceDummy-genericTimestamp"/>
+        <ref bean="AttributeReferenceDummy-genericBoolean"/>
+        <ref bean="AttributeReferenceDummy-activeIndicator"/>
+        <ref bean="AttributeReferenceDummy-genericAmount"/>
+        <ref bean="AttributeReferenceDummy-genericBigText"/>
+        <ref bean="AttributeReferenceDummy-emailAddress"/>
+        <ref bean="AttributeReferenceDummy-versionNumber"/>
+        <ref bean="AttributeReferenceDummy-objectId"/>
+        <ref bean="AttributeReferenceDummy-createDate"/>
+        <ref bean="AttributeReferenceDummy-initiatorNetworkId"/>
+        <ref bean="AttributeReferenceDummy-percent"/>
+        <ref bean="AttributeReferenceDummy-newCollectionRecord"/>
+        <ref bean="AttributeReferenceDummy-workflowDocumentStatus"/>
+        <ref bean="AttributeReferenceDummy-activeFromDate"/>
+        <ref bean="AttributeReferenceDummy-activeToDate"/>
+        <ref bean="AttributeReferenceDummy-activeAsOfDate"/>
+        <ref bean="AttributeReferenceDummy-current"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Attribute Reference Dummy"/>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AttributeReferenceDummy-oneDigitTextCode" parent="AttributeReferenceDummy-oneDigitTextCode-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-oneDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="TextCode1"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:exactLength="1"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="oneDigitTextCode"/>
+    <property name="label" value="Generic One-Digit Text Code"/>
+    <property name="description" value="This should always be overriden on all of the descriptive elements."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-twoDigitTextCode" parent="AttributeReferenceDummy-twoDigitTextCode-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-twoDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="TextCode2"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:exactLength="2"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="twoDigitTextCode"/>
+    <property name="label" value="Generic Two-Digit Text Code"/>
+    <property name="description" value="This should always be overriden on all of the descriptive elements."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-genericSystemId" parent="AttributeReferenceDummy-genericSystemId-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-genericSystemId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="GenericSysId"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="genericSystemId"/>
+    <property name="label" value="Generic SystemID Attribute"/>
+    <property name="description" value="This is a generic implementation of a 'SystemId' attribute. It should always be overriden on the label, shortLabel, summary, and description, as these are only generic placeholders."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-genericDate" parent="AttributeReferenceDummy-genericDate-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-genericDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="GenericDate"/>
+    <property name="maxLength" value="21"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:datePicker="true" p:size="10"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
+    <property name="name" value="genericDate"/>
+    <property name="label" value="Generic Date Style Attribute"/>
+    <property name="description" value="This attribute should always be overriden on the descriptive elements."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-genericTimestamp" parent="AttributeReferenceDummy-genericTimestamp-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-genericTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="GenericTimestamp"/>
+    <property name="maxLength" value="21"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:datePicker="true" p:size="10"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
+    <property name="name" value="genericTimestamp"/>
+    <property name="label" value="Generic Timestamp Style Attribute"/>
+    <property name="description" value="This attribute should always be overriden on the descriptive elements."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-genericBoolean" parent="AttributeReferenceDummy-genericBoolean-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-genericBoolean-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="GenericBool"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="name" value="genericBoolean"/>
+    <property name="label" value="Generic Boolean Attribute"/>
+    <property name="description" value="This attribute should always be overriden on the descriptive elements."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-activeIndicator" parent="AttributeReferenceDummy-activeIndicator-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-activeIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="active"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="summary" value="Active Indicator"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="name" value="activeIndicator"/>
+    <property name="label" value="Active Indicator"/>
+    <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-genericAmount" parent="AttributeReferenceDummy-genericAmount-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-genericAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="19" p:allowNegative="true" p:scale="2"/>
+    </property>
+    <property name="control">
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="genericAmount"/>
+    <property name="label" value="Amount"/>
+    <property name="description" value="This attribute should always be overriden on the descriptive elements."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-genericBigText" parent="AttributeReferenceDummy-genericBigText-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-genericBigText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="GenericBigText"/>
+    <property name="maxLength" value="400"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:cols="40" p:rows="5"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="genericBigText"/>
+    <property name="label" value="Generic Big Text Attribute"/>
+    <property name="description" value="This attribute should always be overriden on the descriptive elements."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-emailAddress" parent="AttributeReferenceDummy-emailAddress-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-emailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Email"/>
+    <property name="maxLength" value="200"/>
+    <property name="validationPattern">
+      <bean parent="EmailAddressValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="emailAddress"/>
+    <property name="label" value="Email"/>
+    <property name="description" value="The email address of the university user."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-versionNumber" parent="AttributeReferenceDummy-versionNumber-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="versionNumber"/>
+    <property name="label" value="Version Number"/>
+    <property name="description" value="The assigned version number"/>
+  </bean>
+  <bean id="AttributeReferenceDummy-objectId" parent="AttributeReferenceDummy-objectId-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="36"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="36"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="objectId"/>
+    <property name="label" value="Object Id"/>
+    <property name="description" value="The assigned Id of the object."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-createDate" parent="AttributeReferenceDummy-createDate-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-createDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Created"/>
+    <property name="maxLength" value="21"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="createDate"/>
+    <property name="label" value="Creation Timestamp"/>
+    <property name="description" value="The time when the document was created."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-initiatorNetworkId" parent="AttributeReferenceDummy-initiatorNetworkId-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-initiatorNetworkId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Initiator"/>
+    <property name="maxLength" value="36"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="36"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="initiatorNetworkId"/>
+    <property name="label" value="Initiator Network Id"/>
+    <property name="description" value="The user name of the person who created the document."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-percent" parent="AttributeReferenceDummy-percent-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-percent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Pct"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="percent"/>
+    <property name="label" value="Percent"/>
+    <property name="description" value="Percent for ICR percent."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-newCollectionRecord" parent="AttributeReferenceDummy-newCollectionRecord-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-newCollectionRecord-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="NewRecord"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="name" value="newCollectionRecord"/>
+    <property name="label" value="New Collection Record Indicator"/>
+    <property name="description" value="This attribute indicates whether the object is a new record for a collection."/>
+  </bean>
+  <bean id="AttributeReferenceDummy-workflowDocumentStatus" parent="AttributeReferenceDummy-workflowDocumentStatus-parentBean"/>
+
+  <bean id="AttributeReferenceDummy-workflowDocumentStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="2"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
+    </property>
+    <property name="summary" value="The status code for this document."/>
+    <property name="name" value="workflowDocumentStatus"/>
+    <property name="label" value="Document Status"/>
+    <property name="description" value="This represents the status of this document."/>
+  </bean>
+  
+  <bean id="AttributeReferenceDummy-activeFromDate" parent="AttributeReferenceDummy-activeFromDate-parentBean"/>
+  <bean id="AttributeReferenceDummy-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="activeFromDate"/>
+    <property name="label" value="Active From Date"/>
+    <property name="shortLabel" value="Active From Dt"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:datePicker="true" p:size="10" p:ranged="false"/>
+    </property>  
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateDisplayTimestampObjectFormatter"/>  
+    <property name="summary" value="Start Date"/>
+    <property name="description" value="Start Date"/>
+  </bean>
+
+  <bean id="AttributeReferenceDummy-activeToDate" parent="AttributeReferenceDummy-activeToDate-parentBean"/>
+  <bean id="AttributeReferenceDummy-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="activeToDate"/>
+    <property name="label" value="Active To Date"/>
+    <property name="shortLabel" value="Active To Dt"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:datePicker="true" p:size="10" p:ranged="false"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateDisplayTimestampObjectFormatter"/>  
+    <property name="summary" value="End Date"/>
+    <property name="description" value="End Date"/>
+  </bean>
+
+  <bean id="AttributeReferenceDummy-activeAsOfDate" parent="AttributeReferenceDummy-activeAsOfDate-parentBean"/>
+  <bean id="AttributeReferenceDummy-activeAsOfDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="activeAsOfDate"/>
+    <property name="label" value="Active As Of Date"/>
+    <property name="shortLabel" value="Active Of Dt"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:datePicker="true" p:size="10" p:ranged="false"/>
+    </property> 
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateDisplayTimestampObjectFormatter"/>     
+    <property name="summary" value="Date for which a record is determined active or inactive."/>
+    <property name="description" value="Date for which a record is determined active or inactive."/>
+  </bean>
+  
+  <bean id="AttributeReferenceDummy-current" parent="AttributeReferenceDummy-current-parentBean"/>
+  <bean id="AttributeReferenceDummy-current-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="current"/>
+    <property name="label" value="Current"/>
+    <property name="shortLabel" value="Current"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Indicator for the most current effective dated records."/>
+    <property name="description" value="Indicator for the most current effective dated records."/>
+  </bean>
+</beans>

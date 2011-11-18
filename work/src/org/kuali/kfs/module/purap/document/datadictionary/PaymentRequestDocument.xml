@@ -902,7 +902,7 @@
   </bean>
   <bean id="PaymentRequestDocument-taxCountryCode" parent="PaymentRequestDocument-taxCountryCode-parentBean"/>
 
-  <bean id="PaymentRequestDocument-taxCountryCode-parentBean" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.country.Country" p:sourceAttributeName="code">
+  <bean id="PaymentRequestDocument-taxCountryCode-parentBean" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.country.CountryEbo" p:sourceAttributeName="code">
     <property name="name" value="taxCountryCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Country"/>

@@ -137,7 +137,7 @@
 
 	<bean id="ProcurementCardVendor-vendorStateCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo"
 		p:sourceAttributeName="code">
 		<property name="name" value="vendorStateCode" />
 		<property name="label" value="Vendor State Code" />
@@ -151,7 +151,7 @@
 
 	<bean id="ProcurementCardVendor-vendorZipCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
 		p:sourceAttributeName="code">
 		<property name="name" value="vendorZipCode" />
 		<property name="label" value="Vendor Postal (ZIP) Code" />

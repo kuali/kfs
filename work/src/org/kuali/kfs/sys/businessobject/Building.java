@@ -36,29 +36,22 @@ import org.kuali.rice.location.api.state.StateService;
  */
 public class Building extends PersistableBusinessObjectBase implements Inactivatable {
 
-    private String campusCode;
-    private String buildingCode;
-    private String buildingName;
-    private String buildingStreetAddress;
-    private String buildingAddressCityName;
-    private String buildingAddressStateCode;
-    private String buildingAddressZipCode;
-    private String alternateBuildingCode;
-    private boolean active;
-    private String buildingAddressCountryCode;
+    protected String campusCode;
+    protected String buildingCode;
+    protected String buildingName;
+    protected String buildingStreetAddress;
+    protected String buildingAddressCityName;
+    protected String buildingAddressStateCode;
+    protected String buildingAddressZipCode;
+    protected String alternateBuildingCode;
+    protected boolean active;
+    protected String buildingAddressCountryCode;
     
-    private Campus campus;
-    private State buildingAddressState;
-    private PostalCode buildingAddressZip;
-    private Country buildingAddressCountry;
+    protected Campus campus;
+    protected State buildingAddressState;
+    protected PostalCode buildingAddressZip;
+    protected Country buildingAddressCountry;
  
-    /**
-     * Default constructor.
-     */
-    public Building() {
-
-    }
-
     /**
      * Gets the campusCode attribute.
      * 
@@ -311,19 +304,5 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
     public void setBuildingAddressCountry(Country buildingAddressCountry) {
         this.buildingAddressCountry = buildingAddressCountry;
     }
-
-
- 
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("campusCode", this.campusCode);
-        m.put("buildingCode", this.buildingCode);
-        return m;
-    }
-
 
 }

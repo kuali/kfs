@@ -55,6 +55,32 @@
     </rule>
 	<rule name="new_rule_testing_2">
 	
+		<pattern fileType="xml">
+			<match>org\.kuali\.rice\.krad\.bo\.State</match>
+			<replacement>org.kuali.rice.location.impl.state.StateBo</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.state\.StateBo"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.campus\.CampusBo"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.campus.CampusEbo"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.country\.Country"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.country.CountryEbo"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.county\.County"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.county.CountyEbo"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.postalcode\.PostalCode"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"</replacement>
+		</pattern>
+
+	<!-- 
 	<pattern fileType="xml">
 		<match>org.kuali.rice.krad.bo.State</match>
 		<replacement>org.kuali.rice.location.impl.state.StateBo</replacement>
@@ -102,12 +128,6 @@
 		<pattern fileType="xml">
 			<match>target="campusCode"</match>
 			<replacement>target="code"</replacement>
-		</pattern>
-
-	<!-- 
-		<pattern fileType="xml">
-			<match>org\.kuali\.rice\.krad\.bo\.Campus</match>
-			<replacement>org.kuali.rice.location.impl.campus.CampusBo</replacement>
 		</pattern>
 		<pattern>
 			<match>ref="CheckboxControl"</match>

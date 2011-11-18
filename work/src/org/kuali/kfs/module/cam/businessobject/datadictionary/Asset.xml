@@ -1359,7 +1359,7 @@
   </bean>
   
   <bean id="Asset-offCampusLocation.assetLocationStateCode" parent="Asset-offCampusLocation.assetLocationStateCode-parentBean"/>
-  <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo" p:sourceAttributeName="code">
+  <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo" p:sourceAttributeName="code">
     <property name="name" value="offCampusLocation.assetLocationStateCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="State"/>
@@ -1405,13 +1405,13 @@
 
 
   <bean id="Asset-offCampusLocation.assetLocationState.stateCode" parent="Asset-offCampusLocation.assetLocationState.stateCode-parentBean"/>
-  <bean id="Asset-offCampusLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo" p:sourceAttributeName="code">
+  <bean id="Asset-offCampusLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo" p:sourceAttributeName="code">
  	<property name="name" value="offCampusLocation.assetLocationState.stateCode"/>
   </bean>
 
 
   <bean id="Asset-offCampusLocation.postalZipCode.postalCode" parent="Asset-offCampusLocation.postalZipCode.postalCode-parentBean"/>
-  <bean id="Asset-offCampusLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode" p:sourceAttributeName="code">
+  <bean id="Asset-offCampusLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo" p:sourceAttributeName="code">
   <property name="name" value="offCampusLocation.postalZipCode.postalCode"/>
   </bean>
 
@@ -1422,12 +1422,12 @@
   </bean>
   
   <bean id="Asset-borrowerLocation.assetLocationState.stateCode" parent="Asset-borrowerLocation.assetLocationState.stateCode-parentBean"/>
-  <bean id="Asset-borrowerLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo" p:sourceAttributeName="code">
+  <bean id="Asset-borrowerLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo" p:sourceAttributeName="code">
     <property name="name" value="borrowerLocation.assetLocationState.stateCode"/>
   </bean>
   
   <bean id="Asset-borrowerLocation.postalZipCode.postalCode" parent="Asset-borrowerLocation.postalZipCode.postalCode-parentBean"/>
-  <bean id="Asset-borrowerLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode" p:sourceAttributeName="code">
+  <bean id="Asset-borrowerLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo" p:sourceAttributeName="code">
     <property name="name" value="borrowerLocation.postalZipCode.postalCode"/>
   </bean>
 
@@ -1437,12 +1437,12 @@
   </bean>
   
   <bean id="Asset-borrowerStorageLocation.assetLocationState.stateCode" parent="Asset-borrowerStorageLocation.assetLocationState.stateCode-parentBean"/>
-  <bean id="Asset-borrowerStorageLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo" p:sourceAttributeName="code">
+  <bean id="Asset-borrowerStorageLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo" p:sourceAttributeName="code">
     <property name="name" value="borrowerStorageLocation.assetLocationState.stateCode"/>
   </bean>
   
   <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode" parent="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean"/>
-  <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode" p:sourceAttributeName="code">
+  <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo" p:sourceAttributeName="code">
     <property name="name" value="borrowerStorageLocation.postalZipCode.postalCode"/>
   </bean>
 

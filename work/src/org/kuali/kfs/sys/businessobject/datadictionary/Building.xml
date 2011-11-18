@@ -66,7 +66,7 @@
 
   <bean id="Building-campusCode" parent="Building-campusCode-parentBean"/>
 
-  <bean id="Building-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.campus.CampusBo" p:sourceAttributeName="code">
+  <bean id="Building-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.campus.CampusEbo" p:sourceAttributeName="code">
     <property name="name" value="campusCode"/>
     <property name="label" value="Campus Code"/>
     <property name="shortLabel" value="Campus Code"/>
@@ -141,7 +141,7 @@
   </bean>
   <bean id="Building-buildingAddressStateCode" parent="Building-buildingAddressStateCode-parentBean"/>
 
-  <bean id="Building-buildingAddressStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo" p:sourceAttributeName="code">
+  <bean id="Building-buildingAddressStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo" p:sourceAttributeName="code">
     <property name="name" value="buildingAddressStateCode"/>
     <property name="label" value="Building Address State Code"/>
     <property name="shortLabel" value="Bldg. State"/>
@@ -157,7 +157,7 @@
   </bean>
   <bean id="Building-buildingAddressZipCode" parent="Building-buildingAddressZipCode-parentBean"/>
 
-  <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode" p:sourceAttributeName="code">
+  <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo" p:sourceAttributeName="code">
     <property name="name" value="buildingAddressZipCode"/>
     <property name="label" value="Building Address Postal Code"/>
     <property name="shortLabel" value="Bldg. Postal Code"/>
@@ -167,7 +167,7 @@
   
    <bean id="Building-buildingAddressCountryCode" parent="Building-buildingAddressCountryCode-parentBean"/>
 
-  <bean id="Building-buildingAddressCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.country.Country" p:sourceAttributeName="code">
+  <bean id="Building-buildingAddressCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.country.CountryEbo" p:sourceAttributeName="code">
     <property name="name" value="buildingAddressCountryCode"/>
     <property name="label" value="Building Address Country Code"/>
     <property name="shortLabel" value="Bldg. Country"/>

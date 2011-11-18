@@ -243,7 +243,7 @@
 	</bean>
 	<bean id="Organization-organizationPhysicalCampusCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.campus.CampusBo"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.campus.CampusEbo"
 		p:sourceAttributeName="code">
 		<property name="name" value="organizationPhysicalCampusCode" />
 		<property name="label" value="Organization Physical Campus Code" />
@@ -294,7 +294,7 @@
 
 	<bean id="Organization-organizationZipCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
 		p:sourceAttributeName="code">
 		<property name="name" value="organizationZipCode" />
 		<property name="label" value="Organization Postal Code" />
@@ -305,7 +305,7 @@
 
 	<bean id="Organization-organizationStateCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo"
 		p:sourceAttributeName="code">
 		<property name="name" value="organizationStateCode" />
 		<property name="label" value="Organization State/Province Code" />
@@ -323,7 +323,7 @@
 
 	<bean id="Organization-organizationCountryCode-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.country.Country"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.country.CountryEbo"
 		p:sourceAttributeName="code">
 		<property name="name" value="organizationCountryCode" />
 		<property name="label" value="Organization Country Code" />

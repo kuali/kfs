@@ -357,7 +357,7 @@
 
 	<bean id="Account-accountStateCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.state.StateBo"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo"
 		p:sourceAttributeName="code">
 		<property name="name" value="accountStateCode" />
 		<property name="label" value="Account State Code" />
@@ -392,7 +392,7 @@
 
 	<bean id="Account-accountZipCode-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.impl.postalcode.PostalCode"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
 		p:sourceAttributeName="code">
 		<property name="name" value="accountZipCode" />
 		<property name="label" value="Account Postal Code" />

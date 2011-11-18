@@ -19,7 +19,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 
 public class SpringContextForWorkflowImporter extends SpringContext {
     public static void initializeApplicationContext() {
-        SpringContext.initializeBatchApplicationContext();
+      //RICE20: Method does not exist
+      //  SpringContext.initializeBatchApplicationContext();
     }
     
     public static void close() {

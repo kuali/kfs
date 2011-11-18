@@ -29,7 +29,7 @@ public class FinancialSystemMaintenanceDocumentPresentationControllerBase extend
     /**
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
-    @Override
+    
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
 

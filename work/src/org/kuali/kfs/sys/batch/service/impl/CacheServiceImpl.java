@@ -61,7 +61,8 @@ public class CacheServiceImpl implements CacheService {
     protected void clearKIMCache() {
         LOG.info("clearing KIM role & identity service cache ...");
 
-        roleManagementService.flushRoleCaches();
+      //RICE20: clearCache method does not exist in ParameterService..        
+       // roleManagementService.flushRoleCaches();
         identityManagementService.flushAllCaches();
         //RICE20 need to find out how to flush the Responsibility Cache in rice; can we flush this on our own?? 
         //       added @CacheEvict to function (ref - org.kuali.rice.kim.api.responsibility.ResponsibilityService) 
@@ -73,8 +74,8 @@ public class CacheServiceImpl implements CacheService {
      */
     protected void clearParameterCache() {
         LOG.info("clearing parameter cache ...");
-
-        parameterService.clearCache();
+        //RICE20: clearCache method does not exist in ParameterService..
+     //   parameterService.clearCache();
     }
     
     /**

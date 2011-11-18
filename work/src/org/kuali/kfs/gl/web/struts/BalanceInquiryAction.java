@@ -363,7 +363,9 @@ public class BalanceInquiryAction extends KualiAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute(KRADConstants.PARAM_MAINTENANCE_VIEW_MODE, KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP);
         BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
+        /* RICE20  getLookupDefinition method does not exist in class
         int numCols = boe.getLookupDefinition().getNumOfColumns();
+        */
         if (numCols <= 0)
             numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS; // by default, always show one column.
         ((LookupForm) form).setNumColumns(numCols);

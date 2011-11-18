@@ -366,6 +366,7 @@ public class BalanceInquiryAction extends KualiAction {
         /* RICE20  getLookupDefinition method does not exist in class
         int numCols = boe.getLookupDefinition().getNumOfColumns();
         */
+        int numCols = 0;
         if (numCols <= 0)
             numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS; // by default, always show one column.
         ((LookupForm) form).setNumColumns(numCols);

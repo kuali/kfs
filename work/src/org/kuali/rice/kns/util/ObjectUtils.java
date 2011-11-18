@@ -662,12 +662,13 @@ public class ObjectUtils {
      * 
      * @return Cleaned string
      */
-    public static String clean(String string) {
+    //RICE20 need to add QUERY_CHARACTERS collection constant
+/*    public static String clean(String string) {
         for (int i = 0; i < KRADConstants.QUERY_CHARACTERS.length; i++) {
             string = StringUtils.replace(string, KRADConstants.QUERY_CHARACTERS[i], KRADConstants.EMPTY_STRING);
         }
         return string;
-    }
+    }*/
 
 
     /**

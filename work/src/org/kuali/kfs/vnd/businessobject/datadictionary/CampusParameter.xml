@@ -97,7 +97,7 @@
 	<bean id="CampusParameter-campus.campusName" parent="CampusParameter-campus.campusName-parentBean" />
 
 	<bean id="CampusParameter-campus.campusName-parentBean" abstract="true"
-		parent="Campus-campusName">
+		parent="Campus-name">
 		<property name="name" value="campus.campusName" />
 	</bean>
 

@@ -24,6 +24,7 @@ import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
  * Overrides KNS BusinessObjectEntry to add access security configuration properties
  */
 public class FinancialSystemBusinessObjectEntry extends BusinessObjectEntry {
+// RICE20: Restore Access security attributes when possible
     protected List<AccessSecurityAttributeRestrictionEntry> accessRestrictedAttributes;
 
     public FinancialSystemBusinessObjectEntry() {
@@ -35,17 +36,17 @@ public class FinancialSystemBusinessObjectEntry extends BusinessObjectEntry {
      * 
      * @return Returns the accessRestrictedAttributes.
      */
-    public List<AccessSecurityAttributeRestrictionEntry> getAccessRestrictedAttributes() {
-        return accessRestrictedAttributes;
-    }
+//    public List<AccessSecurityAttributeRestrictionEntry> getAccessRestrictedAttributes() {
+//        return accessRestrictedAttributes;
+//    }
 
     /**
      * Sets the accessRestrictedAttributes attribute value.
      * 
      * @param accessRestrictedAttributes The accessRestrictedAttributes to set.
      */
-    public void setAccessRestrictedAttributes(List<AccessSecurityAttributeRestrictionEntry> accessRestrictedAttributes) {
-        this.accessRestrictedAttributes = accessRestrictedAttributes;
-    }
+//    public void setAccessRestrictedAttributes(List<AccessSecurityAttributeRestrictionEntry> accessRestrictedAttributes) {
+//        this.accessRestrictedAttributes = accessRestrictedAttributes;
+//    }
 
 }

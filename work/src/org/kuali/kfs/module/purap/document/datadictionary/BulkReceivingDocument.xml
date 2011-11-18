@@ -233,7 +233,7 @@
   
   <bean id="BulkReceivingDocument-deliveryCampusName" parent="BulkReceivingDocument-deliveryCampusName-parentBean"/>
 
-  <bean id="BulkReceivingDocument-deliveryCampusName-parentBean" abstract="true" parent="Campus-campusName">
+  <bean id="BulkReceivingDocument-deliveryCampusName-parentBean" abstract="true" parent="Campus-name">
     <property name="name" value="deliveryCampusName"/>
     <property name="label" value="Campus"/>
     <property name="required" value="false"/>

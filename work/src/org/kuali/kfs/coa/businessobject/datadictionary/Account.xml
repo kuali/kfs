@@ -42,10 +42,11 @@
         <ref bean="Account-accountRestrictedStatusDate"/>
         <ref bean="Account-accountCityName"/>
         <ref bean="Account-accountStateCode"/>
+        <!-- RICE20: codeAndDescription has been removed from the State object
         <ref bean="Account-accountState.codeAndDescription"/>
+        -->
         <ref bean="Account-accountStreetAddress"/>
         <ref bean="Account-accountZipCode"/>
-        <ref bean="Account-postalZipCode.postalCode"/>
         <ref bean="Account-reportsToChartOfAccountsCode"/>
         <ref bean="Account-reportsToAccountNumber"/>
         <ref bean="Account-accountCreateDate"/>
@@ -363,13 +364,15 @@
 		<property name="shortLabel" value="StateCd" />
 		<property name="required" value="true" />
 	</bean>
+
+<!-- RICE20: codeAndDescription has been removed from the State object 
 	<bean id="Account-accountState.codeAndDescription" parent="Account-accountState.codeAndDescription-parentBean" />
 
 	<bean id="Account-accountState.codeAndDescription-parentBean"
 		abstract="true" parent="State-codeAndDescription" p:name="accountState.codeAndDescription"
 		p:label="Account State Code" p:shortLabel="Account State Code" />
-
-	<bean id="Account-accountStreetAddress" parent="Account-accountStreetAddress-parentBean" />
+ -->
+ 	<bean id="Account-accountStreetAddress" parent="Account-accountStreetAddress-parentBean" />
 
 	<bean id="Account-accountStreetAddress-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -396,11 +399,6 @@
 		<property name="shortLabel" value="ZipCode" />
 	</bean>
 
-	<bean id="Account-postalZipCode.postalCode" parent="Account-postalZipCode.postalCode-parentBean" />
-
-	<bean id="Account-postalZipCode.postalCode-parentBean" abstract="true"
-		parent="PostalCode-code" p:name="postalZipCode.postalCode"
-		p:label="Account Postal Code" p:shortLabel="ZipCode" />
 	<bean id="Account-reportsToChartOfAccountsCode" parent="Account-reportsToChartOfAccountsCode-parentBean" />
 
 	<bean id="Account-reportsToChartOfAccountsCode-parentBean"
@@ -954,9 +952,12 @@
 				<bean parent="FieldDefinition" p:attributeName="accountPhysicalCampusCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountEffectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="accountExpirationDate" />
-				<bean parent="FieldDefinition" p:attributeName="postalZipCode.postalCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountZipCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountCityName" />
+				<bean parent="FieldDefinition" p:attributeName="accountStateCode" />
+				<!-- RICE20: codeAndDescription has been removed from the State object
 				<bean parent="FieldDefinition" p:attributeName="accountState.codeAndDescription" />
+				-->
 				<bean parent="FieldDefinition" p:attributeName="accountStreetAddress" />
 				<bean parent="FieldDefinition" p:attributeName="accountOffCampusIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="closed" />

@@ -100,7 +100,7 @@
 	<bean id="KemidAuthorizations-roleId" parent="KemidAuthorizations-roleId-parentBean" />
 
 	<bean id="KemidAuthorizations-roleId-parentBean" abstract="true"
-		parent="RoleImpl-roleId">
+		parent="RoleBo-id">
 		<property name="name" value="roleId" />
 		<property name="label" value="Role Code" />
 		<property name="shortLabel" value="Role" />
@@ -150,7 +150,7 @@
 	<bean id="KemidAuthorizations-role.roleName" parent="KemidAuthorizations-role.roleName-parentBean" />
 
 	<bean id="KemidAuthorizations-role.roleName-parentBean" abstract="true"
-		parent="RoleImpl-roleName">
+		parent="RoleBo-name">
 		<property name="name" value="role.roleName" />
 		<property name="label" value="Role Code" />
 	</bean>

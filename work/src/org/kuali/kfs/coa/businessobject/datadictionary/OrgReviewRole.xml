@@ -259,31 +259,31 @@
 	</bean>
 
 	<bean id="OrgReviewRole-roleId" parent="OrgReviewRole-roleId-parentBean" />
-	<bean id="OrgReviewRole-roleId-parentBean" parent="RoleImpl-roleId"
+	<bean id="OrgReviewRole-roleId-parentBean" parent="RoleBo-id"
 		abstract="true" p:name="roleId" />
 
 	<bean id="OrgReviewRole-namespaceCode" parent="OrgReviewRole-namespaceCode-parentBean" />
-	<bean id="OrgReviewRole-namespaceCode-parentBean" parent="RoleImpl-namespaceCode"
+	<bean id="OrgReviewRole-namespaceCode-parentBean" parent="RoleBo-namespaceCode"
 		abstract="true" p:name="namespaceCode" />
 
 	<bean id="OrgReviewRole-roleName" parent="OrgReviewRole-roleName-parentBean" />
-	<bean id="OrgReviewRole-roleName-parentBean" parent="RoleImpl-roleName"
+	<bean id="OrgReviewRole-roleName-parentBean" parent="RoleBo-name"
 		abstract="true" p:name="roleName" />
 
 	<bean id="OrgReviewRole-role.roleId" parent="OrgReviewRole-role.roleId-parentBean" />
-	<bean id="OrgReviewRole-role.roleId-parentBean" parent="RoleImpl-roleId"
+	<bean id="OrgReviewRole-role.roleId-parentBean" parent="RoleBo-id"
 		abstract="true" p:name="role.roleId" />
 
 	<bean id="OrgReviewRole-role.namespaceCode" parent="OrgReviewRole-role.namespaceCode-parentBean" />
-	<bean id="OrgReviewRole-role.namespaceCode-parentBean" parent="RoleImpl-namespaceCode"
+	<bean id="OrgReviewRole-role.namespaceCode-parentBean" parent="RoleBo-namespaceCode"
 		abstract="true" p:name="role.namespaceCode" />
 
 	<bean id="OrgReviewRole-role.roleName" parent="OrgReviewRole-role.roleName-parentBean" />
-	<bean id="OrgReviewRole-role.roleName-parentBean" parent="RoleImpl-roleName"
+	<bean id="OrgReviewRole-role.roleName-parentBean" parent="RoleBo-name"
 		abstract="true" p:name="role.roleName" />
 
 	<bean id="OrgReviewRole-memberRole.memberId" parent="OrgReviewRole-memberRole.memberId-parentBean" />
-	<bean id="OrgReviewRole-memberRole.memberId-parentBean" parent="RoleImpl-roleId"
+	<bean id="OrgReviewRole-memberRole.memberId-parentBean" parent="RoleBo-id"
 		abstract="true" p:name="roleMemberRoleId">
 		<property name="control">
 			<ref bean="HiddenControl" />
@@ -292,22 +292,22 @@
 
 	<bean id="OrgReviewRole-memberRole.namespaceCode" parent="OrgReviewRole-memberRole.namespaceCode-parentBean" />
 	<bean id="OrgReviewRole-memberRole.namespaceCode-parentBean"
-		parent="RoleImpl-namespaceCode" abstract="true" p:name="roleMemberRoleNamespaceCode" />
+		parent="RoleBo-namespaceCode" abstract="true" p:name="roleMemberRoleNamespaceCode" />
 
 	<bean id="OrgReviewRole-memberRole.memberName" parent="OrgReviewRole-memberRole.memberName-parentBean" />
-	<bean id="OrgReviewRole-memberRole.memberName-parentBean" parent="RoleImpl-roleName"
+	<bean id="OrgReviewRole-memberRole.memberName-parentBean" parent="RoleBo-name"
 		abstract="true" p:name="roleMemberRoleName" />
 
 	<bean id="OrgReviewRole-group.namespaceCode" parent="OrgReviewRole-group.namespaceCode-parentBean" />
-	<bean id="OrgReviewRole-group.namespaceCode-parentBean" parent="GroupImpl-namespaceCode"
+	<bean id="OrgReviewRole-group.namespaceCode-parentBean" parent="Group-namespaceCode"
 		abstract="true" p:name="group.namespaceCode" />
 
 	<bean id="OrgReviewRole-group.groupName" parent="OrgReviewRole-group.groupName-parentBean" />
-	<bean id="OrgReviewRole-group.groupName-parentBean" parent="GroupImpl-groupName"
+	<bean id="OrgReviewRole-group.groupName-parentBean" parent="Group-name"
 		abstract="true" p:name="group.groupName" />
 
 	<bean id="OrgReviewRole-memberGroup.memberId" parent="OrgReviewRole-memberGroup.memberId-parentBean" />
-	<bean id="OrgReviewRole-memberGroup.memberId-parentBean" parent="GroupImpl-groupId"
+	<bean id="OrgReviewRole-memberGroup.memberId-parentBean" parent="Group-id"
 		abstract="true" p:name="groupMemberGroupId">
 		<property name="control">
 			<ref bean="HiddenControl" />
@@ -317,11 +317,11 @@
 	<bean id="OrgReviewRole-memberGroup.memberNamespaceCode"
 		parent="OrgReviewRole-memberGroup.memberNamespaceCode-parentBean" />
 	<bean id="OrgReviewRole-memberGroup.memberNamespaceCode-parentBean"
-		parent="GroupImpl-namespaceCode" abstract="true"
+		parent="Group-namespaceCode" abstract="true"
 		p:name="groupMemberGroupNamespaceCode" />
 
 	<bean id="OrgReviewRole-memberGroup.memberName" parent="OrgReviewRole-memberGroup.memberName-parentBean" />
-	<bean id="OrgReviewRole-memberGroup.memberName-parentBean" parent="GroupImpl-groupName"
+	<bean id="OrgReviewRole-memberGroup.memberName-parentBean" parent="Group-name"
 		abstract="true" p:name="groupMemberGroupName" />
 
 	<bean id="OrgReviewRole-memberNamespaceCode" parent="OrgReviewRole-memberNamespaceCode-parentBean" />
@@ -333,7 +333,7 @@
 		abstract="true" p:name="delegate" p:label="Delegate" />
 
 	<bean id="OrgReviewRole-delegationTypeCode" parent="OrgReviewRole-delegationTypeCode-parentBean" />
-	<bean id="OrgReviewRole-delegationTypeCode-parentBean" parent="DelegateType-delegationTypeCode"
+	<bean id="OrgReviewRole-delegationTypeCode-parentBean" parent="DelegateBo-delegationTypeCode"
 		abstract="true" p:name="delegationTypeCode" />
 
 	<bean id="OrgReviewRole-delegationTypeCodeDescription" parent="OrgReviewRole-delegationTypeCode"

@@ -35,10 +35,11 @@
 				<bean parent="Account-accountsFringesBnftIndicator" />
 				<bean parent="Account-accountCityName" />
 				<bean parent="Account-accountStateCode" />
+				<!-- RICE20: codeAndDescription has been removed from the State object
 				<bean parent="Account-accountState.codeAndDescription" />
+				-->
 				<bean parent="Account-accountStreetAddress" />
 				<bean parent="Account-accountZipCode" />
-				<bean parent="Account-postalZipCode.postalCode" />
 				<bean parent="Account-reportsToChartOfAccountsCode" />
 				<bean parent="Account-reportsToAccountNumber" />
 				<bean parent="Account-continuationFinChrtOfAcctCd" />
@@ -227,9 +228,12 @@
 							<bean parent="FieldDefinition" p:attributeName="chartOfAccounts.codeAndDescription" />
 							<bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription" />
 							<bean parent="FieldDefinition" p:attributeName="accountPhysicalCampusCode" />
-							<bean parent="FieldDefinition" p:attributeName="postalZipCode.postalCode" />
+							<bean parent="FieldDefinition" p:attributeName="accountZipCode" />
 							<bean parent="FieldDefinition" p:attributeName="accountCityName" />
+							<bean parent="FieldDefinition" p:attributeName="accountStateCode" />
+							<!-- RICE20: codeAndDescription has been removed from the State object
 							<bean parent="FieldDefinition" p:attributeName="accountState.codeAndDescription" />
+							-->
 							<bean parent="FieldDefinition" p:attributeName="accountStreetAddress" />
 							<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
 							<bean parent="FieldDefinition" p:attributeName="subFundGroup.codeAndDescription" />

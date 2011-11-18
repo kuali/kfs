@@ -51,6 +51,35 @@
     </rule>
 	<rule name="new_rule_testing_2">
 		<pattern>
+			<match>"DelegateType-</match>
+			<replacement>"DelegateBo-</replacement>
+		</pattern>
+	<!-- 
+		<pattern>
+			<match>"GroupImpl-groupId</match>
+			<replacement>"Group-id</replacement>
+		</pattern>
+		<pattern>
+			<match>"GroupImpl-groupName</match>
+			<replacement>"Group-name</replacement>
+		</pattern>
+		<pattern>
+			<match>"GroupImpl-namespaceCode</match>
+			<replacement>"Group-namespaceCode</replacement>
+		</pattern>
+		<pattern>
+			<match>"RoleImpl-roleId</match>
+			<replacement>"RoleBo-id</replacement>
+		</pattern>
+		<pattern>
+			<match>"RoleImpl-roleName</match>
+			<replacement>"RoleBo-name</replacement>
+		</pattern>
+		<pattern>
+			<match>"RoleImpl-namespaceCode</match>
+			<replacement>"RoleBo-namespaceCode</replacement>
+		</pattern>
+		<pattern>
 			<match>"Campus-campusCode</match>
 			<replacement>"Campus-code</replacement>
 		</pattern>
@@ -71,7 +100,6 @@
 			<match>"Country-postalCountryName</match>
 			<replacement>"Country-name</replacement>
 		</pattern>
-	<!-- 
 		<pattern>
 			<match>\.getBoNotes\(\)</match>
 			<replacement>.getNotes()</replacement>

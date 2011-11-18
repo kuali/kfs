@@ -121,31 +121,31 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="ModelMember-roleId" parent="ModelMember-roleId-parentBean"/>
 
-  <bean id="ModelMember-roleId-parentBean" abstract="true" parent="RoleImpl-roleId">
+  <bean id="ModelMember-roleId-parentBean" abstract="true" parent="RoleBo-id">
     <property name="name" value="roleId"/>
   </bean> 
   
   <bean id="ModelMember-roleName" parent="ModelMember-roleName-parentBean"/>
 
-  <bean id="ModelMember-roleName-parentBean" abstract="true" parent="RoleImpl-roleName">
+  <bean id="ModelMember-roleName-parentBean" abstract="true" parent="RoleBo-name">
     <property name="name" value="roleName"/>
   </bean> 
   
   <bean id="ModelMember-namespaceCode" parent="ModelMember-namespaceCode-parentBean"/>
 
-  <bean id="ModelMember-namespaceCode-parentBean" abstract="true" parent="RoleImpl-namespaceCode">
+  <bean id="ModelMember-namespaceCode-parentBean" abstract="true" parent="RoleBo-namespaceCode">
     <property name="name" value="namespaceCode"/>
   </bean> 
   
   <bean id="ModelMember-groupId" parent="ModelMember-groupId-parentBean"/>
 
-  <bean id="ModelMember-groupId-parentBean" abstract="true" parent="GroupImpl-groupId">
+  <bean id="ModelMember-groupId-parentBean" abstract="true" parent="Group-id">
     <property name="name" value="groupId"/>
   </bean> 
   
   <bean id="ModelMember-groupName" parent="ModelMember-groupName-parentBean"/>
 
-  <bean id="ModelMember-groupName-parentBean" abstract="true" parent="GroupImpl-groupName">
+  <bean id="ModelMember-groupName-parentBean" abstract="true" parent="Group-name">
     <property name="name" value="groupName"/>
   </bean> 
   

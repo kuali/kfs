@@ -7,7 +7,7 @@
 		<delete tableName="KRCR_PARM_T">
 			<where>APPL_ID = 'KFS'</where>
 		</delete>
-		<loadData tableName="KRNS_PARM_T" file="demo/krns_parm_t.csv" />
+		<loadData tableName="KRCR_PARM_T" file="demo/krcr_parm_t.csv" />
     </changeSet>
 
     <changeSet context="demo" author="kfs" id="KFS_DEMO_LOAD_KRCR_PARM_T_mysql" dbms="mysql">

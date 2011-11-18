@@ -43,6 +43,9 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         CashDrawer cd = getCashDrawerService().getByCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());
+        /*
+         * RICE20
+         * cannot find 
         if (cd == null) {
             throw new IllegalStateException("There is no cash drawer associated with unitName '" + getCashReceiptDocumentForValidation().getCampusLocationCode() + "' from cash receipt " + getCashReceiptDocumentForValidation().getDocumentNumber());
         }
@@ -50,6 +53,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getCampusCode());
             return false;
         }
+        */
         //check whether cash manager confirmed amount equals to the old amount
         CashReceiptDocument crDoc = (CashReceiptDocument) getCashReceiptDocumentForValidation();
         if ((crDoc.getTotalDollarAmount().compareTo(crDoc.getTotalConfirmedCashAmount().add(crDoc.getTotalConfirmedCheckAmount()).add(crDoc.getTotalConfirmedCoinAmount()))) != 0) {

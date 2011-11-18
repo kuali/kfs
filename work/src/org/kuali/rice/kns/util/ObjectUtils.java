@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.core.proxy.ProxyHelper;
 import org.hibernate.collection.PersistentBag;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.cache.CopiedObject;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.FormatException;
@@ -662,13 +663,13 @@ public class ObjectUtils {
      * 
      * @return Cleaned string
      */
-    //RICE20 need to add QUERY_CHARACTERS collection constant
-/*    public static String clean(String string) {
-        for (int i = 0; i < KRADConstants.QUERY_CHARACTERS.length; i++) {
-            string = StringUtils.replace(string, KRADConstants.QUERY_CHARACTERS[i], KRADConstants.EMPTY_STRING);
+
+    public static String clean(String string) {
+       for (SearchOperator operator : SearchOperator.QUERY_CHARACTERS ) {
+            string = StringUtils.replace(string, operator.name(),  KRADConstants.EMPTY_STRING);
         }
         return string;
-    }*/
+     }
 
 
     /**

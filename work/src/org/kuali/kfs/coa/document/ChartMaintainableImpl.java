@@ -60,8 +60,9 @@ public class ChartMaintainableImpl extends FinancialSystemMaintainable {
             if (StringUtils.isNotBlank(chart.getFinCoaManagerPrincipalId())) {
                 roleManagementService.assignPrincipalToRole(chart.getFinCoaManagerPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
             }
-            
+            /* RICE20  flushRoleCaches() does not exists 
             roleManagementService.flushRoleCaches();
+            */
         }
 
         super.doRouteStatusChange(documentHeader);

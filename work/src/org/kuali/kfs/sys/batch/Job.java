@@ -197,7 +197,11 @@ public class Job implements StatefulJob, InterruptableJob {
         Class stepClass = unProxiedStep.getClass();
         
         DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
-        String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
+        //RICE20  Parameter DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE was in knsconstants but is not in kradconstants
+        //commenting original line and setting up string as a fudge to get it working
+        String DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE = "DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE";
+        //String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
+        String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
         
         //RUN_IND takes priority: when RUN_IND exists and RUN_IND=Y always run the Step
         //RUN_DATE: when RUN_DATE exists, but the value is empty run the Step

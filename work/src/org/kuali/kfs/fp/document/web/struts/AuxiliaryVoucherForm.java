@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.joda.time.DateTime;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
@@ -128,7 +129,10 @@ public class AuxiliaryVoucherForm extends VoucherForm {
             getAuxiliaryVoucherDocument().setReversalDate(null);
         }
         else if (getAuxiliaryVoucherDocument().getTypeCode().equals(RECODE_DOC_TYPE)) {
-            getAuxiliaryVoucherDocument().setReversalDate(new java.sql.Date(getDocument().getDocumentHeader().getWorkflowDocument().getDateCreated().getTime()));
+            DateTime ts = new DateTime(getAuxiliaryVoucherDocument().getDocumentHeader().getWorkflowDocument().getDateCreated());
+            Date newts = new Date(ts.getMillis());
+            
+            getAuxiliaryVoucherDocument().setReversalDate(newts);
         }
     }
 

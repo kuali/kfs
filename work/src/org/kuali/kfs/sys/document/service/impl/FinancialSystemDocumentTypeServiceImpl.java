@@ -56,18 +56,15 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
     protected boolean isActiveCurrentChildDocumentType(String documentTypeCode, String parentDocumentTypeCode) {
         if (StringUtils.isBlank(documentTypeCode)) return false;
         if (documentTypeCode.equals(parentDocumentTypeCode)) return true;
-        try {
-            DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);        
+        
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);        
 
-            if (!documentTypeService.isActiveByName(documentTypeCode)) return false;
-            final DocumentType documentType = documentTypeService.getDocumentTypeByName(documentTypeCode);
-            String parentId = documentType.getParentId();
-            String parentName = documentTypeService.getNameById(parentId);
-            if (StringUtils.isBlank(parentName)) return false;
-            return isActiveCurrentChildDocumentType(parentName, parentDocumentTypeCode);
-        } catch (WorkflowException we) {
-            throw new RuntimeException("Could not retrieve document type "+documentTypeCode, we);
-        }
+        if (!documentTypeService.isActiveByName(documentTypeCode)) return false;
+        final DocumentType documentType = documentTypeService.getDocumentTypeByName(documentTypeCode);
+        String parentId = documentType.getParentId();
+        String parentName = documentTypeService.getNameById(parentId);
+        if (StringUtils.isBlank(parentName)) return false;
+        return isActiveCurrentChildDocumentType(parentName, parentDocumentTypeCode);
     }
 
     /**

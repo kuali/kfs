@@ -47,22 +47,22 @@
 <!-- Attribute Definitions -->
   <bean id="TaxRegionCounty-postalCountryCode" parent="TaxRegionCounty-postalCountryCode-parentBean"/>
   
-  <bean id="TaxRegionCounty-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.country.CountryEbo" p:sourceAttributeName="code">
-	<property name="name" value="postalCountryCode"/>
+  <bean id="TaxRegionCounty-postalCountryCode-parentBean" abstract="true" parent="Country" >
+  	<property name="name" value="postalCountryCode"/>
 	<property name="forceUppercase" value="true"/>
   </bean>	
 
   <bean id="TaxRegionCounty-countyCode" parent="TaxRegionCounty-countyCode-parentBean"/>
 
-  <bean id="TaxRegionCounty-countyCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.county.CountyEbo" p:sourceAttributeName="countyCode">
+  <bean id="TaxRegionCounty-countyCode-parentBean" abstract="true" parent="Country">
     <property name="name" value="countyCode"/>
     <property name="forceUppercase" value="true"/>
   </bean>
   
   <bean id="TaxRegionCounty-stateCode" parent="TaxRegionCounty-stateCode-parentBean"/>
 
-  <bean id="TaxRegionCounty-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo" p:sourceAttributeName="code">
-  	<property name="name" value="stateCode"/>
+  <bean id="TaxRegionCounty-stateCode-parentBean" abstract="true" parent="State">
+   	<property name="name" value="stateCode"/>
   	<property name="forceUppercase" value="true"/>
   </bean>
   

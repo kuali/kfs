@@ -200,7 +200,7 @@
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean"/>
 
-  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo" p:sourceAttributeName="code">
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean" abstract="true" parent="PostalCode">
     <property name="name" value="disbVchrSpecialHandlingZipCode"/>
     <property name="label" value="Special Handling Postal Code"/>
     <property name="shortLabel" value="Special Handling Postal"/>

@@ -325,9 +325,7 @@
 	<bean id="SystemInformation-organizationRemitToStateCode"
 		parent="SystemInformation-organizationRemitToStateCode-parentBean" />
 	<bean id="SystemInformation-organizationRemitToStateCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo"
-		p:sourceAttributeName="code">
+		abstract="true" parent="State">
 		<property name="name" value="organizationRemitToStateCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="State" />
@@ -335,9 +333,7 @@
 
 	<bean id="SystemInformation-organizationRemitToZipCode" parent="SystemInformation-organizationRemitToZipCode-parentBean" />
 	<bean id="SystemInformation-organizationRemitToZipCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
-		p:sourceAttributeName="code">
+		abstract="true" parent="PostalCode">
 		<property name="name" value="organizationRemitToZipCode" />
 	</bean>
 

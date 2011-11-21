@@ -334,9 +334,7 @@
 		parent="OrganizationOptions-organizationRemitToStateCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationRemitToStateCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo"
-		p:sourceAttributeName="code">
+		abstract="true" parent="State">
 		<property name="name" value="organizationRemitToStateCode" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
@@ -348,9 +346,7 @@
 		parent="OrganizationOptions-organizationRemitToZipCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationRemitToZipCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
-		p:sourceAttributeName="code">
+		abstract="true" parent="PostalCode">
 		<property name="name" value="organizationRemitToZipCode" />
 		<property name="required" value="true" />
 	</bean>
@@ -391,9 +387,7 @@
 		parent="OrganizationOptions-organizationPostalZipCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationPostalZipCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
-		p:sourceAttributeName="code">
+		abstract="true" parent="PostalCode">
 		<property name="name" value="organizationPostalZipCode" />
 		<property name="label" value="Organization Postal Code" />
 		<property name="shortLabel" value="Org Postal Cd" />
@@ -404,9 +398,7 @@
 		parent="OrganizationOptions-organizationPostalCountryCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationPostalCountryCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
-		p:sourceAttributeName="code">
+		abstract="true" parent="PostalCode">
 		<property name="name" value="organizationPostalCountryCode" />
 		<property name="label" value="Organization Postal Country Code" />
 		<property name="shortLabel" value="Org Country Cd" />

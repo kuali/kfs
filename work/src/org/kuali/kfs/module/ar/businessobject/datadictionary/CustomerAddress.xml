@@ -221,9 +221,7 @@
 	<bean id="CustomerAddress-customerStateCode" parent="CustomerAddress-customerStateCode-parentBean" />
 
 	<bean id="CustomerAddress-customerStateCode-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo"
-		p:sourceAttributeName="code">
+		parent="State">
 		<property name="name" value="customerStateCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="State" />
@@ -240,18 +238,14 @@
 	<bean id="CustomerAddress-customerZipCode" parent="CustomerAddress-customerZipCode-parentBean" />
 
 	<bean id="CustomerAddress-customerZipCode-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
-		p:sourceAttributeName="code">
+		parent="PostalCode" >
 		<property name="name" value="customerZipCode" />
 	</bean>
 
 	<bean id="CustomerAddress-customerCountryCode" parent="CustomerAddress-customerCountryCode-parentBean" />
 
 	<bean id="CustomerAddress-customerCountryCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.country.CountryEbo"
-		p:sourceAttributeName="code">
+		abstract="true" parent="Country">
 		<property name="name" value="customerCountryCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Country" />

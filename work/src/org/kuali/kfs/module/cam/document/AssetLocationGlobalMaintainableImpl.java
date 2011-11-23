@@ -137,6 +137,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     }
 
     /**
+     * Verify multiple value lookup entries are authorized by user to add
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addMultipleValueLookupResults(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, java.util.Collection, boolean, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
@@ -144,6 +145,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
         AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) document.getDocumentBusinessObject();
         Collection<PersistableBusinessObject> allowedAssetsCollection = new ArrayList<PersistableBusinessObject>();
         final String maintDocTypeName =  CamsConstants.DocumentTypeName.ASSET_EDIT;
+        GlobalVariables.getMessageMap().clear();
         for (PersistableBusinessObject businessObject : rawValues) {
             Asset asset = (Asset) businessObject;
             if (StringUtils.isNotBlank(maintDocTypeName)) {
@@ -151,12 +153,10 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
                 if (allowsEdit) {
                     allowedAssetsCollection.add(asset);
                 } else {
-                    GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), asset.getCapitalAssetNumber().toString() });
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CamsConstants.AssetLocationGlobal.SECTION_ID_EDIT_LIST_OF_ASSETS, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), asset.getCapitalAssetNumber().toString() });
                 }
             }
         }     
         super.addMultipleValueLookupResults(document, collectionName, allowedAssetsCollection, needsBlank, bo);
-
- 
     }
 }

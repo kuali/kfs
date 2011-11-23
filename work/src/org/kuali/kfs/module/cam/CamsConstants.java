@@ -207,7 +207,11 @@ public class CamsConstants extends JSTLConstants {
         public static final String BORROWER_STORAGE = "BS";
         public static final String RETIREMENT = "R";
     }
-
+    
+    public static class AssetLocationGlobal {
+        public static final String SECTION_ID_EDIT_LIST_OF_ASSETS = "Edit List of Assets";
+    }
+    
     public static class AssetRetirementGlobal {
         public static final String ASSET_LOOKUPABLE_ID = "assetLookupable";
         public static final String DOCUMENT_HEADER = "documentHeader";

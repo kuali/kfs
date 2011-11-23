@@ -16,15 +16,21 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -32,6 +38,8 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -126,5 +134,29 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
         return Asset.class;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addMultipleValueLookupResults(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, java.util.Collection, boolean, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     */
+    @Override
+    public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
+        AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) document.getDocumentBusinessObject();
+        Collection<PersistableBusinessObject> allowedAssetsCollection = new ArrayList<PersistableBusinessObject>();
+        final String maintDocTypeName =  CamsConstants.DocumentTypeName.ASSET_EDIT;
+        for (PersistableBusinessObject businessObject : rawValues) {
+            Asset asset = (Asset) businessObject;
+            if (StringUtils.isNotBlank(maintDocTypeName)) {
+                boolean allowsEdit = getBusinessObjectAuthorizationService().canMaintain(asset, GlobalVariables.getUserSession().getPerson(), maintDocTypeName);
+                if (allowsEdit) {
+                    allowedAssetsCollection.add(asset);
+                } else {
+                    GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), asset.getCapitalAssetNumber().toString() });
+                }
+            }
+        }     
+        super.addMultipleValueLookupResults(document, collectionName, allowedAssetsCollection, needsBlank, bo);
+
+ 
     }
 }

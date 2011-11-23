@@ -34,6 +34,7 @@ public class PdpPropertyConstants {
     public static final String CUSTOMER_ID = "customerId";
     public static final String CUSTOMER_FILE_CREATE_TIMESTAMP = "customerFileCreateTimestamp";
     public static final String DISBURSEMENT_TYPE_CODE = "disbursementTypeCode";
+    public static final String CUSTOMER_BANK = "bank";
     public static final String DETAIL_COUNT = "detailCount";
     public static final String PAYMENT_COUNT = "paymentCount";
     public static final String PAYMENT_TOTAL_AMOUNT = "paymentTotalAmount";

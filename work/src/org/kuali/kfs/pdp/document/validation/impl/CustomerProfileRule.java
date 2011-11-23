@@ -27,6 +27,7 @@ import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -51,13 +52,25 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
         if (isValid) {
             if (collectionName.equals(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_BANKS)) {
                 CustomerBank newCustomerBank = (CustomerBank) line;
-
+                
+                // does the same disbursement type code exist?
                 CustomerProfile customerProfile = (CustomerProfile) document.getNewMaintainableObject().getBusinessObject();
                 for (CustomerBank bank : customerProfile.getCustomerBanks()) {
                     if (bank.getDisbursementTypeCode().equalsIgnoreCase(newCustomerBank.getDisbursementTypeCode())) {
-                        errorMap.putError( PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_ONE_BANK_PER_DISBURSEMENT_TYPE_CODE);
+                        errorMap.putError(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_ONE_BANK_PER_DISBURSEMENT_TYPE_CODE);
                         isValid = false;
                     }
+                }
+                // check if the bank code type is allowed
+                newCustomerBank.refreshReferenceObject(PdpPropertyConstants.CUSTOMER_BANK);
+                Bank newBank = newCustomerBank.getBank();
+                if (newCustomerBank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.ACH) && !newBank.isBankAchIndicator()) {
+                    errorMap.putError(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_PDP_ACH_BANK_NOT_ALLOWED, newBank.getBankCode() + " (" + newBank.getBankName() + ")");
+                    isValid = false;
+                }
+                if (newCustomerBank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.CHECK) && !newBank.isBankCheckIndicator()) {
+                    errorMap.putError(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_PDP_CHECK_BANK_NOT_ALLOWED, newBank.getBankCode() + " (" + newBank.getBankName() + ")");
+                    isValid = false;
                 }
             }
         }
@@ -75,7 +88,8 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
      */    
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        boolean isValid =true;
+        
+        boolean isValid = true;
         isValid &= super.processCustomRouteDocumentBusinessRules(document);
         
         CustomerProfile customerProfile = (CustomerProfile) document.getNewMaintainableObject().getBusinessObject();
@@ -92,14 +106,25 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
             
             isValid = false;
         }else{
-            for (CustomerBank bank : customerProfile.getCustomerBanks()){
+            for (CustomerBank customerBank : customerProfile.getCustomerBanks()){
+
+                // check if the bank code type is allowed
+                Bank bank = customerBank.getBank();
+                if (customerBank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.ACH) && !bank.isBankAchIndicator()) {
+                    putFieldError(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_PDP_ACH_BANK_NOT_ALLOWED, bank.getBankCode() + " (" + bank.getBankName() + ")");
+                    isValid = false;
+                }
+                if (customerBank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.CHECK) && !bank.isBankCheckIndicator()) {
+                    putFieldError(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_PDP_CHECK_BANK_NOT_ALLOWED, bank.getBankCode() + " (" + bank.getBankName() + ")");
+                    isValid = false;
+                }
                 
                 //Check if customer profile has Check type Bank information
-                if(bank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.CHECK)){
+                if(customerBank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.CHECK)){
                     checkBankPresent = true;
                 }                 
                 //Check if customer profile has ACH type Bank information 
-                if(bank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.ACH)){
+                if(customerBank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.ACH)){
                         ACHBankPresent = true;
                  }                 
                 if(checkBankPresent && ACHBankPresent){

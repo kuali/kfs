@@ -337,7 +337,6 @@
     <field-descriptor name="alternatePayeeId" column="ALTRNT_PAYEE_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="alternatePayeeIdTypeCd" column="ALTRNT_PAYEE_ID_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="campusAddress" column="CMP_ADDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="customerInstitutionNumber" column="CUST_INST_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="disbursementDate" column="DISB_TS" jdbc-type="DATE"/>
     <field-descriptor name="adviceEmailSentDate" column="ADV_EMAIL_SNT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="disbursementNbr" column="DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
@@ -423,6 +422,7 @@
     <field-descriptor name="origInvoiceAmount" column="ORIG_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="purchaseOrderNbr" column="PO_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="requisitionNbr" column="REQS_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="customerInstitutionNumber" column="CUST_INST_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="primaryCancelledPayment" column="PDP_PRM_PMT_CNCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -458,6 +458,7 @@
     <field-descriptor name="organizationDocNbr" column="ORG_DOC_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="origInvoiceAmount" column="ORIG_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="purchaseOrderNbr" column="PO_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="customerInstitutionNumber" column="CUST_INST_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="requisitionNbr" column="REQS_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

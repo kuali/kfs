@@ -52,7 +52,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private String alternatePayeeId; // ALTRNT_PAYEE_ID
     private String alternatePayeeIdTypeCd; // ALTRNT_PAYEE_ID_TYP_CD
     private String payeeOwnerCd; // PAYEE_OWNR_CD
-    private String customerInstitutionNumber; // CUST_IU_NBR
     private String line1Address; // PMT_LN1_ADDR
     private String line2Address; // PMT_LN2_ADDR
     private String line3Address; // PMT_LN3_ADDR
@@ -491,10 +490,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return creditMemoNbr;
     }
 
-    public String getCustomerInstitutionNumber() {
-        return customerInstitutionNumber;
-    }
-
     /**
      * This method gets the disbursementDate.
      * @return disbursementDate
@@ -732,13 +727,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      */
     public void setCreditMemoNbr(String string) {
         creditMemoNbr = string;
-    }
-
-    /**
-     * @param string
-     */
-    public void setCustomerInstitutionNumber(String string) {
-        customerInstitutionNumber = string;
     }
 
     /**

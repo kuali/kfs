@@ -28,7 +28,6 @@
     <property name="objectLabel" value="Payment Group History"/>
     <property name="attributes">
       <list>
-        <ref bean="PaymentGroupHistory-paymentGroup.customerInstitutionNumber"/>
         <ref bean="PaymentGroupHistory-paymentGroup.payeeName"/>
         <ref bean="PaymentGroupHistory-paymentGroup.payeeId"/>
         <ref bean="PaymentGroupHistory-paymentGroup.payeeIdTypeCd"/>
@@ -129,11 +128,7 @@
   <bean id="PaymentGroupHistory-origPmtSpecHandling-parentBean" abstract="true" parent="PaymentGroup-pymtSpecialHandling">
     <property name="name" value="origPmtSpecHandling"/>
   </bean>
-  <bean id="PaymentGroupHistory-paymentGroup.customerInstitutionNumber" parent="PaymentGroupHistory-paymentGroup.customerInstitutionNumber-parentBean"/>
 
-  <bean id="PaymentGroupHistory-paymentGroup.customerInstitutionNumber-parentBean" abstract="true" parent="PaymentGroup-customerInstitutionNumber">
-    <property name="name" value="paymentGroup.customerInstitutionNumber"/>
-  </bean>
   <bean id="PaymentGroupHistory-origDisburseDate" parent="PaymentGroupHistory-origDisburseDate-parentBean"/>
 
   <bean id="PaymentGroupHistory-origDisburseDate-parentBean" abstract="true" parent="PaymentGroup-disbursementDate">
@@ -298,7 +293,6 @@
     <property name="numberOfColumns" value="1"/>
     <property name="inquiryFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>  
         <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeName"/> 
         <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeId"/>                                         
         <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeIdTypeCd"/>  
@@ -349,7 +343,6 @@
     <property name="lookupFields">
       <list>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeName"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeId"/>  
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeIdTypeCd"/>  
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtAttachment"/> 
@@ -370,7 +363,6 @@
     <property name="resultFields">
       <list>   
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeName"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeId"/>  
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeIdTypeCd"/>  
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtAttachment"/> 

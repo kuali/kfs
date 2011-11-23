@@ -90,7 +90,6 @@
         <xsd:element maxOccurs="1" minOccurs="1" ref="attachmentIndicator"/>
         <xsd:element maxOccurs="1" minOccurs="1" ref="specialHandlingIndicator"/>
         <xsd:element maxOccurs="1" minOccurs="1" ref="immediatePaymentIndicator"/>
-        <xsd:element maxOccurs="1" minOccurs="0" ref="customerUnivNbr" />
         <xsd:element maxOccurs="1" minOccurs="1" ref="paymentDate"/>
         <xsd:element maxOccurs="1" minOccurs="1" ref="customerProfile"/>
         <xsd:element maxOccurs="1" minOccurs="1" ref="payments"/>
@@ -154,6 +153,7 @@
         <xsd:element maxOccurs="1" minOccurs="0" ref="invoiceNbr"/>  
         <xsd:element maxOccurs="1" minOccurs="0" ref="requisitionNbr"/>  
         <xsd:element maxOccurs="1" minOccurs="0" ref="custPaymentDocNbr"/>  
+        <xsd:element maxOccurs="1" minOccurs="0" ref="customerUnivNbr" />
         <xsd:element maxOccurs="1" minOccurs="0" ref="invoiceDate"/>   
         <xsd:element maxOccurs="1" minOccurs="0" ref="origInvoiceAmount"/>  
         <xsd:element maxOccurs="1" minOccurs="0" ref="netPaymentAmount"/>  

@@ -257,34 +257,33 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
                     Iterator<PaymentDetail> paymentDetails = paymentDetailService.getByDisbursementNumber(disbursementNbr, processId, PdpConstants.DisbursementTypeCodes.CHECK, bankCode);
                     while (paymentDetails.hasNext()) {
-                        PaymentDetail pd = paymentDetails.next();
-                        PaymentGroup pg = pd.getPaymentGroup();
+                        PaymentDetail detail = paymentDetails.next();
+                        PaymentGroup group = detail.getPaymentGroup();
                         if (!testMode) {
-                            pg.setDisbursementDate(new java.sql.Date(processDate.getTime()));
-                            pg.setPaymentStatus(extractedStatus);
-                            this.businessObjectService.save(pg);
+                            group.setDisbursementDate(new java.sql.Date(processDate.getTime()));
+                            group.setPaymentStatus(extractedStatus);
+                            this.businessObjectService.save(group);
                         }
 
                         if (first) {
-                            writeOpenTagAttribute(os, 2, "check", "disbursementNbr", pg.getDisbursementNbr().toString());
+                            writeOpenTagAttribute(os, 2, "check", "disbursementNbr", group.getDisbursementNbr().toString());
 
                             // Write check level information
 
-                            writeBank(os, 4, pg.getBank());
+                            writeBank(os, 4, group.getBank());
 
                             writeTag(os, 4, "disbursementDate", sdf.format(processDate));
                             writeTag(os, 4, "netAmount", totalNetAmount.toString());
 
-                            writePayee(os, 4, pg);
-                            writeTag(os, 4, "campusAddressIndicator", pg.getCampusAddress().booleanValue() ? "Y" : "N");
-                            writeTag(os, 4, "attachmentIndicator", pg.getPymtAttachment().booleanValue() ? "Y" : "N");
-                            writeTag(os, 4, "specialHandlingIndicator", pg.getPymtSpecialHandling().booleanValue() ? "Y" : "N");
-                            writeTag(os, 4, "immediatePaymentIndicator", pg.getProcessImmediate().booleanValue() ? "Y" : "N");
-                            writeTag(os, 4, "customerUnivNbr", pg.getCustomerInstitutionNumber());
-                            writeTag(os, 4, "paymentDate", sdf.format(pg.getPaymentDate()));
+                            writePayee(os, 4, group);
+                            writeTag(os, 4, "campusAddressIndicator", group.getCampusAddress().booleanValue() ? "Y" : "N");
+                            writeTag(os, 4, "attachmentIndicator", group.getPymtAttachment().booleanValue() ? "Y" : "N");
+                            writeTag(os, 4, "specialHandlingIndicator", group.getPymtSpecialHandling().booleanValue() ? "Y" : "N");
+                            writeTag(os, 4, "immediatePaymentIndicator", group.getProcessImmediate().booleanValue() ? "Y" : "N");
+                            writeTag(os, 4, "paymentDate", sdf.format(group.getPaymentDate()));
 
                             // Write customer profile information
-                            CustomerProfile cp = pg.getBatch().getCustomerProfile();
+                            CustomerProfile cp = group.getBatch().getCustomerProfile();
                             writeCustomerProfile(os, 4, cp);
 
                             writeOpenTag(os, 4, "payments");
@@ -293,21 +292,22 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
                         writeOpenTag(os, 6, "payment");
 
-                        writeTag(os, 8, "purchaseOrderNbr", pd.getPurchaseOrderNbr());
-                        writeTag(os, 8, "invoiceNbr", pd.getInvoiceNbr());
-                        writeTag(os, 8, "requisitionNbr", pd.getRequisitionNbr());
-                        writeTag(os, 8, "custPaymentDocNbr", pd.getCustPaymentDocNbr());
-                        writeTag(os, 8, "invoiceDate", sdf.format(pd.getInvoiceDate()));
+                        writeTag(os, 8, "purchaseOrderNbr", detail.getPurchaseOrderNbr());
+                        writeTag(os, 8, "invoiceNbr", detail.getInvoiceNbr());
+                        writeTag(os, 8, "requisitionNbr", detail.getRequisitionNbr());
+                        writeTag(os, 8, "custPaymentDocNbr", detail.getCustPaymentDocNbr());
+                        writeTag(os, 8, "customerUnivNbr", detail.getCustomerInstitutionNumber());
+                        writeTag(os, 8, "invoiceDate", sdf.format(detail.getInvoiceDate()));
 
-                        writeTag(os, 8, "origInvoiceAmount", pd.getOrigInvoiceAmount().toString());
-                        writeTag(os, 8, "netPaymentAmount", pd.getNetPaymentAmount().toString());
-                        writeTag(os, 8, "invTotDiscountAmount", pd.getInvTotDiscountAmount().toString());
-                        writeTag(os, 8, "invTotShipAmount", pd.getInvTotShipAmount().toString());
-                        writeTag(os, 8, "invTotOtherDebitAmount", pd.getInvTotOtherDebitAmount().toString());
-                        writeTag(os, 8, "invTotOtherCreditAmount", pd.getInvTotOtherCreditAmount().toString());
+                        writeTag(os, 8, "origInvoiceAmount", detail.getOrigInvoiceAmount().toString());
+                        writeTag(os, 8, "netPaymentAmount", detail.getNetPaymentAmount().toString());
+                        writeTag(os, 8, "invTotDiscountAmount", detail.getInvTotDiscountAmount().toString());
+                        writeTag(os, 8, "invTotShipAmount", detail.getInvTotShipAmount().toString());
+                        writeTag(os, 8, "invTotOtherDebitAmount", detail.getInvTotOtherDebitAmount().toString());
+                        writeTag(os, 8, "invTotOtherCreditAmount", detail.getInvTotOtherCreditAmount().toString());
 
                         writeOpenTag(os, 8, "notes");
-                        for (Iterator ix = pd.getNotes().iterator(); ix.hasNext();) {
+                        for (Iterator ix = detail.getNotes().iterator(); ix.hasNext();) {
                             PaymentNoteText note = (PaymentNoteText) ix.next();
                             writeTag(os, 10, "note", note.getCustomerNoteText());
                         }
@@ -371,7 +371,6 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
                 writeTag(os, 4, "netAmount", paymentGroup.getNetPaymentAmount().toString());
 
                 writePayeeAch(os, 4, paymentGroup);
-                writeTag(os, 4, "customerUnivNbr", paymentGroup.getCustomerInstitutionNumber());
                 writeTag(os, 4, "paymentDate", sdf.format(paymentGroup.getPaymentDate()));
 
                 // Write customer profile information
@@ -390,6 +389,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
                     writeTag(os, 6, "invoiceNbr", paymentDetail.getInvoiceNbr());
                     writeTag(os, 6, "requisitionNbr", paymentDetail.getRequisitionNbr());
                     writeTag(os, 6, "custPaymentDocNbr", paymentDetail.getCustPaymentDocNbr());
+                    writeTag(os, 6, "customerUnivNbr", paymentDetail.getCustomerInstitutionNumber());
                     writeTag(os, 6, "invoiceDate", sdf.format(paymentDetail.getInvoiceDate()));
 
                     writeTag(os, 6, "origInvoiceAmount", paymentDetail.getOrigInvoiceAmount().toString());

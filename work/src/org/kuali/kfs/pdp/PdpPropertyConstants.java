@@ -103,7 +103,7 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_PROCESS_IMEDIATE = "paymentGroup.processImmediate";
             public static final String PAYMENT_REQUISITION_NUMBER = "requisitionNbr";
             public static final String PAYMENT_SPECIAL_HANDLING = "paymentGroup.pymtSpecialHandling";
-            public static final String PAYMENT_CUSTOMER_INSTITUTION_NUMBER = "paymentGroup.customerInstitutionNumber";
+            public static final String PAYMENT_CUSTOMER_INSTITUTION_NUMBER = "customerInstitutionNumber";
             public static final String PAYMENT_DISBURSEMENT_DATE = "paymentGroup.disbursementDate"; 
             public static final String PAYMENT_ATTACHMENT = "paymentGroup.pymtAttachment";
             public static final String PAYMENT_PROCESS_ID = "paymentGroup.processId";
@@ -131,7 +131,6 @@ public class PdpPropertyConstants {
         }
     
     public static class PaymentGroupHistory {
-            public static final String PAYMENT_GROUP_CUSTOMER_INSTITUTION_NUMBER = "paymentGroup.customerInstitutionNumber";
             public static final String PAYMENT_GROUP_PAYEE_NAME = "paymentGroup.payeeName";
             public static final String PAYMENT_GROUP_PAYEE_ID = "paymentGroup.payeeId";
             public static final String PAYMENT_GROUP_PAYEE_ID_TYPE_CODE = "paymentGroup.payeeIdTypeCd";

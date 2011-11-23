@@ -54,6 +54,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     private String financialDocumentTypeCode;
     private String requisitionNbr;
     private String organizationDocNbr;
+    private String customerInstitutionNumber;
     private KualiDecimal origInvoiceAmount;
     private KualiDecimal netPaymentAmount;
     private KualiDecimal invTotDiscountAmount;
@@ -501,6 +502,20 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      */
     public void setFinancialSystemOriginCode(String financialSystemOriginCode) {
         this.financialSystemOriginCode = financialSystemOriginCode;
+    }
+    
+    /**
+     * @return the customerInstitutionNumber
+     */
+    public String getCustomerInstitutionNumber() {
+        return customerInstitutionNumber;
+    }
+
+    /**
+     * @param customerInstitutionNumber the customerInstitutionNumber to set
+     */
+    public void setCustomerInstitutionNumber(String customerInstitutionNumber) {
+        this.customerInstitutionNumber = customerInstitutionNumber;
     }
 
     /**

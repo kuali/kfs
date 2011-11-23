@@ -33,7 +33,6 @@
 				<ref bean="PaymentGroup-processImmediate"/>
 				<ref bean="PaymentGroup-disbursementNbr"/>
 				<ref bean="PaymentGroup-pymtSpecialHandling"/>
-				<ref bean="PaymentGroup-customerInstitutionNumber"/>
 				<ref bean="PaymentGroup-disbursementDate"/>
 				<ref bean="PaymentGroup-pymtAttachment"/>
 				<ref bean="PaymentGroup-processId"/>
@@ -188,20 +187,7 @@
 			<bean parent="CheckboxControlDefinition"/>
 		</property>
 	</bean>
-	<bean id="PaymentGroup-customerInstitutionNumber" parent="PaymentGroup-customerInstitutionNumber-parentBean"/>
 
-	<bean id="PaymentGroup-customerInstitutionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerInstitutionNumber"/>
-		<property name="label" value="Customer Number for Institution"/>
-		<property name="shortLabel" value="Customer Nbr for Institution"/>
-		<property name="maxLength" value="32"/>
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="32"/>
-		</property>
-	</bean>
 	<bean id="PaymentGroup-disbursementDate" parent="PaymentGroup-disbursementDate-parentBean"/>
 
 	<bean id="PaymentGroup-disbursementDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">

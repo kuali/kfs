@@ -365,10 +365,10 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.add(getAccountGlobalDetails());
-        managedLists.add(getDelegateGlobals());
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAccountGlobalDetails());
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getDelegateGlobals());
 
         return managedLists;
     }

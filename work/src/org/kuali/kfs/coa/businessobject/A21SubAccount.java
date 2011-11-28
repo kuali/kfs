@@ -17,9 +17,11 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -392,8 +394,8 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getA21IndirectCostRecoveryAccounts());
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getA21IndirectCostRecoveryAccounts());
         return managedLists;
     }
 

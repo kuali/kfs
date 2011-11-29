@@ -24,6 +24,7 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
@@ -48,6 +49,7 @@ public class CustomerProfileMaintenanceDocumentMaintainableImpl extends Financia
         customerProfile.setChartCode(null);
         customerProfile.setUnitCode(null); 
         customerProfile.setSubUnitCode(null);
+        if (ObjectUtils.isNull(customerProfile.getDefaultSubAccountNumber())) customerProfile.setDefaultSubAccountNumber(PdpPropertyConstants.CustomerProfile.CUSTOMER_DEFAULT_SUB_ACCOUNT_NUMBER);
     }
     
     /**

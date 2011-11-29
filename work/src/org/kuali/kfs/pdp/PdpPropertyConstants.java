@@ -190,6 +190,7 @@ public class PdpPropertyConstants {
         public static final String CUSTOMER_PROFILE_UNIT_CODE = "unitCode";
         public static final String CUSTOMER_PROFILE_SUB_UNIT_CODE = "subUnitCode";
         public static final String CUSTOMER_PROFILE_BANKS = "customerBanks";
+        public static final String CUSTOMER_DEFAULT_SUB_ACCOUNT_NUMBER = "-----";
     }
     
     public static class DisbursementNumberRange {

@@ -352,7 +352,7 @@
 	  	<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<bean id="assetBarcodeInventoryInputFileType" parent="assetBarcodeInventoryLoadService-parentBean"/>
+	<bean id="assetBarcodeInventoryInputFileType" parent="assetBarcodeInventoryInputFileType-parentBean"/>
 	<bean id="assetBarcodeInventoryInputFileType-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType"> 
 	    <property name="directoryPath">
 	       <value>${staging.directory}/cm/barcode</value>

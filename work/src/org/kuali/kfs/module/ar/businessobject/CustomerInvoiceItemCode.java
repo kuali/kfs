@@ -25,6 +25,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -60,6 +61,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase imple
     private ObjectCodeCurrent defaultInvoiceFinancialObject;
     private SubObjectCodeCurrent defaultInvoiceFinancialSubObject;
 	private ProjectCode defaultInvoiceProject;
+	private UnitOfMeasure unitOfMeasure;
 
 	/**
 	 * Default constructor.
@@ -419,6 +421,16 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase imple
 	 */
 	public Chart getChartOfAccounts() { 
 		return chartOfAccounts;
+	}
+	
+	/**
+     * Gets the unitOfMeasure attribute.
+     * 
+     * @return Returns the unitOfMeasure
+     * 
+     */
+	public UnitOfMeasure getUnitOfMeasure() {
+	    return unitOfMeasure;
 	}
 
 	/**

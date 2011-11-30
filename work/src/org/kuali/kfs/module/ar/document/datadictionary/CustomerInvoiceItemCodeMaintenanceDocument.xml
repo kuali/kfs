@@ -37,6 +37,7 @@
         <bean parent="ReferenceDefinition" p:attributeName="defaultInvoiceFinancialObject" p:attributeToHighlightOnFail="defaultInvoiceFinancialObjectCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="defaultInvoiceFinancialSubObject" p:attributeToHighlightOnFail="defaultInvoiceFinancialSubObjectCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="defaultInvoiceProject" p:attributeToHighlightOnFail="defaultInvoiceProjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="unitOfMeasure" p:attributeToHighlightOnFail="defaultUnitOfMeasureCode"/>
       </list>
     </property>
     <property name="lockingKeys">

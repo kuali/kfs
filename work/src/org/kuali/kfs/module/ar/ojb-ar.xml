@@ -583,6 +583,9 @@
 	<reference-descriptor name="defaultInvoiceProject" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="defaultInvoiceProjectCode" />
 	</reference-descriptor>
+	<reference-descriptor name="unitOfMeasure" class-ref="org.kuali.kfs.sys.businessobject.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="defaultUnitOfMeasureCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" table="AR_INV_PD_APLD_T">

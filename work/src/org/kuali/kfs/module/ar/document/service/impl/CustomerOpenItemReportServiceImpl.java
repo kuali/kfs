@@ -84,7 +84,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         
         List results = new ArrayList();
 
-        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         if (arDocumentHeaders.size() == 0)
             return results;
 
@@ -506,7 +506,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumberByProcessingOrgCodeAndChartCode(customerNumber, processingChartCode, processingOrganizationCode);
         } // reportOption is "Billing Organization" or "Account"
         else {
-            arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+            arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         }
         return arDocumentHeaders;
     }
@@ -630,7 +630,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
         Collection<String> documentNumbers = new ArrayList();
 
-        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         Person user = GlobalVariables.getUserSession().getPerson();
 
         //List invoiceIds = new ArrayList();
@@ -704,7 +704,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         
         List results = new ArrayList();
         
-        Collection<AccountsReceivableDocumentHeader> arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+        Collection<AccountsReceivableDocumentHeader> arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         Person user = GlobalVariables.getUserSession().getPerson();
         
         Hashtable details = new Hashtable();

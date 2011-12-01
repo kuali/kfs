@@ -58,6 +58,7 @@ public class LineItemReceivingItem extends ReceivingItemBase {
 
         this.setDocumentNumber(rld.getDocumentNumber());
         this.setItemTypeCode(poi.getItemTypeCode());
+        this.setPurchaseOrderIdentifier(rld.getPurchaseOrderIdentifier());
 
         this.setItemLineNumber(poi.getItemLineNumber());
         this.setItemCatalogNumber(poi.getItemCatalogNumber());

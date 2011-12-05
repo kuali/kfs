@@ -285,3 +285,4 @@ KFSENDOW6010,KFSENDOW6010,1,29,KFS-ENDOW,Use Endowment Reporting Screens,Authori
 KFSENDOW6011,KFSENDOW6011,1,29,KFS-ENDOW,Use Endowment Reporting Screens,Authorizes the use of the Asset Statement reporting screen within the Endowment module.,Y
 KFSAR6012,KFSAR6012,1,33,KFS-AR,Upload Batch Input Files(s),Allows access to the Customer Upload Batch Upload page.,Y
 KFSPURAP6940,KFSPURAP6940,1,27,KFS-PURAP,Full Unmask Field,Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry,Y
+15001,KFSLD6987h,1,33,KFS-LD,Upload Batch Input File(s),"Allows access to the Labor Enterprise Feed Upload Batch Upload page.",Y

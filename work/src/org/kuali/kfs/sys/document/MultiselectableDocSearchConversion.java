@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.sys.document;
 
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+
 
 /**
  * Any class that implements this interface must provide a method to convert multiselect searchCriteria hierarchy
  */
 public interface MultiselectableDocSearchConversion {
 
-    public DocSearchCriteriaDTO convertSelections(DocSearchCriteriaDTO searchCriteria);
+    public DocumentSearchCriteria convertSelections(DocumentSearchCriteria searchCriteria);
     
 }

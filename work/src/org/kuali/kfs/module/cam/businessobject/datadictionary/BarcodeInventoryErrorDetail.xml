@@ -112,6 +112,7 @@
   
   <bean id="BarcodeInventoryErrorDetail-campusCode" parent="BarcodeInventoryErrorDetail-campusCode-parentBean"/>
   <bean id="BarcodeInventoryErrorDetail-campusCode-parentBean" abstract="true" parent="Campus-code">
+    <property name="name" value="campusCode"/>
     <property name="shortLabel" value="Campus"/>
   </bean>
   

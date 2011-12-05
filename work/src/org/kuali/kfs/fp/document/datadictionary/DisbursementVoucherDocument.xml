@@ -302,6 +302,7 @@
   <bean id="DisbursementVoucherDocument-campusCode" parent="DisbursementVoucherDocument-campusCode-parentBean"/>
 
   <bean id="DisbursementVoucherDocument-campusCode-parentBean" abstract="true" parent="Campus-code">
+    <property name="name" value="campusCode"/>
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" p:includeKeyInLabel="false"/>

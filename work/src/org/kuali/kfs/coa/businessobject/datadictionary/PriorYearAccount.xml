@@ -147,11 +147,11 @@
 				</bean>
 				<dd:relationship objectAttribute="postalZipCode">
 					<dd:primitiveAttribute source="accountZipCode"
-						target="postalCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="accountState">
 					<dd:primitiveAttribute source="accountStateCode"
-						target="stateCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="accountPhysicalCampus">
 					<dd:primitiveAttribute source="accountPhysicalCampusCode"

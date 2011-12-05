@@ -32,7 +32,7 @@
     <property name="relationships">
       <list>
 		<dd:relationship objectAttribute="vendorCampus">
-        	<dd:primitiveAttribute source="vendorCampusCode" target="code"/>
+        	<dd:primitiveAttribute source="vendorCampusCode" target="campusCode"/>
 		</dd:relationship> 
  	  </list>
 	</property>

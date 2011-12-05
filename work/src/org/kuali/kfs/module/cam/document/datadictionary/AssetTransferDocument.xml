@@ -106,6 +106,7 @@
   <bean id="AssetTransferDocument-campusCode" parent="AssetTransferDocument-campusCode-parentBean"/>
 
   <bean id="AssetTransferDocument-campusCode-parentBean" abstract="true" parent="Campus-code">
+    <property name="name" value="campusCode"/>
     <property name="label" value="Campus"/>
     <property name="shortLabel" value="Code"/>
   </bean>

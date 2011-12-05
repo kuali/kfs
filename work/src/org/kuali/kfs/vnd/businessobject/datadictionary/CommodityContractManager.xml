@@ -41,7 +41,7 @@
 			<list>
 				<dd:relationship objectAttribute="campus">
 					<dd:primitiveAttribute source="campusCode"
-						target="code" />
+						target="campusCode" />
 				</dd:relationship>
 			</list>
 		</property>

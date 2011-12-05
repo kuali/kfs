@@ -53,7 +53,7 @@
           <property name="objectAttributeName" value="bankState"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankStateCode" p:targetName="stateCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankStateCode" p:targetName="code"/>
             </list>
           </property>
         </bean>
@@ -61,7 +61,7 @@
           <property name="objectAttributeName" value="postalCode"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankZipCode" p:targetName="postalCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankZipCode" p:targetName="code"/>
             </list>
           </property>
         </bean>

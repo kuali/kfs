@@ -176,6 +176,7 @@
   
   <bean id="Asset-campusCode" parent="Asset-campusCode-parentBean"/>
   <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-code">
+    <property name="name" value="campusCode"/>
     <property name="label" value="Campus"/>
     <property name="required" value="false"/>
     <property name="forceUppercase" value="true"/>    

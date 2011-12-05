@@ -79,6 +79,7 @@
   <bean id="DisbursementVoucherNonResidentAlienTax-postalCountryCode" parent="DisbursementVoucherNonResidentAlienTax-postalCountryCode-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-postalCountryCode-parentBean" abstract="true" parent="Country-code">
+    <property name="name" value="postalCountryCode"/>
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeKeyInLabel="false"/>

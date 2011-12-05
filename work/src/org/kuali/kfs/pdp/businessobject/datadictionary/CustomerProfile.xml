@@ -89,7 +89,7 @@
           <property name="objectAttributeName" value="postalCode"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="zipCode" p:targetName="postalCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="zipCode" p:targetName="code"/>
             </list>
           </property>
         </bean>
@@ -97,7 +97,7 @@
           <property name="objectAttributeName" value="state"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="stateCode" p:targetName="stateCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="stateCode" p:targetName="code"/>
             </list>
           </property>
         </bean>
@@ -105,7 +105,7 @@
           <property name="objectAttributeName" value="country"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="countryCode" p:targetName="postalCountryCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="countryCode" p:targetName="code"/>
             </list>
           </property>
         </bean>
@@ -328,21 +328,15 @@
   </bean>
   
   <bean id="CustomerProfile-zipCode" parent="CustomerProfile-zipCode-parentBean"/>
-  <bean id="CustomerProfile-zipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-zipCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="zipCode"/>
     <property name="label" value="Zip"/>
     <property name="shortLabel" value="Zip"/>
     <property name="required" value="false"/>
-    <property name="maxLength" value="20"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
   </bean>
   
   <bean id="CustomerProfile-countryCode" parent="CustomerProfile-countryCode-parentBean"/>
-  <bean id="CustomerProfile-countryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
-    <property name="name" value="countryCode"/>
-  </bean>
+  <bean id="CustomerProfile-countryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode" />
   
   <bean id="CustomerProfile-fileThresholdAmount" parent="CustomerProfile-fileThresholdAmount-parentBean"/>
   <bean id="CustomerProfile-fileThresholdAmount-parentBean" abstract="true" parent="AttributeDefinition">

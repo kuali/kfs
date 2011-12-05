@@ -51,13 +51,13 @@
 			<list>
 				<dd:relationship objectAttribute="purchasingDepartmentState">
 					<dd:primitiveAttribute source="purchasingDepartmentCountryCode"
-						target="postalCountryCode" />
+						target="countryCode" />
 					<dd:primitiveAttribute source="purchasingDepartmentStateCode"
-						target="stateCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="purchasingDepartmentCountry">
 					<dd:primitiveAttribute source="purchasingDepartmentCountryCode"
-						target="postalCountryCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="campus">
 					<dd:primitiveAttribute source="campusCode"
@@ -90,6 +90,7 @@
 
 	<bean id="CampusParameter-campusCode-parentBean" abstract="true"
 		parent="Campus-code">
+		<property name="name" value="campusCode" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="45" />
 		</property>

@@ -68,7 +68,7 @@ public class KfsRelationshipDefinition extends RelationshipDefinition {
     @Override
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if ( LOG.isDebugEnabled() ) {
-            LOG.debug( "Validating Relationships on BO: " + rootBusinessObjectClass.getSimpleName() );
+            LOG.debug( "Validating Relationships on BO: " + rootBusinessObjectClass.getSimpleName() + "." + objectAttributeName );
         }
         // TODO Auto-generated method stub
         super.completeValidation(rootBusinessObjectClass, otherBusinessObjectClass);

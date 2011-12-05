@@ -47,7 +47,6 @@
 
 
   <bean id="VendorGenericAttributes-stateCode" parent="VendorGenericAttributes-stateCode-parentBean"/>
-
   <bean id="VendorGenericAttributes-stateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="stateCode"/>
     <property name="label" value="State"/>
@@ -146,9 +145,6 @@
   <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="zipCode"/>
     <property name="required" value="false"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
   </bean>
 
   <bean id="VendorGenericAttributes-cityName" parent="VendorGenericAttributes-cityName-parentBean"/>

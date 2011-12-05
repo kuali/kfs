@@ -44,21 +44,21 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="buildingAddressZip">
-            <dd:primitiveAttribute source="buildingAddressCountryCode" target="postalCountryCode"/> 
-            <dd:primitiveAttribute source="buildingAddressZipCode" target="postalCode"/>
+            <dd:primitiveAttribute source="buildingAddressCountryCode" target="countryCode"/> 
+            <dd:primitiveAttribute source="buildingAddressZipCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="buildingAddressState">
-        	<dd:primitiveAttribute source="buildingAddressCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="buildingAddressStateCode" target="stateCode"/>            
+        	<dd:primitiveAttribute source="buildingAddressCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="buildingAddressStateCode" target="code"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="buildingAddressCountry">
-            <dd:primitiveAttribute source="buildingAddressCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="buildingAddressCountryCode" target="code"/>
         </dd:relationship>
 		<dd:relationship objectAttribute="campus">
         	<dd:primitiveAttribute source="campusCode" target="code"/>
         </dd:relationship>         
       </list>
-    </property>    
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

@@ -558,9 +558,7 @@
     <property name="shortLabel" value="Accounting Edit Required"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-payeeIdRequired" parent="CustomerProfile-payeeIdRequired-parentBean"/>
@@ -570,9 +568,7 @@
     <property name="shortLabel" value="Payee ID Required"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-ownershipCodeRequired" parent="CustomerProfile-ownershipCodeRequired-parentBean"/>
@@ -582,9 +578,7 @@
     <property name="shortLabel" value="Ownership Codes Required"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-adviceCreate" parent="CustomerProfile-adviceCreate-parentBean"/>
@@ -594,9 +588,7 @@
     <property name="shortLabel" value="ACH Advice Flag"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-employeeCheck" parent="CustomerProfile-employeeCheck-parentBean"/>
@@ -606,9 +598,7 @@
     <property name="shortLabel" value="Employee Check Indicator"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-nraReview" parent="CustomerProfile-nraReview-parentBean"/>
@@ -618,9 +608,7 @@
     <property name="shortLabel" value="NRA Check Indicator"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-relieveLiabilities" parent="CustomerProfile-relieveLiabilities-parentBean"/>
@@ -630,9 +618,7 @@
     <property name="shortLabel" value="Relieve Liabilities"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-achTransactionType" parent="CustomerProfile-achTransactionType-parentBean"/>

@@ -33,12 +33,12 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="county">
-        	<dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
+        	<dd:primitiveAttribute source="postalCountryCode" target="countryCode"/>
         	<dd:primitiveAttribute source="stateCode" target="stateCode"/>
-            <dd:primitiveAttribute source="countyCode" target="countyCode"/>
+            <dd:primitiveAttribute source="countyCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="country">
-            <dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="postalCountryCode" target="code"/>
         </dd:relationship>        
       </list>
     </property>    
@@ -54,7 +54,7 @@
 
   <bean id="TaxRegionCounty-countyCode" parent="TaxRegionCounty-countyCode-parentBean"/>
 
-  <bean id="TaxRegionCounty-countyCode-parentBean" abstract="true" parent="Country-code">
+  <bean id="TaxRegionCounty-countyCode-parentBean" abstract="true" parent="County-code">
     <property name="name" value="countyCode"/>
     <property name="forceUppercase" value="true"/>
   </bean>

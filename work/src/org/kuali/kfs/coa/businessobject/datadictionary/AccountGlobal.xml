@@ -94,10 +94,10 @@
           </property>
         </bean>
         <dd:relationship objectAttribute="postalZipCode">
-            <dd:primitiveAttribute source="accountZipCode" target="postalCode"/>
+            <dd:primitiveAttribute source="accountZipCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="accountState">
-            <dd:primitiveAttribute source="accountStateCode" target="stateCode"/>
+            <dd:primitiveAttribute source="accountStateCode" target="code"/>
         </dd:relationship> 
       </list>
     </property>

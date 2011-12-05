@@ -183,14 +183,14 @@
         <bean parent="RelationshipDefinition" p:objectAttributeName="postalZipCode">
         	<property name="primitiveAttributes">
         		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountZipCode" p:targetName="postalCode" />
+        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountZipCode" p:targetName="code" />
         		</list>
         	</property>
         </bean>
         <bean parent="RelationshipDefinition" p:objectAttributeName="accountState">
         	<property name="primitiveAttributes">
         		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode" p:targetName="stateCode" />
+        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode" p:targetName="code" />
         		</list>
         	</property>
         </bean>
@@ -209,11 +209,14 @@
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="acctIndirectCostRcvyType"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="budgetRecordingLevel"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialHigherEdFunction"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZipCode"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountRestrictedStatus"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="subFundGroup"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="sufficientFundsCode"/>
+        <!-- RICE20 - removing zip code and state, since they are maintained on the Rice server
+        		and (I don't believe) that they can be blocked.
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZipCode"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountState"/>
+         -->
       </list>
     </property>
   </bean>

@@ -123,11 +123,11 @@
           
         </bean>
         <dd:relationship objectAttribute="postalZip">
-        	<dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="organizationZipCode" target="postalCode"/>
+        	<dd:primitiveAttribute source="organizationCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="organizationZipCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="organizationCountry">
-            <dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="organizationCountryCode" target="code"/>
         </dd:relationship>       
         <dd:relationship objectAttribute="organizationPhysicalCampus">
             <dd:primitiveAttribute source="organizationPhysicalCampusCode" target="code"/>
@@ -136,9 +136,12 @@
     </property>
     <property name="inactivationBlockingDefinitions">
       <list>
+		<!-- RICE20 - removing zip code and state, since they are maintained on the Rice server
+        		and (I don't believe) that they can be blocked.
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZip"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="organizationType"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="organizationCountry"/>
+        -->
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="organizationType"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="responsibilityCenter"/>
       </list>
     </property>

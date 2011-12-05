@@ -112,11 +112,11 @@
 				</dd:relationship>
 				<dd:relationship objectAttribute="postalZipCode">
 					<dd:primitiveAttribute source="accountZipCode"
-						target="postalCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="accountState">
 					<dd:primitiveAttribute source="accountStateCode"
-						target="stateCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="accountPhysicalCampus">
 					<dd:primitiveAttribute source="accountPhysicalCampusCode"
@@ -129,15 +129,11 @@
 				<bean parent="InactivationBlockingDefinition"
 					p:blockedReferencePropertyName="accountType" />
 				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="postalZipCode" />
-				<bean parent="InactivationBlockingDefinition"
 					p:blockedReferencePropertyName="subFundGroup" />
 				<bean parent="InactivationBlockingDefinition"
 					p:blockedReferencePropertyName="budgetRecordingLevel" />
 				<bean parent="InactivationBlockingDefinition"
 					p:blockedReferencePropertyName="sufficientFundsCode" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="accountState" />
 			</list>
 		</property>
 	</bean>

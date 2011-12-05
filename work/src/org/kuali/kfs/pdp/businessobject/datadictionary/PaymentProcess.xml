@@ -97,12 +97,7 @@
     <property name="label" value="Extracted Indicator"/>
     <property name="shortLabel" value="Extracted Indicator"/>
     <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNNullSelectControl" />
   </bean>
   <bean id="PaymentProcess-formattedIndicator" parent="PaymentProcess-formattedIndicator-parentBean"/>
 
@@ -111,12 +106,7 @@
     <property name="label" value="Formatted Indicator"/>
     <property name="shortLabel" value="Formatted Indicator"/>
     <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNNullSelectControl" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->

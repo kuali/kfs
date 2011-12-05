@@ -300,9 +300,7 @@
     	<property name="shortLabel" value="Combinable Payment Group"/>
     	<property name="required" value="false"/>
     	<property name="maxLength" value="1"/>
-        <property name="control">
-        	<bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-        </property>
+	    <property name="control" ref="IndicatorYNOnlySelectControl" />
     </bean>
     <bean id="PaymentGroup-lastUpdate" parent="PaymentGroup-lastUpdate-parentBean"/>
 
@@ -457,9 +455,7 @@
     <property name="shortLabel" value="Is Payee an Employee?"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-       	<bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   <bean id="PaymentGroup-taxablePayment" parent="PaymentGroup-taxablePayment-parentBean"/>
 	
@@ -469,9 +465,7 @@
     <property name="shortLabel" value="Taxable"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-       	<bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   <bean id="PaymentGroup-zipCd" parent="PaymentGroup-zipCd-parentBean"/>
 
@@ -509,9 +503,7 @@
     <property name="shortLabel" value="Campus Address"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-       	<bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   <bean id="PaymentGroup-country" parent="PaymentGroup-country-parentBean"/>
 
@@ -605,9 +597,7 @@
     <property name="shortLabel" value="NRA Payee"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-       	<bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   <bean id="PaymentGroup-id" parent="PaymentGroup-id-parentBean"/>
 

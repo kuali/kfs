@@ -32,11 +32,11 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="state">
-        	<dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="stateCode" target="stateCode"/>
+        	<dd:primitiveAttribute source="postalCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="stateCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="country">
-            <dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="postalCountryCode" target="code"/>
         </dd:relationship>        
       </list>
     </property>    

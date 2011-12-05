@@ -39,7 +39,6 @@
         <ref bean="ElectronicPaymentClaim-generatingAccountingLine.organizationReferenceId"/>
         <ref bean="ElectronicPaymentClaim-generatingAccountingLine.amount"/>
         <ref bean="ElectronicPaymentClaim-generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate"/>
-        <ref bean="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus"/>
         <ref bean="ElectronicPaymentClaim-generatingDocumentHeader.organizationDocumentNumber"/>
       </list>
     </property>
@@ -135,7 +134,7 @@
   	<property name="name" value="generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate"/>
   	<property name="label" value="Deposited Date"/>
   </bean>
-  
+<!-- RICE20 - we can't be reaching into Rice in the DD   
   <bean id="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus" parent="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus-parentBean"/>
   
   <bean id="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus-parentBean" abstract="true" parent="AttributeDefinition">
@@ -147,7 +146,7 @@
       <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
-  
+ -->  
   <bean id="ElectronicPaymentClaim-generatingDocumentHeader.organizationDocumentNumber" parent="ElectronicPaymentClaim-generatingDocumentHeader.organizationDocumentNumber-parentBean"/>
   
   <bean id="ElectronicPaymentClaim-generatingDocumentHeader.organizationDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-organizationDocumentNumber">
@@ -215,7 +214,9 @@
         <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingYear"/>
         <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingPeriodCode"/>
         <bean parent="FieldDefinition" p:attributeName="generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate"/>
+        <!-- RICE20 - needs to be added via code - we can't reference this attribute directly
         <bean parent="FieldDefinition" p:attributeName="generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus"/>
+         -->
         <bean parent="FieldDefinition" p:attributeName="generatingDocumentHeader.organizationDocumentNumber"/>
         <bean parent="FieldDefinition" p:attributeName="generatingAccountingLine.organizationReferenceId"/>
       </list>

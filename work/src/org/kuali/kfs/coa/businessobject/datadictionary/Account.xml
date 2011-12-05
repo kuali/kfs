@@ -355,7 +355,7 @@
 	</bean>
 	<bean id="Account-accountStateCode" parent="Account-accountStateCode-parentBean" />
 
-	<bean id="Account-accountStateCode-parentBean" abstract="true" parent="State">
+	<bean id="Account-accountStateCode-parentBean" abstract="true" parent="State-code">
 		<property name="name" value="accountStateCode" />
 		<property name="label" value="Account State Code" />
 		<property name="shortLabel" value="StateCd" />
@@ -387,7 +387,7 @@
 	</bean>
 	<bean id="Account-accountZipCode" parent="Account-accountZipCode-parentBean" />
 
-	<bean id="Account-accountZipCode-parentBean" abstract="true" parent="PostalCode">
+	<bean id="Account-accountZipCode-parentBean" abstract="true" parent="PostalCode-code">
 		<property name="name" value="accountZipCode" />
 		<property name="label" value="Account Postal Code" />
 		<property name="shortLabel" value="ZipCode" />

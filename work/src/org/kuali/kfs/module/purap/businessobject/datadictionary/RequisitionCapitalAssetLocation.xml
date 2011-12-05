@@ -164,12 +164,12 @@
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean"/>
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode">
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-code">
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode" parent="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean"/>
 
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="State">
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="capitalAssetStateCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="State"/>

@@ -291,7 +291,7 @@
 	<bean id="Organization-organizationZipCode" parent="Organization-organizationZipCode-parentBean" />
 
 	<bean id="Organization-organizationZipCode-parentBean" abstract="true"
-		parent="PostalCode" >
+		parent="PostalCode-code" >
 		<property name="name" value="organizationZipCode" />
 		<property name="label" value="Organization Postal Code" />
 		<property name="shortLabel" value="Postal Code" />
@@ -300,7 +300,7 @@
 	<bean id="Organization-organizationStateCode" parent="Organization-organizationStateCode-parentBean" />
 
 	<bean id="Organization-organizationStateCode-parentBean" abstract="true"
-		parent="State" >
+		parent="State-code" >
 		<property name="name" value="organizationStateCode" />
 		<property name="label" value="Organization State/Province Code" />
 		<property name="shortLabel" value="St Cd" />
@@ -316,7 +316,7 @@
 	<bean id="Organization-organizationCountryCode" parent="Organization-organizationCountryCode-parentBean" />
 
 	<bean id="Organization-organizationCountryCode-parentBean"
-		abstract="true" parent="Country">
+		abstract="true" parent="Country-code">
 		<property name="name" value="organizationCountryCode" />
 		<property name="label" value="Organization Country Code" />
 		<property name="shortLabel" value="Country Cd" />

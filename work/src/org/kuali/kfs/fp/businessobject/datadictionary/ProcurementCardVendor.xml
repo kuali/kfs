@@ -136,7 +136,7 @@
 	<bean id="ProcurementCardVendor-vendorStateCode" parent="ProcurementCardVendor-vendorStateCode-parentBean" />
 
 	<bean id="ProcurementCardVendor-vendorStateCode-parentBean"
-		abstract="true" parent="State">
+		abstract="true" parent="State-code">
 		<property name="name" value="vendorStateCode" />
 		<property name="label" value="Vendor State Code" />
 		<property name="shortLabel" value="Code" />
@@ -148,7 +148,7 @@
 	<bean id="ProcurementCardVendor-vendorZipCode" parent="ProcurementCardVendor-vendorZipCode-parentBean" />
 
 	<bean id="ProcurementCardVendor-vendorZipCode-parentBean"
-		abstract="true" parent="PostalCode">
+		abstract="true" parent="PostalCode-code">
 		<property name="name" value="vendorZipCode" />
 		<property name="label" value="Vendor Postal (ZIP) Code" />
 		<property name="shortLabel" value="Code" />

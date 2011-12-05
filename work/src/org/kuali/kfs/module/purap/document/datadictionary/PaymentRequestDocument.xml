@@ -902,7 +902,7 @@
   </bean>
   <bean id="PaymentRequestDocument-taxCountryCode" parent="PaymentRequestDocument-taxCountryCode-parentBean"/>
 
-  <bean id="PaymentRequestDocument-taxCountryCode-parentBean" parent="Country">
+  <bean id="PaymentRequestDocument-taxCountryCode-parentBean" parent="Country-code">
     <property name="name" value="taxCountryCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Country"/>

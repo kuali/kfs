@@ -221,7 +221,7 @@
 	<bean id="CustomerAddress-customerStateCode" parent="CustomerAddress-customerStateCode-parentBean" />
 
 	<bean id="CustomerAddress-customerStateCode-parentBean" abstract="true"
-		parent="State">
+		parent="State-code">
 		<property name="name" value="customerStateCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="State" />
@@ -238,14 +238,14 @@
 	<bean id="CustomerAddress-customerZipCode" parent="CustomerAddress-customerZipCode-parentBean" />
 
 	<bean id="CustomerAddress-customerZipCode-parentBean" abstract="true"
-		parent="PostalCode" >
+		parent="PostalCode-code" >
 		<property name="name" value="customerZipCode" />
 	</bean>
 
 	<bean id="CustomerAddress-customerCountryCode" parent="CustomerAddress-customerCountryCode-parentBean" />
 
 	<bean id="CustomerAddress-customerCountryCode-parentBean"
-		abstract="true" parent="Country">
+		abstract="true" parent="Country-code">
 		<property name="name" value="customerCountryCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Country" />

@@ -203,12 +203,12 @@
   </bean>
   <bean id="ACHBank-bankStateCode" parent="ACHBank-bankStateCode-parentBean"/>
 
-  <bean id="ACHBank-bankStateCode-parentBean" abstract="true" parent="State">
+  <bean id="ACHBank-bankStateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="bankStateCode"/>
   </bean>
   <bean id="ACHBank-bankZipCode" parent="ACHBank-bankZipCode-parentBean"/>
 
-  <bean id="ACHBank-bankZipCode-parentBean" abstract="true" parent="PostalCode">
+  <bean id="ACHBank-bankZipCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="bankZipCode"/>
     <property name="label" value="Bank Zip Code"/>
     <property name="shortLabel" value="Bank Zip Code"/>

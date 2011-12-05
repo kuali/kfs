@@ -334,7 +334,7 @@
 		parent="OrganizationOptions-organizationRemitToStateCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationRemitToStateCode-parentBean"
-		abstract="true" parent="State">
+		abstract="true" parent="State-code">
 		<property name="name" value="organizationRemitToStateCode" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
@@ -346,7 +346,7 @@
 		parent="OrganizationOptions-organizationRemitToZipCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationRemitToZipCode-parentBean"
-		abstract="true" parent="PostalCode">
+		abstract="true" parent="PostalCode-code">
 		<property name="name" value="organizationRemitToZipCode" />
 		<property name="required" value="true" />
 	</bean>
@@ -387,7 +387,7 @@
 		parent="OrganizationOptions-organizationPostalZipCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationPostalZipCode-parentBean"
-		abstract="true" parent="PostalCode">
+		abstract="true" parent="PostalCode-code">
 		<property name="name" value="organizationPostalZipCode" />
 		<property name="label" value="Organization Postal Code" />
 		<property name="shortLabel" value="Org Postal Cd" />
@@ -398,7 +398,7 @@
 		parent="OrganizationOptions-organizationPostalCountryCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationPostalCountryCode-parentBean"
-		abstract="true" parent="PostalCode">
+		abstract="true" parent="PostalCode-code">
 		<property name="name" value="organizationPostalCountryCode" />
 		<property name="label" value="Organization Postal Country Code" />
 		<property name="shortLabel" value="Org Country Cd" />

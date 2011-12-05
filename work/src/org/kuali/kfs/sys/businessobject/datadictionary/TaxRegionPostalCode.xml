@@ -45,14 +45,14 @@
 <!-- Attribute Definitions -->
   <bean id="TaxRegionPostalCode-postalCountryCode" parent="TaxRegionPostalCode-postalCountryCode-parentBean"/>
   
-  <bean id="TaxRegionPostalCode-postalCountryCode-parentBean" abstract="true" parent="Country">
+  <bean id="TaxRegionPostalCode-postalCountryCode-parentBean" abstract="true" parent="Country-code">
 	<property name="name" value="postalCountryCode"/>
 	<property name="forceUppercase" value="true"/>
   </bean>	
   
  <bean id="TaxRegionPostalCode-postalCode" parent="TaxRegionPostalCode-postalCode-parentBean"/>
 
-  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="PostalCode">
+  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="postalCode"/>
     <property name="forceUppercase" value="true"/>
   </bean>

@@ -105,7 +105,7 @@
   </bean>
   
   <bean id="AssetLocation-assetLocationCountryCode" parent="AssetLocation-assetLocationCountryCode-parentBean"/>
-  <bean id="AssetLocation-assetLocationCountryCode-parentBean" abstract="true" parent="Country">
+  <bean id="AssetLocation-assetLocationCountryCode-parentBean" abstract="true" parent="Country-code">
       <property name="name" value="assetLocationCountryCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Asset Location Country Code"/>
@@ -150,7 +150,7 @@
   </bean>
   
   <bean id="AssetLocation-assetLocationStateCode" parent="AssetLocation-assetLocationStateCode-parentBean"/>
-  <bean id="AssetLocation-assetLocationStateCode-parentBean" abstract="true" parent="State">
+  <bean id="AssetLocation-assetLocationStateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="assetLocationStateCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Asset Location State Code"/>
@@ -177,7 +177,7 @@
   </bean>
   
   <bean id="AssetLocation-assetLocationZipCode" parent="AssetLocation-assetLocationZipCode-parentBean"/>
-  <bean id="AssetLocation-assetLocationZipCode-parentBean" abstract="true" parent="PostalCode" >
+  <bean id="AssetLocation-assetLocationZipCode-parentBean" abstract="true" parent="PostalCode-code" >
     <property name="name" value="assetLocationZipCode"/>
     <property name="label" value="Asset Location Postal Code"/>
     <property name="shortLabel" value="Postal Code"/>

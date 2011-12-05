@@ -17,6 +17,7 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -71,7 +72,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     private MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
     private FederalFundedCode financialFederalFunded;
 
-    private List<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
+    private Collection<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
 
     /**
      * Default constructor.
@@ -644,7 +645,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
         return m;
     }
 
-    public List<ObjectCodeGlobalDetail> getObjectCodeGlobalDetails() {
+    public Collection<ObjectCodeGlobalDetail> getObjectCodeGlobalDetails() {
         return objectCodeGlobalDetails;
     }
 
@@ -741,17 +742,17 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     }
 
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
-        return getObjectCodeGlobalDetails();
+        return new ArrayList<GlobalBusinessObjectDetail>( getObjectCodeGlobalDetails() );
     }
 
     /**
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.add(getObjectCodeGlobalDetails());
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getObjectCodeGlobalDetails() ) );
 
         return managedLists;
     }

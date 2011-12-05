@@ -126,17 +126,18 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         if (!objectCodeGlobal.isFinancialObjectActiveIndicator()) {
             // we can only inactivate if the new active status will be false, now check whether the object codes on the document exist and are currently true
-            List<ObjectCodeGlobalDetail> objectCodeGlobalDetails = objectCodeGlobal.getObjectCodeGlobalDetails();
-            for (int i = 0; i < objectCodeGlobalDetails.size(); i++) {
-                ObjectCodeGlobalDetail objectCodeGlobalDetail = objectCodeGlobalDetails.get(i);
+            Collection<? extends ObjectCodeGlobalDetail> objectCodeGlobalDetails = objectCodeGlobal.getObjectCodeGlobalDetails();
+            int i = 0;
+            for ( ObjectCodeGlobalDetail objectCodeGlobalDetail : objectCodeGlobalDetails ) {
                 // get current object code from the DB
                 ObjectCode objectCode = objectCodeService.getByPrimaryId(objectCodeGlobalDetail.getUniversityFiscalYear(), objectCodeGlobalDetail.getChartOfAccountsCode(), objectCodeGlobal.getFinancialObjectCode());
-                if (ObjectUtils.isNotNull(objectCode)) {
+                if (objectCode == null) {
                     if (objectCode.isActive()) {
                         // now we know that the document intends to inactivate this object code... check to see whether a record blocks it
                         success &= processInactivationBlockChecking(maintenanceDocument.getNewMaintainableObject(), objectCode, i);
                     }
                 }
+                i++;
             }
         }
         return success;
@@ -525,7 +526,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * @param objectCodeGlobalDetails
      * @return false if the collection is empty or null
      */
-    protected boolean checkForObjectCodeGlobalDetails(List<ObjectCodeGlobalDetail> objectCodeGlobalDetails) {
+    protected boolean checkForObjectCodeGlobalDetails(Collection<? extends PersistableBusinessObject> objectCodeGlobalDetails) {
         if (objectCodeGlobalDetails == null || objectCodeGlobalDetails.size() == 0) {
             putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.OBJECT_CODE_GLOBAL_DETAILS + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_NO_CHART_FISCAL_YEAR);
             return false;

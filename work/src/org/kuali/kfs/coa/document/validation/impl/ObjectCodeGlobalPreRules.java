@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail;
@@ -37,7 +37,7 @@ public class ObjectCodeGlobalPreRules extends MaintenancePreRulesBase {
     protected boolean doCustomPreRules(MaintenanceDocument maintenanceDocument) {
         ObjectCodeGlobal bo = (ObjectCodeGlobal) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
-        List<ObjectCodeGlobalDetail> details = bo.getObjectCodeGlobalDetails();
+        Collection<ObjectCodeGlobalDetail> details = bo.getObjectCodeGlobalDetails();
 
         for (ObjectCodeGlobalDetail detail : details) {
             if (detail.getUniversityFiscalYear() == null) {

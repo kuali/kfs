@@ -47,7 +47,7 @@ public class KimUtil {
 
         RoleMembership modelMembershipInfo = null;
         for (RoleMembership roleMembershipInfo : roleMembers) {
-            if (roleMembershipInfo.getMemberType().code.equals(memberType) && roleMembershipInfo.getMemberId().equals(memberRoleId)) {
+            if (roleMembershipInfo.getType().code.equals(memberType) && roleMembershipInfo.getMemberId().equals(memberRoleId)) {
                 if (membershipQualifications != null) {
                     boolean qualficationsMatch = doQualficationsMatch(membershipQualifications, roleMembershipInfo.getQualifier());
 

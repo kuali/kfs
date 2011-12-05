@@ -213,7 +213,7 @@ public abstract class RoleMembersXmlDTO<T extends RoleMemberXmlDTO> implements R
                 
                 for (RoleMemberContract tempMember : tempMembers) {
                     if (tempMember.isActive(null)) {
-                        roleMemberIds.add(tempMember.getRoleMemberId());
+                        roleMemberIds.add(tempMember.getId());
                     }
                 }
                 

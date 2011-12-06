@@ -16,15 +16,19 @@
 package org.kuali.kfs.sys.context;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
+import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.collect.ConstantsMap;
+import org.kuali.rice.core.impl.resourceloader.RiceResourceLoaderFactory;
+import org.kuali.rice.core.impl.resourceloader.SpringResourceLoader;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -58,7 +62,16 @@ public class KFSInitializeListener extends KualiInitializeListener {
         LOG.info( "Completed KualiInitializeListener.contextInitialized" );
         
         // the super implementation above will handle the loading of Spring
-        SpringContext.applicationContext = getContext();
+//        Collection<SpringResourceLoader> springLoaders = RiceResourceLoaderFactory.getSpringResourceLoaders();
+//        GlobalResourceLoader.getResourceLoader( new QName("KFS", "KFS_RICE_SPRING_RESOURCE_LOADER_NAME") );
+//        if ( springLoaders == null || springLoaders.isEmpty() ) {
+//            GlobalResourceLoader.logAllContents();
+//            throw new RuntimeException( "ERROR!!! No SpringResourceLoaders found - unable to initialize KFS SpringContext" );
+//        } else {
+//            SpringContext.applicationContext = springLoaders.iterator().next().getContext();
+//        }
+
+        SpringContext.applicationContext = ((SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "KFS_RICE_SPRING_RESOURCE_LOADER_NAME") )).getContext();
         LOG.info( "Loaded Spring Context from the following locations: " + Arrays.asList( getContext().getConfigLocations() ) );
         
         GlobalResourceLoader.logAllContents();

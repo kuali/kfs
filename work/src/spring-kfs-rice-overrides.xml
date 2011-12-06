@@ -266,6 +266,16 @@
     <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb">
     	<property name="documentHeaderBaseClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" />
     </bean>
+
+
+
+
+  <bean id="kimIdentityManagementService" class="org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl" />
+  <alias name="kimIdentityManagementService" alias="identityManagementService" />
+
+
+
+
 <!-- 
   <bean id="userTransaction" class="org.kuali.rice.core.jta.UserTransactionFactoryBean" lazy-init="true" />
 

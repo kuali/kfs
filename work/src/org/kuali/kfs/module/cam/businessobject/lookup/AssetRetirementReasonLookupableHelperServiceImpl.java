@@ -62,6 +62,8 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObject;
         
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String mergeParam = parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS);
+        String razeParam = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS);
         
         if (initializingAssetRetirement) {
             FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
@@ -77,13 +79,13 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
                 if (!isAuthorized) {
                     return getEmptyAnchorHtmlData();
                 }
-            } else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
+            } else if (mergeParam != null && Arrays.asList(mergeParam.split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
                 boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MERGE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 
                 if (!isAuthorized) {
                     return getEmptyAnchorHtmlData();
                 }
-            } else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
+            } else if (razeParam != null && Arrays.asList(razeParam.split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
                 boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.RAZE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 
                 if (!isAuthorized) {

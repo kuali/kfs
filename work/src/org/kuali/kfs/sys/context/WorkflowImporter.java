@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys;
+package org.kuali.kfs.sys.context;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -21,22 +21,75 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
-import org.kuali.kfs.sys.context.Log4jConfigurer;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.batch.XmlPollerServiceImpl;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
 public class WorkflowImporter {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WorkflowImporter.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WorkflowImporter.class);
 
+    private static final String DEFAULT_SPRING_BEANS_REPLACEMENT_VALUE = "${bootstrap.spring.file}";
+    private static final String WEB_BOOTSTRAP_SPRING_FILE = "web.bootstrap.spring.file";
+
+    private static ClassPathXmlApplicationContext context;
+
+    public static void initializeKfs() {
+        long startInit = System.currentTimeMillis();
+        LOG.info("Initializing Kuali Rice Application...");
+
+        String bootstrapSpringBeans = "";
+//        if (!StringUtils.isBlank(System.getProperty(WEB_BOOTSTRAP_SPRING_FILE))) {
+//            bootstrapSpringBeans = System.getProperty(WEB_BOOTSTRAP_SPRING_FILE);
+//        }
+        bootstrapSpringBeans = "kfs-startup.xml";
+
+        Properties baseProps = new Properties();
+        baseProps.putAll(System.getProperties());
+        JAXBConfigImpl config = new JAXBConfigImpl(baseProps);
+        ConfigContext.init(config);
+        
+        context = new ClassPathXmlApplicationContext(bootstrapSpringBeans);
+
+        try {
+            context.refresh();
+        } catch (RuntimeException e) {
+            LOG.error("problem during context.refresh()", e);
+
+            throw e;
+        }
+
+        context.start();
+        long endInit = System.currentTimeMillis();
+        LOG.info("...Kuali Rice Application successfully initialized, startup took " + (endInit - startInit) + " ms.");
+    }
+    
     public static void main(String[] args) {
         if (args.length < 1) {
             System.err.println("ERROR: You must pass the base directory on the command line.");
             System.exit(-1);
         }
-        Log4jConfigurer.configureLogging(false);
+        Log4jConfigurer.configureLogging(true);
         try {
-            SpringContextForWorkflowImporter.initializeApplicationContext();
+            LOG.info( "Initializing Web Context" );
+            LOG.info( "Calling KualiInitializeListener.contextInitialized" );
+            initializeKfs();
+            LOG.info( "Completed KualiInitializeListener.contextInitialized" );
+            
+            // the super implementation above will handle the loading of Spring
+            SpringContext.applicationContext = context;
+//            LOG.info( "Loaded Spring Context from the following locations: " + Arrays.asList( context.getConfigLocations() ) );
+            
+            GlobalResourceLoader.logAllContents();
 
             XmlPollerServiceImpl parser = new XmlPollerServiceImpl();
             
@@ -96,7 +149,7 @@ public class WorkflowImporter {
                 parser.run();
             }            
             
-            SpringContextForWorkflowImporter.close();
+            SpringContext.close();
             System.exit(0);
         }
         catch (Throwable t) {

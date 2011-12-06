@@ -27,6 +27,7 @@
 	    <create creator="spring" javascript="AccountService">
 	    	<param name="beanName" value="accountService" />
 	    	<include method="getByPrimaryIdWithCaching" />
+	    	<include method="getDefaultLaborBenefitRateCategoryCodeForAccountType" />
 	    	<include method="getUniqueAccountForAccountNumber" />
 	    	<include method="accountsCanCrossCharts" />
 	    </create>

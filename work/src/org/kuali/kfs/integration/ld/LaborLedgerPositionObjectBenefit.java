@@ -129,6 +129,13 @@ public interface LaborLedgerPositionObjectBenefit extends PersistableBusinessObj
      * @return Returns the laborLedgerBenefitsCalculation.
      */
     public LaborLedgerBenefitsCalculation getLaborLedgerBenefitsCalculation();
+    
+    /**
+     * Gets the laborLedgerBenefitsCalculation
+     * 
+     * @return Returns the laborLedgerBenefitsCalculation.
+     */
+    public LaborLedgerBenefitsCalculation getLaborLedgerBenefitsCalculation(String laborBenefitRateCategoryCode);
 
     /**
      * Sets the laborLedgerBenefitsCalculation

@@ -908,8 +908,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         Integer fiscalYear = detailLine.getUniversityFiscalYear();
         String chartOfAccountsCode = detailLine.getChartOfAccountsCode();
         String objectCode = detailLine.getFinancialObjectCode();
+        String accountNumber = detailLine.getAccountNumber();
+        String subAccountNumber = detailLine.getSubAccountNumber();
 
-        return laborModuleService.calculateFringeBenefit(fiscalYear, chartOfAccountsCode, objectCode, payrollAmount);
+        return laborModuleService.calculateFringeBenefit(fiscalYear, chartOfAccountsCode, objectCode, payrollAmount, accountNumber, subAccountNumber);
     }
 
     /**

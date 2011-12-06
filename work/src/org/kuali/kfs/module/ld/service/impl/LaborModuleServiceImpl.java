@@ -67,16 +67,16 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#calculateFringeBenefitFromLaborObject(org.kuali.kfs.integration.ld.LaborLedgerObject,
      *      org.kuali.rice.kns.util.KualiDecimal)
      */
-    public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
-        return getLaborBenefitsCalculationService().calculateFringeBenefit(laborLedgerObject, salaryAmount);
+    public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
+        return getLaborBenefitsCalculationService().calculateFringeBenefit(laborLedgerObject, salaryAmount, accountNumber, subAccountNumber);
     }
 
     /**
      * @see org.kuali.kfs.integration.ld.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String,
      *      java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
      */
-    public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
-        return getLaborBenefitsCalculationService().calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount);
+    public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
+        return getLaborBenefitsCalculationService().calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount, accountNumber, subAccountNumber);
     }
 
     /**

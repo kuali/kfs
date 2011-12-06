@@ -299,6 +299,9 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 	</bean>
 
 	<bean id="budgetIntendedIncumbentLookupable"  parent="budgetIntendedIncumbentLookupable-parentBean" scope="prototype"/>
@@ -383,6 +386,9 @@
 		</property>		
 		<property name="laborModuleService">
 			<ref bean="laborModuleService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 

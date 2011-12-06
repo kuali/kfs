@@ -94,4 +94,16 @@ public class LaborModuleServiceNoOp implements LaborModuleService {
         return Collections.emptyList();
     }
 
+    @Override
+    public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

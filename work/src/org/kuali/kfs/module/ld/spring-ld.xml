@@ -91,6 +91,8 @@
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferSourceAccountingLine" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferTargetAccountingLine" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
+                <entry key="org.kuali.kfs.integration.ld.LaborBenefitsCalculation" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />
+ 				<entry key="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" value="org.kuali.kfs.module.ld.businessobject.LaborBenefitRateCategory" />
             </map>
         </property>
         <property name="batchFileDirectories">
@@ -1800,9 +1802,6 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
-        <property name="originEntryGroupService">
-            <ref bean="laborOriginEntryGroupService" />
-        </property>
         <property name="fileEnterpriseFeederHelperService">
             <ref bean="laborOriginEntryEnterpriseFeederHelperService" />
         </property>
@@ -1853,10 +1852,32 @@
             </map>
         </property>
     </bean>
+    
+ 	<bean id="ldBenefitsCalculationLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.BenefitsCalculationLookupableHelperServiceImpl" scope="prototype">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+	
     <bean id="laborOriginEntryEnterpriseFeederHelperService" parent="laborOriginEntryEnterpriseFeederHelperService-parentBean" />
 
     <bean id="laborOriginEntryEnterpriseFeederHelperService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.FileEnterpriseFeederHelperServiceImpl" abstract="true">
-        <property name="originEntryService">
+         <property name="originEntryService">
             <ref bean="originEntryService" />
         </property>
         <property name="reconciliationParserService">
@@ -1865,6 +1886,24 @@
         <property name="reconciliationService">
             <ref bean="laborReconciliationService" />
         </property>
+        <property name="laborPositionObjectBenefitService">
+            <ref bean="laborPositionObjectBenefitService" />
+        </property>
+        <property name="laborBenefitsCalculationService">
+            <ref bean="laborBenefitsCalculationService" />
+        </property>   
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>         
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>   
+        <property name="configurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>   
+        <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
     </bean>
 
     <bean id="laborEnterpriseFeederFileSetType" class="org.kuali.kfs.module.ld.batch.LaborEnterpriseFeederFileSetType"></bean>

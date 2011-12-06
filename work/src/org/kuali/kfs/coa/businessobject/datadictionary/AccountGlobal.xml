@@ -1,243 +1,303 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
-<!--
- Copyright 2007-2009 The Kuali Foundation
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+	<bean id="AccountGlobal" parent="AccountGlobal-parentBean" />
+
+	<bean id="AccountGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.coa.businessobject.AccountGlobal" />
+		<property name="objectLabel" value="Account Global" />
+		<property name="attributes">
+			<list>
+				<ref bean="AccountGlobal-documentNumber" />
+				<ref bean="AccountGlobal-accountExpirationDate" />
+				<ref bean="AccountGlobal-subFundGroupCode" />
+				<ref bean="AccountGlobal-organizationCode" />
+				<ref bean="AccountGlobal-accountCityName" />
+				<ref bean="AccountGlobal-accountStateCode" />
+				<ref bean="AccountGlobal-accountStreetAddress" />
+				<ref bean="AccountGlobal-accountZipCode" />
+				<ref bean="AccountGlobal-accountSufficientFundsCode" />
+				<ref bean="AccountGlobal-accountCfdaNumber" />
+				<ref bean="AccountGlobal-continuationAccountNumber" />
+				<ref bean="AccountGlobal-continuationFinChrtOfAcctCd" />
+				<ref bean="AccountGlobal-financialHigherEdFunctionCd" />
+				<ref bean="AccountGlobal-incomeStreamAccountNumber" />
+				<ref bean="AccountGlobal-incomeStreamFinancialCoaCode" />
+				<ref bean="AccountGlobal-pendingAcctSufficientFundsIndicator" />
+				<ref bean="AccountGlobal-accountFiscalOfficerSystemIdentifier" />
+				<ref bean="AccountGlobal-accountFiscalOfficerUser.principalName" />
+				<ref bean="AccountGlobal-accountFiscalOfficerUser.name" />
+				<ref bean="AccountGlobal-accountsSupervisorySystemsIdentifier" />
+				<ref bean="AccountGlobal-accountSupervisoryUser.principalName" />
+				<ref bean="AccountGlobal-accountSupervisoryUser.name" />
+				<ref bean="AccountGlobal-accountManagerSystemIdentifier" />
+				<ref bean="AccountGlobal-accountManagerUser.principalName" />
+				<ref bean="AccountGlobal-accountManagerUser.name" />
+				<ref bean="AccountGlobal-laborBenefitRateCategoryCode" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="accountFiscalOfficerUser" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountFiscalOfficerSystemIdentifier"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true"
+								p:sourceName="accountFiscalOfficerUser.principalName"
+								p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="accountFiscalOfficerUser.name"
+								p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="accountSupervisoryUser" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountsSupervisorySystemsIdentifier"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true"
+								p:sourceName="accountSupervisoryUser.principalName"
+								p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="accountSupervisoryUser.name"
+								p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="accountManagerUser" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountManagerSystemIdentifier"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true"
+								p:sourceName="accountManagerUser.principalName" p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="accountManagerUser.name"
+								p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+				<dd:relationship objectAttribute="postalZipCode">
+					<dd:primitiveAttribute source="accountZipCode"
+						target="postalCode" />
+				</dd:relationship>
+				<dd:relationship objectAttribute="accountState">
+					<dd:primitiveAttribute source="accountStateCode"
+						target="postalStateCode" />
+				</dd:relationship>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="laborBenefitRateCategory">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="laborBenefitRateCategoryCode"
+								p:targetName="laborBenefitRateCategoryCode" />
+						</list>
+					</property>
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="AccountGlobal-documentNumber" parent="AccountGlobal-documentNumber-parentBean" />
+	<bean id="AccountGlobal-documentNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="documentNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Document Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="14" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="AccountGlobal-accountExpirationDate" parent="AccountGlobal-accountExpirationDate-parentBean" />
+	<bean id="AccountGlobal-accountExpirationDate-parentBean"
+		abstract="true" parent="Account-accountExpirationDate">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-subFundGroupCode" parent="AccountGlobal-subFundGroupCode-parentBean" />
+	<bean id="AccountGlobal-subFundGroupCode-parentBean" abstract="true"
+		parent="Account-subFundGroupCode">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-organizationCode" parent="AccountGlobal-organizationCode-parentBean" />
+	<bean id="AccountGlobal-organizationCode-parentBean" abstract="true"
+		parent="Account-organizationCode">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountCityName" parent="AccountGlobal-accountCityName-parentBean" />
+	<bean id="AccountGlobal-accountCityName-parentBean" abstract="true"
+		parent="Account-accountCityName">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountStateCode" parent="AccountGlobal-accountStateCode-parentBean" />
+	<bean id="AccountGlobal-accountStateCode-parentBean" abstract="true"
+		parent="Account-accountStateCode">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountStreetAddress" parent="AccountGlobal-accountStreetAddress-parentBean" />
+	<bean id="AccountGlobal-accountStreetAddress-parentBean" abstract="true"
+		parent="Account-accountStreetAddress">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountZipCode" parent="AccountGlobal-accountZipCode-parentBean" />
+	<bean id="AccountGlobal-accountZipCode-parentBean" abstract="true"
+		parent="Account-accountZipCode">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountSufficientFundsCode" parent="AccountGlobal-accountSufficientFundsCode-parentBean" />
+	<bean id="AccountGlobal-accountSufficientFundsCode-parentBean"
+		abstract="true" parent="Account-accountSufficientFundsCode">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountCfdaNumber" parent="AccountGlobal-accountCfdaNumber-parentBean" />
+	<bean id="AccountGlobal-accountCfdaNumber-parentBean" abstract="true"
+		parent="Account-accountCfdaNumber">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-continuationAccountNumber" parent="AccountGlobal-continuationAccountNumber-parentBean" />
+	<bean id="AccountGlobal-continuationAccountNumber-parentBean"
+		abstract="true" parent="Account-continuationAccountNumber">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-continuationFinChrtOfAcctCd" parent="AccountGlobal-continuationFinChrtOfAcctCd-parentBean" />
+	<bean id="AccountGlobal-continuationFinChrtOfAcctCd-parentBean"
+		abstract="true" parent="Account-continuationFinChrtOfAcctCd">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-financialHigherEdFunctionCd" parent="AccountGlobal-financialHigherEdFunctionCd-parentBean" />
+	<bean id="AccountGlobal-financialHigherEdFunctionCd-parentBean"
+		abstract="true" parent="Account-financialHigherEdFunctionCd">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-incomeStreamAccountNumber" parent="AccountGlobal-incomeStreamAccountNumber-parentBean" />
+	<bean id="AccountGlobal-incomeStreamAccountNumber-parentBean"
+		abstract="true" parent="Account-incomeStreamAccountNumber">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-incomeStreamFinancialCoaCode" parent="AccountGlobal-incomeStreamFinancialCoaCode-parentBean" />
+	<bean id="AccountGlobal-incomeStreamFinancialCoaCode-parentBean"
+		abstract="true" parent="Account-incomeStreamFinancialCoaCode">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-pendingAcctSufficientFundsIndicator"
+		parent="AccountGlobal-pendingAcctSufficientFundsIndicator-parentBean" />
+	<bean id="AccountGlobal-pendingAcctSufficientFundsIndicator-parentBean"
+		abstract="true" parent="Account-pendingAcctSufficientFundsIndicator">
+		<property name="control" ref="IndicatorYNNullSelectControl" />
+	</bean>
+
+	<bean id="AccountGlobal-accountFiscalOfficerSystemIdentifier"
+		parent="AccountGlobal-accountFiscalOfficerSystemIdentifier-parentBean" />
+	<bean id="AccountGlobal-accountFiscalOfficerSystemIdentifier-parentBean"
+		abstract="true" parent="Account-accountFiscalOfficerSystemIdentifier">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountFiscalOfficerUser.principalName"
+		parent="AccountGlobal-accountFiscalOfficerUser.principalName-parentBean" />
+	<bean id="AccountGlobal-accountFiscalOfficerUser.principalName-parentBean"
+		abstract="true" parent="Account-accountFiscalOfficerUser.principalName">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountFiscalOfficerUser.name" parent="AccountGlobal-accountFiscalOfficerUser.name-parentBean" />
+	<bean id="AccountGlobal-accountFiscalOfficerUser.name-parentBean"
+		abstract="true" parent="Account-accountFiscalOfficerUser.name">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountsSupervisorySystemsIdentifier"
+		parent="AccountGlobal-accountsSupervisorySystemsIdentifier-parentBean" />
+	<bean id="AccountGlobal-accountsSupervisorySystemsIdentifier-parentBean"
+		abstract="true" parent="Account-accountsSupervisorySystemsIdentifier">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountSupervisoryUser.principalName"
+		parent="AccountGlobal-accountSupervisoryUser.principalName-parentBean" />
+	<bean id="AccountGlobal-accountSupervisoryUser.principalName-parentBean"
+		abstract="true" parent="Account-accountSupervisoryUser.principalName">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountSupervisoryUser.name" parent="AccountGlobal-accountSupervisoryUser.name-parentBean" />
+	<bean id="AccountGlobal-accountSupervisoryUser.name-parentBean"
+		abstract="true" parent="Account-accountSupervisoryUser.name">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountManagerSystemIdentifier" parent="AccountGlobal-accountManagerSystemIdentifier-parentBean" />
+	<bean id="AccountGlobal-accountManagerSystemIdentifier-parentBean"
+		abstract="true" parent="Account-accountManagerSystemIdentifier">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="AccountGlobal-accountManagerUser.principalName"
+		parent="AccountGlobal-accountManagerUser.principalName-parentBean" />
+	<bean id="AccountGlobal-accountManagerUser.principalName-parentBean"
+		abstract="true" parent="Account-accountManagerUser.principalName">
+		<property name="required" value="false" />
+	</bean>
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+	<bean id="AccountGlobal-laborBenefitRateCategoryCode" parent="AccountGlobal-laborBenefitRateCategoryCode-parentBean" />
+	<bean id="AccountGlobal-laborBenefitRateCategoryCode-parentBean"
+			abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ld.LaborBenefitRateCategory"
+		p:sourceAttributeName="laborBenefitRateCategoryCode">	
+		<property name="name" value="laborBenefitRateCategoryCode"></property>		
+		<property name="required" value="false" />
+	</bean>
 
-  <bean id="AccountGlobal" parent="AccountGlobal-parentBean"/>
-
-  <bean id="AccountGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountGlobal"/>
-    <property name="objectLabel" value="Account Global"/>
-    <property name="attributes">
-      <list>
-        <ref bean="AccountGlobal-documentNumber"/>
-        <ref bean="AccountGlobal-accountExpirationDate"/>
-        <ref bean="AccountGlobal-subFundGroupCode"/>
-        <ref bean="AccountGlobal-organizationCode"/>
-        <ref bean="AccountGlobal-accountCityName"/>
-        <ref bean="AccountGlobal-accountStateCode"/>
-        <ref bean="AccountGlobal-accountStreetAddress"/>
-        <ref bean="AccountGlobal-accountZipCode"/>
-        <ref bean="AccountGlobal-accountSufficientFundsCode"/>
-        <ref bean="AccountGlobal-accountCfdaNumber"/>
-        <ref bean="AccountGlobal-continuationAccountNumber"/>
-        <ref bean="AccountGlobal-continuationFinChrtOfAcctCd"/>
-        <ref bean="AccountGlobal-financialHigherEdFunctionCd"/>
-        <ref bean="AccountGlobal-incomeStreamAccountNumber"/>
-        <ref bean="AccountGlobal-incomeStreamFinancialCoaCode"/>
-        <ref bean="AccountGlobal-pendingAcctSufficientFundsIndicator"/>
-        <ref bean="AccountGlobal-accountFiscalOfficerSystemIdentifier"/>
-        <ref bean="AccountGlobal-accountFiscalOfficerUser.principalName"/>
-        <ref bean="AccountGlobal-accountFiscalOfficerUser.name"/>
-        <ref bean="AccountGlobal-accountsSupervisorySystemsIdentifier"/>
-        <ref bean="AccountGlobal-accountSupervisoryUser.principalName"/>
-        <ref bean="AccountGlobal-accountSupervisoryUser.name"/>
-        <ref bean="AccountGlobal-accountManagerSystemIdentifier"/>
-        <ref bean="AccountGlobal-accountManagerUser.principalName"/>
-        <ref bean="AccountGlobal-accountManagerUser.name"/>
-      </list>
-    </property>
-    <property name="relationships">
-      <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="accountFiscalOfficerUser"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="accountFiscalOfficerSystemIdentifier" p:targetName="principalId"/>
-            </list>
-          </property>
-          <property name="supportAttributes">
-            <list>
-              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="accountFiscalOfficerUser.principalName" p:targetName="principalName"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="accountFiscalOfficerUser.name" p:targetName="name"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="accountSupervisoryUser"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="accountsSupervisorySystemsIdentifier" p:targetName="principalId"/>
-            </list>
-          </property>
-          <property name="supportAttributes">
-            <list>
-              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="accountSupervisoryUser.principalName" p:targetName="principalName"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="accountSupervisoryUser.name" p:targetName="name"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="accountManagerUser"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="accountManagerSystemIdentifier" p:targetName="principalId"/>
-            </list>
-          </property>
-          <property name="supportAttributes">
-            <list>
-              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="accountManagerUser.principalName" p:targetName="principalName"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="accountManagerUser.name" p:targetName="name"/>
-            </list>
-          </property>
-        </bean>
-        <dd:relationship objectAttribute="postalZipCode">
-            <dd:primitiveAttribute source="accountZipCode" target="postalCode"/>
-        </dd:relationship>
-        <dd:relationship objectAttribute="accountState">
-            <dd:primitiveAttribute source="accountStateCode" target="postalStateCode"/>
-        </dd:relationship> 
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="AccountGlobal-documentNumber" parent="AccountGlobal-documentNumber-parentBean"/>
-  <bean id="AccountGlobal-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Document Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="14"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-  </bean>
-  
-  <bean id="AccountGlobal-accountExpirationDate" parent="AccountGlobal-accountExpirationDate-parentBean"/>
-  <bean id="AccountGlobal-accountExpirationDate-parentBean" abstract="true" parent="Account-accountExpirationDate">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-subFundGroupCode" parent="AccountGlobal-subFundGroupCode-parentBean"/>
-  <bean id="AccountGlobal-subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
-    <property name="required" value="false"/>
-  </bean>
-  
-  <bean id="AccountGlobal-organizationCode" parent="AccountGlobal-organizationCode-parentBean"/>
-  <bean id="AccountGlobal-organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
-    <property name="required" value="false"/>
-  </bean>
-  
-  <bean id="AccountGlobal-accountCityName" parent="AccountGlobal-accountCityName-parentBean"/>
-  <bean id="AccountGlobal-accountCityName-parentBean" abstract="true" parent="Account-accountCityName">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountStateCode" parent="AccountGlobal-accountStateCode-parentBean"/>
-  <bean id="AccountGlobal-accountStateCode-parentBean" abstract="true" parent="Account-accountStateCode">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountStreetAddress" parent="AccountGlobal-accountStreetAddress-parentBean"/>
-  <bean id="AccountGlobal-accountStreetAddress-parentBean" abstract="true" parent="Account-accountStreetAddress">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountZipCode" parent="AccountGlobal-accountZipCode-parentBean"/>
-  <bean id="AccountGlobal-accountZipCode-parentBean" abstract="true" parent="Account-accountZipCode">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountSufficientFundsCode" parent="AccountGlobal-accountSufficientFundsCode-parentBean"/>
-  <bean id="AccountGlobal-accountSufficientFundsCode-parentBean" abstract="true" parent="Account-accountSufficientFundsCode">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountCfdaNumber" parent="AccountGlobal-accountCfdaNumber-parentBean"/>
-  <bean id="AccountGlobal-accountCfdaNumber-parentBean" abstract="true" parent="Account-accountCfdaNumber">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-continuationAccountNumber" parent="AccountGlobal-continuationAccountNumber-parentBean"/>
-  <bean id="AccountGlobal-continuationAccountNumber-parentBean" abstract="true" parent="Account-continuationAccountNumber">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-continuationFinChrtOfAcctCd" parent="AccountGlobal-continuationFinChrtOfAcctCd-parentBean"/>
-  <bean id="AccountGlobal-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="Account-continuationFinChrtOfAcctCd">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-financialHigherEdFunctionCd" parent="AccountGlobal-financialHigherEdFunctionCd-parentBean"/>
-  <bean id="AccountGlobal-financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-incomeStreamAccountNumber" parent="AccountGlobal-incomeStreamAccountNumber-parentBean"/>
-  <bean id="AccountGlobal-incomeStreamAccountNumber-parentBean" abstract="true" parent="Account-incomeStreamAccountNumber">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-incomeStreamFinancialCoaCode" parent="AccountGlobal-incomeStreamFinancialCoaCode-parentBean"/>
-  <bean id="AccountGlobal-incomeStreamFinancialCoaCode-parentBean" abstract="true" parent="Account-incomeStreamFinancialCoaCode">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-pendingAcctSufficientFundsIndicator" parent="AccountGlobal-pendingAcctSufficientFundsIndicator-parentBean"/>
-  <bean id="AccountGlobal-pendingAcctSufficientFundsIndicator-parentBean" abstract="true" parent="Account-pendingAcctSufficientFundsIndicator">
-    <property name="control" ref="IndicatorYNNullSelectControl" />
-  </bean>
-
-  <bean id="AccountGlobal-accountFiscalOfficerSystemIdentifier" parent="AccountGlobal-accountFiscalOfficerSystemIdentifier-parentBean"/>
-  <bean id="AccountGlobal-accountFiscalOfficerSystemIdentifier-parentBean" abstract="true" parent="Account-accountFiscalOfficerSystemIdentifier">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountFiscalOfficerUser.principalName" parent="AccountGlobal-accountFiscalOfficerUser.principalName-parentBean"/>
-  <bean id="AccountGlobal-accountFiscalOfficerUser.principalName-parentBean" abstract="true" parent="Account-accountFiscalOfficerUser.principalName">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountFiscalOfficerUser.name" parent="AccountGlobal-accountFiscalOfficerUser.name-parentBean"/>
-  <bean id="AccountGlobal-accountFiscalOfficerUser.name-parentBean" abstract="true" parent="Account-accountFiscalOfficerUser.name">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountsSupervisorySystemsIdentifier" parent="AccountGlobal-accountsSupervisorySystemsIdentifier-parentBean"/>
-  <bean id="AccountGlobal-accountsSupervisorySystemsIdentifier-parentBean" abstract="true" parent="Account-accountsSupervisorySystemsIdentifier">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountSupervisoryUser.principalName" parent="AccountGlobal-accountSupervisoryUser.principalName-parentBean"/>
-  <bean id="AccountGlobal-accountSupervisoryUser.principalName-parentBean" abstract="true" parent="Account-accountSupervisoryUser.principalName">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountSupervisoryUser.name" parent="AccountGlobal-accountSupervisoryUser.name-parentBean"/>
-  <bean id="AccountGlobal-accountSupervisoryUser.name-parentBean" abstract="true" parent="Account-accountSupervisoryUser.name">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountManagerSystemIdentifier" parent="AccountGlobal-accountManagerSystemIdentifier-parentBean"/>
-  <bean id="AccountGlobal-accountManagerSystemIdentifier-parentBean" abstract="true" parent="Account-accountManagerSystemIdentifier">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountManagerUser.principalName" parent="AccountGlobal-accountManagerUser.principalName-parentBean"/>
-  <bean id="AccountGlobal-accountManagerUser.principalName-parentBean" abstract="true" parent="Account-accountManagerUser.principalName">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="AccountGlobal-accountManagerUser.name" parent="AccountGlobal-accountManagerUser.name-parentBean"/>
-  <bean id="AccountGlobal-accountManagerUser.name-parentBean" abstract="true" parent="Account-accountManagerUser.name">
-    <property name="required" value="false"/>
-  </bean>
+	<bean id="AccountGlobal-accountManagerUser.name" parent="AccountGlobal-accountManagerUser.name-parentBean" />
+	<bean id="AccountGlobal-accountManagerUser.name-parentBean"
+		abstract="true" parent="Account-accountManagerUser.name">
+		<property name="required" value="false" />
+	</bean>
 </beans>

@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+<bean id="LaborBenefitRateCategoryMaintenanceDocument" parent="LaborBenefitRateCategoryMaintenanceDocument-parentBean" />
+
+<bean id="LaborBenefitRateCategoryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+	<property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LaborBenefitRateCategory" />
+	<property name="maintainableClass"   value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+	<property name="maintainableSections" >
+	<list>
+		<ref bean="LaborBenefitRateCategoryMaintenanceDocument-Section" />
+	</list>
+	</property>
+	<property name="allowsNewOrCopy" value="true" />
+	<property name="lockingKeys">
+	<list>
+		<value>laborBenefitRateCategoryCode</value>
+	</list>
+	</property>
+	<property name="documentTypeName"        value="BNRC" />
+	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+
+</bean>
+
+<bean id="LaborBenefitRateCategoryMaintenanceDocument-Section" parent="LaborBenefitRateCategoryMaintenanceDocument-Section-parentBean" />
+<bean id="LaborBenefitRateCategoryMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id"    value="LaborBenefitRateCategory" />
+		<property name="title" value="Edit Labor Benefit Rate Category" />
+		<property name="maintainableItems"><list>
+			<bean parent="MaintainableFieldDefinition" p:name="laborBenefitRateCategoryCode" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="codeDesc" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="activeIndicator" p:required="true" p:defaultValue="true"/>
+		</list></property>
+</bean>
+</beans>

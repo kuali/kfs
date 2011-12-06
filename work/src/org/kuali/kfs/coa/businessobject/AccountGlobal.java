@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -33,6 +34,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
@@ -81,6 +83,10 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     private HigherEducationFunction financialHigherEdFunction;
     private PostalCode postalZipCode;
     private SufficientFundsCode sufficientFundsCode;
+
+    // added for the employee labor benefit calculation
+    private String laborBenefitRateCategoryCode;
+    private LaborBenefitRateCategory laborBenefitRateCategory;
 
     /**
      * Default constructor.
@@ -203,9 +209,19 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
                     account.setAccountSufficientFundsCode(accountSufficientFundsCode);
                 }
 
+                // LABOR BENEFIT RATE CATEGORY CODE
+                if (StringUtils.isNotBlank(laborBenefitRateCategoryCode)) {
+                    account.setLaborBenefitRateCategoryCode(laborBenefitRateCategoryCode);
+                }
+
                 // PENDING ACCOUNT SUFFICIENT FUNDS CODE INDICATOR
                 if (pendingAcctSufficientFundsIndicator != null) {
                     account.setPendingAcctSufficientFundsIndicator(pendingAcctSufficientFundsIndicator);
+                }
+
+                // LABOR BENEFIT RATE CATEGORY CODE
+                if (StringUtils.isNotBlank(laborBenefitRateCategoryCode)) {
+                    account.setLaborBenefitRateCategoryCode(laborBenefitRateCategoryCode);
                 }
 
                 persistables.add(account);
@@ -835,7 +851,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      */
     public PostalCode getPostalZipCode() {
         postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(accountZipCode, postalZipCode);
-        
+
         return postalZipCode;
     }
 
@@ -929,5 +945,43 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
         managedLists.add(getAccountGlobalDetails());
 
         return managedLists;
+    }
+
+    /**
+     * Gets the laborBenefitRateCategoryCode attribute.
+     * 
+     * @return Returns the laborBenefitRateCategoryCode.
+     */
+    public String getLaborBenefitRateCategoryCode() {
+        return laborBenefitRateCategoryCode;
+    }
+
+    /**
+     * Sets the laborBenefitRateCategoryCode attribute value.
+     * 
+     * @param laborBenefitRateCategoryCode The laborBenefitRateCategoryCode to set.
+     */
+    public void setLaborBenefitRateCategoryCode(String laborBenefitRateCategoryCode) {
+        this.laborBenefitRateCategoryCode = laborBenefitRateCategoryCode;
+    }
+
+
+    /**
+     * Sets the laborBenefitRateCategory attribute value.
+     * 
+     * @param laborBenefitRateCategory The laborBenefitRateCategory to set.
+     */
+    public void setLaborBenefitRateCategory(LaborBenefitRateCategory laborBenefitRateCategory) {
+        this.laborBenefitRateCategory = laborBenefitRateCategory;
+    }
+
+    /**
+     * Gets the laborBenefitRateCategory attribute.
+     * 
+     * @return Returns the laborBenefitRateCategory.
+     */
+    public LaborBenefitRateCategory getLaborBenefitRateCategory() {
+         laborBenefitRateCategory = (LaborBenefitRateCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborBenefitRateCategory.class).retrieveExternalizableBusinessObjectsList(this, "LaborBenefitRateCategory", LaborBenefitRateCategory.class);
+         return laborBenefitRateCategory;
     }
 }

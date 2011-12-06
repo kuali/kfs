@@ -30,6 +30,7 @@ import java.util.Map;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.impl.OriginEntryGroupServiceImpl;
 import org.kuali.kfs.gl.service.impl.OriginEntryServiceImpl;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
@@ -44,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Service implementation of LaborOriginEntryService.
  */
 @Transactional
-public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
+public class LaborOriginEntryServiceImpl extends OriginEntryGroupServiceImpl implements LaborOriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
 
     private OriginEntryGroupService originEntryGroupService;

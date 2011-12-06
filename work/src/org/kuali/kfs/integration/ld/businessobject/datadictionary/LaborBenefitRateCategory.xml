@@ -1,0 +1,124 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="LaborBenefitRateCategory" parent="LaborBenefitRateCategory-parentBean" />
+	<bean id="LaborBenefitRateCategory-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" />
+		<property name="lookupDefinition" ref="LaborBenefitRateCategory-lookupDefinition" />
+		<property name="inquiryDefinition" ref="LaborBenefitRateCategory-inquiryDefinition" />
+		<property name="titleAttribute" value="code" />
+		<property name="objectLabel" value="Labor Benefit Rate Category" />
+		<property name="attributes">
+			<list>
+				<ref bean="LaborBenefitRateCategory-code" />
+				<ref bean="LaborBenefitRateCategory-activeIndicator" />
+				<ref bean="LaborBenefitRateCategory-codeDesc" />
+				<ref bean="LaborBenefitRateCategory-versionNumber" />
+			</list>
+		</property>
+	</bean>
+	<bean id="LaborBenefitRateCategory-code" parent="LaborBenefitRateCategory-code-parentBean" />
+	<bean id="LaborBenefitRateCategory-code-parentBean" parent="AttributeDefinition">
+		<property name="name" value="laborBenefitRateCategoryCode" />
+		<property name="label" value="Labor Benefit Rate Category Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="2" />
+		<property name="required" value="true" />
+		<property name="summary" value="Code" />
+		<property name="description" value="Code" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+	</bean>
+	<bean id="LaborBenefitRateCategory-activeIndicator" parent="LaborBenefitRateCategory-activeIndicator-parentBean" />
+	<bean id="LaborBenefitRateCategory-activeIndicator-parentBean"
+		parent="GenericAttributes-genericBoolean">
+		<property name="name" value="activeIndicator" />
+		<property name="label" value="Active Indicator" />
+		<property name="shortLabel" value="Active Indicator" />
+	</bean>
+	<bean id="LaborBenefitRateCategory-codeDesc" parent="LaborBenefitRateCategory-codeDesc-parentBean" />
+	<bean id="LaborBenefitRateCategory-codeDesc-parentBean" parent="AttributeDefinition">
+		<property name="name" value="codeDesc" />
+		<property name="label" value="Labor Benefit Rate Category Description" />
+		<property name="shortLabel" value="Code Desc" />
+		<property name="maxLength" value="40" />
+		<property name="required" value="true" />
+		<property name="summary" value="Code Desc" />
+		<property name="description" value="Code Desc" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+	<bean id="LaborBenefitRateCategory-versionNumber" parent="LaborBenefitRateCategory-versionNumber-parentBean" />
+	<bean id="LaborBenefitRateCategory-versionNumber-parentBean"
+		parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="LaborBenefitRateCategory-inquiryDefinition" parent="LaborBenefitRateCategory-inquiryDefinition-parentBean" />
+	<bean id="LaborBenefitRateCategory-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Labor Benefit Rate Category Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Labor Benefit Rate Category Inquiry" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
+							<bean parent="FieldDefinition" p:attributeName="codeDesc" />
+							<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="LaborBenefitRateCategory-lookupDefinition" parent="LaborBenefitRateCategory-lookupDefinition-parentBean" />
+	<bean id="LaborBenefitRateCategory-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Labor Benefit Rate Category Lookup" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="codeDesc" />
+				<bean parent="FieldDefinition" p:attributeName="activeIndicator" p:defaultValue="Y"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="codeDesc" />
+				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
+			</list>
+		</property>
+	</bean>
+</beans>

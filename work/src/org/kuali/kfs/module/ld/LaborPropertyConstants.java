@@ -88,4 +88,5 @@ public class LaborPropertyConstants {
     public static final String POSITION_OBJECT_GROUP_CODE = "positionObjectGroupCode";
     public static final String POSITION_OBJECT_GROUP = "positionObjectGroup";
     public static final String OUTSTANDING_ENCUMBRANCE = "outstandingEncum";
+    public static final String LABOR_BENEFIT_RATE_CATEGORY_CODE = "laborBenefitRateCategoryCode";
 }

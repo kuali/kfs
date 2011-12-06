@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 

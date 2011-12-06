@@ -34,6 +34,7 @@ import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
+import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.rice.kim.bo.Person;
@@ -46,6 +47,7 @@ import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -150,7 +152,9 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private List subAccounts;
     private List<ContractsAndGrantsAccountAwardInformation> awards;
     private List<IndirectCostRecoveryAccount> indirectCostRecoveryAccounts;
-
+    //added for the employee labor benefit calculation
+    private String laborBenefitRateCategoryCode;
+    private LaborBenefitRateCategory laborBenefitRateCategory;
     /**
      * Default no-arg constructor.
      */
@@ -1762,6 +1766,40 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setContractsAndGrantsAccountResponsibilityId(Integer contractsAndGrantsAccountResponsibilityId) {
         this.contractsAndGrantsAccountResponsibilityId = contractsAndGrantsAccountResponsibilityId;
     }
+
+    /**
+     * Gets the laborBenefitRateCategoryCode attribute. 
+     * @return Returns the laborBenefitRateCategoryCode.
+     */
+    public String getLaborBenefitRateCategoryCode() {
+        return laborBenefitRateCategoryCode;
+    }
+
+    /**
+     * Sets the laborBenefitRateCategoryCode attribute value.
+     * @param laborBenefitRateCategoryCode The laborBenefitRateCategoryCode to set.
+     */
+    public void setLaborBenefitRateCategoryCode(String laborBenefitRateCategoryCode) {
+        this.laborBenefitRateCategoryCode = laborBenefitRateCategoryCode;
+    }
+
+    /**
+     * Gets the laborBenefitRateCategory attribute. 
+     * @return Returns the laborBenefitRateCategory.
+     */
+    public LaborBenefitRateCategory getLaborBenefitRateCategory() {
+        laborBenefitRateCategory = (LaborBenefitRateCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborBenefitRateCategory.class).retrieveExternalizableBusinessObjectsList(this, "LaborBenefitRateCategory", LaborBenefitRateCategory.class);
+        return laborBenefitRateCategory;
+    }
+
+    /**
+     * Sets the laborBenefitRateCategory attribute value.
+     * @param laborBenefitRateCategory The laborBenefitRateCategory to set.
+     */
+    public void setLaborBenefitRateCategory(LaborBenefitRateCategory laborBenefitRateCategory) {
+        this.laborBenefitRateCategory = laborBenefitRateCategory;
+    }
+
     
     /**
      * Gets the fringeBenefitsChartOfAccount attribute.
@@ -1844,5 +1882,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
        managedLists.add(getIndirectCostRecoveryAccounts());
        return managedLists;
    }
+   
+
    
 }

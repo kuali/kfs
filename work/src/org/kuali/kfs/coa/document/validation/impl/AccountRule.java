@@ -45,6 +45,7 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -353,6 +354,37 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
             // test the number
             success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), getParameterService().getParameterValues(Account.class, ACCT_PREFIX_RESTRICTION));
+        }
+        
+        //make sure the system parameter exists
+        if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")) {
+            //check the system param to see if the labor benefit rate category should be filled in
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+            LOG.debug("sysParam: " + sysParam);
+            //if sysParam == Y then Labor Benefit Rate Category Code must be filled in
+            if (sysParam.equalsIgnoreCase("Y")) {
+                //check to see if the labor benefit category code is empty
+                if (ObjectUtils.isNull(newAccount.getLaborBenefitRateCategoryCode())) {
+                    putFieldError("laborBenefitRateCategoryCode", KFSKeyConstants.ERROR_EMPTY_LABOR_BENEFIT_CATEGORY_CODE);
+                    success &= false;
+                }
+            }
+        }
+        
+        //make sure the system parameter exists
+        if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")) {
+            //check the system param to see if the labor benefit rate category should be filled in
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+            LOG.debug("sysParam: " + sysParam);
+            //if sysParam == Y then Labor Benefit Rate Category Code must be filled in
+            if (sysParam.equalsIgnoreCase("Y")) {
+                //check to see if the labor benefit category code is empty
+                if (ObjectUtils.isNull(newAccount.getLaborBenefitRateCategoryCode())) {
+                    // copy to coa.properties
+                    putFieldError("laborBenefitRateCategoryCode", KFSKeyConstants.ERROR_EMPTY_LABOR_BENEFIT_CATEGORY_CODE);
+                    success &= false;
+                }
+            }
         }
 
         // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).

@@ -64,6 +64,7 @@
     <field-descriptor name="active" column="ACCT_CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.kfs.coa.util.OjbAccountActiveIndicatorConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="laborBenefitRateCategoryCode" column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR" index="true"/>
 
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -155,8 +156,14 @@
     <reference-descriptor name="accountDescription" class-ref="org.kuali.kfs.coa.businessobject.AccountDescription" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
+        
     </reference-descriptor>
-
+    <!-- removed and substituted with EBO relationship 
+    <reference-descriptor name="laborBenefitRateCategory" class-ref="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="laborBenefitRateCategoryCode" />
+	</reference-descriptor>
+	-->
+	
     <collection-descriptor name="subAccounts" element-class-ref="org.kuali.kfs.coa.businessobject.SubAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="subAccountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="chartOfAccountsCode" />
@@ -453,6 +460,7 @@
     <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.SubAccount" table="CA_SUB_ACCT_T">
@@ -780,6 +788,7 @@
     <field-descriptor name="finDocApprovalToThisAmount" column="FDOC_APRV_TO_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="laborBenefitRateCategoryCode" column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR" index="true"/>
 
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -857,7 +866,8 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-
+    
+  	
     <reference-descriptor name="financialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -1188,6 +1198,7 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount" table="CA_ICR_EXCL_ACCT_T">
@@ -1442,6 +1453,7 @@
     <field-descriptor name="accountSufficientFundsCode" column="ACCT_SF_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="pendingAcctSufficientFundsIndicator" column="ACCT_PND_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountSearchCriteriaTxt" column="ACCT_SRCH_CRTA_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="laborBenefitRateCategoryCode" column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR"/>
     <reference-descriptor name="financialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -1482,6 +1494,14 @@
     <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.kfs.coa.businessobject.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>
+    
+    <!--  removed and replaced with EBO relationship
+    <reference-descriptor name="laborBenefitRateCategory" class-ref="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="laborBenefitRateCategoryCode" />
+	</reference-descriptor>
+	-->
+	
+	
     <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.kfs.coa.businessobject.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />

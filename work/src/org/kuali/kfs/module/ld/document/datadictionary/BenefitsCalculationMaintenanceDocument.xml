@@ -18,6 +18,7 @@
   <bean id="BenefitsCalculationMaintenanceDocument" parent="BenefitsCalculationMaintenanceDocument-parentBean"/>
 
   <bean id="BenefitsCalculationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+      <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ld.document.authorization.BenefitsCalculationMaintenanceDocumentPresentationController"/>
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation"/>
     <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
     <property name="maintainableSections">
@@ -31,6 +32,7 @@
         <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="positionFringeBenefitObject" p:attributeToHighlightOnFail="positionFringeBenefitObjectCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="positionBenefitType" p:attributeToHighlightOnFail="positionBenefitTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="laborBenefitRateCategory" p:attributeToHighlightOnFail="laborBenefitRateCategoryCode"/>
       </list>
     </property>
     <property name="lockingKeys">
@@ -65,8 +67,11 @@
         <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="positionBenefitTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="laborBenefitRateCategoryCode" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="positionFringeBenefitObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="positionFringeBenefitPercent" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="extension.accountCodeOffset" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="extension.objectCodeOffset" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
       </list>
     </property>

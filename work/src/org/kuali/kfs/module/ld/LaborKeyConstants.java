@@ -62,9 +62,15 @@ public class LaborKeyConstants {
     public static final String ERROR_EFFORT_OPEN_PERIOD_COST_SHARE = "error.labor.effortOpenPeriodCostShare";
     public static final String ERROR_EFFORT_OPEN_PERIOD_CG_ACCOUNT = "error.labor.effortOpernPeriodCGAccount";
     public static final String ERROR_EFFORT_OPEN_PERIOD_ACCOUNTS_NOT_BALANCED = "error.labor.effortOpenPeriodAccountNonBalanced";
-
+ 
     public static final class Balancing {
         public static final String REPORT_ENTRY_LABEL = "message.ld.balancing.report.entry.label";
         public static final String REPORT_BALANCE_LABEL = "message.ld.balancing.report.balance.label";
+    }
+    
+    public static final class EnterpriseFeed {
+    	public static final String ERROR_OUTPUT_FILE_NOT_GENERATED = "error.ld.enterpriseFeed.report.outputFileNotGenerated";
+    	public static final String ERROR_BENEFIT_CALCULATION_NOT_FOUND = "error.ld.enterpriseFeed.report.benefitCalculationNotFound";
+    	public static final String ERROR_BENEFIT_TYPE_NOT_FOUND = "error.ld.enterpriseFeed.report.benefitTypeNotFound";
     }
 }

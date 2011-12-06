@@ -18,14 +18,20 @@ package org.kuali.kfs.module.ld.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
+import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KualiPercent;
 
 /**
  * Labor business object for Modeling of Position Object Benefit
@@ -43,7 +49,7 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
     protected BenefitsCalculation benefitsCalculation;
     protected BenefitsType financialObjectBenefitsType;
     protected LaborObject laborObject;
-
+    private String laborBenefitRateCategoryCode;
     /**
      * Default constructor.
      */
@@ -185,7 +191,25 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the benefitsCalculation.
      */
+    public BenefitsCalculation getBenefitsCalculation(String laborBenefitRateCategoryCode) {
+        BenefitsCalculation bc = SpringContext.getBean(LaborBenefitsCalculationService.class).getBenefitsCalculation(universityFiscalYear, chartOfAccountsCode, financialObjectBenefitsTypeCode, laborBenefitRateCategoryCode);
+        //if we can't find a match, create a new benefit calculation with a 0.00 benefit percent
+        if(bc == null){
+            bc = new BenefitsCalculation();
+            bc.setPositionFringeBenefitPercent(new KualiPercent(0));
+        }
+        return bc;
+    }
+    
+    /**
+     * Gets the benefitsCalculation
+     * 
+     * @return Returns the benefitsCalculation.
+     */
     public BenefitsCalculation getBenefitsCalculation() {
+        if(benefitsCalculation == null){
+            benefitsCalculation = this.getBenefitsCalculation(this.getLaborBenefitRateCategoryCode());
+        }
         return benefitsCalculation;
     }
 
@@ -286,13 +310,45 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
      * @see org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit#getLaborLedgerBenefitsCalculation()
      */
     public LaborLedgerBenefitsCalculation getLaborLedgerBenefitsCalculation() {
-        return this.getBenefitsCalculation();
+        return SpringContext.getBean(LaborBenefitsCalculationService.class).getBenefitsCalculation(universityFiscalYear, chartOfAccountsCode, financialObjectBenefitsTypeCode);
     }
+    
+    /**
+     * @see org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit#getLaborLedgerBenefitsCalculation()
+     */
+    public LaborLedgerBenefitsCalculation getLaborLedgerBenefitsCalculation(String laborBenefitRateCategoryCode) {
+        return SpringContext.getBean(LaborBenefitsCalculationService.class).getBenefitsCalculation(universityFiscalYear, chartOfAccountsCode, financialObjectBenefitsTypeCode,laborBenefitRateCategoryCode);
+    }
+   
 
     /**
      * @see org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit#setLaborLedgerBenefitsCalculation(org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation)
      */
     public void setLaborLedgerBenefitsCalculation(LaborLedgerBenefitsCalculation laborLedgerBenefitsCalculation) {
         benefitsCalculation = (BenefitsCalculation)laborLedgerBenefitsCalculation;
+    }
+
+    /**
+     * Gets the laborBenefitRateCategoryCode attribute. 
+     * @return Returns the laborBenefitRateCategoryCode.
+     */
+    public String getLaborBenefitRateCategoryCode() {
+        if(StringUtils.isEmpty(laborBenefitRateCategoryCode)){
+            ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+            
+            //make sure the parameter exists
+            if(parameterService.parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")){
+                laborBenefitRateCategoryCode = parameterService.getParameterValue(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+            }
+        }
+        return laborBenefitRateCategoryCode;
+    }
+
+    /**
+     * Sets the laborBenefitRateCategoryCode attribute value.
+     * @param laborBenefitRateCategoryCode The laborBenefitRateCategoryCode to set.
+     */
+    public void setLaborBenefitRateCategoryCode(String laborBenefitRateCategoryCode) {
+        this.laborBenefitRateCategoryCode = laborBenefitRateCategoryCode;
     }
 }

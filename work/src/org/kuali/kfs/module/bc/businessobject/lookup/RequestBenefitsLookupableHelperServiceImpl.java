@@ -19,18 +19,28 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.businessobject.RequestBenefits;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
+import org.kuali.kfs.module.ld.businessobject.LaborBenefitRateCategory;
+import org.kuali.kfs.module.ld.service.impl.LaborBenefitsCalculationServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.KualiPercent;
@@ -39,7 +49,9 @@ import org.kuali.rice.kns.util.KualiPercent;
  * Implements custom search for showing single request line benefits impact
  */
 public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequestBenefitsLookupableHelperServiceImpl.class);
     private LaborModuleService laborModuleService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * Creates <code>RequestBenefits</code> objects based on a BC expenditure line chart, object code and request amount.
@@ -58,14 +70,96 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
         for (Iterator<LaborLedgerPositionObjectBenefit> iterator = positionObjectBenefits.iterator(); iterator.hasNext();) {
             LaborLedgerPositionObjectBenefit positionObjectBenefit = (LaborLedgerPositionObjectBenefit) iterator.next();
 
-            KualiPercent fringePct = positionObjectBenefit.getLaborLedgerBenefitsCalculation().getPositionFringeBenefitPercent();
+            // create a new KualiPercent with a value of 0
+            KualiPercent fringePct = new KualiPercent(0);
             RequestBenefits requestBenefit = new RequestBenefits();
             requestBenefit.setFinancialObjectBenefitsTypeCode(positionObjectBenefit.getFinancialObjectBenefitsTypeCode());
             requestBenefit.setFinancialObjectBenefitsTypeDescription(positionObjectBenefit.getLaborLedgerBenefitsCalculation().getLaborLedgerBenefitsType().getPositionBenefitTypeDescription());
             requestBenefit.setPositionFringeBenefitObjectCode(positionObjectBenefit.getLaborLedgerBenefitsCalculation().getPositionFringeBenefitObjectCode());
             requestBenefit.setPositionFringeBenefitObjectCodeName(positionObjectBenefit.getLaborLedgerBenefitsCalculation().getPositionFringeBenefitObject().getFinancialObjectCodeName());
-            requestBenefit.setPositionFringeBenefitPercent(positionObjectBenefit.getLaborLedgerBenefitsCalculation().getPositionFringeBenefitPercent());
-            
+
+
+            // make sure the system parameter exists
+            if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")) {
+                String laborBenefitRateCategoryCode = "";
+                // check the system param to see if the labor benefit rate category should be filled in
+                String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+                LOG.debug("sysParam: " + sysParam);
+                // if sysParam == Y then Labor Benefit Rate Category Code must be filled in
+                if (sysParam.equalsIgnoreCase("Y")) {
+                    // get the account number from the map to use in the lookup of the labor benefit rate category code
+                    String accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+
+                    // create a map to use in the lookup of the account
+                    Map<String, Object> accountLookupFields = new HashMap<String, Object>();
+                    accountLookupFields.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+                    accountLookupFields.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+
+                    LOG.info("Looking up account to get labor benefit rate category code");
+
+                    // lookup the account based off the map
+                    Account account = (Account) businessObjectService.findByPrimaryKey(Account.class, accountLookupFields);
+
+                    // create string to hold the labor benefit rate category code
+                    laborBenefitRateCategoryCode = account.getLaborBenefitRateCategoryCode();
+
+                }
+                else {
+                    if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
+                        laborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+                    }
+                    else {
+                        laborBenefitRateCategoryCode = "";
+                    }
+                }
+
+
+                // make sure the labor benefit rate category code is filled in
+                if (laborBenefitRateCategoryCode != null) {
+                    // create a map to be used to look up the benefit calculation
+                    Map<String, Object> benefitMap = new HashMap<String, Object>();
+                    benefitMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+                    benefitMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+                    benefitMap.put(LaborPropertyConstants.POSITION_BENEFIT_TYPE_CODE, positionObjectBenefit.getFinancialObjectBenefitsTypeCode());
+                    // benefitMap.put("positionFringeBenefitObjectCode", positionObjectBenefit.getFinancialObjectCode()); Removed
+                    // because it is not necessary
+                    benefitMap.put(LaborPropertyConstants.LABOR_BENEFIT_RATE_CATEGORY_CODE, laborBenefitRateCategoryCode);
+
+                    LOG.debug("Looking up benefits calcuation {" + fiscalYear + "," + chartOfAccountsCode + "," + positionObjectBenefit.getFinancialObjectBenefitsTypeCode() + "," + positionObjectBenefit.getFinancialObjectCode() + "," + laborBenefitRateCategoryCode + "}");
+                    // use the map to lookup a benefit calculation
+                    ArrayList<BenefitsCalculation> bcArrayList = (ArrayList<BenefitsCalculation>) businessObjectService.findMatching(BenefitsCalculation.class, benefitMap);
+
+                    // make sure a benefits calculation was found
+                    if (bcArrayList.size() > 0) {
+                        LOG.info("Found benefits calculation for {" + fiscalYear + "," + chartOfAccountsCode + "," + positionObjectBenefit.getFinancialObjectBenefitsTypeCode() + "," + positionObjectBenefit.getFinancialObjectCode() + "," + laborBenefitRateCategoryCode + "}");
+                        fringePct = (bcArrayList.get(0).getPositionFringeBenefitPercent());
+
+                        // create a map to use for the lookup of the labor benefit rate category
+                        Map<String, Object> lbrcMap = new HashMap<String, Object>();
+                        lbrcMap.put(LaborPropertyConstants.LABOR_BENEFIT_RATE_CATEGORY_CODE, laborBenefitRateCategoryCode);
+
+                        // lookup the labor benefit rate category to get the description
+                        LaborBenefitRateCategory lbrc = (LaborBenefitRateCategory) businessObjectService.findByPrimaryKey(LaborBenefitRateCategory.class, lbrcMap);
+
+                        // set the category code and description from the labor benefit rate category object to display in the
+                        // results
+                        requestBenefit.setLaborBenefitRateCategoryCode(lbrc.getLaborBenefitRateCategoryCode());
+                        requestBenefit.setLaborBenefitRateCategoryCodeDesc(lbrc.getCodeDesc());
+
+                        // set the benefit percent to be display in the results
+                        requestBenefit.setPositionFringeBenefitPercent(fringePct);
+
+                    }
+                    else {
+                        LOG.info("Could not locate a benfits calcution for {" + fiscalYear + "," + chartOfAccountsCode + "," + positionObjectBenefit.getFinancialObjectBenefitsTypeCode() + "," + positionObjectBenefit.getFinancialObjectCode() + "," + laborBenefitRateCategoryCode + "}");
+                    }
+                }
+            }
+            else {
+                requestBenefit.setPositionFringeBenefitPercent(positionObjectBenefit.getLaborLedgerBenefitsCalculation().getPositionFringeBenefitPercent());
+            }
+
+
             BigDecimal requestAmount = new BigDecimal(Integer.valueOf(fieldValues.get(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT)));
             BigDecimal fringePctDecimal = fringePct.bigDecimalValue().divide(new BigDecimal(100));
             BigDecimal result = requestAmount.multiply(fringePctDecimal).setScale(0, RoundingMode.HALF_UP);
@@ -77,6 +171,7 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
         return requestBenefits;
     }
 
+   
     /**
      * Sets the laborModuleService attribute value.
      * 
@@ -84,6 +179,15 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
      */
     public void setLaborModuleService(LaborModuleService laborModuleService) {
         this.laborModuleService = laborModuleService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

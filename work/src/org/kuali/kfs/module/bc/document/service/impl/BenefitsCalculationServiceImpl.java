@@ -43,6 +43,28 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         // return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM,
         // BCConstants.DISABLE_BENEFITS_CALCULATION_FLAG);
     }
+    
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String laborBenefitRateCategoryCode) {
+        /**
+         * do nothing if benefits calculation is disabled
+         */
+        if (isBenefitsCalculationDisabled())
+            return;
+        /**
+         * get the financial object type expenditure/expense
+         */
+        String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
+        /**
+         * calculate annual benefits
+         */
+        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, laborBenefitRateCategoryCode);
+    }
+    
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String,
@@ -86,6 +108,26 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
          */
         benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String laborBenefitRateCategoryCode) {
+        /**
+         * do nothing if benefits calculation is disabled
+         */
+        if (isBenefitsCalculationDisabled())
+            return;
+        /**
+         * get the financial object type expenditure/expense
+         */
+        String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
+        /**
+         * calculate monthly benefits (assumes annual benefits have already been calculated
+         */
+        benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, laborBenefitRateCategoryCode);
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#calculateAllBudgetConstructionGeneralLedgerBenefits(java.lang.String,
@@ -109,7 +151,6 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, expenditureINList);
         benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
-
 
     /**
      * Gets the kualiConfigurationService attribute.
@@ -148,6 +189,5 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
     }
-
 
 }

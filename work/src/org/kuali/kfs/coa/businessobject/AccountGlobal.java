@@ -43,44 +43,44 @@ import org.kuali.rice.location.api.state.StateService;
  */
 public class AccountGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
-    private String documentNumber;
-    private String accountFiscalOfficerSystemIdentifier;
-    private String accountsSupervisorySystemsIdentifier;
-    private String accountManagerSystemIdentifier;
-    private String chartOfAccountsCode;
-    private String organizationCode;
-    private String subFundGroupCode;
-    private String accountCityName;
-    private String accountStateCode;
-    private String accountStreetAddress;
-    private String accountZipCode;
-    private Date accountExpirationDate;
-    private String continuationFinChrtOfAcctCd;
-    private String continuationAccountNumber;
-    private String incomeStreamFinancialCoaCode;
-    private String incomeStreamAccountNumber;
-    private String accountCfdaNumber;
-    private String financialHigherEdFunctionCd;
-    private String accountSufficientFundsCode;
-    private Boolean pendingAcctSufficientFundsIndicator;
-    private String accountSearchCriteriaTxt;
-    private List<AccountGlobalDetail> accountGlobalDetails;
+    protected String documentNumber;
+    protected String accountFiscalOfficerSystemIdentifier;
+    protected String accountsSupervisorySystemsIdentifier;
+    protected String accountManagerSystemIdentifier;
+    protected String chartOfAccountsCode;
+    protected String organizationCode;
+    protected String subFundGroupCode;
+    protected String accountCityName;
+    protected String accountStateCode;
+    protected String accountStreetAddress;
+    protected String accountZipCode;
+    protected Date accountExpirationDate;
+    protected String continuationFinChrtOfAcctCd;
+    protected String continuationAccountNumber;
+    protected String incomeStreamFinancialCoaCode;
+    protected String incomeStreamAccountNumber;
+    protected String accountCfdaNumber;
+    protected String financialHigherEdFunctionCd;
+    protected String accountSufficientFundsCode;
+    protected Boolean pendingAcctSufficientFundsIndicator;
+    protected String accountSearchCriteriaTxt;
+    protected List<AccountGlobalDetail> accountGlobalDetails;
 
-    private DocumentHeader financialDocument;
-    private Person accountFiscalOfficerUser;
-    private Person accountSupervisoryUser;
-    private Person accountManagerUser;
-    private Chart continuationFinChrtOfAcct;
-    private Account continuationAccount;
-    private Account incomeStreamAccount;
-    private Chart incomeStreamFinancialCoa;
-    private Chart chartOfAccounts;
-    private Organization organization;
-    private SubFundGroup subFundGroup;
-    private State accountState;
-    private HigherEducationFunction financialHigherEdFunction;
-    private PostalCode postalZipCode;
-    private SufficientFundsCode sufficientFundsCode;
+    protected DocumentHeader financialDocument;
+    protected Person accountFiscalOfficerUser;
+    protected Person accountSupervisoryUser;
+    protected Person accountManagerUser;
+    protected Chart continuationFinChrtOfAcct;
+    protected Account continuationAccount;
+    protected Account incomeStreamAccount;
+    protected Chart incomeStreamFinancialCoa;
+    protected Chart chartOfAccounts;
+    protected Organization organization;
+    protected SubFundGroup subFundGroup;
+    protected State accountState;
+    protected HigherEducationFunction financialHigherEdFunction;
+    protected PostalCode postalZipCode;
+    protected SufficientFundsCode sufficientFundsCode;
 
     /**
      * Default constructor.
@@ -926,7 +926,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     public List buildListOfDeletionAwareLists() {
         List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAccountGlobalDetails());
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getAccountGlobalDetails() ) );
 
         return managedLists;
     }

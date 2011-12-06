@@ -54,80 +54,80 @@ import org.joda.time.DateTime;
  * 
  */
 public class Account extends PersistableBusinessObjectBase implements AccountIntf, Inactivatable {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
     
     public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Account";
 
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String accountName;
-    private boolean accountsFringesBnftIndicator;
-    private Date accountRestrictedStatusDate;
-    private String accountCityName;
-    private String accountStateCode;
-    private String accountStreetAddress;
-    private String accountZipCode;
-    private Date accountCreateDate;
-    private Date accountEffectiveDate;
-    private Date accountExpirationDate;
-    private String acctIndirectCostRcvyTypeCd;
-    private String acctCustomIndCstRcvyExclCd;
-    private String financialIcrSeriesIdentifier;
-    private boolean accountInFinancialProcessingIndicator;
-    private String budgetRecordingLevelCode;
-    private String accountSufficientFundsCode;
-    private boolean pendingAcctSufficientFundsIndicator;
-    private boolean extrnlFinEncumSufficntFndIndicator;
-    private boolean intrnlFinEncumSufficntFndIndicator;
-    private boolean finPreencumSufficientFundIndicator;
-    private boolean financialObjectivePrsctrlIndicator;
-    private String accountCfdaNumber;
-    private boolean accountOffCampusIndicator;
-    private boolean active;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String accountName;
+    protected boolean accountsFringesBnftIndicator;
+    protected Date accountRestrictedStatusDate;
+    protected String accountCityName;
+    protected String accountStateCode;
+    protected String accountStreetAddress;
+    protected String accountZipCode;
+    protected Date accountCreateDate;
+    protected Date accountEffectiveDate;
+    protected Date accountExpirationDate;
+    protected String acctIndirectCostRcvyTypeCd;
+    protected String acctCustomIndCstRcvyExclCd;
+    protected String financialIcrSeriesIdentifier;
+    protected boolean accountInFinancialProcessingIndicator;
+    protected String budgetRecordingLevelCode;
+    protected String accountSufficientFundsCode;
+    protected boolean pendingAcctSufficientFundsIndicator;
+    protected boolean extrnlFinEncumSufficntFndIndicator;
+    protected boolean intrnlFinEncumSufficntFndIndicator;
+    protected boolean finPreencumSufficientFundIndicator;
+    protected boolean financialObjectivePrsctrlIndicator;
+    protected String accountCfdaNumber;
+    protected boolean accountOffCampusIndicator;
+    protected boolean active;
 
-    private String accountFiscalOfficerSystemIdentifier;
-    private String accountsSupervisorySystemsIdentifier;
-    private String accountManagerSystemIdentifier;
-    private String organizationCode;
-    private String accountTypeCode;
-    private String accountPhysicalCampusCode;
-    private String subFundGroupCode;
-    private String financialHigherEdFunctionCd;
-    private String accountRestrictedStatusCode;
-    private String reportsToChartOfAccountsCode;
-    private String reportsToAccountNumber;
-    private String continuationFinChrtOfAcctCd;
-    private String continuationAccountNumber;
-    private String endowmentIncomeAcctFinCoaCd;
-    private String endowmentIncomeAccountNumber;
-    private String contractControlFinCoaCode;
-    private String contractControlAccountNumber;
-    private String incomeStreamFinancialCoaCode;
-    private String incomeStreamAccountNumber;
-    private Integer contractsAndGrantsAccountResponsibilityId;
+    protected String accountFiscalOfficerSystemIdentifier;
+    protected String accountsSupervisorySystemsIdentifier;
+    protected String accountManagerSystemIdentifier;
+    protected String organizationCode;
+    protected String accountTypeCode;
+    protected String accountPhysicalCampusCode;
+    protected String subFundGroupCode;
+    protected String financialHigherEdFunctionCd;
+    protected String accountRestrictedStatusCode;
+    protected String reportsToChartOfAccountsCode;
+    protected String reportsToAccountNumber;
+    protected String continuationFinChrtOfAcctCd;
+    protected String continuationAccountNumber;
+    protected String endowmentIncomeAcctFinCoaCd;
+    protected String endowmentIncomeAccountNumber;
+    protected String contractControlFinCoaCode;
+    protected String contractControlAccountNumber;
+    protected String incomeStreamFinancialCoaCode;
+    protected String incomeStreamAccountNumber;
+    protected Integer contractsAndGrantsAccountResponsibilityId;
 
-    private Chart chartOfAccounts;
-    private Chart endowmentIncomeChartOfAccounts;
-    private Organization organization;
-    private AccountType accountType;
-    private Campus accountPhysicalCampus;
-    private State accountState;
-    private SubFundGroup subFundGroup;
-    private HigherEducationFunction financialHigherEdFunction;
-    private RestrictedStatus accountRestrictedStatus;
-    private Account reportsToAccount;
-    private Account continuationAccount;
-    private Account endowmentIncomeAccount;
-    private Account contractControlAccount;
-    private Account incomeStreamAccount;
-    private IndirectCostRecoveryType acctIndirectCostRcvyType;
-    private Person accountFiscalOfficerUser;
-    private Person accountSupervisoryUser;
-    private Person accountManagerUser;
-    private PostalCode postalZipCode;
-    private BudgetRecordingLevel budgetRecordingLevel;
-    private SufficientFundsCode sufficientFundsCode;
-    private ContractsAndGrantsCfda cfda;
+    protected Chart chartOfAccounts;
+    protected Chart endowmentIncomeChartOfAccounts;
+    protected Organization organization;
+    protected AccountType accountType;
+    protected Campus accountPhysicalCampus;
+    protected State accountState;
+    protected SubFundGroup subFundGroup;
+    protected HigherEducationFunction financialHigherEdFunction;
+    protected RestrictedStatus accountRestrictedStatus;
+    protected Account reportsToAccount;
+    protected Account continuationAccount;
+    protected Account endowmentIncomeAccount;
+    protected Account contractControlAccount;
+    protected Account incomeStreamAccount;
+    protected IndirectCostRecoveryType acctIndirectCostRcvyType;
+    protected Person accountFiscalOfficerUser;
+    protected Person accountSupervisoryUser;
+    protected Person accountManagerUser;
+    protected PostalCode postalZipCode;
+    protected BudgetRecordingLevel budgetRecordingLevel;
+    protected SufficientFundsCode sufficientFundsCode;
+    protected ContractsAndGrantsCfda cfda;
 
     protected Chart fringeBenefitsChartOfAccount;
     protected Chart continuationChartOfAccount;
@@ -135,23 +135,23 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     protected Chart contractControlChartOfAccounts;
     
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
-    private String accountResponsibilitySectionBlank;
-    private String accountResponsibilitySection;
-    private String contractsAndGrantsSectionBlank;
-    private String contractsAndGrantsSection;
-    private String guidelinesAndPurposeSectionBlank;
-    private String guidelinesAndPurposeSection;
-    private String accountDescriptionSectionBlank;
-    private String accountDescriptionSection;
+    protected String accountResponsibilitySectionBlank;
+    protected String accountResponsibilitySection;
+    protected String contractsAndGrantsSectionBlank;
+    protected String contractsAndGrantsSection;
+    protected String guidelinesAndPurposeSectionBlank;
+    protected String guidelinesAndPurposeSection;
+    protected String accountDescriptionSectionBlank;
+    protected String accountDescriptionSection;
 
-    private Boolean forContractsAndGrants;
+    protected Boolean forContractsAndGrants;
 
-    private AccountGuideline accountGuideline;
-    private AccountDescription accountDescription;
+    protected AccountGuideline accountGuideline;
+    protected AccountDescription accountDescription;
 
-    private List subAccounts;
-    private List<ContractsAndGrantsAccountAwardInformation> awards;
-    private List<IndirectCostRecoveryAccount> indirectCostRecoveryAccounts;
+    protected List subAccounts;
+    protected List<ContractsAndGrantsAccountAwardInformation> awards;
+    protected List<IndirectCostRecoveryAccount> indirectCostRecoveryAccounts;
 
     /**
      * Default no-arg constructor.
@@ -1842,7 +1842,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
    @Override
    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
-       managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getIndirectCostRecoveryAccounts());
+       managedLists.add( new ArrayList<PersistableBusinessObject>( getIndirectCostRecoveryAccounts() ));
        return managedLists;
    }
 }

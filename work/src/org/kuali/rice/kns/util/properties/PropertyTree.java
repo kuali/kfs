@@ -76,23 +76,6 @@ public class PropertyTree implements Map {
     }
 
     /**
-     * Creates an instance pre-loaded with the given Properties
-     * 
-     * @param properties
-     */
-    public PropertyTree(Properties properties) {
-        this();
-
-        setProperties(properties);
-    }
-
-    public PropertyTree(Map<String,String> properties) {
-        this();
-
-        setProperties(properties);
-    }
-
-    /**
      * Associates the given key with the given value. If the given key has multiple levels (consists of multiple strings separated
      * by '.'), the property value is stored such that it can be retrieved either directly, by calling get() and passing the entire
      * key; or indirectly, by decomposing the key into its separate levels and calling get() successively on the result of the
@@ -275,7 +258,7 @@ public class PropertyTree implements Map {
 
         PropertyTree child = (PropertyTree) this.children.get(key);
         if (child == null) {
-            child = new PropertyTree(this);
+            child = new PropertyTree((PropertyTree)this);
             this.children.put(key, child);
         }
 

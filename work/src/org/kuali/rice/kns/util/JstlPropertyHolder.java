@@ -50,17 +50,9 @@ public abstract class JstlPropertyHolder implements Map {
         propertyTree = null;
     }
 
-    /**
-     * Creates a propertyTree to store the given properties
-     * 
-     * @param properties
-     */
-    protected void setProperties(Properties properties) {
-        propertyTree = new PropertyTree(properties);
-    }
-
     protected void setProperties(Map<String,String> properties) {
-        propertyTree = new PropertyTree(properties);
+        propertyTree = new PropertyTree();
+        propertyTree.setProperties(properties);
     }
 
     /**

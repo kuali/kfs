@@ -41,16 +41,16 @@ import org.kuali.rice.krad.service.PersistenceStructureService;
  */
 public class AccountDelegateGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
-    private String documentNumber;
+    protected String documentNumber;
 
-    private String modelName;
-    private String modelChartOfAccountsCode;
-    private String modelOrganizationCode;
+    protected String modelName;
+    protected String modelChartOfAccountsCode;
+    protected String modelOrganizationCode;
 
-    private AccountDelegateModel model;
+    protected AccountDelegateModel model;
 
-    List<AccountGlobalDetail> accountGlobalDetails;
-    List<AccountDelegateGlobalDetail> delegateGlobals;
+    protected List<AccountGlobalDetail> accountGlobalDetails;
+    protected List<AccountDelegateGlobalDetail> delegateGlobals;
 
     /**
      * Constructs a DelegateGlobal.java.
@@ -355,7 +355,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
         if (this == null) {
             throw new IllegalArgumentException("globalDelegate parameter passed in was null");
         }
-        List bos = new ArrayList();
+        List<PersistableBusinessObject> bos = new ArrayList<PersistableBusinessObject>();
         bos.addAll(getDelegateGlobals());
         SpringContext.getBean(BusinessObjectService.class).linkUserFields(bos);
     }
@@ -364,11 +364,11 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
-    public List buildListOfDeletionAwareLists() {
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
         List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAccountGlobalDetails());
-        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getDelegateGlobals());
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getAccountGlobalDetails() ) );
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getDelegateGlobals() ) );
 
         return managedLists;
     }

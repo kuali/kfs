@@ -39,22 +39,22 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject, Inactivatable {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubObjectCodeGlobal.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubObjectCodeGlobal.class);
 
-    private String documentNumber;
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String financialSubObjectCode;
-    private String financialSubObjectCodeName;
-    private String financialSubObjectCodeShortName;
-    private boolean active;
+    protected String documentNumber;
+    protected Integer universityFiscalYear;
+    protected String chartOfAccountsCode;
+    protected String financialSubObjectCode;
+    protected String financialSubObjectCodeName;
+    protected String financialSubObjectCodeShortName;
+    protected boolean active;
 
-    private DocumentHeader financialDocument;
-    private SystemOptions universityFiscal;
-    private Chart chartOfAccounts;
+    protected DocumentHeader financialDocument;
+    protected SystemOptions universityFiscal;
+    protected Chart chartOfAccounts;
 
-    private List<SubObjectCodeGlobalDetail> subObjCdGlobalDetails;
-    private List<AccountGlobalDetail> accountGlobalDetails;
+    protected List<SubObjectCodeGlobalDetail> subObjCdGlobalDetails;
+    protected List<AccountGlobalDetail> accountGlobalDetails;
 
     /**
      * Default constructor.
@@ -348,14 +348,14 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
      * @param newValue
      * @return
      */
-    private String update(String oldValue, String newValue) {
+    protected String update(String oldValue, String newValue) {
         if (newValue == null || newValue.length() == 0) {
             return oldValue;
         }
         return newValue;
     }
 
-    private boolean update(boolean oldValue, boolean newValue) {
+    protected boolean update(boolean oldValue, boolean newValue) {
         return newValue;
     }
 
@@ -378,8 +378,8 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
     public List buildListOfDeletionAwareLists() {
         List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAccountGlobalDetails());
-        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getSubObjCdGlobalDetails());
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getAccountGlobalDetails() ) );
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getSubObjCdGlobalDetails() ) );
 
         return managedLists;
     }

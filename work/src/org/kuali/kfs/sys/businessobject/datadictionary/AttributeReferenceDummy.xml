@@ -15,38 +15,6 @@
  limitations under the License.
 -->
 
-  <bean id="AttributeReferenceDummy" parent="AttributeReferenceDummy-parentBean"/>
-
-  <bean id="AttributeReferenceDummy-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.rice.kns.bo.AttributeReferenceDummy"/>
-    <property name="attributes">
-      <list>
-        <ref bean="AttributeReferenceDummy-oneDigitTextCode"/>
-        <ref bean="AttributeReferenceDummy-twoDigitTextCode"/>
-        <ref bean="AttributeReferenceDummy-genericSystemId"/>
-        <ref bean="AttributeReferenceDummy-genericDate"/>
-        <ref bean="AttributeReferenceDummy-genericTimestamp"/>
-        <ref bean="AttributeReferenceDummy-genericBoolean"/>
-        <ref bean="AttributeReferenceDummy-activeIndicator"/>
-        <ref bean="AttributeReferenceDummy-genericAmount"/>
-        <ref bean="AttributeReferenceDummy-genericBigText"/>
-        <ref bean="AttributeReferenceDummy-emailAddress"/>
-        <ref bean="AttributeReferenceDummy-versionNumber"/>
-        <ref bean="AttributeReferenceDummy-objectId"/>
-        <ref bean="AttributeReferenceDummy-createDate"/>
-        <ref bean="AttributeReferenceDummy-initiatorNetworkId"/>
-        <ref bean="AttributeReferenceDummy-percent"/>
-        <ref bean="AttributeReferenceDummy-newCollectionRecord"/>
-        <ref bean="AttributeReferenceDummy-workflowDocumentStatus"/>
-        <ref bean="AttributeReferenceDummy-activeFromDate"/>
-        <ref bean="AttributeReferenceDummy-activeToDate"/>
-        <ref bean="AttributeReferenceDummy-activeAsOfDate"/>
-        <ref bean="AttributeReferenceDummy-current"/>
-      </list>
-    </property>
-    <property name="objectLabel" value="Attribute Reference Dummy"/>
-  </bean>
-
 <!-- Attribute Definitions -->
 
 

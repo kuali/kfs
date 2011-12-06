@@ -142,7 +142,7 @@
  	<bean id="persistenceService" p:serviceName="persistenceService" parent="grlBeanImporter" />
  	<bean id="businessObjectDictionaryService" p:serviceName="businessObjectDictionaryService" parent="grlBeanImporter" />
  	<bean id="maintenanceDocumentDictionaryService" p:serviceName="maintenanceDocumentDictionaryService" parent="grlBeanImporter" />
- 	<bean id="documentHeaderService" p:serviceName="documentHeaderService" parent="grlBeanImporter" />
+ 	<!-- <bean id="documentHeaderService" p:serviceName="documentHeaderService" parent="grlBeanImporter" /> -->
  	<bean id="maintenanceDocumentDao" p:serviceName="maintenanceDocumentDao" parent="grlBeanImporter" />
  	<bean id="postalCodeService" p:serviceName="postalCodeService" parent="grlBeanImporter" />
  	<bean id="stateService" p:serviceName="stateService" parent="grlBeanImporter" />
@@ -259,7 +259,13 @@
 		<property name="documentService" ref="documentService" />
 	</bean>
 
-  <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb"/>
+	<bean id="documentHeaderService" class="org.kuali.rice.krad.service.impl.DocumentHeaderServiceImpl">
+		<property name="documentHeaderDao" ref="documentHeaderDao" />
+	</bean> 
+
+    <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb">
+    	<property name="documentHeaderBaseClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" />
+    </bean>
 <!-- 
   <bean id="userTransaction" class="org.kuali.rice.core.jta.UserTransactionFactoryBean" lazy-init="true" />
 

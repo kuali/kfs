@@ -539,7 +539,7 @@
 			</then>
 		</if>
 		-->
-		<unzip dest="${webroot.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}">
+		<unzip dest="${webroot.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}" >
 			<patternset>
 				<exclude name="META-INF/**"/>
 				<exclude name="WEB-INF/web.xml"/>
@@ -716,8 +716,8 @@
 		<mkdir dir="${war.classes.directory}" />
 	    <echo message="Compiling Source from ${source.directory} into ${war.classes.directory}" />
 		<javac destdir="${war.classes.directory}" srcdir="${source.directory}" includeantruntime="false"
-			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
-			<classpath refid="compile.source.classpath" />
+			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
+			<classpath refid="compile.source.classpath" />			
 		</javac>
 		<copy todir="${war.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
@@ -31,8 +32,10 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
+import org.kuali.rice.kim.api.common.delegate.DelegateMemberContract;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.common.delegate.DelegateTypeContract;
 import org.kuali.rice.kim.api.group.Group;
@@ -116,7 +119,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     }
     
     public List<RoleResponsibilityAction> getRoleRspActions(String roleMemberId){
-        return getRoleService().getRoleMemberResponsibilityActionInfo(roleMemberId);
+        return getRoleService().getRoleMemberResponsibilityActions(roleMemberId);
     }
     
     @Override
@@ -304,19 +307,19 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             List<DelegateTypeContract> objectsToSave = getDelegations(orr);
             if(objectsToSave!=null){
                 for(DelegateTypeContract delegateInfo: objectsToSave){
-                    for(DelegateMember delegateMemberInfo: delegateInfo.getMembers()){
+                    for(DelegateMemberContract delegateMemberInfo: delegateInfo.getMembers()){
                         java.sql.Date fromDate = null;
                         java.sql.Date toDate = null;
                         if ( delegateMemberInfo.getActiveFromDate() != null ) {
-                            fromDate = new java.sql.Date( delegateMemberInfo.getActiveFromDate().getTime() ); 
+                            fromDate = new java.sql.Date( delegateMemberInfo.getActiveFromDate().getMillis() ); 
                         }
                         if ( delegateMemberInfo.getActiveToDate() != null ) {
-                            toDate = new java.sql.Date( delegateMemberInfo.getActiveToDate().getTime() ); 
+                            toDate = new java.sql.Date( delegateMemberInfo.getActiveToDate().getMillis() ); 
                         }
                         getRoleService().saveDelegationMemberForRole(delegateMemberInfo.getDelegationMemberId(),
                             delegateMemberInfo.getRoleMemberId(), delegateMemberInfo.getMemberId(), 
-                            delegateMemberInfo.getMemberTypeCode(), delegateMemberInfo.getDelegationTypeCode(), 
-                            delegateInfo.getRoleId(), delegateMemberInfo.getQualifier(), 
+                            delegateMemberInfo.getType().getCode(), delegateInfo.getDelegationType().getCode(), 
+                            delegateInfo.getRoleId(), delegateMemberInfo.getAttributes(), 
                             fromDate, toDate);
                     }
                 }
@@ -324,26 +327,26 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         } else{
             // Save role member(s)
             List<RoleMember> objectsToSave = getRoleMembers(orr);
-            RoleMember savedObject;
+            RoleMember savedRoleMember;
             if(objectsToSave!=null){
                 for(RoleMember roleMember: objectsToSave){
                     java.sql.Date fromDate = null;
                     java.sql.Date toDate = null;
                     if ( roleMember.getActiveFromDate() != null ) {
-                        fromDate = new java.sql.Date( roleMember.getActiveFromDate().getTime() ); 
+                        fromDate = new java.sql.Date( roleMember.getActiveFromDate().getMillis() ); 
                     }
                     if ( roleMember.getActiveToDate() != null ) {
-                        toDate = new java.sql.Date( roleMember.getActiveToDate().getTime() ); 
+                        toDate = new java.sql.Date( roleMember.getActiveToDate().getMillis() ); 
                     }
-                    savedObject = getRoleService().saveRoleMemberForRole(roleMember.getRoleMemberId(),
-                            roleMember.getMemberId(), roleMember.getMemberTypeCode(), roleMember.getRoleId(), 
-                            roleMember.getQualifier(), fromDate, toDate);
+                    savedRoleMember = getRoleService().saveRoleMemberForRole(roleMember.getId(),
+                            roleMember.getMemberId(), roleMember.getType().getCode(), roleMember.getRoleId(), 
+                            roleMember.getAttributes(), fromDate, toDate);
                     List<RoleResponsibilityAction> roleRspActionsToSave = getRoleRspActions(orr, roleMember);
                     if(roleRspActionsToSave!=null){
                         for(RoleResponsibilityAction rspActionInfo: roleRspActionsToSave){
                             getRoleService().saveRoleRspActions(
-                                    rspActionInfo.getRoleResponsibilityActionId(), roleMember.getRoleId(), 
-                                    rspActionInfo.getRoleResponsibilityId(), savedObject.getRoleMemberId(), 
+                                    rspActionInfo.getId(), roleMember.getRoleId(), 
+                                    rspActionInfo.getRoleResponsibilityId(), savedRoleMember.getId(), 
                                     rspActionInfo.getActionTypeCode(), rspActionInfo.getActionPolicyCode(), 
                                     rspActionInfo.getPriorityNumber(), new Boolean(rspActionInfo.isForceAction()));
                         }
@@ -431,68 +434,31 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return objectsToSave;
     }
     
-    private List<RoleMember> getRoleMembersToSave(Role roleInfo, OrgReviewRole orr){
-        List<RoleMember> objectsToSave = new ArrayList<RoleMember>();
-        String memberId;
-        RoleMember roleMember = null;
+    private List<RoleMember.Builder> getRoleMembersToSave(Role roleInfo, OrgReviewRole orr){
+        RoleMember.Builder roleMember = null;
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            if(roleMember==null){
-                memberId = getRoleService().getRoleIdByName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
-                roleMember = new RoleMember();
-                roleMember.setRoleId(roleInfo.getId());
-                roleMember.setMemberId(memberId);
-                roleMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
-                roleMember.setMemberId(memberId);
-            }                
-            if(orr.isEdit()){
-                roleMember.setRoleMemberId(orr.getRoleMemberId());
-            }
-            roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
-            roleMember.setActiveFromDate(orr.getActiveFromDate());
-            roleMember.setActiveToDate(orr.getActiveToDate());
-            objectsToSave.add(roleMember);
-            roleMember = null;
+            String memberId = getRoleService().getRoleIdByNameAndNamespaceCode(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
+            roleMember = RoleMember.Builder.create(roleInfo.getId(), null, memberId, MemberType.ROLE, null, null, null);
         }
-        if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-            if(roleMember==null){
-                Group groupInfo = getGroupService().getGroupByName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
-                memberId = groupInfo.getGroupId();
-                roleMember = new RoleMember();
-                roleMember.setMemberId(memberId);
+        if(roleMember==null){
+            if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
+                Group groupInfo = getGroupService().getGroupByNameAndNamespaceCode(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
+                roleMember = RoleMember.Builder.create(roleInfo.getId(), null, groupInfo.getId(), MemberType.GROUP, null, null, null);
             }
-            roleMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
-            roleMember.setRoleId(roleInfo.getId());
-            if(orr.isEdit()){
-                roleMember.setRoleMemberId(orr.getRoleMemberId());
-            }
-            List<RoleResponsibilityAction> roleRspActionObjectsToSave = new ArrayList<RoleResponsibilityAction>();
-            roleRspActionObjectsToSave.addAll(getRoleRspActions(orr, roleMember));
-            roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
-            roleMember.setActiveFromDate(orr.getActiveFromDate());
-            roleMember.setActiveToDate(orr.getActiveToDate());
-            objectsToSave.add(roleMember);
-            roleMember = null;
         }
-        if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
-            if(roleMember==null){
+        if(roleMember==null){
+            if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
                 Principal principal = getIdentityManagementService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
-                roleMember = new RoleMember();
-                roleMember.setMemberId(principal.getPrincipalId());
+                roleMember = RoleMember.Builder.create(roleInfo.getId(), null, principal.getPrincipalId(), MemberType.GROUP, null, null, null);
             }
-            roleMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
-            roleMember.setRoleId(roleInfo.getId());
-            if(orr.isEdit()){
-                roleMember.setRoleMemberId(orr.getRoleMemberId());
-            }
-            List<RoleResponsibilityAction> roleRspActionObjectsToSave = new ArrayList<RoleResponsibilityAction>();
-            roleRspActionObjectsToSave.addAll(getRoleRspActions(orr, roleMember));
-            roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
-            roleMember.setActiveFromDate(orr.getActiveFromDate());
-            roleMember.setActiveToDate(orr.getActiveToDate());
-            objectsToSave.add(roleMember);
-            roleMember = null;
         }
-        return objectsToSave;
+        if(orr.isEdit()){
+            roleMember.setId(orr.getRoleMemberId());
+        }
+        roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
+        roleMember.setActiveFromDate( new DateTime( orr.getActiveFromDate().getTime() ) );
+        roleMember.setActiveToDate( new DateTime( orr.getActiveToDate().getTime() ) );
+        return Collections.singletonList(roleMember);
     }
     
     private List<String> getRolesToSaveFor(List<String> roleNamesToConsider, String reviewRolesIndicator){
@@ -509,8 +475,8 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return roleToSaveFor;
     }
     
-    protected List<RoleMember> getRoleMembers(OrgReviewRole orr){
-        List<RoleMember> objectsToSave = new ArrayList<RoleMember>();
+    protected List<RoleMember.Builder> getRoleMembers(OrgReviewRole orr){
+        List<RoleMember.Builder> objectsToSave = new ArrayList<RoleMember.Builder>();
         List<String> roleNamesToSaveFor = getRolesToSaveFor(orr.getRoleNamesToConsider(), orr.getReviewRolesIndicator());
         String roleId;
         String memberId;
@@ -519,7 +485,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         Map<String, Object> criteria;
         if(roleNamesToSaveFor!=null){
             for(String roleName: roleNamesToSaveFor){
-                roleId = getRoleService().getRoleIdByName(
+                roleId = getRoleService().getRoleIdByNameAndNamespaceCode(
                         KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 roleInfo = getRoleService().getRole(roleId);
                 objectsToSave.addAll(getRoleMembersToSave(roleInfo, orr));
@@ -699,9 +665,9 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return orr.getQualifierAsAttributeSet(attributeDataList);
     }
     
-    protected List<RoleResponsibilityAction> getRoleRspActions(OrgReviewRole orr, RoleMember roleMember){
-        List<RoleResponsibilityAction> roleRspActions = new ArrayList<RoleResponsibilityAction>();
-        RoleResponsibilityAction roleRspAction;
+    protected List<RoleResponsibilityAction.Builder> getRoleRspActions(OrgReviewRole orr, RoleMember roleMember){
+        List<RoleResponsibilityAction.Builder> roleRspActions = new ArrayList<RoleResponsibilityAction.Builder>();
+        RoleResponsibilityAction.Builder roleRspAction;
         //Assuming that there is only one responsibility for an org role
         //Get it now given the role id
         List<RoleResponsibility> roleResponsibilityInfos = ((List<RoleResponsibility>)getRoleService().getRoleResponsibilities(roleMember.getRoleId()));
@@ -710,12 +676,13 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             throw new RuntimeException("The Org Review Role id:"+roleMember.getRoleId()+" does not have any responsibility associated with it");
 
         List<RoleResponsibilityAction> origRoleRspActions = ((List<RoleResponsibilityAction>)getRoleService().getRoleMemberResponsibilityActions(roleMember.getRoleMemberId()));
-        roleRspAction = new RoleResponsibilityAction();
+        
+        roleRspAction = RoleResponsibilityAction.Builder.create();
         if(origRoleRspActions!=null && origRoleRspActions.size()>0){
             RoleResponsibilityAction origActionInfo = origRoleRspActions.get(0);
-            roleRspAction.setRoleResponsibilityActionId(origActionInfo.getRoleResponsibilityActionId());
+            roleRspAction.setId(origActionInfo.getId());
         } 
-        roleRspAction.setRoleMemberId(roleMember.getRoleMemberId());
+        roleRspAction.setRoleMemberId(roleMember.getId());
         RoleResponsibility roleResponsibilityInfo = roleResponsibilityInfos.get(0);
         roleRspAction.setRoleResponsibilityId(roleResponsibilityInfo.getRoleResponsibilityId());
         roleRspAction.setActionTypeCode(orr.getActionTypeCode());

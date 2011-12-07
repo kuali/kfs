@@ -211,7 +211,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         valid = validateAmounts(orr);
         if(!isEdit && orr.getRoleNamesToConsider()!=null){
             for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = getRoleService().getRoleIdByName(
+                roleId = getRoleService().getRoleIdByNameAndNamespaceCode(
                         KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 //validate if the newly entered role members are already assigned to the role
                 Map<String, Object> criteria = new HashMap<String, Object>();
@@ -223,12 +223,12 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                 String memberId;
                 if(roleMembershipInfoList!=null){
                     for(RoleMembership roleMembershipInfo: roleMembershipInfoList){
-                        member = orr.getRoleMemberOfType(roleMembershipInfo.getMemberTypeCode());
+                        member = orr.getRoleMemberOfType(roleMembershipInfo.getType().getCode());
                         if(member!=null && StringUtils.isNotEmpty(member.getMemberName())){
                             memberId = getUiDocumentService().getMemberIdByName(member.getMemberTypeCode(), member.getMemberNamespaceCode(), member.getMemberName());
                             attributesUnique = areAttributesUnique(orr, roleMembershipInfo.getQualifier());
                             if(!attributesUnique && member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId()) && 
-                                    member.getMemberTypeCode().equals(roleMembershipInfo.getMemberTypeCode())){
+                                    member.getMemberTypeCode().equals(roleMembershipInfo.getType().getCode())){
                                putFieldError(orr.getMemberFieldName(member), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
                                valid = false;
                             }
@@ -288,12 +288,5 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             typeInfoService = SpringContext.getBean(KimTypeInfoService.class);
         }
         return typeInfoService;
-    }
-
-    protected GroupService getGroupService(){
-        if(groupService==null){
-            groupService = SpringContext.getBean(GroupService.class);
-        }
-        return groupService;
     }
 }

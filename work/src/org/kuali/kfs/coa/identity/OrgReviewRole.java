@@ -29,6 +29,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.util.CodeTranslator;
@@ -921,7 +922,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         return null;
     }
     
-    public RoleMember getRoleMemberOfType(String memberTypeCode){
+    public RoleMember.Builder getRoleMemberOfType(String memberTypeCode){
         if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)){
             memberRole.setMemberId(roleMemberRoleId);
             memberRole.setMemberName(roleMemberRoleName);
@@ -979,11 +980,11 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public String getMemberFieldName(RoleMember member){
         String memberFieldName = "";
         if(member!=null){
-            if(isRole(member.getMemberType().getCode()))
+            if(isRole(member.getType().getCode()))
                 memberFieldName = OrgReviewRole.ROLE_NAME_FIELD_NAME;
-            else if(isGroup(member.getMemberType().getCode()))
+            else if(isGroup(member.getType().getCode()))
                 memberFieldName = OrgReviewRole.GROUP_NAME_FIELD_NAME;
-            else if(isPrincipal(member.getMemberType().getCode())){
+            else if(isPrincipal(member.getType().getCode())){
                 memberFieldName = OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME;
             }
         }
@@ -1172,7 +1173,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         }
     }
 
-    public void setRoleDocumentDelegationMember(DelegateMember delegationMember){
+    public void setRoleDocumentDelegationMember(DelegateMember.Builder delegationMember){
         if ( delegationMember != null ) {
             if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(delegationMember.getType().getCode()))
                 setDelegationMemberRole(delegationMember);
@@ -1183,28 +1184,28 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             setActiveFromDate(delegationMember.getActiveFromDate().toDate());
             setActiveToDate(delegationMember.getActiveToDate().toDate());
         } else {
-            setDelegationMemberRole( new DelegateMember() );
-            setDelegationMemberGroup( new DelegateMember() );
-            setDelegationMemberPerson( new DelegateMember() );
+            setDelegationMemberRole( DelegateMember.Builder.create() );
+            setDelegationMemberGroup( DelegateMember.Builder.create() );
+            setDelegationMemberPerson( DelegateMember.Builder.create() );
             setActiveFromDate(null);
             setActiveToDate(null);
         }
     }
     
-    public void setKimDocumentRoleMember(RoleMember roleMember){
+    public void setKimDocumentRoleMember(RoleMember.Builder roleMember){
         if ( roleMember != null ) {
-            if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(roleMember.getMemberType().getCode()))
+            if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(roleMember.getType().getCode()))
                 setMemberRole(roleMember);
-            else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(roleMember.getMemberType().getCode()))
+            else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(roleMember.getType().getCode()))
                 setMemberGroup(roleMember);
-            else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(roleMember.getMemberType().getCode()))
+            else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(roleMember.getType().getCode()))
                 setMemberPerson(roleMember);
             setActiveFromDate(roleMember.getActiveFromDate().toDate());
             setActiveToDate(roleMember.getActiveToDate().toDate());
         } else {
-            setMemberRole( new RoleMember() );
-            setMemberGroup( new RoleMember() );
-            setMemberPerson( new RoleMember() );
+            setMemberRole( RoleMember.Builder.create(roleId, "", "", MemberType.ROLE, null, null, null) );
+            setMemberGroup( RoleMember.Builder.create(roleId, "", "", MemberType.GROUP, null, null, null) );
+            setMemberPerson( RoleMember.Builder.create(roleId, "", "", MemberType.PRINCIPAL, null, null, null) );
             setActiveFromDate(null);
             setActiveToDate(null);
         }

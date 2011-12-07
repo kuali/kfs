@@ -910,10 +910,4 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         }
         return typeInfoService;
     }
-    protected RiceCacheAdministrator getCacheAdministrator(){
-        if(cacheAdministrator==null){
-            cacheAdministrator = SpringContext.getBean(RiceCacheAdministrator.class);   
-        }
-        return cacheAdministrator;
-    }
 }

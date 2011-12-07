@@ -30,19 +30,24 @@ import org.kuali.kfs.coa.document.OrgReviewRoleMaintainableImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.criteria.PredicateUtils;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceUtilities;
+import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.group.GroupQueryResults;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.DelegateMemberQueryResults;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
+import org.kuali.rice.kim.api.role.RoleQueryResults;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.type.KimType;
@@ -57,7 +62,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -352,34 +356,24 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return searchCriteria;
     }
 
-    protected List<RoleMember> searchRoleMembers(Map<String, String> searchCriteriaRoleMembers){
-        List<RoleMember> members = new ArrayList<RoleMember>();
-        members.addAll(getRoleService().findRoleMembersCompleteInfo(searchCriteriaRoleMembers));
-        return members;
+    protected List<RoleMember> searchRoleMembers(Map<String, String> searchCriteriaRoleMembers){        
+        RoleMemberQueryResults results = getRoleService().findRoleMembers( QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(searchCriteriaRoleMembers)));
+        return results.getResults();
     }
 
     protected List<DelegateMember> searchDelegations(Map<String, String> searchCriteriaDelegateMembers){
-        List<DelegateMember> members = new ArrayList<DelegateMember>();
-        members.addAll(getRoleService().findDelegateMembersCompleteInfo(searchCriteriaDelegateMembers));
-        return members;
+        DelegateMemberQueryResults results = getRoleService().findDelegateMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(searchCriteriaDelegateMembers)));
+        return results.getResults();
     }
 
     public boolean hasOrganizationHierarchy(final String documentTypeName) {
         if(StringUtils.isEmpty(documentTypeName)) return false;
-        try {
-            return (new WorkflowInfo()).hasRouteNode(documentTypeName, KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY);
-        } catch(WorkflowException wex){
-            throw new RuntimeException("Workflow Exception occurred: "+wex);
-        }
+        return SpringContext.getBean(DocumentTypeService.class).hasRouteNodeForDocumentTypeName(documentTypeName, KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY);
     }
 
     public boolean hasAccountingOrganizationHierarchy(final String documentTypeName) {
         if(StringUtils.isEmpty(documentTypeName)) return false;
-        try{ 
-            return (new WorkflowInfo()).hasRouteNode(documentTypeName, KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY);
-        } catch(WorkflowException wex){
-            throw new RuntimeException("Workflow Exception occurred: "+wex);
-        }
+        return SpringContext.getBean(DocumentTypeService.class).hasRouteNodeForDocumentTypeName(documentTypeName, KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY);
     }
 
     public String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName){
@@ -478,10 +472,11 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         Object hasZeroNodesCache  = null;
         
         //check cache
-        hasZeroNodesCache = getCacheAdministrator().getFromCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + currentDocumentTypeName);        
-        if( ObjectUtils.isNotNull(hasZeroNodesCache)){
-            return ((Boolean)hasZeroNodesCache).booleanValue();
-        }
+        // RICE20 - need to replace cache for document type checks
+//        hasZeroNodesCache = getCacheAdministrator().getFromCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + currentDocumentTypeName);        
+//        if( ObjectUtils.isNotNull(hasZeroNodesCache)){
+//            return ((Boolean)hasZeroNodesCache).booleanValue();
+//        }
 
         //check current doc type for qualifying nodes
         if(hasOrganizationHierarchy(currentDocumentTypeName) || hasAccountingOrganizationHierarchy(currentDocumentTypeName) ){                       
@@ -490,7 +485,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         
         //if still has no qualifying nodes, check current nodes children
         if(hasZeroQualifyingNodes){
-            DocumentType currentDocType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(currentDocumentTypeName);
+            DocumentType currentDocType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(currentDocumentTypeName);
             List<DocumentType> docTypes = SpringContext.getBean(DocumentTypeService.class).getChildDocumentTypes(currentDocType.getDocumentId());
             
             for(DocumentType docType : docTypes){
@@ -500,11 +495,25 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         }
         
         //add to cache if there are qualifying nodes
-        if(hasZeroQualifyingNodes == false){
-            getCacheAdministrator().putInCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + currentDocumentTypeName, new Boolean(hasZeroQualifyingNodes), ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_GROUP);
-        }
+        // RICE20 - need to replace cache for document type checks
+//        if(hasZeroQualifyingNodes == false){
+//            getCacheAdministrator().putInCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + currentDocumentTypeName, new Boolean(hasZeroQualifyingNodes), ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_GROUP);
+//        }
         
         return hasZeroQualifyingNodes;
+    }
+
+    private static final String[] TRUE_VALUES = new String[] { "true", "yes", "t", "y" };
+    public static boolean getBooleanValueForString(String value, boolean defaultValue) {
+        if (!StringUtils.isBlank(value)) {
+            for (String trueValue : TRUE_VALUES) {
+                if (value.equalsIgnoreCase(trueValue)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return defaultValue;
     }
     
     protected List<OrgReviewRole> flattenToOrgReviewMembers(String active, String documentTypeName, List<RoleMember> members){
@@ -517,27 +526,26 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         KimType kimTypeInfo;
         Boolean activeInd = null;
         if(StringUtils.isNotEmpty(active)){
-            activeInd = new Boolean(RiceUtilities.getBooleanValueForString(active, true));
+            activeInd = new Boolean(getBooleanValueForString(active, true));
         }
         for(RoleMember member: members){
             if(activeInd==null || (activeInd.booleanValue()==true && member.isActive()) || (activeInd.booleanValue()==false && !member.isActive())){
                 orgReviewRole = new OrgReviewRole();
-                OrgReviewRoleMaintainableImpl orgReviewRoleMaintainableImpl = new OrgReviewRoleMaintainableImpl();
+                // RICE20 - FIXME - this should *NOT* be in the maintainable
+//                OrgReviewRoleMaintainableImpl orgReviewRoleMaintainableImpl = new OrgReviewRoleMaintainableImpl();
                 orgReviewRole.setMemberId(member.getMemberId());
-                orgReviewRole.setMemberTypeCode(member.getMemberType().getCode());           
+                orgReviewRole.setMemberTypeCode(member.getType().getCode());           
                 orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
                 orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
                 orgReviewRole.setActive(member.isActive());
                 orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
-                orgReviewRole.setMemberName(member.getMemberName());
-                orgReviewRole.setMemberNamespaceCode(member.getMemberNamespaceCode());
                 
                 roleInfo = getRoleService().getRole(member.getRoleId());
                 kimTypeInfo = getTypeInfoService().getKimType(roleInfo.getKimTypeId());
-                orgReviewRole.setAttributes(orgReviewRole.getAttributeSetAsQualifierList(kimTypeInfo, member.getQualifier()));
+                orgReviewRole.setAttributes(orgReviewRole.getAttributeSetAsQualifierList(kimTypeInfo, member.getAttributes()));
 
-                orgReviewRole.setRoleRspActions(orgReviewRoleMaintainableImpl.getRoleRspActions(member.getRoleMemberId()));
-                orgReviewRole.setRoleMemberId(member.getRoleMemberId());
+                orgReviewRole.setRoleRspActions(orgReviewRoleMaintainableImpl.getRoleRspActions(member.getId()));
+                orgReviewRole.setRoleMemberId(member.getId());
                 orgReviewRole.setRoleId(member.getRoleId());
                 orgReviewRole.setNamespaceCode(roleInfo.getNamespaceCode());
                 orgReviewRole.setRoleName(roleInfo.getName());
@@ -565,7 +573,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         Role roleInfo;
         Boolean activeInd = null;
         if(StringUtils.isNotEmpty(active)){
-            activeInd = new Boolean(RiceUtilities.getBooleanValueForString(active, true));
+            activeInd = new Boolean(getBooleanValueForString(active, true));
         }
         KimType kimTypeInfo;
         for(DelegateMember member: delegationMembers){
@@ -573,13 +581,11 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 orgReviewRole = new OrgReviewRole();
                 OrgReviewRoleMaintainableImpl orgReviewRoleMaintainableImpl = new OrgReviewRoleMaintainableImpl();
                 orgReviewRole.setMemberId(member.getMemberId());
-                orgReviewRole.setMemberTypeCode(member.getMemberType().getCode());
+                orgReviewRole.setMemberTypeCode(member.getType().getCode());
                 orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
                 orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
                 orgReviewRole.setActive(member.isActive());
                 orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
-                orgReviewRole.setMemberName(member.getMemberName());
-                orgReviewRole.setMemberNamespaceCode(member.getMemberNamespaceCode());
 
                 roleInfo = getRoleService().getRole(member.getRoleId());
                 kimTypeInfo = getTypeInfoService().getKimType(roleInfo.getKimTypeId());
@@ -607,12 +613,12 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return orgReviewRoles;
     }
     
-    protected DelegateType getDelegation(DelegateMember delegationMember){
-        Map<String, String> criteria = new HashMap<String, String>();
-        DelegateType delegation;
-        criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_ID, delegationMember.getDelegationId());
-        return (DelegateType)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DelegateType.class, criteria);
-    }
+//    protected DelegateType getDelegation(DelegateMember delegationMember){
+//        Map<String, String> criteria = new HashMap<String, String>();
+//        DelegateType delegation;
+//        criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_ID, delegationMember.getDelegationId());
+//        return (DelegateType)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DelegateType.class, criteria);
+//    }
 
     protected String getQueryString(String parameter){
         if(StringUtils.isEmpty(parameter))
@@ -625,12 +631,16 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return (List<Person>) SpringContext.getBean(PersonService.class).findPeople(fieldValues);
     }
     
-    public List<Role> getRoles(Map<String, String> fieldValues) {
-        return (List<Role>) SpringContext.getBean(RoleService.class).findRoles(fieldValues);
+    public List<Role> getRoles(Map<String, String> fieldValues) {        
+        QueryByCriteria crit = QueryByCriteria.Builder.fromPredicates(PredicateUtils.convertMapToPredicate(fieldValues));
+        RoleQueryResults results = getRoleService().findRoles(crit); 
+        return results.getResults();
     }
 
     public List<Group> getGroups(Map<String, String> fieldValues) {
-        return (List<Group>) SpringContext.getBean(GroupService.class).findGroups(fieldValues);
+        QueryByCriteria crit = QueryByCriteria.Builder.fromPredicates(PredicateUtils.convertMapToPredicate(fieldValues));
+        GroupQueryResults results = getGroupService().findGroups(crit);
+        return results.getResults();
     }
     
     protected Map<String, String> buildOrgReviewRoleSearchCriteria(String documentTypeName, Map<String, String> fieldValues){

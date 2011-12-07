@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.kfs.coa.identity.KfsKimDocRoleMember;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
@@ -434,22 +435,22 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return objectsToSave;
     }
     
-    private List<RoleMember.Builder> getRoleMembersToSave(Role roleInfo, OrgReviewRole orr){
-        RoleMember.Builder roleMember = null;
+    private List<KfsKimDocRoleMember> getRoleMembersToSave(Role roleInfo, OrgReviewRole orr){
+        KfsKimDocRoleMember roleMember = null;
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             String memberId = getRoleService().getRoleIdByNameAndNamespaceCode(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
-            roleMember = RoleMember.Builder.create(roleInfo.getId(), null, memberId, MemberType.ROLE, null, null, null);
+            roleMember = KfsKimDocRoleMember.create(roleInfo.getId(), null, memberId, MemberType.ROLE, null, null, null);
         }
         if(roleMember==null){
             if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
                 Group groupInfo = getGroupService().getGroupByNameAndNamespaceCode(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
-                roleMember = RoleMember.Builder.create(roleInfo.getId(), null, groupInfo.getId(), MemberType.GROUP, null, null, null);
+                roleMember = KfsKimDocRoleMember.create(roleInfo.getId(), null, groupInfo.getId(), MemberType.GROUP, null, null, null);
             }
         }
         if(roleMember==null){
             if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
                 Principal principal = getIdentityManagementService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
-                roleMember = RoleMember.Builder.create(roleInfo.getId(), null, principal.getPrincipalId(), MemberType.GROUP, null, null, null);
+                roleMember = KfsKimDocRoleMember.create(roleInfo.getId(), null, principal.getPrincipalId(), MemberType.GROUP, null, null, null);
             }
         }
         if(orr.isEdit()){
@@ -475,8 +476,8 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return roleToSaveFor;
     }
     
-    protected List<RoleMember.Builder> getRoleMembers(OrgReviewRole orr){
-        List<RoleMember.Builder> objectsToSave = new ArrayList<RoleMember.Builder>();
+    protected List<KfsKimDocRoleMember> getRoleMembers(OrgReviewRole orr){
+        List<KfsKimDocRoleMember> objectsToSave = new ArrayList<KfsKimDocRoleMember>();
         List<String> roleNamesToSaveFor = getRolesToSaveFor(orr.getRoleNamesToConsider(), orr.getReviewRolesIndicator());
         String roleId;
         String memberId;
@@ -675,7 +676,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(roleResponsibilityInfos!=null && roleResponsibilityInfos.size()<1)
             throw new RuntimeException("The Org Review Role id:"+roleMember.getRoleId()+" does not have any responsibility associated with it");
 
-        List<RoleResponsibilityAction> origRoleRspActions = ((List<RoleResponsibilityAction>)getRoleService().getRoleMemberResponsibilityActions(roleMember.getRoleMemberId()));
+        List<RoleResponsibilityAction> origRoleRspActions = ((List<RoleResponsibilityAction>)getRoleService().getRoleMemberResponsibilityActions(roleMember.getId()));
         
         roleRspAction = RoleResponsibilityAction.Builder.create();
         if(origRoleRspActions!=null && origRoleRspActions.size()>0){

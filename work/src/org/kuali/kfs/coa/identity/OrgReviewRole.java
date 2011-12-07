@@ -102,9 +102,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected DelegateMember.Builder delegationMemberGroup = DelegateMember.Builder.create();
     protected DelegateMember.Builder delegationMemberPerson = DelegateMember.Builder.create();
 
-    protected RoleMember.Builder memberRole = RoleMember.Builder.create();
-    protected RoleMember.Builder memberGroup = RoleMember.Builder.create();
-    protected RoleMember.Builder memberPerson = RoleMember.Builder.create();
+    protected KfsKimDocRoleMember memberRole = new KfsKimDocRoleMember( "", MemberType.ROLE );
+    protected KfsKimDocRoleMember memberGroup = new KfsKimDocRoleMember( "", MemberType.GROUP );
+    protected KfsKimDocRoleMember memberPerson = new KfsKimDocRoleMember( "", MemberType.PRINCIPAL );
 
     protected Role role;
     protected Group group;
@@ -375,7 +375,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             KfsKimDocumentAttributeData attributeData = getAttribute(attributeName);
             if(attributeData==null){
                 attributeData = new KfsKimDocumentAttributeData();
-                KimTypeAttribute attribute = new KimTypeAttribute();
+                KimTypeAttribute.Builder attribute = KimTypeAttribute.Builder.create();
                 attribute.setAttributeName(attributeName);
                 attributeData.setKimAttribute(attribute);
                 attributeData.setAttrVal(attributeValue);
@@ -922,7 +922,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         return null;
     }
     
-    public RoleMember.Builder getRoleMemberOfType(String memberTypeCode){
+    public KfsKimDocRoleMember getRoleMemberOfType(String memberTypeCode){
         if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)){
             memberRole.setMemberId(roleMemberRoleId);
             memberRole.setMemberName(roleMemberRoleName);
@@ -1120,14 +1120,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * Gets the memberGroup attribute. 
      * @return Returns the memberGroup.
      */
-    public RoleMember.Builder getMemberGroup() {
+    public KfsKimDocRoleMember getMemberGroup() {
         return memberGroup;
     }
     /**
      * Sets the memberGroup attribute value.
      * @param memberGroup The memberGroup to set.
      */
-    protected void setMemberGroup(RoleMember.Builder memberGroup) {
+    protected void setMemberGroup(KfsKimDocRoleMember memberGroup) {
         this.memberGroup = memberGroup;
         if(memberGroup!=null){
             Group groupInfo = getGroup(memberGroup.getMemberId());
@@ -1138,14 +1138,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * Gets the memberPerson attribute. 
      * @return Returns the memberPerson.
      */
-    public RoleMember.Builder getMemberPerson() {
+    public KfsKimDocRoleMember getMemberPerson() {
         return memberPerson;
     }
     /**
      * Sets the memberPerson attribute value.
      * @param memberPerson The memberPerson to set.
      */
-    protected void setMemberPerson(RoleMember.Builder memberPerson) {
+    protected void setMemberPerson(KfsKimDocRoleMember memberPerson) {
         this.memberPerson = memberPerson;
         if(memberPerson!=null){
             Person personImpl = getPersonFromService(memberPerson.getMemberId());
@@ -1158,14 +1158,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * Gets the memberRole attribute. 
      * @return Returns the memberRole.
      */
-    public RoleMember.Builder getMemberRole() {
+    public KfsKimDocRoleMember getMemberRole() {
         return memberRole;
     }
     /**
      * Sets the memberRole attribute value.
      * @param memberRole The memberRole to set.
      */
-    protected void setMemberRole(RoleMember.Builder memberRole) {
+    protected void setMemberRole(KfsKimDocRoleMember memberRole) {
         this.memberRole = memberRole;
         if(memberRole!=null){
             Role roleInfo = getRole(memberRole.getMemberId());
@@ -1192,7 +1192,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         }
     }
     
-    public void setKimDocumentRoleMember(RoleMember.Builder roleMember){
+    public void setKimDocumentRoleMember(KfsKimDocRoleMember roleMember){
         if ( roleMember != null ) {
             if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(roleMember.getType().getCode()))
                 setMemberRole(roleMember);
@@ -1203,9 +1203,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             setActiveFromDate(roleMember.getActiveFromDate().toDate());
             setActiveToDate(roleMember.getActiveToDate().toDate());
         } else {
-            setMemberRole( RoleMember.Builder.create(roleId, "", "", MemberType.ROLE, null, null, null) );
-            setMemberGroup( RoleMember.Builder.create(roleId, "", "", MemberType.GROUP, null, null, null) );
-            setMemberPerson( RoleMember.Builder.create(roleId, "", "", MemberType.PRINCIPAL, null, null, null) );
+            setMemberRole( new KfsKimDocRoleMember(roleId, MemberType.ROLE) );
+            setMemberGroup( new KfsKimDocRoleMember(roleId, MemberType.GROUP) );
+            setMemberPerson( new KfsKimDocRoleMember(roleId, MemberType.PRINCIPAL) );
             setActiveFromDate(null);
             setActiveToDate(null);
         }

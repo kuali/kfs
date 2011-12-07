@@ -7,8 +7,10 @@
 		dbms="oracle">
 		<sql>
 			DROP TABLE FP_CPTL_AST_ACCT_GRP_DTL_T CASCADE CONSTRAINTS;
-			DROP TABLE FP_CPTL_AST_INFO_DTL_T CASCADE CONSTRAINTS;
-			DROP TABLE FP_CPTL_AST_INFO_T CASCADE CONSTRAINTS;
+			DROP
+			TABLE FP_CPTL_AST_INFO_DTL_T CASCADE CONSTRAINTS;
+			DROP TABLE
+			FP_CPTL_AST_INFO_T CASCADE CONSTRAINTS;
 		</sql>
 	</changeSet>
 
@@ -16,8 +18,10 @@
 		dbms="mysql">
 		<sql>
 			DROP TABLE IF EXISTS FP_CPTL_AST_ACCT_GRP_DTL_T CASCADE;
-			DROP TABLE IF EXISTS FP_CPTL_AST_INFO_DTL_T CASCADE;
-			DROP TABLE IF EXISTS FP_CPTL_AST_INFO_T CASCADE;
+			DROP
+			TABLE IF EXISTS FP_CPTL_AST_INFO_DTL_T CASCADE;
+			DROP TABLE IF EXISTS
+			FP_CPTL_AST_INFO_T CASCADE;
 		</sql>
 	</changeSet>
 
@@ -171,14 +175,23 @@
 			baseTableName="FP_CPTL_AST_ACCT_GRP_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
 			referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
 
+		<comment>Add fields, create parameters, permissions, and roles for KSMI-6702 Contribution</comment>
+		<addColumn tableName='FP_INT_BILL_DOC_T'>
+			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
+		</addColumn>
+		<addColumn tableName='FP_DISTRIB_DOC_T'>
+			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
+		</addColumn>
+		<addColumn tableName='FP_ICR_ADJ_DOC_T'>
+			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
+		</addColumn>
+
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
-		</modifySql>
-		<modifySql dbms="mysql">
 			<replace replace="NUMBER" with="DECIMAL" />
 		</modifySql>
 	</changeSet>
-	
+
 	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_Ta" dbms="oracle">
 		<comment>KFSMI-6720</comment>
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ"
@@ -406,8 +419,6 @@
 		</addColumn>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
-		</modifySql>
-		<modifySql dbms='mysql'>
 			<replace replace='NUMBER' with='DECIMAL' />
 		</modifySql>
 	</changeSet>

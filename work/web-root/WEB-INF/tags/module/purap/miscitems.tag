@@ -80,11 +80,11 @@
 		<span class="subhead-left"><c:out value="${overrideTitle}" /> &nbsp;</span>
 		<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
-				onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+				onclick="javascript: return true; " />
 		</c:if>
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
-				onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+				onclick="javascript: return true; " />
 		</c:if>
 	</td>
 </tr>

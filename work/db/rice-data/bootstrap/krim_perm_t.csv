@@ -286,3 +286,5 @@ KFSENDOW6011,KFSENDOW6011,1,29,KFS-ENDOW,Use Endowment Reporting Screens,Authori
 KFSAR6012,KFSAR6012,1,33,KFS-AR,Upload Batch Input Files(s),Allows access to the Customer Upload Batch Upload page.,Y
 KFSPURAP6940,KFSPURAP6940,1,27,KFS-PURAP,Full Unmask Field,Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry,Y
 15001,KFSLD6987h,1,33,KFS-LD,Upload Batch Input File(s),"Allows access to the Labor Enterprise Feed Upload Batch Upload page.",Y
+KFSSYS7145a,KFSSYS7145a,1,1,KFS-SYS,View Accounting Period,Users who can view the accounting period field when enabled for year end processing.,Y
+KFSSYS7145b,KFSSYS7145b,1,1,KFS-SYS,Edit Accounting Period,Users who can edit the accounting period field when enabled for year end processing.,Y

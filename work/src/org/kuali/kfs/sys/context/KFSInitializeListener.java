@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.context;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +26,6 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.collect.ConstantsMap;
-import org.kuali.rice.core.impl.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.impl.resourceloader.SpringResourceLoader;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -71,8 +69,10 @@ public class KFSInitializeListener extends KualiInitializeListener {
 //            SpringContext.applicationContext = springLoaders.iterator().next().getContext();
 //        }
 
-        SpringContext.applicationContext = ((SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "KFS_RICE_SPRING_RESOURCE_LOADER_NAME") )).getContext();
+        SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "KFS_RICE_SPRING_RESOURCE_LOADER_NAME") ); 
+        SpringContext.applicationContext = mainKfsSpringResourceLoader.getContext();
         LOG.info( "Loaded Spring Context from the following locations: " + Arrays.asList( getContext().getConfigLocations() ) );
+        GlobalResourceLoader.addResourceLoaderFirst(mainKfsSpringResourceLoader);
         
         GlobalResourceLoader.logAllContents();
         

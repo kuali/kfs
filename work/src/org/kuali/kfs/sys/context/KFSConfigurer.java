@@ -16,10 +16,14 @@
 package org.kuali.kfs.sys.context;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.impl.config.module.ModuleConfigurer;
+import org.kuali.rice.core.impl.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.krad.config.KRADConfigurer;
 
 public class KFSConfigurer extends ModuleConfigurer {
@@ -80,4 +84,5 @@ public class KFSConfigurer extends ModuleConfigurer {
     public List<String> getAdditionalSpringFiles() {        
         return super.getAdditionalSpringFiles();
     }
+        
 }

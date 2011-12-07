@@ -125,7 +125,7 @@
  	<bean id="attachmentService" p:serviceName="attachmentService" parent="grlBeanImporter" />
  	<bean id="sessionDocumentService" p:serviceName="sessionDocumentService" parent="grlBeanImporter" />
  	<bean id="noteService" p:serviceName="noteService" parent="grlBeanImporter" />
- 	<bean id="documentService" p:serviceName="documentService" parent="grlBeanImporter" />
+ 	<!-- <bean id="documentService" p:serviceName="documentService" parent="grlBeanImporter" /> -->
  	<bean id="businessObjectService" p:serviceName="businessObjectService" parent="grlBeanImporter" />
  	<bean id="persistenceStructureService" p:serviceName="persistenceStructureService" parent="grlBeanImporter" />
  	<bean id="persistenceStructureServiceJpa" p:serviceName="persistenceStructureServiceJpa" parent="grlBeanImporter" />
@@ -136,7 +136,7 @@
  	<bean id="lookupResultsService" p:serviceName="lookupResultsService" parent="grlBeanImporter" />
  	<bean id="lookupDao" p:serviceName="lookupDao" parent="grlBeanImporter" />
  	<bean id="documentAdHocService" p:serviceName="documentAdHocService" parent="grlBeanImporter" />
- 	<bean id="maintenanceDocumentService" p:serviceName="maintenanceDocumentService" parent="grlBeanImporter" />
+ 	<!-- <bean id="maintenanceDocumentService" p:serviceName="maintenanceDocumentService" parent="grlBeanImporter" /> -->
  	<bean id="workflowDocumentService" p:serviceName="workflowDocumentService" parent="grlBeanImporter" />
  	<bean id="dictionaryValidationService" p:serviceName="dictionaryValidationService" parent="grlBeanImporter" />
  	<bean id="persistenceService" p:serviceName="persistenceService" parent="grlBeanImporter" />
@@ -152,6 +152,10 @@
  	<bean id="sequenceAccessorService" p:serviceName="sequenceAccessorService" parent="grlBeanImporter" />
  	<bean id="rice.kew.documentTypeService" p:serviceName="rice.kew.documentTypeService" parent="grlBeanImporter" />
  	<bean id="documentDao" p:serviceName="documentDao" parent="grlBeanImporter" />
+ 	<bean id="dataObjectMetaDataService" p:serviceName="dataObjectMetaDataService" parent="grlBeanImporter" />
+ 	<bean id="documentDictionaryService" p:serviceName="documentDictionaryService" parent="grlBeanImporter" />
+ 	<bean id="inquiryViewTypeService" p:serviceName="inquiryViewTypeService" parent="grlBeanImporter" />
+ 	<bean id="lookupViewTypeService" p:serviceName="lookupViewTypeService" parent="grlBeanImporter" />
 
     <!--  -->
     <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">
@@ -246,9 +250,6 @@
         </property>
     </bean>
  
- 
- 
- 
 	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl" >
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
@@ -259,16 +260,74 @@
 		<property name="documentService" ref="documentService" />
 	</bean>
 
-	<bean id="documentHeaderService" class="org.kuali.rice.krad.service.impl.DocumentHeaderServiceImpl">
-		<property name="documentHeaderDao" ref="documentHeaderDao" />
-	</bean> 
-
     <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb">
     	<property name="documentHeaderBaseClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" />
     </bean>
 
-
-
+<!-- Overriding this bean to ensure that the correct version of the document header service is injected. -->
+<!-- START IMPORT OF DEFINITIONS TO ENFORCE INJECTION OF KFS-CUSTOMIZED BEANS  -->
+	<bean id="documentHeaderService" class="org.kuali.rice.krad.service.impl.DocumentHeaderServiceImpl">
+		<property name="documentHeaderDao" ref="documentHeaderDao" />
+	</bean> 
+<bean id="documentService" class="org.kuali.rice.krad.service.impl.DocumentServiceImpl">
+  <property name="documentDao">
+    <ref bean="documentDao"/>
+  </property>
+  <property name="dateTimeService">
+    <ref bean="dateTimeService"/>
+  </property>
+  <property name="workflowDocumentService">
+    <ref bean="workflowDocumentService"/>
+  </property>
+  <property name="documentHeaderService">
+    <ref bean="documentHeaderService"/>
+  </property>
+  <property name="businessObjectService">
+    <ref bean="businessObjectService"/>
+  </property>
+  <property name="noteService">
+    <ref bean="noteService"/>
+  </property>
+  <property name="dataDictionaryService">
+    <ref bean="dataDictionaryService"/>
+  </property>
+  <property name="kualiConfigurationService">
+    <ref bean="kualiConfigurationService"/>
+  </property>
+</bean>
+  <bean id="maintenanceDocumentService" class="org.kuali.rice.krad.service.impl.MaintenanceDocumentServiceImpl">
+    <property name="maintenanceDocumentDao">
+      <ref bean="maintenanceDocumentDao"/>
+    </property>
+    <property name="documentDictionaryService">
+      <ref bean="documentDictionaryService"/>
+    </property>
+    <property name="dataObjectMetaDataService">
+      <ref bean="dataObjectMetaDataService"/>
+    </property>
+    <property name="documentService">
+      <ref bean="documentService"/>
+    </property>
+  </bean>
+  <bean id="maintenanceViewTypeService" class="org.kuali.rice.krad.uif.service.impl.MaintenanceViewTypeServiceImpl">
+    <property name="documentService">
+      <ref bean="documentService"/>
+    </property>
+    <property name="documentDictionaryService">
+      <ref bean="documentDictionaryService"/>
+    </property>
+  </bean>
+  <bean id="viewService" class="org.kuali.rice.krad.uif.service.impl.ViewServiceImpl">
+    <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    <property name="viewTypeServices">
+      <list>
+        <ref bean="inquiryViewTypeService"/>
+        <ref bean="lookupViewTypeService"/>
+        <ref bean="maintenanceViewTypeService"/>
+      </list>
+    </property>
+  </bean>
+<!-- END IMPORT OF DEFINITIONS TO ENFORCE INJECTION OF KFS-CUSTOMIZED BEANS  -->
 
   <bean id="kimIdentityManagementService" class="org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl" />
   <alias name="kimIdentityManagementService" alias="identityManagementService" />

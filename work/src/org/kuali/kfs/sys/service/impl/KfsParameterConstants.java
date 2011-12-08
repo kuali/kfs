@@ -15,11 +15,8 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
+import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.core.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.util.KRADConstants;
 
 
@@ -30,18 +27,6 @@ public class KfsParameterConstants {
     public static final String DOCUMENT_COMPONENT = "Document";
     public static final String LOOKUP_COMPONENT = "Lookup";
     public static final String BATCH_COMPONENT = "Batch";
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target( { ElementType.TYPE })
-    public @interface NAMESPACE {
-        String namespace();
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target( { ElementType.TYPE })
-    public @interface COMPONENT {
-        String component();
-    }
 
     @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
     @COMPONENT(component = ALL_COMPONENT)

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
@@ -50,12 +52,15 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -151,8 +156,27 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
-        assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        // CSU 6702 BEGIN
+        String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_DOC_TYPES, docType);
+        if (evaluator.evaluationSucceeds() && isPeriod13(assetGlobal) ) {
+            Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+            String closingDate = getClosingDate(closingYear);
+            try {
+                if (ObjectUtils.isNotNull(assetGlobal.getPostingYear()) ) {
+                    assetGlobal.setAccountingPeriodCompositeString(assetGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode()+assetGlobal.getPostingYear()); 
+                }
+                updateAssetGlobalForPeriod13(assetGlobal, closingYear, closingDate);
+                assetGlobal.refreshNonUpdateableReferences();                   
+            } catch (Exception e) {
+                LOG.error(e);
+            }  
+        }
+        // CSU 6702 END
+        
+        assetGlobal.setLastInventoryDate(getDateTimeService().getCurrentSqlDate());
     }
+
 
     /**
      * Get Asset from AssetGlobal
@@ -204,7 +228,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         }
         // added in case of NULL date in DB
         if (asset.getLastInventoryDate() == null) {
-            assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            assetGlobal.setLastInventoryDate(getDateTimeService().getCurrentSqlDate());
         }
         else {
             assetGlobal.setLastInventoryDate(new java.sql.Date(asset.getLastInventoryDate().getTime()));
@@ -215,6 +239,10 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         assetGlobal.setLandAcreageSize(asset.getLandAcreageSize());
         assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());
 
+        // CSU 6702 BEGIN
+        doPeriod13Changes(assetGlobal);
+        // CSU 6702 END
+        
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
     }
 
@@ -402,6 +430,14 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
                 assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
             }
+            
+            // CSU 6702 BEGIN
+            //year end logic
+            if (isPeriod13(assetGlobal)) {                
+                assetPaymentDetail.setPostingPeriodCode(assetGlobal.getPostingPeriodCode());
+                assetPaymentDetail.setPostingYear(assetGlobal.getPostingYear());
+            }                
+            // CSU 6702 END
         }
     }
 
@@ -469,12 +505,15 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             AssetType capitalAssetType = assetGlobal.getCapitalAssetType();
             if (ObjectUtils.isNotNull(capitalAssetType)) {
                 if (capitalAssetType.getDepreciableLifeLimit() != null && capitalAssetType.getDepreciableLifeLimit().intValue() != 0) {
-                    assetGlobal.setCapitalAssetInServiceDate(assetGlobal.getCreateDate() == null ? SpringContext.getBean(DateTimeService.class).getCurrentSqlDate() : assetGlobal.getCreateDate());
+                    assetGlobal.setCapitalAssetInServiceDate(assetGlobal.getCreateDate() == null ? getDateTimeService().getCurrentSqlDate() : assetGlobal.getCreateDate());
                 }
                 else {
                     assetGlobal.setCapitalAssetInServiceDate(null);
                 }
                 computeDepreciationDate(assetGlobal);
+                // CSU 6702 BEGIN
+                doPeriod13Changes(assetGlobal);
+                // CSU 6702 END
             }
         }
         assetGlobal.getAssetGlobalDetails().clear();
@@ -514,9 +553,16 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET);
         if (ObjectUtils.isNotNull(assetGlobal.getSeparateSourceCapitalAsset())) {
             assetGlobal.setLastInventoryDate(new java.sql.Date(assetGlobal.getSeparateSourceCapitalAsset().getLastInventoryDate().getTime()));
+            // CSU 6702 BEGIN
+            //year end logic
+            doPeriod13Changes(assetGlobal);
+            // CSU 6702 END
         }
         else {
-            assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            assetGlobal.setLastInventoryDate(getDateTimeService().getCurrentSqlDate());
+            // CSU 6702 BEGIN
+            doPeriod13Changes(assetGlobal);
+            // CSU 6702 END            
         }
         List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetGlobalDetails();
         AssetGlobalDetail currLocationDetail = null;
@@ -541,6 +587,10 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         // changes. No handle to the workflow document and see if it starts routing. Otherwise, we can add if condition here.
         setAssetTotalAmountFromPersistence(assetGlobal);
     }
+
+   
+
+
 
     private void setAssetTotalAmountFromPersistence(AssetGlobal assetGlobal) {
         KualiDecimal minAssetTotalAmount = getAssetGlobalService().totalPaymentByAsset(assetGlobal, false);
@@ -725,4 +775,78 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         assetSharedDetail.setBuildingCode(asset.getBuildingCode());
         assetSharedDetail.setBuildingRoomNumber(asset.getBuildingRoomNumber());
     }
+    
+
+    // CSU 6702 BEGIN
+    /**
+     * Checks for Accounting Period 13
+     * @param assetGlobal
+     * @return true if the accountingPeriod in assetGlobal is 13.
+     * TODO Remove hardcoding
+     */
+    private boolean isPeriod13(AssetGlobal assetGlobal) {       
+        return "13".equals(assetGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode());
+    }
+    
+    /**
+     * Return the closing date as mm/dd/yyyy 
+     * @param closingYear
+     * @return the closing date as mm/dd/yyyy
+     * TODO Remove hardcoding
+     */
+    private String getClosingDate(Integer closingYear) {        
+        return "06/30/" + closingYear.toString();
+    }
+
+    
+    /**
+     * Return the calendar Date for the closing year 
+     * @param closingYear
+     * @return 01/01/[closing year]
+     * TODO Remove hardcoding
+     */
+    private String getClosingCalendarDate(Integer closingYear) {
+        return "01/01/" + closingYear.toString();
+    }
+
+    /**
+     * Convenience method to reduce clutter 
+     * @return {@link DateTimeService}
+     */
+    private DateTimeService getDateTimeService() {
+        return SpringContext.getBean(DateTimeService.class);
+    }
+
+    /**
+     * Perform changes to assetGlobal on period 13. 
+     * @param assetGlobal
+     */
+    private void doPeriod13Changes(AssetGlobal assetGlobal) {
+        if (isPeriod13(assetGlobal)) {
+            Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+            String closingDate = getClosingDate(closingYear);
+            try {
+                updateAssetGlobalForPeriod13(assetGlobal, closingYear, closingDate);
+            } catch (Exception e) {
+                LOG.error(e);
+            }
+        }
+    }
+
+
+    /**
+     * Update assetGlobal fields for period 13 
+     * @param assetGlobal
+     * @param closingYear
+     * @param closingDate
+     * @throws ParseException
+     */
+    private void updateAssetGlobalForPeriod13(AssetGlobal assetGlobal, Integer closingYear, String closingDate) throws ParseException {
+        assetGlobal.setCreateDate(getDateTimeService().getCurrentSqlDate());
+        assetGlobal.setCapitalAssetInServiceDate(getDateTimeService().convertToSqlDate(closingDate));
+        assetGlobal.setCreateDate(getDateTimeService().convertToSqlDate(closingDate));
+        assetGlobal.setCapitalAssetDepreciationDate(getDateTimeService().convertToSqlDate(getClosingCalendarDate(closingYear)));
+        assetGlobal.setLastInventoryDate(getDateTimeService().getCurrentSqlDate());
+    }
+    // CSU 6702 END
 }

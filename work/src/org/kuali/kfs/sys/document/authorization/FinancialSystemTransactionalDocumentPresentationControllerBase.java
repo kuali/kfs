@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -35,6 +36,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.NumberUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -111,6 +113,23 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
             }
         }
 
+        // CSU 6702 BEGIN
+        // rSmart-jkneal-KFSCSU-199-begin mod for adding accounting period view action
+        if (document instanceof LedgerPostingDocument) {
+            // check account period selection is enabled
+            boolean accountingPeriodEnabled = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_ACCOUNTING_PERIOD_SELECTION);
+            if (accountingPeriodEnabled) {
+                // check accounting period is enabled for doc type in system parameter
+                String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+                ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_DOC_TYPES, docType);
+                if (evaluator.evaluationSucceeds()) {
+                    documentActions.add(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
+                }
+            }
+        }
+        // rSmart-jkneal-KFSCSU-199-end mod
+        // CSU 6702 END
+        
         return documentActions;
     }
 

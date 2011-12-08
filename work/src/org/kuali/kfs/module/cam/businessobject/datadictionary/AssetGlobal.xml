@@ -56,7 +56,10 @@
         <ref bean="AssetGlobal-separateSourceRemainingAmount"/>
         <ref bean="AssetGlobal-separateSourceTotalAmount"/>
         <ref bean="AssetGlobal-totalAssetPaymentAmount"/>        
-        <ref bean="AssetGlobal-documentNumber"/>        
+        <ref bean="AssetGlobal-documentNumber"/>  
+        <!-- CSU 6702 BEGIN -->      
+        <ref bean="AssetGlobal-accountingPeriodCompositeString" />
+        <!-- CSU 6702 END -->
       </list>
     </property>
 	<property name="relationships">
@@ -328,4 +331,21 @@
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
   
+  <!-- CSU 6702 BEGIN -->
+  <bean id="AssetGlobal-accountingPeriodCompositeString" parent="AssetGlobal-accountingPeriodCompositeString-parentBean"/>
+  <bean id="AssetGlobal-accountingPeriodCompositeString-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountingPeriodCompositeString"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Accounting Period"/>
+    <property name="shortLabel" value="Acct. Prd."/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.YearEndAccountingPeriodValuesFinder" p:includeKeyInLabel="false"/>
+    </property>    
+  </bean>    
+	<!-- CSU 6702 END -->  
 </beans>

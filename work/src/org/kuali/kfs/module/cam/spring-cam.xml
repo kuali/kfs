@@ -62,6 +62,7 @@
 		<property name="jobNames">
 			<list>
 				<value>assetDepreciationBatchJob</value>
+				<!-- CSU 6702 BEGIN --><value>assetYearEndDepreciationBatchJob</value><!-- CSU 6702 END -->
 			</list>
 		</property>
 		<property name="fiscalYearMakers">
@@ -73,6 +74,7 @@
 		<property name="triggerNames">
 			<list>
 				<value>assetDepreciationBatchJobTrigger</value>
+				<!-- CSU 6702 BEGIN --><value>assetYearEndDepreciationBatchJobTrigger</value><!-- CSU 6702 END -->
 			</list>
 		</property>
 		<!-- Asset Depreciation batch - END -->
@@ -155,6 +157,14 @@
 		</property>
 	</bean>
 
+	<!-- CSU 6702 BEGIN -->
+    <bean id="assetYearEndDepreciationStep" class="org.kuali.kfs.module.cam.batch.AssetYearEndDepreciationStep" parent="step">
+        <property name="assetDepreciationService">
+            <ref bean="assetDepreciationService"/>
+        </property>
+    </bean>
+    <!-- CSU 6702 END -->
+
 	<bean id="assetDepreciationBatchJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -162,12 +172,30 @@
 			</list>
 		</property>
 	</bean>
+	
+	<!-- CSU 6702 BEGIN -->
+	<bean id="assetYearEndDepreciationBatchJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="assetYearEndDepreciationStep"/>
+            </list>
+        </property>
+    </bean>
+    <!-- CSU 6702 END -->
 
 	<bean id="assetDepreciationBatchJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="assetDepreciationBatchJob" />
 		<!--  it will run on the 3rd=3 thursday=5 of the month-->
 		<property name="cronExpression" value="00 00 00 ? * 5#3" />
 	</bean>
+
+	<!-- CSU 6702 BEGIN -->
+    <bean id="assetYearEndDepreciationBatchJobTrigger" parent="cronTrigger">
+        <property name="jobName" value="assetYearEndDepreciationBatchJob"/>
+        <!--  it will run on the 3rd=3 thursday=5 of the month-->
+        <property name="cronExpression" value="00 00 00 ? * 5#3"/>
+    </bean>
+    <!-- CSU 6702 END -->
 
 
 <!-- *********  End of depreciation batch beans ********** -->

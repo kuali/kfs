@@ -50,6 +50,20 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
             documentActionsToReturn.remove(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
         }
         
+        // CSU 6702 BEGIN
+        // rSmart-jkneal-KFSCSU-199-begin mod for adding accounting period edit action
+        if (documentActionsToReturn.contains(KNSConstants.KUALI_ACTION_CAN_EDIT) && documentActionsToReturn.contains(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION)) {
+            // check KIM permission for view, approvers always have permission to view
+            if (!document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && !super.isAuthorized(document, KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_PERMISSION, user.getPrincipalId())) {
+                documentActionsToReturn.remove(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
+            }
+            // check KIM permission for edit
+            else if (super.isAuthorized(document, KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_EDIT_PERMISSION, user.getPrincipalId())) {
+                documentActionsToReturn.add(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION);
+            }
+        }
+        // rSmart-jkneal-KFSCSU-199-end mod
+        // CSU 6702 END
         return documentActionsToReturn;
     }
 

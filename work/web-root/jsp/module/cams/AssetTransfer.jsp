@@ -20,7 +20,7 @@
 	<c:set var="assetOrgAttributes" value="${DataDictionary.AssetOrganization.attributes}" />	
 	<c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />	
 	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" viewYearEndAccountPeriod="${!empty KualiForm.documentActions[KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION]}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
 	
 	  <kul:tab tabTitle="Asset Transfer Information" defaultOpen="true" tabErrorKey="document.organizationOwnerAccountNumber,document.organizationOwnerChartOfAccountsCode,document.transferOfFundsFinancialDocumentNumber"> 

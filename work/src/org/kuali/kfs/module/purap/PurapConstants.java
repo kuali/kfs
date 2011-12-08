@@ -1163,4 +1163,10 @@ public class PurapConstants extends JSTLConstants {
         public static final String BOTH_WITH_DEFAULT_PROPORTIONAL_DESCRIPTION = "Both, with Proportional as default";
         public static final String BOTH_WITH_DEFAULT_SEQUENTIAL_DESCRIPTION = "Both, with Sequential as default";
     }
+    
+    // CSU 6702 BEGIN
+    public static class ParameterConstants {
+        public static String YEARENDDEPR_INCLUDE_RETIRED = "YEARENDDEPR_INCLUDE_RETIRED";        
+    }
+    // CSU 6702 BEGIN    
 }

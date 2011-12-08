@@ -1267,5 +1267,21 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final Integer PERCENT_SCALE = new Integer(2);
         public static final Integer CAPITAL_ACCOUNT_LINE_PERCENT_SCALE = new Integer(20);
     }
+ 
+    // CSU 6702 BEGIN
+    public static class YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES {
+        public static final String DETAIL_PARAMETER_TYPE = "Document";
+        public static final String ENABLE_ACCOUNTING_PERIOD_SELECTION = "ENABLE_ACCOUNTING_PERIOD_SELECTION";
+        public static final String ENABLE_FISCAL_PERIOD_DOC_TYPES = "ENABLE_FISCAL_PERIOD_DOC_TYPES";
+        public static final String NUMBER_OF_POSTBACK_PERIODS = "NUMBER_OF_POSTBACK_PERIODS";
+    }
+
+    public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_PERMISSION = "Edit Accounting Period";
+    public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_PERMISSION = "View Accounting Period";
+    public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
+    public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
+    // CSU 6702 END
+    
+    
 }
 

@@ -27,6 +27,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAllocationType;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentManuallyAddAccountingLineEvent;
 import org.kuali.kfs.module.cam.util.distribution.AssetDistribution;
@@ -224,9 +225,19 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
             if (ObjectUtils.isNotNull(assetDetail.getAsset()) && assetDetail.getAsset().getTotalCostAmount() != null) {
                 assetDetail.setPreviousTotalCostAmount(assetDetail.getAsset().getTotalCostAmount());
             }
+            // CSU 6702 BEGIN Inferred change 
+            List<AssetPaymentDetail> apdList = assetDetail.getAssetPaymentDetails();
+            for (AssetPaymentDetail apd : apdList) {                
+                String accountingPeriodCompositeString = getAccountingPeriodCompositeString();                
+                apd.setPostingYear(new Integer(StringUtils.right(accountingPeriodCompositeString, 4)));
+                apd.setPostingPeriodCode(StringUtils.left(accountingPeriodCompositeString, 2));
+            }
+            // CSU 6702 END Inferred change            
         }
-
 	}
+
+
+
 
 	public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetail() {
 		return assetPaymentAssetDetail;

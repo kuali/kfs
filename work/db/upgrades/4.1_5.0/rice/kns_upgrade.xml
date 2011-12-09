@@ -356,6 +356,13 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
+		
+		<comment>KFSMI- 7146 Update value for Parameter VALID_PAYEE_TYPES_BY_PAYMENT_REASON </comment>
+		<update tableName="KRNS_PARM_T">
+			<column name="TXT"
+				value="A=V;B=V,E;C=V,E,VSP;D=V;E=V;F=V,E;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=V;W=V;X=V;Z=E" />
+			<where>NMSPC_CD="KFS_FP" AND PARM_DTL_TYP_CD="DisbursementVoucher" AND PARM_NM="VALID_PAYEE_TYPES_BY_PAYMENT_REASON"</where>
+		</update>
 
 	</changeSet>
 </databaseChangeLog>   

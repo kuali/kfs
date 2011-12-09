@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.Collection;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -63,8 +64,8 @@ public class PurchaseOrderTransmissionMethodRule extends MaintenanceDocumentRule
         PurchaseOrderTransmissionMethod oldBo= (PurchaseOrderTransmissionMethod)getOldBo();
 
         if ((defaultParameterValues.contains(newBo.getPurchaseOrderTransmissionMethodCode()) || retransmitParameterValues.contains(newBo.getPurchaseOrderTransmissionMethodCode())) && ! newBo.isActive() && oldBo.isActive()) {
-            success = false;
-            String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newBo.getClass());
+            success = false;          
+            String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(PurapConstants.PURCHASE_ORDER_TRANSMISSION_METHOD);
             putGlobalError(KFSKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
         }
         return success;

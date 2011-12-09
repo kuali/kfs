@@ -140,6 +140,8 @@ public class PurapConstants extends JSTLConstants {
         public static final String AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
         
     }
+    
+    public static final String PURCHASE_ORDER_TRANSMISSION_METHOD = "PMTM";
 
     public static class POCostSources {
         public static final String ESTIMATE = "EST";

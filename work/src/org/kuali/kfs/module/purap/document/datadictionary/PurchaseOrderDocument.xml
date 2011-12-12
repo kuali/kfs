@@ -922,7 +922,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-vendorFaxNumber" parent="PurchaseOrderDocument-vendorFaxNumber-parentBean"/>
 
-  <bean id="PurchaseOrderDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
+  <bean id="PurchaseOrderDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="vendorFaxNumber"/>
     <property name="label" value="Fax Number"/>
     <property name="shortLabel" value="Number"/>

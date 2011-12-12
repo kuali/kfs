@@ -16,7 +16,7 @@
 		</property>
 	</bean>
 	<bean id="LaborBenefitRateCategory-code" parent="LaborBenefitRateCategory-code-parentBean" />
-	<bean id="LaborBenefitRateCategory-code-parentBean" parent="AttributeDefinition">
+	<bean id="LaborBenefitRateCategory-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="laborBenefitRateCategoryCode" />
 		<property name="label" value="Labor Benefit Rate Category Code" />
 		<property name="shortLabel" value="Code" />
@@ -32,14 +32,13 @@
 		</property>
 	</bean>
 	<bean id="LaborBenefitRateCategory-activeIndicator" parent="LaborBenefitRateCategory-activeIndicator-parentBean" />
-	<bean id="LaborBenefitRateCategory-activeIndicator-parentBean"
-		parent="GenericAttributes-genericBoolean">
+	<bean id="LaborBenefitRateCategory-activeIndicator-parentBean"  abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="activeIndicator" />
 		<property name="label" value="Active Indicator" />
 		<property name="shortLabel" value="Active Indicator" />
 	</bean>
 	<bean id="LaborBenefitRateCategory-codeDesc" parent="LaborBenefitRateCategory-codeDesc-parentBean" />
-	<bean id="LaborBenefitRateCategory-codeDesc-parentBean" parent="AttributeDefinition">
+	<bean id="LaborBenefitRateCategory-codeDesc-parentBean"  abstract="true" parent="AttributeDefinition">
 		<property name="name" value="codeDesc" />
 		<property name="label" value="Labor Benefit Rate Category Description" />
 		<property name="shortLabel" value="Code Desc" />

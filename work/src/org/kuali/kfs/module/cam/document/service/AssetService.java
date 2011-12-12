@@ -158,7 +158,7 @@ public interface AssetService {
     boolean isObjectSubTypeCompatible(List<String> financialObjectSubTypeCode);
 
     /**
-     * This method returns all active assets found matching this tab number
+     * This method returns all active assets found matching this tag number
      * 
      * @param campusTagNumber Campus Tag Number
      * @return List of assets found matching tag number
@@ -166,7 +166,7 @@ public interface AssetService {
     public List<Asset> findActiveAssetsMatchingTagNumber(String campusTagNumber);
 
     /**
-     * This method returns all active and not active assets found matching this tab number
+     * This method returns all active and not active assets found matching this tag number
      * 
      * @param campusTagNumber Campus Tag Number
      * @return List of assets found matching tag number

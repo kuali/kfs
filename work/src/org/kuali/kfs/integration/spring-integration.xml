@@ -35,13 +35,11 @@
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" value="org.kuali.kfs.integration.ld.businessobject.BenefitRateCategory" />
-            	<entry key="org.kuali.kfs.integration.ld.LaborBenefitsCalculation" value="org.kuali.kfs.integration.ld.businessobject.BenefitsCalculation" />
-             </map>
+                <entry key="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" value="org.kuali.kfs.integration.ld.businessobject.BenefitRateCategory" />             </map>
         </property>
     </bean>
     <bean id="laborModuleService"  parent="laborModuleService-parentBean"/>
-    <bean id="laborModuleService-parentBean" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl" abstract="true">
+    <bean id="laborModuleService-parentBean" class="org.kuali.kfs.integration.ld.LaborModuleServiceNoOp" abstract="true">
         <property name="moduleConfiguration" ref="ldModuleConfiguration" />
     </bean>
     

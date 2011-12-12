@@ -23,10 +23,12 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl;
+import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class LaborModuleServiceNoOp implements LaborModuleService {
+public class LaborModuleServiceNoOp extends UnimplementedKfsModuleServiceImpl implements LaborModuleService  {
 
     private Logger LOG = Logger.getLogger(getClass()); 
 

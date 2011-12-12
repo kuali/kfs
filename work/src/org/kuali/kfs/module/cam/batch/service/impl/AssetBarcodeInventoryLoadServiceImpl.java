@@ -487,6 +487,16 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         asset.setCampusCode(barcodeInventoryErrorDetail.getCampusCode());
         asset.setConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode());        
        
+        // set building code and room number to null if they are empty string, to avoid FK violation exception
+        if (StringUtils.isEmpty(asset.getBuildingCode())) {
+            asset.setBuildingCode(null);
+            asset.setBuilding(null);
+        }
+        if (StringUtils.isEmpty(asset.getBuildingRoomNumber())) {
+            asset.setBuildingRoomNumber(null);
+            asset.setBuildingRoom(null);
+        }        
+        
         if (updateWithDateAssetWasScanned) {
             asset.setLastInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
         } else {

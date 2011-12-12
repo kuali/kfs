@@ -216,7 +216,7 @@
 						isPrintWhenDetailOverflows="true"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="10" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="1_1_2">
-						<font fontName="Times New Roman" size="9"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoiceItemDescription}]]></textFieldExpression>
 				</textField>

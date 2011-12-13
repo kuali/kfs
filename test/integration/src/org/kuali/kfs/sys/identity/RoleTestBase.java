@@ -25,7 +25,6 @@ import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public abstract class RoleTestBase extends KualiTestBase {
 
@@ -51,7 +50,6 @@ public abstract class RoleTestBase extends KualiTestBase {
             }
         }
         assertTrue("Principal "+SpringContext.getBean(PersonService.class).getPerson(principalId).getName()+" not found in role: "+roleNamespace+" "+roleName, memberCount > 0);
-        GlobalVariables.getErrorMap().clearErrorMessages();
     }
     
     protected void assertUserIsNotRoleMember(String principalId, String roleNamespace, String roleName, AttributeSet roleQualifications) {

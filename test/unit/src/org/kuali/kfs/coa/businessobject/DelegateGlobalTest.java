@@ -34,6 +34,7 @@ import org.kuali.rice.kns.exception.BusinessObjectNotFoundException;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
@@ -274,6 +275,7 @@ public class DelegateGlobalTest extends KualiTestBase {
             List<PersistableBusinessObject> persistables = gbo.generateGlobalChangesToPersist();
         }
         catch (BusinessObjectNotFoundException e) {
+            GlobalVariables.getErrorMap().clearErrorMessages();
             errorHappened = true;
         }
 

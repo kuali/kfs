@@ -18,10 +18,10 @@ package org.kuali.kfs.gl.batch;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +44,6 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
@@ -113,6 +112,9 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         UniversityDate universityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         int lineNumber = 0;
         
+        //temporary storage of the balance type map of each accounting record/origin entry
+        Map<String, String> accountRecordBalanceTypeMap = new HashMap<String, String>();
+        
         try {
             while ((fileLine = bufferedFileReader.readLine()) != null) {
                 lineNumber++;
@@ -136,7 +138,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                     else if ("DT".equals(recordType)) {  //ID billing detail
                         currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
                         try {
-                            CollectorDetail collectorDetail = createCollectorDetail(preprocessedLine, curDate, universityDate, lineNumber, currentBatch.getMessageMap());
+                            CollectorDetail collectorDetail = createCollectorDetail(preprocessedLine, accountRecordBalanceTypeMap, curDate, universityDate, lineNumber, currentBatch.getMessageMap());
                             currentBatch.addCollectorDetail(collectorDetail);
                         }
                         catch (RuntimeException e) {
@@ -158,6 +160,10 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                         try {
                             OriginEntryFull originEntry = createOriginEntry(preprocessedLine, curDate, universityDate, lineNumber, currentBatch.getMessageMap());
                             currentBatch.addOriginEntry(originEntry);
+                            
+                            //use origin entry to derive a key to store the balance type to the map
+                            String accountRecordKey = generateAccountRecordBalanceTypeKey(originEntry);
+                            accountRecordBalanceTypeMap.put(accountRecordKey, originEntry.getFinancialBalanceTypeCode());
                         }
                         catch (RuntimeException e) {
                             currentBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, e.getMessage());
@@ -182,6 +188,27 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             copyAllMessages(batch.getMessageMap(), GlobalVariables.getMessageMap());
         }
         return batchList;
+    }
+
+    /**
+     * Account record balance type key 
+     * Fiscal Year - Chart Code - Account Number - Sub-account Number - Object code - Sub-object Code
+     * 
+     * For the two optional fields sub-account and sub-object code, create an additional filter to replace
+     * the usual place holder - with spaces
+     * 
+     * @param originEntry
+     * @return
+     */
+    private String generateAccountRecordBalanceTypeKey(OriginEntryFull originEntry) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(originEntry.getUniversityFiscalYear()).append("|")
+            .append(originEntry.getChartOfAccountsCode()).append("|")
+            .append(originEntry.getAccountNumber()).append("|")
+            .append(StringUtils.replace(originEntry.getSubAccountNumber(), "-", "")).append("|")
+            .append(originEntry.getFinancialObjectCode()).append("|")
+            .append(StringUtils.replace(originEntry.getFinancialSubObjectCode(), "-", ""));
+        return builder.toString();
     }
 
     private void copyAllMessages(MessageMap sourceMap, MessageMap destMap) {
@@ -254,9 +281,9 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         return newBatch;
     }
     
-    protected CollectorDetail createCollectorDetail(String detailLine, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
+    protected CollectorDetail createCollectorDetail(String detailLine, Map<String, String>accountRecordBalanceTypeMap, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
         CollectorDetail collectorDetail = new CollectorDetail();
-        collectorDetail.setFromFileForCollectorDetail(detailLine, curDate, universityDate, lineNumber, messageMap);
+        collectorDetail.setFromFileForCollectorDetail(detailLine, accountRecordBalanceTypeMap, curDate, universityDate, lineNumber, messageMap);
         
         return collectorDetail;
     }

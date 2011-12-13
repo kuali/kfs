@@ -551,7 +551,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
         return collectorDetailFieldUtil;
     }
     
-    public void setFromFileForCollectorDetail(String detailLine, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
+    public void setFromFileForCollectorDetail(String detailLine, Map<String, String>accountRecordBalanceTypeMap, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
 
         try{
             
@@ -591,10 +591,13 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
             setSubAccountNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
             setFinancialObjectCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
             setFinancialSubObjectCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
-            // We are in Collector Detail for ID Billing Details because the value from file positions 25, 26 = DT.  We don not want to set
-            // Financial Balance Type Code = DT.  Sterling stated for now we can set it to "AC". 
-            // setFinancialBalanceTypeCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE)));
-            setFinancialBalanceTypeCode(GeneralLedgerConstants.FINALNCIAL_BALANCE_TYPE_FOR_COLLECTOR_DETAIL_RECORD);
+            
+            // We are in Collector Detail for ID Billing Details because the value from file positions 26, 27 = DT.  We don not want to set Financial Balance Type Code to detail type code (DT)   
+            // Generate the account record key to retrieve the balance type from the map which contains the balance type from the accounting record/origin entry
+            String accountRecordKey = generateAccountRecordBalanceTypeKey();
+            String financialBalanceTypeCode = accountRecordBalanceTypeMap.get(accountRecordKey);
+            // Default to "AC" if we do not find account record key record from the map
+            setFinancialBalanceTypeCode(StringUtils.defaultIfEmpty(financialBalanceTypeCode, GeneralLedgerConstants.FINALNCIAL_BALANCE_TYPE_FOR_COLLECTOR_DETAIL_RECORD));
             setFinancialObjectTypeCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE), pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_SEQUENCE_NUMBER)));
             setUniversityFiscalPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
             setCollectorDetailSequenceNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE)));
@@ -625,5 +628,27 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
         } catch (Exception e){
             throw new RuntimeException(e + " occurred in CollectorDetail.setFromFileForCollectorDetail()");
         }
+    }
+    
+    /**
+     * Account record balance type key 
+     * Fiscal Year - Chart Code - Account Number - Sub-account Number - Object code - Sub-object Code
+     * 
+     * For the two optional fields sub-account and sub-object code, create an additional filter to replace
+     * the usual place holder - with spaces
+     * 
+     * NOTE: this should match the same implementation in CollectorFlatFile generateAccountRecordBalanceTypeKey
+     * 
+     * @return
+     */
+    private String generateAccountRecordBalanceTypeKey() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getUniversityFiscalYear()).append("|")
+            .append(getChartOfAccountsCode()).append("|")
+            .append(getAccountNumber()).append("|")
+            .append(StringUtils.replace(getSubAccountNumber(), "-", "")).append("|")
+            .append(getFinancialObjectCode()).append("|")
+            .append(StringUtils.replace(getFinancialSubObjectCode(), "-", ""));
+        return builder.toString();
     }
 }

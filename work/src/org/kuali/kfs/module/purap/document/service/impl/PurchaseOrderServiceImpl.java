@@ -606,7 +606,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
 
         PurchaseOrderDocument newPurchaseOrderChangeDocument = (PurchaseOrderDocument) documentService.getNewDocument(docType);
-
+        newPurchaseOrderChangeDocument.setAccountDistributionMethod(sourceDocument.getAccountDistributionMethod());
+        
         Set classesToExclude = new HashSet();
         Class sourceObjectClass = FinancialSystemTransactionalDocumentBase.class;
         classesToExclude.add(sourceObjectClass);
@@ -763,7 +764,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 newDocument.getDocumentHeader().setOrganizationDocumentNumber(currentDocument.getDocumentHeader().getOrganizationDocumentNumber());   
                 newDocument.setPurchaseOrderCurrentIndicator(true);
                 newDocument.setPendingActionIndicator(false);
-                
+                newDocument.setAccountDistributionMethod(currentDocument.getAccountDistributionMethod());
                 // Add in and renumber the items that the new document should have.
                 newDocument.setItems(newPOItems);
                 SpringContext.getBean(PurapService.class).addBelowLineItems(newDocument);

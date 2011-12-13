@@ -736,7 +736,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         document.fixItemReferences();
         
         //do recalculate only if the account distribution method code is not equal to "S" sequential. 
-        if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+        if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod) || (document instanceof PaymentRequestDocument)) {
             for (PurApItem item : document.getItems()) {
                 updateItemAccountAmounts(item);
             }
@@ -770,8 +770,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
                     if (ObjectUtils.isNotNull(account.getAmount()) && account.getAmount().isGreaterThan(KualiDecimal.ZERO)) {
                         KualiDecimal amt = account.getAmount();
-                        KualiDecimal calculatedPercent = new KualiDecimal(amt.divide(totalAmount).toString());
-                        calculatedPercent = calculatedPercent.multiply(new KualiDecimal(100));
+                        KualiDecimal calculatedPercent = new KualiDecimal(amt.multiply(new KualiDecimal(100)).divide(totalAmount).toString());
+                     //   calculatedPercent = calculatedPercent.multiply(new KualiDecimal(100));
                         account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(BIG_DECIMAL_SCALE));
                     }
 

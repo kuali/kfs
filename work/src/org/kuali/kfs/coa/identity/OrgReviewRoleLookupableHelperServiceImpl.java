@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,35 +27,26 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.document.OrgReviewRoleMaintainableImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.util.RiceUtilities;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.KimConstants.KimUIConstants;
-import org.kuali.rice.kim.api.common.delegate.DelegateMember;
-import org.kuali.rice.kim.api.common.delegate.KfsKimDocDelegateMember;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupQueryResults;
-import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.DelegateMemberQueryResults;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleQueryResults;
-import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
-import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -363,10 +355,10 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         // RICE20: Need to add missing primary/secondary delegate information
         // may need to then get all for role and match up on delegation ID
         throw new UnsupportedOperationException( "Rice delegation member data does not contain primary/secondary information" );
-        for ( DelegateMember dm : tempResults.getResults() ) {
-            results.add( new KfsKimDocDelegateMember( dm ) );
-        }
-        return results;
+//        for ( DelegateMember dm : tempResults.getResults() ) {
+//            results.add( new KfsKimDocDelegateMember( dm ) );
+//        }
+//        return results;
     }
 
     public boolean hasOrganizationHierarchy(final String documentTypeName) {
@@ -568,36 +560,34 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     }
     
     protected List<OrgReviewRole> flattenToOrgReviewDelegationMembers(String active, String documentTypeName, List<KfsKimDocDelegateMember> delegationMembers){
-        List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
-        if(delegationMembers==null || delegationMembers.size()<1) return orgReviewRoles;
-        
-        OrgReviewRole orgReviewRole;
-        String memberType;
-        Role roleInfo;
-        Boolean activeInd = null;
-        if(StringUtils.isNotEmpty(active)){
-            activeInd = new Boolean(getBooleanValueForString(active, true));
+        if( delegationMembers == null ) { 
+            return Collections.emptyList();
         }
-        KimType kimTypeInfo;
+        
+        List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
+        boolean activeInd = getBooleanValueForString(active, true);
         for(KfsKimDocDelegateMember member: delegationMembers){
-            if(activeInd==null || (activeInd.booleanValue()==true && member.isActive()) || (activeInd.booleanValue()==false && !member.isActive())){
-                orgReviewRole = new OrgReviewRole();
-                OrgReviewRoleMaintainableImpl orgReviewRoleMaintainableImpl = new OrgReviewRoleMaintainableImpl();
+            if( activeInd != member.isActive() ) {
+                OrgReviewRole orgReviewRole = new OrgReviewRole();
                 orgReviewRole.setMemberId(member.getMemberId());
                 orgReviewRole.setMemberTypeCode(member.getType().getCode());
-                orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
-                orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
+                if ( member.getActiveFromDate() != null ) {
+                    orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
+                }
+                if ( member.getActiveToDate() != null ) {
+                    orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
+                }
                 orgReviewRole.setActive(member.isActive());
                 orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
 
-                roleInfo = KimApiServiceLocator.getRoleService().getRole(member.getRoleMemberId());
-                kimTypeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
+                // this is the role for which this is a delegation
+                Role roleInfo = KimApiServiceLocator.getRoleService().getRole(member.getRoleMemberId());
+                KimType kimTypeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
                 orgReviewRole.setAttributes(orgReviewRole.getAttributeSetAsQualifierList(kimTypeInfo, member.getAttributes()));
 
                 orgReviewRole.setDelegationMemberId(member.getDelegationMemberId());
                 orgReviewRole.setRoleMemberId(member.getRoleMemberId());
                 orgReviewRole.setRoleId(member.getRoleMemberId());
-                roleInfo = KimApiServiceLocator.getRoleService().getRole(member.getRoleMemberId());
                 orgReviewRole.setNamespaceCode(roleInfo.getNamespaceCode());
                 orgReviewRole.setRoleName(roleInfo.getName());
                 orgReviewRole.setDelegationTypeCode(member.getDelegationType().getCode());

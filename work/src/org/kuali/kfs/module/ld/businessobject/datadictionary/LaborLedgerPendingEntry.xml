@@ -672,53 +672,52 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="transactionLedgerEntrySequenceNumber" />
 				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
-				<bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" />
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-				<bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="transactionDebitCreditCode" />
-				<bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" />
 				<bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
 				<bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode" />
-				<bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription" />
-				<bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
-				<bean parent="FieldDefinition" p:attributeName="projectCode" />
-				<bean parent="FieldDefinition" p:attributeName="transactionDate" />
-				<bean parent="FieldDefinition" p:attributeName="transactionDateTimeStamp" />
-				<bean parent="FieldDefinition" p:attributeName="transactionEncumbranceUpdateCode" />
-				<bean parent="FieldDefinition" p:attributeName="transactionEntryOffsetCode" />
-				<bean parent="FieldDefinition" p:attributeName="transactionEntryProcessedTimestamp" />
-				<bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber" />
-				<bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
 				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
-				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="emplid" />
-				<bean parent="FieldDefinition" p:attributeName="employeeRecord" />
-				<bean parent="FieldDefinition" p:attributeName="grade" />
-				<bean parent="FieldDefinition" p:attributeName="transactionTotalHours" />
-				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalAccountNumber" />
-				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalChartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalFinancialObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalFinancialSubObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalSubAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="projectCode" />
+				<bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription" />
+				<bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount" />
+				<bean parent="FieldDefinition" p:attributeName="transactionDebitCreditCode" />
+				<bean parent="FieldDefinition" p:attributeName="transactionDate" />
 				<bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber" />
 				<bean parent="FieldDefinition" p:attributeName="organizationReferenceId" />
-				<bean parent="FieldDefinition" p:attributeName="payGroup" />
+				<bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode" />
+				<bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="financialDocumentReversalDate" />
+				<bean parent="FieldDefinition" p:attributeName="transactionEncumbranceUpdateCode" />
+				<bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
 				<bean parent="FieldDefinition" p:attributeName="payPeriodEndDate" />
-				<bean parent="FieldDefinition" p:attributeName="payrollEndDateFiscalPeriodCode" />
+				<bean parent="FieldDefinition" p:attributeName="transactionTotalHours" />
 				<bean parent="FieldDefinition" p:attributeName="payrollEndDateFiscalYear" />
-				<bean parent="FieldDefinition" p:attributeName="runIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="payrollEndDateFiscalPeriodCode" />
+				<bean parent="FieldDefinition" p:attributeName="emplid" />
+				<bean parent="FieldDefinition" p:attributeName="employeeRecord" />
+				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="payGroup" />
 				<bean parent="FieldDefinition" p:attributeName="salaryAdministrationPlan" />
+				<bean parent="FieldDefinition" p:attributeName="grade" />
+				<bean parent="FieldDefinition" p:attributeName="runIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalChartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalSubAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalFinancialObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="laborLedgerOriginalFinancialSubObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="hrmsCompany" />
 				<bean parent="FieldDefinition" p:attributeName="setid" />
+				<bean parent="FieldDefinition" p:attributeName="transactionDateTimeStamp" />
+				<bean parent="FieldDefinition" p:attributeName="transactionLedgerEntrySequenceNumber" />
 			</list>
 		</property>
 	</bean>

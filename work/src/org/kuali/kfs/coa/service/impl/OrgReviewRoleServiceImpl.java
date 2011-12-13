@@ -23,46 +23,53 @@ import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.common.delegate.DelegateTypeContract;
+import org.kuali.rice.kim.api.common.delegate.DelegateMember;
+import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
-import org.kuali.rice.kim.api.type.KimTypeInfoService;
 
 public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
-    protected RoleService roleManagementService;
-    protected KimTypeInfoService kimTypeInfoService;
-    
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
-        List<RoleMemberCompleteInfo> roleMembers = (List<RoleMemberCompleteInfo>) roleManagementService.findRoleMembersCompleteInfo(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId));
-        RoleMemberCompleteInfo roleMember = new RoleMemberCompleteInfo();
+        List<RoleMember> roleMembers = KimApiServiceLocator.getRoleService().findRoleMembersCompleteInfo(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId));
+        RoleMember roleMember = new RoleMemberCompleteInfo();
         if(roleMembers!=null && roleMembers.size()>0){
             roleMember = roleMembers.get(0);
         }
-        orr.setRoleMemberId(roleMember.getRoleMemberId());
+        orr.setRoleMemberId(roleMember.getId());
         orr.setKimDocumentRoleMember(roleMember);
 
-        Role roleInfo = roleManagementService.getRole(roleMember.getRoleId());
-        KimType typeInfo = kimTypeInfoService.getKimType(roleInfo.getKimTypeId());
-        List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(typeInfo, roleMember.getQualifier());
+        Role roleInfo = KimApiServiceLocator.getRoleService().getRole(roleMember.getRoleId());
+        KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
+        List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(typeInfo, roleMember.getAttributes());
         orr.setAttributes(attributes);
-        orr.setRoleRspActions(getRoleRspActions(roleMember.getRoleMemberId()));
+        orr.setRoleRspActions(getRoleRspActions(roleMember.getId()));
         orr.setRoleId(roleMember.getRoleId());
-        orr.setActiveFromDate(roleMember.getActiveFromDate());
-        orr.setActiveToDate(roleMember.getActiveToDate());
+        if ( roleMember.getActiveFromDate() != null ) {
+            orr.setActiveFromDate(roleMember.getActiveFromDate().toDate());
+        } else {
+            orr.setActiveFromDate( null );
+        }
+        if ( roleMember.getActiveToDate() != null ) {
+            orr.setActiveToDate(roleMember.getActiveToDate().toDate());
+        } else {
+            orr.setActiveToDate( null );
+        }
         populateObjectExtras(orr);
     }
 
     public void populateOrgReviewRoleFromDelegationMember(OrgReviewRole orr, String delegationMemberId) {
-        DelegateMemberCompleteInfo delegationMember = roleManagementService.getDelegationMemberById(delegationMemberId);
-        DelegateTypeContract delegation = roleManagementService.getDelegateTypeContractById(delegationMember.getDelegationId());
-        Role roleInfo = roleManagementService.getRole(delegation.getRoleId());
-        KimType typeInfo = kimTypeInfoService.getKimType(roleInfo.getKimTypeId());
+        DelegateMember delegationMember = KimApiServiceLocator.getRoleService().getDelegationMemberById(delegationMemberId);
+        DelegateType delegation = KimApiServiceLocator.getRoleService().getDelegateTypeByDelegationId(delegationMember.getDelegationId());
+        Role roleInfo = KimApiServiceLocator.getRoleService().getRole(delegation.getRoleId());
+        KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
         orr.setDelegationMemberId(delegationMember.getDelegationMemberId());
         orr.setRoleMemberId(delegationMember.getRoleMemberId());
         orr.setRoleRspActions(getRoleRspActions(delegationMember.getRoleMemberId()));
-        orr.setAttributes(orr.getAttributeSetAsQualifierList(typeInfo, delegationMember.getQualifier()));
+        orr.setAttributes(orr.getAttributeSetAsQualifierList(typeInfo, delegationMember.getAttributes()));
         orr.setRoleId(delegation.getRoleId());
         orr.setDelegationTypeCode(delegationMember.getDelegationTypeCode());
         orr.setRoleDocumentDelegationMember(delegationMember);
@@ -70,7 +77,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     protected void populateObjectExtras( OrgReviewRole orr ) {
-        Role role = orr.getRole(orr.getRoleId());
+        Role role = orr.getRole();
         //Set the role details
         orr.setRoleName(role.getName());
         orr.setNamespaceCode(role.getNamespaceCode());
@@ -95,28 +102,22 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             orr.setPrincipalMemberPrincipalId(orr.getPerson().getPrincipalId());
             orr.setPrincipalMemberPrincipalName(orr.getPerson().getPrincipalName());
         }
+        // RICE20
+        // FIXME : this is using the wrong role
         if(orr.getRole()!=null){
-            orr.setRoleMemberRoleId(orr.getRole().getRoleId());
+            orr.setRoleMemberRoleId(orr.getRole().getId());
             orr.setRoleMemberRoleNamespaceCode(orr.getRole().getNamespaceCode());
-            orr.setRoleMemberRoleName(orr.getRole().getRoleName());
+            orr.setRoleMemberRoleName(orr.getRole().getName());
         }
         if(orr.getGroup()!=null){
-            orr.setGroupMemberGroupId(orr.getGroup().getGroupId());
+            orr.setGroupMemberGroupId(orr.getGroup().getId());
             orr.setGroupMemberGroupNamespaceCode(orr.getGroup().getNamespaceCode());
-            orr.setGroupMemberGroupName(orr.getGroup().getGroupName());
+            orr.setGroupMemberGroupName(orr.getGroup().getName());
         }
     }
     
-    protected List<RoleResponsibilityActionInfo> getRoleRspActions(String roleMemberId){
-        return roleManagementService.getRoleMemberResponsibilityActionInfo(roleMemberId);
-    }
-
-    public void setRoleService(RoleService roleManagementService) {
-        this.roleManagementService = roleManagementService;
-    }
-
-    public void setKimTypeInfoService(KimTypeInfoService kimTypeInfoService) {
-        this.kimTypeInfoService = kimTypeInfoService;
+    protected List<RoleResponsibilityAction> getRoleRspActions(String roleMemberId){
+        return KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMemberId);
     }
     
 }

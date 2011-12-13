@@ -43,10 +43,16 @@ public class KfsKimDocRoleMember extends PersistableBusinessObjectBase implement
     public KfsKimDocRoleMember() {}
     
     public KfsKimDocRoleMember( String roleId, MemberType type) {
+        this();
         this.roleId = roleId;
         this.type = type;
-    }    
-    
+    }
+        
+    public KfsKimDocRoleMember(String roleId, MemberType type, String memberId) {
+        this( roleId, type );
+        this.memberId = memberId;
+    }
+
     public String getId() {
         return id;
     }

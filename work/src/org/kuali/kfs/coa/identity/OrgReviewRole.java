@@ -36,19 +36,14 @@ import org.kuali.rice.kew.api.util.CodeTranslator;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.common.delegate.DelegateMember;
-import org.kuali.rice.kim.api.common.delegate.DelegateType;
-import org.kuali.rice.kim.api.common.delegate.DelegateTypeContract;
+import org.kuali.rice.kim.api.common.attribute.KimAttribute;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.api.type.KimType;
-import org.kuali.rice.kim.api.type.KimTypeAttribute;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.comparator.StringValueComparator;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -88,19 +83,19 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     
     public static final String NEW_DELEGATION_ID_KEY_VALUE = "New";
 
-    String methodToCall;
+    protected String methodToCall;
     protected String kimTypeId;
     
     protected String orgReviewRoleMemberId;
     protected Chart chart = new Chart();
     protected Organization organization = new Organization();
-    private boolean edit;
-    private boolean copy;
+    protected boolean edit;
+    protected boolean copy;
     
-    protected DelegateType.Builder delegation = DelegateType.Builder.create( );
-    protected DelegateMember.Builder delegationMemberRole = DelegateMember.Builder.create();
-    protected DelegateMember.Builder delegationMemberGroup = DelegateMember.Builder.create();
-    protected DelegateMember.Builder delegationMemberPerson = DelegateMember.Builder.create();
+    protected KfsKimDocDelegateType delegation = new KfsKimDocDelegateType();
+    protected KfsKimDocDelegateMember delegationMemberRole = new KfsKimDocDelegateMember( "", MemberType.ROLE );
+    protected KfsKimDocDelegateMember delegationMemberGroup = new KfsKimDocDelegateMember( "", MemberType.GROUP );
+    protected KfsKimDocDelegateMember delegationMemberPerson = new KfsKimDocDelegateMember( "", MemberType.PRINCIPAL );
 
     protected KfsKimDocRoleMember memberRole = new KfsKimDocRoleMember( "", MemberType.ROLE );
     protected KfsKimDocRoleMember memberGroup = new KfsKimDocRoleMember( "", MemberType.GROUP );
@@ -148,7 +143,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected String financialSystemDocumentTypeCode;
     protected DocumentTypeEBO financialSystemDocumentType;
     protected List<String> roleNamesToConsider;
-    private String reviewRolesIndicator;
+    protected String reviewRolesIndicator;
     
     protected String actionTypeCode;
     protected String priorityNumber;
@@ -166,11 +161,17 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected Date activeToDate;
     
     public String getReportsToChartOfAccountsCode() {
-        return organization.getReportsToChartOfAccountsCode();
+        if ( organization != null ) {
+            return organization.getReportsToChartOfAccountsCode();
+        }
+        return null;
     }
+    
     public String getReportsToOrganizationCode() {
-        
-        return organization.getReportsToOrganizationCode();
+        if ( organization != null ) {
+            return organization.getReportsToOrganizationCode();
+        }
+        return null;
     }
     /**
      * Gets the active attribute. 
@@ -218,14 +219,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * Gets the delegation attribute. 
      * @return Returns the delegation.
      */
-    public DelegateType.Builder getDelegation() {
+    public KfsKimDocDelegateType getDelegation() {
         return delegation;
     }
     /**
      * Sets the delegation attribute value.
      * @param delegation The delegation to set.
      */
-    public void setDelegation(DelegateType.Builder delegation) {
+    public void setDelegation(KfsKimDocDelegateType delegation) {
         this.delegation = delegation;
     }
     /**
@@ -375,9 +376,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             KfsKimDocumentAttributeData attributeData = getAttribute(attributeName);
             if(attributeData==null){
                 attributeData = new KfsKimDocumentAttributeData();
-                KimTypeAttribute.Builder attribute = KimTypeAttribute.Builder.create();
+                KimAttribute.Builder attribute = KimAttribute.Builder.create("", attributeName, "");
                 attribute.setAttributeName(attributeName);
-                attributeData.setKimAttribute(attribute);
+                attributeData.setKimAttribute(attribute.build());
                 attributeData.setAttrVal(attributeValue);
                 attributes.add(attributeData);
             } else
@@ -654,8 +655,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         KfsKimDocumentAttributeData attributeData = null;
         if(StringUtils.isNotEmpty(attributeName)) 
             for(KfsKimDocumentAttributeData attribute: attributes){
-                if(attribute.getKimAttribute()!=null && attribute.getKimAttribute().getKimAttribute()!=null && 
-                        StringUtils.equals(attribute.getKimAttribute().getKimAttribute().getAttributeName(),attributeName)){
+                if(attribute.getKimAttribute()!=null && attribute.getKimAttribute()!=null && 
+                        StringUtils.equals(attribute.getKimAttribute().getAttributeName(),attributeName)){
                     attributeData = attribute;
                     break;
                 }
@@ -900,7 +901,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         return hasRole() || hasGroup() || hasPrincipal();
     }
     
-    public DelegateMember getDelegationMemberOfType(String memberTypeCode){
+    public KfsKimDocDelegateMember getDelegationMemberOfType(String memberTypeCode){
         if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)){
             delegationMemberRole.setMemberId(roleMemberRoleId);
             delegationMemberRole.setMemberName(roleMemberRoleName);
@@ -942,54 +943,26 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
     
     public String getMemberIdForDelegationMember(String memberTypeCode){
-        DelegateMember member = getDelegationMemberOfType(memberTypeCode);
+        KfsKimDocDelegateMember member = getDelegationMemberOfType(memberTypeCode);
         return member!=null?member.getMemberId():null;
     }
     
     public String getMemberIdForRoleMember(String memberTypeCode){
-        RoleMember member = getRoleMemberOfType(memberTypeCode);
+        KfsKimDocRoleMember member = getRoleMemberOfType(memberTypeCode);
         return member!=null?member.getMemberId():null;
     }
 
-    public String getDelegationMemberFieldName(DelegateMember member){
-        String memberFieldName = "";
-        if(member!=null){
-            if(isRole(member.getType().getCode()))
-                memberFieldName = OrgReviewRole.ROLE_NAME_FIELD_NAME;
-            else if(isGroup(member.getType().getCode()))
-                memberFieldName = OrgReviewRole.GROUP_NAME_FIELD_NAME;
-            else if(isPrincipal(member.getType().getCode())){
-                memberFieldName = OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME;
-            }
+    public String getMemberFieldName( MemberType memberType ){
+        if(MemberType.ROLE.equals(memberType)) {
+            return OrgReviewRole.ROLE_NAME_FIELD_NAME;
+        } else if(MemberType.GROUP.equals(memberType)) {
+            return OrgReviewRole.GROUP_NAME_FIELD_NAME;
+        } else if(MemberType.PRINCIPAL.equals(memberType)) {
+            return OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME;
         }
-        return memberFieldName;
+        return null;
     }
     
-    public boolean isRole(String memberTypeCode){
-        return memberTypeCode!=null && memberTypeCode.equals(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE);
-    }
-    
-    public boolean isGroup(String memberTypeCode){
-        return memberTypeCode!=null && memberTypeCode.equals(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP);
-    }
-
-    public boolean isPrincipal(String memberTypeCode){
-        return memberTypeCode!=null && memberTypeCode.equals(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL);
-    }
-
-    public String getMemberFieldName(RoleMember member){
-        String memberFieldName = "";
-        if(member!=null){
-            if(isRole(member.getType().getCode()))
-                memberFieldName = OrgReviewRole.ROLE_NAME_FIELD_NAME;
-            else if(isGroup(member.getType().getCode()))
-                memberFieldName = OrgReviewRole.GROUP_NAME_FIELD_NAME;
-            else if(isPrincipal(member.getType().getCode())){
-                memberFieldName = OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME;
-            }
-        }
-        return memberFieldName;
-    }
     /**
      * Gets the memberId attribute. 
      * @return Returns the memberId.
@@ -1004,74 +977,70 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public String getMemberTypeCode() {
         return memberTypeCode;
     }
-    /**
-     * Gets the group attribute. 
-     * @return Returns the group.
-     */
-    public Group getGroup() {
-        return group;
-    }
-    /**
-     * Sets the group attribute value.
-     * @param group The group to set.
-     */
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-    /**
-     * Gets the person attribute. 
-     * @return Returns the person.
-     */
-    public Person getPerson() {
-        if(StringUtils.isNotEmpty(principalMemberPrincipalId) && 
-          (person==null || StringUtils.isEmpty(person.getPrincipalId()) || StringUtils.isEmpty(person.getPrincipalName()))){
-            person = getPersonFromService(principalMemberPrincipalId);
-        }
-        return person;
-    }
-    /**
-     * Sets the person attribute value.
-     * @param person The person to set.
-     */
-    public void setPerson(Person person) {
-        this.person = person;
-    }
+//    /**
+//     * Gets the group attribute. 
+//     * @return Returns the group.
+//     */
+//    public Group getGroup() {
+//        return group;
+//    }
+//    /**
+//     * Sets the group attribute value.
+//     * @param group The group to set.
+//     */
+//    public void setGroup(Group group) {
+//        this.group = group;
+//    }
+//    /**
+//     * Gets the person attribute. 
+//     * @return Returns the person.
+//     */
+//    public Person getPerson() {
+//        if(StringUtils.isNotEmpty(principalMemberPrincipalId) && 
+//          (person==null || StringUtils.isEmpty(person.getPrincipalId()) || StringUtils.isEmpty(person.getPrincipalName()))){
+//            person = getPersonFromService(principalMemberPrincipalId);
+//        }
+//        return person;
+//    }
+//    /**
+//     * Sets the person attribute value.
+//     * @param person The person to set.
+//     */
+//    public void setPerson(Person person) {
+//        this.person = person;
+//    }
 
     /**
      * Gets the role attribute. 
      * @return Returns the role.
      */
     public Role getRole() {
-        return this.role;
+        if ( role == null || !StringUtils.equals(role.getId(), roleId)) {
+            role = KimApiServiceLocator.getRoleService().getRole(roleId);
+        }
+        return role;
     }
 
-    public Role getRole(String roleId) {
-        return (Role) SpringContext.getBean(RoleService.class).getRole(roleId);
-    }
+//    public Role getRole(String roleId) {
+//        return (Role) SpringContext.getBean(RoleService.class).getRole(roleId);
+//    }
+//
+//    public Group getGroup(String groupId) {
+//        return (Group) SpringContext.getBean(IdentityManagementService.class).getGroup(groupId);
+//    }
 
-    public Group getGroup(String groupId) {
-        return (Group) SpringContext.getBean(IdentityManagementService.class).getGroup(groupId);
-    }
-
-    /**
-     * Sets the role attribute value.
-     * @param role The role to set.
-     */
-    public void setRole(Role role) {
-        this.role = role;
-    }
     /**
      * Gets the delegationMemberGroup attribute. 
      * @return Returns the delegationMemberGroup.
      */
-    public DelegateMember.Builder getDelegationMemberGroup() {
+    public KfsKimDocDelegateMember getDelegationMemberGroup() {
         return delegationMemberGroup;
     }
     /**
      * Sets the delegationMemberGroup attribute value.
      * @param delegationMemberGroup The delegationMemberGroup to set.
      */
-    public void setDelegationMemberGroup(DelegateMember.Builder delegationMemberGroup) {
+    public void setDelegationMemberGroup(KfsKimDocDelegateMember delegationMemberGroup) {
         this.delegationMemberGroup = delegationMemberGroup;
         if(delegationMemberGroup!=null){
             Group groupInfo = getGroup(memberGroup.getMemberId());
@@ -1082,14 +1051,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * Gets the delegationMemberPerson attribute. 
      * @return Returns the delegationMemberPerson.
      */
-    public DelegateMember.Builder getDelegationMemberPerson() {
+    public KfsKimDocDelegateMember getDelegationMemberPerson() {
         return delegationMemberPerson;
     }
     /**
      * Sets the delegationMemberPerson attribute value.
      * @param delegationMemberPerson The delegationMemberPerson to set.
      */
-    public void setDelegationMemberPerson(DelegateMember.Builder delegationMemberPerson) {
+    public void setDelegationMemberPerson(KfsKimDocDelegateMember delegationMemberPerson) {
         this.delegationMemberPerson = delegationMemberPerson;
         if(delegationMemberPerson!=null){
             Person person = getPersonFromService(delegationMemberPerson.getMemberId());
@@ -1102,14 +1071,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * Gets the delegationMemberRole attribute. 
      * @return Returns the delegationMemberRole.
      */
-    public DelegateMember.Builder getDelegationMemberRole() {
+    public KfsKimDocDelegateMember getDelegationMemberRole() {
         return delegationMemberRole;
     }
     /**
      * Sets the delegationMemberRole attribute value.
      * @param delegationMemberRole The delegationMemberRole to set.
      */
-    public void setDelegationMemberRole(DelegateMember.Builder delegationMemberRole) {
+    public void setDelegationMemberRole(KfsKimDocDelegateMember delegationMemberRole) {
         this.delegationMemberRole = delegationMemberRole;
         if(delegationMemberRole!=null){
             Role roleInfo = getRole(delegationMemberRole.getMemberId());
@@ -1173,20 +1142,20 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         }
     }
 
-    public void setRoleDocumentDelegationMember(DelegateMember.Builder delegationMember){
+    public void setRoleDocumentDelegationMember(KfsKimDocDelegateMember delegationMember){
         if ( delegationMember != null ) {
-            if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(delegationMember.getType().getCode()))
+            if(MemberType.ROLE.equals(delegationMember.getType()))
                 setDelegationMemberRole(delegationMember);
-            else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(delegationMember.getType().getCode()))
+            else if(MemberType.GROUP.equals(delegationMember.getType()))
                 setDelegationMemberGroup(delegationMember);
-            else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(delegationMember.getType().getCode()))
+            else if(MemberType.PRINCIPAL.equals(delegationMember.getType()))
                 setDelegationMemberPerson(delegationMember);
             setActiveFromDate(delegationMember.getActiveFromDate().toDate());
             setActiveToDate(delegationMember.getActiveToDate().toDate());
         } else {
-            setDelegationMemberRole( DelegateMember.Builder.create() );
-            setDelegationMemberGroup( DelegateMember.Builder.create() );
-            setDelegationMemberPerson( DelegateMember.Builder.create() );
+            setDelegationMemberRole( new KfsKimDocDelegateMember( roleId, MemberType.ROLE ) );
+            setDelegationMemberGroup( new KfsKimDocDelegateMember( roleId, MemberType.GROUP ) );
+            setDelegationMemberPerson( new KfsKimDocDelegateMember( roleId, MemberType.PRINCIPAL ) );
             setActiveFromDate(null);
             setActiveToDate(null);
         }
@@ -1194,11 +1163,11 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     
     public void setKimDocumentRoleMember(KfsKimDocRoleMember roleMember){
         if ( roleMember != null ) {
-            if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(roleMember.getType().getCode()))
+            if(MemberType.ROLE.equals(roleMember.getType()))
                 setMemberRole(roleMember);
-            else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(roleMember.getType().getCode()))
+            else if(MemberType.GROUP.equals(roleMember.getType()))
                 setMemberGroup(roleMember);
-            else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(roleMember.getType().getCode()))
+            else if(MemberType.PRINCIPAL.equals(roleMember.getType()))
                 setMemberPerson(roleMember);
             setActiveFromDate(roleMember.getActiveFromDate().toDate());
             setActiveToDate(roleMember.getActiveToDate().toDate());
@@ -1383,7 +1352,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     private Person getPersonFromService(String principalId){
-        return SpringContext.getBean(PersonService.class).getPerson(principalId);
+        return KimApiServiceLocator.getPersonService().getPerson(principalId);
     }
     /**
      * Gets the kimTypeId attribute. 
@@ -1403,28 +1372,28 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public Map<String,String> getQualifierAsAttributeSet(List<KfsKimDocumentAttributeData> qualifiers) {
         Map<String,String> m = new HashMap<String,String>();
         for(KfsKimDocumentAttributeData data: qualifiers){
-            m.put(data.getKimAttribute().getKimAttribute().getAttributeName(), data.getAttrVal());
+            m.put(data.getKimAttribute().getAttributeName(), data.getAttrVal());
         }
         return m;
     }
 
-    public List<KfsKimDocumentAttributeData> getAttributeSetAsQualifierList(
-            KimType typeInfo, Map<String,String> qualifiers) {
-        List<KfsKimDocumentAttributeData> attributesList = new ArrayList<KfsKimDocumentAttributeData>();
-        KfsKimDocumentAttributeData attribData;
-        KimTypeAttribute attribInfo;
-        for(String key: qualifiers.keySet()){
-            attribInfo = typeInfo.getAttributeDefinitionByName(key);
-            attribData = new KfsKimDocumentAttributeData();
-            attribData.setKimAttribute(attribInfo);
-            attribData.setKimTypId(typeInfo.getId());
-            attribData.setKimAttrDefnId(attribInfo.getKimAttribute().getId());
-            //attribData.setAttrDataId(attrDataId) - Not Available
-            attribData.setAttrVal(qualifiers.get(key));
-            attributesList.add(attribData);
-        }
-        return attributesList;
-    }
+//    public List<KfsKimDocumentAttributeData> getAttributeSetAsQualifierList(
+//            KimType typeInfo, Map<String,String> qualifiers) {
+//        List<KfsKimDocumentAttributeData> attributesList = new ArrayList<KfsKimDocumentAttributeData>();
+//        KfsKimDocumentAttributeData attribData;
+//        KimAttribute attribInfo;
+//        for(String key: qualifiers.keySet()){
+//            attribInfo = typeInfo.getAttributeDefinitionByName(key);
+//            attribData = new KfsKimDocumentAttributeData();
+//            attribData.setKimAttribute(attribInfo);
+//            attribData.setKimTypId(typeInfo.getId());
+//            attribData.setKimAttrDefnId(attribInfo.getId());
+//            //attribData.setAttrDataId(attrDataId) - Not Available
+//            attribData.setAttrVal(qualifiers.get(key));
+//            attributesList.add(attribData);
+//        }
+//        return attributesList;
+//    }
     /**
      * Gets the roleRspActions attribute. 
      * @return Returns the roleRspActions.

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="CustomerInvoiceLookup" parent="CustomerInvoiceLookup-parentBean"/>
+
+  <bean id="CustomerInvoiceLookup-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceLookup"/>
+    <property name="objectLabel" value="Customer Invoice Lookup"/>
+    <property name="lookupDefinition">
+      <ref bean="CustomerInvoiceLookup-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="CustomerInvoiceLookup-invoiceNumber"/>
+        <ref bean="CustomerInvoiceLookup-customerName"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  
+  <bean id="CustomerInvoiceLookup-invoiceNumber" parent="CustomerInvoiceLookup-invoiceNumber-parentBean"/>
+
+  <bean id="CustomerInvoiceLookup-invoiceNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="name" value="invoiceNumber"/>
+    <property name="label" value="Invoice Number"/>
+    <property name="shortLabel" value="Invoice Number"/>    
+  </bean>
+  
+  <bean id="CustomerInvoiceLookup-customerName" parent="CustomerInvoiceLookup-customerName-parentBean"/>
+  
+  <bean id="CustomerInvoiceLookup-customerName-parentBean" abstract="true" parent="CustomerInvoiceDocument-customerName-parentBean">
+  	<property name="name" value="customerName"/>
+  </bean>
+  
+  
+<!-- Business Object Lookup Definition -->
+
+  <bean id="CustomerInvoiceLookup-lookupDefinition" parent="CustomerInvoiceLookup-lookupDefinition-parentBean"/>
+
+  <bean id="CustomerInvoiceLookup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Customer Invoice Lookup"/>    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>invoiceNumber</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="invoiceNumber"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="customerName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+      	<bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="customerName"/>
+      </list>
+    </property>
+  </bean>
+</beans>

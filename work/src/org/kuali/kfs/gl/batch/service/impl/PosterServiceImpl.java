@@ -414,6 +414,12 @@ public class PosterServiceImpl implements PosterService {
                 int maxSequenceId = accountingCycleCachingService.getMaxSequenceNumber(tran);
                 ((OriginEntryFull) tran).setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId + 1));
             }
+            
+            // verify accounting period
+            AccountingPeriod originEntryAccountingPeriod = accountingCycleCachingService.getAccountingPeriod(tran.getUniversityFiscalYear(), tran.getUniversityFiscalPeriodCode());
+            if (originEntryAccountingPeriod == null) {
+                errors.add(new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " for " + tran.getUniversityFiscalYear() + "/" + tran.getUniversityFiscalPeriodCode(),  Message.TYPE_FATAL));
+            }
 
             if (errors.size() == 0) {
                 try {

@@ -2079,8 +2079,16 @@ public class ScrubberProcessImpl implements ScrubberProcess {
              * @see org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter#accept(org.kuali.kfs.gl.businessobject.OriginEntryFull)
              */
             public boolean accept(OriginEntryFull originEntry) {
-                BalanceType originEntryBalanceType = accountingCycleCachingService.getBalanceType(originEntry.getFinancialBalanceTypeCode());
-                return ObjectUtils.isNull(originEntryBalanceType);
+                boolean acceptFlag = false;
+                String financialBalancetype = originEntry.getFinancialBalanceTypeCode();
+                BalanceType originEntryBalanceType = accountingCycleCachingService.getBalanceType(financialBalancetype);
+                if (ObjectUtils.isNull(originEntryBalanceType)) {
+                    acceptFlag = true;
+                    for (int i= 0; i < financialBalancetype.length(); i++) {
+                        if (financialBalancetype.charAt(i) != ' ') { acceptFlag = false; break;}
+                    }
+                }
+                return acceptFlag;
             }
         };
         Iterator<OriginEntryFull> blankBalanceOriginEntries = new FilteringOriginEntryFileIterator(new File(inputFileName), blankBalanceTypeFilter);

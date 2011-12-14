@@ -221,6 +221,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     }
 
     // CSU 6702 BEGIN
+    /**
+     * @see org.kuali.kfs.module.cam.batch.service.AssetDepreciationService#runYearEndDepreciation(java.lang.Integer)
+     */
     public void runYearEndDepreciation(Integer fiscalYearToDepreciate){
         List<String[]> reportLog = new ArrayList<String[]>();
         boolean hasErrors = false;
@@ -231,12 +234,11 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         List<String> notAcceptedAssetStatus = new ArrayList<String>();
         boolean statusContainsR = false;
         String notAcceptedAssetStatusString = "";
-        String depreciationDateParameter = fiscalYearToDepreciate.toString()+"-06-30";
-
+        String depreciationDateParameter = fiscalYearToDepreciate.toString()+getLastDayOfFiscalyear();
         notAcceptedAssetStatus.addAll(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES));
-        System.out.println("notAcceptedAssetStatusString = " + notAcceptedAssetStatusString);
+        LOG.info("notAcceptedAssetStatusString = " + notAcceptedAssetStatusString);
         if (notAcceptedAssetStatus.contains("R")) {
-            System.out.println("looks like notAcceptedAssetStatusString contains R");
+            LOG.info("looks like notAcceptedAssetStatusString contains R");
             statusContainsR = true;
             notAcceptedAssetStatus.remove("R");
             for (int i = 0; i < notAcceptedAssetStatus.size(); i++) {
@@ -256,11 +258,11 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             // Getting the system parameter "YEARENDDEPR_INCLUDE_RETIRED" When this parameter is used to determine whether
             // to include retired assets in the depreciation
             //
-            System.out.println("parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED) = " + parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED));
+            LOG.info("parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED) = " + parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED));
             if (parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED).equalsIgnoreCase("Y")) {
                 includeRetired=true;
             }
-            depreciationDate.setTime(java.sql.Date.valueOf(fiscalYearToDepreciate.toString()+"-06-30"));
+            depreciationDate.setTime(java.sql.Date.valueOf(fiscalYearToDepreciate.toString()+getLastDayOfFiscalyear()));
             UniversityDate universityDate = universityDateDao.getByPrimaryKey(depreciationDate.getTime());
             if (universityDate == null) {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
@@ -275,11 +277,10 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 // TODO            reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate, true));
 
             // update if fiscal period is 12
-         // TODO            depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
+            depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear, universityDate, new ArrayList<String>());
             // Retrieving eligible asset payment details
-            LOG.info("YEAR END DEPRECIATION - Getting list of YEAR END DEPRECIATION asset payments eligible for depreciation.");
-            Collection<AssetPaymentInfo> depreciableAssetsCollection = null;
-         // TODO            Collection<AssetPaymentInfo> depreciableAssetsCollection = depreciationBatchDao.getListOfDepreciableAssetPaymentInfoYearEnd(this.fiscalYear, this.fiscalMonth, depreciationDate, includeRetired);
+            LOG.info("YEAR END DEPRECIATION - Getting list of YEAR END DEPRECIATION asset payments eligible for depreciation.");            
+            Collection<AssetPaymentInfo> depreciableAssetsCollection = depreciationBatchDao.getListOfDepreciableAssetPaymentInfoYearEnd(fiscalYear, fiscalMonth, depreciationDate, includeRetired);
             // if we have assets eligible for depreciation then, calculate depreciation and create glpe's transactions
             if (depreciableAssetsCollection != null && !depreciableAssetsCollection.isEmpty()) {
                 SortedMap<String, AssetDepreciationTransaction> depreciationTransactions = this.calculateYearEndDepreciation(depreciableAssetsCollection, depreciationDate, fiscalYearToDepreciate);
@@ -317,15 +318,25 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         // reset param so that retired assets are not depreciated during the rest of the year
         if (statusContainsR){
             notAcceptedAssetStatusString = notAcceptedAssetStatusString+";R";
-            System.out.println("notAcceptedAssetStatusString after reset= " + notAcceptedAssetStatusString);
+            LOG.info("notAcceptedAssetStatusString after reset= " + notAcceptedAssetStatusString);
             parameterService.setParameterForTesting(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES, notAcceptedAssetStatusString);
-            System.out.println(CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES+" now = "+ parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES));
+            LOG.info(CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES+" now = "+ parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES));
         }
+    }
+
+    /**
+     * Get the last month and day of the fiscal year.  Returned in the format '-mm-dd'
+     * @return
+     */
+    private String getLastDayOfFiscalyear() {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String date = parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_ALL.class, CamsConstants.Parameters.FISCAL_YEAR_END_DAY_AND_MONTH);
+        return "-" + date.substring(0,2) + "-" + date.substring(2);
     }
     
     protected void populateYearEndDepreciationTransaction(AssetPaymentInfo assetPayment, String transactionType, String plantCOA, String plantAccount, ObjectCode deprObjectCode, SortedMap<String, AssetDepreciationTransaction> depreciationTransactionSummary) {
-        System.out.println("\npopulateYearEndDepreciationTransaction - Asset#:" + assetPayment.getCapitalAssetNumber() + " amount:"+ assetPayment.getTransactionAmount()+" type:"+ transactionType);
-        System.out.println("deprObjectCode.getFinancialObjectCode():" + deprObjectCode.getFinancialObjectCode() + " deprObjectCode.getFinancialObjectTypeCode():"+ deprObjectCode.getFinancialObjectTypeCode());
+        LOG.info("\npopulateYearEndDepreciationTransaction - Asset#:" + assetPayment.getCapitalAssetNumber() + " amount:"+ assetPayment.getTransactionAmount()+" type:"+ transactionType);
+        LOG.info("deprObjectCode.getFinancialObjectCode():" + deprObjectCode.getFinancialObjectCode() + " deprObjectCode.getFinancialObjectTypeCode():"+ deprObjectCode.getFinancialObjectTypeCode());
         AssetDepreciationTransaction depreciationTransaction = new AssetDepreciationTransaction();
         depreciationTransaction.setCapitalAssetNumber(assetPayment.getCapitalAssetNumber());
         depreciationTransaction.setChartOfAccountsCode(plantCOA);
@@ -351,7 +362,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             LOG.info("depreciationTransactionSummary DOESNT containsKey(sKey) where sKey=" + sKey);
             depreciationTransactionSummary.put(sKey, depreciationTransaction);
         }
-        System.out.println("\n\n");
+        LOG.info("\n\n");
         //  LOG.info("populateYearEndDepreciationTransaction(AssetDepreciationTransaction depreciationTransaction, AssetPayment assetPayment, String transactionType, KualiDecimal transactionAmount, String plantCOA, String plantAccount, String accumulatedDepreciationFinancialObjectCode, String depreciationExpenseFinancialObjectCode, ObjectCode financialObject, SortedMap<String, AssetDepreciationTransaction> depreciationTransactionSummary) -  ended");
     }
 
@@ -905,7 +916,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, pKeys);
             if (asset != null) {
                 asset_is_retired = assetService.isAssetRetired(asset);
-                System.out.println("asset#" + assetNumber + "   asset_is_retired = " + asset_is_retired);
+                LOG.info("asset#" + assetNumber + "   asset_is_retired = " + asset_is_retired);
             }
 
 
@@ -922,7 +933,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             ObjectCode accumulatedDepreciationFinancialObject = getDepreciationObjectCode(capitalizationObjectCodes, assetPaymentInfo, assetObjectCode.getAccumulatedDepreciationFinancialObjectCode());
             ObjectCode depreciationExpenseFinancialObject = getDepreciationObjectCode(capitalizationObjectCodes, assetPaymentInfo, assetObjectCode.getDepreciationExpenseFinancialObjectCode());
             String retire_code = parameterService.getParameterValue(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE);
-            System.out.println("retire_code from system parameter "+ CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE+" = " + retire_code);
+            LOG.info("retire_code from system parameter "+ CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE+" = " + retire_code);
             ObjectCode depreciationYearEndExpenseFinancialObject = getDepreciationObjectCode(capitalizationObjectCodes, assetPaymentInfo, retire_code);
 
             if (ObjectUtils.isNull(accumulatedDepreciationFinancialObject)) {
@@ -995,7 +1006,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             if (CamsConstants.DepreciationConvention.HALF_YEAR.equalsIgnoreCase(conventionCode)) {
                  if (asset_is_retired && asset_is_not_in_last_year_of_life) { // and not in last year of life mjmc
                     transactionAmount = transactionAmount.divide(new KualiDecimal(2));
-                    System.out.println("transactionAmount after being halved = " + transactionAmount);
+                    LOG.info("transactionAmount after being halved = " + transactionAmount);
                 }
             }
 

@@ -29,12 +29,15 @@ import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -153,6 +156,25 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
             }
         }
         return super.canEdit(document);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document) {
+        Set<String> documentActions = super.getDocumentActions(document);
+        
+        if (document instanceof LedgerPostingDocument) {
+            // check accounting period is enabled for doc type in system parameter
+            String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_DOC_TYPES, docType);
+            if (evaluator.evaluationSucceeds()) {
+                documentActions.add(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
+            }
+        }
+        
+        return documentActions;
     }
 
 }

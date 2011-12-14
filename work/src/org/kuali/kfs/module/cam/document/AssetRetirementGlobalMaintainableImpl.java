@@ -15,12 +15,16 @@
  */
 package org.kuali.kfs.module.cam.document;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
@@ -30,6 +34,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -37,12 +42,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -59,6 +67,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
     private static final String RETIRED_ASSET_TRANSFERRED_EXTERNALLY = "RetiredAssetTransferredExternally";
     private static final String RETIRED_ASSET_SOLD_OR_GIFTED = "RetiredAssetSoldOrGifted";
 
+     
     /**
      * @see org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable#answerSplitNodeQuestion(java.lang.String)
      */
@@ -105,6 +114,24 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
         if (CamsConstants.AssetRetirementReasonCode.MERGED.equals(assetRetirementGlobal.getRetirementReasonCode())) {
             document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION);
         }
+        
+        // Fiscal Year End modifications
+        String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_DOC_TYPES, docType);
+        if (evaluator.evaluationSucceeds() && isPeriod13(assetRetirementGlobal) ) {
+            Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+            String closingDate = getClosingDate(closingYear);
+            try {
+                if (ObjectUtils.isNotNull(assetRetirementGlobal.getPostingYear()) ) {
+                    assetRetirementGlobal.setAccountingPeriodCompositeString(assetRetirementGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode()+assetRetirementGlobal.getPostingYear()); 
+                }
+                updateAssetRetirementGlobalForPeriod13(assetRetirementGlobal, closingYear, closingDate);
+                assetRetirementGlobal.refreshNonUpdateableReferences();                   
+            } catch (Exception e) {
+                LOG.error(e);
+            }  
+        }
+
     }
 
     /**
@@ -257,4 +284,78 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
         return SpringContext.getBean(AssetPaymentService.class);
     }
 
+    /**
+     * Checks for Accounting Period 13
+     * @param assetRetirementGlobal
+     * @return true if the accountingPeriod in assetRetirementGlobal is 13.
+     * TODO Remove hardcoding
+     */
+    private boolean isPeriod13(AssetRetirementGlobal assetRetirementGlobal) {        
+        if (ObjectUtils.isNull(assetRetirementGlobal.getAccountingPeriod())) {
+            return false;
+        }
+        return "13".equals(assetRetirementGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode());
+    }
+    
+    /**
+     * Return the closing date as mm/dd/yyyy 
+     * @param closingYear
+     * @return the closing date as mm/dd/yyyy
+
+     */
+    private String getClosingDate(Integer closingYear) {           
+        return SpringContext.getBean(AssetGlobalService.class).getFiscalYearEndDayAndMonth() + closingYear.toString();
+    }
+
+    
+    /**
+     * Return the calendar Date for the closing year 
+     * @param closingYear
+     * @return 01/01/[closing year]
+     * TODO Remove hardcoding
+     */
+    private String getClosingCalendarDate(Integer closingYear) {
+        return "01/01/" + closingYear.toString();
+    }
+
+    /**
+     * Convenience method to reduce clutter 
+     * @return {@link DateTimeService}
+     */
+    private DateTimeService getDateTimeService() {
+        return SpringContext.getBean(DateTimeService.class);
+    }
+
+    /**
+     * Perform changes to assetRetirementGlobal on period 13. 
+     * @param assetRetirementGlobal
+     */
+    private void doPeriod13Changes(AssetRetirementGlobal assetRetirementGlobal) {
+        if (isPeriod13(assetRetirementGlobal)) {
+            Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+            String closingDate = getClosingDate(closingYear);
+            try {
+                updateAssetRetirementGlobalForPeriod13(assetRetirementGlobal, closingYear, closingDate);
+            } catch (Exception e) {
+                LOG.error(e);
+            }
+        }
+    }
+
+
+    /**
+     * Update assetRetirementGlobal fields for period 13 
+     * @param assetRetirementGlobal
+     * @param closingYear
+     * @param closingDate
+     * @throws ParseException
+     */
+    private void updateAssetRetirementGlobalForPeriod13(AssetRetirementGlobal assetRetirementGlobal, Integer closingYear, String closingDate) throws ParseException {
+        // TODO what, if anything needs to be here?
+//        assetRetirementGlobal.setCreateDate(getDateTimeService().getCurrentSqlDate());
+//        assetRetirementGlobal.setCapitalAssetInServiceDate(getDateTimeService().convertToSqlDate(closingDate));
+//        assetRetirementGlobal.setCreateDate(getDateTimeService().convertToSqlDate(closingDate));
+//        assetRetirementGlobal.setCapitalAssetDepreciationDate(getDateTimeService().convertToSqlDate(getClosingCalendarDate(closingYear)));
+//        assetRetirementGlobal.setLastInventoryDate(getDateTimeService().getCurrentSqlDate());
+    }
 }

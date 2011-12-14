@@ -147,6 +147,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String CAPITAL_OBJECT_SUB_TYPES = "CAPITAL_OBJECT_SUB_TYPES";
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS = "IGNORES_LOCKS_IND";
         public static final String MAX_NUMBER_OF_RECORDS_PER_DOCUMENT = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
+        public static final String FISCAL_YEAR_END_DAY_AND_MONTH = "FISCAL_YEAR_END_MONTH_AND_DAY";
     }
 
     public static class Report {

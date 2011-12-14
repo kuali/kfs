@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
@@ -102,4 +103,12 @@ public interface AssetGlobalService {
      * @return the parameter value for the not new acquisition code group 
      */
     public String getNonNewAcquisitionCodeGroup();
+    
+    /**
+     * Gets the FISCAL_YEAR_END_DAY_AND_MONTH system parameter
+     * TODO This should be refactored to a generic parm accessible to any module.
+     * @return FISCAL_YEAR_END_DAY_AND_MONTH value
+     */
+    public String getFiscalYearEndDayAndMonth();
+
 }

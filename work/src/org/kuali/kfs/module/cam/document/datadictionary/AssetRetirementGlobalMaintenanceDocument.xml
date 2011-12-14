@@ -22,12 +22,13 @@
     <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetRetirementGlobalMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
+      	<ref bean="AssetRetirementGlobalMaintenanceDocument-AccountingPeriod"/>
       	<ref bean="AssetRetirementGlobalMaintenanceDocument-RetirementTargetAssetInformation"/>
         <ref bean="AssetRetirementGlobalMaintenanceDocument-RetirementInformation"/>
         <ref bean="AssetRetirementGlobalMaintenanceDocument-ExternalTransferorGift"/>
         <ref bean="AssetRetirementGlobalMaintenanceDocument-Theft"/>
         <ref bean="AssetRetirementGlobalMaintenanceDocument-AuctionorSold"/>
-        <ref bean="AssetRetirementGlobalMaintenanceDocument-AssetDetailInformation"/>
+        <ref bean="AssetRetirementGlobalMaintenanceDocument-AssetDetailInformation"/>        
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -43,7 +44,7 @@
     </property>
     <property name="documentTypeName" value="ARG"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRetirementGlobalRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementGlobalAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementPresentationController"/>
     <property name="workflowAttributes">
       <ref bean="AssetRetirementGlobalMaintenanceDocument-workflowAttributes"/>
@@ -60,6 +61,19 @@
   </bean>
 
 <!-- Maintenance Section Definitions -->
+  	<bean id="AssetRetirementGlobalMaintenanceDocument-AccountingPeriod" parent="AssetGlobalMaintenanceDocument-AccountingPeriod-parentBean"/>
+  	<bean id="AssetRetirementGlobalMaintenanceDocument-AccountingPeriod-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    	<property name="id" value="accountingPeriodCompositeString"/>
+    	<property name="title" value="Accounting Period"/>
+    	<property name="maintainableItems">
+      		<list>
+        		<bean parent="MaintainableFieldDefinition" p:name="accountingPeriodCompositeString" p:required="false"/>
+      		</list>
+    	</property>
+  	</bean>
+
+
+
   <bean id="AssetRetirementGlobalMaintenanceDocument-RetirementTargetAssetInformation" parent="AssetRetirementGlobalMaintenanceDocument-RetirementTargetAssetInformation-parentBean"/>
 
   <bean id="AssetRetirementGlobalMaintenanceDocument-RetirementTargetAssetInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">

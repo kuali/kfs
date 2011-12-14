@@ -784,7 +784,10 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * @return true if the accountingPeriod in assetGlobal is 13.
      * TODO Remove hardcoding
      */
-    private boolean isPeriod13(AssetGlobal assetGlobal) {       
+    private boolean isPeriod13(AssetGlobal assetGlobal) {        
+        if (ObjectUtils.isNull(assetGlobal.getAccountingPeriod())) {
+            return false;
+        }
         return "13".equals(assetGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode());
     }
     
@@ -792,10 +795,10 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * Return the closing date as mm/dd/yyyy 
      * @param closingYear
      * @return the closing date as mm/dd/yyyy
-     * TODO Remove hardcoding
+
      */
-    private String getClosingDate(Integer closingYear) {        
-        return "06/30/" + closingYear.toString();
+    private String getClosingDate(Integer closingYear) {           
+        return getAssetGlobalService().getFiscalYearEndDayAndMonth() + closingYear.toString();
     }
 
     

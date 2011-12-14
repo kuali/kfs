@@ -149,6 +149,11 @@
 		<property name="universityDateDao">
 			<ref bean="universityDateDao" />
 		</property>		
+		<!-- CSU 6702 BEGIN -->
+		<property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+		<!-- CSU 6702 END -->
 	</bean>	
 
     <bean id="assetDepreciationStep" class="org.kuali.kfs.module.cam.batch.AssetDepreciationStep" parent="step">
@@ -403,7 +408,11 @@
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="assetPaymentService" ref="assetPaymentService" />
     	<property name="parameterService" ref="parameterService" />
-    	<property name="paymentSummaryService" ref="paymentSummaryService" />    	
+    	<property name="paymentSummaryService" ref="paymentSummaryService" />
+    	<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+    	    	
     </bean>
     
 	<import resource="document/validation/configuration/CamsValidatorDefinitions.xml" />

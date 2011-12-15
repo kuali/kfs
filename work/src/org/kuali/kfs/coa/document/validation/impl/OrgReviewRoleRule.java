@@ -26,10 +26,8 @@ import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
 import org.kuali.kfs.coa.identity.KfsKimDocRoleMember;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
-import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -42,7 +40,6 @@ import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
-import org.kuali.rice.kim.service.UiDocumentService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
@@ -54,8 +51,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     private static final Logger LOG = Logger.getLogger(OrgReviewRoleRule.class);
-
-    protected UiDocumentService uiDocumentService;
 
     /**
      * Need to override to avoid the primary key check which (wrongly) assumes that the object's PKs can be found in the persistence service.
@@ -71,7 +66,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     public boolean processRouteDocument(Document document) {
         boolean valid = super.processRouteDocument(document);
         OrgReviewRole orr = (OrgReviewRole)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
-        OrgReviewRoleLookupableHelperServiceImpl lookupableHelperService = new OrgReviewRoleLookupableHelperServiceImpl();
+//        OrgReviewRoleLookupableHelperServiceImpl lookupableHelperService = new OrgReviewRoleLookupableHelperServiceImpl();
         lookupableHelperService.validateDocumentType(orr.getFinancialSystemDocumentTypeCode());
         if(orr!=null){
             if(!orr.hasAnyMember()){
@@ -264,38 +259,10 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         String chartOfAccountCode = orr.getChartOfAccountsCode();
         String organizationCode = orr.getOrganizationCode();
         boolean uniqueAttributes = 
-            !StringUtils.equals(docTypeName, getAttributeValue(attributeSet, KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) ||
-            !StringUtils.equals(chartOfAccountCode, getAttributeValue(attributeSet, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) ||
-            !StringUtils.equals(organizationCode, getAttributeValue(attributeSet, KfsKimAttributes.ORGANIZATION_CODE));
+            !StringUtils.equals(docTypeName, attributeSet.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) ||
+            !StringUtils.equals(chartOfAccountCode, attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) ||
+            !StringUtils.equals(organizationCode, attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE));
         return uniqueAttributes;
-    }
-    
-    protected String getAttributeValue(Map<String,String> aSet, String attributeName){
-        if(StringUtils.isEmpty(attributeName)) return null;
-        for(String attributeNameKey: aSet.keySet()){
-            if(attributeName.equals(attributeNameKey))
-                return aSet.get(attributeNameKey);
-        }
-        return null;
-    }
-
-//    /**
-//     * Gets the uiDocumentService attribute. 
-//     * @return Returns the uiDocumentService.
-//     */
-//    public UiDocumentService getUiDocumentService() {
-//        if(this.uiDocumentService==null){
-//            this.uiDocumentService = SpringContext.getBean(UiDocumentService.class);
-//        }
-//        return this.uiDocumentService;
-//    }
-
-    /**
-     * Sets the uiDocumentService attribute value.
-     * @param uiDocumentService The uiDocumentService to set.
-     */
-    public void setUiDocumentService(UiDocumentService uiDocumentService) {
-        this.uiDocumentService = uiDocumentService;
     }
 
 }

@@ -22,11 +22,14 @@ import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.criteria.PredicateUtils;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
@@ -34,7 +37,7 @@ import org.kuali.rice.kim.api.type.KimType;
 public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
-        List<RoleMember> roleMembers = KimApiServiceLocator.getRoleService().findRoleMembersCompleteInfo(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId));
+        RoleMemberQueryResults roleMembers = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId)));
         RoleMember roleMember = new RoleMemberCompleteInfo();
         if(roleMembers!=null && roleMembers.size()>0){
             roleMember = roleMembers.get(0);
@@ -116,8 +119,8 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         }
     }
     
-    protected List<RoleResponsibilityAction> getRoleRspActions(String roleMemberId){
-        return KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMemberId);
-    }
+//    protected List<RoleResponsibilityAction> getRoleRspActions(String roleMemberId){
+//        return KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMemberId);
+//    }
     
 }

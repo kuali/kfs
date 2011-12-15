@@ -538,10 +538,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     public void setFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCode) {
         String oldFinancialSystemDocumentTypeCode = this.financialSystemDocumentTypeCode;
-        boolean isChanged = false;
-        if(StringValueComparator.getInstance().compare(this.financialSystemDocumentTypeCode, financialSystemDocumentTypeCode)!=0){
-            isChanged = true;
-        }
+        boolean isChanged = !StringUtils.equals(oldFinancialSystemDocumentTypeCode, financialSystemDocumentTypeCode);
         this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
         setRoleNamesAndReviewIndicator(isChanged);
     }
@@ -710,7 +707,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @param roleNamesToConsider The roleNamesToConsider to set.
      */
     public void setRoleNamesToConsider() {
-        OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
+//        OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
         roleNamesToConsider = orrLHSI.getRolesToConsider(getFinancialSystemDocumentTypeCode());
     }
     /**

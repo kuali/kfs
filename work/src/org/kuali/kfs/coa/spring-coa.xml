@@ -616,6 +616,7 @@
 	<bean id="orgReviewRoleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable" scope="prototype">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl" parent="lookupableHelperService">
+            	<property name="orgReviewRoleService" ref="orgReviewRoleService" />
             </bean>
         </property>
     </bean>
@@ -635,12 +636,9 @@
     	
 	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
 
-	<!-- RICE20 : need to restore this when we can compile org review
 	<bean id="orgReviewRoleService"  parent="orgReviewRoleService-parentBean"/>
 	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" >
-		<property name="roleManagementService" ref="kimRoleService" />
-		<property name="kimTypeInfoService" ref="kimTypeInfoService" />
+		<property name="documentTypeService" ref="documentTypeService" />
 	</bean>
-	 -->
 	 
 </beans>

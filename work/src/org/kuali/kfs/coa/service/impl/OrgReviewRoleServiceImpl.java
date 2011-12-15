@@ -15,32 +15,45 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
-import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
+import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.springframework.cache.annotation.Cacheable;
 
 public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
+    protected static final String DOCUMENT_TYPE_HIERARCHY_CACHE_NAME = "OrgReviewRoleServiceDocTypeHierarchy";
+    
+    protected DocumentTypeService documentTypeService;
+    
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
         RoleMemberQueryResults roleMembers = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId)));
-        RoleMember roleMember = new RoleMemberCompleteInfo();
-        if(roleMembers!=null && roleMembers.size()>0){
-            roleMember = roleMembers.get(0);
+        RoleMember roleMember = null;
+        if(roleMembers!=null && !roleMembers.getResults().isEmpty() ){
+            roleMember = roleMembers.getResults().iterator().next();
         }
         orr.setRoleMemberId(roleMember.getId());
         orr.setKimDocumentRoleMember(roleMember);
@@ -49,7 +62,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
         List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(typeInfo, roleMember.getAttributes());
         orr.setAttributes(attributes);
-        orr.setRoleRspActions(getRoleRspActions(roleMember.getId()));
+        orr.setRoleRspActions(KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMember.getId()));
         orr.setRoleId(roleMember.getRoleId());
         if ( roleMember.getActiveFromDate() != null ) {
             orr.setActiveFromDate(roleMember.getActiveFromDate().toDate());
@@ -71,7 +84,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
         orr.setDelegationMemberId(delegationMember.getDelegationMemberId());
         orr.setRoleMemberId(delegationMember.getRoleMemberId());
-        orr.setRoleRspActions(getRoleRspActions(delegationMember.getRoleMemberId()));
+        orr.setRoleRspActions(KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(delegationMember.getRoleMemberId()));
         orr.setAttributes(orr.getAttributeSetAsQualifierList(typeInfo, delegationMember.getAttributes()));
         orr.setRoleId(delegation.getRoleId());
         orr.setDelegationTypeCode(delegationMember.getDelegationTypeCode());
@@ -119,8 +132,153 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         }
     }
     
-//    protected List<RoleResponsibilityAction> getRoleRspActions(String roleMemberId){
-//        return KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMemberId);
-//    }
+    public boolean isValidDocumentTypeForOrgReview(String documentTypeName){
+
+        boolean isValid = true;
+        
+        if(StringUtils.isEmpty(documentTypeName)){
+            return false;        
+        }
+
+        String closestParentDocumentTypeName = getClosestOrgReviewRoleParentDocumentTypeName(documentTypeName);
+        boolean hasOrganizationHierarchy = hasOrganizationHierarchy(documentTypeName);
+        boolean hasAccountingOrganizationHierarchy = hasAccountingOrganizationHierarchy(documentTypeName);
     
+        if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestParentDocumentTypeName)){
+            //valid
+        }else if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
+          //valid
+        } else if(KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName)){
+          //valid
+        } else{
+            if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName)){
+              //valid
+            }else if(currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(documentTypeName)){
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+
+    public void validateDocumentType(String documentTypeName) throws ValidationException {
+        try{
+            getRolesToConsider(documentTypeName);
+        } catch(Exception ex){
+            throw new ValidationException(ex.getMessage());
+        }
+    }
+
+    public boolean hasOrganizationHierarchy(final String documentTypeName) {
+        if(StringUtils.isBlank(documentTypeName)) {
+            return false;
+        }
+        return documentTypeService.hasRouteNodeForDocumentTypeName(documentTypeName, KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY);
+    }
+
+    public boolean hasAccountingOrganizationHierarchy(final String documentTypeName) {
+        if(StringUtils.isBlank(documentTypeName)) {
+            return false;
+        }
+        return documentTypeService.hasRouteNodeForDocumentTypeName(documentTypeName, KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY);
+    }
+
+    public String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName){
+        if(StringUtils.isBlank(documentTypeName)) {
+            return null;
+        }
+        Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
+        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT);
+        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT);
+        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
+        return KimCommonUtils.getClosestParentDocumentTypeName(documentTypeService.getDocumentTypeByName(documentTypeName), potentialParentDocumentTypeNames);
+    }
+
+    public List<String> getRolesToConsider(String documentTypeName) throws ValidationException {
+        return getRolesToConsider(documentTypeName, 
+                hasOrganizationHierarchy(documentTypeName), 
+                hasAccountingOrganizationHierarchy(documentTypeName), 
+                getClosestOrgReviewRoleParentDocumentTypeName(documentTypeName));
+    }
+    
+    /**
+     *  1. Check WorkflowInfo.hasNode(documentTypeName, nodeName) to see if the document type selected has 
+     *  OrganizationHierarchy and/or AccountingOrganizationHierarchy - if it has either or both, 
+     *  set the Review Types radio group appropriately and make it read only.
+     *  2. Else, if KFS is the document type selected, set the Review Types radio group to both and leave it editable.
+     *  3. Else, if FinancialSystemTransactionalDocument is the closest parent (per KimCommonUtils.getClosestParent), 
+     *  set the Review Types radio group to Organization Accounting Only and leave it editable.
+     *  4. Else, if FinancialSystemComplexMaintenanceDocument is the closest parent (per KimCommonUtils.getClosestParent), 
+     *  set the Review Types radio group to Organization Only and make read-only.
+     *  5. Else, if FinancialSystemSimpleMaintenanceDocument is the closest parent (per KimCommonUtils.getClosestParent), 
+     *  this makes no sense and should generate an error. 
+     * @param documentTypeName
+     * @param hasOrganizationHierarchy
+     * @param hasAccountingOrganizationHierarchy
+     * @param closestParentDocumentTypeName
+     * @return
+     */
+    public List<String> getRolesToConsider(String documentTypeName, boolean hasOrganizationHierarchy, boolean hasAccountingOrganizationHierarchy, String closestParentDocumentTypeName) throws ValidationException {
+        if(StringUtils.isBlank(documentTypeName)){
+            List<String> roleToConsider = new ArrayList<String>();
+            roleToConsider.add(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
+            roleToConsider.add(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+            return roleToConsider;
+        }
+
+        List<String> roleToConsider = new ArrayList<String>();
+        if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestParentDocumentTypeName)) {
+            roleToConsider.add(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+        } else if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
+            if(hasOrganizationHierarchy) {
+                roleToConsider.add(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
+            }
+            if(hasAccountingOrganizationHierarchy) {
+                roleToConsider.add(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+            }
+            //readonly
+        } else if(KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName)){
+            roleToConsider.add(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
+            roleToConsider.add(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+        } else{
+            if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName)) {
+                roleToConsider.add(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
+            } else if(currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(documentTypeName)){
+                throw new ValidationException("Invalid document type chosen for Organization Review: " + documentTypeName);
+            }
+        }
+
+        return roleToConsider;
+    }
+    
+    @Cacheable(value=DOCUMENT_TYPE_HIERARCHY_CACHE_NAME,key="#p0")
+    public boolean currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(String currentDocumentTypeName){     
+        boolean hasZeroQualifyingNodes = true;
+
+        //check current doc type for qualifying nodes
+        if(hasOrganizationHierarchy(currentDocumentTypeName) 
+                || hasAccountingOrganizationHierarchy(currentDocumentTypeName) ){                       
+            hasZeroQualifyingNodes = false;        
+        }
+        
+        //if still has no qualifying nodes, check current nodes children
+        if(hasZeroQualifyingNodes){
+            DocumentType currentDocType = documentTypeService.getDocumentTypeByName(currentDocumentTypeName);
+            List<DocumentType> docTypes = documentTypeService.getChildDocumentTypes(currentDocType.getDocumentId());
+            
+            for(DocumentType docType : docTypes){
+                hasZeroQualifyingNodes &= currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(docType.getName());
+                if(hasZeroQualifyingNodes == false) break;
+            }
+        }
+        
+        return hasZeroQualifyingNodes;
+    }
+    
+    
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
+    
+
 }

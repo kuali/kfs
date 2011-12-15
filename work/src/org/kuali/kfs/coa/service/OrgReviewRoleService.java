@@ -15,10 +15,18 @@
  */
 package org.kuali.kfs.coa.service;
 
+import java.util.List;
+
 import org.kuali.kfs.coa.identity.OrgReviewRole;
+import org.kuali.rice.krad.exception.ValidationException;
 
 public interface OrgReviewRoleService {
 
     void populateOrgReviewRoleFromRoleMember( OrgReviewRole orr, String roleMemberId );
     void populateOrgReviewRoleFromDelegationMember( OrgReviewRole orr, String delegationMemberId );
+    
+    boolean isValidDocumentTypeForOrgReview(String documentTypeName);
+    
+    void validateDocumentType(String documentTypeName) throws ValidationException;
+    List<String> getRolesToConsider(String documentTypeName) throws ValidationException;
 }

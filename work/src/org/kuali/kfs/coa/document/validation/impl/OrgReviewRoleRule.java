@@ -26,8 +26,10 @@ import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
 import org.kuali.kfs.coa.identity.KfsKimDocRoleMember;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
+import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -52,6 +54,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     private static final Logger LOG = Logger.getLogger(OrgReviewRoleRule.class);
 
+    private transient static OrgReviewRoleService orgReviewRoleService;
+    
     /**
      * Need to override to avoid the primary key check which (wrongly) assumes that the object's PKs can be found in the persistence service.
      * 
@@ -66,21 +70,18 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     public boolean processRouteDocument(Document document) {
         boolean valid = super.processRouteDocument(document);
         OrgReviewRole orr = (OrgReviewRole)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
-//        OrgReviewRoleLookupableHelperServiceImpl lookupableHelperService = new OrgReviewRoleLookupableHelperServiceImpl();
-        lookupableHelperService.validateDocumentType(orr.getFinancialSystemDocumentTypeCode());
-        if(orr!=null){
-            if(!orr.hasAnyMember()){
-                valid = false;
-                putFieldError("principalMemberPrincipalName", KFSKeyConstants.NO_MEMBER_SELECTED);
+        if(!orr.hasAnyMember()){
+            valid = false;
+            putFieldError( OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, KFSKeyConstants.NO_MEMBER_SELECTED);
+        } else{
+            getOrgReviewRoleService().validateDocumentType(orr.getFinancialSystemDocumentTypeCode());
+            validateRoleMembersToSave(orr);
+            if(orr.isDelegate()){
+                // Save delegation(s)
+                valid = validateDelegation(orr, ((MaintenanceDocument)document).isEdit());
             } else{
-                validateRoleMembersToSave(orr);
-                if(orr.isDelegate()){
-                    // Save delegation(s)
-                    valid = validateDelegation(orr, ((MaintenanceDocument)document).isEdit());
-                } else{
-                    // Save role member(s)
-                    valid = validateRoleMember(orr, ((MaintenanceDocument)document).isEdit());
-                }
+                // Save role member(s)
+                valid = validateRoleMember(orr, ((MaintenanceDocument)document).isEdit());
             }
         }
         return valid;
@@ -265,4 +266,10 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         return uniqueAttributes;
     }
 
+    protected OrgReviewRoleService getOrgReviewRoleService(){
+        if(orgReviewRoleService==null){
+            orgReviewRoleService = SpringContext.getBean( OrgReviewRoleService.class );
+        }
+        return orgReviewRoleService;
+    }
 }

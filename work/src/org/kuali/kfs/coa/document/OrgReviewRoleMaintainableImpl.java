@@ -67,12 +67,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
 
     private transient static OrgReviewRoleService orgReviewRoleService;
 
-//    protected Boolean hasOrganizationHierarchy = null;
-//    protected Boolean hasAccountingOrganizationHierarchy = null;
-//    protected String closestOrgReviewRoleParentDocumentTypeName = null;
-//    protected Boolean shouldReviewTypesFieldBeReadOnly = null;
-    
-
     @Override
     public boolean isExternalBusinessObject(){
         return true;

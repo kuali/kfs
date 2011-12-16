@@ -292,11 +292,11 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                         if ( delegateMemberInfo.getActiveToDate() != null ) {
                             toDate = new java.sql.Date( delegateMemberInfo.getActiveToDate().getMillis() ); 
                         }
-                        KimApiServiceLocator.getRoleService().saveDelegationMemberForRole(delegateMemberInfo.getDelegationMemberId(),
-                            delegateMemberInfo.getRoleMemberId(), delegateMemberInfo.getMemberId(), 
-                            delegateMemberInfo.getType().getCode(), delegateInfo.getDelegationType().getCode(), 
-                            delegateInfo.getRoleId(), delegateMemberInfo.getAttributes(), 
-                            fromDate, toDate);
+//                        KimApiServiceLocator.getRoleService().saveDelegationMemberForRole(delegateMemberInfo.getDelegationMemberId(),
+//                            delegateMemberInfo.getRoleMemberId(), delegateMemberInfo.getMemberId(), 
+//                            delegateMemberInfo.getType().getCode(), delegateInfo.getDelegationType().getCode(), 
+//                            delegateInfo.getRoleId(), delegateMemberInfo.getAttributes(), 
+//                            fromDate, toDate);
                     }
                 }
             }
@@ -314,17 +314,17 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                     if ( roleMember.getActiveToDate() != null ) {
                         toDate = new java.sql.Date( roleMember.getActiveToDate().getMillis() ); 
                     }
-                    savedRoleMember = KimApiServiceLocator.getRoleService().saveRoleMemberForRole(roleMember.getId(),
-                            roleMember.getMemberId(), roleMember.getType().getCode(), roleMember.getRoleId(), 
-                            roleMember.getAttributes(), fromDate, toDate);
+//                    savedRoleMember = KimApiServiceLocator.getRoleService().saveRoleMemberForRole(roleMember.getId(),
+//                            roleMember.getMemberId(), roleMember.getType().getCode(), roleMember.getRoleId(), 
+//                            roleMember.getAttributes(), fromDate, toDate);
                     List<RoleResponsibilityAction> roleRspActionsToSave = getRoleRspActions(orr, roleMember);
                     if(roleRspActionsToSave!=null){
                         for(RoleResponsibilityAction rspActionInfo: roleRspActionsToSave){
-                            KimApiServiceLocator.getRoleService().saveRoleRspActions(
-                                    rspActionInfo.getId(), roleMember.getRoleId(), 
-                                    rspActionInfo.getRoleResponsibilityId(), savedRoleMember.getId(), 
-                                    rspActionInfo.getActionTypeCode(), rspActionInfo.getActionPolicyCode(), 
-                                    rspActionInfo.getPriorityNumber(), new Boolean(rspActionInfo.isForceAction()));
+//                            KimApiServiceLocator.getRoleService().saveRoleRspActions(
+//                                    rspActionInfo.getId(), roleMember.getRoleId(), 
+//                                    rspActionInfo.getRoleResponsibilityId(), savedRoleMember.getId(), 
+//                                    rspActionInfo.getActionTypeCode(), rspActionInfo.getActionPolicyCode(), 
+//                                    rspActionInfo.getPriorityNumber(), new Boolean(rspActionInfo.isForceAction()));
                         }
                     }
                 }

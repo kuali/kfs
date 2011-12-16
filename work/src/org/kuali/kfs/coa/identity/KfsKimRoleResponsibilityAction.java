@@ -29,6 +29,20 @@ public class KfsKimRoleResponsibilityAction extends PersistableBusinessObjectBas
     protected String roleMemberId;
     protected boolean forceAction;
     
+    public KfsKimRoleResponsibilityAction() {}
+    
+    public KfsKimRoleResponsibilityAction( RoleResponsibilityActionContract b ) {
+        id = b.getId();
+        roleResponsibilityId = b.getRoleResponsibilityId();
+        roleMemberId = b.getRoleMemberId();
+        actionTypeCode = b.getActionTypeCode();
+        actionPolicyCode = b.getActionPolicyCode();
+        forceAction = b.isForceAction();
+        priorityNumber = b.getPriorityNumber();
+//        roleResponsibility = b.getRoleResponsibility();
+    }
+    
+    
 
     @Override
     public RoleResponsibilityContract getRoleResponsibility() {

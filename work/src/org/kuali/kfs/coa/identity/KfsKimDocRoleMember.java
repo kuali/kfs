@@ -27,7 +27,7 @@ import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
-import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
+import org.kuali.rice.kim.api.role.RoleResponsibilityActionContract;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -52,13 +52,11 @@ public class KfsKimDocRoleMember extends PersistableBusinessObjectBase implement
         roleId = b.getRoleId();
         attributes = b.getAttributes();
 
-        List<KfsKimRoleResponsibilityAction> roleResponsibilityActions = new ArrayList<RoleResponsibilityAction>();
         if (!CollectionUtils.isEmpty(b.getRoleRspActions())) {
-            for (RoleResponsibilityAction.Builder rraBuilder : b.getRoleRspActions()) {
-                roleResponsibilityActions.add(rraBuilder.build());
+            for (RoleResponsibilityActionContract rra : b.getRoleRspActions()) {
+                roleRspActions.add( new KfsKimRoleResponsibilityAction(rra) );
             }
         }
-        this.roleRspActions = roleResponsibilityActions;
 
         memberId = b.getMemberId();
         type = b.getType();

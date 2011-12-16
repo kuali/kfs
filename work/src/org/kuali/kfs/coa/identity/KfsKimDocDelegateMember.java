@@ -46,13 +46,12 @@ public class KfsKimDocDelegateMember extends PersistableBusinessObjectBase imple
         this.type = type;
     }
     
-    public KfsKimDocDelegateMember( DelegateMember delegateMember) {
+    public KfsKimDocDelegateMember( DelegateMemberContract delegateMember ) {
         this.delegationMemberId = delegateMember.getDelegationMemberId();
         this.delegationId = delegateMember.getDelegationId();
         this.memberId = delegateMember.getMemberId();
         this.roleMemberId = delegateMember.getRoleMemberId();
         this.type = delegateMember.getType();
-        this.versionNumber = delegateMember.getVersionNumber();
         this.activeFromDate = delegateMember.getActiveFromDate();
         this.activeToDate = delegateMember.getActiveToDate();
         this.attributes = delegateMember.getAttributes();        

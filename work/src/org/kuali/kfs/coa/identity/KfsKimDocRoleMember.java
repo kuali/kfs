@@ -20,10 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
-import org.kuali.rice.kim.api.role.RoleResponsibilityActionContract;
+import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class KfsKimDocRoleMember extends PersistableBusinessObjectBase implements RoleMemberContract {
@@ -41,6 +46,26 @@ public class KfsKimDocRoleMember extends PersistableBusinessObjectBase implement
     protected List<KfsKimRoleResponsibilityAction> roleRspActions = new ArrayList<KfsKimRoleResponsibilityAction>();
     
     public KfsKimDocRoleMember() {}
+    
+    public KfsKimDocRoleMember( RoleMemberContract b ) {
+        id = b.getId();
+        roleId = b.getRoleId();
+        attributes = b.getAttributes();
+
+        List<KfsKimRoleResponsibilityAction> roleResponsibilityActions = new ArrayList<RoleResponsibilityAction>();
+        if (!CollectionUtils.isEmpty(b.getRoleRspActions())) {
+            for (RoleResponsibilityAction.Builder rraBuilder : b.getRoleRspActions()) {
+                roleResponsibilityActions.add(rraBuilder.build());
+            }
+        }
+        this.roleRspActions = roleResponsibilityActions;
+
+        memberId = b.getMemberId();
+        type = b.getType();
+        activeFromDate = b.getActiveFromDate();
+        activeToDate = b.getActiveToDate();
+        versionNumber = b.getVersionNumber();
+    }
     
     public KfsKimDocRoleMember( String roleId, MemberType type) {
         this();
@@ -63,22 +88,49 @@ public class KfsKimDocRoleMember extends PersistableBusinessObjectBase implement
         return memberId;
     }
     public void setMemberId(String memberId) {
+        memberName = null;
+        memberNamespaceCode = null;
         this.memberId = memberId;
     }
+    
+    protected void loadMemberInfo() {
+        if ( MemberType.ROLE.equals( type ) ) {
+            Role role = KimApiServiceLocator.getRoleService().getRole(memberId);
+            if ( role != null ) {
+                memberName = role.getName();
+                memberNamespaceCode = role.getNamespaceCode();
+            }
+        } else if ( MemberType.GROUP.equals( type ) ) {
+            Group group = KimApiServiceLocator.getGroupService().getGroup(memberId);
+            if ( group != null ) {
+                memberName = group.getName();
+                memberNamespaceCode = group.getNamespaceCode();
+            }
+        } else {
+            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(memberId);
+            if ( principal != null ) {
+                memberName = principal.getPrincipalName();
+                memberNamespaceCode = "";
+            }
+        }            
+    }
+    
     public String getMemberName() {
-        // RICE20 - TODO: dynamically load this information upon request
+        if ( memberName == null && memberId != null ) {
+            loadMemberInfo();
+        }
         return memberName;
     }
     public void setMemberName(String memberName) {
-        // RICE20 - TODO: dynamically load this information upon request
         this.memberName = memberName;
     }
     public String getMemberNamespaceCode() {
-        // RICE20 - TODO: dynamically load this information upon request
+        if ( memberNamespaceCode == null && memberId != null ) {
+            loadMemberInfo();
+        }
         return memberNamespaceCode;
     }
     public void setMemberNamespaceCode(String memberNamespaceCode) {
-        // RICE20 - TODO: dynamically load this information upon request
         this.memberNamespaceCode = memberNamespaceCode;
     }
     public String getRoleId() {

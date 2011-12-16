@@ -29,4 +29,9 @@ public interface OrgReviewRoleService {
     
     void validateDocumentType(String documentTypeName) throws ValidationException;
     List<String> getRolesToConsider(String documentTypeName) throws ValidationException;
+    
+    boolean hasAccountingOrganizationHierarchy(final String documentTypeName);
+    boolean hasOrganizationHierarchy(final String documentTypeName);
+    String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName);
+    
 }

@@ -194,10 +194,10 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
 
     private void prepareFieldsCommon(OrgReviewRole orr, Field field){
 
-        boolean hasOrganizationHierarchy = orrLHSI.hasOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode());
-        String closestOrgReviewRoleParentDocumentTypeName = orrLHSI.getClosestOrgReviewRoleParentDocumentTypeName(orr.getFinancialSystemDocumentTypeCode());
+        boolean hasOrganizationHierarchy = getOrgReviewRoleService().hasOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode());
+        String closestOrgReviewRoleParentDocumentTypeName = getOrgReviewRoleService().getClosestOrgReviewRoleParentDocumentTypeName(orr.getFinancialSystemDocumentTypeCode());
         boolean isFSTransDoc = orr.getFinancialSystemDocumentTypeCode().equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestOrgReviewRoleParentDocumentTypeName);
-        boolean hasAccountingOrganizationHierarchy = orrLHSI.hasAccountingOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode()) || isFSTransDoc;
+        boolean hasAccountingOrganizationHierarchy = getOrgReviewRoleService().hasAccountingOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode()) || isFSTransDoc;
         boolean shouldReviewTypesFieldBeReadOnly = isFSTransDoc || hasOrganizationHierarchy || hasAccountingOrganizationHierarchy || 
           (StringUtils.isNotEmpty(closestOrgReviewRoleParentDocumentTypeName) && closestOrgReviewRoleParentDocumentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT));
         
@@ -535,15 +535,16 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return orr.getQualifierAsAttributeSet(attributeDataList);
     }
     
-    protected List<RoleResponsibilityAction.Builder> getRoleRspActions(OrgReviewRole orr, RoleMember roleMember){
-        List<RoleResponsibilityAction.Builder> roleRspActions = new ArrayList<RoleResponsibilityAction.Builder>();
+    protected List<RoleResponsibilityAction> getRoleRspActions(OrgReviewRole orr, KfsKimDocRoleMember roleMember){
+        List<RoleResponsibilityAction> roleRspActions = new ArrayList<RoleResponsibilityAction>();
         RoleResponsibilityAction.Builder roleRspAction;
         //Assuming that there is only one responsibility for an org role
         //Get it now given the role id
         List<RoleResponsibility> roleResponsibilityInfos = ((List<RoleResponsibility>)KimApiServiceLocator.getRoleService().getRoleResponsibilities(roleMember.getRoleId()));
         //Assuming that there is only 1 responsibility for both the org review roles
-        if(roleResponsibilityInfos!=null && roleResponsibilityInfos.size()<1)
+        if(roleResponsibilityInfos!=null && roleResponsibilityInfos.size()<1) {
             throw new RuntimeException("The Org Review Role id:"+roleMember.getRoleId()+" does not have any responsibility associated with it");
+        }
 
         List<RoleResponsibilityAction> origRoleRspActions = ((List<RoleResponsibilityAction>)KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMember.getId()));
         
@@ -565,7 +566,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             }
         }
         roleRspAction.setForceAction(orr.isForceAction());
-        roleRspActions.add(roleRspAction);
+        roleRspActions.add(roleRspAction.build());
         return roleRspActions;
     }
     
@@ -577,9 +578,10 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     private KfsKimDocDelegateMember getDelegateMemberFromList(List<KfsKimDocDelegateMember> delegateMembers, String memberId, String memberTypeCode){
-        if(StringUtils.isEmpty(memberId) || StringUtils.isEmpty(memberTypeCode))
-            return null;
         if(delegateMembers!=null){
+            if(StringUtils.isEmpty(memberId) || StringUtils.isEmpty(memberTypeCode)) {
+                return null;
+            }
             for(KfsKimDocDelegateMember info: delegateMembers){
                 if(StringUtils.equals(info.getMemberId(), memberId) || 
                         StringUtils.equals(info.getType().getCode(), memberTypeCode)){
@@ -593,13 +595,12 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
         String docTypeName = "";
-//        OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
         if(fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME)){
-            docTypeName = (String)fieldValues.get(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME);
+            docTypeName = fieldValues.get(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME);
         }
         if(KFSConstants.RETURN_METHOD_TO_CALL.equals(methodToCall) &&
            fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME) &&
-           orrLHSI.isValidDocumentTypeForOrgReview(docTypeName) == false){
+           getOrgReviewRoleService().isValidDocumentTypeForOrgReview(docTypeName) == false){
             
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_ORGREVIEW_INVALID_DOCUMENT_TYPE, docTypeName);            
             return new HashMap();

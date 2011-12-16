@@ -31,6 +31,7 @@ import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
@@ -50,7 +51,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     protected DocumentTypeService documentTypeService;
     
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
-        RoleMemberQueryResults roleMembers = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId)));
+        RoleMemberQueryResults roleMembers = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId))));
         RoleMember roleMember = null;
         if(roleMembers!=null && !roleMembers.getResults().isEmpty() ){
             roleMember = roleMembers.getResults().iterator().next();
@@ -82,12 +83,13 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         DelegateType delegation = KimApiServiceLocator.getRoleService().getDelegateTypeByDelegationId(delegationMember.getDelegationId());
         Role roleInfo = KimApiServiceLocator.getRoleService().getRole(delegation.getRoleId());
         KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
+
         orr.setDelegationMemberId(delegationMember.getDelegationMemberId());
         orr.setRoleMemberId(delegationMember.getRoleMemberId());
         orr.setRoleRspActions(KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(delegationMember.getRoleMemberId()));
         orr.setAttributes(orr.getAttributeSetAsQualifierList(typeInfo, delegationMember.getAttributes()));
         orr.setRoleId(delegation.getRoleId());
-        orr.setDelegationTypeCode(delegationMember.getDelegationTypeCode());
+        orr.setDelegationTypeCode(delegation.getDelegationType().getCode());
         orr.setRoleDocumentDelegationMember(delegationMember);
         populateObjectExtras(orr);
     }
@@ -264,7 +266,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         //if still has no qualifying nodes, check current nodes children
         if(hasZeroQualifyingNodes){
             DocumentType currentDocType = documentTypeService.getDocumentTypeByName(currentDocumentTypeName);
-            List<DocumentType> docTypes = documentTypeService.getChildDocumentTypes(currentDocType.getDocumentId());
+            List<DocumentType> docTypes = KEWServiceLocator.getDocumentTypeService().getChildDocumentTypes(currentDocType.getId());
             
             for(DocumentType docType : docTypes){
                 hasZeroQualifyingNodes &= currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(docType.getName());

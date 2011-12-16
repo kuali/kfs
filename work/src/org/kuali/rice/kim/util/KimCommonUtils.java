@@ -24,6 +24,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kim.api.KimApiConstants;
 import org.kuali.rice.kim.api.KimConstants;
@@ -38,27 +39,24 @@ import org.kuali.rice.kim.api.KimConstants;
 public class KimCommonUtils {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KimCommonUtils.class);
 
-    public static String getClosestParentDocumentTypeName(
-            DocumentType documentType,
-            Set<String> potentialParentDocumentTypeNames) {
+    public static String getClosestParentDocumentTypeName( DocumentType documentType, Set<String> potentialParentDocumentTypeNames) {
         if ( potentialParentDocumentTypeNames == null || documentType == null ) {
             return null;
         }
         if (potentialParentDocumentTypeNames.contains(documentType.getName())) {
             return documentType.getName();
         } else {
-            if ((documentType.getParentId() == null)
-                    || documentType.getParentId().equals(
-                            documentType.getId())) {
+            if ( StringUtils.isBlank(documentType.getParentId())
+                    || StringUtils.equals( documentType.getParentId(), documentType.getId() ) ) {
                 return null;
             } else {
-                return getClosestParentDocumentTypeName(documentType, potentialParentDocumentTypeNames);
+                return getClosestParentDocumentTypeName(KewApiServiceLocator.getDocumentTypeService().getDocumentTypeById(documentType.getParentId()), potentialParentDocumentTypeNames);
             }
         }
     }
 
     public static boolean storedValueNotSpecifiedOrInputValueMatches(Map<String,String> storedValues, Map<String,String> inputValues, String attributeName) {
-        return ((storedValues == null) || (inputValues == null)) || !storedValues.containsKey(attributeName) || storedValues.get(attributeName).equals(inputValues.get(attributeName));
+        return ((storedValues == null) || (inputValues == null)) || !storedValues.containsKey(attributeName) || StringUtils.equals( storedValues.get(attributeName), inputValues.get(attributeName));
     }
 
     public static boolean doesPropertyNameMatch(
@@ -67,11 +65,8 @@ public class KimCommonUtils {
         if (StringUtils.isBlank(permissionDetailsPropertyName)) {
             return true;
         }
-        if ( requestedDetailsPropertyName == null ) {
-            requestedDetailsPropertyName = ""; // prevent NPE
-        }
         return StringUtils.equals(requestedDetailsPropertyName, permissionDetailsPropertyName)
-                || (requestedDetailsPropertyName.startsWith(permissionDetailsPropertyName+"."));
+                || (StringUtils.startsWith(requestedDetailsPropertyName,permissionDetailsPropertyName+"."));
     }
 
 //    public static Map<String,String> getNamespaceAndComponentSimpleName( Class<? extends Object> clazz) {
@@ -115,33 +110,6 @@ public class KimCommonUtils {
 //        return StringUtils.equals( map1.get( key ), map2.get( key ) );
 //    }
 
-    /**
-     * Resolves the given kim type service name represented as a String to the appropriate QName.
-     * If the value given is empty or null, then it will resolve to the default KimTypeInfoService name.
-     */
-    public static QName resolveKimTypeInfoServiceName(String kimTypeServiceName) {
-        if (StringUtils.isBlank(kimTypeServiceName)) {
-            return resolveKimTypeInfoServiceName(KimConstants.DEFAULT_KIM_TYPE_SERVICE);
-        }
-        return QName.valueOf(kimTypeServiceName);
-    }
-
-//    /**
-//     * @deprecated Please use KIMServiceLocator.getKimTypeInfoService(KimType) instead
-//     */
-//    @Deprecated
-//    public static KimTypeInfoService getKimTypeInfoService(KimType kimType){
-//        return KIMServiceLocator.getKimTypeInfoService(kimType);
-//    }
-//
-//    /**
-//     * @deprecated Please use KIMServiceLocator.getKimTypeInfoService(QName) instead
-//     */
-//    @Deprecated
-//    public static KimTypeInfoService getKimTypeInfoService( String serviceName ) {
-//        return KIMServiceLocator.getKimTypeInfoService(resolveKimTypeInfoServiceName(serviceName));
-//    }
-
     public static void copyProperties(Object targetToCopyTo, Object sourceToCopyFrom){
         if(targetToCopyTo!=null && sourceToCopyFrom!=null)
         try{
@@ -166,19 +134,6 @@ public class KimCommonUtils {
                 && !path.contains(kimContextParameterized + kimActionName))
             path = path.replace(kimActionName, kimContext+kimActionName);
         return path;
-    }
-
-    public static String stripEnd(String toStripFrom, String toStrip){
-        String stripped;
-        if(toStripFrom==null) return null;
-        if(toStrip==null) return toStripFrom;
-        if(toStrip.length() > toStripFrom.length()) return toStripFrom;
-        if(toStripFrom.endsWith(toStrip)){
-            StringBuffer buffer = new StringBuffer(toStripFrom);
-            buffer.delete(buffer.length()-toStrip.length(), buffer.length());
-            stripped = buffer.toString();
-        } else stripped = toStripFrom;
-        return stripped;
     }
 
 //    protected static boolean canOverrideEntityPrivacyPreferences( String principalId ){

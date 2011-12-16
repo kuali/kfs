@@ -156,6 +156,7 @@
  	<bean id="documentDictionaryService" p:serviceName="documentDictionaryService" parent="grlBeanImporter" />
  	<bean id="inquiryViewTypeService" p:serviceName="inquiryViewTypeService" parent="grlBeanImporter" />
  	<bean id="lookupViewTypeService" p:serviceName="lookupViewTypeService" parent="grlBeanImporter" />
+ 	<bean id="rice.ksb.messageHelper" p:serviceName="rice.ksb.messageHelper" parent="grlBeanImporter" />
 
     <!--  -->
     <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">

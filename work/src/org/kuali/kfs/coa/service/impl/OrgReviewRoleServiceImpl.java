@@ -116,22 +116,22 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             orr.setActionPolicyCode(orr.getRoleRspActions().get(0).getActionPolicyCode());
             orr.setForceAction(orr.getRoleRspActions().get(0).isForceAction());
         }
-        if(orr.getPerson()!=null){
-            orr.setPrincipalMemberPrincipalId(orr.getPerson().getPrincipalId());
-            orr.setPrincipalMemberPrincipalName(orr.getPerson().getPrincipalName());
-        }
-        // RICE20
-        // FIXME : this is using the wrong role
-        if(orr.getRole()!=null){
-            orr.setRoleMemberRoleId(orr.getRole().getId());
-            orr.setRoleMemberRoleNamespaceCode(orr.getRole().getNamespaceCode());
-            orr.setRoleMemberRoleName(orr.getRole().getName());
-        }
-        if(orr.getGroup()!=null){
-            orr.setGroupMemberGroupId(orr.getGroup().getId());
-            orr.setGroupMemberGroupNamespaceCode(orr.getGroup().getNamespaceCode());
-            orr.setGroupMemberGroupName(orr.getGroup().getName());
-        }
+//        if(orr.getPerson()!=null){
+//            orr.setPrincipalMemberPrincipalId(orr.getPerson().getPrincipalId());
+//            orr.setPrincipalMemberPrincipalName(orr.getPerson().getPrincipalName());
+//        }
+//        // RICE20
+//        // FIXME : this is using the wrong role
+//        if(orr.getRole()!=null){
+//            orr.setRoleMemberRoleId(orr.getRole().getId());
+//            orr.setRoleMemberRoleNamespaceCode(orr.getRole().getNamespaceCode());
+//            orr.setRoleMemberRoleName(orr.getRole().getName());
+//        }
+//        if(orr.getGroup()!=null){
+//            orr.setGroupMemberGroupId(orr.getGroup().getId());
+//            orr.setGroupMemberGroupNamespaceCode(orr.getGroup().getNamespaceCode());
+//            orr.setGroupMemberGroupName(orr.getGroup().getName());
+//        }
     }
     
     public boolean isValidDocumentTypeForOrgReview(String documentTypeName){
@@ -175,24 +175,28 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         if(StringUtils.isBlank(documentTypeName)) {
             return false;
         }
-        return documentTypeService.hasRouteNodeForDocumentTypeName(documentTypeName, KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY);
+        return documentTypeService.hasRouteNodeForDocumentTypeName(KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY, documentTypeName);
     }
 
     public boolean hasAccountingOrganizationHierarchy(final String documentTypeName) {
         if(StringUtils.isBlank(documentTypeName)) {
             return false;
         }
-        return documentTypeService.hasRouteNodeForDocumentTypeName(documentTypeName, KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY);
+        return documentTypeService.hasRouteNodeForDocumentTypeName(KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY, documentTypeName);
     }
 
+    Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
+    {
+        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT);
+        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT);
+        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
+        potentialParentDocumentTypeNames = Collections.unmodifiableSet(potentialParentDocumentTypeNames);
+    }
+    
     public String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName){
         if(StringUtils.isBlank(documentTypeName)) {
             return null;
         }
-        Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
-        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT);
-        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT);
-        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
         return KimCommonUtils.getClosestParentDocumentTypeName(documentTypeService.getDocumentTypeByName(documentTypeName), potentialParentDocumentTypeNames);
     }
 
@@ -221,7 +225,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
      * @return
      */
     public List<String> getRolesToConsider(String documentTypeName, boolean hasOrganizationHierarchy, boolean hasAccountingOrganizationHierarchy, String closestParentDocumentTypeName) throws ValidationException {
-        if(StringUtils.isBlank(documentTypeName)){
+        if(StringUtils.isBlank(documentTypeName) || KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName) ){
             List<String> roleToConsider = new ArrayList<String>();
             roleToConsider.add(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
             roleToConsider.add(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
@@ -229,7 +233,8 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         }
 
         List<String> roleToConsider = new ArrayList<String>();
-        if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestParentDocumentTypeName)) {
+        if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) 
+                || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestParentDocumentTypeName)) {
             roleToConsider.add(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
         } else if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
             if(hasOrganizationHierarchy) {
@@ -238,12 +243,9 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             if(hasAccountingOrganizationHierarchy) {
                 roleToConsider.add(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
             }
-            //readonly
-        } else if(KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName)){
-            roleToConsider.add(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
-            roleToConsider.add(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
         } else{
-            if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName)) {
+            if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) 
+                    || KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName)) {
                 roleToConsider.add(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
             } else if(currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(documentTypeName)){
                 throw new ValidationException("Invalid document type chosen for Organization Review: " + documentTypeName);

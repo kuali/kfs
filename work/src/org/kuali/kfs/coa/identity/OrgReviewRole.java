@@ -542,8 +542,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCode) {
-        String oldFinancialSystemDocumentTypeCode = this.financialSystemDocumentTypeCode;
-        boolean isChanged = !StringUtils.equals(oldFinancialSystemDocumentTypeCode, financialSystemDocumentTypeCode);
+        boolean isChanged = !StringUtils.equals(this.financialSystemDocumentTypeCode, financialSystemDocumentTypeCode);
         this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
         setRoleNamesAndReviewIndicator(isChanged);
     }
@@ -551,22 +550,21 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     private void setRoleNamesAndReviewIndicator(boolean hasFinancialSystemDocumentTypeCodeChanged){
         if(hasFinancialSystemDocumentTypeCodeChanged){
             //If role id is populated role names to consider have already been narrowed down 
-            if(StringUtils.isNotEmpty(getRoleId()) && StringUtils.isNotEmpty(getRoleName())){
+            if(StringUtils.isNotBlank(getRoleId()) && StringUtils.isNotBlank(getRoleName())){
                 List<String> narrowedDownRoleNames = new ArrayList<String>();
                 narrowedDownRoleNames.add(getRoleName());
                 setRoleNamesToConsider(roleNamesToConsider);
             } else {
                 setRoleNamesToConsider();
             }
-            if(isBothReviewRolesIndicator())
+            if(isBothReviewRolesIndicator()) {
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE);
-            else if(isAccountingOrgReviewRoleIndicator())
+            } else if(isAccountingOrgReviewRoleIndicator()) { 
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE);
-            else if(isOrgReviewRoleIndicator())
+            } else if(isOrgReviewRoleIndicator()) { 
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE);
-
-        }
-        
+            }
+        }        
     }
     
     /**
@@ -646,24 +644,20 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
     
     public String getAttributeValue(String attributeName){
-        String attributeValue = "";
-        if(StringUtils.isEmpty(attributeName)) 
-            attributeValue = "";
         KfsKimDocumentAttributeData attributeData = getAttribute(attributeName);
         return attributeData==null?"":attributeData.getAttrVal();
     }
 
     private KfsKimDocumentAttributeData getAttribute(String attributeName){
-        KfsKimDocumentAttributeData attributeData = null;
-        if(StringUtils.isNotEmpty(attributeName)) 
+        if(StringUtils.isNotBlank(attributeName)) { 
             for(KfsKimDocumentAttributeData attribute: attributes){
-                if(attribute.getKimAttribute()!=null && attribute.getKimAttribute()!=null && 
-                        StringUtils.equals(attribute.getKimAttribute().getAttributeName(),attributeName)){
-                    attributeData = attribute;
-                    break;
+                if( attribute.getKimAttribute()!=null 
+                        && StringUtils.equals(attribute.getKimAttribute().getAttributeName(),attributeName)){
+                    return attribute;
                 }
             }
-        return attributeData;
+        }
+        return null;
     }
 
     /**
@@ -744,22 +738,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @return Returns the actionTypeCode.
      */
     public String getActionTypeCode() {
-        /*if(StringUtils.isNotEmpty(actionTypeCode) && (roleRspActions==null || roleRspActions.size()<1 || StringUtils.isEmpty(roleRspActions.get(0).getActionTypeCode()))){
-            setActionTypeCode(actionTypeCode);
-        }
-        if(roleRspActions==null || roleRspActions.size()<1)
-            actionTypeCode = "";
-        else
-            actionTypeCode = roleRspActions.get(0).getActionTypeCode();
-         */
         return actionTypeCode;
     }
 
     public String getActionTypeCodeToDisplay() {
-        if(roleRspActions==null || roleRspActions.size()<1)
+        if(roleRspActions==null || roleRspActions.isEmpty()) {
             return "";
-        else
-            return roleRspActions.get(0).getActionTypeCode();
+        }
+        return roleRspActions.get(0).getActionTypeCode();
     }
 
     /**
@@ -778,13 +764,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @param actionTypeCode The actionTypeCode to set.
      */
     public void setActionTypeCode(String actionTypeCode) {
-        /*if(roleRspActions==null || roleRspActions.size()<1){
-            KfsKimDocumentRoleResponsibilityAction roleRespAction = new KfsKimDocumentRoleResponsibilityAction();
-            roleRespAction.setActionTypeCode(actionTypeCode);
-            roleRspActions.add(roleRespAction);
-        } else{
-            roleRspActions.get(0).setActionTypeCode(actionTypeCode);
-        }*/
         this.actionTypeCode = actionTypeCode;
     }
     /**
@@ -796,10 +775,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
     
     public String getPriorityNumberToDisplay() {
-        if(roleRspActions==null || roleRspActions.size()<1)
+        if(roleRspActions==null || roleRspActions.isEmpty() ) {
             return "";
-        else
-            return roleRspActions.get(0).getPriorityNumber()==null?"":roleRspActions.get(0).getPriorityNumber()+"";
+        }
+        return roleRspActions.get(0).getPriorityNumber()==null?"":roleRspActions.get(0).getPriorityNumber()+"";
     }
     
     /**
@@ -876,15 +855,15 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
 
 
     public boolean hasRole(){
-        return StringUtils.isNotEmpty(roleMemberRoleNamespaceCode) && StringUtils.isNotEmpty(roleMemberRoleName);
+        return StringUtils.isNotBlank(roleMemberRoleNamespaceCode) && StringUtils.isNotBlank(roleMemberRoleName);
     }
 
     public boolean hasGroup(){
-        return StringUtils.isNotEmpty(groupMemberGroupNamespaceCode) && StringUtils.isNotEmpty(groupMemberGroupName);
+        return StringUtils.isNotBlank(groupMemberGroupNamespaceCode) && StringUtils.isNotBlank(groupMemberGroupName);
     }
     
     public boolean hasPrincipal(){
-        return StringUtils.isNotEmpty(principalMemberPrincipalName);
+        return StringUtils.isNotBlank(principalMemberPrincipalName);
     }
     
     public boolean hasAnyMember(){
@@ -991,7 +970,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
                     || StringUtils.isBlank(person.getPrincipalId()) 
                     || StringUtils.isBlank(person.getPrincipalName())
                     || !StringUtils.equals(person.getPrincipalId(), principalMemberPrincipalId) )){
-            person = getPersonFromService(principalMemberPrincipalId);
+            person = KimApiServiceLocator.getPersonService().getPerson(principalMemberPrincipalId);
         }
         return person;
     }
@@ -1027,10 +1006,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     public void setDelegationMemberGroup(DelegateMemberContract delegationMemberGroup) {
         this.delegationMemberGroup = new KfsKimDocDelegateMember( delegationMemberGroup );
-        if(delegationMemberGroup!=null){
-            Group groupInfo = KimApiServiceLocator.getGroupService().getGroup(memberGroup.getMemberId());
-            setGroup(groupInfo);
-        }
+//        if(delegationMemberGroup!=null){
+//            Group groupInfo = KimApiServiceLocator.getGroupService().getGroup(memberGroup.getMemberId());
+//            setGroup(groupInfo);
+//        }
     }
     /**
      * Gets the delegationMemberPerson attribute. 
@@ -1045,10 +1024,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     public void setDelegationMemberPerson(DelegateMemberContract delegationMemberPerson) {
         this.delegationMemberPerson = new KfsKimDocDelegateMember( delegationMemberPerson );
-        if(delegationMemberPerson!=null){
-            Person person = getPersonFromService(delegationMemberPerson.getMemberId());
-            setPerson(person);
-        }
+//        if(delegationMemberPerson!=null){
+//            Person person = KimApiServiceLocator.getPersonService().getPerson(delegationMemberPerson.getMemberId());
+//            setPerson(person);
+//        }
     }
     /**
      * Gets the delegationMemberRole attribute. 
@@ -1081,10 +1060,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     protected void setMemberGroup(RoleMemberContract memberGroup) {
         this.memberGroup = new KfsKimDocRoleMember( memberGroup );
-        if(memberGroup!=null){
-            Group groupInfo = KimApiServiceLocator.getGroupService().getGroup(memberGroup.getMemberId());
-            setGroup(groupInfo);
-        }
+//        if(memberGroup!=null){
+//            Group groupInfo = KimApiServiceLocator.getGroupService().getGroup(memberGroup.getMemberId());
+//            setGroup(groupInfo);
+//        }
     }
     /**
      * Gets the memberPerson attribute. 
@@ -1099,10 +1078,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     protected void setMemberPerson(RoleMemberContract memberPerson) {
         this.memberPerson = new KfsKimDocRoleMember( memberPerson );
-        if(memberPerson!=null){
-            Person personImpl = getPersonFromService(memberPerson.getMemberId());
-            setPerson(personImpl);
-        }
+//        if(memberPerson!=null){
+//            Person personImpl = getPersonFromService(memberPerson.getMemberId());
+//            setPerson(personImpl);
+//        }
     }
     /**
      * Gets the memberRole attribute. 
@@ -1117,10 +1096,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     protected void setMemberRole(KfsKimDocRoleMember memberRole) {
         this.memberRole = memberRole;
-        if(memberRole!=null){
-            Role roleInfo = KimApiServiceLocator.getRoleService().getRole(memberRole.getMemberId());
-//            setRole(roleInfo);
-        }
+//        if(memberRole!=null){
+//            Role roleInfo = KimApiServiceLocator.getRoleService().getRole(memberRole.getMemberId());
+////            setRole(roleInfo);
+//        }
     }
 
     public void setRoleDocumentDelegationMember(DelegateMember delegationMember){
@@ -1131,8 +1110,16 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
                 setDelegationMemberGroup(delegationMember);
             else if(MemberType.PRINCIPAL.equals(delegationMember.getType()))
                 setDelegationMemberPerson(delegationMember);
-            setActiveFromDate(delegationMember.getActiveFromDate().toDate());
-            setActiveToDate(delegationMember.getActiveToDate().toDate());
+            if ( delegationMember.getActiveFromDate() != null ) {
+                setActiveFromDate(delegationMember.getActiveFromDate().toDate());
+            } else {
+                setActiveFromDate( null );
+            }
+            if ( delegationMember.getActiveToDate() != null ) {
+                setActiveToDate(delegationMember.getActiveToDate().toDate());
+            } else {
+                setActiveToDate( null );
+            }
         } else {
             setDelegationMemberRole( new KfsKimDocDelegateMember( roleId, MemberType.ROLE ) );
             setDelegationMemberGroup( new KfsKimDocDelegateMember( roleId, MemberType.GROUP ) );
@@ -1150,8 +1137,16 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
                 setMemberGroup(roleMember);
             else if(MemberType.PRINCIPAL.equals(roleMember.getType()))
                 setMemberPerson(roleMember);
-            setActiveFromDate(roleMember.getActiveFromDate().toDate());
-            setActiveToDate(roleMember.getActiveToDate().toDate());
+            if ( roleMember.getActiveFromDate() != null ) {
+                setActiveFromDate(roleMember.getActiveFromDate().toDate());
+            } else {
+                setActiveFromDate( null );
+            }
+            if ( roleMember.getActiveToDate() != null ) {
+                setActiveToDate(roleMember.getActiveToDate().toDate());
+            } else {
+                setActiveToDate( null );
+            }
         } else {
             setMemberRole( new KfsKimDocRoleMember(roleId, MemberType.ROLE) );
             setMemberGroup( new KfsKimDocRoleMember(roleId, MemberType.GROUP) );
@@ -1284,45 +1279,21 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         return StringUtils.isEmpty(methodToCall);
     }
 
-    /**
-     * Gets the organizationTypeCode attribute. 
-     * @return Returns the organizationTypeCode.
-     */
     public String getOrganizationTypeCode() {
         return "99";
     }
-    /**
-     * Sets the organizationTypeCode attribute value.
-     * @param organizationTypeCode The organizationTypeCode to set.
-     */
     public void setOrganizationTypeCode(String organizationTypeCode) {
     }
-    /**
-     * Gets the roleName attribute. 
-     * @return Returns the roleName.
-     */
     public String getRoleName() {
         return roleName;
     }
-    /**
-     * Sets the roleName attribute value.
-     * @param roleName The roleName to set.
-     */
     public void setRoleName(String roleName) {
         this.roleName = roleName;
         setRoleNamesToConsider( Collections.singletonList(roleName) );
     }
-    /**
-     * Gets the roleNamespaceCode attribute. 
-     * @return Returns the roleNamespaceCode.
-     */
     public String getNamespaceCode() {
         return namespaceCode;
     }
-    /**
-     * Sets the roleNamespaceCode attribute value.
-     * @param roleNamespaceCode The roleNamespaceCode to set.
-     */
     public void setNamespaceCode(String namespaceCode) {
         this.namespaceCode = namespaceCode;
     }
@@ -1332,20 +1303,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         return 1L;
     }
 
-    private Person getPersonFromService(String principalId){
-        return KimApiServiceLocator.getPersonService().getPerson(principalId);
-    }
-    /**
-     * Gets the kimTypeId attribute. 
-     * @return Returns the kimTypeId.
-     */
     public String getKimTypeId() {
         return kimTypeId;
     }
-    /**
-     * Sets the kimTypeId attribute value.
-     * @param kimTypeId The kimTypeId to set.
-     */
     public void setKimTypeId(String kimTypeId) {
         this.kimTypeId = kimTypeId;
     }

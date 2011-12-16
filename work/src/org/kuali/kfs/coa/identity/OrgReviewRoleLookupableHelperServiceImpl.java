@@ -49,16 +49,10 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgReviewRoleLookupableHelperServiceImpl.class);
 
-//    protected DocumentTypeService documentTypeService;
     protected transient OrgReviewRoleService orgReviewRoleService;
     
-    protected static final String WILDCARD = "*";
-//    protected static final String DOCUMENT_TYPE_NAME = KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE;
-//    protected static final String SEARCH_CRITERIA_DOCUMENT_TYPE_NAME = "documentTypeName"; 
-//    public static final String MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE = KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
-//    public static final String MEMBER_ATTRIBUTE_ORGANIZATION_CODE = KFSPropertyConstants.ORGANIZATION_CODE;
-
     protected static final String MEMBER_ID = "memberId";
     protected static final String MEMBER_ATTRIBUTE_NAME_KEY = "attributes.kimAttribute.attributeName";
     protected static final String MEMBER_ATTRIBUTE_VALUE_KEY = "attributes.attributeValue";
@@ -224,7 +218,14 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return results.getResults();
     }
     
-    protected void filterOrgReview(Map<String, String> fieldValues, List<OrgReviewRole> searchResults){   
+    protected void filterOrgReview(Map<String, String> fieldValues, List<OrgReviewRole> searchResults){
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "Performing local filtering of search results" );
+            LOG.debug( "Criteria: " + fieldValues );
+            LOG.debug( "Initial Results: " + searchResults );
+        }
+        
+        
         List<Person> principals = getPersonsForWildcardedPrincipalName(fieldValues.get(OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME));
 
         List<String> groupIds = getGroupIdsForWildcardedGroupName(
@@ -250,13 +251,15 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     	    if(StringUtils.isNotBlank(organizationCode)){
     	        //filter by chart/document type if they exist
     	        if(StringUtils.isNotBlank(chartOfAccountsCode)){
-    	            if(!chartOfAccountsCode.equals(orgReviewRole.getChartOfAccountsCode())){    	                
+    	            if(!chartOfAccountsCode.equals(orgReviewRole.getChartOfAccountsCode())){
+    	                LOG.debug( "Removing RoleMember because chart does not match" );
     	                remove = true;
     	            }
     	        }
     	        
     	        if(StringUtils.isNotBlank(financialSystemDocumentTypeCode)){
-    	            if(!financialSystemDocumentTypeCode.equals(orgReviewRole.getFinancialSystemDocumentTypeCode())){    	                
+    	            if(!financialSystemDocumentTypeCode.equals(orgReviewRole.getFinancialSystemDocumentTypeCode())){
+    	                LOG.debug( "Removing RoleMember because document type does not match" );
     	                remove = true;
     	            }
     	        }
@@ -264,6 +267,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 //filter by document type if it exists
                 if(StringUtils.isNotBlank(financialSystemDocumentTypeCode)){
                     if(!financialSystemDocumentTypeCode.equals(orgReviewRole.getFinancialSystemDocumentTypeCode())){                        
+                        LOG.debug( "Removing RoleMember because document type does not match" );
                         remove = true;
                     }                    
                 }
@@ -272,13 +276,14 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     	    List<String> items = new ArrayList<String>();
     	    
     	    //check member id parameters, and only if it hasn't already been marked for removal.
-    	    if(remove == false){
+    	    if(!remove){
                 if(roles!=null){
                     if(groupIds!=null){
                         for(String groupId: groupIds){                                                        
                             items.add(groupId);
                         }
                         if(!items.contains(orgReviewRole.getGroupMemberGroupId())){
+                            LOG.debug( "Removing RoleMember because group member id does not match" );
                             remove = true;
                         }
                     }
@@ -287,6 +292,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                             items.add(principal.getPrincipalId());                            
                         }
                         if(!items.contains(orgReviewRole.getPrincipalMemberPrincipalId())){
+                            LOG.debug( "Removing RoleMember because principal id does not match" );
                             remove = true;
                         }                        
                     }
@@ -297,6 +303,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                             items.add(principal.getPrincipalId());                            
                         }
                         if(!items.contains(orgReviewRole.getPrincipalMemberPrincipalId())){
+                            LOG.debug( "Removing RoleMember because principal id does not match" );
                             remove = true;
                         }                        
                     }
@@ -332,7 +339,13 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         if ( searchCriteriaRoleMembers == null ) {
             return Collections.emptyList();
         }
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("About to perform Role lookup.  Criteria: " + searchCriteriaRoleMembers);
+        }
         RoleMemberQueryResults results = KimApiServiceLocator.getRoleService().findRoleMembers( QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(searchCriteriaRoleMembers)));
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "Role Member Lookup Results from KIM: " + results );
+        }
         if ( results == null ) {
             return Collections.emptyList();
         }
@@ -368,28 +381,32 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     }
     
     protected List<OrgReviewRole> flattenToOrgReviewMembers(String active, String documentTypeName, List<RoleMember> members){
-        List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
-        if(members==null || members.size()<1) return orgReviewRoles;
-        
-        String memberType;
-        Role roleInfo;
-        KimType kimTypeInfo;
-        Boolean activeInd = null;
-        if(StringUtils.isNotEmpty(active)){
-            activeInd = new Boolean(getBooleanValueForString(active, true));
+        LOG.debug( "\"flattening\" RoleMember objects to OrgReviewRole object" );
+        if(members==null || members.isEmpty() ) {
+            return Collections.emptyList();
         }
+        
+        boolean activeInd = getBooleanValueForString(active, true);
+        List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
         for(RoleMember member: members){
-            if(activeInd==null || (activeInd.booleanValue()==true && member.isActive()) || (activeInd.booleanValue()==false && !member.isActive())){
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug( "Converting Role Member: " + member );
+            }
+            if(StringUtils.isBlank(active) || activeInd == member.isActive() ) {
                 OrgReviewRole orgReviewRole = new OrgReviewRole();
                 orgReviewRole.setMemberId(member.getMemberId());
-                orgReviewRole.setMemberTypeCode(member.getType().getCode());           
-                orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
-                orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
+                orgReviewRole.setMemberTypeCode(member.getType().getCode());
+                if ( member.getActiveFromDate() != null ) {
+                    orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
+                }
+                if ( member.getActiveToDate() != null ) {
+                    orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
+                }
                 orgReviewRole.setActive(member.isActive());
                 orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
                 
-                roleInfo = KimApiServiceLocator.getRoleService().getRole(member.getRoleId());
-                kimTypeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
+                Role roleInfo = KimApiServiceLocator.getRoleService().getRole(member.getRoleId());
+                KimType kimTypeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
                 orgReviewRole.setAttributes(orgReviewRole.getAttributeSetAsQualifierList(kimTypeInfo, member.getAttributes()));
 
                 orgReviewRole.setRoleRspActions(KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(member.getId()));
@@ -406,7 +423,12 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 orgReviewRole.setToAmount(orgReviewRole.getAttributeValue(KfsKimAttributes.TO_AMOUNT));
                 orgReviewRole.setFinancialSystemDocumentTypeCode(orgReviewRole.getAttributeValue(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
                 
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug( "Converting To OrgReviewRole: " + orgReviewRole );
+                }
                 orgReviewRoles.add(orgReviewRole);
+            } else {
+                LOG.debug( "RoleMember skipped because it did not match the active flag on the lookup" );
             }
         }
         return orgReviewRoles;
@@ -461,9 +483,9 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
 
     protected String getQueryString(String parameter){
         if(StringUtils.isBlank(parameter)) {
-            return WILDCARD;
+            return KFSConstants.WILDCARD_CHARACTER;
         } else {
-            return WILDCARD+parameter+WILDCARD;
+            return KFSConstants.WILDCARD_CHARACTER+parameter+KFSConstants.WILDCARD_CHARACTER;
         }
     }
    

@@ -46,7 +46,8 @@ public class InquirySectionConsistencyTest extends KualiTestBase {
 
         StringBuilder testFailures = new StringBuilder();
         
-        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+        for(org.kuali.rice.krad.datadictionary.BusinessObjectEntry kradBusinessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+            BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) kradBusinessObjectEntry;
             if ( expectedSections.containsKey(businessObjectEntry.getBusinessObjectClass().getName()) ) {
                 if ( businessObjectEntry.getInquiryDefinition() != null ) {
                     //LOG.info("Processing inquiry section for " + businessObjectEntry.getBusinessObjectClass().getName());

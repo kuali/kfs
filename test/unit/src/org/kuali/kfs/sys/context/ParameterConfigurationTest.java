@@ -22,9 +22,13 @@ import java.util.TreeSet;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.core.api.component.Component;
+import org.kuali.rice.core.api.component.ComponentService;
+import org.kuali.rice.core.impl.component.ComponentBo;
+import org.kuali.rice.core.impl.parameter.ParameterBo;
 import org.kuali.rice.core.web.parameter.ParameterRule;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -42,36 +46,37 @@ public class ParameterConfigurationTest extends KualiTestBase {
      */
     
     public void testValidateParameterComponents() throws Exception {
-        Collection<Parameter> params = SpringContext.getBean(BusinessObjectService.class).findAll(Parameter.class);
+    	// RICE20 Use ParameterService here instead of BusinessObjectService
+        Collection<ParameterBo> params = SpringContext.getBean(BusinessObjectService.class).findAll(ParameterBo.class);
         ParameterRule paramRule = new ParameterRule();
         StringBuffer badComponents = new StringBuffer();
         int failCount = 0;
         System.out.println("Starting Component Validation");
-        for (Parameter param : params) {
+        for (ParameterBo param : params) {
             // skip unimplemented modules
-            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode(param.getParameterNamespaceCode()); 
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode(param.getNamespaceCode()); 
             if ( moduleService == null || moduleService instanceof UnimplementedKfsModuleServiceImpl ) {
                 continue;
             }
             try{
                if (!paramRule.checkComponent(param)) {
-               if (param.getParameterNamespaceCode().startsWith("KR"))continue;
-                badComponents.append("\n").append(param.getParameterNamespaceCode()).append("\t").append(param.getParameterDetailTypeCode()).append("\t").append(param.getParameterName()).append("\t");
+               if (param.getNamespaceCode().startsWith("KR"))continue;
+                badComponents.append("\n").append(param.getNamespaceCode()).append("\t").append(param.getParameterTypeCode()).append("\t").append(param.getName()).append("\t");
                 failCount++;
             }
             }catch (Exception e){
-                badComponents.append("\n").append(e.getMessage()).append(param.getParameterNamespaceCode()).append("\t").append(param.getParameterDetailTypeCode()).append("\t").append(param.getParameterName()).append("\t");
+                badComponents.append("\n").append(e.getMessage()).append(param.getNamespaceCode()).append("\t").append(param.getParameterTypeCode()).append("\t").append(param.getName()).append("\t");
                 failCount++;
             }
         }
         badComponents.insert(0, "The following " + failCount + " parameters have invalid components:");
         if (failCount > 0) {
             Set<String> components = new TreeSet<String>();
-            for (ParameterDetailType pdt : SpringContext.getBean(ParameterServerService.class).getNonDatabaseComponents()) {
-                components.add(pdt.getParameterNamespaceCode() + "/" + pdt.getParameterDetailTypeCode());
+            for (Component pdt : SpringContext.getBean(ComponentService.class).getDerivedComponentSet(KFSConstants.APPLICATION_NAMESPACE_CODE)) {
+                components.add(pdt.getNamespaceCode() + "/" + pdt.getCode());
             }
-            for (ParameterDetailType pdt : (Collection<ParameterDetailType>) SpringContext.getBean(BusinessObjectService.class).findAll(ParameterDetailType.class)) {
-                components.add(pdt.getParameterNamespaceCode() + "/" + pdt.getParameterDetailTypeCode());
+            for (ComponentBo pdt : (Collection<ComponentBo>) SpringContext.getBean(BusinessObjectService.class).findAll(ComponentBo.class)) {
+                components.add(pdt.getNamespaceCode() + "/" + pdt.getCode());
             }
             System.out.println("Valid Components: ");
             for (String component : components) {

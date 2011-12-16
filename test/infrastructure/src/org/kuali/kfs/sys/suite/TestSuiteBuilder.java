@@ -110,7 +110,9 @@ public class TestSuiteBuilder {
      * @throws java.io.IOException if that directory cannot be scanned
      */
     private static ArrayList<String> scanTestClassNames(File testRootPackageDir) throws IOException {
-        AssertionUtils.assertThat(testRootPackageDir.getCanonicalPath().endsWith(ROOT_PACKAGE.replace('.', File.separatorChar)));
+        if(!testRootPackageDir.getCanonicalPath().endsWith(ROOT_PACKAGE.replace('.', File.separatorChar))) {
+            throw new AssertionError();
+        }
         ArrayList<String> testClassNames = new ArrayList<String>();
         LinkedList<File> dirs = new LinkedList<File>();
         dirs.add(testRootPackageDir);

@@ -42,7 +42,8 @@ public class GenerateDataDictionaryInquirySectionFile extends KualiTestBase {
 
     public void testGenerateInquirySections() throws Exception {
         TreeMap<String,List<InquirySectionDefinition>> boInquirySections = new TreeMap<String, List<InquirySectionDefinition>>();
-        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+        for(org.kuali.rice.krad.datadictionary.BusinessObjectEntry kradBusinessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+            BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) kradBusinessObjectEntry;
             if ( businessObjectEntry.getInquiryDefinition() != null ) {
                 //LOG.info("Processing inquiry section for " + businessObjectEntry.getBusinessObjectClass().getName());
                 InquiryDefinition inqDef = businessObjectEntry.getInquiryDefinition();

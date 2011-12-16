@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 
 @ConfigureContext
@@ -48,7 +49,7 @@ public class ChartManagerRoleTest extends KualiTestBase {
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
             
 //            System.out.println( chart );
-            roleIds.add(rms.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, "Chart Manager"));
+            roleIds.add(rms.getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, "Chart Manager"));
             Collection<RoleMembership> chartManagers = rms.getRoleMembers(roleIds, qualification);
 //            System.out.println( chartManagers );
 

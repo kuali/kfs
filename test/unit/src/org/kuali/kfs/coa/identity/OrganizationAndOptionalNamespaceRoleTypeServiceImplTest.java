@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 
 @ConfigureContext
@@ -88,7 +89,7 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImplTest extends Kua
         RoleService roleService = SpringContext.getBean(RoleService.class);
         
         qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, KFSConstants.ParameterNamespaces.CHART);
-        List<Map<String,String>> roleQualifiers = roleService.getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
+        List<Map<String,String>> roleQualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
         assertEquals( "roleQualifiers should have returned exactly one Map<String,String>", 1, roleQualifiers.size() );
         assertEquals( "chart did not match", USER_COA_CHART, roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );
         assertEquals( "org did not match", USER_COA_ORG, roleQualifiers.get(0).get(KfsKimAttributes.ORGANIZATION_CODE) );
@@ -96,19 +97,19 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImplTest extends Kua
         qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, KFSConstants.ParameterNamespaces.FINANCIAL);
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, USER_CHART);
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, USER_ORG);
-        roleQualifiers = roleService.getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
+        roleQualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
         assertEquals( "roleQualifiers should have returned no Map<String,String>s", 0, roleQualifiers.size() );
 
         qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, KFSConstants.ParameterNamespaces.CHART);
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, USER_CHART);
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, USER_ORG);
-        roleQualifiers = roleService.getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
+        roleQualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
         assertEquals( "roleQualifiers should have returned no Map<String,String>s", 0, roleQualifiers.size() );
         
         qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, KFSConstants.ParameterNamespaces.CHART);
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, USER_COA_CHART);
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, USER_COA_ORG);
-        roleQualifiers = roleService.getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
+        roleQualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
         assertEquals( "roleQualifiers should have returned exactly one Map<String,String>", 1, roleQualifiers.size() );
         assertEquals( "chart did not match", USER_COA_CHART, roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );
         assertEquals( "org did not match", USER_COA_ORG, roleQualifiers.get(0).get(KfsKimAttributes.ORGANIZATION_CODE) );
@@ -116,7 +117,7 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImplTest extends Kua
         qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, "");
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, USER_COA_CHART);
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, USER_COA_ORG);
-        roleQualifiers = roleService.getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
+        roleQualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
         assertEquals( "roleQualifiers should have returned no Map<String,String>s", 0, roleQualifiers.size() );
 
     }

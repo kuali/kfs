@@ -19,6 +19,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 
 public class SpringContextForBatchRunner extends SpringContext {
     public static void initializeApplicationContext() {
+        // RICE20 Jonathan will take a look at this
         SpringContext.initializeBatchApplicationContext();
     }
 }

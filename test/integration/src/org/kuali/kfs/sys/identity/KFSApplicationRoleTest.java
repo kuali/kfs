@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
+import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 
 /**
@@ -97,8 +98,10 @@ public class KFSApplicationRoleTest extends RoleTestBase {
         RoleMembership fo = roleMembers.iterator().next();
         roleMembers.iterator().hasNext();
         List<String> delegateIds = new ArrayList<String>();
-        for (DelegateMember delegate : fo.getDelegates()) {
-            delegateIds.add(delegate.getMemberId());
+        for (DelegateType delegateType : fo.getDelegates()) {
+            for (DelegateMember delegateMember : delegateType.getMembers()) {
+                delegateIds.add(delegateMember.getMemberId());
+            }
         }
         assertTrue("Fiscal Officer delegates does not contain primary delegate", delegateIds.contains(delegatePrincipalId));
     }

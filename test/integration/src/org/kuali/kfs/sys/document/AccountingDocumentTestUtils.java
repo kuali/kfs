@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentVersionMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
@@ -203,7 +204,8 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
                 document = (AccountingDocument) documentService.getByDocumentHeaderId(documentHeaderId);
 
                 // mock a fully approved document
-                document.getDocumentHeader().getWorkflowDocument().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
+                // RICE20 Not supported anymore. Is this even doing anything?
+                // document.getDocumentHeader().getWorkflowDocument().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
             }
 
             // collect some preCorrect data
@@ -305,7 +307,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
 
         int preCopyPECount = document.getGeneralLedgerPendingEntries().size();
         // int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
-        String preCopyStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
+        DocumentStatus preCopyStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
 
         List<? extends SourceAccountingLine> preCopySourceLines = (List<? extends SourceAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getSourceAccountingLines()));
         List<? extends TargetAccountingLine> preCopyTargetLines = (List<? extends TargetAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getTargetAccountingLines()));
@@ -322,7 +324,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         String postCopyId = document.getDocumentNumber();
         assertFalse(postCopyId.equals(preCopyId));
         // verify that docStatus has changed
-        String postCopyStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
+        DocumentStatus postCopyStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
         assertFalse(postCopyStatus.equals(preCopyStatus));
         // pending entries should be cleared
         int postCopyPECount = document.getGeneralLedgerPendingEntries().size();
@@ -402,7 +404,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     public static void approve(String docHeaderId, UserNameFixture user, String expectedNode, DocumentService documentService) throws Exception {
-        WorkflowTestUtils.waitForApproveRequest(Long.valueOf(docHeaderId), GlobalVariables.getUserSession().getPerson());
+        WorkflowTestUtils.waitForApproveRequest(docHeaderId, GlobalVariables.getUserSession().getPerson());
         Document document = documentService.getByDocumentHeaderId(docHeaderId);
         assertTrue("Document should be at routing node " + expectedNode, WorkflowTestUtils.isAtNode(document, expectedNode));
         assertTrue("Document should be enroute.", document.getDocumentHeader().getWorkflowDocument().isEnroute());

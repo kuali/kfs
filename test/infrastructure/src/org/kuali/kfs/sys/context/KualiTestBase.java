@@ -28,10 +28,11 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.kns.service.ConfigurableDateService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -111,7 +112,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
                 if ( springContextInitialized ) {
                     LOG.info( "clearing caches" );
                     clearMethodCache();
-                    SpringContext.getBean(ParameterService.class).clearCache();
+                    clearParameterCache();
                 }
             }
         }
@@ -142,11 +143,13 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         }
     }
 
+    // RICE20 took this from CacheServiceImpl. This flushes all caches? Is that really what we want here?
+    @CacheEvict(allEntries=true, value = { "" })
     protected void clearMethodCache() {
-        GeneralCacheAdministrator cache = (GeneralCacheAdministrator)SpringContext.getBean("methodResultsCacheAdministrator");
-        cache.flushAll();
-        cache = (GeneralCacheAdministrator)SpringContext.getBean("methodResultsCacheNoCopyAdministrator");
-        cache.flushAll();
+    }
+    
+    @CacheEvict(value={Parameter.Cache.NAME}, allEntries = true)
+    protected void clearParameterCache() {
     }
     
     protected boolean testTransactionIsRollbackOnly() {
@@ -182,6 +185,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         }
         if (!springContextInitialized) {
             try {
+                // RICE20 Jonathan will take a look at this
                 SpringContext.initializeTestApplicationContext();
                 springContextInitialized = true;
             }
@@ -207,10 +211,6 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         UserNameFixture sessionUser = contextConfiguration.session();
         if (sessionUser != UserNameFixture.NO_SESSION) {
             GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
-            org.kuali.rice.krad.UserSession.setAuthenticatedUser(
-                    new org.kuali.rice.krad.UserSession(
-                            GlobalVariables.getUserSession().getPrincipalId())
-                    );
         }
     }
 

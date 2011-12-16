@@ -272,7 +272,7 @@ public class DelegateGlobalTest extends KualiTestBase {
         try {
             List<PersistableBusinessObject> persistables = gbo.generateGlobalChangesToPersist();
         }
-        catch (BusinessObjectNotFoundException e) {
+        catch (RuntimeException e) {
             errorHappened = true;
         }
 

@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.monitor.DocumentStatusMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.document.Copyable;
@@ -186,7 +187,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
 
         int preCorrectPECount = document.getGeneralLedgerPendingEntries().size();
         // int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
-        String preCorrectStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
+        DocumentStatus preCorrectStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
 
         ArrayList preCorrectSourceLines = (ArrayList) ObjectUtils.deepCopy(new ArrayList(document.getSourceAccountingLines()));
         ArrayList preCorrectTargetLines = (ArrayList) ObjectUtils.deepCopy(new ArrayList(document.getTargetAccountingLines()));

@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.service;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE18;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.mhkozlow;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class CheckServiceTest extends KualiTestBase {
     @ConfigureContext(session = mhkozlow, shouldCommitTransactions = true)
     public void testLifecycle() throws Exception {
         boolean deleteSucceeded = false;
-        List retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
+        List retrievedChecks = new ArrayList(SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber));
         assertTrue(retrievedChecks.size() == 0);
 
         Check savedCheck = null;
@@ -77,7 +78,7 @@ public class CheckServiceTest extends KualiTestBase {
             savedCheck = check;
 
             // retrieve it
-            retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
+            retrievedChecks = new ArrayList(SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber));
             assertTrue(retrievedChecks.size() > 0);
             retrievedCheck = (Check) retrievedChecks.get(0);
 
@@ -91,13 +92,13 @@ public class CheckServiceTest extends KualiTestBase {
         }
 
         // verify that the delete succeeded
-        retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
+        retrievedChecks = new ArrayList(SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber));
         assertTrue(retrievedChecks.size() == 0);
 
     }
 
     private void clearTestData() {
-        List retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
+        List retrievedChecks = new ArrayList(SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber));
         if (retrievedChecks.size() > 0) {
             for (Iterator i = retrievedChecks.iterator(); i.hasNext();) {
                 SpringContext.getBean(BusinessObjectService.class).delete((Check) i.next());

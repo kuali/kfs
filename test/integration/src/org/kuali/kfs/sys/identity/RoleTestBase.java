@@ -24,13 +24,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleService;
 
 public abstract class RoleTestBase extends KualiTestBase {
 
     
     protected Collection<RoleMembership> getRoleMembers(String roleNamespace, String roleName, Map<String,String> roleQualifications) {
         final RoleService roleManagementService = SpringContext.getBean(RoleService.class);
-        final Role roleInfo = roleManagementService.getRoleByName(roleNamespace, roleName);
+        final Role roleInfo = roleManagementService.getRoleByNameAndNamespaceCode(roleNamespace, roleName);
         return roleManagementService.getRoleMembers(Arrays.asList(new String[] { roleInfo.getId() }), roleQualifications);
     }
     
@@ -44,7 +45,7 @@ public abstract class RoleTestBase extends KualiTestBase {
         
         int memberCount = 0;
         for (RoleMembership roleMember : roleMembers) {
-            if (roleMember.getMemberTypeCode().equals("P") && roleMember.getMemberId().equals(principalId)) {
+            if (roleMember.getType().getCode().equals("P") && roleMember.getMemberId().equals(principalId)) {
                 memberCount += 1;
             }
         }
@@ -56,7 +57,7 @@ public abstract class RoleTestBase extends KualiTestBase {
         
         int memberCount = 0;
         for (RoleMembership roleMember : roleMembers) {
-            if (roleMember.getMemberTypeCode().equals("P") && roleMember.getMemberId().equals(principalId)) {
+            if (roleMember.getType().getCode().equals("P") && roleMember.getMemberId().equals(principalId)) {
                 memberCount += 1;
             }
         }
@@ -70,7 +71,7 @@ public abstract class RoleTestBase extends KualiTestBase {
         
         final RoleMembership roleMember = roleMembers.iterator().next();
         roleMembers.iterator().hasNext(); // wind the iterator out, just in case
-        assertTrue("Role member "+roleMember.getMemberId()+" does not match expected principal id: "+principalId, (roleMember.getMemberTypeCode().equals("P") && roleMember.getMemberId().equals(principalId)));
+        assertTrue("Role member "+roleMember.getMemberId()+" does not match expected principal id: "+principalId, (roleMember.getType().getCode().equals("P") && roleMember.getMemberId().equals(principalId)));
     }
     
 }

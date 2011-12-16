@@ -21,7 +21,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 @ConfigureContext
-public class KualiKualiConfigurationServiceTest extends KualiTestBase {
+public class KualiConfigurationServiceTest extends KualiTestBase {
 
     public void testGetSecureProperties() throws Exception {
         ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);

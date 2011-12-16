@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceService;
@@ -2080,10 +2080,10 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     private <T extends PersistableBusinessObject> void deactivate(Class<T> clazz, Map<String, Object> primaryKeys) {
         PersistableBusinessObject bo = businessObjectService.findByPrimaryKey(clazz, primaryKeys);
 
-        if (bo instanceof Inactivatable) {
-            Inactivatable inactivatedBO = (Inactivatable) bo;
-            inactivatedBO.setActive(false);
-
+        // RICE20 This will fail until we have our BOs implement MutableInactivatable
+        if (bo instanceof MutableInactivatable) {
+            MutableInactivatable mutableInactivatable = (MutableInactivatable) bo;
+            mutableInactivatable.setActive(false);
             businessObjectService.save(bo);
         }
     }

@@ -40,6 +40,14 @@
         <ref bean="OrgReviewRole-delegationMemberId"/>
         <ref bean="OrgReviewRole-person.principalName"/>
         <ref bean="OrgReviewRole-person.name"/>
+        <ref bean="OrgReviewRole-memberPrincipal.principalId"/>        
+        <ref bean="OrgReviewRole-memberPrincipal.principalName"/>
+        <ref bean="OrgReviewRole-memberRole.memberId"/>
+        <ref bean="OrgReviewRole-memberRole.namespaceCode"/>
+        <ref bean="OrgReviewRole-memberRole.memberName"/>
+        <ref bean="OrgReviewRole-memberGroup.memberId"/>
+        <ref bean="OrgReviewRole-memberGroup.memberNamespaceCode"/>
+        <ref bean="OrgReviewRole-memberGroup.memberName"/>
         <ref bean="OrgReviewRole-memberNamespaceCode"/>
         <ref bean="OrgReviewRole-memberName"/>
         <ref bean="OrgReviewRole-delegate"/>
@@ -212,6 +220,26 @@
 	<bean id="OrgReviewRole-person.name-parentBean" parent="PersonImpl-name"
 		abstract="true" p:name="person.principalId" />
 
+	<bean id="OrgReviewRole-memberPrincipal.principalId" parent="OrgReviewRole-memberPrincipal.principalId-parentBean" />
+	<bean id="OrgReviewRole-memberPrincipal.principalId-parentBean"
+		parent="PersonImpl-principalId" abstract="true" p:name="principalMemberPrincipalId">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-memberPrincipal.principalName" parent="OrgReviewRole-memberPrincipal.principalName-parentBean" />
+	<bean id="OrgReviewRole-memberPrincipal.principalName-parentBean"
+		parent="PersonImpl-principalName" abstract="true"
+		p:name="principalMemberPrincipalName">
+		<property name="control">
+			<bean parent="KualiUserControlDefinition"
+				p:personNameAttributeName="person.principalName"
+				p:universalIdAttributeName="principalMemberPrincipalId"
+				p:userIdAttributeName="principalMemberPrincipalName" />
+		</property>
+	</bean>
+
 	<bean id="OrgReviewRole-roleId" parent="OrgReviewRole-roleId-parentBean" />
 	<bean id="OrgReviewRole-roleId-parentBean" parent="RoleBo-id"
 		abstract="true" p:name="roleId" />
@@ -223,6 +251,40 @@
 	<bean id="OrgReviewRole-roleName" parent="OrgReviewRole-roleName-parentBean" />
 	<bean id="OrgReviewRole-roleName-parentBean" parent="RoleBo-name"
 		abstract="true" p:name="roleName" />
+
+	<bean id="OrgReviewRole-memberRole.memberId" parent="OrgReviewRole-memberRole.memberId-parentBean" />
+	<bean id="OrgReviewRole-memberRole.memberId-parentBean" parent="RoleBo-id"
+		abstract="true" p:name="roleMemberRoleId">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-memberRole.namespaceCode" parent="OrgReviewRole-memberRole.namespaceCode-parentBean" />
+	<bean id="OrgReviewRole-memberRole.namespaceCode-parentBean"
+		parent="RoleBo-namespaceCode" abstract="true" p:name="roleMemberRoleNamespaceCode" />
+
+	<bean id="OrgReviewRole-memberRole.memberName" parent="OrgReviewRole-memberRole.memberName-parentBean" />
+	<bean id="OrgReviewRole-memberRole.memberName-parentBean" parent="RoleBo-name"
+		abstract="true" p:name="roleMemberRoleName" />
+
+	<bean id="OrgReviewRole-memberGroup.memberId" parent="OrgReviewRole-memberGroup.memberId-parentBean" />
+	<bean id="OrgReviewRole-memberGroup.memberId-parentBean" parent="Group-id"
+		abstract="true" p:name="groupMemberGroupId">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-memberGroup.memberNamespaceCode"
+		parent="OrgReviewRole-memberGroup.memberNamespaceCode-parentBean" />
+	<bean id="OrgReviewRole-memberGroup.memberNamespaceCode-parentBean"
+		parent="Group-namespaceCode" abstract="true"
+		p:name="groupMemberGroupNamespaceCode" />
+
+	<bean id="OrgReviewRole-memberGroup.memberName" parent="OrgReviewRole-memberGroup.memberName-parentBean" />
+	<bean id="OrgReviewRole-memberGroup.memberName-parentBean" parent="Group-name"
+		abstract="true" p:name="groupMemberGroupName" />
 
 	<bean id="OrgReviewRole-memberNamespaceCode" parent="OrgReviewRole-memberNamespaceCode-parentBean" />
 	<bean id="OrgReviewRole-memberNamespaceCode-parentBean" parent="DocRoleMember-memberNamespaceCode"

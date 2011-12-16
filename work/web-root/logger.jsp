@@ -63,7 +63,7 @@ else
 		namesOption += "<OPTION VALUE='" + t2LoggerName + "'>"+t2LoggerName+ " [" + t2LoggerLevel + "] -> " + thisParent + "</OPTION>";
 	}
 	
-	namesOption = "<SELECT NAME='loggerName' MULTIPLE SIZE='8'>"+namesOption+"</SELECT>";
+	namesOption = "<SELECT NAME='loggerName' MULTIPLE SIZE='30'>"+namesOption+"</SELECT>";
 	
 	
 	

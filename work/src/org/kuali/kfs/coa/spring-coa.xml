@@ -638,7 +638,7 @@
 
 	<bean id="orgReviewRoleService"  parent="orgReviewRoleService-parentBean"/>
 	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" >
-		<property name="documentTypeService" ref="documentTypeService" />
+		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
 	</bean>
 	 
 </beans>

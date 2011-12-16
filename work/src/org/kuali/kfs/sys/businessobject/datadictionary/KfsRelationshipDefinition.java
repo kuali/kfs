@@ -15,6 +15,11 @@
  */
 package org.kuali.kfs.sys.businessobject.datadictionary;
 
+import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.framework.group.GroupEbo;
+import org.kuali.rice.kim.framework.role.RoleEbo;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.datadictionary.RelationshipDefinition;
@@ -53,6 +58,10 @@ public class KfsRelationshipDefinition extends RelationshipDefinition {
                 propertyClass = CountryEbo.class;
             } else if ( County.class.isAssignableFrom(propertyClass) ) {
                 propertyClass = CountyEbo.class;
+            } else if ( Role.class.isAssignableFrom(propertyClass) ) {
+                propertyClass = RoleEbo.class;
+            } else if ( Group.class.isAssignableFrom(propertyClass) ) {
+                propertyClass = GroupEbo.class;
             } else {
                 if (!BusinessObject.class.isAssignableFrom(propertyClass)) {
                     throw new AttributeValidationException("property '" + objectAttributeName + "' is not a BusinessObject (" + propertyClass.getName() + ") on sourceClass (" + sourceClass +")");

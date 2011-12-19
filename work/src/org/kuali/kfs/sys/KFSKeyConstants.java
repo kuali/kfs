@@ -71,6 +71,10 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL = "error.document.pc.transactionTotal.accountingLineTotal.notEqual";
     public static final String ERROR_DOCUMENT_TARGET_SECTION_NO_ACCOUNTING_LINES = "error.document.targetSectionNoAccountingLines";
     public static final String ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES = "error.document.singleSectionNoAccountingLines";
+    public static final String ERROR_DOCUMENT_SOURCE_ACCOUNTING_LINE_NOT_DISTRIBUTED = "error.document.sourceAccountLines.notDistributed";
+    public static final String ERROR_DOCUMENT_TARGET_ACCOUNTING_LINE_NOT_DISTRIBUTED = "error.document.targetAccountLines.notDistributed";
+    public static final String ERROR_DOCUMENT_SOURCE_ACCOUNTING_LINE_AMOUNT_NOT_DISTRIBUTED = "error.document.sourceAccountLines.amount.notDistributed";
+    public static final String ERROR_DOCUMENT_TARGET_ACCOUNTING_LINE_AMOUNT_NOT_DISTRIBUTED = "error.document.targetAccountLines.amount.notDistributed";
     public static final String ERROR_DOCUMENT_NO_DESCRIPTION = "error.document.noDescription";
     public static final String ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE = "error.document.subAccountInactive";
     public static final String ERROR_DOCUMENT_NULL_ACCOUNTING_LINE = "error.document.nullAccountingLine";
@@ -988,4 +992,8 @@ public class KFSKeyConstants {
         public static final String ERROR_BATCH_UPLOAD_INVALID_STEP = "error.sys.batch.semaphore.upload.invalidStep";
         public static final String ERROR_BATCH_UPLOAD_DELETE_DONE_FILE = "error.sys.batch.semaphore.upload.deleteDoneFile";
     }
+    
+    //capital asset information specific errors...
+    public static final String ERROR_ASSET_ACCOUNT_NUMBER_LINE_NOT_IN_SOURCE_OR_TARGET_ACCOUNTING_LINES = "error.asset.accounting.lines.not.in.source.or.target.accountLines";
+    public static final String ERROR_ASSET_LINE_AMOUNT_NOT_EQUAL_TO_DISTRIBUTED_ACCOUNTING_LINES = "error.asset.amount.not.equalDistributedAccountingLines";
 }

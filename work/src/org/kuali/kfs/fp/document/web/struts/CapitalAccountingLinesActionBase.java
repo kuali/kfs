@@ -356,10 +356,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         }
 
         if (ObjectUtils.isNotNull(accountLineToDelete)) {
-            capitalAsset.setCapitalAssetLineAmount(capitalAsset.getCapitalAssetLineAmount().subtract(accountLineToDelete.getAmount()));
-            groupAccountLines.remove(accountLineToDelete);
+            // remove all the group accounting lines so that the asset line can be removed.
+            capitalAsset.getCapitalAssetAccountsGroupDetails().clear();
         }
-        
     }
     
     /**

@@ -27,6 +27,10 @@
       <list>
         <ref bean="CustomerInvoiceLookup-invoiceNumber"/>
         <ref bean="CustomerInvoiceLookup-customerName"/>
+        <ref bean="CustomerInvoiceDocument-invoiceDueDate"/>
+        <ref bean="CustomerInvoiceDocument-billingDate"/>
+        <ref bean="CustomerInvoiceDocument-billByChartOfAccountCode"/>
+        <ref bean="CustomerInvoiceDocument-billedByOrganizationCode"/>
       </list>
     </property>
   </bean>
@@ -47,7 +51,41 @@
   	<property name="name" value="customerName"/>
   </bean>
   
+  <bean id="CustomerInvoiceDocument-invoiceDueDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="invoiceDueDate"/>
+    <property name="label" value="Due Date"/>
+    <property name="shortLabel" value="Due Date"/>
+    <property name="required" value="true"/>
+  </bean>
+  <bean id="CustomerInvoiceDocument-billingDate" parent="CustomerInvoiceDocument-billingDate-parentBean"/>
+
+  <bean id="CustomerInvoiceDocument-billingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="billingDate"/>
+    <property name="label" value="Billing Date"/>
+    <property name="shortLabel" value="Billing Date"/>
+    <property name="required" value="false"/>
+  </bean>
   
+    <bean id="CustomerInvoiceDocument-billByChartOfAccountCode" parent="CustomerInvoiceDocument-billByChartOfAccountCode-parentBean"/>
+
+  <bean id="CustomerInvoiceDocument-billByChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="billByChartOfAccountCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Billing Chart Code"/>
+    <property name="shortLabel" value="Billing Chart"/>
+    <property name="control">
+      <ref bean="ChartSelectControl" />
+    </property>
+  </bean>
+  <bean id="CustomerInvoiceDocument-billedByOrganizationCode" parent="CustomerInvoiceDocument-billedByOrganizationCode-parentBean"/>
+
+  <bean id="CustomerInvoiceDocument-billedByOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+    <property name="name" value="billedByOrganizationCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Billing Organization Code"/>
+    <property name="shortLabel" value="Billing Org Code"/>
+  </bean>
+    
 <!-- Business Object Lookup Definition -->
 
   <bean id="CustomerInvoiceLookup-lookupDefinition" parent="CustomerInvoiceLookup-lookupDefinition-parentBean"/>
@@ -68,12 +106,20 @@
       <list>
         <bean parent="FieldDefinition" p:required="false" p:attributeName="invoiceNumber"/>
         <bean parent="FieldDefinition" p:required="false" p:attributeName="customerName"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="billingDate"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="invoiceDueDate"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="billByChartOfAccountCode"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="billedByOrganizationCode"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
       	<bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
         <bean parent="FieldDefinition" p:attributeName="customerName"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="billingDate"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="invoiceDueDate"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="billByChartOfAccountCode"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="billedByOrganizationCode"/>        
       </list>
     </property>
   </bean>

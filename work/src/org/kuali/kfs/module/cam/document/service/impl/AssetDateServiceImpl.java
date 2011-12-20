@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,9 +27,12 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,11 +40,15 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.DateFormatter;
 
 
 public class AssetDateServiceImpl implements AssetDateService {
 
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetDateService.class);
+    
     private AssetService assetService;
     private UniversityDateService universityDateService;
     private DateTimeService dateTimeService;
@@ -116,7 +125,17 @@ public class AssetDateServiceImpl implements AssetDateService {
                     throw new ValidationException("University Fiscal year is not defined for date - " + inServiceDate);
                 }
 
-                java.sql.Date newInServiceFiscalYearStartDate = new java.sql.Date(universityDateService.getFirstDateOfFiscalYear(fiscalYear).getTime());
+                //Retrieve new in service start date from parameter
+                String newInServiceAssetDepreciationStartMMDD = SpringContext.getBean(ParameterService.class).getParameterValue(AssetGlobal.class, CamsConstants.Parameters.NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE);
+                java.sql.Date newInServiceFiscalYearStartDate = null;
+                try {
+                    newInServiceFiscalYearStartDate= getDateTimeService().convertToSqlDate(newInServiceAssetDepreciationStartMMDD + "/" + fiscalYear);
+                } catch( Exception e ){
+                    //issue to construct the new in service fiscal year start date
+                    String error = "Unable to construct new in service fiscal year start date - param value: [ " + newInServiceAssetDepreciationStartMMDD + "]"; 
+                    LOG.error(error, e );
+                    throw new IllegalArgumentException(error, e);
+                }
                 String conventionCode = depreciationConvention.getDepreciationConventionCode();
 
                 if (CamsConstants.DepreciationConvention.FULL_YEAR.equalsIgnoreCase(conventionCode)) {

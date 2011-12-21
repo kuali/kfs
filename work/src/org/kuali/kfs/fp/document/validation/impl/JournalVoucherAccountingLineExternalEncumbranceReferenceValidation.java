@@ -15,15 +15,23 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ENCUMBRANCE_UPDATE_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_ORIGIN_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_TYPE_CODE;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
@@ -31,37 +39,65 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
- * Validation that if the Journal Voucher is using an external encumbrance balance type, reference fields are included on each accounting line 
+ * Validation that if the Journal Voucher is using an encumbrance balance type, reference fields are included on each accounting line 
  */
 public class JournalVoucherAccountingLineExternalEncumbranceReferenceValidation extends GenericValidation {
+    private JournalVoucherDocument journalVoucherForValidation;
     private AccountingLine accountingLineForValidation;
+    
     private DataDictionaryService dataDictionaryService;
 
     /**
      * This method checks that values exist in the three reference fields (referenceOriginCode, referenceTypeCode, referenceNumber)
-     * that are required if the balance type is set to EXTERNAL ENCUMBRANCE.
+     * that are required if 
+     * 1) the balance type is of type Encumbrance 
+     * 2) encumbrance update code is R
+     * 
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        if (BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(getAccountingLineForValidation().getBalanceTypeCode())) {
-            boolean valid = true;
-
+        
+        boolean valid = true;
+        if (isEncumbranceBalanceType(getAccountingLineForValidation().getBalanceTypeCode())) {
             BusinessObjectEntry boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());
-            if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceOriginCode())) {
-                putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
+            
+            if (StringUtils.isEmpty(getAccountingLineForValidation().getEncumbranceUpdateCode())) {
+                putRequiredPropertyError(boe, ENCUMBRANCE_UPDATE_CODE);
                 valid = false;
+            }else if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(getAccountingLineForValidation().getEncumbranceUpdateCode())){
+                //check the required reference fields
+                if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceOriginCode())) {
+                    putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
+                    valid = false;
+                }
+                if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceNumber())) {
+                    putRequiredPropertyError(boe, REFERENCE_NUMBER);
+                    valid = false;
+                }
+                if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceTypeCode())) {
+                    putRequiredPropertyError(boe, REFERENCE_TYPE_CODE);
+                    valid = false;
+                }
             }
-            if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceNumber())) {
-                putRequiredPropertyError(boe, REFERENCE_NUMBER);
-                valid = false;
-            }
-            if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceTypeCode())) {
-                putRequiredPropertyError(boe, REFERENCE_TYPE_CODE);
-                valid = false;
-            }
-            return valid;
         }
-        return true;
+        return valid;
+    }
+    
+    /**
+     * Using the document accounting period to determine university fiscal year and look up all the encumbrance
+     * balance type - check if the selected balance type is for encumbrance
+     * 
+     * @return true/false  - true if it is an encumbrance balance type
+     */
+    private boolean isEncumbranceBalanceType(String balanceTypeCode){
+        getJournalVoucherForValidation().refreshReferenceObject(KFSPropertyConstants.ACCOUNTING_PERIOD);
+        AccountingPeriod accountingPeriod = getJournalVoucherForValidation().getAccountingPeriod();
+        
+        //get encumbrance balance type list
+        BalanceTypeService balanceTypeSerivce = SpringContext.getBean(BalanceTypeService.class);
+        List<String> encumbranceBalanceTypes = balanceTypeSerivce.getEncumbranceBalanceTypes(accountingPeriod.getUniversityFiscalYear());
+        
+        return encumbranceBalanceTypes.contains(balanceTypeCode);
     }
     
     /**
@@ -76,6 +112,22 @@ public class JournalVoucherAccountingLineExternalEncumbranceReferenceValidation 
         GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_REQUIRED, label);
     }
 
+    /**
+     * Gets the journalVoucherForValidation attribute. 
+     * @return Returns the journalVoucherForValidation.
+     */
+    public JournalVoucherDocument getJournalVoucherForValidation() {
+        return journalVoucherForValidation;
+    }
+
+    /**
+     * Sets the journalVoucherForValidation attribute value.
+     * @param journalVoucherForValidation The journalVoucherForValidation to set.
+     */
+    public void setJournalVoucherForValidation(JournalVoucherDocument journalVoucherForValidation) {
+        this.journalVoucherForValidation = journalVoucherForValidation;
+    }
+    
     /**
      * Gets the accountingLineForValidation attribute. 
      * @return Returns the accountingLineForValidation.

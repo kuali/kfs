@@ -316,7 +316,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String INQUIRY_ACTION = "kr/inquiry.do";
     public static final String JOURNAL_VOUCHER_CHANGE_BALANCE_TYPE_QUESTION = "JournalVoucherChangeBalanceTypeQuestion";
     public static final String JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION = "JournalVoucherRouteOutOfBalanceDocumentQuestion";
-    public static final String JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = "R";
     public static final String JOURNAL_LINE_HELPER_PROPERTY_NAME = "journalLineHelper";
     public static final String AUXILIARY_LINE_HELPER_PROPERTY_NAME = "auxiliaryLineHelper";
     public static final String VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME = ".credit";
@@ -465,6 +464,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String EDIT_PRE_ENCUMBRANCE_ERRORS = "EditPreEncumbranceErrors";
 
     public static final String ACCOUNTING_LINE_ERRORS = "document.accountingLines";
+    
+    //cannot use SOURCE_ACCOUNTING_LINE_ERROR_PATTERN due to doubled error displayed in checking already added source accounting line
+    public static final String NEW_SOURCE_LINE_ERRORS = "newSourceLine*";
     public static final String SOURCE_ACCOUNTING_LINE_ERROR_PATTERN = "document.sourceAccounting*,sourceAccountingLines,newSourceLine*,journalLineHelper*,auxiliaryLineHelper*";
     public static final String TARGET_ACCOUNTING_LINE_ERROR_PATTERN = "document.targetAccounting*,targetAccountingLines,newTargetLine*";
     public static final String ACCOUNTING_LINE_GROUP_SUFFIX = "s";

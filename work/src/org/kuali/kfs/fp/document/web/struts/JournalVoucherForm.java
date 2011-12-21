@@ -96,17 +96,19 @@ public class JournalVoucherForm extends VoucherForm {
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
 
             // set the encumbrance update code appropriately
-            if (KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(selectedBalanceType.getCode())) {
-                sourceLine.setEncumbranceUpdateCode(KFSConstants.JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
-            }
-            else {
-                sourceLine.setEncumbranceUpdateCode(null);
-            }
+            //TODO: move the code
+            // no more default encumbrance code
+//            if (KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(selectedBalanceType.getCode())) {
+//                sourceLine.setEncumbranceUpdateCode(KFSConstants.JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
+//            }
+//            else {
+//                sourceLine.setEncumbranceUpdateCode(null);
+//            }
         }
         else {
             // it's the first time in, the form will be empty the first time in
             // set up default selection value
-            selectedBalanceType = SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            selectedBalanceType = getPopulatedBalanceTypeInstance(KFSConstants.BALANCE_TYPE_ACTUAL);
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
 
@@ -184,6 +186,20 @@ public class JournalVoucherForm extends VoucherForm {
      */
     public void setOriginalBalanceType(String changedBalanceType) {
         this.originalBalanceType = changedBalanceType;
+    }
+    
+    /**
+     * Using the selected accounting period to determine university fiscal year and look up all the encumbrance
+     * balance type - check if the selected balance type is for encumbrance
+     * 
+     * @return true/false  - true if it is an encumbrance balance type
+     */
+    public boolean getIsEncumbranceBalanceType(){
+        //get encumbrance balance type list
+        BalanceTypeService balanceTypeSerivce = SpringContext.getBean(BalanceTypeService.class);
+        List<String> encumbranceBalanceTypes = balanceTypeSerivce.getEncumbranceBalanceTypes(getSelectedPostingYear());
+        
+        return encumbranceBalanceTypes.contains(selectedBalanceType.getCode());
     }
 
     /**

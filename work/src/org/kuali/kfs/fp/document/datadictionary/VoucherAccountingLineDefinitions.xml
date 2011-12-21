@@ -37,8 +37,8 @@
 	</property>
   </bean>
   
-  <bean id="Voucher-accountingLineView-withExtEncumbrance" parent="Voucher-accountingLineView-withExtEncumbrance-parent" />
-  <bean id="Voucher-accountingLineView-withExtEncumbrance-parent" parent="AccountingLineView" abstract="true">
+  <bean id="Voucher-accountingLineView-withEncumbrance" parent="Voucher-accountingLineView-withEncumbrance-parent" />
+  <bean id="Voucher-accountingLineView-withEncumbrance-parent" parent="AccountingLineView" abstract="true">
 	  <property name="elements">
 		<list>
 			<bean parent="AccountingLineView-sequenceNumber" />
@@ -46,7 +46,7 @@
 				<property name="lines">
 					<list>
 						<ref bean="VoucherInformation"/>
-						<ref bean="ExtEncumbranceInformation"/>
+						<ref bean="EncumbranceInformation"/>
 					</list>
 				</property>
 			</bean>
@@ -74,8 +74,8 @@
 	</property>
   </bean>
   
-  <bean id="Voucher-accountingLineView-withDebitCreditExtEncumbrance" parent="Voucher-accountingLineView-withDebitCreditExtEncumbrance-parent" />
-  <bean id="Voucher-accountingLineView-withDebitCreditExtEncumbrance-parent" parent="AccountingLineView" abstract="true">
+  <bean id="Voucher-accountingLineView-withDebitCreditEncumbrance" parent="Voucher-accountingLineView-withDebitCreditEncumbrance-parent" />
+  <bean id="Voucher-accountingLineView-withDebitCreditEncumbrance-parent" parent="AccountingLineView" abstract="true">
 	  <property name="elements">
 		<list>
 			<bean parent="AccountingLineView-sequenceNumber" />
@@ -83,7 +83,7 @@
 				<property name="lines">
 					<list>
 						<ref bean="VoucherInformation"/>
-						<ref bean="ExtEncumbranceInformation"/>
+						<ref bean="EncumbranceInformation"/>
 					</list>
 				</property>
 			</bean>
@@ -93,12 +93,13 @@
 	</property>
   </bean> 
   
-  <bean id="ExtEncumbranceInformation" parent="ExtEncumbranceInformation-parent" />
-  <bean id="ExtEncumbranceInformation-parent" parent="AccountingLineView-line" abstract="true">  
+  <bean id="EncumbranceInformation" parent="EncumbranceInformation-parent" />
+  <bean id="EncumbranceInformation-parent" parent="AccountingLineView-line" abstract="true">  
   	<property name="elementName" value="lineDescription" />
 	<property name="fields">
 		<list>
-			<bean parent="AccountingLineView-field"	p:name="referenceOriginCode" />
+			<bean parent="AccountingLineView-field" p:name="encumbranceUpdateCode" />
+      <bean parent="AccountingLineView-field"	p:name="referenceOriginCode" />
 			<bean parent="AccountingLineView-field"	p:name="referenceTypeCode" />
 			<bean parent="AccountingLineView-field"	p:name="referenceNumber" />
 		</list>

@@ -38,25 +38,17 @@ public class PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation 
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        boolean accountLinePercentNull = false;
+        
         PurchasingAccountsPayableDocumentBase purapDoc = (PurchasingAccountsPayableDocumentBase) event.getDocument();
-     //   PurchasingDocumentBase purapDoc = (PurchasingDocumentBase) event.getDocument();
 
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(purapDoc.getAccountDistributionMethod())) {
             for (PurApAccountingLine account : itemForValidation.getSourceAccountingLines()) {
-                if (ObjectUtils.isNull(account.getAccountLinePercent())) {
-                    accountLinePercentNull = true;
-                    break;
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
+                    return false;
                 }
             }
         }
-        
-        //account percent field is null on all accounting lines so throw an error message...
-        if (accountLinePercentNull) {
-            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
-            valid = false;
-        }
-
 
         return valid;
     }
@@ -68,5 +60,4 @@ public class PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation 
     public void setItemForValidation(PurApItem itemForValidation) {
         this.itemForValidation = itemForValidation;
     }
-
 }

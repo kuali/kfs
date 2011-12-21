@@ -50,6 +50,7 @@
 		<property name="validations">
 			<list>
 				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype" />
 				<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
 			</list>
 		</property>
@@ -59,6 +60,7 @@
 		<property name="validations">
 			<list>
 				<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype" />				
 			</list>
 		</property>
 	</bean>
@@ -147,6 +149,7 @@
 		<property name="validations">
 			<list>
 				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype" />
 				<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
 			</list>
 		</property>
@@ -156,6 +159,7 @@
 		<property name="validations">
 			<list>
 				<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype" />				
 			</list>
 		</property>
 	</bean>

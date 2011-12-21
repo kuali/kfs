@@ -29,7 +29,13 @@
                     <property name="quitOnFail" value="true" />
                 </bean> 
                 
-				<bean parent="Requisition-newProcessItemValidation-parentBean" scope="prototype" />
+				<bean parent="Requisition-newProcessItemValidation-parentBean" scope="prototype">
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+                
+                <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+					<property name="quitOnFail" value="false" />
+				</bean>  	
                 
                 <bean parent="Purchasing-chartOrgValidation" scope="prototype">
                     <property name="quitOnFail" value="false" />
@@ -74,7 +80,13 @@
   	<bean id="Requisition-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean parent="Requisition-newProcessItemValidation-parentBean" scope="prototype" />
+				<bean parent="Requisition-newProcessItemValidation-parentBean" scope="prototype">
+					<property name="quitOnFail" value="false" />
+				</bean>	
+							
+                <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+					<property name="quitOnFail" value="false" />
+				</bean>  	
 				
 				<bean parent="Purchasing-processVendorValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />

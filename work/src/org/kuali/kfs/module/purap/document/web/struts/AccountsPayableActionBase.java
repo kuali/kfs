@@ -150,8 +150,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
         
      //   //recalculate the amounts and percents on the accounting line.
-    //    SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDoc);
-        
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDoc);
         
         // call precalculate
         if (SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPreCalculateAccountsPayableEvent(apDoc))) {

@@ -736,7 +736,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         document.fixItemReferences();
         
         //do recalculate only if the account distribution method code is not equal to "S" sequential. 
-        if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod) || (document instanceof PaymentRequestDocument)) {
+        if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
                 updateItemAccountAmounts(item);
             }

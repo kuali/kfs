@@ -19,6 +19,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingAccountsPayableProcessAccountValidation extends GenericValidation {
 
@@ -28,9 +29,14 @@ public class PurchasingAccountsPayableProcessAccountValidation extends GenericVa
     private PurApItem itemForValidation;
     private PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation accountHasAtleastOnePercentValidation;
     private PurchasingAccountingLineAmountValidation accountLineAmountValidation;
-    
+    private PurchasingAccountsPayableAccountTotalValidation accountTotalValidation;
+
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
+        
+        if (ObjectUtils.isNull(itemForValidation)) {
+            return valid;
+        }
         
         hasAccountsValidation.setItemForValidation(itemForValidation);
         valid &= hasAccountsValidation.validate(event);
@@ -53,6 +59,11 @@ public class PurchasingAccountsPayableProcessAccountValidation extends GenericVa
         if(valid){
             accountPercentValidation.setItemForValidation(itemForValidation);
             valid &= accountPercentValidation.validate(event);
+        }
+
+        if(valid){
+            accountTotalValidation.setItemForValidation(itemForValidation);
+            valid &= accountTotalValidation.validate(event);
         }
         
         if(valid){
@@ -129,5 +140,24 @@ public class PurchasingAccountsPayableProcessAccountValidation extends GenericVa
      */
     public void setAccountLineAmountValidation(PurchasingAccountingLineAmountValidation accountLineAmountValidation) {
         this.accountLineAmountValidation = accountLineAmountValidation;
+    }
+    
+    /**
+     * Gets the accountTotalValidation attribute.
+     * 
+     * @return Returns the accountTotalValidation
+     */
+    
+    public PurchasingAccountsPayableAccountTotalValidation getAccountTotalValidation() {
+        return accountTotalValidation;
+    }
+
+    /** 
+     * Sets the accountTotalValidation attribute.
+     * 
+     * @param accountTotalValidation The accountTotalValidation to set.
+     */
+    public void setAccountTotalValidation(PurchasingAccountsPayableAccountTotalValidation accountTotalValidation) {
+        this.accountTotalValidation = accountTotalValidation;
     }
 }

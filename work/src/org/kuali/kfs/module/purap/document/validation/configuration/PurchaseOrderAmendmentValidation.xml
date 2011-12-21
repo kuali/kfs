@@ -30,6 +30,10 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  	
 				
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">	
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+							
   				<bean parent="PurchaseOrder-assignedUserValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  					
@@ -75,6 +79,10 @@
   		<property name="validations">
   			<list>  				
   				<bean parent="PurchaseOrderAmendment-newProcessItemValidation-parentBean" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+				
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">	
 					<property name="quitOnFail" value="false" />
 				</bean>  	
 				

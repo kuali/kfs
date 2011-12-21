@@ -48,6 +48,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -684,19 +685,24 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             needToDistributeAccount = true;
         }
         if (needToDistributeAccount || needToDistributeCommodityCode) {
-
+            PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase)purchasingForm.getDocument();
+            
             boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
             boolean foundAccountDistributionError = false;
             boolean foundCommodityCodeDistributionError = false;
             boolean performedAccountDistribution = false;
             boolean performedCommodityCodeDistribution = false;
 
-            // If the institution's validate account distribution indicator is true and
-            // the total percentage in the distribute account list does not equal 100 % then we should display error
-            if (institutionNeedsDistributeAccountValidation && needToDistributeAccount && purchasingForm.getTotalPercentageOfAccountDistributionsourceAccountingLines().compareTo(new BigDecimal(100)) != 0) {
-                GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT);
-                foundAccountDistributionError = true;
+            //do check for account percents only if distribution method not equal to "P"
+            if (!PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(purApDocument.getAccountDistributionMethod())) {
+                // If the institution's validate account distribution indicator is true and
+                // the total percentage in the distribute account list does not equal 100 % then we should display error
+                if (institutionNeedsDistributeAccountValidation && needToDistributeAccount && purchasingForm.getTotalPercentageOfAccountDistributionsourceAccountingLines().compareTo(new BigDecimal(100)) != 0) {
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT);
+                    foundAccountDistributionError = true;
+                }
             }
+            
             // if the institution's validate account distribution indicator is true and
             // there is a validation error in the accounts to distribute then we should display an error
             if (institutionNeedsDistributeAccountValidation && needToDistributeAccount && (validateDistributeAccounts(purchasingForm.getDocument(), distributionsourceAccountingLines) == false)) {

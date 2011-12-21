@@ -70,8 +70,8 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
             return accountLinePercent = accountLinePercent.setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_UP);
         }
         else {
-         //   return BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_UP);
-            return null;            
+            return BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_UP);
+         //   return null;            
         }
     }
 

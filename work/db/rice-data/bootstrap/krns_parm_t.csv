@@ -651,7 +651,7 @@ KFS-SYS,BatchUpload,BATCH_UPLOAD_HELP_URL,KFS676,1,HELP,customerLoadInputFileTyp
 KFS-SYS,Document,ACCOUNTING_LINE_IMPORT,KFS578,1,CONFG,default.htm?turl=WordDocuments%2Fdataimporttemplates.htm,Relative URL for the accounting line import help. ,A,KFS
 KFS-SYS,Document,MAX_FILE_SIZE_ACCOUNTING_LINE_IMPORT,KFS579,1,CONFG,5M,"Maximum upload size for accounting line spreadsheets. Used by KualiAccountingDocumentFormBase. Must be an integer, optionally followed by ""K"", ""M"", or ""G"".",A,KFS
 KFS-SYS,Document,ENABLE_ACCOUNTING_PERIOD_SELECTION,KFSSYS7145-01,1,CONFG,Y,"Enables accounting period field on financial documents for posting back to a previous period (year end processing).",A,KFS
-KFS-SYS,Document,DECIMAL_OF_POSTBACK_PERIODS,KFSSYS7145-02,1,CONFG,1,"Number of periods previous to the current period to allow for year end posting.",A,KFS
+KFS-SYS,Document,NUMBER_OF_POSTBACK_PERIODS,KFSSYS7145-02,1,CONFG,1,"Number of periods previous to the current period to allow for year end posting.",A,KFS
 KFS-SYS,Document,ENABLE_FISCAL_PERIOD_DOC_TYPES,KFSSYS7145-03,1,CONFG,AD;AV;AVAD;AVAE;DI;DVCA;DVWF;GEC;IB;ICA;ND;SB;TF;PE;ARG;AA;AT;MPAY,"Doc types for which the accounting period will be rendered for posting back to previous periods (year end processing).",A,KFS
 KFS-SYS,ElectronicPaymentClaim,ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE,KFS580,1,CONFG,10,The number of ElectronicPaymentClaim summaries which should appear on a single note attached to a claiming document.,A,KFS
 KFS-SYS,FilePurgeStep,DEFAULT_NUMBER_OF_DAYS_OLD,KFS581,1,CONFG,30,The FilePurgeStep will traverse the application I/O directories and their sub-directories deleting files with a last modified date more that this number of days prior to today.,A,KFS

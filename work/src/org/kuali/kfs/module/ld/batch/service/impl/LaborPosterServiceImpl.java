@@ -353,7 +353,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     protected void writeLaborGLEntry(LaborOriginEntry laborOriginEntry, LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
         LaborOriginEntry summarizedEntry = summarizeLaborGLEntries(laborOriginEntry, laborLedgerUnitOfWork, runDate, lineNumber, glEntryReportSummary);
-        if (summarizedEntry == null) {
+        if (summarizedEntry == null || laborOriginEntry == null) { 
             return;
         }
 

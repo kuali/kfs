@@ -246,12 +246,14 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
         boolean first = true;
         for (VendorSupplierDiversity vsd : vendorSupplierDiversities) {
-            if (!first) {
-                sb.append(", ");
-            } else {
-                first = false;
+            if(vsd.isActive()){
+                if (!first) {
+                    sb.append(", ");
+                } else {
+                    first = false;
+                }            
+                sb.append(vsd.getVendorSupplierDiversity().getVendorSupplierDiversityDescription().toString());
             }
-            sb.append(vsd.getVendorSupplierDiversity().getVendorSupplierDiversityDescription().toString());
         }
         sb.append(']');
 

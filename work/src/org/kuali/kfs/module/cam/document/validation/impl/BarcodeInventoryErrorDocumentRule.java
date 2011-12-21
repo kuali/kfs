@@ -30,6 +30,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetCondition;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -89,9 +90,10 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
 
                 Asset asset = validateTagNumberAndRetrieveActiveAsset(barcodeInventoryErrorDetail.getAssetTagNumber());
                 valid &= ObjectUtils.isNotNull(asset);
-                valid &= this.validateBuildingCode(barcodeInventoryErrorDetail.getBuildingCode(), barcodeInventoryErrorDetail, asset);
-                valid &= this.validateBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber(), barcodeInventoryErrorDetail, asset);
                 valid &= this.validateCampusCode(barcodeInventoryErrorDetail.getCampusCode(), barcodeInventoryErrorDetail);
+                valid &= this.validateBuildingCodeAndRoomNumber(barcodeInventoryErrorDetail, asset);
+                //valid &= this.validateBuildingCode(barcodeInventoryErrorDetail.getBuildingCode(), barcodeInventoryErrorDetail, asset);
+                //valid &= this.validateBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber(), barcodeInventoryErrorDetail, asset);
                 valid &= this.validateConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode(), barcodeInventoryErrorDetail);
                 valid &= this.validateInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
                 valid &= this.validateTaggingLock(barcodeInventoryErrorDetail.getAssetTagNumber(), document.getDocumentNumber());
@@ -128,6 +130,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * 
      * @param tagNumber
      * @return boolean
+     * 
+     * @deprecated this method is replaced by validateTagNumberAndRetrieveActiveAsset(String)
      */
     protected boolean validateTagNumber(String tagNumber) {
         boolean result = true;
@@ -196,7 +200,6 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         return result;
     }
 
-
     /**
      * Validates the campus code exists in the campus code table
      * 
@@ -232,6 +235,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @prarm asset
      * @return boolean
+     * 
+     * @deprecated this method is replaced by validateBuildingCodeAndRoomNumber(BarcodeInventoryErrorDetail, Asset)
      */
     protected boolean validateBuildingCode(String buildingCode, BarcodeInventoryErrorDetail detail, Asset asset) {
         boolean result = true;
@@ -270,7 +275,6 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         return result;
     }
 
-
     /**
      * Validates that the existance of the building room number is consistent with the asset type requirements.
      * 
@@ -278,6 +282,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @prarm asset 
      * @return boolean
+     * 
+     * @deprecated this method is replaced by validateBuildingCodeAndRoomNumber(BarcodeInventoryErrorDetail, Asset)
      */
     protected boolean validateBuildingRoomNumber(String roomNumber, BarcodeInventoryErrorDetail detail, Asset asset) {
         boolean result = true;
@@ -317,6 +323,106 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         return result;
     }
 
+    /**
+     * Validates that the existance of the building code and room number is consistent with the asset type requirements.
+     * 
+     * @param detail
+     * @prarm asset
+     * @return boolean
+     */
+    protected boolean validateBuildingCodeAndRoomNumber(BarcodeInventoryErrorDetail detail, Asset asset) {
+        boolean result = true;
+        
+        String campusCode = detail.getCampusCode();
+        String buildingCode = detail.getBuildingCode();
+        String roomNumber = detail.getBuildingRoomNumber();
+        String labelBuilding = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE).getLabel();
+        String labelRoom = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER).getLabel();                
+        String assetTypeCode = asset.getCapitalAssetTypeCode();
+        AssetType assetType = asset.getCapitalAssetType();
+
+        // retrieve building
+        HashMap<String, Object> fields = new HashMap<String, Object>();
+        fields.put(KFSPropertyConstants.CAMPUS_CODE, campusCode);
+        fields.put(KFSPropertyConstants.BUILDING_CODE, buildingCode);
+        Building building = (Building) getBusinessObjectService().findByPrimaryKey(Building.class, fields);
+
+        // retrieve room
+        fields.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, roomNumber);
+        Room room = (Room) getBusinessObjectService().findByPrimaryKey(Room.class, fields);
+
+        // if movingIndicator is true and requiredBuildingIndicator is false, then both building and room are required
+        if (assetType.isMovingIndicator() && !assetType.isRequiredBuildingIndicator()) {
+            // check building
+            if (StringUtils.isBlank(buildingCode)) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_REQUIRED_FIELD, labelBuilding, assetTypeCode);
+                result &= false;                
+            }
+            else if (ObjectUtils.isNull(building)) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, labelBuilding);
+                result &= false;
+            }
+            else if (!building.isActive()) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, labelBuilding);
+                result &= false;
+            }
+            
+            // check room
+            if (StringUtils.isBlank(roomNumber)) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_REQUIRED_FIELD, labelRoom, assetTypeCode);
+                result &= false;                
+            }
+            else if (ObjectUtils.isNull(room)) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, labelRoom);
+                result = false;
+            }
+            else if (!room.isActive()) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, labelRoom);
+                result &= false;
+            }             
+        }
+        
+        // if movingIndicator is false and requiredBuildingIndicator is true, then building is required while room is not allowed
+        else if (!assetType.isMovingIndicator() && assetType.isRequiredBuildingIndicator()) {
+            // check building
+            if (StringUtils.isBlank(buildingCode)) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_REQUIRED_FIELD, labelBuilding, assetTypeCode);
+                result &= false;                
+            }
+            else if (ObjectUtils.isNull(building)) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, labelBuilding);
+                result &= false;
+            }
+            else if (!building.isActive()) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, labelBuilding);
+                result &= false;
+            }
+            
+            // check room
+            if (StringUtils.isNotBlank(roomNumber)) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_NOT_ALLOWED_FIELD, labelRoom, assetTypeCode);
+                result &= false;
+            }            
+        }
+        
+        // if both movingIndicator and requiredBuildingIndicator are false, then neither building nor room is allowed
+        else if (!assetType.isMovingIndicator() && !assetType.isRequiredBuildingIndicator()) {
+            // check building
+            if (StringUtils.isNotBlank(buildingCode)) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_NOT_ALLOWED_FIELD, labelBuilding, assetTypeCode);
+                result &= false;
+            }
+        
+            // check room
+            if (StringUtils.isNotBlank(roomNumber)) {
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_NOT_ALLOWED_FIELD, labelRoom, assetTypeCode);
+                result &= false;
+            }            
+        }
+        
+        return result;
+    }
+    
     /**
      * Validates the condition code exists in the condition table
      * 

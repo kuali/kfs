@@ -99,6 +99,9 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetRetirementGlobal.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE);
         parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE+"::"+assetRetirementReason.getRetirementReasonCode());
+        if(!lookupForm.isHideReturnLink()){
+            setBackLocation(KFSConstants.MAINTENANCE_ACTION);        
+        }
         return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys, businessObjectRestrictions);
     }
 

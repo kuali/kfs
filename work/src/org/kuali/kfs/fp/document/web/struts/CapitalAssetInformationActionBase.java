@@ -1065,13 +1065,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
         }
         
-        //add any missing accounting lines to the group collection of accounting lines for this capital asset record.
-        for (CapitalAssetInformation capitalAsset : currentCapitalAssetInformation) {
-            if (capitalAsset.getCapitalAssetActionIndicator().equalsIgnoreCase(actionType)) {
-                addMissingAccountingLinesToCapitalAsset(selectedCapitalAccountingLines, capitalAsset);
-            }
-        }
-        
         CapitalAssetInformation existingCapitalAsset = capitalAssetCreated(selectedCapitalAccountingLines, currentCapitalAssetInformation);
         if (ObjectUtils.isNotNull(existingCapitalAsset)) {
             if (!accountingLinesAmountDistributed(selectedCapitalAccountingLines, existingCapitalAsset)) {

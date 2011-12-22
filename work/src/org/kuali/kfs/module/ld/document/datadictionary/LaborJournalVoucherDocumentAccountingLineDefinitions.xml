@@ -181,7 +181,7 @@
 							<ref bean="labor-LaborJournalVoucherDocument-employeeInformation" />
 							<ref bean="labor-LaborJournalVoucherDocument-payInformation" />
 							<ref bean="labor-LaborJournalVoucherDocument-companyInformation" />
-							<ref bean="ExtEncumbranceInformation"/>							
+							<ref bean="EncumbranceInformation"/>							
 						</list>
 					</property>
 				</bean>
@@ -230,7 +230,7 @@
 							<ref bean="labor-LaborJournalVoucherDocument-employeeInformation" />
 							<ref bean="labor-LaborJournalVoucherDocument-payInformation" />
 							<ref bean="labor-LaborJournalVoucherDocument-companyInformation" />
-							<ref bean="ExtEncumbranceInformation"/>							
+							<ref bean="EncumbranceInformation"/>							
 						</list>
 					</property>
 				</bean>

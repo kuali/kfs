@@ -38,6 +38,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public interface PurchaseOrderService extends PurchasingDocumentSpecificService {
 
+    public boolean isCommodityCodeRequiredOnPurchaseOrder();
+    
     public boolean isPurchaseOrderOpenForProcessing(Integer poId);
     
     public boolean isPurchaseOrderOpenForProcessing(PurchaseOrderDocument purchaseOrderDocument);

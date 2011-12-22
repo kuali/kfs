@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem;
@@ -55,6 +56,7 @@ import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -73,6 +75,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     private KualiConfigurationService configurationService;    
     private PurapService purapService;
     private NoteService noteService;
+    private ParameterService parameterService;
 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
@@ -100,6 +103,10 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     /**
@@ -681,6 +688,14 @@ public class ReceivingServiceImpl implements ReceivingService {
                 
                 poi = createPoItemFromReceivingLine(rlItem);
                 poi.setDocumentNumber( amendment.getDocumentNumber() );
+                
+                // add default commodity code from parameter, if commodity code is required on PO and not specified in the unordered item
+                // Note: if we don't add logic to populate commodity code in LineItemReceivingItem, then at this point this field is always empty for unordered item
+                if (purchaseOrderService.isCommodityCodeRequiredOnPurchaseOrder() && StringUtils.isEmpty(poi.getPurchasingCommodityCode())) {
+                    String defaultCommodityCode = parameterService.getParameterValue(PurchaseOrderAmendmentDocument.class, PurapParameterConstants.UNORDERED_ITEM_DEFAULT_COMMODITY_CODE); 
+                    poi.setPurchasingCommodityCode(defaultCommodityCode);
+                }
+                
                 poi.refreshNonUpdateableReferences();
                 amendment.addItem(poi);
             }

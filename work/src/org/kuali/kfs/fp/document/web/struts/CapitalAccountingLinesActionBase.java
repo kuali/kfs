@@ -421,7 +421,8 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             if (capitalAccountingLine.getChartOfAccountsCode().equals(line.getChartOfAccountsCode()) && 
                     capitalAccountingLine.getAccountNumber().equals(line.getAccountNumber()) &&
                     capitalAccountingLine.getFinancialObjectCode().equals(line.getFinancialObjectCode()) &&
-                    capitalAccountingLine.getLineType().equalsIgnoreCase(line instanceof SourceAccountingLine ? KFSConstants.SOURCE : KFSConstants.TARGET)) {
+                    capitalAccountingLine.getLineType().equalsIgnoreCase(line instanceof SourceAccountingLine ? KFSConstants.SOURCE : KFSConstants.TARGET) &&
+                    capitalAccountingLine.getSequenceNumber().compareTo(line.getSequenceNumber()) == 0) {
                 capitalAccountingLine.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
                 capitalAccountingLine.setSubAccountNumber(line.getSubAccountNumber());
                 capitalAccountingLine.setProjectCode(line.getProjectCode());

@@ -306,13 +306,13 @@
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SYS" />
 			<column name="PARM_DTL_TYP_CD" value="Document" />
-			<column name="PARM_NM" value="ENABLE_ACCOUNTING_PERIOD_SELECTION" />
+			<column name="PARM_NM" value="ENABLE_FISCAL_PERIOD_SELECTION_IND" />
 			<column name="OBJ_ID" value="KFSSYS7145-01" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="TXT" value="Y" />
 			<column name="PARM_DESC_TXT"
-				value="Enables accounting period field on financial documents for posting back to a previous period (year end processing)." />
+				value="Enables fiscal period field on financial documents for posting back to a previous period (year end processing)." />
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
@@ -332,21 +332,21 @@
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SYS" />
 			<column name="PARM_DTL_TYP_CD" value="Document" />
-			<column name="PARM_NM" value="ENABLE_FISCAL_PERIOD_DOC_TYPES" />
+			<column name="PARM_NM" value="FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES" />
 			<column name="OBJ_ID" value="KFSSYS7145-03" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="TXT"
 				value="AD;AV;AVAD;AVAE;DI;DVCA;DVWF;GEC;IB;ICA;ND;SB;TF;PE;ARG;AA;AT;MPAY" />
 			<column name="PARM_DESC_TXT"
-				value="Doc types for which the accounting period will be rendered for posting back to previous periods (year end processing)." />
+				value="Document types for which the accounting period will be rendered for posting back to previous periods (year end processing). Use in conjunction with ENABLE_FISCAL_PERIOD_SELECTION_IND." />
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />
 			<column name="PARM_DTL_TYP_CD" value="Batch" />
-			<column name="PARM_NM" value="YEARENDDEPR_INCLUDE_RETIRED" />
+			<column name="PARM_NM" value="INCLUDE_RETIRED_ASSETS_IND" />
 			<column name="OBJ_ID" value="KFSSYS7145-04" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />

@@ -369,6 +369,20 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
+		<comment>KFSMI-7172 New Parameter UNORDERED_ITEM_DEFAULT_COMMODITY_CODE and new Commodity code 99200000 </comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="PARM_DTL_TYP_CD" value="Purchase Order Amendment" />
+			<column name="PARM_NM" value="UNORDERED_ITEM_DEFAULT_COMMODITY_CODE" />
+			<column name="OBJ_ID" value="KFSPURAP7172" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="99200000" />
+			<column name="PARM_DESC_TXT"
+				value="The default commodity code for unordered items. If commodity code is enabled and required on purchase order items, this value will be populated as the default commodity code for all unordered items when a Purchase Order Amendment Document is created from a Line Item Receiving Document." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
 		
 		<comment>KFSMI- 7146 Update value for Parameter VALID_PAYEE_TYPES_BY_PAYMENT_REASON </comment>
 		<update tableName="KRNS_PARM_T">

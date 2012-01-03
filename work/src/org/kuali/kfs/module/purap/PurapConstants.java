@@ -1168,7 +1168,7 @@ public class PurapConstants extends JSTLConstants {
     
     // CSU 6702 BEGIN
     public static class ParameterConstants {
-        public static String YEARENDDEPR_INCLUDE_RETIRED = "YEARENDDEPR_INCLUDE_RETIRED";        
+        public static String INCLUDE_RETIRED_ASSETS_IND = "INCLUDE_RETIRED_ASSETS_IND";        
     }
     // CSU 6702 BEGIN    
 }

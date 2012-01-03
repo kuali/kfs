@@ -275,7 +275,7 @@ public class GlLineServiceImpl implements GlLineService {
         // CSU 6702 BEGIN
         //year end changes
         String docType = DocumentTypeName.ASSET_ADD_GLOBAL;
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_DOC_TYPES, docType);
+        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
         if (evaluator.evaluationSucceeds()) {
             Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
             if (entry.getUniversityFiscalYear().equals(closingYear + 1)) {

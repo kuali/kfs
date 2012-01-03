@@ -886,5 +886,16 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.hiddenFieldForError = hiddenFieldForError;
     }
 
+    /**
+     * KSMI-6702 FY End change
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        String accountingPeriodCompositeString = getAccountingPeriodCompositeString();                
+        setPostingYear(new Integer(StringUtils.right(accountingPeriodCompositeString, 4)));
+        setPostingPeriodCode(StringUtils.left(accountingPeriodCompositeString, 2));
+    }
 
 }

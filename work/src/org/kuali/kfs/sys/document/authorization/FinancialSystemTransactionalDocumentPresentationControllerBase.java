@@ -117,11 +117,11 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         // rSmart-jkneal-KFSCSU-199-begin mod for adding accounting period view action
         if (document instanceof LedgerPostingDocument) {
             // check account period selection is enabled
-            boolean accountingPeriodEnabled = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_ACCOUNTING_PERIOD_SELECTION);
+            boolean accountingPeriodEnabled = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_SELECTION_IND);
             if (accountingPeriodEnabled) {
                 // check accounting period is enabled for doc type in system parameter
                 String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
-                ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_DOC_TYPES, docType);
+                ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KFSConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
                 if (evaluator.evaluationSucceeds()) {
                     documentActions.add(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
                 }

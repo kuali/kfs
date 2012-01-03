@@ -258,8 +258,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             // Getting the system parameter "YEARENDDEPR_INCLUDE_RETIRED" When this parameter is used to determine whether
             // to include retired assets in the depreciation
             //
-            LOG.info("parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED) = " + parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED));
-            if (parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED).equalsIgnoreCase("Y")) {
+            LOG.info("parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED) = " + parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.INCLUDE_RETIRED_ASSETS_IND));
+            if (parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.INCLUDE_RETIRED_ASSETS_IND).equalsIgnoreCase("Y")) {
                 includeRetired=true;
             }
             depreciationDate.setTime(java.sql.Date.valueOf(fiscalYearToDepreciate.toString()+getLastDayOfFiscalyear()));

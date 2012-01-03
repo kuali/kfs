@@ -344,4 +344,12 @@ public class KfsParameterConstants extends ParameterConstants {
     @COMPONENT(component = BATCH_COMPONENT)
     public final class VENDOR_BATCH {
     }
+
+    // CSU 6702 BEGIN
+    public static class YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES {
+        public static final String DETAIL_PARAMETER_TYPE = "Document";
+        public static final String ENABLE_FISCAL_PERIOD_SELECTION_IND = "ENABLE_FISCAL_PERIOD_SELECTION_IND";
+        public static final String FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES = "FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES";
+        public static final String NUMBER_OF_POSTBACK_PERIODS = "NUMBER_OF_POSTBACK_PERIODS";
+    }
 }

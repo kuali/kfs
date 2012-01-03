@@ -17,6 +17,10 @@
 
 <channel:portalChannelTop channelTitle="Year End Transactions" />
 <div class="body">
+	<strong>Capital Asset Management</strong><br />
+    <ul class="chan">
+		<li><portal:portalLink displayTitle="true" title="Year End Depreciation" url="camsYearEndDepreciation.do?methodToCall=docHandler&command=initiate&docTypeName=YEARENDDEPR" /></li>
+	</ul>		
     <strong>Financial Processing</strong><br />
     <ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Year End Budget Adjustment" url="financialYearEndBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=YEBA" /></li>

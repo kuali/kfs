@@ -65,6 +65,11 @@ elog/dbchangelog-1.9.xsd'>
       <column name='CPTLAST_DESC' type='VARCHAR2(4000))' />
     </modifyColumn>
     
+    <comment>KFSMI-KFSMI-7175 We need to add a column to FP_CPTL_AST_INFO_T and CM_AST_PMT_DOC_T tables for enhancement work on KFSMI-7106</comment>
+    <addColumn tableName='CM_AST_PMT_DOC_T'>
+      <column name='AST_PMT_DIST_CD_FROM_FP_IND' type='VARCHAR2(1)' />
+    </addColumn>   
+
     <modifySql dbms='mysql'>
       <replace replace='SYS_GUID' with='uuid()' />
  	  <replace replace='VARCHAR2' with='VARCHAR' />

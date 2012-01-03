@@ -168,7 +168,7 @@
 	
 	<bean id="JournalVoucher-accountingLineAmountValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherAccountingLineAmountValidation" abstract="true" />
 	
-	<bean id="JournalVoucher-accountingLineExternalEncumbranceReferenceValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherAccountingLineExternalEncumbranceReferenceValidation" abstract="true">
+	<bean id="JournalVoucher-accountingLineEncumbranceReferenceValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherAccountingLineEncumbranceReferenceValidation" abstract="true">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 	

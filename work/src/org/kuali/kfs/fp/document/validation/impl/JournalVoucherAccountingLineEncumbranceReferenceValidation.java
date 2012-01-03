@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * Validation that if the Journal Voucher is using an encumbrance balance type, reference fields are included on each accounting line 
  */
-public class JournalVoucherAccountingLineExternalEncumbranceReferenceValidation extends GenericValidation {
+public class JournalVoucherAccountingLineEncumbranceReferenceValidation extends GenericValidation {
     private JournalVoucherDocument journalVoucherForValidation;
     private AccountingLine accountingLineForValidation;
     

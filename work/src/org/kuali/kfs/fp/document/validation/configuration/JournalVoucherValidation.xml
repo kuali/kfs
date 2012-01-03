@@ -159,7 +159,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="JournalVoucher-accountingLineExternalEncumbranceReferenceValidation" scope="prototype">
+				<bean parent="JournalVoucher-accountingLineEncumbranceReferenceValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
               <bean parent="journalVoucherDocumentFieldConversion" />
@@ -243,7 +243,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="JournalVoucher-accountingLineExternalEncumbranceReferenceValidation" scope="prototype">
+				<bean parent="JournalVoucher-accountingLineEncumbranceReferenceValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
               <bean parent="journalVoucherDocumentFieldConversion" />
@@ -309,7 +309,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="JournalVoucher-accountingLineExternalEncumbranceReferenceValidation" scope="prototype">
+				<bean parent="JournalVoucher-accountingLineEncumbranceReferenceValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
               <bean parent="journalVoucherDocumentFieldConversion" />

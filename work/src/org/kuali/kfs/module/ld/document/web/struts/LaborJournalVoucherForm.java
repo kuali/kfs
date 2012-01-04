@@ -62,19 +62,16 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
             sourceLine.setBalanceTyp(selectedBalanceType);
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
 
-            /*
-             * set the encumbrance update code appropriately. If balance type is an external encumbrance, update code can be D or R.
-             * For all other encumbrance types it must be D. If the balance type is not an encumbrance type the update code is set
-             * to null
-             */
-            if (selectedBalanceType.isFinBalanceTypeEncumIndicator()) {
-                if (StringUtils.isBlank(sourceLine.getEncumbranceUpdateCode()) || !KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(sourceLine.getEncumbranceUpdateCode())) {
-                    sourceLine.setEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-                }
-            }
-            else {
-                sourceLine.setEncumbranceUpdateCode(null);
-            }
+            // KFSMI-7163 remove the default encumbrance code
+            // no more default encumbrance code
+//            if (selectedBalanceType.isFinBalanceTypeEncumIndicator()) {
+//                if (StringUtils.isBlank(sourceLine.getEncumbranceUpdateCode()) || !KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(sourceLine.getEncumbranceUpdateCode())) {
+//                    sourceLine.setEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+//                }
+//            }
+//            else {
+//                sourceLine.setEncumbranceUpdateCode(null);
+//            }
         }
         else {
             // it's the first time in, the form will be empty the first time in set up default selection value

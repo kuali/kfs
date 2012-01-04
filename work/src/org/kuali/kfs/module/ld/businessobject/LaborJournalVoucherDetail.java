@@ -46,7 +46,6 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
     private String laborLedgerOriginalFinancialSubObjectCode;
     private String hrmsCompany;
     private String setid;
-    private String encumbranceUpdateCode;
     private SystemOptions payrollEndDateOptions;
     private AccountingPeriod payrollEndDateFiscalPeriod;
     private SystemOptions options;
@@ -462,23 +461,4 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
         this.payrollEndDateFiscalYear = payrollEndDateFiscalYear;
     }
 
-    /**
-     * Gets the encumbranceUpdateCode
-     * 
-     * @return Returns the encumbranceUpdateCode
-     * @see org.kuali.kfs.sys.businessobject.AccountingLine#getEncumbranceUpdateCode()
-     */
-    public String getEncumbranceUpdateCode() {
-        return encumbranceUpdateCode;
-    }
-
-    /**
-     * Sets the encumbranceUpdateCode.
-     * 
-     * @param encumbranceUpdateCode The encumbranceUpdateCode to set.
-     * @see org.kuali.kfs.sys.businessobject.AccountingLine#setEncumbranceUpdateCode(java.lang.String)
-     */
-    public void setEncumbranceUpdateCode(String encumbranceUpdateCode) {
-        this.encumbranceUpdateCode = encumbranceUpdateCode;
-    }
 }

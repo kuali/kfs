@@ -135,8 +135,6 @@
 				<bean parent="AccountingLineView-field"
 					p:name="hrmsCompany" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="encumbranceUpdateCode" p:useShortLabel="true" />
-				<bean parent="AccountingLineView-field"
 					p:name="setid" p:useShortLabel="true" />
 			</list>
 		</property>
@@ -166,10 +164,10 @@
 		</property>
 	</bean>
 
-	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withExtEncumbrance"
-		parent="labor-LaborJournalVoucherDocument-accountingLineView-withExtEncumbrance-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withEncumbrance"
+		parent="labor-LaborJournalVoucherDocument-accountingLineView-withEncumbrance-parent" />
 
-	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withExtEncumbrance-parent"
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withEncumbrance-parent"
 		parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>
@@ -215,10 +213,10 @@
 		</property>
 	</bean>
   	
-	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance"
-		parent="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditEncumbrance"
+		parent="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditEncumbrance-parent" />
   	
-	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance-parent"
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditEncumbrance-parent"
 		parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>

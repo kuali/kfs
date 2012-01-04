@@ -96,7 +96,7 @@ public class JournalVoucherForm extends VoucherForm {
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
 
             // set the encumbrance update code appropriately
-            //TODO: move the code
+            // KFSMI-5565 remove the default encumbrance code
             // no more default encumbrance code
 //            if (KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(selectedBalanceType.getCode())) {
 //                sourceLine.setEncumbranceUpdateCode(KFSConstants.JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);

@@ -1266,9 +1266,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CREATE_CAPITAL_ASSETS_TAB_TITLE = "Create Capital Assets";
         public static final String MODIFY_CAPITAL_ASSETS_TAB_TITLE = "Modify Capital Assets";
         
-        public static final String DISTRIBUTE_COST_EQUALLY_CODE = "1";
+        public static final String DISTRIBUTE_COST_EQUALLY_CODE = "2";
         public static final String DISTRIBUTE_COST_EQUALLY_DESCRIPTION = "Distribute cost evenly";
-        public static final String DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE = "2";
+        public static final String DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE = "1";
         public static final String DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION = "Distribute cost by amount";
         
         public static final Integer PERCENT_SCALE = new Integer(2);

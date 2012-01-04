@@ -27,7 +27,7 @@
 <c:set var="dataCellCssClass" value="datacell" />
 <c:set var="capitalAssetInfoName" value="document.capitalAssetInformation" />
 
-<c:set var="totalColumnSpan" value="7"/>
+<c:set var="totalColumnSpan" value="8"/>
 <c:set var="amountReadOnly" value="${readOnly}" />
 <c:if test="${KualiForm.distributeEqualAmount}">
 	<c:set var="amountReadOnly" value="true" />
@@ -35,15 +35,15 @@
 
 <table class="datatable" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
     <tr>
-   		<td colspan="7" class="tab-subhead" style="border-top: medium;">Create New Assets</td>
+   		<td colspan="8" class="tab-subhead" style="border-top: medium;">Create New Assets</td>
     </tr>
 	<tr>
    		<td colspan="3" class="tab-subhead" style="border-top: medium;">
    			<br/>System Control Amount: <c:out value="${KualiForm.systemControlAmount}" />
    		</td>
-	   	<c:set var="totalColumnSpan" value="${totalColumnSpan-3}"/>
+	   	<c:set var="totalColumnSpan" value="${totalColumnSpan-4}"/>
 	   	<c:if test="${KualiForm.createdAssetsControlAmount != 0.00}" >
-	   		<c:set var="totalColumnSpan" value="3"/>
+	   		<c:set var="totalColumnSpan" value="4"/>
 	   	</c:if>
 	   	<c:if test="${KualiForm.createdAssetsControlAmount == 0.00}" >
 	   		<c:set var="totalColumnSpan" value="4"/>
@@ -63,12 +63,22 @@
    		</c:if>
   	</tr>
 	<c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
+		<c:set var="distributionAmountCode" value="${detailLine.distributionAmountCode}" />
+		<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE}">
+			<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_DESCRIPTION}" />
+			<c:set var="amountReadOnly" value="true" />
+		</c:if>
+		<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE}">
+			<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION}" />
+			<c:set var="amountReadOnly" value="false" />
+		</c:if>
+
 		<c:if test="${detailLine.capitalAssetActionIndicator == KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR}">
-			<tr><td colspan="7">
+			<tr><td colspan="8">
 	     	<div align="center" vAlign="middle">
 	     		<h3>Capital Asset for Accounting Lines</h3>
 				<c:if test="${not empty detailLine.capitalAssetAccountsGroupDetails}" >
-					<tr><td colSpan="7"><center><br/>
+					<tr><td colSpan="8"><center><br/>
 					<fp:capitalAssetAccountsGroupDetails capitalAssetAccountsGroupDetails="${detailLine.capitalAssetAccountsGroupDetails}" 
 						capitalAssetAccountsGroupDetailsName="${capitalAssetInfoName}[${status.index}].capitalAssetAccountsGroupDetails" readOnly="${readOnly}"
 						capitalAssetAccountsGroupDetailsIndex="${status.index}"/>
@@ -78,7 +88,7 @@
 		   </tr>
 		   
 			<tr>
-				<td colspan="7">
+				<td colspan="8">
 		     		<div align="center" valign="middle">
 			     		<table datatable style="border-top: 1px solid rgb(153, 153, 153); width: 96%;" cellpadding="0" cellspacing="0" summary="Asset for Accounting Lines">
 						   <tr> 
@@ -88,6 +98,7 @@
 								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.vendorName}" labelFor="${capitalAssetInfoName}.vendorName"/>
 								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerName}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerName"/>
 								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerModelNumber}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerModelNumber"/>
+								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.distributionAmountCode}" labelFor="${capitalAssetInfoName}.distributionAmountCode"/>
 								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetLineAmount}" labelFor="${capitalAssetInfoName}.capitalAssetLineAmount"/>
 						   </tr>
 		 
@@ -118,7 +129,11 @@
 								<fp:dataCell dataCellCssClass="${dataCellCssClass}"
 									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
 									field="capitalAssetManufacturerModelNumber" lookup="false" inquiry="false"/>
-									
+								
+								<td>	
+									<div><c:out value="${distributionAmountDescription}"/></div>
+								</td>	
+								
 								<fp:dataCell dataCellCssClass="${dataCellCssClass}" dataFieldCssClass="amount"
 									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${amountReadOnly}"
 									field="capitalAssetLineAmount" lookup="false" inquiry="false" />
@@ -128,7 +143,7 @@
 							<c:set var="assetDescription" value="${detailLine.capitalAssetDescription}" />
 							   <tr>
 									<th class="grid" width="5%" align="right"><kul:htmlAttributeLabel attributeEntry="${attributes.capitalAssetDescription}" readOnly="true" /></th>
-									<td class="grid" width="95%" colspan="6"><kul:htmlControlAttribute property="${capitalAssetInfoName}[${status.index}].capitalAssetDescription" attributeEntry="${attributes.capitalAssetDescription}" readOnly="true"/></td>
+									<td class="grid" width="95%" colspan="7"><kul:htmlControlAttribute property="${capitalAssetInfoName}[${status.index}].capitalAssetDescription" attributeEntry="${attributes.capitalAssetDescription}" readOnly="true"/></td>
 							   </tr>
 							</c:if>
 							<c:if test="${!readOnly}">
@@ -136,7 +151,7 @@
 							 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetDescription}" rowspan="${readOnly ? 1 : 2 }"/>
 									<fp:dataCell dataCellCssClass="${dataCellCssClass}"
 										businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="false" disabled="false"
-										field="capitalAssetDescription" lookup="false" inquiry="false" colSpan="5" rowSpan="2"/>
+										field="capitalAssetDescription" lookup="false" inquiry="false" colSpan="6" rowSpan="2"/>
 									<c:if test="${!readOnly}">
 										<kul:htmlAttributeHeaderCell literalLabel="Action"/>
 									</c:if>
@@ -169,7 +184,7 @@
 							</c:if>
 							
 							<c:if test="${not empty detailLine.capitalAssetInformationDetails}" >
-							   <tr><td colSpan="7"><center><br/>
+							   <tr><td colSpan="8"><center><br/>
 									<fp:capitalAssetInfoDetail capitalAssetInfoDetails="${detailLine.capitalAssetInformationDetails}" 
 										capitalAssetInfoDetailsName="${capitalAssetInfoName}[${status.index}].capitalAssetInformationDetails" readOnly="${readOnly}"
 										capitalAssetInfoIndex="${status.index}"/>

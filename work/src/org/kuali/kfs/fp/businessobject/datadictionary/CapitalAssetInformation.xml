@@ -36,6 +36,7 @@
         <ref bean="CapitalAssetInformation-capitalAssetLineAmount"/>
         <ref bean="CapitalAssetInformation-capitalAssetActionIndicator"/>
         <ref bean="CapitalAssetInformation-capitalAssetProcessedIndicator"/>
+        <ref bean="CapitalAssetInformation-distributionAmountCode"/>
       </list>
     </property>
     <property name="relationships">
@@ -148,4 +149,18 @@
       <ref bean="HiddenControl" />
     </property>
   </bean>
+  <bean id="CapitalAssetInformation-distributionAmountCode" parent="CapitalAssetInformation-distributionAmountCode-parentBean"/>
+
+  <bean id="CapitalAssetInformation-distributionAmountCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="distributionAmountCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Amount Distribution Method"/>
+    <property name="shortLabel" value="Amt Dist Method"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  
 </beans>

@@ -455,6 +455,8 @@
 	<field-descriptor 			name="nextSourceLineNumber" 				column="NXT_AST_PMT_LN_NBR" 	jdbc-type="INTEGER"/>
 	<field-descriptor 			name="capitalAssetBuilderOriginIndicator" 	column="CB_ORIGIN_IND" 			jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	<field-descriptor 			name="assetPaymentAllocationTypeCode" 		column="AST_PMT_DST_CD" 		jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="allocationFromFPDocuments" column="AST_PMT_DIST_CD_FROM_FP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>	

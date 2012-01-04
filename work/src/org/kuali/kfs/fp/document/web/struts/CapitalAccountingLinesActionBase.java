@@ -68,13 +68,15 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         super.loadDocument(kualiDocumentFormBase);
         
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiDocumentFormBase;
-        AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
+        String distributionAmountCode = capitalAccountingLinesFormBase.getCapitalAccountingLine().getDistributionCode();
 
+        AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
+        
         List<CapitalAccountingLines> capitalAccountingLines = new ArrayList();
         //for every source/target accounting line that has an object code that requires a 
         //capital asset, creates a capital accounting line that the user can select to
         //perform create or modify asset functions.
-        createCapitalAccountingLines(capitalAccountingLines, tdoc);
+        createCapitalAccountingLines(capitalAccountingLines, tdoc, distributionAmountCode);
         sortCaptitalAccountingLines(capitalAccountingLines);
 
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) tdoc;
@@ -138,12 +140,13 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) financialDocumentForm;
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        String distributionAmountCode = capitalAccountingLinesFormBase.getCapitalAccountingLine().getDistributionCode();
         
         List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
 
         //create the corresponding capital accounting line and then
         //sort the capital accounting lines by object code and account number
-        createCapitalAccountingLine(capitalAccountingLines, line);
+        createCapitalAccountingLine(capitalAccountingLines, line, distributionAmountCode);
         sortCaptitalAccountingLines(capitalAccountingLines);
         
         KualiForm kualiForm = (KualiForm) financialDocumentForm;
@@ -202,10 +205,12 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
                 
+        String distributionAmountCode = capitalAccountingLinesFormBase.getCapitalAccountingLine().getDistributionCode();
+        
         List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
         AccountingDocument tdoc = (AccountingDocument) kualiAccountingDocumentFormBase.getDocument();
         
-        createCapitalAccountingLines(capitalAccountingLines, tdoc);
+        createCapitalAccountingLines(capitalAccountingLines, tdoc, distributionAmountCode);
         sortCaptitalAccountingLines(capitalAccountingLines);
         
         KualiForm kualiForm = (KualiForm) form;
@@ -217,20 +222,23 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      * 
      * @param capitalAccountingLines
      * @param tdoc
+     * @param distributionAmountCode distribution amount code for the line
      */
-    protected void createCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc) {
+    protected void createCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc, String distributionAmountCode) {
         List<SourceAccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
-
+        
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) tdoc;
+        
         for (SourceAccountingLine line : sourceAccountLines) {
             //create source capital accounting line
-            createCapitalAccountingLine(capitalAccountingLines, line);
+            createCapitalAccountingLine(capitalAccountingLines, line, distributionAmountCode);
         }
         
         List<TargetAccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
 
         for (TargetAccountingLine line : targetAccountLines) {
             // create target capital accounting line            
-            createCapitalAccountingLine(capitalAccountingLines, line);
+            createCapitalAccountingLine(capitalAccountingLines, line, distributionAmountCode);
         }
         
         //sort the capital accounting lines collection
@@ -391,14 +399,16 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      * 
      * @param capitalAccountingLines
      * @param line
+     * @param distributionAmountCode
      * @return List of capitalAccountingLines
      */
-    protected List<CapitalAccountingLines> createCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, AccountingLine line) {
+    protected List<CapitalAccountingLines> createCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, AccountingLine line, String distributionAmountCode) {
         Integer sequenceNumber = capitalAccountingLines.size() + 1;
 
         if (capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(line)) {
             //capital object code so we need to build the capital accounting line...
             CapitalAccountingLines cal = addCapitalAccountingLine(capitalAccountingLines, line);
+            cal.setDistributionAmountCode(distributionAmountCode);
             capitalAccountingLines.add(cal);
         }
         
@@ -529,8 +539,8 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      */
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
-        String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
-        if (AMOUNT_EQUAL_DISTRIBUTION_CODE.equals(distributionCode)) {
+        String distributionAmountCode = calfb.getCapitalAccountingLine().getDistributionCode();
+        if (KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE.equals(distributionAmountCode)) {
            calfb.setDistributeEqualAmount(true);
         }
         else {
@@ -554,13 +564,13 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         //if same object subtypes then continue creating capital assets....
         if (checkObjecSubTypeCrossingCapitalAccountingLines(document)) {
             //question the user if to continue....
-            ActionForward forward = performQuestionPrompt(mapping, form, request, response, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR);
+            ActionForward forward = performQuestionPrompt(mapping, form, request, response, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR, distributionAmountCode);
             if (forward != null) {
                 return forward;
             }
         }
         else {
-            createCapitalAssetsForSelectedAccountingLines(form , calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR);
+            createCapitalAssetsForSelectedAccountingLines(form , calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR, distributionAmountCode);
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);        
@@ -583,9 +593,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      */
     public ActionForward modifyAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
-        String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
+        String distributionAmountCode = calfb.getCapitalAccountingLine().getDistributionCode();
         
-        if (AMOUNT_EQUAL_DISTRIBUTION_CODE.equals(distributionCode)) {
+        if (KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE.equals(distributionAmountCode)) {
             calfb.setDistributeEqualAmount(true);
          }
         else {
@@ -606,13 +616,13 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         //if same object subtypes then continue creating capital assets....
         if (checkObjecSubTypeCrossingCapitalAccountingLines(document)) {
             //question the user if to continue....
-            ActionForward forward = performQuestionPrompt(mapping, form, request, response, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+            ActionForward forward = performQuestionPrompt(mapping, form, request, response, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR, distributionAmountCode);
             if (forward != null) {
                 return forward;
             }
         }
         else {
-            createCapitalAssetsForSelectedAccountingLines(form , calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+            createCapitalAssetsForSelectedAccountingLines(form , calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR, distributionAmountCode);
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -626,10 +636,11 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      * @param form
      * @param calfb
      * @param actionTypeIndicator indicates whether creating an asset for "create" or "modify" actions.
+     * @param distributionAmountCode amount distribution code
      */
-    protected void createCapitalAssetsForSelectedAccountingLines(ActionForm form, CapitalAccountingLinesFormBase calfb, String actionTypeIndicator) {
+    protected void createCapitalAssetsForSelectedAccountingLines(ActionForm form, CapitalAccountingLinesFormBase calfb, String actionTypeIndicator, String distributionAmountCode) {
         calculatePercentsForSelectedCapitalAccountingLines(calfb);
-        createCapitalAssetForGroupAccountingLines(calfb, actionTypeIndicator);
+        createCapitalAssetForGroupAccountingLines(calfb, actionTypeIndicator, distributionAmountCode);
         checkCapitalAccountingLinesSelected(calfb);
         
         KualiForm kualiForm = (KualiForm) form;
@@ -681,9 +692,10 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      * @param request The HttpServletRequest
      * @param response The HttpServletResponse
      * @throws Exception
+     * @param distributionAmountCode
      * @return An ActionForward
      */
-    protected ActionForward performQuestionPrompt(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String actionTypeCode) throws Exception {
+    protected ActionForward performQuestionPrompt(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String actionTypeCode, String distributionAmountCode) throws Exception {
         ActionForward forward = null;
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
@@ -696,7 +708,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             // If the user replies 'Yes' the question, proceed..
             if (KFSConstants.OBJECT_SUB_TYPES_DIFFERENT_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                createCapitalAssetsForSelectedAccountingLines(form , calfb, actionTypeCode);
+                createCapitalAssetsForSelectedAccountingLines(form , calfb, actionTypeCode, distributionAmountCode);
 
                 KualiForm kualiForm = (KualiForm) form;
                 setTabStatesForCapitalAssets(kualiForm);

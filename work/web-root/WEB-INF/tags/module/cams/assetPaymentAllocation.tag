@@ -27,7 +27,12 @@
 			  	</td>
 			</tr>
 		    <tr>
-			    <th width="10%">Asset Allocation</th> 
+			    <th width="10%">Asset Allocation</th>
+			    
+			    <c:if test="${KualiForm.document.allocationFromFPDocuments == true}" >
+			    	<c:set var="viewOnly" value="true"/>	
+			    </c:if>
+			     
 				<td class="infoline" valign="top" width="84%">														
 					<kul:htmlControlAttribute attributeEntry="${assetAllocationAttributes.allocationCode}" property="allocationCode" readOnly="${viewOnly}"/>
 					&nbsp;&nbsp;&nbsp;&nbsp;

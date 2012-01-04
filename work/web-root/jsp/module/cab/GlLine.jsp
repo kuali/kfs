@@ -92,6 +92,20 @@
 					<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetLineAmount" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetLineAmount}" readOnly="true"/></td>
 				</tr>
 				<tr>
+					<c:set var="distributionAmountCode" value="${KualiForm.capitalAssetInformation.distributionAmountCode}" />
+					<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE}">
+						<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_DESCRIPTION}" />
+					</c:if>
+					<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE}">
+						<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION}" />
+					</c:if>
+				
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.distributionAmountCode}" readOnly="true" /></th>
+					<td class="grid" width="25%"><div><c:out value="${distributionAmountDescription}"/></div></td>
+				
+					<td colSpan="2">&nbsp;</td>
+				</tr>
+				<tr>
 					<td colSpan="4">
 						<cab:groupAccountingLinesDetails capitalAssetInformation="${KualiForm.capitalAssetInformation}" capitalAssetPosition="1" showViewButton="false"/>
 					</td>

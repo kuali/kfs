@@ -62,9 +62,11 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	protected boolean capitalAssetBuilderOriginIndicator;
 	protected AssetPaymentAllocationType assetPaymentAllocationType; 
 	protected String assetPaymentAllocationTypeCode;
-
-	public AssetPaymentDocument() {
+	protected boolean allocationFromFPDocuments;
+	
+    public AssetPaymentDocument() {
 		super();
+		this.setAllocationFromFPDocuments(false);
 		assetPaymentAllocationTypeCode = CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE;
 		this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));		
 	}
@@ -319,4 +321,23 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	public AssetPaymentAllocationType getAssetPaymentAllocationType() {
 		return assetPaymentAllocationType;
 	}
+	
+    /**
+     * Gets the allocationFromFPDocuments attribute.
+     * 
+     * @return Returns the allocationFromFPDocuments
+     */
+    
+    public boolean isAllocationFromFPDocuments() {
+        return allocationFromFPDocuments;
+    }
+
+    /** 
+     * Sets the allocationFromFPDocuments attribute.
+     * 
+     * @param allocationFromFPDocuments The allocationFromFPDocuments to set.
+     */
+    public void setAllocationFromFPDocuments(boolean allocationFromFPDocuments) {
+        this.allocationFromFPDocuments = allocationFromFPDocuments;
+    }
 }

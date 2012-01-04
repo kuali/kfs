@@ -2376,6 +2376,7 @@
     <field-descriptor name="capitalAssetLineAmount" column="CPTLAST_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="capitalAssetActionIndicator" column="CPTLAST_ACTION_IND" jdbc-type="VARCHAR" />
     <field-descriptor name="capitalAssetProcessedIndicator" column="CPTLAST_PROCESSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="distributionAmountCode" column="CPTLAST_DST_AMT_CD" jdbc-type="VARCHAR" />
     
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
     	<foreignkey field-ref="vendorHeaderGeneratedIdentifier"/>

@@ -50,7 +50,8 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     private KualiDecimal capitalAssetLineAmount;
     private String capitalAssetActionIndicator;
     private boolean capitalAssetProcessedIndicator;
-
+    private String distributionAmountCode;
+    
     private CapitalAssetManagementAsset capitalAssetManagementAsset;
     private CapitalAssetManagementAssetType capitalAssetManagementAssetType;
     private List<CapitalAssetInformationDetail> capitalAssetInformationDetails;
@@ -235,7 +236,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_ACTION_INDICATOR, this.getCapitalAssetActionIndicator());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, this.getCapitalAssetQuantity());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_PROCESSED_IND, this.isCapitalAssetProcessedIndicator());
-        
+        simpleValues.put(KFSPropertyConstants.CPTLAST_DST_AMT_CD, this.getDistributionAmountCode());
         return simpleValues;
     }
 
@@ -379,5 +380,24 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
      */
     public void setCapitalAssetProcessedIndicator(boolean capitalAssetProcessedIndicator) {
         this.capitalAssetProcessedIndicator = capitalAssetProcessedIndicator;
+    }
+    
+    /**
+     * Gets the distributionAmountCode attribute.
+     * 
+     * @return Returns the distributionAmountCode
+     */
+    
+    public String getDistributionAmountCode() {
+        return distributionAmountCode;
+    }
+
+    /** 
+     * Sets the distributionAmountCode attribute.
+     * 
+     * @param distributionAmountCode The distributionAmountCode to set.
+     */
+    public void setDistributionAmountCode(String distributionAmountCode) {
+        this.distributionAmountCode = distributionAmountCode;
     }
 }

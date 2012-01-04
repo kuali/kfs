@@ -68,12 +68,20 @@
 	   	</c:if>
 	</tr>
 	<c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
+		<c:set var="distributionAmountCode" value="${detailLine.distributionAmountCode}" />
+		<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE}">
+			<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_DESCRIPTION}" />
+		</c:if>
+		<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE}">
+			<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION}" />
+		</c:if>
+
 		<c:if test="${detailLine.capitalAssetActionIndicator == KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR}">
-			<tr><td colspan="7">
+			<tr><td colspan="8">
 	     	<div align="center" valign="middle">
 	     		<h3>Capital Asset for Accounting Line</h3>
 				<c:if test="${not empty detailLine.capitalAssetAccountsGroupDetails}" >
-					<tr><td colSpan="7"><center><br/>
+					<tr><td colSpan="8"><center><br/>
 					<fp:capitalAssetAccountsGroupDetails capitalAssetAccountsGroupDetails="${detailLine.capitalAssetAccountsGroupDetails}" 
 						capitalAssetAccountsGroupDetailsName="${capitalAssetInfoName}[${status.index}].capitalAssetAccountsGroupDetails" readOnly="${readOnly}"
 						capitalAssetAccountsGroupDetailsIndex="${status.index}"/>
@@ -81,12 +89,13 @@
 			    </c:if>
 		   </tr>
 			<tr>
-				<td colspan="7">
+				<td colspan="8">
 		     		<div align="center" valign="middle">
 			     		<table datatable style="border-top: 1px solid rgb(153, 153, 153); width: 60%;" cellpadding="0" cellspacing="0" summary="Asset for Accounting Lines">
 						   <tr>
 								<kul:htmlAttributeHeaderCell literalLabel=""/>	   
 						   	    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetNumber}" labelFor="${capitalAssetInfoName}.capitalAssetNumber"/> 
+								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.distributionAmountCode}" labelFor="${capitalAssetInfoName}.distributionAmountCode"/>
 								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetLineAmount}" labelFor="${capitalAssetInfoName}.capitalAssetLineAmount"/>
 								<c:if test="${!readOnly}">
 									<kul:htmlAttributeHeaderCell literalLabel="Action"/>
@@ -102,7 +111,10 @@
 									lookupUnkeyedFieldConversions="capitalAssetNumber:${capitalAssetInfoName}.capitalAssetTagNumber,"
 									lookupOrInquiryKeys="capitalAssetNumber"
 									businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/></td>
-									
+
+								<td>	
+									<div><c:out value="${distributionAmountDescription}"/></div>
+								</td>	
 									
 								<fp:dataCell dataCellCssClass="${dataCellCssClass}" dataFieldCssClass="amount"
 									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${amountReadOnly}"

@@ -297,7 +297,14 @@ public class GlLineServiceImpl implements GlLineService {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AssetPaymentDocument document = (AssetPaymentDocument) documentService.getNewDocument(DocumentTypeName.ASSET_PAYMENT);
         document.setCapitalAssetBuilderOriginIndicator(true);
-        document.setAssetPaymentAllocationTypeCode(CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE);
+      //  document.setAssetPaymentAllocationTypeCode(CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE);
+        //populate the capital asset line distribution amount code to the payment document.
+        CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(primaryGlEntry, capitalAssetLineNumber);
+        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
+            document.setAssetPaymentAllocationTypeCode(capitalAssetInformation.getDistributionAmountCode());
+            document.setAllocationFromFPDocuments(true);
+        }
+        
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getDocumentNumber());
         updatePreTagInformation(primaryGlEntry, document, capitalAssetLineNumber);
         // Asset Payment Detail

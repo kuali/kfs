@@ -47,6 +47,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerName"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerModelNumber"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" labelFor="${capitalAssetInfoName}.capitalAssetDescription"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.distributionAmountCode}" labelFor="${capitalAssetInfoName}.distributionAmountCode"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.capitalAssetLineAmount}" labelFor="${capitalAssetInfoName}.capitalAssetLineAmount"/>
 			</tr>
 			<c:set var="capitalAssetPosition" value="0" />			
@@ -95,6 +96,19 @@
 								attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true"/></td>
 				<td class="grid"><kul:htmlControlAttribute property="capitalAssetInformation[${status.index}].capitalAssetDescription" 
 								attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true"/></td>
+				
+				<c:set var="distributionAmountCode" value="${detailLine.distributionAmountCode}" />
+				<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE}">
+					<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_DESCRIPTION}" />
+				</c:if>
+				<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE}">
+					<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION}" />
+				</c:if>
+				
+				<td>	
+					<div><c:out value="${distributionAmountDescription}"/></div>
+				</td>	
+				
 				<td class="grid">
 					<div align="right" valign="middle">
 						<kul:htmlControlAttribute property="capitalAssetInformation[${status.index}].capitalAssetLineAmount" 

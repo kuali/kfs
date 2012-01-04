@@ -39,17 +39,28 @@ public class PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation 
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         
+        boolean percentExists = false;
+        
         PurchasingAccountsPayableDocumentBase purapDoc = (PurchasingAccountsPayableDocumentBase) event.getDocument();
 
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(purapDoc.getAccountDistributionMethod())) {
             for (PurApAccountingLine account : itemForValidation.getSourceAccountingLines()) {
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
-                    return false;
+                    //there should be atleast one accounting line where percent should be > 0.00
+                    if (account.getAccountLinePercent().compareTo(BigDecimal.ZERO) == 1) {
+                        percentExists = true;
+                    }
+               //     GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
+               //     return false;
                 }
             }
         }
 
+        if (!percentExists) {
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
+            return false;
+        }
+        
         return valid;
     }
 

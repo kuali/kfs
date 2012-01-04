@@ -32,7 +32,7 @@
 		<div class="tab-container" align=center>
 		<h3>Journal Voucher Details</h3>
 		<table cellpadding=0 class="datatable"
-			summary="view/edit ad hoc recipients">
+			summary="Journal Voucher Details">
 			<tbody>
 
 				<tr>
@@ -41,10 +41,12 @@
 						labelFor="selectedAccountingPeriod" attributeEntry="${journalVoucherAttributes.accountingPeriod}"
 						useShortLabel="false" /></div>
 					</th>
-					<td class="datacell-nowrap"><c:if test="${readOnly}">
+					<td class="datacell-nowrap">
+					<c:if test="${readOnly}">
                         ${KualiForm.accountingPeriod.universityFiscalPeriodName}
                         <html:hidden property="selectedAccountingPeriod" />
-					</c:if> <c:if test="${!readOnly}">
+					</c:if> 
+					<c:if test="${!readOnly}">
 						<SCRIPT type="text/javascript">
 						<!--
 						    function submitForChangedAccountingPeriod() {
@@ -53,23 +55,9 @@
 						//-->
 						</SCRIPT>
 						<html:select property="selectedAccountingPeriod" onchange="submitForChangedAccountingPeriod()">
-							<c:forEach items="${KualiForm.accountingPeriods}"
-								var="accountingPeriod">
-								<c:set var="accountingPeriodCompositeValue"
-									value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />
-								<c:choose>
-									<c:when
-										test="${KualiForm.selectedAccountingPeriod==accountingPeriodCompositeValue}">
-										<html:option
-											value="${accountingPeriodCompositeValue}"><c:out
-											value="${accountingPeriod.universityFiscalPeriodName}" /></html:option>
-									</c:when>
-									<c:otherwise>
-										<html:option
-											value="${accountingPeriodCompositeValue}" ><c:out
-											value="${accountingPeriod.universityFiscalPeriodName}" /></html:option>
-									</c:otherwise>
-								</c:choose>
+							<c:forEach items="${KualiForm.accountingPeriods}" var="accountingPeriod">
+								<c:set var="accountingPeriodCompositeValue" value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />
+								<html:option value="${accountingPeriodCompositeValue}"><c:out value="${accountingPeriod.universityFiscalPeriodName}" /></html:option>
 							</c:forEach>
 						</html:select>
 						
@@ -87,7 +75,9 @@
 					<td class="datacell-nowrap">
 					<c:if test="${readOnly}">
                         ${KualiForm.selectedBalanceType.financialBalanceTypeName}
-					</c:if> <c:if test="${!readOnly}">
+					</c:if> 
+					
+					<c:if test="${!readOnly}">
 						<SCRIPT type="text/javascript">
 						<!--
 						    function submitForChangedBalanceType() {

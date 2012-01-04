@@ -31,7 +31,7 @@ public class ContractsAndGrantsConstants {
                 
         public static final String PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION = "RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION";  
         public static final String PARAMETER_KC_OVERRIDES_KFS_DEFAULT_ACCOUNT_IND="KC_OVERRIDES_KFS_DEFAULT_ACCOUNT_IND";
-        public static final String PARAMETER_KC_ACCOUNT_ADDRESS_TYPE = "ACCOUNT_ADDRESS_TYPE";
+        public static final String PARAMETER_KC_ACCOUNT_ADDRESS_TYPE = "RESEARCH_ADMIN_ACCOUNT_ADDRESS_TYPE";
         public static final String PARAMETER_KC_ACCOUNT_CREATE_ROUTE = "ACCOUNT_AUTO_CREATE_ROUTE";
         
         public static final String ADMIN_ADDRESS_TYPE = "ADMIN";

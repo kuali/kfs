@@ -370,6 +370,31 @@
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
 		<comment>KFSMI-7172 New Parameter UNORDERED_ITEM_DEFAULT_COMMODITY_CODE and new Commodity code 99200000 </comment>
+		<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD="KFS-COA" AND PARM_DTL_TYP_CD="Account" AND PARM_NM="ACCOUNT_ADDRESS_TYPE"</where>
+		</delete>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-COA" />
+			<column name="PARM_DTL_TYP_CD" value="Account" />
+			<column name="PARM_NM" value="RESEARCH_ADMIN_ACCOUNT_ADDRESS_TYPE" />
+			<column name="OBJ_ID" value="KFS606" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="ADMIN;PI" />
+			<column name="PARM_DESC_TXT"
+				value="If KFS is integrated with a Research Admin System with multiple award address types (such as Kuali Coeus) and accounts are being automatically created based on awards in that system, this parameter defines the address type that should be populated as the account address. The first address type listed will be used if a value exists. If not the second will be used and if no address of the second type exists the address of the third type will be used, etc." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		
+		<comment>KFSMI- 7146 Update value for Parameter VALID_PAYEE_TYPES_BY_PAYMENT_REASON </comment>
+		<update tableName="KRNS_PARM_T">
+			<column name="TXT"
+				value="A=V;B=V,E;C=V,E,VSP;D=V;E=V;F=V,E;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=V;W=V;X=V;Z=E" />
+			<where>NMSPC_CD="KFS_FP" AND PARM_DTL_TYP_CD="DisbursementVoucher" AND PARM_NM="VALID_PAYEE_TYPES_BY_PAYMENT_REASON"</where>
+		</update>
+		
+		<comment>KFSMI-7165 correct ACCOUNT_ADDRESS_TYPE name and description</comment>
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PURAP" />
 			<column name="PARM_DTL_TYP_CD" value="Purchase Order Amendment" />
@@ -383,13 +408,6 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
-		
-		<comment>KFSMI- 7146 Update value for Parameter VALID_PAYEE_TYPES_BY_PAYMENT_REASON </comment>
-		<update tableName="KRNS_PARM_T">
-			<column name="TXT"
-				value="A=V;B=V,E;C=V,E,VSP;D=V;E=V;F=V,E;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=V;W=V;X=V;Z=E" />
-			<where>NMSPC_CD="KFS_FP" AND PARM_DTL_TYP_CD="DisbursementVoucher" AND PARM_NM="VALID_PAYEE_TYPES_BY_PAYMENT_REASON"</where>
-		</update>
 
 	</changeSet>
 </databaseChangeLog>   

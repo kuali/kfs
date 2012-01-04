@@ -18,6 +18,21 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import org.kuali.kfs.module.external.kc.service.KcRiceApplicationConfigurationService;
 
 
-public class KcRiceApplicationConfigurationServiceImpl extends org.kuali.rice.krad.service.impl.RiceApplicationConfigurationServiceImpl implements KcRiceApplicationConfigurationService {
+public class KcRiceApplicationConfigurationServiceImpl implements KcRiceApplicationConfigurationService {
+
+    public String getBaseHelpUrl(String businessObjectClassName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getBaseInquiryUrl(String businessObjectClassName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getBaseLookupUrl(String businessObjectClassName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

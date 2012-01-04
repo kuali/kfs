@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.location.api.campus.Campus;
@@ -996,8 +998,8 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getIndirectCostRecoveryAutoDefAccounts());
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getIndirectCostRecoveryAutoDefAccounts());
         return managedLists;
     }
 

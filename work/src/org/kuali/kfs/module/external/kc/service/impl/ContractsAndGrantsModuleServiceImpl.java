@@ -17,6 +17,7 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -143,7 +144,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String,
      *      java.lang.String, java.util.List)
      */
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {        
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, Collection<String> federalAgencyTypeCodes) {        
         boolean _isFederalSponsor_return = false;
         List<String> federalSponsorTypeCodes = null; 
         List<AwardAccount> awardAccounts = this.getAwardAccounts(chartOfAccountsCode, accountNumber);           

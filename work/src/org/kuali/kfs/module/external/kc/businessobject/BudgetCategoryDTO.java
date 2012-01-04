@@ -169,9 +169,7 @@ public class BudgetCategoryDTO implements ContractsAndGrantsBudgetCategory, Seri
         this.description = value;
     }
 
-    @Override
-    
-    
+
     public void refresh() {}
 
     

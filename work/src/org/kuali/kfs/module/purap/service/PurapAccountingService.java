@@ -205,6 +205,13 @@ public interface PurapAccountingService {
      */
     public void updateItemAccountAmounts(PurApItem item);
 
+    /**
+     * Updates a single preq item accounts amounts
+     * 
+     * @param item
+     */
+    public void updatePreqItemAccountAmounts(PurApItem item);
+
     public List<PurApAccountingLine> getAccountsFromItem(PurApItem item);
     
     /**

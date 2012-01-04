@@ -20,7 +20,10 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-public class KcConstants  {
+//RICE20 is there a replacement for JSTLConstants or can this extension be eliminated?
+import org.kuali.rice.core.util.JSTLConstants;
+
+public class KcConstants  extends JSTLConstants {
     
     public static final String KC_NAMESPACE_URI = "KC";        
     public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";

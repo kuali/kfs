@@ -43,6 +43,7 @@ public abstract class KfsService extends Service {
         String webServiceServer =  getWebServiceServerName();
 
         //FIXME KC needs to get the services exposed and working on the KSB for this to work
+        //RICE20 needs service exposed
         if (webServiceServer == null) {
             // look for service on the KSB registry
             ServiceRegistry serviceRegistry = SpringContext.getBean(ServiceRegistry.class);

@@ -176,7 +176,9 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             @SuppressWarnings("rawtypes")
             Map<String, Class> referenceFields = fiscalYearMaker.getReferenceObjectProperties();
             for (String fieldName : referenceFields.keySet()) {
-                PropertyUtils.setSimpleProperty(businessObject, fieldName, null);
+                if (!fieldName.equals("extension")) {
+                    PropertyUtils.setSimpleProperty(businessObject, fieldName, null);
+                }
             }
 
             @SuppressWarnings("rawtypes")

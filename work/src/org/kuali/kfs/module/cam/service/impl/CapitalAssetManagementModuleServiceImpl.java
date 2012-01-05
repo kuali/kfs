@@ -39,12 +39,20 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetManagementModuleService {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CapitalAssetManagementModuleServiceImpl.class);
+
     /**
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#storeAssetLocks(java.util.List, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     public boolean storeAssetLocks(List<Long> capitalAssetNumbers, String documentNumber, String documentType, String lockingInformation) {
         List<AssetLock> assetLocks = getAssetLockService().buildAssetLockHelper(capitalAssetNumbers, documentNumber, documentType, StringUtils.isBlank(lockingInformation) ? CamsConstants.defaultLockingInformation : lockingInformation);
+        Integer lockingIndex = 1;
+        for (AssetLock assetLock : assetLocks) {
+            assetLock.setLockingInformation(lockingIndex.toString());
+            lockingIndex++;
+        }
+        
         return getAssetLockService().checkAndSetAssetLocks(assetLocks);
     }
 

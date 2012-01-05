@@ -19,6 +19,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -124,11 +126,11 @@ public class Award extends PersistableBusinessObjectBase implements Inactivatabl
      */
     
     public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getAwardAccounts());
-        managedLists.add(getAwardOrganizations());
-        managedLists.add(getAwardProjectDirectors());
-        managedLists.add(getAwardSubcontractors());
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAwardAccounts());
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAwardOrganizations());
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAwardProjectDirectors());
+        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAwardSubcontractors());
         return managedLists;
     }
 

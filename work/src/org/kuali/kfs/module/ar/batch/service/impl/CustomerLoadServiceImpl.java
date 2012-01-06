@@ -821,7 +821,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         for (String errorProperty : errorKeys) {
             errorMessages = (List<ErrorMessage>) messageMap.getErrorMessagesForProperty(errorProperty);
             for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey()); 
+                errorKeyString = configService.getPropertyValueAsString(errorMessage.getErrorKey()); 
                 messageParams = errorMessage.getMessageParameters();
                 
                 // MessageFormat.format only seems to replace one 

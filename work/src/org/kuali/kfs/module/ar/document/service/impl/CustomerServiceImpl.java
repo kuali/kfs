@@ -26,6 +26,7 @@ import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -132,7 +133,8 @@ public class CustomerServiceImpl implements CustomerService {
         Note note = new Note();
         note.setNoteText(customerNote);
         try {
-            note = noteService.createNote(note, customer);
+            //RICE20 createNote(Note noteToCopy, PersistableBusinessObject bo, String authorPrincipalId) needs the author, is it current user?
+            note = noteService.createNote(note, customer, GlobalVariables.getUserSession().getPrincipalId());
             noteService.save(note);
         } catch (Exception e){
             throw new RuntimeException("Problems creating note for Customer " + customerNumber);

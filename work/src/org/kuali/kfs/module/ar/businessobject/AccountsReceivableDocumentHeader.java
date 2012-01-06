@@ -290,7 +290,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
      * @return Returns the documentStatus.
      */
     public String getDocumentStatus() {
-        return getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+        return getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
     }
 
     /**
@@ -299,7 +299,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
      * @return
      */
     public String getCreateDate() {
-        return SpringContext.getBean(DateTimeService.class).toDateString(getDocumentHeader().getWorkflowDocument().getDateCreated());
+        return SpringContext.getBean(DateTimeService.class).toDateString(getDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
     }
 
     /**

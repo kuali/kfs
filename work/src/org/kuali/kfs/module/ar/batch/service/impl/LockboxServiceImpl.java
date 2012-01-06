@@ -47,6 +47,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -448,9 +452,13 @@ public class LockboxServiceImpl implements LockboxService {
         //  route without business rules 
         LOG.info("   attempting to route without business rules the PayApp Doc.");
         try {
-           payAppDoc.getDocumentHeader().getWorkflowDocument().routeDocument(annotation);
-            final SearchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
-            searchableAttributeProcessingService.indexDocument(new Long(payAppDoc.getDocumentNumber()));
+           payAppDoc.getDocumentHeader().getWorkflowDocument().route(annotation);
+           
+           //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
+           DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+           DocumentType documentType = documentTypeService.getDocumentTypeByName(payAppDoc.getFinancialDocumentTypeCode());
+           DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
+           queue.indexDocument(payAppDoc.getDocumentNumber());
         }
         catch (Exception e) {
             LOG.error("A Exception was thrown while trying to route (without business rules) PayAppDoc #" + payAppDoc.getDocumentNumber() + ".", e);

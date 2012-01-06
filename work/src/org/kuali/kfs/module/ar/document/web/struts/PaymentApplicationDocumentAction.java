@@ -52,6 +52,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -577,7 +578,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     // only try to retrieve docs if we have any to retrieve
                     if (!controlDocNumbers.isEmpty()) {
                         try {
-                            nonAppliedControlDocs.addAll(documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, controlDocNumbers));
+                            //RICE20 documentService.getDocumentsByListOfDocumentHeaderIds should have return type List<? extends Document>, to avoid casting
+                            List<Document> docs = documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, controlDocNumbers);
+                            for (Document doc : docs) {
+                                nonAppliedControlDocs.add((PaymentApplicationDocument)doc);
+                            }
+                            //nonAppliedControlDocs.addAll(docs);
                         }
                         catch (WorkflowException e) {
                             throw new RuntimeException("A runtimeException was thrown when trying to retrieve a list of documents.", e);

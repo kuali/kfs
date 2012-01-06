@@ -80,6 +80,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             cashControlDetail.setReferenceFinancialDocument(doc);
             WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
             // KualiDocumentFormBase.populate() needs this updated in the session
+            //RICE20 workflow document doesn't exist in UserSession anymore
             GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
         }
 

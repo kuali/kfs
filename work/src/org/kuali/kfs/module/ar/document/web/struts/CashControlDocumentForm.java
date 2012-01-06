@@ -67,6 +67,7 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
                 // populate workflowDocument in documentHeader, if needed
                 try {
                     WorkflowDocument workflowDocument = null;
+                    //RICE20 workflow document doesn't exist in UserSession anymore
                     if (GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber()) != null) {
                         workflowDocument = GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber());
                     }

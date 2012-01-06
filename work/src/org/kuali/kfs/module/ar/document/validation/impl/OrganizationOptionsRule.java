@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +37,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.util.AutoPopulatingList;
 
 public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationOptionsRule.class);
@@ -98,7 +98,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
      * @param map
      */
     protected void removeRestrictedFieldChangedErrors(MessageMap map, String propertyKey) {
-        ArrayList errorMessages = (ArrayList)map.get(propertyKey);
+        AutoPopulatingList<ErrorMessage> errorMessages = map.getErrorMessagesForProperty(propertyKey);
         if(errorMessages!=null) {
             for(int i=0; i<errorMessages.size(); i++) {
                 ErrorMessage eMessage = (ErrorMessage)errorMessages.get(i);

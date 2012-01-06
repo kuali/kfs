@@ -260,7 +260,9 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         }
         Integer maximumRecurrencesByInterval;
         if (ObjectUtils.isNotNull(intervalCode)) {
-            List<String> maximumRecurrences = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, intervalCode) );
+            //RICE20 make sure ParameterService.getSubParameterValuesAsString(Class<?> componentClass, String parameterName, String subParameterName) in rice20
+            // is equivalent to getParameterValues(Class<? extends Object> componentClass, String parameterName, String constrainingValue)
+            List<String> maximumRecurrences = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getSubParameterValuesAsString(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, intervalCode) );
             if (maximumRecurrences.size() > 0 && StringUtils.isNotBlank(maximumRecurrences.get(0))) {
                 maximumRecurrencesByInterval = Integer.valueOf(maximumRecurrences.get(0));
                 if (totalRecurrenceNumber > maximumRecurrencesByInterval) {

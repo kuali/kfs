@@ -142,7 +142,8 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
                         roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, oo.getProcessingChartOfAccountCode());
                         roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, oo.getProcessingOrganizationCode());
                         for ( String principalId : principalIds ) {
-                            results.add( new RoleMembership( null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                            RoleMembership.Builder builder = RoleMembership.Builder.create( null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier );
+                            results.add(builder.build());
                         }
                     }
                 }
@@ -154,7 +155,8 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
                     roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, processingOrg.getChartOfAccountsCode());
                     roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, processingOrg.getOrganizationCode());
                     for ( String principalId : principalIds ) {
-                        results.add( new RoleMembership( null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                        RoleMembership.Builder builder = RoleMembership.Builder.create( null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier );
+                        results.add(builder.build());
                     }
                 }
             }
@@ -178,7 +180,8 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
                         roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, oo.getChartOfAccountsCode());
                         roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, oo.getOrganizationCode());
                         for ( String principalId : principalIds ) {
-                            results.add( new RoleMembership( null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                            RoleMembership.Builder builder = RoleMembership.Builder.create( null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier );
+                            results.add(builder.build());
                         }
                     }
                 }
@@ -190,7 +193,8 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
                     roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, billingOrg.getChartOfAccountsCode());
                     roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, billingOrg.getOrganizationCode());
                     for ( String principalId : principalIds ) {
-                        results.add( new RoleMembership( null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                        RoleMembership.Builder builder = RoleMembership.Builder.create( null, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleQualifier );
+                        results.add(builder.build());
                     }
                 }
             }

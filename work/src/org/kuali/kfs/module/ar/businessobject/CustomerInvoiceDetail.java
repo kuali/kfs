@@ -47,6 +47,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class CustomerInvoiceDetail extends SourceAccountingLine implements AppliedPayment {
     private static Logger LOG = Logger.getLogger(CustomerInvoiceDetail.class);
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "CustomerInvoiceDetail";
 
     // private Integer invoiceItemNumber; using SourceAccountingLine.sequenceNumber
     private BigDecimal invoiceItemQuantity;

@@ -44,6 +44,7 @@ import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -269,7 +270,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoiceWithCaching(java.lang.String)
      */
-    @CacheNoCopy
+    @Cacheable(value=CustomerInvoiceDetail.CACHE_NAME, key="{getCustomerInvoiceDetailsForInvoiceWithCaching} 'customerInvoiceDocumentNumber=' + #p0")
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoiceWithCaching(String customerInvoiceDocumentNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("documentNumber", customerInvoiceDocumentNumber);

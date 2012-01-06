@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -47,7 +48,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private CashControlDocumentService cashControlDocumentService;
     private ConfigurationService kualiConfigurationService;
-    protected KualiWorkflowInfo workflowInfoService;
+    protected DocumentTypeService documentTypeService;
 
     protected final static String CC_WORKFLOW_DOCUMENT_TYPE = "CTRL";
     protected final static String URL_PREFIX = "ar";
@@ -105,6 +106,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
         for (String noteText : electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
             try {
                 Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
+                //RICE20 BO doesn't have note anymore, how/where do we add note?
                 documentService.addNoteToDocument(claimingDoc, note);
             }
             catch (Exception e) {
@@ -162,14 +164,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentLabel()
      */
     public String getDocumentLabel() {
-        try {
-            KualiWorkflowInfo workflowInfo = workflowInfoService;
-            
-            return workflowInfo.getDocType(getClaimingDocumentWorkflowDocumentType()).getLabel();
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
-        }
+        return documentTypeService.getDocumentTypeByName(getClaimingDocumentWorkflowDocumentType()).getLabel();
     }
 
     /**
@@ -249,8 +244,8 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * 
      * @param setWorkflowInfoService 
      */
-    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
-        this.workflowInfoService = workflowInfoService;
+    public void setWorkflowInfoService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
     /**
@@ -258,11 +253,11 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * 
      * @return WorkflowInfoService
      */
-    public KualiWorkflowInfo getWorkflowInfoService() {
-        if (workflowInfoService == null) {
-            workflowInfoService = SpringContext.getBean(KualiWorkflowInfo.class);
+    public DocumentTypeService getWorkflowInfoService() {
+        if (documentTypeService == null) {
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         }
-        return workflowInfoService;
+        return documentTypeService;
     }   
     
 }

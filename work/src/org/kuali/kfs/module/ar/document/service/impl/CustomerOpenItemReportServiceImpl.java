@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -51,11 +52,10 @@ import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.InfrastructureException;
-import org.kuali.rice.krad.exception.UnknownDocumentIdException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -88,31 +88,23 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         if (arDocumentHeaders.size() == 0)
             return results;
 
-        Person user = GlobalVariables.getUserSession().getPerson();
-
+        String userId = GlobalVariables.getUserSession().getPrincipalId();        
         List finSysDocHeaderIds = new ArrayList();
         List invoiceIds = new ArrayList();
         List paymentApplicationIds = new ArrayList();
         List unappliedHoldingIds = new ArrayList();
-
         Hashtable details = new Hashtable();
         WorkflowDocument workflowDocument;
-
 
         for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
             AccountsReceivableDocumentHeader documentHeader = (AccountsReceivableDocumentHeader) itr.next();
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
 
             // populate workflow document
-            try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(documentHeader.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + documentHeader.getDocumentNumber() + "'", e);
-            }
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
 
             // do not display not approved documents
-            Date approvedDate = getSqlDate(workflowDocument.getDateApproved());
+            Date approvedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
             if (ObjectUtils.isNull(approvedDate)) {
                 continue;
             }
@@ -143,17 +135,12 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         Collection<NonAppliedHolding> arNonAppliedHoldings = nonAppliedHoldingDao.getNonAppliedHoldingsForCustomer(customerNumber);
         for (NonAppliedHolding nonAppliedHolding : arNonAppliedHoldings) {
             // populate workflow document
-            try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(nonAppliedHolding.getReferenceFinancialDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + nonAppliedHolding.getReferenceFinancialDocumentNumber() + "'", e);
-            }
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, nonAppliedHolding.getReferenceFinancialDocumentNumber());
 
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             detail.setDocumentType("APP");
             detail.setDocumentNumber(nonAppliedHolding.getReferenceFinancialDocumentNumber());
-            Date documentApprovedDate = getSqlDate(workflowDocument.getDateApproved());
+            Date documentApprovedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
             detail.setDueApprovedDate(documentApprovedDate);
             details.put(nonAppliedHolding.getReferenceFinancialDocumentNumber(), detail);
             unappliedHoldingIds.add(nonAppliedHolding.getReferenceFinancialDocumentNumber());
@@ -316,7 +303,11 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
      */
     public void populateReportDetails(List finSysDocHeaderIds, List results, Hashtable details) {
-        Collection financialSystemDocHeaders = financialSystemDocumentHeaderDao.getByDocumentNumbers(finSysDocHeaderIds);
+        //RICE20 do we have any replacement for FinancialSystemDocumentHeaderDao.getByDocumentNumbers(List<String> headerIds)?      
+        Collection financialSystemDocHeaders = new ArrayList();
+        for (Object headerId : finSysDocHeaderIds) {            
+            financialSystemDocHeaders.add(financialSystemDocumentHeaderDao.getByDocumentHeaderId((String)headerId));
+        }
 
         for (Iterator itr = financialSystemDocHeaders.iterator(); itr.hasNext();) {
             FinancialSystemDocumentHeader fsDocumentHeader = (FinancialSystemDocumentHeader) itr.next();
@@ -632,28 +623,22 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         Collection<String> documentNumbers = new ArrayList();
 
         Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
-        Person user = GlobalVariables.getUserSession().getPerson();
+        String userId = GlobalVariables.getUserSession().getPrincipalId(); 
 
         //List invoiceIds = new ArrayList();
         List paymentApplicationIds = new ArrayList();
         List creditMemoIds = new ArrayList();
-        List writeOffIds = new ArrayList();
-        
+        List writeOffIds = new ArrayList();        
         WorkflowDocument workflowDocument;
 
         for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
             AccountsReceivableDocumentHeader documentHeader = (AccountsReceivableDocumentHeader) itr.next();
 
             // populate workflow document
-            try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(documentHeader.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + documentHeader.getDocumentNumber() + "'", e);
-            }
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
 
             // do not display not approved documents
-            Date approvedDate = getSqlDate(workflowDocument.getDateApproved());
+            Date approvedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
             if (ObjectUtils.isNull(approvedDate)) {
                 continue;
             }
@@ -706,7 +691,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         List results = new ArrayList();
         
         Collection<AccountsReceivableDocumentHeader> arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
-        Person user = GlobalVariables.getUserSession().getPerson();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();      
         
         Hashtable details = new Hashtable();
         //List invoiceIds = new ArrayList();
@@ -718,16 +703,12 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
         for (AccountsReceivableDocumentHeader documentHeader : arDocumentHeaders) {
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
+            
             // populate workflow document
-            try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(documentHeader.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + documentHeader.getDocumentNumber() + "'", e);
-            }
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
 
             // do not display not approved documents
-            Date approvedDate = getSqlDate(workflowDocument.getDateApproved());
+            Date approvedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
             if (ObjectUtils.isNull(approvedDate)) {
                 continue;
             }

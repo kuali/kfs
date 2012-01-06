@@ -23,12 +23,11 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.krad.bo.BusinessObject;
 
 public class CustomerInvoiceItemCodeAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
 
         CustomerInvoiceItemCode itemCode = null;

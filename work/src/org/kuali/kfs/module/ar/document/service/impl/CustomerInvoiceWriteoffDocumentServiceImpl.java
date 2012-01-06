@@ -51,10 +51,9 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.exception.UnknownDocumentIdException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -316,16 +315,9 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if (customerCreditMemoDocuments.isEmpty())
             return success;
 
-        Person user = GlobalVariables.getUserSession().getPerson();
-
-        for (CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
-            try {
-                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerCreditMemoDocument.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerCreditMemoDocument.getDocumentNumber() + "'", e);
-            }
-
+        String userId = GlobalVariables.getUserSession().getPrincipalId();        
+        for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, customerCreditMemoDocument.getDocumentNumber());
             if (!(workflowDocument.isApproved() || workflowDocument.isCanceled() || workflowDocument.isDisapproved())) {
                 success = false;
                 break;
@@ -352,21 +344,13 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocuments = businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
 
-
         // no writeoffs associated with the invoice are found
         if (customerInvoiceWriteoffDocuments.isEmpty())
             return success;
 
-        Person user = GlobalVariables.getUserSession().getPerson();
-
-        for (CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
-            try {
-                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerInvoiceWriteoffDocument.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerInvoiceWriteoffDocument.getDocumentNumber() + "'", e);
-            }
-
+        String userId = GlobalVariables.getUserSession().getPrincipalId();        
+        for(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, customerInvoiceWriteoffDocument.getDocumentNumber());
             if (!(workflowDocument.isApproved() || workflowDocument.isCanceled() || workflowDocument.isDisapproved())) {
                 success = false;
                 break;

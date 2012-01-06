@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class OrganizationOptionsPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
@@ -86,7 +86,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
             String principalId = user.getPrincipalId();
             
             List<String> roleIds = new ArrayList<String>();
-            roleIds.add(rms.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, ACCOUNTS_RECEIVABLE_MANAGER_ROLE_NAME));
+            roleIds.add(rms.getRoleIdByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.KFS, ACCOUNTS_RECEIVABLE_MANAGER_ROLE_NAME));
             
             // editable only for the AR Manager role
             if (!rms.principalHasRole(principalId, roleIds, null)) {
@@ -120,7 +120,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      */
     protected void setOrgPostalZipCodeEditable(Set<String> readOnlyPropertyNames) {
         ParameterService service = SpringContext.getBean(ParameterService.class);
-        if (!service.getIndicatorParameter(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
+        if (!service.getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE);
         }
     }

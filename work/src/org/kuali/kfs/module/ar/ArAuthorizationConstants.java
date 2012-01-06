@@ -15,9 +15,8 @@
  */
 package org.kuali.kfs.module.ar;
 
-import org.kuali.rice.core.util.JSTLConstants;
-
-public class ArAuthorizationConstants extends JSTLConstants {
+//RICE20 extends JSTLConstants?
+public class ArAuthorizationConstants {
 
     public static class CustomerInvoiceDocumentEditMode {
         public static final String SHOW_RECEIVABLE_FAU = "showReceivableFAU";

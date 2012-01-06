@@ -41,7 +41,7 @@ public class CashControlAllAppDocsApprovedValidation extends GenericValidation {
         WorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
         if (!(workflowDocument.isApproved() || workflowDocument.isFinal())) {
-            GlobalVariables.getMessageMap().put(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
             allAppDocsApproved = false;
         }
 

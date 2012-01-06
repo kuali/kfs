@@ -439,8 +439,8 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         return 0;
     }
 
-    @Override
-    @Override protected void prePersist() {
+    @Override 
+    protected void prePersist() {
         super.prePersist();
         CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
         int customerAddressIdentifier = customerAddressService.getNextCustomerAddressIdentifier();

@@ -511,6 +511,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     public void populateCustomerNote() {
         customerNote = "";
+        //RICE20 BoNotes doesn't exist in PersistableBusinessObjectBase anymore. but there's KualiDocumentFormBase.getBoNotes(). What to do?
         ArrayList boNotes = (ArrayList) this.getCustomerInvoiceDocument().getCustomer().getNotes();
         if (boNotes.size() > 0) {
             for (int i = 0; i < boNotes.size(); i++)

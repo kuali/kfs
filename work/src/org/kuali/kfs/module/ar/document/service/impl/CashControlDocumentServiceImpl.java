@@ -45,7 +45,10 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.edl.impl.components.WorkflowDocumentActions;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.exception.InfrastructureException;
@@ -111,10 +114,14 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 //        doc.getNonAppliedHolding().setCustomerNumber(cashControlDetail.getCustomerNumber());
 //        doc.getNonAppliedHolding().setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
         doc.setNonAppliedHolding(null);
-        
-         documentService.saveDocument(doc);       
-        final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
-        workflowDocumentActions.indexDocument(new Long(doc.getDocumentNumber()));
+                
+        documentService.saveDocument(doc);       
+
+        //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        DocumentType documentType = documentTypeService.getDocumentTypeByName(doc.getFinancialDocumentTypeCode());
+        DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
+        queue.indexDocument(doc.getDocumentNumber());
         
         return doc;
     }
@@ -130,25 +137,29 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // create a new PaymentApplicationdocument
         // This has to happen after adding the cash control detail so that payment application saving rules succeed.
-        PaymentApplicationDocument doc = createAndSavePaymentApplicationDocument(description, cashControlDocument, cashControlDetail);
+        PaymentApplicationDocument paymentApplicationDocument = createAndSavePaymentApplicationDocument(description, cashControlDocument, cashControlDetail);
 
         // update new cash control detail fields to refer to the new created PaymentApplicationDocument
-        cashControlDetail.setReferenceFinancialDocument(doc);
-        cashControlDetail.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
+        cashControlDetail.setReferenceFinancialDocument(paymentApplicationDocument);
+        cashControlDetail.setReferenceFinancialDocumentNumber(paymentApplicationDocument.getDocumentNumber());
         // newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
         
         // Save the cash control document, but do NOT do a full workflow-save, just persist the state
-        doc.populateDocumentForRouting();
-        doc.prepareForSave();
-        documentService.prepareWorkflowDocument(doc);
- 
+        paymentApplicationDocument.populateDocumentForRouting();
+        paymentApplicationDocument.prepareForSave();
+        documentService.prepareWorkflowDocument(paymentApplicationDocument); 
         documentService.saveDocument(cashControlDocument);
-        final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
-        workflowDocumentActions.indexDocument(new Long(cashControlDocument.getDocumentNumber()));
-  
-        final SearchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
-        searchableAttributeProcessingService.indexDocument(new Long(doc.getDocumentNumber()));
-  
+
+        //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument 
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+
+        DocumentType cashDocumentType = documentTypeService.getDocumentTypeByName(cashControlDocument.getFinancialDocumentTypeCode());
+        DocumentAttributeIndexingQueue cashQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(cashDocumentType.getApplicationId());
+        cashQueue.indexDocument(cashControlDocument.getDocumentNumber());
+
+        DocumentType payDocumentType = documentTypeService.getDocumentTypeByName(paymentApplicationDocument.getFinancialDocumentTypeCode());
+        DocumentAttributeIndexingQueue payQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(payDocumentType.getApplicationId());
+        payQueue.indexDocument(paymentApplicationDocument.getDocumentNumber());
     }
 
     /**

@@ -20,12 +20,11 @@ import java.util.Map;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase;
 
 public class OrganizationAccountingDefaultMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
         OrganizationAccountingDefault organizationAccountingDefault = null;
         if (businessObject instanceof MaintenanceDocument) {

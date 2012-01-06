@@ -1155,7 +1155,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                 //invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().blanketApprove("Blanket Approved by the creating Invoice Document #" + getDocumentNumber());
                 //TODO temporarily just do regular route until we can get blanket approve perms setup for KFS
                 SpringContext.getBean(DocumentService.class).saveDocument(invoiceRecurrenceMaintDoc);
-                invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().routeDocument("Automatically created and routed by CustomerInvoiceDocument #" + getDocumentNumber() + ".");
+                invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().route("Automatically created and routed by CustomerInvoiceDocument #" + getDocumentNumber() + ".");
             }
             catch (WorkflowException e) {
                 throw new RuntimeException("Cannot route Invoice Recurrence Maintenance Document with id " + invoiceRecurrenceMaintDoc.getDocumentNumber() + ".");

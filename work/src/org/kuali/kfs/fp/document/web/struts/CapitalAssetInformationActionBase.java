@@ -420,8 +420,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      */
     protected void redistributeIndividualAmountsForAccountingLinesForCreateAssets(List<CapitalAccountingLines> selectedCapitalAccountingLines, List<CapitalAssetInformation> capitalAssetInformation) {
         for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
-            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator()) &&
-                    (KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE.equalsIgnoreCase(capitalAsset.getDistributionAmountCode()))) {
+            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
                 if (capitalAssetExists(selectedCapitalAccountingLines, capitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR)) {
                     redistributeIndividualAmounts(selectedCapitalAccountingLines, capitalAsset);                        
                 }

@@ -69,7 +69,39 @@ elog/dbchangelog-1.9.xsd'>
     <addColumn tableName='CM_AST_PMT_DOC_T'>
       <column name='AST_PMT_DIST_CD_FROM_FP_IND' type='VARCHAR2(1)' />
     </addColumn>   
+    
+     <comment>KFSMI-KFSMI-7145 Add fields, create parameters, permissions, and roles for KSMI-6702 Contribution</comment>
+    <createTable tableName='CM_FSCL_YR_END_DEPR_HDR_T'>
+      <column name='UNIV_FISCAL_YR' type='NUMBER(4)'>
+                <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='YEAR_END_DEPR_RUN_DATE' type='DATE'/>
+      <column name='YEAR_END_DEPR_ACTV_IND' type='VARCHAR2(1)'/>
+    </createTable>
 
+    <createTable tableName='CM_FSCL_YR_END_DEPR_DTL_T'>
+      <column name='UNIV_FISCAL_YR' type='NUMBER(4)'>
+        <constraints primaryKey="true" nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CPTLAST_NBR' type='NUMBER(12)'>
+        <constraints primaryKey="true" nullable='false' />
+      </column>
+      <column name='YEAR_END_DEPR_DTL_ACTV_IND' type='VARCHAR2(1)'/>
+      <column name='YEAR_END_DEPR_DTL_PROC_IND' type='VARCHAR2(1)'/>
+    </createTable>
+    
     <modifySql dbms='mysql'>
       <replace replace='SYS_GUID' with='uuid()' />
  	  <replace replace='VARCHAR2' with='VARCHAR' />

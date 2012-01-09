@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.TreeMap;
 
@@ -36,10 +37,14 @@ import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.LogicContainer;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -61,6 +66,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
@@ -572,4 +578,170 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         }
     }
 
+    /**
+     * gets the item from preq and restores the values from the original PO and then
+     * redistributes the amounts based on extended cost and quantity
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return actionForward
+     * @throws Exception
+     */
+    public ActionForward recalculateItemAccountsAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AccountsPayableFormBase payableForm = (AccountsPayableFormBase) form;
+        AccountsPayableDocument apDoc = (AccountsPayableDocument) payableForm.getDocument();
+        
+        PurapAccountingService purapAccountingService = SpringContext.getBean(PurapAccountingService.class);
+        
+        String[] indexes = getSelectedItemNumber(request);
+        int itemIndex = Integer.parseInt(indexes[0]);
+
+        PurApItem item = (PurApItem) apDoc.getItem((itemIndex));
+        
+        //first reset the the corresponding po items accounts amounts to this item
+        restoreItemAccountsAmounts(apDoc, item);
+
+        item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+        
+        final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();;
+        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
+            item.setExtendedPrice(newExtendedPrice);
+        }
+        
+        PurchasingAccountsPayableDocumentBase document = (PurchasingAccountsPayableDocumentBase) apDoc;
+        String accountDistributionMethod = document.getAccountDistributionMethod();
+
+        if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+            // update the accounts amounts for PREQ and distribution method = sequential
+            purapAccountingService.updatePreqItemAccountAmounts(item);
+        } else {
+            purapAccountingService.updateItemAccountAmounts(item);
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * gets the item from preq and restores the values from the original PO
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return actionForward
+     * @throws Exception
+     */
+    public ActionForward restoreItemAccountsAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AccountsPayableFormBase payableForm = (AccountsPayableFormBase) form;
+        AccountsPayableDocument apDoc = (AccountsPayableDocument) payableForm.getDocument();
+        
+        String[] indexes = getSelectedItemNumber(request);
+        int itemIndex = Integer.parseInt(indexes[0]);
+
+        PurApItem item = (PurApItem) apDoc.getItem((itemIndex));
+
+        //first reset the the corresponding po items accounts amounts to this item
+        restoreItemAccountsAmounts(apDoc, item);
+        item.setItemQuantity(null);
+        
+        item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+        
+        final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();;
+        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
+            item.setExtendedPrice(newExtendedPrice);
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Will return an array of Strings containing 2 indexes, the first String is the item index and the second String is the account
+     * index. These are obtained by parsing the method to call parameter from the request, between the word ".line" and "." The
+     * indexes are separated by a semicolon (:)
+     * 
+     * @param request The HttpServletRequest
+     * @return An array of Strings containing pairs of two indices, an item index
+     */
+    protected String[] getSelectedItemNumber(HttpServletRequest request) {
+        String itemString = new String();
+        String parameterName = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            itemString = StringUtils.substringBetween(parameterName, ".line", ".");
+        }
+        String[] result = StringUtils.split(itemString, ":");
+
+        return result;
+    }
+    
+    /**
+     * restores the preq preqItem' accounts amounts with po's item's account lines
+     * amounts.
+     * 
+     * @param apDoc
+     * @param preqItem
+     */
+    protected void restoreItemAccountsAmounts(AccountsPayableDocument apDoc, PurApItem preqItem) {
+        List<PurApItem> pOItems = apDoc.getPurchaseOrderDocument().getItems();
+
+      //  if (pOItems.size() > 0) {
+      //      Integer index = preqItem.getItemLineNumber()- 1; //zero based index;
+      //      preqItem.getSourceAccountingLines().clear();
+      //      preqItem.getSourceAccountingLines().addAll(pOItems.get(index).getSourceAccountingLines());
+      //      for (PurApAccountingLine preqAcctLine : preqItem.getSourceAccountingLines()) {
+      //          preqAcctLine.setItemIdentifier(preqItem.getItemIdentifier());
+      //      }
+      //  }
+        
+        PurApItem pOItem = getPOItem(pOItems, preqItem.getItemLineNumber());
+        if (ObjectUtils.isNotNull(pOItem)) {
+            List <PurApAccountingLine> preqAccountingLines = preqItem.getSourceAccountingLines();
+            for (PurApAccountingLine lineAcct : preqAccountingLines) {
+                updateItemAccountLine(pOItem, lineAcct);                
+            }
+        }
+    }
+    
+    /**
+     * returns the matching po item based on matching item identifier and item line numbner
+     * from preq items.
+     * 
+     * @param purchaseItems
+     * @param itemLineNumber
+     * @return pOItem
+     */
+    protected PurApItem getPOItem(List<PurApItem> pOItems, Integer itemLineNumber) {
+        PurApItem pOItem = null;
+        
+        for (PurApItem poItem : pOItems) {
+            if (poItem.getItemLineNumber().compareTo(itemLineNumber) == 0) {
+                //found the matching preqItem so return it...
+                return poItem;
+            }
+        }
+        
+        return pOItem;
+    }
+    
+    /**
+     * finds the line with matching sequence number, chart code, account number, financial
+     * object code and updates amount/percent on the account line.
+     * 
+     * @param pOItem
+     * @param lineAcct
+     */
+    protected void updateItemAccountLine(PurApItem pOItem, PurApAccountingLine lineAcct) {
+        List <PurApAccountingLine> pOAccountingLines = pOItem.getSourceAccountingLines();
+        for (PurApAccountingLine pOLineAcct : pOAccountingLines) {
+            if (lineAcct.getChartOfAccountsCode().equalsIgnoreCase(pOLineAcct.getChartOfAccountsCode()) &&
+                    lineAcct.getAccountNumber().equalsIgnoreCase(pOLineAcct.getAccountNumber()) && 
+                    lineAcct.getFinancialObjectCode().equalsIgnoreCase(pOLineAcct.getFinancialObjectCode())) {
+                lineAcct.setAmount(pOLineAcct.getAmount());
+                lineAcct.setAccountLinePercent(pOLineAcct.getAccountLinePercent());
+            }
+        }
+    }
 }

@@ -1121,10 +1121,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     item.setSourceAccountingLines(distributedAccounts);
                 }
             }
+            
             // update the item
             purapAccountingService.updateItemAccountAmounts(item);
         }
         // update again now that distribute is finished. (Note: we may not need this anymore now that I added updateItem line above
+        //leave the call below since we need to this when sequential method is used on the document.
         purapAccountingService.updateAccountAmounts(paymentRequestDocument);
     }
 

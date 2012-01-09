@@ -36,6 +36,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     private BigDecimal accountLinePercent;
     private String postingPeriodCode;  //stored in DB only for PREQ and CM Account History
     private KualiDecimal alternateAmountForGLEntryCreation; // not stored in DB; needed for disencumbrances and such
+    public Integer purApSequenceNumber;
     
     private PurApItem purapItem;
 
@@ -236,5 +237,15 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         // remove document number
         valuesMap.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
         return valuesMap;
+    }
+    
+    /**
+     * Gets the purApSequenceNumber attribute.
+     * 
+     * @return Returns the purApSequenceNumber
+     */
+    
+    public Integer getPurApSequenceNumber() {
+        return super.getSequenceNumber();
     }
 }

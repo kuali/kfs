@@ -59,6 +59,10 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" width="25%"/>		
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="${colSpanDescription}"/>
+		<c:if test="${fullEntryMode}">
+			<kul:htmlAttributeHeaderCell literalLabel="Actions"/>
+		</c:if>
+		
 	</tr>
 </c:if>
 
@@ -200,7 +204,23 @@
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"
 				    readOnly="true" />
-			</td>			
+			</td>	
+			
+			<c:if test="${fullEntryMode}">
+				<td class="infoline"> 
+					<div style="text-align: center;">
+						<html:image property="methodToCall.recalculateItemAccountsAmounts.line${ctr}.Anchor" 
+							src="${ConfigProperties.externalizable.images.url}tinybutton-calculate.gif" 
+							title="Recalculate Item's accounts amounts distributions"
+							alt="Recalculate Item's accounts amounts distributions" styleClass="tinybutton" />&nbsp;	
+						<html:image property="methodToCall.restoreItemAccountsAmounts.line${ctr}.Anchor" 
+							src="${ConfigProperties.externalizable.images.url}tinybutton-restore.gif" 
+							title="Restore Item's accounts percents/amounts from Purchase Order"
+							alt="Restore Item's accounts percents/amounts from Purchase Order" styleClass="tinybutton" />
+					</div>
+				</td>										
+		</c:if>		
+					
 		</tr>
 		
 		<c:set var="hideFields" value="amount" />

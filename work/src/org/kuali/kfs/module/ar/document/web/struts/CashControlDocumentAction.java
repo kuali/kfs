@@ -48,6 +48,7 @@ import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CashControlDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
@@ -80,8 +81,8 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             cashControlDetail.setReferenceFinancialDocument(doc);
             WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
             // KualiDocumentFormBase.populate() needs this updated in the session
-            //RICE20 workflow document doesn't exist in UserSession anymore
-            GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
+            //RICE20 workflowDocument doesn't exist in UserSession anymore; use SessionDocumentService.addDocumentToUserSession(UserSession userSession, KualiWorkflowDocument document) 
+            SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
         }
 
     }

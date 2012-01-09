@@ -53,6 +53,7 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
@@ -511,8 +512,9 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     public void populateCustomerNote() {
         customerNote = "";
-        //RICE20 BoNotes doesn't exist in PersistableBusinessObjectBase anymore. but there's KualiDocumentFormBase.getBoNotes(). What to do?
-        ArrayList boNotes = (ArrayList) this.getCustomerInvoiceDocument().getCustomer().getNotes();
+        //RICE20 BoNotes doesn't exist in PersistableBusinessObjectBase anymore; use NoteService.getByRemoteObjectId, which is the objectId of the BO
+        String remoteObjectId = getCustomerInvoiceDocument().getCustomer().getObjectId();
+        ArrayList boNotes = (ArrayList)SpringContext.getBean(NoteService.class).getByRemoteObjectId(remoteObjectId);        
         if (boNotes.size() > 0) {
             for (int i = 0; i < boNotes.size(); i++)
                 customerNote += ((Note) boNotes.get(i)).getNoteText() + " ";

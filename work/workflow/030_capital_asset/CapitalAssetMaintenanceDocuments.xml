@@ -186,5 +186,9 @@
         </role>
       </routeNodes>
     </documentType>
+    <documentType>
+      <name>YEARENDDEPR</name>
+      <parent>CAM</parent>
+    </documentType>
   </documentTypes>
 </data>

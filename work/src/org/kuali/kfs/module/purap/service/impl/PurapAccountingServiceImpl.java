@@ -866,8 +866,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (totalAmount.isGreaterThan(KualiDecimal.ZERO)) {
                 for (T account : sourceAccountingLines) {
                     if (account.getAmount().isZero() || account.getAccountLinePercent().compareTo(BigDecimal.ZERO) == 1) {
-                        account.setAmount(new KualiDecimal(account.getAccountLinePercent()).multiply(totalAmount).divide(new KualiDecimal(100)));
-                        accountTotal = accountTotal.add(account.getAmount());
+                        KualiDecimal priorAmount = account.getAmount();
+                        account.setAmount(account.getAmount().add(new KualiDecimal(account.getAccountLinePercent()).multiply(totalAmount).divide(new KualiDecimal(100))));
+                        accountTotal = accountTotal.add(account.getAmount().subtract(priorAmount));
                         lastAccount = account;
                     }    
                 }

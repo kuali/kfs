@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ec.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +49,8 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService#removeExistingDocumentBuild(java.util.Map)
      */
     public void removeExistingDocumentBuild(Map<String, String> fieldValues) {
-        List<PersistableBusinessObject> documents = (List<PersistableBusinessObject>) businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
-        businessObjectService.delete(documents);
+         Collection<EffortCertificationDocumentBuild> documents = businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
+        businessObjectService.delete((PersistableBusinessObject) documents);
     }
 
     /**

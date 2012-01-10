@@ -50,6 +50,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.DataObjectRelationship;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -141,17 +142,17 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * 
      * @return the relationship metadata for the detail line fields
      */
-    public Map<String, BusinessObjectRelationship> getRelationshipMetadata() {
+    public Map<String, DataObjectRelationship> getRelationshipMetadata() {
         LOG.debug("getRelationshipMetadata() start");
 
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
-        Map<String, BusinessObjectRelationship> relationshipMetadata = new HashMap<String, BusinessObjectRelationship>();
+        Map<String, DataObjectRelationship> relationshipMetadata = new HashMap<String, DataObjectRelationship>();
         for (String attributeName : this.getInquirableFieldNames()) {
             Map<String, Class<? extends BusinessObject>> primitiveReference = LookupUtils.getPrimitiveReference(newDetailLine, attributeName);
 
             if (primitiveReference != null && !primitiveReference.isEmpty()) {
-                BusinessObjectRelationship primitiveRelationship = this.getPrimitiveBusinessObjectRelationship(persistenceStructureService.getRelationshipMetadata(newDetailLine.getClass(), attributeName));
+                DataObjectRelationship primitiveRelationship = this.getPrimitiveDataObjectRelationship(persistenceStructureService.getRelationshipMetadata(newDetailLine.getClass(), attributeName));
                 relationshipMetadata.put(attributeName, primitiveRelationship);
             }
         }
@@ -188,12 +189,12 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @param relationshipMetadata the relationship metadata that contains the primitive relationship
      * @return the primitive relationship for an attribute from a set of relationships.
      */
-    protected BusinessObjectRelationship getPrimitiveBusinessObjectRelationship(Map<String, BusinessObjectRelationship> relationshipMetadata) {
+    protected DataObjectRelationship getPrimitiveDataObjectRelationship(Map<String, DataObjectRelationship> relationshipMetadata) {
         int minCountOfKeys = Integer.MAX_VALUE;
-        BusinessObjectRelationship primitiveRelationship = null;
+        DataObjectRelationship primitiveRelationship = null;
 
         for (String attribute : relationshipMetadata.keySet()) {
-            BusinessObjectRelationship currentRelationship = relationshipMetadata.get(attribute);
+            DataObjectRelationship currentRelationship = relationshipMetadata.get(attribute);
 
             Map<String, String> parentToChildReferences = currentRelationship.getParentToChildReferences();
             if (parentToChildReferences.size() < minCountOfKeys) {

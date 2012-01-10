@@ -24,13 +24,17 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 /**
  * Business object for the outstanding documents by organization report
  */
-@COMPONENT(component="OutstandingCertificationsByOrganization")
+@COMPONENT(component = "OutstandingCertificationsByOrganization")
 public class OutstandingCertificationsByOrganization extends EffortCertificationDocument {
 
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OutstandingCertificationsByOrganization.class);
@@ -67,23 +71,22 @@ public class OutstandingCertificationsByOrganization extends EffortCertification
     public String getNextApprovers() {
         String nextApprovers = "";
 
-        try {
-            List<String> approverUUIDs = SpringContext.getBean(KualiWorkflowInfo.class).getApprovalRequestedUsers(Long.valueOf(getDocumentHeader().getDocumentNumber()));
-            for (String approverUUID : approverUUIDs) {
-                Person approveUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(approverUUID);
-                if (approveUser == null) {
-                    LOG.error("User information not found for UUID: " + approverUUID);
-                }
-                if (StringUtils.isBlank(nextApprovers)) {
-                    nextApprovers = approveUser.getName();
-                }
-                else {
-                    nextApprovers += "; " + approveUser.getName();
+
+        List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getAllActionItems(getDocumentHeader().getDocumentNumber());
+        for (ActionItem actionItem : actionList) {
+            if (actionItem.getActionRequestCd().equals(KewApiConstants.ACTION_REQUEST_APPROVE_REQ)) {
+                String principalId = actionItem.getPrincipalId();
+                if (principalId != null) {
+                    Person person = KimApiServiceLocator.getPersonService().getPerson(actionItem.getPrincipalId());
+                    if (StringUtils.isBlank(nextApprovers)) {
+                        nextApprovers = person.getName();
+                    }
+                    else {
+                        nextApprovers += "; " + person.getName();
+                    }
+
                 }
             }
-        }
-        catch (WorkflowException e) {
-            LOG.error("Problem getting next approver", e);
         }
 
         return nextApprovers;
@@ -94,14 +97,13 @@ public class OutstandingCertificationsByOrganization extends EffortCertification
      */
     @Override
     public boolean equals(Object arg0) {
-        if(arg0 instanceof OutstandingCertificationsByOrganization) {
+        if (arg0 instanceof OutstandingCertificationsByOrganization) {
             List<String> keyFields = new ArrayList<String>();
             keyFields.add(KFSPropertyConstants.DOCUMENT_NUMBER);
 
-            ObjectUtil.equals(this, arg0, keyFields );
+            ObjectUtil.equals(this, arg0, keyFields);
         }
-        
+
         return false;
     }
 }
-

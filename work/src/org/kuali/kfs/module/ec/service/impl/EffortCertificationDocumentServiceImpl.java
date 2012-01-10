@@ -49,8 +49,11 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -88,7 +91,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#createAndRouteEffortCertificationDocument(org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild)
      */
-    
+
     public boolean createAndRouteEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
         try {
             EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) documentService.getNewDocument(EffortConstants.EffortDocumentTypes.EFFORT_CERTIFICATION_DOCUMENT);
@@ -107,7 +110,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#populateEffortCertificationDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild)
      */
-    
+
     public boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument, EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
         // populate the fields of the docuemnt
         effortCertificationDocument.setUniversityFiscalYear(effortCertificationDocumentBuild.getUniversityFiscalYear());
@@ -135,7 +138,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#resetEffortCertificationDetailLines(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
-    
+
     public void removeEffortCertificationDetailLines(EffortCertificationDocument effortCertificationDocument) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, effortCertificationDocument.getDocumentNumber());
@@ -146,7 +149,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#generateSalaryExpenseTransferDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
-    
+
     public boolean generateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
         List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines = this.buildSourceAccountingLines(effortCertificationDocument);
         List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines = this.buildTargetAccountingLines(effortCertificationDocument);
@@ -175,13 +178,12 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#addRouteLooping(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
-    
+
     public void addRouteLooping(EffortCertificationDocument effortCertificationDocument) {
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         List<AdHocRoutePerson> adHocRoutePersonList = effortCertificationDocument.getAdHocRoutePersons();
 
         WorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
-        String routeLevelName = workflowDocument.getCurrentRouteNodeNames();
         Set<Person> priorApprovers = getPriorApprovers(workflowDocument);
 
         for (EffortCertificationDetail detailLine : detailLines) {
@@ -193,8 +195,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             Account account = detailLine.getAccount();
             String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUser().getPrincipalName();
             if (StringUtils.isNotEmpty(accountFiscalOfficerPersonUserId)) {
-                //KULEFR-206
-                //String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);                
+                // KULEFR-206
+                // String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);
                 AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
 
                 this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
@@ -203,8 +205,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
             if (projectDirector != null) {
                 String accountProjectDirectorPersonUserId = projectDirector.getPrincipalName();
-                //KULEFR-206
-                //String actionRequestOfDirector = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.PROJECT_MANAGEMENT);                 
+                // KULEFR-206
+                // String actionRequestOfDirector = this.getActionRequest(routeLevelName,
+                // KFSConstants.RouteLevelNames.PROJECT_MANAGEMENT);
                 AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
 
                 this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
@@ -215,7 +218,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     // add the given ad hoc route person in the list if the person is one of prior approvers and is not in the list
     protected void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, Set<Person> priorApprovers, AdHocRoutePerson adHocRoutePerson) {
         boolean canBeAdded = false;
-        
+
         if (priorApprovers == null) {
             canBeAdded = true;
         }
@@ -241,29 +244,35 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             adHocRoutePersonList.add(adHocRoutePerson);
         }
     }
-    
+
     protected boolean isSameAdHocRoutePerson(AdHocRoutePerson person1, AdHocRoutePerson person2) {
-        if(person1 == null || person2 == null) {
+        if (person1 == null || person2 == null) {
             return false;
         }
-        
+
         boolean isSameAdHocRoutePerson = StringUtils.equals(person1.getId(), person2.getId());
         isSameAdHocRoutePerson &= person1.getType().equals(person2.getType());
         isSameAdHocRoutePerson &= StringUtils.equals(person1.getActionRequested(), person2.getActionRequested());
-               
+
         return isSameAdHocRoutePerson;
     }
 
     protected Set<Person> getPriorApprovers(WorkflowDocument workflowDocument) {
-        Set<Person> priorApprovers = null;
-        try {
-            priorApprovers = workflowDocument.getAllPriorApprovers();
-        }
-        catch (WorkflowException e) {
-            e.printStackTrace();
-        }
+        PersonService personService = KimApiServiceLocator.getPersonService();
+        List<ActionTaken> actionsTaken = workflowDocument.getActionsTaken();
+        Set<String> principalIds = new HashSet<String>();
+        Set<Person> persons = new HashSet<Person>();
 
-        return priorApprovers;
+        for (ActionTaken actionTaken : actionsTaken) {
+            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken())) {
+                String principalId = actionTaken.getPrincipalId();
+                if (!principalIds.contains(principalId)) {
+                    principalIds.add(principalId);
+                    persons.add(personService.getPerson(principalId));
+                }
+            }
+        }
+        return persons;
     }
 
     /**

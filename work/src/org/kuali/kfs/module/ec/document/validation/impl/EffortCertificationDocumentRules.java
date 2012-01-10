@@ -46,6 +46,8 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -169,8 +171,9 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (EffortCertificationDocumentRuleUtil.isEffortPercentChangedFromPersisted(effortCertificationDocument)) {
-            List<Note> notes = effortCertificationDocument.getDocumentHeader().getNotes();
-            
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            List<Note> notes = noteService.getByRemoteObjectId( effortCertificationDocument.getObjectId());
+             
             boolean noteHasBeenAdded = false;
             for(Note note : notes) {
                 if(note.isNewCollectionRecord()) {
@@ -199,7 +202,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
         if (effortCertificationReportDefinitionService.hasApprovedEffortCertification(emplid, reportDefinition)) {
-            List<Note> notes = effortCertificationDocument.getDocumentHeader().getNotes();
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            List<Note> notes = noteService.getByRemoteObjectId( effortCertificationDocument.getObjectId());
             if (notes == null || notes.isEmpty()) {
                 reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_APPROVED_EFFORT_CERTIFICATION_EXIST, emplid, reportDefinition.getUniversityFiscalYear().toString(), reportDefinition.getEffortCertificationReportNumber());
                 return false;

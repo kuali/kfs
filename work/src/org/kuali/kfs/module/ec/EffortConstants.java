@@ -20,12 +20,12 @@ import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.util.JSTLConstants;
+
 
 /**
  * General constants for the effort reporting module.
  */
-public class EffortConstants extends JSTLConstants {
+public class EffortConstants {
     
     public static final String EFFORT_NAMESPACE_CODE = "KFS-EC";
     

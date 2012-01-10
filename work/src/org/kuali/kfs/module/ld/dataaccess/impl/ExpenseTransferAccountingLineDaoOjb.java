@@ -23,7 +23,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.dataaccess.AccountingLineDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -34,7 +33,7 @@ import org.springframework.dao.DataAccessException;
  */
 
 public class ExpenseTransferAccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements AccountingLineDao {
-    private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);
+    private static Logger LOG = Logger.getLogger(ExpenseTransferAccountingLineDaoOjb.class);
 
     /**
      * Default constructor.

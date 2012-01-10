@@ -72,6 +72,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     private LaborOriginEntryService laborOriginEntryService;
     private String llcpDirectoryName;
     private String batchFileDirectoryName;
+    private DocumentDao documentDao;
     private DocumentNumberAwareReportWriterService laborCorrectionDocumentReportWriterService;
 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
@@ -525,7 +526,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
         }
         else {
-            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " + workflowDocument.getStatusDisplayValue() + " selected input group: " + document.getCorrectionInputFileName() + " last saved input group: " + correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad());
+            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " + workflowDocument.getStatus().values().toString() + " selected input group: " + document.getCorrectionInputFileName() + " last saved input group: " + correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad());
             throw new RuntimeException("Error persisting GLCP document origin entries.");
         }
 

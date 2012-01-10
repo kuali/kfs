@@ -126,8 +126,8 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
      */
     public void disapproveSalaryExpenseDocument(SalaryExpenseTransferDocument document) throws Exception {
         // create note explaining why the document was disapproved
-        Note cancelNote = noteService.createNote(new Note(), document.getDocumentHeader());
-        cancelNote.setNoteText(kualiConfigurationService.getPropertyValueAsString(LaborKeyConstants.EFFORT_AUTO_DISAPPROVE_MESSAGE));
+        String message = kualiConfigurationService.getPropertyValueAsString(LaborKeyConstants.EFFORT_AUTO_DISAPPROVE_MESSAGE);
+        Note cancelNote = documentService.createNoteFromDocument( document, message);
 
         Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());

@@ -41,6 +41,7 @@ import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -85,9 +86,9 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map fieldValues) {
-        String wildCards = "";
-        for (int i = 0; i < KRADConstants.QUERY_CHARACTERS.length; i++) {
-            wildCards += KRADConstants.QUERY_CHARACTERS[i];
+        String wildCards = "";       
+        for (SearchOperator op : SearchOperator.QUERY_CHARACTERS) {
+            wildCards += op.op();
         }
 
         if (wildCards.indexOf(fieldValues.get(KFSPropertyConstants.EMPLID).toString().trim()) != -1) {

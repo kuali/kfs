@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.ld;
 
-import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.krad.authorization.AuthorizationConstants.EditMode;
 
-public class LaborAuthorizationConstants extends JSTLConstants {
 
-    public static class ExpenseTransferEditMode extends EditMode {
+public class LaborAuthorizationConstants {
+
+    public static class ExpenseTransferEditMode {
         public static final String LEDGER_BALANCE_IMPORTING = "ledgerBalanceImporting";
     }
 }

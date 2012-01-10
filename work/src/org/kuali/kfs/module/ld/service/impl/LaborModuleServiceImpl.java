@@ -18,7 +18,9 @@ package org.kuali.kfs.module.ld.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,14 +47,19 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,11 +128,31 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         }
 
         this.getBusinessObjectService().save(document);
+   
+        List<AdHocRouteRecipient> adHocRecipientList = new ArrayList<AdHocRouteRecipient>();
+  
+        for (String adHocRouteRecipient : adHocRecipients) {
+            adHocRecipientList.add(this.buildApprovePersonRecipient(adHocRouteRecipient));
+         }
+        
+        SpringContext.getBean(DocumentService.class).blanketApproveDocument(document, annotation, adHocRecipientList);     
+         SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), document.getDocumentHeader().getWorkflowDocument());
 
-        workflowDocumentService.blanketApprove(document.getDocumentHeader().getWorkflowDocument(), annotation, adHocRecipients);
-        GlobalVariables.getUserSession().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
     }
-
+    
+    /**
+     * 
+     * This method builds a recipient for Approval.
+     * @param userId
+     * @return
+     */
+    protected AdHocRouteRecipient buildApprovePersonRecipient(String userId) {
+        AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
+        adHocRouteRecipient.setActionRequested(KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
+        adHocRouteRecipient.setId(userId);
+        return adHocRouteRecipient;
+    }
+    
     /**
      * @see org.kuali.kfs.integration.ld.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
@@ -160,10 +187,25 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set,
      *      java.util.List, java.util.List)
      */
-    public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes) {
+    @Override
+    public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, Collection<String>> fieldValues, Map<String, Collection<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes) {
         Collection<LaborLedgerBalance> LaborLedgerBalances = new ArrayList<LaborLedgerBalance>();
-
-        Collection<LedgerBalance> ledgerBalances = getLaborLedgerBalanceService().findLedgerBalances(fieldValues, excludedFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
+       
+        Map<String, List<String>> excludedFieldValueList = new HashMap<String,List<String>>();
+        for ( Map.Entry<String, Collection<String>> e : excludedFieldValues.entrySet()) {
+            // convert collection to list
+            List<String> list = new ArrayList<String>(e.getValue());
+            Collections.sort(list);
+            excludedFieldValueList.put(e.getKey(), list);
+        }
+        Map<String, List<String>> fieldValueList =new HashMap<String,List<String>>();
+        for ( Map.Entry<String, Collection<String>> e : fieldValues.entrySet()) {
+            // convert collection to list
+            List<String> list = new ArrayList<String>(e.getValue());
+            Collections.sort(list);
+            fieldValueList.put(e.getKey(), list);
+        }
+        Collection<LedgerBalance> ledgerBalances = getLaborLedgerBalanceService().findLedgerBalances(fieldValueList, excludedFieldValueList, fiscalYears, balanceTypes, positionObjectGroupCodes);
         for (LedgerBalance balance : ledgerBalances) {
             LaborLedgerBalances.add(balance);
         }

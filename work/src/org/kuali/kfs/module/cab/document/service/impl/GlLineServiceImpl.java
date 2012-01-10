@@ -308,7 +308,8 @@ public class GlLineServiceImpl implements GlLineService {
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getDocumentNumber());
         updatePreTagInformation(primaryGlEntry, document, capitalAssetLineNumber);
         // Asset Payment Detail
-        document.getSourceAccountingLines().addAll(createAssetPaymentDetails(primaryGlEntry, document, 0, capitalAssetLineNumber));
+        document.getAssetPaymentAssetDetail().get(0).getAssetPaymentDetails().addAll(createAssetPaymentDetails(primaryGlEntry, document, 0, capitalAssetLineNumber));
+     //   document.getSourceAccountingLines().addAll(createAssetPaymentDetails(primaryGlEntry, document, 0, capitalAssetLineNumber));
         
         // Asset payment asset detail
         // save the document
@@ -360,30 +361,27 @@ public class GlLineServiceImpl implements GlLineService {
             Integer paymentSequenceNumber = 0;
             
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
-                Collection<GeneralLedgerEntry> matchingGLEntries = findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getSequenceNumber());
-                for(GeneralLedgerEntry matchingGLEntry : matchingGLEntries) {
-                    AssetPaymentDetail detail = new AssetPaymentDetail();
-                    detail.setDocumentNumber(document.getDocumentNumber());
-                    detail.setSequenceNumber(paymentSequenceNumber++);
-                    detail.setPostingYear(matchingGLEntry.getUniversityFiscalYear());
-                    detail.setPostingPeriodCode(matchingGLEntry.getUniversityFiscalPeriodCode());
-                    detail.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
-                    detail.setAccountNumber(replaceFiller(accountingLine.getAccountNumber()));
-                    detail.setSubAccountNumber(replaceFiller(matchingGLEntry.getSubAccountNumber()));
-                    detail.setFinancialObjectCode(replaceFiller(accountingLine.getFinancialObjectCode()));
-                    detail.setProjectCode(replaceFiller(matchingGLEntry.getProjectCode()));
-                    detail.setOrganizationReferenceId(replaceFiller(matchingGLEntry.getOrganizationReferenceId()));
+                AssetPaymentDetail detail = new AssetPaymentDetail();
+                detail.setDocumentNumber(document.getDocumentNumber());
+                detail.setSequenceNumber(accountingLine.getSequenceNumber());
+                detail.setPostingYear(entry.getUniversityFiscalYear());
+                detail.setPostingPeriodCode(entry.getUniversityFiscalPeriodCode());
+                detail.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
+                detail.setAccountNumber(replaceFiller(accountingLine.getAccountNumber()));
+                detail.setSubAccountNumber(replaceFiller(entry.getSubAccountNumber()));
+                detail.setFinancialObjectCode(replaceFiller(accountingLine.getFinancialObjectCode()));
+                detail.setProjectCode(replaceFiller(entry.getProjectCode()));
+                detail.setOrganizationReferenceId(replaceFiller(entry.getOrganizationReferenceId()));
 
-                    detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(matchingGLEntry.getTransactionDebitCreditCode()) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
-                    detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(matchingGLEntry.getFinancialSystemOriginationCode()));
-                    detail.setExpenditureFinancialDocumentNumber(matchingGLEntry.getDocumentNumber());
-                    detail.setExpenditureFinancialDocumentTypeCode(replaceFiller(matchingGLEntry.getFinancialDocumentTypeCode()));
-                    detail.setExpenditureFinancialDocumentPostedDate(matchingGLEntry.getTransactionDate());
-                    detail.setPurchaseOrderNumber(replaceFiller(matchingGLEntry.getReferenceFinancialDocumentNumber()));
-                    detail.setTransferPaymentIndicator(false);
-                    detail.refreshNonUpdateableReferences();
-                    appliedPayments.add(detail);
-                }
+                detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
+                detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(entry.getFinancialSystemOriginationCode()));
+                detail.setExpenditureFinancialDocumentNumber(entry.getDocumentNumber());
+                detail.setExpenditureFinancialDocumentTypeCode(replaceFiller(entry.getFinancialDocumentTypeCode()));
+                detail.setExpenditureFinancialDocumentPostedDate(entry.getTransactionDate());
+                detail.setPurchaseOrderNumber(replaceFiller(entry.getReferenceFinancialDocumentNumber()));
+                detail.setTransferPaymentIndicator(false);
+                detail.refreshNonUpdateableReferences();
+                appliedPayments.add(detail);
             }
         }
         
@@ -392,7 +390,7 @@ public class GlLineServiceImpl implements GlLineService {
     
     /**
      * updates the submit amount by the amount on the accounting line.  When submit amount equals
-     * transaction ledger amount, the activty status code is marked as in route status.
+     * transaction ledger amount, the activity status code is marked as in route status.
      * @param matchingGLEntry
      * @param accountLineAmount
      */

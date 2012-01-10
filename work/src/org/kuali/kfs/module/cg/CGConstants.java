@@ -17,12 +17,11 @@ package org.kuali.kfs.module.cg;
 
 import java.util.Calendar;
 
-import org.kuali.rice.core.util.JSTLConstants;
 
 /**
  * Constants specific to the Contracts and Grants module.
  */
-public class CGConstants extends JSTLConstants {
+public class CGConstants {
     
     public static final String CG_NAMESPACE_CODE = "KFS-CG";
 

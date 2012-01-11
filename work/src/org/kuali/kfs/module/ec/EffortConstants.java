@@ -30,7 +30,7 @@ public class EffortConstants {
     public static final String EFFORT_NAMESPACE_CODE = "KFS-EC";
     
     /**
-     * hold contants used by extract process
+     * hold constants used by extract process
      */
     public class ExtractProcess {
         public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";

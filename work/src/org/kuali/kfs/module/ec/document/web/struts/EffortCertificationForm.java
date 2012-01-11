@@ -78,7 +78,6 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
     
     /**
      * initialize a new detail line
-     * 
      * @return the initialized detail line
      */
     public EffortCertificationDetail createNewDetailLine() {

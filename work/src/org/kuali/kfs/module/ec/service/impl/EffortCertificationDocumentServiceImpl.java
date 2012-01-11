@@ -455,7 +455,6 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * Sets the contractsAndGrantsModuleService attribute value.
-     * 
      * @param contractsAndGrantsModuleService The contractsAndGrantsModuleService to set.
      */
     public void setContractsAndGrantsModuleService(ContractsAndGrantsModuleService contractsAndGrantsModuleService) {

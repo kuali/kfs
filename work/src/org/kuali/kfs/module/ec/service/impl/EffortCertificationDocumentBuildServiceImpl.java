@@ -102,7 +102,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
     }
 
     /**
-     * populate a dument build object through the given information
+     * populate a document build object through the given information
      * 
      * @param reportDefinition the given report definition
      * @param ledgerBalance the given ledger balance

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ec.businessobject.lookup;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -29,12 +28,12 @@ import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionServic
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
-import org.kuali.rice.core.api.search.SearchOperator;
 
 public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

@@ -317,7 +317,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
     /**
      * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
-     * 
      * @param effortCertificationDocument the given document
      * @return true if the given document is in the state of initiation; otherwise, false
      */

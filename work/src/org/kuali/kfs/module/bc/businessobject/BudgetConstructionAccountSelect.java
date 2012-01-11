@@ -265,10 +265,8 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
         if (this.financialDocumentInitiatorIdentifier == null) {
             try {
-                Long docNum = Long.valueOf(this.getDocumentNumber());
-
                 ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
-                List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
+                List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByDocumentIdIgnoreCurrentInd(this.getDocumentNumber());
                 SortedSet<ActionTakenValue> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
                 if (sortedActionsTaken.size() > 0) {
                     this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
@@ -306,10 +304,8 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
         if (this.financialDocumentCreateDate == null) {
             try {
-                Long docNum = Long.valueOf(this.getDocumentNumber());
-
                 ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
-                List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
+                List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByDocumentIdIgnoreCurrentInd(this.getDocumentNumber());
                 SortedSet<ActionTakenValue> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
                 if (sortedActionsTaken.size() > 0) {
                     this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();

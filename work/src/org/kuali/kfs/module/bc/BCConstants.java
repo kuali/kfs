@@ -28,9 +28,8 @@ import org.kuali.kfs.module.bc.document.web.struts.QuickSalarySettingAction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.util.JSTLConstants;
 
-public class BCConstants extends JSTLConstants {
+public class BCConstants {
     public static final String BUDGET_CONSTRUCTION_NAMESPACE = "KFS-BC";
 
     // max depth to check runaway account organization hierarchy builds

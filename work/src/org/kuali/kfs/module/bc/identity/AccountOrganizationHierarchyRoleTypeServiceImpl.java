@@ -107,6 +107,7 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends RoleTypeSer
     /**
      * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#getAttributeDefinitions(java.lang.String)
      */
+    //RICE20 not sure how to resolve this since super call now returns List<KimAttributeField>
     @Override
     public AttributeDefinitionMap getAttributeDefinitions(String kimTypId) {
         AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypId);

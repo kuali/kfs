@@ -157,7 +157,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
             budgetConstructionForm.setDocTypeName(workflowDoc.getDocumentTypeName());
             // KualiDocumentFormBase.populate() needs this updated in the session
-            GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
+
+            SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
 
             budgetConstructionForm.setSecurityNoAccess(true);
             setBudgetDocumentNoAccessMessage(budgetConstructionForm);

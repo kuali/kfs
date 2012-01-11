@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
     public List<Organization> getProcessorOrgs(Person person) {
         List<Organization> processorOrgs = new ArrayList<Organization>();
 
-        List<Map<String,String>> allQualifications = roleManagementService.getRoleQualifiersForPrincipalIncludingNested(person.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, null);
+        List<Map<String,String>> allQualifications = roleManagementService.getNestedRoleQualifersForPrincipalByNamespaceAndRolename(person.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, null);
         for (Map<String,String> attributeSet : allQualifications) {
             String chartOfAccountsCode = attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             String organizationCode = attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE);
@@ -96,7 +97,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
      */
     protected List<String> getBudgetProcessorRoleIds() {
         List<String> roleId = new ArrayList<String>();
-        roleId.add(roleManagementService.getRoleIdByName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME));
+        roleId.add(roleManagementService.getRoleIdByNameAndNamespaceCode(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME));
 
         return roleId;
     }

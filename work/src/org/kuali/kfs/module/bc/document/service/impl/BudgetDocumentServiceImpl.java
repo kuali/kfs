@@ -58,6 +58,7 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -66,8 +67,10 @@ import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.SessionDocumentService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -124,7 +127,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         this.saveDocumentNoWorkflow(budgetConstructionDocument);
 
-        GlobalVariables.getUserSession().setWorkflowDocument(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument());
+        SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), budgetConstructionDocument.getDocumentHeader().getWorkflowDocument());
 
         // save any messages up to this point and put them back in after logDocumentAction()
         // this is a hack to get around the problem where messageLists gets cleared
@@ -133,7 +136,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // not sure why this doesn't trash the GlobalVariables.getMessageMap()
         MessageList messagesSoFar = KNSGlobalVariables.getMessageList();
 
-        budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
+        budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().logAnnotation("Document Updated");
 
         // putting messages back in
         KNSGlobalVariables.getMessageList().addAll(messagesSoFar);
@@ -1071,7 +1074,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, budgetConstructionDocument.getUniversityFiscalYear(), budgetConstructionDocument.getChartOfAccountsCode(), budgetConstructionDocument.getAccountNumber()));
         kualiDocumentHeader.setExplanation(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
         businessObjectService.save(budgetConstructionDocument);
-        List<String> emptyAdHocList = new ArrayList<String>();
+        List<AdHocRouteRecipient> emptyAdHocList = new ArrayList<AdHocRouteRecipient>();
 
         // call route with document type configured for no route paths or post processor
         documentService.routeDocument(budgetConstructionDocument, "created by application UI", emptyAdHocList);

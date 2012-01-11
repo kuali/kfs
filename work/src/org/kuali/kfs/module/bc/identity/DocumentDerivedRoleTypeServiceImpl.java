@@ -32,10 +32,12 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.PassThruRoleTypeServiceBase;
+import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -189,5 +191,10 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
 
     public List<String> getQualifiersForExactMatch() {
         return new ArrayList<String>(); 
+    }
+
+    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String, String> qualification) throws RiceIllegalArgumentException {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -728,6 +728,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             if (TypeUtils.isStringClass(propertyType) || TypeUtils.isIntegralClass(propertyType) || TypeUtils.isDecimalClass(propertyType) || TypeUtils.isTemporalClass(propertyType)) {
 
                 // check value format against dictionary
+                //RICE20 what to do with this since validateAttribute methods have been depracated
                 if (value != null && StringUtils.isNotBlank(value.toString())) {
                     if (!TypeUtils.isTemporalClass(propertyType)) {
                         getDictionaryValidationService().validateAttributeFormat(entryName, propertyDescriptor.getName(), value.toString(), errorPrefix + propertyDescriptor.getName());

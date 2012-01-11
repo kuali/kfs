@@ -269,6 +269,15 @@ public interface PurapAccountingService {
     public <T extends PurApAccountingLine> void updateAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount);
 
     /**
+     * calculates values for a list of accounting lines based on an amount on preq
+     * 
+     * @param <T>
+     * @param sourceAccountingLines
+     * @param totalAmount
+     */
+    public <T extends PurApAccountingLine> void updatePreqAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount);
+
+    /**
      * Merges list 2 into list 1
      * 
      * @param list1

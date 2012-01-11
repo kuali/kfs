@@ -645,7 +645,9 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         //first reset the the corresponding po items accounts amounts to this item
         restoreItemAccountsAmounts(apDoc, item);
+        
         item.setItemQuantity(null);
+        item.setItemUnitPrice(null);
         
         item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
         

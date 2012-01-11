@@ -1071,7 +1071,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     protected void distributeAccounting(PaymentRequestDocument paymentRequestDocument) {
         // update the account amounts before doing any distribution
         purapAccountingService.updateAccountAmounts(paymentRequestDocument);
-
+       
+        String accountDistributionMethod = paymentRequestDocument.getAccountDistributionMethod();
+        
         for (PaymentRequestItem item : (List<PaymentRequestItem>) paymentRequestDocument.getItems()) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             List<PurApAccountingLine> distributedAccounts = null;
@@ -1098,9 +1100,20 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     includedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
                     summaryAccounts = purapAccountingService.generateSummaryIncludeItemTypesAndNoZeroTotals(paymentRequestDocument.getItems(), includedItemTypeCodes);
                     distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
-
-                    // update amounts on distributed accounts
-                    purapAccountingService.updateAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
+                    //now zero out the percents on distributedAccounts except the first line where
+                    //make the percent as 100.00
+                    for (PurApAccountingLine purApAcctLine : distributedAccounts) {
+                        purApAcctLine.setAccountLinePercent(BigDecimal.ZERO);
+                    }
+                    //set the first line account percent = 100.00 so everything is put on line 1
+                    distributedAccounts.get(0).setAccountLinePercent(new BigDecimal(100.00));
+                    
+                    if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+                        purapAccountingService.updatePreqAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
+                        
+                    } else {
+                        purapAccountingService.updateAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
+                    }
                 }
                 else {
                     PurchaseOrderItem poi = item.getPurchaseOrderItem();
@@ -1115,16 +1128,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         summaryAccounts = purapAccountingService.generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
                         distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
                     }
-
                 }
                 if (CollectionUtils.isNotEmpty(distributedAccounts) && CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
                     item.setSourceAccountingLines(distributedAccounts);
                 }
             }
-            
-            // update the item
-            purapAccountingService.updateItemAccountAmounts(item);
         }
+        
         // update again now that distribute is finished. (Note: we may not need this anymore now that I added updateItem line above
         //leave the call below since we need to this when sequential method is used on the document.
         purapAccountingService.updateAccountAmounts(paymentRequestDocument);

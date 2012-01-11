@@ -414,6 +414,53 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
     
     /**
+     * checks the capital accounting line's amount to the sum of the distributed
+     * accounting lines amounts and adjusts if there are any variances..
+     * 
+     * @param selectedCapitalAccountingLines
+     * @param capitalAssetInformation
+     */
+    protected void adjustCapitalAssetsAccountingLinesAmounts(List<CapitalAccountingLines> selectedCapitalAccountingLines, List<CapitalAssetInformation> capitalAssetInformation) {
+        for (CapitalAccountingLines capitalAcctLine : selectedCapitalAccountingLines) {
+            adjustAccountingLinesAmounts(capitalAcctLine, capitalAssetInformation);
+        }
+    }
+    
+    /**
+     * for each capital account line, compares its amounts to the accounting lines
+     * on capital assets and adjusts its accounting lines amounts for any variances.
+     * 
+     * @param capitalAcctLine
+     * @param capitalAssetInformation
+     */
+    protected void adjustAccountingLinesAmounts(CapitalAccountingLines capitalAcctLine, List<CapitalAssetInformation> capitalAssetInformation) {
+        
+        CapitalAssetAccountsGroupDetails lastAcctLine = null;
+        
+        KualiDecimal totalAccountsAmount = KualiDecimal.ZERO;
+        
+        for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
+            List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
+            for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+                if (groupAccountLine.getCapitalAssetLineNumber().compareTo(capitalAsset.getCapitalAssetLineNumber()) == 0 &&
+                        groupAccountLine.getSequenceNumber().compareTo(capitalAcctLine.getSequenceNumber()) == 0 &&                        
+                        groupAccountLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAcctLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
+                        groupAccountLine.getChartOfAccountsCode().equals(capitalAcctLine.getChartOfAccountsCode()) && 
+                        groupAccountLine.getAccountNumber().equals(capitalAcctLine.getAccountNumber()) && 
+                        groupAccountLine.getFinancialObjectCode().equals(capitalAcctLine.getFinancialObjectCode())) {
+                    totalAccountsAmount = totalAccountsAmount.add(groupAccountLine.getAmount());
+                    lastAcctLine = groupAccountLine;
+                }
+            }
+        }
+        
+        KualiDecimal variance = capitalAcctLine.getAmount().subtract(totalAccountsAmount);
+        if (variance.isNonZero() && ObjectUtils.isNotNull(lastAcctLine)) {
+            lastAcctLine.setAmount(lastAcctLine.getAmount().add(variance));
+        }
+    }
+    
+    /**
      * 
      * @param capitalAccountingLines
      * @param capitalAssetInformation
@@ -500,7 +547,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                             (KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE.equalsIgnoreCase(capitalAsset.getDistributionAmountCode()))) {
                         if (capitalAssetExists(selectedCapitalAccountingLines, capitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR)) {
                             redistributeEqualAmounts(selectedCapitalAccountingLines, capitalAsset, equalCreateAssetAmount, totalQuantity);                        
-                            lastAssetIndex++;
+                            lastAssetIndex = lastAssetIndex + capitalAsset.getCapitalAssetQuantity();
                             //get a reference to the last capital create asset to fix any variances...
                             lastCapitalAsset = capitalAsset;
                         }
@@ -1573,6 +1620,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             
         redistributeIndividualAmountsForAccountingLinesForCreateAssets(selectedCapitalAccountingLines, capitalAssetInformation);
         
+        //adjust any variance from capital accounting lines to the distributed accounting lines amounts....
+        adjustCapitalAssetsAccountingLinesAmounts(selectedCapitalAccountingLines, capitalAssetInformation);
+        
         checkCapitalAccountingLinesSelected(calfb);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1605,6 +1655,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         redistributeAmountsForAccountingsLineForModifyAssets(selectedCapitalAccountingLines, capitalAssetInformation, remainingAmountToDistribute);
             
         redistributeIndividualAmountsForAccountingLinesForModifyAssets(selectedCapitalAccountingLines, capitalAssetInformation);
+        
+        //adjust any variance from capital accounting lines to the distributed accounting lines amounts....
+        adjustCapitalAssetsAccountingLinesAmounts(selectedCapitalAccountingLines, capitalAssetInformation);
         
         checkCapitalAccountingLinesSelected(calfb);
         

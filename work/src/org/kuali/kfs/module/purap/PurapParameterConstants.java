@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.module.purap;
 
-import org.kuali.kfs.sys.ParameterKeyConstants;
 
 /**
  * Holds constants for PURAP business parameters.
  */
-public class PurapParameterConstants implements ParameterKeyConstants {
+public class PurapParameterConstants {
 
     public static final String B2B_ALLOW_COPY_DAYS = "B2B_ALLOW_COPY_DAYS";
     public static final String ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND = "ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND";

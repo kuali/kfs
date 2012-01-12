@@ -1914,7 +1914,6 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         this.relatedViews = relatedViews;
     }
     
-    @Override
     public boolean isBoNotesSupport() {
         return true;
     }
@@ -2074,7 +2073,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#getBoNotes()
      */
     @Override
-    public List getBoNotes() {
+    public List getNotes() {
         List notes = super.getNotes();
         if (!StringUtils.isBlank(this.getObjectId())) {
             for (Iterator iterator = notes.iterator(); iterator.hasNext();) {

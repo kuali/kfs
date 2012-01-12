@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.module.purap;
 
-import org.kuali.rice.core.util.JSTLConstants;
 
 /**
  * Defines constants used in authorization-related code.
  */
-public class PurapAuthorizationConstants extends JSTLConstants {
+public class PurapAuthorizationConstants {
 
     public static class RequisitionEditMode {
         public static final String ALLOW_POSTING_YEAR_ENTRY = "allowPostingYearEntry";

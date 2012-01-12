@@ -29,7 +29,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 public class PretagAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
         
         Pretag pretag = null;

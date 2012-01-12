@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.cab;
 
-import org.kuali.kfs.sys.ParameterKeyConstants;
-
 /**
  * Holds constants for CAB business parameters.
  */
-public class CabParameterConstants implements ParameterKeyConstants {
+public class CabParameterConstants {
 
     public static class CapitalAsset {
         public static final String CAPITAL_ASSET_OBJECT_LEVELS = "PURCHASING_ACCOUNTS_PAYABLE_OBJECT_LEVELS";

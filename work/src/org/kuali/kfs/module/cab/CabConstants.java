@@ -15,9 +15,8 @@
  */
 package org.kuali.kfs.module.cab;
 
-import org.kuali.rice.core.util.JSTLConstants;
 
-public class CabConstants extends JSTLConstants {
+public class CabConstants {
     public static final String PREQ = "PREQ";
     public static final String CM = "CM";
 

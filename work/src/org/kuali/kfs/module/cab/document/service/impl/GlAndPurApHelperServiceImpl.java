@@ -18,28 +18,26 @@ package org.kuali.kfs.module.cab.document.service.impl;
 import org.kuali.kfs.module.cab.document.service.GlAndPurApHelperService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class GlAndPurApHelperServiceImpl implements GlAndPurApHelperService {
 
     public String getDocHandlerUrl(String documentNumber, String docTypeName) {
-        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-        try {
-            DocumentType docType = kualiWorkflowInfo.getDocType(docTypeName);
-            String docHandlerUrl = docType.getDocTypeHandlerUrl();
-            if (docHandlerUrl.indexOf("?") == -1) {
-                docHandlerUrl += "?";
-            }
-            else {
-                docHandlerUrl += "&";
-            }
+        DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
+        DocumentType docType = documentTypeService.getDocumentTypeByName(docTypeName);
+        String docHandlerUrl = docType.getDocHandlerUrl();
+        if (docHandlerUrl.indexOf("?") == -1) {
+            docHandlerUrl += "?";
+        }
+        else {
+            docHandlerUrl += "&";
+        }
 
-            docHandlerUrl += KRADConstants.PARAMETER_DOC_ID + "=" + documentNumber + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
-            return docHandlerUrl;
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
-        }
+        docHandlerUrl += KRADConstants.PARAMETER_DOC_ID + "=" + documentNumber + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
+        return docHandlerUrl;
     }
 }

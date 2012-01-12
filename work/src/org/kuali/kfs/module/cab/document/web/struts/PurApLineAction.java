@@ -29,6 +29,9 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.coa.businessobject.AccountGlobal;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
@@ -45,6 +48,8 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
@@ -52,8 +57,10 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.question.ConfirmationQuestion;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PurApLineAction extends CabActionBase {
@@ -370,14 +377,14 @@ public class PurApLineAction extends CabActionBase {
      * @return
      */
     protected String generateObjectSubTypeQuestion() {
-        String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
+        String parameterDetail = "(module:" + KRADUtils.getNamespaceAndComponentSimpleName(AssetGlobal.class) + ")";
         ConfigurationService kualiConfiguration = this.getConfigurationService();
 
         String continueQuestion = kualiConfiguration.getPropertyValueAsString(CamsKeyConstants.CONTINUE_QUESTION);
         String warningMessage = kualiConfiguration.getPropertyValueAsString(CabKeyConstants.QUESTION_DIFFERENT_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + continueQuestion;
         return warningMessage;
     }
-
+ 
     /**
      * Merge with service help.
      * 

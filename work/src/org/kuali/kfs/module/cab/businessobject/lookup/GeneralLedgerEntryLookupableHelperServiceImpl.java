@@ -28,6 +28,7 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -142,7 +143,7 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         }
         else if (KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(activityStatusCode)) {
             // processed in CAMs: 'E' or 'P'
-            fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE, CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS + KRADConstants.OR_LOGICAL_OPERATOR + CabConstants.ActivityStatusCode.ENROUTE);
+            fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE, CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS + SearchOperator.OR.op() + CabConstants.ActivityStatusCode.ENROUTE);
         }
 
     }

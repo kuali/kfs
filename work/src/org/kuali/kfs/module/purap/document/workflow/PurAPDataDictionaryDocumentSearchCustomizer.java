@@ -31,7 +31,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.Row;
 
-public class PurAPDataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer {
+public class PurAPDataDictionaryDocumentSearchCustomizer extends DataDictionaryDocumentSearchCustomizer {
 
     /**
      * Constructs a PurAPDataDictionaryDocumentSearchCustomizer.
@@ -39,63 +39,5 @@ public class PurAPDataDictionaryDocumentSearchCustomizer extends org.kuali.rice.
     public PurAPDataDictionaryDocumentSearchCustomizer() {
         setProcessResultSet(false);
         setSearchResultProcessor(new PurAPDocumentSearchResultProcessor());
-    }
-    
-    /**
-     * Retrieves the data dictionary entry for the document being operated on by the given route context
-     * @param context the current route context
-     * @return the data dictionary document entry
-     */
-    protected DocumentEntry getDocumentEntry(DocumentType documentType) {
-        return SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentType.getName());
-    }
-
-    @Override
-    public String generateSearchSql(DocSearchCriteriaDTO searchCriteria) {
-        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(searchCriteria.getDocTypeFullName());
-        DocSearchCriteriaDTO convertedSearchCriteria = searchCriteria;
-        if (entry != null) {
-            Class<? extends Document> docClass = entry.getDocumentClass();
-            Document doc = null;
-            try {
-                doc = docClass.newInstance();
-            } catch (Exception e){}
-            if (doc instanceof MultiselectableDocSearchConversion) {
-                MultiselectableDocSearchConversion multiselectable = (MultiselectableDocSearchConversion)doc;
-                convertedSearchCriteria = multiselectable.convertSelections(searchCriteria);
-            }
-        }
-        return super.generateSearchSql(convertedSearchCriteria);
-    }
-
-    // SEARCHABLE ATTRIBUTE IMPLEMENTATION
-    private PurAPSearchableAttribute searchableAttribute = new PurAPSearchableAttribute();
-
-    @Override
-    public String getSearchContent(DocumentSearchContext documentSearchContext) {
-        return searchableAttribute.getSearchContent(documentSearchContext);
-    }
-
-    @Override
-    public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
-        return searchableAttribute.getSearchingRows(documentSearchContext);
-    }
-
-    @Override
-    public List<SearchableAttributeValue> getSearchStorageValues(DocumentSearchContext documentSearchContext) {
-        return searchableAttribute.getSearchStorageValues(documentSearchContext);
-    }
-
-    @Override
-    public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, Object> paramMap, DocumentSearchContext searchContext) {
-        return searchableAttribute.validateUserSearchInputs(paramMap, searchContext);
-    }
-
-    @Override
-    public DocSearchCriteriaDTO clearSearch(DocSearchCriteriaDTO searchCriteria) {
-        DocSearchCriteriaDTO dscdto = new DocSearchCriteriaDTO();
-        // the following line can be uncommented to retain the doc type when the clear button is used on a doc search.
-        //dscdto.setDocTypeFullName(searchCriteria.getDocTypeFullName());
-        return dscdto;
     }
 }

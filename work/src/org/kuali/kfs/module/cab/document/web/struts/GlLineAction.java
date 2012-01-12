@@ -197,8 +197,8 @@ public class GlLineAction extends CabActionBase {
 
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;
-        String assetLineNumber = request.getParameter(CabPropertyConstants.CapitalAssetInformation.ASSET_LINE_NUMBER);
-        Integer capitalAssetLineNumber = Integer.valueOf(assetLineNumber);
+        
+        Integer capitalAssetLineNumber = glLineForm.getCapitalAssetLineNumber();
         
         GeneralLedgerEntry entry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId(), false);
         if (entry != null) {

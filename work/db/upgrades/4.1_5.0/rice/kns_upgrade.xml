@@ -408,7 +408,9 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
-
+		<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD="KFS-COA" AND PARM_DTL_TYP_CD="ObjectCode" AND PARM_NM="ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND"</where>
+		</delete>
 	</changeSet>
 </databaseChangeLog>   
       

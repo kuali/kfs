@@ -66,7 +66,6 @@ public class ContractsAndGrantsConstants {
         
         public static final String WEB_SERVICE_NAME = "budgetAdjustmentService";
         public static final String PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE = "RESEARCH_ADMIN_BA_DOCUMENT_ROUTE_ACTION";   
-        public static final String PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND = "ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND";
         public static final String PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE = "RESEARCH_ADMIN_INCOME_OBJECT_CODE_BY_SPONSOR_TYPE";
         public static final String SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES = "researchAdminAttributes";
                  

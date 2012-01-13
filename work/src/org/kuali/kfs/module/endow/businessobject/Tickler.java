@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class Tickler extends PersistableBusinessObjectBase implements Inactivatable {

@@ -25,8 +25,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 
 
 public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {
-    protected List<EndowmentTransactionSecurity> sourceTransactionSecurities;
-    protected List<EndowmentTransactionSecurity> targetTransactionSecurities;
+	protected List<EndowmentSourceTransactionSecurity> sourceTransactionSecurities;
+    protected List<EndowmentTargetTransactionSecurity> targetTransactionSecurities;
 
     protected EndowmentSourceTransactionSecurity sourceTransactionSecurity;
     protected EndowmentTargetTransactionSecurity targetTransactionSecurity;
@@ -67,7 +67,7 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
      * 
      * @return sourceTransactionSecurities
      */
-    public List<EndowmentTransactionSecurity> getSourceTransactionSecurities() {
+    public List<EndowmentSourceTransactionSecurity> getSourceTransactionSecurities() {
         return sourceTransactionSecurities;
     }
 
@@ -76,7 +76,7 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
      * 
      * @param sourceTransactionSecurities
      */
-    public void setSourceTransactionSecurities(List<EndowmentTransactionSecurity> sourceTransactionSecurities) {
+    public void setSourceTransactionSecurities(List<EndowmentSourceTransactionSecurity> sourceTransactionSecurities) {
         this.sourceTransactionSecurities = sourceTransactionSecurities;
     }
 
@@ -85,7 +85,7 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
      * 
      * @return targetTransactionSecurities
      */
-    public List<EndowmentTransactionSecurity> getTargetTransactionSecurities() {
+    public List<EndowmentTargetTransactionSecurity> getTargetTransactionSecurities() {
         return targetTransactionSecurities;
     }
 
@@ -94,7 +94,7 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
      * 
      * @param targetTransactionSecurities
      */
-    public void setTargetTransactionSecurities(List<EndowmentTransactionSecurity> targetTransactionSecurities) {
+    public void setTargetTransactionSecurities(List<EndowmentTargetTransactionSecurity> targetTransactionSecurities) {
         this.targetTransactionSecurities = targetTransactionSecurities;
     }
 

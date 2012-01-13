@@ -72,7 +72,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.document.MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
 
         // make all the tabs read only to begin with
@@ -82,8 +82,8 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
         readOnlySectionIds.add(EndowConstants.FeeMethod.TRANSACTION_TYPES_TAB_ID);
         readOnlySectionIds.add(EndowConstants.FeeMethod.ENDOWMENT_TRANSACTION_CODES_TAB_ID);
 
-        FeeMethod feeMethod = (FeeMethod) document.getNewMaintainableObject().getBusinessObject();
-        FeeMethod oldFeeMethod = (FeeMethod) document.getOldMaintainableObject().getBusinessObject();
+        FeeMethod feeMethod = (FeeMethod)document.getNewMaintainableObject().getDataObject();
+        FeeMethod oldFeeMethod = (FeeMethod)document.getOldMaintainableObject().getDataObject();
 
         String feeTypeCode = feeMethod.getFeeTypeCode();
 

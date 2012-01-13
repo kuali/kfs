@@ -17,9 +17,8 @@ package org.kuali.kfs.module.endow;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
-import org.kuali.rice.core.util.JSTLConstants;
 
-public class EndowConstants extends JSTLConstants {
+public class EndowConstants {
 
     public static final String KFS_ENDOW_ROLE_NAMESPACE = "KFS-ENDOW";
 

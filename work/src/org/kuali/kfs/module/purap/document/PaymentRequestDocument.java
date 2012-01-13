@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -69,6 +70,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
@@ -146,7 +148,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
-    @Override
     public boolean isBoNotesSupport() {
         return true;
     }
@@ -622,11 +623,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         String preqAmount = getGrandTotal().toString();
 
         String documentTitle = "";
-        String[] nodeNames = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-
+        Set<String> nodeNames = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
 
         // if this doc is final or will be final
-        if (nodeNames.length == 0 || getDocumentHeader().getWorkflowDocument().isFinal()) {
+        if (nodeNames.size() == 0 || getDocumentHeader().getWorkflowDocument().isFinal()) {
             documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
         }
         else {
@@ -696,7 +696,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         LOG.debug("doRouteStatusChange() started");
         
         super.doRouteStatusChange(statusChangeEvent);
-        try {
+
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
                 if (!PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
@@ -736,10 +736,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 }
                 logAndThrowRuntimeException("No status found to set for document being canceled in node '" + currentNode + "'");
             }
-        }
-        catch (WorkflowException e) {
-            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
-        }
     }
 
     /**
@@ -748,13 +744,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @see org.kuali.rice.krad.document.Document#doActionTaken(org.kuali.rice.kew.clientapp.vo.ActionTakenEventDTO)
      */
     @Override
-    public void doActionTaken(ActionTakenEventDTO event) {
+    public void doActionTaken(ActionTakenEvent event) {
         super.doActionTaken(event);
         WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         String currentNode = null;
-        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        Object[] names = workflowDocument.getCurrentNodeNames().toArray();
         if (names.length > 0) {
-            currentNode = names[0];
+            currentNode = (String)names[0];
         }
 
         // everything in the below list requires correcting entries to be written to the GL
@@ -997,8 +993,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @return List - list of route levels
      */
     protected List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
-        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        return Arrays.asList(names);
+        Set<String> names = workflowDocument.getCurrentNodeNames();
+        return new ArrayList<String>(names);
     }
 
     /**
@@ -1061,12 +1057,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         WorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
         String workflowDocumentTitle = this.buildDocumentTitle(workflowDocument.getTitle());
 
-        try {
-            this.getDocumentHeader().getWorkflowDocument().setTitle(workflowDocumentTitle);
-        }
-        catch (WorkflowException e) {
-            LOG.error("fail to access Workflow." + e);
-        }
+        this.getDocumentHeader().getWorkflowDocument().setTitle(workflowDocumentTitle);
 
         // first populate, then call super
         if (event instanceof AttributedContinuePurapEvent) {

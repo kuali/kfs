@@ -82,6 +82,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
 
     public String getUrl() {
         String documentTypeName = this.getDocumentTypeName();
+        //RICE20 what is the replacement for KualiWorkflowInfo?
         KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
         try {
             DocumentType docType = kualiWorkflowInfo.getDocType(documentTypeName);

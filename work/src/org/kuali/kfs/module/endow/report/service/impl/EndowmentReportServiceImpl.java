@@ -54,6 +54,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.campus.CampusService;
 
 public abstract class EndowmentReportServiceImpl implements EndowmentReportService {
     
@@ -452,9 +453,7 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
                 // some organizations and campuses may not exist 
                 if (ObjectUtils.isNotNull(organization)) {
                     benefitting.setOrganizationName(organization.getOrganizationName());
-                    Campus campus = SpringContext.getBean(KualiModuleService.class)
-                            .getResponsibleModuleService(Campus.class)
-                            .getExternalizableBusinessObject(Campus.class, Collections.singletonMap("campusCode", (Object)organization.getOrganizationPhysicalCampusCode()) );
+                    Campus campus = SpringContext.getBean(CampusService.class).getCampus(organization.getOrganizationPhysicalCampusCode());
                     if (campus != null) {
                         benefitting.setCampusName(campus.getName());
                     } else {

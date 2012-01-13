@@ -307,15 +307,15 @@ public class GlLineServiceImpl implements GlLineService {
         
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getDocumentNumber());
         updatePreTagInformation(primaryGlEntry, document, capitalAssetLineNumber);
-        // Asset Payment Detail
-        document.getAssetPaymentAssetDetail().get(0).getAssetPaymentDetails().addAll(createAssetPaymentDetails(primaryGlEntry, document, 0, capitalAssetLineNumber));
-     //   document.getSourceAccountingLines().addAll(createAssetPaymentDetails(primaryGlEntry, document, 0, capitalAssetLineNumber));
+        // Asset Payment Detail - sourceAccountingLines on the document....
+        document.getSourceAccountingLines().addAll(createAssetPaymentDetails(primaryGlEntry, document, 0, capitalAssetLineNumber));
         
         // Asset payment asset detail
         // save the document
         documentService.saveDocument(document);
         markCapitalAssetProcessed(primaryGlEntry, capitalAssetLineNumber);
         deactivateGLEntries(primaryGlEntry, document, capitalAssetLineNumber);
+        
         return document;
     }
 

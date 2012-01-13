@@ -222,6 +222,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	public void prepareForSave(KualiDocumentEvent event) {
 		// This method  prevents kuali from generating a
 		// gl pending entry record.
+	    
         for (AssetPaymentAssetDetail assetDetail : this.getAssetPaymentAssetDetail()) {
             assetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
             if (ObjectUtils.isNotNull(assetDetail.getAsset()) && assetDetail.getAsset().getTotalCostAmount() != null) {
@@ -237,8 +238,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
             // CSU 6702 END Inferred change            
         }
 	}
-
-
 
 
 	public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetail() {

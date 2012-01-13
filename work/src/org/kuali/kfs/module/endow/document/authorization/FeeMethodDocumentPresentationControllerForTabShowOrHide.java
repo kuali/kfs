@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 
 public class FeeMethodDocumentPresentationControllerForTabShowOrHide extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
@@ -63,7 +64,7 @@ public class FeeMethodDocumentPresentationControllerForTabShowOrHide extends Fin
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.document.MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
     
         // make all the tabs read only to begin with
@@ -73,11 +74,11 @@ public class FeeMethodDocumentPresentationControllerForTabShowOrHide extends Fin
         readOnlySectionIds.add(EndowConstants.FeeMethod.TRANSACTION_TYPES_TAB_ID);
         readOnlySectionIds.add(EndowConstants.FeeMethod.ENDOWMENT_TRANSACTION_CODES_TAB_ID);
 
-        FeeMethod feeMethod = (FeeMethod) document.getNewMaintainableObject().getBusinessObject();
-        FeeMethod oldFeeMethod = (FeeMethod) document.getOldMaintainableObject().getBusinessObject();
+        FeeMethod feeMethod = (FeeMethod) document.getNewMaintainableObject().getDataObject();
+        FeeMethod oldFeeMethod = (FeeMethod) document.getOldMaintainableObject().getDataObject();
         
         String documentTypeName = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(feeMethod.getClass());
-        List<MaintainableSectionDefinition> sectionDefinitions = getMaintenanceDocumentDictionaryService().getMaintainableSections(documentTypeName);
+        List<MaintainableSectionDefinition> sectionDefinitions = KNSServiceLocator.getMaintenanceDocumentDictionaryService().getMaintainableSections(documentTypeName);
 
         for (MaintainableSectionDefinition sectionDefinition : sectionDefinitions) {
             String sectionId = sectionDefinition.getId();

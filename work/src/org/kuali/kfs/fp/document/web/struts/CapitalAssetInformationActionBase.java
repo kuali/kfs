@@ -985,6 +985,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
             for (CapitalAssetInformation capitalAsset : capitalAssets) {
                 resetCapitalAssetInfo(capitalAsset);
+                capitalAsset.setCapitalAssetProcessedIndicator(false);
             }
         }
         

@@ -41,7 +41,9 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -51,6 +53,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
  * This is the action class for the CapitalAccountingLinesActionBase.
@@ -58,6 +62,54 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInformationActionBase {
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
+    /**
+     * removes capitalaccountinglines which is a transient bo.. and call the super method to
+     * create a error correction document.
+     * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        caldb.getCapitalAccountingLines().clear();
+        
+        super.correct(mapping, capitalAccountingLinesFormBase, request, response);
+        
+        KualiAccountingDocumentFormBase kadfb = (KualiAccountingDocumentFormBase) form;
+        List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
+        for (CapitalAssetInformation capitalAsset : currentCapitalAssetInformation) {
+            capitalAsset.setCapitalAssetLineAmount(capitalAsset.getCapitalAssetLineAmount().negated());
+            List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
+
+            for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+                groupAccountLine.setAmount(groupAccountLine.getAmount().negated());
+            }
+        }
+        
+        String distributionAmountCode = capitalAccountingLinesFormBase.getCapitalAccountingLine().getDistributionCode();
+
+        AccountingDocument tdoc = (AccountingDocument) capitalAccountingLinesFormBase.getDocument();
+        
+        List<CapitalAccountingLines> capitalAccountingLines = new ArrayList();
+        //for every source/target accounting line that has an object code that requires a 
+        //capital asset, creates a capital accounting line that the user can select to
+        //perform create or modify asset functions.
+        createCapitalAccountingLines(capitalAccountingLines, tdoc, distributionAmountCode);
+        sortCaptitalAccountingLines(capitalAccountingLines);
+
+        caldb.setCapitalAccountingLines(capitalAccountingLines);
+        //checks capital accounting lines for capital assets and if so checks the select box
+        checkSelectForCapitalAccountingLines(capitalAccountingLinesFormBase);        
+        
+        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
+        calculatePercentsForSelectedCapitalAccountingLines(capitalAccountingLinesFormBase);
+        
+        //setup the initial next sequence number column..
+        setupIntialNextCapitalAssetLineNumber(capitalAccountingLinesFormBase);
+        
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);        
+    }
+    
     /**
      * All document-load operations get routed through here
      * 

@@ -70,22 +70,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
         List<List> managedLists = super.buildListOfDeletionAwareLists();
         
         List<CapitalAssetInformation> capitalAssets = new ArrayList<CapitalAssetInformation>();
-     //   List<CapitalAssetAccountsGroupDetails> groupAccounts = new ArrayList<CapitalAssetAccountsGroupDetails>();
-     //   List<CapitalAssetInformationDetail> tagLocations = new ArrayList<CapitalAssetInformationDetail>();
-        
         capitalAssets.addAll(this.getCapitalAssetInformation());
 
         managedLists.add(capitalAssets); 
-        
-    //    for (CapitalAssetInformation capitalAsset : this.getCapitalAssetInformation()) {
-    //        groupAccounts.addAll(capitalAsset.getCapitalAssetAccountsGroupDetails());
-    //    }
-   //     managedLists.add(groupAccounts); 
-        
-    //    for (CapitalAssetInformation capitalAsset : this.getCapitalAssetInformation()) {
-    //        tagLocations.addAll(capitalAsset.getCapitalAssetInformationDetails());
-    //    }
-    //    managedLists.add(tagLocations); 
         
         return managedLists;
     }

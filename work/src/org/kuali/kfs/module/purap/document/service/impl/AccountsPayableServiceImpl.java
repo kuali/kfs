@@ -56,7 +56,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -227,7 +227,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         if (sb.toString().length() > 0) {
             try {
                 Note resetNote = documentService.createNoteFromDocument(document, sb.toString());
-                documentService.addNoteToDocument(document, resetNote);
+                document.addNote(resetNote);
             }
             catch (Exception e) {
                 throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
@@ -515,7 +515,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
                     
                     WorkflowDocumentService workflowDocumentService =  SpringContext.getBean(WorkflowDocumentService.class);
-                    WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+                    WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), GlobalVariables.getUserSession().getPerson());
                     document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
                     documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
                 }
@@ -527,12 +527,12 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             else {
                 // call gl method here (no reason for post processing since workflow done)
                 SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
-                document.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
+                document.getDocumentHeader().getWorkflowDocument().logAnnotation("Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
             }
         }
                     
         Note noteObj = documentService.createNoteFromDocument(document, noteText);
-        documentService.addNoteToDocument(document, noteObj);
+        document.addNote(noteObj);
         SpringContext.getBean(NoteService.class).save(noteObj);      
     }
 

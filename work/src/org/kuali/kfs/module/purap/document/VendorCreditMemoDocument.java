@@ -159,10 +159,6 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         return type;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#isBoNotesSupport()
-     */
-    @Override
     public boolean isBoNotesSupport() {
         return true;
     }

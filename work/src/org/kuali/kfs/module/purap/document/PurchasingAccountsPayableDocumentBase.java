@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -256,11 +257,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      *      nodeDetails)
      */
     public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails) {
-        List<String> currentRouteLevels = new ArrayList<String>();
 
         WorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
-        String[] names = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        currentRouteLevels = Arrays.asList(names);
+        Set<String> names = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
+        List<String> currentRouteLevels = new ArrayList<String>(names);
         if (currentRouteLevels.contains(nodeDetails.getName()) && workflowDoc.isApprovalRequested()) {
             return true;
         }

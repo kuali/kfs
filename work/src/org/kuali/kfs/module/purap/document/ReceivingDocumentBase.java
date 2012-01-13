@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -572,16 +574,15 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
      * @throws WorkflowException
      */
     protected String getCurrentRouteNodeName(WorkflowDocument wd) throws WorkflowException {
-        String[] nodeNames = wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        if ((nodeNames == null) || (nodeNames.length == 0)) {
+        Set<String> nodeNames = wd.getCurrentNodeNames();
+        if ((nodeNames == null) || (nodeNames.size() == 0)) {
             return null;
         }
         else {
-            return nodeNames[0];
+            return (String)nodeNames.toArray()[0];
         }
     }
     
-    @Override
     public boolean isBoNotesSupport() {
         return true;
     }
@@ -662,6 +663,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
     
     public String getDocumentTitleForResult() throws WorkflowException{
+        //RICE20 what is the replacement for KualiWorkflowInfo?
         return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()).getLabel();
     }
     

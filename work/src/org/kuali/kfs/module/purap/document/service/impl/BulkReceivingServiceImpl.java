@@ -38,7 +38,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
@@ -65,7 +65,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         WorkflowDocument workflowDocument = null;
         
         try{
-            workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(blkRecDoc.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+            workflowDocument = workflowDocumentService.createWorkflowDocument(blkRecDoc.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), GlobalVariables.getUserSession().getPerson());
         }catch(WorkflowException we){
             throw new RuntimeException(we);
         }
@@ -146,6 +146,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
+                //RICE20 replacement for createWorkflowDocument() needs doc type, but then this logic to find duplicate makes no sense
                 workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
@@ -189,6 +190,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
+                //RICE20 replacement for createWorkflowDocument() needs doc type, so now this logic won't work
                 workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), 
                                                                                   GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){

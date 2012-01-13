@@ -387,7 +387,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public VendorCreditMemoDocument addHoldOnCreditMemo(VendorCreditMemoDocument cmDocument, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(cmDocument, note);
-        documentService.addNoteToDocument(cmDocument, noteObj);
+        cmDocument.addNote(noteObj);
         noteService.save(noteObj);
 
         // retrieve and save with hold indicator set to true
@@ -410,7 +410,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public VendorCreditMemoDocument removeHoldOnCreditMemo(VendorCreditMemoDocument cmDocument, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(cmDocument, note);
-        documentService.addNoteToDocument(cmDocument, noteObj);
+        cmDocument.addNote(noteObj);
         noteService.save(noteObj);
 
         // retrieve and save with hold indicator set to false
@@ -478,7 +478,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         try {
             Note noteObj = documentService.createNoteFromDocument(cmDocument, note);
-            documentService.addNoteToDocument(cmDocument, noteObj);
+            cmDocument.addNote(noteObj);
         }
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -508,7 +508,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         Note noteObj;
         try {
             noteObj = documentService.createNoteFromDocument(cmDocument, note);
-            documentService.addNoteToDocument(cmDocument, noteObj);
+            cmDocument.addNote(noteObj);
         }
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -629,6 +629,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         
         for (String docNumber : docNumbers) {
             try{
+                //RICE20 replacement for createWorkflowDocument() needs doc type, so then this logic doesn't make sense
                 workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);

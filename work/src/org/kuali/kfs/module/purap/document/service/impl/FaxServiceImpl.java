@@ -94,7 +94,7 @@ public class FaxServiceImpl implements FaxService {
         if (po.getVendorCountryCode() != null) {
             Country vendorCountry = countryService.getCountry(po.getVendorCountryCode());
             if (vendorCountry != null) {
-                po.setVendorCountryCode(vendorCountry.getPostalCountryCode());
+                po.setVendorCountryCode(vendorCountry.getCode());
             }
             else {
                 po.setVendorCountryCode("NA");
@@ -182,7 +182,7 @@ public class FaxServiceImpl implements FaxService {
           if (povq.getVendorCountryCode() != null) {
               Country vendorCountry = countryService.getCountry(po.getVendorCountryCode());
               if (vendorCountry != null) {
-                  povq.setVendorCountryCode(vendorCountry.getPostalCountryCode());
+                  povq.setVendorCountryCode(vendorCountry.getCode());
               }
               else {
                   povq.setVendorCountryCode("NA");

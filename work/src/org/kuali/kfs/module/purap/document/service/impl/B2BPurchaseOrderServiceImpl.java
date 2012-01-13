@@ -485,7 +485,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
      */
     protected boolean isProduction() {
         ConfigurationService configService = SpringContext.getBean(ConfigurationService.class);
-        return StringUtils.equals(configService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY), b2bEnvironment);
+        return StringUtils.equals(configService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY), b2bEnvironment);
     }
 
     public void setB2bEnvironment(String environment) {

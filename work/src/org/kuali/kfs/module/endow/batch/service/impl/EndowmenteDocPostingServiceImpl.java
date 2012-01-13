@@ -86,8 +86,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
 
             // Determine the class type from it's document type name, and use it to retrieve the
             // correct object type from the DB.
-            Class<?> clazz = dataDictionaryService.getDocumentClassByTypeName(pendingEntry.getDocumentType());
-            EndowmentTransactionalDocumentBase tranDoc = (EndowmentTransactionalDocumentBase) businessObjectService.findBySinglePrimaryKey(clazz, pendingEntry.getDocumentNumber());
+        	EndowmentTransactionalDocumentBase tranDoc = (EndowmentTransactionalDocumentBase) businessObjectService.findBySinglePrimaryKey(dataDictionaryService.getDocumentClassByTypeName(pendingEntry.getDocumentType()), pendingEntry.getDocumentNumber());
 
             // Only want to process EndowmentTransactionLinesDocumentBase parent types.
             if (tranDoc instanceof EndowmentTransactionLinesDocumentBase) {

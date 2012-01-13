@@ -238,7 +238,7 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
                 if(group.isActive()){
                     workgroup = new AdHocRouteWorkgroup();
                     workgroup.setId(group.getGroupId());
-                    workgroup.setRecipientName(group.getAssignedToGroup().getGroupName());
+                    workgroup.setRecipientName(group.getAssignedToGroup().getName());
                     workgroup.setRecipientNamespaceCode(group.getAssignedToGroup().getNamespaceCode());
                     workgroup.setActionRequested(KewApiConstants.ACTION_REQUEST_FYI_REQ);
                     

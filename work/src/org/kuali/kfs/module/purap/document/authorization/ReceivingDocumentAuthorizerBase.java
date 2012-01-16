@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class ReceivingDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase {
 
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
         attributes.put(PurapKimAttributes.DOCUMENT_SENSITIVE, "false");
         ReceivingDocument purapDoc = (ReceivingDocument) businessObject;

@@ -205,11 +205,9 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
      * @return
      */
     protected boolean isDocInRouteNodeNotForCurrentUser(Document document, NodeDetails nodeDetails) {
-        List<String> currentRouteLevels = new ArrayList<String>();
         WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-        String[] names = document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        currentRouteLevels = Arrays.asList(names);
-        if (currentRouteLevels.contains(nodeDetails.getName()) && !workflowDoc.isApprovalRequested()) {
+        Set <String> names = document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
+        if (names.contains(nodeDetails.getName()) && !workflowDoc.isApprovalRequested()) {
             return true;
         }
         return false;

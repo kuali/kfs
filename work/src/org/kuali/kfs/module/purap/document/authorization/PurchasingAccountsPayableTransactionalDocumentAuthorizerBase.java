@@ -34,7 +34,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class PurchasingAccountsPayableTransactionalDocumentAuthorizerBase extends AccountingDocumentAuthorizerBase {
 
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
         attributes.put(PurapKimAttributes.DOCUMENT_SENSITIVE, "false");
         PurchasingAccountsPayableDocument purapDoc = (PurchasingAccountsPayableDocument) businessObject;

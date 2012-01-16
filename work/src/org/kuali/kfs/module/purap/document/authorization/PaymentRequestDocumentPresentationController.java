@@ -321,6 +321,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canHold(PaymentRequestDocument paymentRequestDocument) {
         boolean can = !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
+            //RICE20 no replacement for isAdHocRequested()?
             can = paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
             can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getStatusCode());
         }
@@ -340,6 +341,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canRequestCancel(PaymentRequestDocument paymentRequestDocument) {
         boolean can = !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
+           //RICE20 no replacement for isAdHocRequested()?
             can = paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
             can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(paymentRequestDocument.getStatusCode());
         }
@@ -377,6 +379,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
     protected boolean canEditPreExtraction(PaymentRequestDocument paymentRequestDocument) {
         return (!paymentRequestDocument.isExtracted() && 
+                //RICE20 no replacement for isAdHocRequested()?
                 !paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested() &&
                 !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getStatusCode()));
     }

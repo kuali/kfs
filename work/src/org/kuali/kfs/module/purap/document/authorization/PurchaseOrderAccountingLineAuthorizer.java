@@ -44,14 +44,14 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
         WorkflowDocument workflowDoc = accountingDocument.getDocumentHeader().getWorkflowDocument();
-        String currentRouteNodeName = workflowDoc.getCurrentRouteNodeNames();
+        Set <String> currentRouteNodeName = workflowDoc.getCurrentNodeNames();
         
         //  if its in the NEW_UNORDERED_ITEMS node, then allow the new line to be drawn
-        if (PurchaseOrderAccountingLineAuthorizer.NEW_UNORDERED_ITEMS_NODE.equals(currentRouteNodeName)) {
+        if (PurchaseOrderAccountingLineAuthorizer.NEW_UNORDERED_ITEMS_NODE.equals(currentRouteNodeName.toString())) {
             return true;
         }
         
-        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDoc.getDocumentType()) && StringUtils.isNotBlank(accountingGroupProperty) && accountingGroupProperty.contains(PurapPropertyConstants.ITEM)) {
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDoc.getDocumentTypeName()) && StringUtils.isNotBlank(accountingGroupProperty) && accountingGroupProperty.contains(PurapPropertyConstants.ITEM)) {
             int itemNumber = determineItemNumberFromGroupProperty(accountingGroupProperty);
             PurchaseOrderAmendmentDocument poaDoc = (PurchaseOrderAmendmentDocument) accountingDocument;
             PurchaseOrderItem item = (PurchaseOrderItem) poaDoc.getItem(itemNumber);

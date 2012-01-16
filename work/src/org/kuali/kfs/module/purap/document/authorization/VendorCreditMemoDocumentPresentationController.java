@@ -193,6 +193,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     }
 
     protected boolean canEditPreExtraction(VendorCreditMemoDocument vendorCreditMemoDocument) {
+        //RICE20 no replacement for isAdHocRequested
         return (!vendorCreditMemoDocument.isExtracted() && 
                 !vendorCreditMemoDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested() &&
                 !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getStatusCode()));

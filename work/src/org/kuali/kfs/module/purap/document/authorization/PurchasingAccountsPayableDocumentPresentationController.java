@@ -28,6 +28,7 @@ public class PurchasingAccountsPayableDocumentPresentationController extends Fin
      */
     @Override
     protected boolean canEdit(Document document) {
+        //RICE20 no replacement for isAdHocRequested
         if (document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
             return false;
         }

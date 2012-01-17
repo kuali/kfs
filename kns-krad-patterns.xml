@@ -236,7 +236,7 @@
 
 		<pattern>
 			<match>org\.kuali\.rice\.kns\.bo\.Parameter</match>
-			<replacement>org.kuali.rice.core.api.parameter.Parameter</replacement>
+			<replacement>org.kuali.rice.coreservice.api.parameter.Parameter</replacement>
 		</pattern>
 					
 		<pattern>
@@ -383,7 +383,7 @@
 		</pattern>
 		<pattern>
 			<match>org.kuali.rice.kns.service.ParameterService</match>
-			<replacement>org.kuali.rice.core.framework.parameter.ParameterService</replacement>
+			<replacement>org.kuali.rice.coreservice.framework.parameter.ParameterService</replacement>
 		</pattern>
 		<pattern>
 			<match>org.kuali.rice.kns.util.RiceKeyConstants</match>

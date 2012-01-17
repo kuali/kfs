@@ -354,7 +354,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             String propertyName = errorPath + "." + fields[i];
             if (GlobalVariables.getMessageMap().doesPropertyHaveError(propertyName)) {
                 for (Object errorMessage : GlobalVariables.getMessageMap().getMessages(propertyName)) {
-                    String errorMsg = getConfigurationService().getPropertyValueAsString(((ErrorMessage) errorMessage).getErrorKey());
+                    String errorMsg = getKualiConfigurationService().getPropertyValueAsString(((ErrorMessage) errorMessage).getErrorKey());
                     message += ", " + MessageFormat.format(errorMsg, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
                 }
             }

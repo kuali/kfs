@@ -65,10 +65,10 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentHelperService;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.campus.CampusService;
 
 /**
  * Rule implementation for Asset Global document.
@@ -239,9 +239,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     protected boolean checkReferenceExists(AssetGlobalDetail assetGlobalDetail) {
         boolean valid = true;
         if (StringUtils.isNotBlank(assetGlobalDetail.getCampusCode())) {
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put(CamsPropertyConstants.Asset.CAMPUS_CODE, assetGlobalDetail.getCampusCode());
-            Campus campus = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+            Campus campus = SpringContext.getBean(CampusService.class).getCampus(assetGlobalDetail.getCampusCode());
 
             if (ObjectUtils.isNull(campus)) {
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetGlobalDetail.getCampusCode());

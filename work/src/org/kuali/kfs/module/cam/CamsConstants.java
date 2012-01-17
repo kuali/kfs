@@ -19,14 +19,13 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.krad.authorization.AuthorizationConstants.EditMode;
 
 
 /**
  * Global constants for CAMS.
  */
-public class CamsConstants extends JSTLConstants {
+public class CamsConstants {
     public static final String CAM_MODULE_CODE = "KFS-CAM";
     public static final String[] MONTHS = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
     public static final String SET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "setperiod\\d.*depreciation\\damount";
@@ -282,7 +281,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String FULL_YEAR = "FY";
     }
 
-    public static class EquipmentLoanOrReturnEditMode extends EditMode {
+    public static class EquipmentLoanOrReturnEditMode {
         public static final String DISPLAY_NEW_LOAN_TAB = "displayNewLoanTab";
         public static final String DISPLAY_RETURN_LOAN_FIELDS_READ_ONLY = "displayReturnLoanFieldsReadOnly";
     }

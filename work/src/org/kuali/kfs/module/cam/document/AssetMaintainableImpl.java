@@ -256,7 +256,6 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
         Iterator<String> fpDocumentNumbers = getFpLinks().iterator();
         while (fpDocumentNumbers.hasNext()) {
             String aDocumentNumber = fpDocumentNumbers.next();
-            KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
             try {
                 String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(aDocumentNumber).getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
                 documentInfo.add(FINANCIAL_DOC_NAME_MAP.get(docTypeName) + "-" + aDocumentNumber);

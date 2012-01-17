@@ -121,9 +121,6 @@
 		<property name="universityDateDao">
 			<ref bean="universityDateDao" />
 		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>		
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>

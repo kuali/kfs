@@ -18,10 +18,12 @@ package org.kuali.kfs.module.cam.util;
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -63,12 +65,8 @@ public final class MaintainableWorkflowUtils {
         // we need to use the system user here, since this code could be called within the
         // context of workflow, where there is no user session
         Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KRADConstants.SYSTEM_USER);
-        try {
-            workflowDocument = workflowDocumentService.createWorkflowDocument(NumberUtils.createLong(documentNumber), person);
-        }
-        catch (WorkflowException ex) {
-            throw new RuntimeException("Error to retrieve workflow document: " + documentNumber, ex);
-        }
+
+        workflowDocument = WorkflowDocumentFactory.loadDocument(person.getPrincipalId(), documentNumber);
         return workflowDocument ;
     }
 

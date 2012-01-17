@@ -79,7 +79,11 @@ public class AssetGlobalPreRules extends MaintenancePreRulesBase {
 
 
     protected boolean isOkHavingDifferentObjectSubTypes() {
-        String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
+        //RICE20: getNamespace method with class as paramter does not exist..
+        //RICE20: method getDetailType(Class) method does not exist.
+        //String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
+        
+        String parameterDetail = "(module:)";
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
         String continueQuestion = kualiConfiguration.getPropertyValueAsString(CamsKeyConstants.CONTINUE_QUESTION);

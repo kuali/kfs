@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -941,10 +942,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getAssetGlobalDetails());
-        managedLists.add(getAssetPaymentDetails());
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add( new ArrayList<PersistableBusinessObject>(getAssetGlobalDetails()));
+        managedLists.add( new ArrayList<PersistableBusinessObject>(getAssetPaymentDetails()));
         return managedLists;
     }
 

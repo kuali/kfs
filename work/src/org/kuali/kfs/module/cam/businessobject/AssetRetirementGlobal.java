@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -127,12 +128,10 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         return persistables;
     }
 
-    
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedList = super.buildListOfDeletionAwareLists();
-
-        managedList.add(getAssetRetirementGlobalDetails());
-
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> managedList = super.buildListOfDeletionAwareLists();
+        managedList.add(new ArrayList<PersistableBusinessObject>(getAssetRetirementGlobalDetails()));
         return managedList;
     }
 

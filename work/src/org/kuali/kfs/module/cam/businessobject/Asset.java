@@ -2018,7 +2018,8 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+        //RICE20 DocSearchCriteria is revamped, not sure if its necessary to pass it as a properties
+        //params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
         return params;
     }
 

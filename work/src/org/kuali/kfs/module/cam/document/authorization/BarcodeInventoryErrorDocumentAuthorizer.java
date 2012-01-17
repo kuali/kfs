@@ -27,6 +27,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -44,19 +45,12 @@ public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTran
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
         Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
 
-        Long routeHeaderId;    
-        
-        try {
-             routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        } catch (WorkflowException wfe) {
-            throw new RuntimeException("ParseException: BarcodeInventoryErrorDocumentAuthorizer stopped because routeHeaderId is invaid.");            
-        }
-        
-        String principalId = UserSession.getAuthenticatedUser().getPrincipalId();
+        String documentId = document.getDocumentHeader().getWorkflowDocument().getDocumentId();
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
         
         if (document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
             //retrieve all future actions records sitting in table: KREW_ACTN_RQST_T
-            List<ActionRequestValue> futureActions = SpringContext.getBean(ActionRequestDAO.class).findAllByDocId(routeHeaderId);
+            List<ActionRequestValue> futureActions = SpringContext.getBean(ActionRequestDAO.class).findAllByDocId(documentId);
            
             for (Iterator<ActionRequestValue> futureAction = futureActions.iterator(); futureAction.hasNext();) {
                 //if logged in principal id is same as the one in future actions record then add the edit permission

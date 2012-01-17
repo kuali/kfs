@@ -30,8 +30,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -108,16 +112,11 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 	 */
 	@Override
 	public SourceAccountingLine getNewSourceLine() {
-		// Getting the workflow document number created for the asset payment
-		// document.
-		String worflowDocumentNumber = "";
-		try {
-			if (GlobalVariables.getUserSession().getWorkflowDocument(this.getAssetPaymentDocument().getDocumentNumber()) != null)
-				worflowDocumentNumber = GlobalVariables.getUserSession().getWorkflowDocument(this.getAssetPaymentDocument().getDocumentNumber()).getRouteHeaderId().toString();
-		} catch (Exception e) {
-			throw new RuntimeException("Error converting workflow document number to string:" + e.getMessage());
-		}
+		// Getting the workflow document number created for the asset payment document.
+	    SessionDocumentService sessionService = SpringContext.getBean(SessionDocumentService.class);
+	    WorkflowDocument document = sessionService.getDocumentFromSession(GlobalVariables.getUserSession(), this.getAssetPaymentDocument().getDocumentNumber());
 
+	    String worflowDocumentNumber = (document!= null)? document.getDocumentId() : "";
 		AssetPaymentDetail newSourceLine = (AssetPaymentDetail) super.getNewSourceLine();
 
 		// Setting default document type.

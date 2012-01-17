@@ -341,7 +341,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
             if (!isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
                 Map assetLocationMap = new HashMap();
                 assetLocationMap.put(KFSPropertyConstants.POSTAL_STATE_CODE, stateCode);
-                State locationState = SpringContext.getBean(StateService.class).getState(stateCode);
+                State locationState = SpringContext.getBean(StateService.class).getState(countryCode, stateCode);
                 if (ObjectUtils.isNull(locationState)) {
                     putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE, stateCode);
                     valid &= false;

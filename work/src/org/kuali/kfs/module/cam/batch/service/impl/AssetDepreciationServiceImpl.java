@@ -61,6 +61,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -92,7 +93,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private BusinessObjectService businessObjectService;
     private OptionsService optionsService;
     private UniversityDateDao universityDateDao;
-    private WorkflowDocumentService workflowDocumentService;
     private DataDictionaryService dataDictionaryService;
     private Integer fiscalYear;
     private Integer fiscalMonth;
@@ -483,7 +483,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
 
     protected String createNewDepreciationDocument() throws WorkflowException {
-        WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(CamsConstants.DocumentTypeName.ASSET_DEPRECIATION, GlobalVariables.getUserSession().getPerson());
+        WorkflowDocument workflowDocument = WorkflowDocumentFactory.createDocument(GlobalVariables.getUserSession().getPrincipalId(), CamsConstants.DocumentTypeName.ASSET_DEPRECIATION);
         // **************************************************************************************************
         // Create a new document header object
         // **************************************************************************************************
@@ -673,11 +673,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
 
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;

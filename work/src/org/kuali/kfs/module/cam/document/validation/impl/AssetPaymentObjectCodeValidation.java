@@ -59,8 +59,12 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
         boolean result = true;
         
         List<String> validSubtypeCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES) );
-        String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";
         
+        //RICE20: getNamespace method with class as paramter does not exist..
+        //RICE20: method getDetailType(Class) method does not exist.
+        //String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
+        
+        String parameterDetail = "(module:)";
         boolean capitalAssetFound = false;
         
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = assetPaymentDocument.getAssetPaymentAssetDetail();

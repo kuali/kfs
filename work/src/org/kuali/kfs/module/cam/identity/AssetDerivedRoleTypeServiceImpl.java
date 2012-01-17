@@ -57,7 +57,8 @@ public class AssetDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase 
             if ( StringUtils.isNotBlank( documentNumber ) ) {
                 EquipmentLoanOrReturnDocument document = getEquipmentLoanOrReturnDocument(documentNumber);
                 if(document!=null){
-                    members.add( new RoleMembership(null,null,document.getBorrowerUniversalIdentifier(),KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,null) );
+                    RoleMembership.Builder builder = RoleMembership.Builder.create(null, null, document.getBorrowerUniversalIdentifier(),KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,null);
+                    members.add(builder.build());
                 }
             }
         }

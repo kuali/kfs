@@ -19,6 +19,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -82,9 +84,11 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     }
     
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
+     * Replace the original toStringMapper
+     * 
+     * @return
      */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
+    protected LinkedHashMap<String,String> assetPaymentToStringMapper() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put("documentNumber", this.getDocumentNumber());
         m.put("sequenceNumber", this.getSequenceNumber() == null ? "" : this.getSequenceNumber().toString());
@@ -110,10 +114,16 @@ public class AssetPaymentDetail extends SourceAccountingLine {
      * @return
      */
     public String getAssetPaymentDetailKey() {
-        LinkedHashMap<String,String> m = toStringMapper();
-        m.put("expenditureFinancialDocumentTypeCode",this.getExpenditureFinancialDocumentTypeCode());
-        m.put("expenditureFinancialDocumentNumber",this.getExpenditureFinancialDocumentNumber());
-        return toStringBuilder(m);
+        LinkedHashMap<String,String> paymentMap = assetPaymentToStringMapper();
+        paymentMap.put("expenditureFinancialDocumentTypeCode",this.getExpenditureFinancialDocumentTypeCode());
+        paymentMap.put("expenditureFinancialDocumentNumber",this.getExpenditureFinancialDocumentNumber());
+        
+        //use SHORT_PREFIX_STYLE so that memory address is not part of the toString output
+        ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        for (String key : paymentMap.keySet()){
+            builder.append(key, paymentMap.get(key));
+        }
+        return paymentMap.toString();
     }
 
     public String getExpenditureFinancialSystemOriginationCode() {

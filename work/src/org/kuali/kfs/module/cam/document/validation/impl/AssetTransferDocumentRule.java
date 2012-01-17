@@ -400,7 +400,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
         // KFSMI-6169 - Not check permission for Transfer Non-Movable Assets when user approve the doc.
-        if (!assetTransferDocument.getDocumentHeader().getWorkflowDocument().isApproveRequested()){
+        if (!assetTransferDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested()){
             if (!assetMovable && !isAuthorizedTransferMovable) {
                 GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
                 valid &= false;

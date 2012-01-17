@@ -37,11 +37,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -189,7 +189,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ORGANIZATION_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerAccount().getOrganizationCode());
             Map<String,String> permissionDetails = new HashMap<String,String>();
-            permissionDetails.putAll(KimCommonUtils.getNamespaceAndComponentSimpleName(Asset.class));
+            permissionDetails.putAll(KRADUtils.getNamespaceAndComponentSimpleName(Asset.class));
             if (!SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, permissionDetails, qualification)) {
                 success &= false;
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });

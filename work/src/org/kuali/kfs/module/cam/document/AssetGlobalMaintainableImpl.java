@@ -663,7 +663,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
                 if (ObjectUtils.isNotNull(assetGlobalDetailsList)) {
                     for (AssetGlobalDetail assetGlobaldetails : assetGlobalDetailsList) {
                         if (assetGlobaldetails.getCampusTagNumber() != null && !assetGlobaldetails.getCampusTagNumber().isEmpty()) {
-                            HashMap<String, Object> map = new HashMap<String, Object>();
+                            Map<String, String> map = new HashMap<String, String>();
                             map.put(CabPropertyConstants.PretagDetail.CAMPUS_TAG_NUMBER, assetGlobaldetails.getCampusTagNumber());
                             List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);
                             if (ObjectUtils.isNotNull(pretagDetailList)) {

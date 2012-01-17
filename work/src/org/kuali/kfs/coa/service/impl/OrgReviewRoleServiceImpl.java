@@ -51,7 +51,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     protected DocumentTypeService documentTypeService;
     
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
-        RoleMemberQueryResults roleMembers = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId))));
+        RoleMemberQueryResults roleMembers = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap("id", roleMemberId))));
         RoleMember roleMember = null;
         if(roleMembers!=null && !roleMembers.getResults().isEmpty() ){
             roleMember = roleMembers.getResults().iterator().next();
@@ -107,8 +107,8 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         orr.setToAmount(orr.getAttributeValue(KfsKimAttributes.TO_AMOUNT));
         orr.setFinancialSystemDocumentTypeCode(orr.getAttributeValue(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
         
-        orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
-        orr.getOrganization().setOrganizationCode(orr.getOrganizationCode());
+//        orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
+//        orr.getOrganization().setOrganizationCode(orr.getOrganizationCode());
 
         if(orr.getRoleRspActions()!=null && orr.getRoleRspActions().size()>0){
             orr.setActionTypeCode(orr.getRoleRspActions().get(0).getActionTypeCode());

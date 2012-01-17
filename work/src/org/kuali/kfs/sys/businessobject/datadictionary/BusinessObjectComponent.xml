@@ -42,7 +42,7 @@
 		<property name="label" value="Namespace"/>
 		<property name="control">
 			<bean parent="SelectControlDefinition">
-				<property name="valuesFinderClass" value="org.kuali.rice.core.web.namespace.NamespaceValuesFinder"/>
+				<property name="valuesFinderClass" value="org.kuali.rice.coreservice.web.namespace.NamespaceValuesFinder"/>
 			</bean>
 		</property>
 	</bean>

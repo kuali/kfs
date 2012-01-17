@@ -5,11 +5,11 @@
 	<!-- 
 		<pattern>
 			<match>org.kuali.rice.kns.lookup.keyvalues.NamespaceValuesFinder</match>
-			<replacement>org.kuali.rice.core.web.namespace.NamespaceValuesFinder</replacement>
+			<replacement>org.kuali.rice.coreservice.web.namespace.NamespaceValuesFinder</replacement>
 		</pattern>
 		<pattern>
 			<match>org\.kuali\.rice\.kns\.document\.authorization\.PermissionDerivedRoleTypeServiceImpl</match>
-			<replacement>org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl</replacement>
+			<replacement>org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl</replacement>
 		</pattern>
 		<pattern>
 			<match>org\.kuali\.rice\.ksb\.messaging\.KSBExporter</match>

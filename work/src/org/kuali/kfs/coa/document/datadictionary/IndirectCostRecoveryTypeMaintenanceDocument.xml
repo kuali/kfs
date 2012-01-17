@@ -37,7 +37,7 @@
     
     <property name="documentTypeName" value="ITYP"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryTypeRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
     	<ref bean="IndirectCostRecoveryTypeMaintenanceDocument-workflowAttributes"/>
     </property>

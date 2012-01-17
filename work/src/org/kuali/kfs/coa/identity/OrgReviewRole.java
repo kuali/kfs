@@ -82,6 +82,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public static final String PRIORITY_CODE_FIELD_NAME = "priorityNumber";
     public static final String ACTION_POLICY_CODE_FIELD_NAME = "actionPolicyCode";
     public static final String FORCE_ACTION_FIELD_NAME = "forceAction";
+    public static final String ACTIVE_FROM_DATE = "activeFromDate";
+    public static final String ACTIVE_TO_DATE = "activeToDate";
     
     public static final String ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY = "ODelMId";
     public static final String ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY = "ORMId";
@@ -92,12 +94,12 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected String kimTypeId;
     
     protected String orgReviewRoleMemberId;
-    protected Chart chart = new Chart();
-    protected Organization organization = new Organization();
+    protected Chart chart;
+    protected Organization organization;
     protected boolean edit;
     protected boolean copy;
     
-    protected KfsKimDocDelegateType delegation = new KfsKimDocDelegateType();
+//    protected KfsKimDocDelegateType delegation = new KfsKimDocDelegateType();
     protected KfsKimDocDelegateMember delegationMemberRole = new KfsKimDocDelegateMember( "", MemberType.ROLE );
     protected KfsKimDocDelegateMember delegationMemberGroup = new KfsKimDocDelegateMember( "", MemberType.GROUP );
     protected KfsKimDocDelegateMember delegationMemberPerson = new KfsKimDocDelegateMember( "", MemberType.PRINCIPAL );
@@ -220,20 +222,20 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void setChart(Chart chart) {
         this.chart = chart;
     }
-    /**
-     * Gets the delegation attribute. 
-     * @return Returns the delegation.
-     */
-    public KfsKimDocDelegateType getDelegation() {
-        return delegation;
-    }
-    /**
-     * Sets the delegation attribute value.
-     * @param delegation The delegation to set.
-     */
-    public void setDelegation(KfsKimDocDelegateType delegation) {
-        this.delegation = delegation;
-    }
+//    /**
+//     * Gets the delegation attribute. 
+//     * @return Returns the delegation.
+//     */
+//    public KfsKimDocDelegateType getDelegation() {
+//        return delegation;
+//    }
+//    /**
+//     * Sets the delegation attribute value.
+//     * @param delegation The delegation to set.
+//     */
+//    public void setDelegation(KfsKimDocDelegateType delegation) {
+//        this.delegation = delegation;
+//    }
     /**
      * Gets the groupMemberGroupId attribute. 
      * @return Returns the groupMemberGroupId.

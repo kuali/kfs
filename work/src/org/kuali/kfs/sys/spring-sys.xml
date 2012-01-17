@@ -798,7 +798,7 @@
 	<bean id="batchJobModifierRoleTypeService" parent="batchJobModifierRoleTypeService-parentBean"/>
 
 	<bean id="batchJobModifierRoleTypeService-parentBean"
-		class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl" abstract="true">
+		class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl" abstract="true">
 		<property name="permissionTemplateNamespace" value="KR-NS" />
 		<property name="permissionTemplateName" value="Modify Batch Job" />
 	</bean>

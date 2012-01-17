@@ -1,6 +1,6 @@
 <%--
 
-    Copyright 2005-2011 The Kuali Foundation
+    Copyright 2005-2012 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@
         }
 
         table#login th {
-            height: 30 px;
+            height: 30px;
             padding-top: .8em;
             padding-bottom: .8em;
             color: #a02919;
@@ -73,10 +73,18 @@
             padding-bottom: .6em;
         }
 
+        div.build {
+            float: right;
+            color: #dfdda9;
+            margin: .3em;
+        }
+
     </style>
   </head>
 
 <body OnLoad="document.loginForm.__login_user.focus();">
+
+<div class="build">${ConfigProperties.version} (${ConfigProperties.datasource.ojb.platform})</div>
 
 <form name="loginForm" action="" method="post">
 

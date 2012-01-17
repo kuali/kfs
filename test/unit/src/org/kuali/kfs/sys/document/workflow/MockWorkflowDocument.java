@@ -15,13 +15,10 @@
  */
 package org.kuali.kfs.sys.document.workflow;
 
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.joda.time.DateTime;
-import org.kuali.rice.core.api.uif.AttributeError;
+import org.kuali.rice.core.api.uif.RemotableAttributeErrorContract;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.ActionRequestType;
@@ -41,7 +38,6 @@ import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
 import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
-import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This class is the base class for a MockWorkflowDocument. It can be extended by any other kind of mock document that needs to
@@ -333,7 +329,7 @@ public abstract class MockWorkflowDocument implements WorkflowDocument {
      * @see org.kuali.rice.kew.api.WorkflowDocument#validateAttributeDefinition(org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition)
      */
     @Override
-    public List<? extends AttributeError> validateAttributeDefinition(WorkflowAttributeDefinition attributeDefinition) {
+    public List<? extends RemotableAttributeErrorContract> validateAttributeDefinition(WorkflowAttributeDefinition attributeDefinition) {
         // TODO Auto-generated method stub
         return null;
     }

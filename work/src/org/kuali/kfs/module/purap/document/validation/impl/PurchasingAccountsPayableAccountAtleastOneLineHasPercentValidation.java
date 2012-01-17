@@ -50,15 +50,13 @@ public class PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation 
                     if (account.getAccountLinePercent().compareTo(BigDecimal.ZERO) == 1) {
                         percentExists = true;
                     }
-               //     GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
-               //     return false;
                 }
             }
-        }
-
-        if (!percentExists) {
-            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
-            return false;
+            
+            if (!percentExists) {
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
+                return false;
+            }
         }
         
         return valid;

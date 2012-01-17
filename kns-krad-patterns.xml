@@ -391,7 +391,7 @@
 		</pattern>
 		<pattern>
 			<match>org.kuali.rice.kns.service.ParameterConstants</match>
-			<replacement>org.kuali.rice.core.framework.parameter.ParameterConstants</replacement>
+			<replacement>org.kuali.rice.coreservice.framework.parameter.ParameterConstants</replacement>
 		</pattern>
 		<pattern>
 			<match>org.kuali.rice.kns.service.CountryService</match>
@@ -577,7 +577,7 @@ import org.kuali.rice.kns.util.KNSConstants">UserSession.getObjectMap().get(KNSC
 		</pattern>
 		<pattern fileType="java">
 			<match>= (.*)\.getParameterValues\((.*)\);</match>
-			<replacement addImport="org.kuali.rice.core.framework.parameter.ParameterService:org.kuali.rice.core.framework.parameter.ParameterService;
+			<replacement addImport="org.kuali.rice.coreservice.framework.parameter.ParameterService:org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import java.util.ArrayList"
 			>= new ArrayList&lt;String&gt;( $1.getParameterValuesAsString($2) );</replacement>
 		</pattern>
@@ -672,7 +672,7 @@ import java.util.ArrayList"
 		<pattern>
 			<match>(getConfigurationService\(\)|kualiConfiguration|kualiConfigurationService|configurationService|getBean\(ConfigurationService\.class\))\.getParameterValue(s?)AsString</match>
 			<replacement addImport="org.kuali.rice.core.api.config.property.ConfigurationService:org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.framework.parameter.ParameterService">getBean(ParameterService.class).getParameterValue$2AsString</replacement>
+import org.kuali.rice.coreservice.framework.parameter.ParameterService">getBean(ParameterService.class).getParameterValue$2AsString</replacement>
 		</pattern>
 		
 		<pattern>

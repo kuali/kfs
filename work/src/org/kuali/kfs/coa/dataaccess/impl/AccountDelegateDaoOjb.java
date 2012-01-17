@@ -25,7 +25,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDelegateDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**

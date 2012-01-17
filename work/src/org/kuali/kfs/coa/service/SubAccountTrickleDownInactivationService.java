@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.service;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
 
 public interface SubAccountTrickleDownInactivationService {
     public List<MaintenanceLock> generateTrickleDownMaintenanceLocks(Account inactivatedAccount, String documentNumber);

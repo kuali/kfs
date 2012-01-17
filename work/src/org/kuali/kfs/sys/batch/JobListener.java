@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.NDCFilter;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.mail.MailMessage;
+import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.krad.service.MailService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

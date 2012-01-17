@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +37,7 @@ import org.kuali.rice.kim.api.role.RoleResponsibility;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Propagation;

@@ -32,7 +32,7 @@ import org.kuali.rice.core.api.encryption.EncryptionService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

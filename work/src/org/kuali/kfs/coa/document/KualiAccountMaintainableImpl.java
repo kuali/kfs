@@ -33,7 +33,7 @@ import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.document.MaintenanceLock;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 

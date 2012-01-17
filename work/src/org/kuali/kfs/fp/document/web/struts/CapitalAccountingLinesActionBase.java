@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.fp.businessobject.options.CapitalAccountingLinesComparator;
 import org.kuali.kfs.fp.document.CapitalAccountingLinesDocumentBase;
 import org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent;
@@ -79,8 +80,15 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
         for (CapitalAssetInformation capitalAsset : currentCapitalAssetInformation) {
             capitalAsset.setCapitalAssetLineAmount(capitalAsset.getCapitalAssetLineAmount().negated());
+            //remove capital asset tag/location asset tag number and serial number as
+            //they will fail because these values will be duplicates.
+            List<CapitalAssetInformationDetail> tagLocationDetails = capitalAsset.getCapitalAssetInformationDetails();
+            for (CapitalAssetInformationDetail tagLocationDetail : tagLocationDetails) {
+                tagLocationDetail.setCapitalAssetTagNumber(null);
+                tagLocationDetail.setCapitalAssetSerialNumber(null);
+            }
+            
             List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
-
             for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
                 groupAccountLine.setAmount(groupAccountLine.getAmount().negated());
             }

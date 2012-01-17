@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+  <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
+
+  <bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean"
+    p:secureMode="true" />
+
+  <bean id="propertyPlaceholderConfigurer" class="org.kuali.kfs.sys.context.ConfigPropertyPlaceholderConfigurer">
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+    <property name="propertiesArray">
+      <list>
+        <ref bean="properties" />
+        <ref bean="securityProperties" />
+      </list>
+    </property>
+  </bean>
+
+    <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${kfs.datasource.driver.name}"/>
+        <property name="validationQuery" value="${kfs.datasource.validating.query}"/>
+        <property name="url" value="${kfs.datasource.url}"/>    
+        <property name="username" value="${kfs.datasource.username}" />
+        <property name="password" value="${kfs.datasource.password}" />
+        <property name="accessToUnderlyingConnectionAllowed" value="${kfs.datasource.pool.accessToUnderlyingConnectionAllowed}"/>
+        <property name="maxActive" value="${kfs.datasource.pool.maxActive}"/>
+		<property name="minIdle" value="${kfs.datasource.pool.minIdle}" />
+		<property name="initialSize" value="${kfs.datasource.pool.initialSize}" />
+    </bean>
+
+  <bean id="kimIdentityManagementService" class="org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl" />
+  <alias name="kimIdentityManagementService" alias="identityManagementService" />
+
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver" lazy-init="true">
+		<property name="defaultLocale" value="${kfs.locale}" />
+	</bean>
+	
+</beans>

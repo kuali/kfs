@@ -16,15 +16,13 @@
 package org.kuali.kfs.sys.context;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.resourceloader.ResourceLoader;
-import org.kuali.rice.core.impl.config.module.ModuleConfigurer;
-import org.kuali.rice.core.impl.resourceloader.RiceResourceLoaderFactory;
-import org.kuali.rice.krad.config.KRADConfigurer;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
+import org.kuali.rice.core.framework.config.module.WebModuleConfiguration;
 
 public class KFSConfigurer extends ModuleConfigurer {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSConfigurer.class);
@@ -61,28 +59,31 @@ public class KFSConfigurer extends ModuleConfigurer {
         super.doAdditionalModuleStopLogic();
     }
     
-    /**
-     * Overridden to do nothing, since the default path from Rice is not one we want to use.
-     * 
-     * @see org.kuali.rice.core.impl.config.module.ModuleConfigurer#getPrimarySpringFiles()
-     */
     @Override
     public List<String> getPrimarySpringFiles() {
-        return Collections.emptyList();
+        String files = ConfigContext.getCurrentContextConfig().getProperty("spring.source.files");
+        return files == null ? Collections.<String>emptyList() : parseFileList(files);
     }
-    
-    @Override
-    public String getWebModuleConfigName() {
-        return "config";
-    }
-    
-    @Override
-    public String getWebModuleConfigurationFiles() {
-        return "WEB-INF/struts-config.xml";
-    }
-    @Override
-    public List<String> getAdditionalSpringFiles() {        
-        return super.getAdditionalSpringFiles();
-    }
+
+    protected List<String> parseFileList(String files) {
+        List<String> parsedFiles = new ArrayList<String>();
+        for (String file : Arrays.asList(files.split(","))) {
+            String trimmedFile = file.trim();
+            if (!trimmedFile.isEmpty()) {
+                parsedFiles.add(trimmedFile);   
+            }
+        }
         
+        return parsedFiles;
+    }
+    
+    @Override
+    protected WebModuleConfiguration loadWebModule() {
+        return new KfsWebModuleConfiguration();
+    }
+
+    @Override
+    public boolean hasWebInterface() {
+        return true;
+    }
 }

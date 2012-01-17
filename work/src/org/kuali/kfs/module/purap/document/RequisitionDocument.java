@@ -63,8 +63,11 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -74,6 +77,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Document class for the Requisition.
@@ -104,13 +108,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public PurchasingDocumentSpecificService getDocumentSpecificService() {
         return SpringContext.getBean(RequisitionService.class);
-    }
-    /**
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#isBoNotesSupport()
-     */
-    @Override
-    public boolean isBoNotesSupport() {
-        return true;
     }
 
     /**
@@ -362,9 +359,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setOrganizationAutomaticPurchaseOrderLimit(null);
         this.setPurchaseOrderAutomaticIndicator(false);
 
-        // Fill the BO Notes with an empty List.
-        this.setBoNotes(new ArrayList());
-
         for (Iterator iter = this.getItems().iterator(); iter.hasNext();) {
             RequisitionItem item = (RequisitionItem) iter.next();
             item.setPurapDocumentIdentifier(null);
@@ -447,34 +441,35 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * @see org.kuali.rice.krad.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+    public void doRouteLevelChange(DocumentRouteLevelChange change) {
         LOG.debug("handleRouteLevelChange() started");
         super.doRouteLevelChange(change);
-        try {
-            String newNodeName = change.getNewNodeName();
-            if (StringUtils.isNotBlank(newNodeName)) {
-                ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(getDocumentNumber()));
-                reportCriteriaDTO.setTargetNodeName(newNodeName);
-                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
-                    NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
-                    if (ObjectUtils.isNotNull(currentNode)) {
-                        if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {
-                            updateStatusAndSave(currentNode.getAwaitingStatusCode());
-                        }
-                    }
-                }
-                else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
+
+        String newNodeName = change.getNewNodeName();
+        if (StringUtils.isNotBlank(newNodeName)) {
+            WorkflowDocumentActionsService actionService = KewApiServiceLocator.getWorkflowDocumentActionsService();
+            RoutingReportCriteria.Builder reportCriteria = RoutingReportCriteria.Builder.createByDocumentId(getDocumentNumber());
+            reportCriteria.setTargetNodeName(newNodeName);
+            List <String> actReqList = new ArrayList <String> ();
+            actReqList.add(KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
+            actReqList.add(KewApiConstants.ACTION_REQUEST_COMPLETE_REQ);
+
+            if (actionService.documentWillHaveAtLeastOneActionRequest(reportCriteria.build(), actReqList, false)) {
+                NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
+                if (ObjectUtils.isNotNull(currentNode)) {
+                    if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {
+                        updateStatusAndSave(currentNode.getAwaitingStatusCode());
                     }
                 }
             }
-        }
-        catch (WorkflowException e) {
-            String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
-            LOG.warn(errorMsg, e);
+            else {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
+                }
+            }
         }
     }
+
 
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLineClass()

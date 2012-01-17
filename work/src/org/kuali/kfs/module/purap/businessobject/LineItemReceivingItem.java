@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
@@ -108,7 +110,9 @@ public class LineItemReceivingItem extends ReceivingItemBase {
             PurchaseOrderDocument po = getLineItemReceivingDocument().getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
             if (this.getItemType().isLineItemIndicator()) {
-                poi = (PurchaseOrderItem) po.getItem(this.getItemLineNumber().intValue() - 1);
+                List<PurchaseOrderItem> items = po.getItems();
+                poi = items.get(this.getItemLineNumber().intValue() - 1);
+
                 // throw error if line numbers don't match
             }
             if (poi != null) {

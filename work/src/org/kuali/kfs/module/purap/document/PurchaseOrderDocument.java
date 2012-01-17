@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -93,10 +94,14 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestType;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
@@ -111,6 +116,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Purchase Order Document
@@ -418,13 +424,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         return super.getOverrideWorkflowButtons();
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#isBoNotesSupport()
-     */
-    @Override
-    public boolean isBoNotesSupport() {
-        return true;
-    }
 
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#customPrepareForSave()
@@ -674,7 +673,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                             SpringContext.getBean(PurapService.class).updateStatus(this, currentNode.getDisapprovedStatusCode());
                             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                             RequisitionDocument req = getPurApSourceDocumentIfPossible();
-                            appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+                            appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                             return;
                         }
                     }
@@ -700,12 +699,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @throws WorkflowException
      */
     protected String getCurrentRouteNodeName(WorkflowDocument wd) throws WorkflowException {
-        String[] nodeNames= wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        if ((nodeNames == null) || (nodeNames.length == 0)) {
+         ArrayList<String> nodeNames = new ArrayList(wd.getCurrentNodeNames());
+        if ((nodeNames == null) || (nodeNames.size() == 0)) {
             return null;
         }
         else {
-            return nodeNames[0];
+            return nodeNames.get(0);
         }
     }
 
@@ -732,35 +731,34 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @see org.kuali.rice.krad.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
+    public void doRouteLevelChange(DocumentRouteLevelChange levelChangeEvent) {
         LOG.debug("handleRouteLevelChange() started");
         super.doRouteLevelChange(levelChangeEvent);
 
         LOG.debug("handleRouteLevelChange() started");
         String newNodeName = levelChangeEvent.getNewNodeName();
         if (StringUtils.isNotBlank(newNodeName)) {
-            ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(getDocumentNumber()));
-            reportCriteriaDTO.setTargetNodeName(newNodeName);
-            try {
-                NodeDetails newNodeDetails = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
-                if (ObjectUtils.isNotNull(newNodeDetails)) {
-                    String newStatusCode = newNodeDetails.getAwaitingStatusCode();
-                    if (StringUtils.isNotBlank(newStatusCode)) {
-                        if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
-                            // if an approve or complete request will be created then we need to set the status as awaiting for
-                            // the new node
-                            SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
-                            
-                            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-                        }
+            WorkflowDocumentActionsService actionService = KewApiServiceLocator.getWorkflowDocumentActionsService();
+            RoutingReportCriteria.Builder reportCriteria = RoutingReportCriteria.Builder.createByDocumentId(getDocumentNumber());
+            reportCriteria.setTargetNodeName(newNodeName);
+            NodeDetails newNodeDetails = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
+            if (ObjectUtils.isNotNull(newNodeDetails)) {
+                String newStatusCode = newNodeDetails.getAwaitingStatusCode();
+                if (StringUtils.isNotBlank(newStatusCode)) {
+                    List <String> actReqList = new ArrayList <String> ();
+                    actReqList.add(KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
+                    actReqList.add(KewApiConstants.ACTION_REQUEST_COMPLETE_REQ);
+                    if (actionService.documentWillHaveAtLeastOneActionRequest(reportCriteria.build(), actReqList, false)) {
+                        // if an approve or complete request will be created then we need to set the status as awaiting for
+                        // the new node
+                        SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
+
+                        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                     }
                 }
             }
-            catch (WorkflowException e) {
-                String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
-                LOG.warn(errorMsg, e);
-            }
         }
+
     }
 
     /**
@@ -1191,23 +1189,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setAlternateVendorName(vendorDetail.getVendorName());
     }
 
-    /**
-     * Overriding this from the super class so that Note will use only the oldest PurchaseOrderDocument as the
-     * documentBusinessObject.
-     * 
-     * @see org.kuali.rice.krad.document.Document#getDocumentBusinessObject()
-     */
-    @Override
-    public PersistableBusinessObject getDocumentBusinessObject() {
-        if (ObjectUtils.isNotNull(getPurapDocumentIdentifier()) && ((ObjectUtils.isNull(documentBusinessObject)) || ObjectUtils.isNull(((PurchaseOrderDocument) documentBusinessObject).getPurapDocumentIdentifier()))) {
-            refreshDocumentBusinessObject();
-        }
-        else if (ObjectUtils.isNull(getPurapDocumentIdentifier()) && ObjectUtils.isNull(documentBusinessObject)) {
-            // needed to keep populate happy
-            documentBusinessObject = new PurchaseOrderDocument();
-        }
-        return documentBusinessObject;
-    }
 
     public void refreshDocumentBusinessObject() {
         documentBusinessObject = SpringContext.getBean(PurchaseOrderService.class).getOldestPurchaseOrder(this, (PurchaseOrderDocument) this.documentBusinessObject);
@@ -1686,12 +1667,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
         return accounts;
     }
-    
-    public DocSearchCriteriaDTO convertSelections(DocSearchCriteriaDTO searchCriteria) {
-
-        for (SearchAttributeCriteriaComponent comp : searchCriteria.getSearchableAttributes()) {  
+    @Override
+    public DocumentSearchCriteria convertSelections(DocumentSearchCriteria searchCriteria) {
+        for ( Entry<String, List<String>> comp : searchCriteria.getDocumentAttributeValues().entrySet()) {  
+            //rice20  - cannot figure out this
             if (comp.getLookupableFieldType().equals(Field.MULTISELECT)) {
-                List<String> values = comp.getValues();
+                List<String> values = comp.getValue();
                 List<String> newVals = new ArrayList<String>();
                 if (values.contains("INCOMPLETE")) {
                     for (String str : PurchaseOrderStatuses.INCOMPLETE_STATUSES)
@@ -1705,7 +1686,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                     newVals.add(str);
                 }
                 
-                comp.setValues(newVals);
+                comp.setValue(newVals);
             }
         }
         return searchCriteria;
@@ -1719,7 +1700,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
     
     public String getDocumentTitleForResult() throws WorkflowException{
-        return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()).getLabel();
+        return KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()).getLabel();
     }
     
     /**
@@ -1738,4 +1719,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.glOnlySourceAccountingLines = glOnlySourceAccountingLines;
     }
 
+    @Override
+    public <T> T getItem(int pos) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

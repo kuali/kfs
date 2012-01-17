@@ -146,7 +146,8 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             PurchaseOrderDocument po = getPaymentRequest().getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
             if (this.getItemType().isLineItemIndicator()) {
-                poi = (PurchaseOrderItem) po.getItem(this.getItemLineNumber().intValue() - 1);
+                List<PurchaseOrderItem> items = po.getItems();
+                poi = items.get(this.getItemLineNumber().intValue() - 1);
                 // throw error if line numbers don't match
             }
             else {

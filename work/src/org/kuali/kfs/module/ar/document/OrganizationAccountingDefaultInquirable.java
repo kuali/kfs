@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
 import org.kuali.rice.kns.inquiry.InquiryRestrictions;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;

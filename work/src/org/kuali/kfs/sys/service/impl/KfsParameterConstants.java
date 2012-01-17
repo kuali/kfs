@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import org.kuali.rice.core.framework.parameter.ParameterConstants.COMPONENT;
-import org.kuali.rice.core.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.util.KRADConstants;
 
 

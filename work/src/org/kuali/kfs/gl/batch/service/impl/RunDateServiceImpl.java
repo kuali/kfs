@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.service.RunDateService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * The default implementation of RunDateService

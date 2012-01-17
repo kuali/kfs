@@ -46,7 +46,7 @@ import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;

@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 @ConfigureContext
 public class TaxNumberServiceTest extends KualiTestBase {

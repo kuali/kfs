@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;

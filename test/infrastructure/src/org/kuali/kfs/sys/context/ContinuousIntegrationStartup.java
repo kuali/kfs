@@ -22,7 +22,7 @@ import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.suite.TestSuiteBuilder;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class preps for the tests to run

@@ -23,7 +23,7 @@ import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class PurchasingAddCapitalAssetLocationValidation extends GenericValidation {
 

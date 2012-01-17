@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.document.validation.impl.AccessSecurityAccountingDocumentRuleBase;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.impl.TransactionalDocumentDictionaryServiceImpl;
 import org.kuali.rice.krad.document.TransactionalDocument;
 

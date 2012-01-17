@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.batch.service.impl;
 
 import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.common.template.Template;
 import org.kuali.rice.kim.api.responsibility.Responsibility;
 import org.kuali.rice.kim.api.role.RoleService;

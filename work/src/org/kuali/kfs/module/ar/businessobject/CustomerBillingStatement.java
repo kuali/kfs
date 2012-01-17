@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class CustomerBillingStatement extends PersistableBusinessObjectBase {

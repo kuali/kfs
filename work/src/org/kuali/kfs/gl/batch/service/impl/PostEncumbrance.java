@@ -33,7 +33,7 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 

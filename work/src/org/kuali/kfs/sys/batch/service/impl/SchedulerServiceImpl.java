@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BatchModuleService;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.service.ModuleService;

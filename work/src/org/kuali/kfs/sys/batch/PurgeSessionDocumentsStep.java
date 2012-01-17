@@ -22,7 +22,7 @@ import java.util.Date;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.SessionDocumentService;
 
 public class PurgeSessionDocumentsStep extends AbstractStep {

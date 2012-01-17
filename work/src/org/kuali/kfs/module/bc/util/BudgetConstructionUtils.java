@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class BudgetConstructionUtils {
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);

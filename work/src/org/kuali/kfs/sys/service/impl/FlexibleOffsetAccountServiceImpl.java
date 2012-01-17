@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**

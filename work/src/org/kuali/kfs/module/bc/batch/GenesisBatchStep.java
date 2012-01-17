@@ -29,7 +29,7 @@ import org.kuali.rice.core.api.parameter.EvaluationOperator;
 import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.core.api.parameter.Parameter.Builder;
 import org.kuali.rice.core.api.parameter.ParameterType;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 

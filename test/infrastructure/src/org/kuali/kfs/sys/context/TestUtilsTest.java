@@ -20,7 +20,7 @@ import org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Yes, we need to test our test utilities since they seem to be misbehaving in some areas.

@@ -40,7 +40,7 @@ import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService {

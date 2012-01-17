@@ -22,7 +22,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 @ConfigureContext(session = khuntley)
 public class RollProcessDateServiceImplTest extends KualiTestBase {

@@ -38,7 +38,7 @@ import org.kuali.kfs.sys.document.validation.impl.BusinessObjectDataDictionaryVa
 import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 

@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStra
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.IdentityManagementService;

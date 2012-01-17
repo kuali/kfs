@@ -37,7 +37,7 @@ import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.dataaccess.BusinessObjectMetaDataDao;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
 import org.kuali.rice.kns.service.DataDictionaryService;

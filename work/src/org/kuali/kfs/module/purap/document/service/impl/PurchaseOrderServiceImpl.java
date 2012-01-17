@@ -91,7 +91,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.edl.impl.components.WorkflowDocumentActions;
 import org.kuali.rice.kew.api.KewApiConstants;

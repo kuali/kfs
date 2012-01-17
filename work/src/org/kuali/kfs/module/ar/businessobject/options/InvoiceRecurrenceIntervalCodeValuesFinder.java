@@ -23,7 +23,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class InvoiceRecurrenceIntervalCodeValuesFinder extends KeyValuesBase {

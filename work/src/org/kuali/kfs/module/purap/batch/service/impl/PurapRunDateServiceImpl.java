@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants.PURCHASING_BATCH;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class PurapRunDateServiceImpl implements PurapRunDateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapRunDateServiceImpl.class);

@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.kns.service.ConfigurableDateService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;

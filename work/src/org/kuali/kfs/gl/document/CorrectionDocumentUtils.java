@@ -31,7 +31,7 @@ import org.kuali.kfs.gl.businessobject.options.OriginEntryFieldFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class provides utility methods for the correction document

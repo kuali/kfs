@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityContractManager;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kew.api.exception.WorkflowException;

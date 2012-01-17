@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.cache.annotation.Cacheable;
 

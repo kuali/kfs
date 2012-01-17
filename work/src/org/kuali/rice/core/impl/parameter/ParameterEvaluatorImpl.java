@@ -18,9 +18,9 @@ package org.kuali.rice.core.impl.parameter;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 

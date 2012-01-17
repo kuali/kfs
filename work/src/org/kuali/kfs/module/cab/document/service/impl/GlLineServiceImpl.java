@@ -358,12 +358,12 @@ public class GlLineServiceImpl implements GlLineService {
         
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
-            Integer paymentSequenceNumber = 0;
+            Integer paymentSequenceNumber = 1;
             
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
                 AssetPaymentDetail detail = new AssetPaymentDetail();
                 detail.setDocumentNumber(document.getDocumentNumber());
-                detail.setSequenceNumber(accountingLine.getSequenceNumber());
+                detail.setSequenceNumber(paymentSequenceNumber++);
                 detail.setPostingYear(entry.getUniversityFiscalYear());
                 detail.setPostingPeriodCode(entry.getUniversityFiscalPeriodCode());
                 detail.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());

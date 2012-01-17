@@ -61,9 +61,11 @@ import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.datadictionary.AttributeSecurity;
 import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -316,7 +318,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         //KFSMI-4576 masking/unmasking PO number...
         //If the document status is not FINAL then check for permissions
-        if (!workflowDocument.getStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
+        if (!workflowDocument.getStatus().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
             String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
             String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
@@ -367,15 +369,16 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         PurchaseOrderDocument po = (PurchaseOrderDocument) this.getDocument();
 
         // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
-        po.getDocumentBusinessObject();
+        //rice20 undefined method
+        //po.getDocumentBusinessObject();
         
         super.populate(request);
         
         if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
             po.refreshDocumentBusinessObject();
         }
-
-        for (org.kuali.rice.krad.bo.Note note : (java.util.List<org.kuali.rice.krad.bo.Note>) po.getDocumentBusinessObject().getNotes()) {
+        NoteService noteService = SpringContext.getBean(NoteService.class);
+        for (Note note :  noteService.getByRemoteObjectId(po.getObjectId())) {         
             note.refreshReferenceObject("attachment");
         }        
     }

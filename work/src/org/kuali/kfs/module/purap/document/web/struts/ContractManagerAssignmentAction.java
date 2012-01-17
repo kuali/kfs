@@ -79,7 +79,7 @@ public class ContractManagerAssignmentAction extends FinancialSystemTransactiona
         documentHeaderIds.addAll(documentHeaderIdsAndDetails.keySet());
         
         //Get a List of requisition documents from documentService so that we can have the workflowDocument as well
-        List<RequisitionDocument> requisitionDocumentsFromDocService = new ArrayList();
+        List<Document> requisitionDocumentsFromDocService = new ArrayList();
         try {
             if ( documentHeaderIds.size() > 0 )
                 requisitionDocumentsFromDocService = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(RequisitionDocument.class, documentHeaderIds);
@@ -92,7 +92,7 @@ public class ContractManagerAssignmentAction extends FinancialSystemTransactiona
         
         //Set the documentHeader of the requisition of each of the ContractManagerAssignmentDetail to the documentHeader of
         //the requisitions resulted from the documentService, so that we'll have workflowDocument in the documentHeader.
-        for (RequisitionDocument req : requisitionDocumentsFromDocService) {
+        for (Document req : requisitionDocumentsFromDocService) {
             ContractManagerAssignmentDetail detail = (ContractManagerAssignmentDetail)documentHeaderIdsAndDetails.get(req.getDocumentNumber());
             detail.getRequisition().setDocumentHeader(req.getDocumentHeader());
         }

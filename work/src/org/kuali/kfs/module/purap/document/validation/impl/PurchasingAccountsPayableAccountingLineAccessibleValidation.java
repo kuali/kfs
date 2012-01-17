@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -34,8 +35,8 @@ public class PurchasingAccountsPayableAccountingLineAccessibleValidation extends
      * @return List The List of current route levels of the given document.
      */
     protected static List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
-        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        return Arrays.asList(names);
+        List<String> currentNodeNames = (List<String>) workflowDocument.getCurrentNodeNames();
+        return currentNodeNames;
     }
 
     @Override

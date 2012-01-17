@@ -141,7 +141,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private VendorService vendorService;
     private RequisitionService requisitionService;
     private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
-    private KualiWorkflowInfo workflowInfoService;
     private MaintenanceDocumentService maintenanceDocumentService;
     private ParameterService parameterService;
     private PersonService personService;

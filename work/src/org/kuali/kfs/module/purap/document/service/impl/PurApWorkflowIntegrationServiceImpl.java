@@ -253,13 +253,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         return givenNodeDetail.getOrdinal() > currentNodeDetail.getOrdinal();
     }
     
-    protected WorkflowInfo getWorkflowInfo() {
-        if (workflowInfo == null) {
-//            workflowInfo = new WorkflowInfo();
-        }
-        return workflowInfo;
-    }
-    
+   
     /**
      * @return Returns the personService.
      */

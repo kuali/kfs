@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -229,9 +230,10 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "              <!-- No junk values in Items-->\n";
                 
                                for (int i = 0; i < po.getItems().size(); i++) {
-                                   PurchaseOrderItem item = (PurchaseOrderItem)po.getItem(i);
-                                   if (!item.getItemType().isAdditionalChargeIndicator()){
-                                       eInvoiceFile = eInvoiceFile + getPOItemXMLChunk((PurchaseOrderItem)po.getItem(i));
+                                   List items = po.getItems();
+                                   PurchaseOrderItem item = (PurchaseOrderItem) items.get(i);
+                                  if (!item.getItemType().isAdditionalChargeIndicator()){
+                                       eInvoiceFile = eInvoiceFile + getPOItemXMLChunk(item);
                                    }
                                }
                 

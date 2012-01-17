@@ -26,6 +26,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleMembership.Builder;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -56,7 +57,10 @@ public class PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl extends
             try {
                 AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) getDocumentService().getByDocumentHeaderId(qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER));
                 if ((document != null) && (document.getLastActionPerformedByUser() != null)) {
-                    members.add( new RoleMembership(null,null,document.getLastActionPerformedByUser().getPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,null) );
+                    Builder roleMember = RoleMembership.Builder.create(null,null,document.getLastActionPerformedByUser().getPrincipalId(),KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,null);
+
+                    members.add( roleMember.build());
+                    
                 }
             }
             catch (WorkflowException e) {

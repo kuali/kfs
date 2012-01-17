@@ -114,6 +114,7 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.AutoPopulatingList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -829,13 +830,16 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         attachment.setNote(note);
         
         PersistableBusinessObject noteParent = getNoteParent(eInvoiceRejectDocument, note);
-        noteParent.addNote(note);
+        //rice20 addNote doesn't exist for PersistableBusinessObject
+        //noteParent.addNote(note);
         //eInvoiceRejectDocument.getDocumentHeader().addNote(note);
     }
     
     protected PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
         //get the property name to set (this assumes this is a document type note)
-        String propertyName = SpringContext.getBean(NoteService.class).extractNoteProperty(newNote);
+        //rice20 extractNoteService method does not exist
+        String propertyName = null;
+        //String propertyName = SpringContext.getBean(NoteService.class).extractNoteProperty(newNote);
         //get BO to set
         PersistableBusinessObject noteParent = (PersistableBusinessObject)ObjectUtils.getPropertyValue(document, propertyName);
         return noteParent;
@@ -896,7 +900,8 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         try {
             Note note = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eInvoiceRejectDocument, rejectReasons);
             PersistableBusinessObject noteParent = getNoteParent(eInvoiceRejectDocument, note);
-            noteParent.addNote(note);
+            //rice20 addNote doesn't exist for PersistableBusinessObject
+            //noteParent.addNote(note);
         }catch (Exception e) {
             LOG.error("Error creating reject reason note - " + e.getMessage());
         }
@@ -1285,7 +1290,10 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             if (LOG.isInfoEnabled()){
                 LOG.info("***************Error in rules processing - " + GlobalVariables.getMessageMap());
             }
-            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, getErrorMessages(GlobalVariables.getMessageMap().getErrorMessages()), orderHolder.getFileName());
+            Map<String, AutoPopulatingList<ErrorMessage>> errorMessages = GlobalVariables.getMessageMap().getErrorMessages();
+           
+            String errors = errorMessages.toString();
+            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, errors, orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
             return null;
         }

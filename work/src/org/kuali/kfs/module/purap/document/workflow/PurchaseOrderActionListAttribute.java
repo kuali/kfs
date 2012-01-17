@@ -15,20 +15,20 @@
  */
 package org.kuali.kfs.module.purap.document.workflow;
 
-import org.kuali.rice.kew.actionitem.ActionItem;
 import org.kuali.rice.kew.actionlist.CustomActionListAttribute;
 import org.kuali.rice.kew.api.action.ActionSet;
 import org.kuali.rice.kew.api.actionlist.DisplayParameters;
-import org.kuali.rice.krad.UserSession;
 
 public class PurchaseOrderActionListAttribute implements CustomActionListAttribute {
 
-    public DisplayParameters getDocHandlerDisplayParameters(UserSession arg0, ActionItem arg1) throws Exception {
-        return null;
+    @Override
+    public ActionSet getLegalActions(String principalId, org.kuali.rice.kew.api.action.ActionItem actionItem) throws Exception {
+        return ActionSet.Builder.create().build();
     }
 
-    public ActionSet getLegalActions(UserSession arg0, ActionItem arg1) throws Exception {
-        return new ActionSet();
+    @Override
+    public DisplayParameters getDocHandlerDisplayParameters(String principalId, org.kuali.rice.kew.api.action.ActionItem actionItem) throws Exception {
+        return null;
     }
     
     

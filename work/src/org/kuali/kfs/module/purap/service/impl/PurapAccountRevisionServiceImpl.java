@@ -192,7 +192,7 @@ public class PurapAccountRevisionServiceImpl implements PurapAccountRevisionServ
         // find the current sum value from history table and adjusts the amount
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("itemIdentifier", item.getItemIdentifier());
-        Collection<PurApAccountingLineBase> existingAccounts = businessObjectService.findMatching(clazz, fieldValues);
+        Collection<PurApAccountingLineBase> existingAccounts = (Collection<PurApAccountingLineBase>) businessObjectService.findMatching(clazz, fieldValues);
         if (existingAccounts != null && !existingAccounts.isEmpty()) {
             for (PurApAccountingLineBase existAcct : existingAccounts) {
                 PurapAccountRevisionGroup historyGroup = new PurapAccountRevisionGroup(existAcct);

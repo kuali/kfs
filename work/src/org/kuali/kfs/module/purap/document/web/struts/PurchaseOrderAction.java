@@ -170,7 +170,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
 
         PurchaseOrderDocument purDocument = (PurchaseOrderDocument) purchasingForm.getDocument();
-        PurchaseOrderItem item = (PurchaseOrderItem) purDocument.getItem(getSelectedLine(request));
+        List items = purDocument.getItems();
+        PurchaseOrderItem item = (PurchaseOrderItem) items.get(getSelectedLine(request));
         item.setItemActiveIndicator(false);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,6 +30,7 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -44,7 +47,9 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
 
         Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research started by: " + GlobalVariables.getUserSession().getPerson().getName());
         PersistableBusinessObject noteParent = getNoteParent(eirDocument, noteObj);
-        noteParent.addNote(noteObj);
+        List<Note> noteList = this.getNoteService().getByRemoteObjectId(noteParent.getObjectId());
+        noteList.add(noteObj);
+        this.getNoteService().saveNoteList(noteList);
         this.getNoteService().save(noteObj);
         getDocumentService().saveDocument(eirDocument);
          
@@ -59,7 +64,10 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
 
         Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research completed by: " + GlobalVariables.getUserSession().getPerson().getName());
         PersistableBusinessObject noteParent = getNoteParent(eirDocument, noteObj);
-        noteParent.addNote(noteObj);
+        List<Note> noteList = this.getNoteService().getByRemoteObjectId(noteParent.getObjectId());
+        noteList.add(noteObj);
+        this.getNoteService().saveNoteList(noteList);
+        
         this.getNoteService().save(noteObj);
         getDocumentService().saveDocument(eirDocument);
         
@@ -69,6 +77,7 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
     
     protected PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
         //get the property name to set (this assumes this is a document type note)
+        //rice20 method undefined
         String propertyName = getNoteService().extractNoteProperty(newNote);
         //get BO to set
         PersistableBusinessObject noteParent = (PersistableBusinessObject)ObjectUtils.getPropertyValue(document, propertyName);

@@ -59,7 +59,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canApprove(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canApprove(Document document) {
+    public boolean canApprove(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
             ValidActions validActions = workflowDocument.getValidActions();
@@ -73,7 +73,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canBlanketApprove(Document document) {
+    public boolean canBlanketApprove(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
             CashManagementDocument cmDoc = (CashManagementDocument) document;
@@ -93,7 +93,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
             CashManagementDocument cmDoc = (CashManagementDocument) document;
@@ -113,7 +113,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canDisapprove(Document document) {
+    public boolean canDisapprove(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
             ValidActions validActions = workflowDocument.getValidActions();
@@ -127,7 +127,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canRoute(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canRoute(Document document) {
+    public boolean canRoute(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
             CashManagementDocument cmDoc = (CashManagementDocument) document;
@@ -147,7 +147,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canSave(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
             CashManagementDocument cmDoc = (CashManagementDocument) document;
@@ -167,7 +167,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canAdHocRoute(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canAddAdhocRequests(Document document) {
+    public boolean canAddAdhocRequests(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
             ValidActions validActions = workflowDocument.getValidActions();

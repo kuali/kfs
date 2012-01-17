@@ -24,7 +24,6 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.springframework.beans.factory.FactoryBean;

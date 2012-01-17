@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
@@ -30,7 +29,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canBlanketApprove(Document document) {
+    public boolean canBlanketApprove(Document document) {
         return false;
     }
 

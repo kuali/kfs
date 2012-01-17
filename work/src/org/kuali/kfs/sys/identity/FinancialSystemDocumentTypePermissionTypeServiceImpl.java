@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.Permission;
-import org.kuali.rice.krad.service.impl.DocumentTypePermissionTypeServiceImpl;
+import org.kuali.rice.krad.kim.DocumentTypePermissionTypeServiceImpl;
 
 /**
  * 

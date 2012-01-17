@@ -19,16 +19,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.type.KimAttributeField;
-import org.kuali.rice.kim.api.type.KimTypeAttribute;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
-import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
 public class SubFundReviewRoleTypeServiceImpl extends RoleTypeServiceBase {
     private DocumentTypeService documentTypeService;

@@ -33,9 +33,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.core.web.format.SimpleBooleanFormatter;
-import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.KRADConstants;
 /**

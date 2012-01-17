@@ -25,7 +25,7 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 
 /**
  * This class is the struts form for Advance Deposit document.

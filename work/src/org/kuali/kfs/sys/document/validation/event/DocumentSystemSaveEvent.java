@@ -16,8 +16,8 @@
 package org.kuali.kfs.sys.document.validation.event;
 
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rule.BusinessRule;
-import org.kuali.rice.krad.rule.event.SaveOnlyDocumentEvent;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.SaveOnlyDocumentEvent;
 
 /**
  * This class...

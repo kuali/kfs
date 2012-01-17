@@ -40,7 +40,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canApprove(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canApprove(Document document) {
+    public boolean canApprove(Document document) {
         return this.canApproveOrBlanketApprove(document) ? super.canApprove(document) : false;
     }
 
@@ -48,7 +48,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canBlanketApprove(Document document) {
+    public boolean canBlanketApprove(Document document) {
         return this.canApproveOrBlanketApprove(document) ? super.canBlanketApprove(document) : false;
     }
 
@@ -90,7 +90,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         if (document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) return false;
         return super.canEdit(document);
     }

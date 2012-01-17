@@ -119,7 +119,7 @@ public final class RoleXmlUtil {
                 newRoleMember.getMemberId(), newRoleMember.getMemberType(),
                 newRoleMember.getActiveFromDate() == null ? null : new DateTime(newRoleMember.getActiveFromDate().getMillis()),
                 newRoleMember.getActiveToDate() == null ? null : new DateTime(newRoleMember.getActiveToDate().getMillis()),
-                newRoleMember.getQualifications());
+                newRoleMember.getQualifications(), null, null);
 
         // Save the role member.
         RoleMemberContract newMember = KimApiServiceLocator.getRoleService().createRoleMember(builder.build());

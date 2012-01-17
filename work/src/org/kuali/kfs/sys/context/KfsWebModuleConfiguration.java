@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.context;
 
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.framework.config.module.WebModuleConfiguration;
 
 public class KfsWebModuleConfiguration extends WebModuleConfiguration {

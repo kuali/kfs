@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 
 /**
  * An XML adapter that simply validates the NameAndNamespacePair to ensure that the name and namespace are non-blank
@@ -43,7 +43,7 @@ public class NameAndNamespacePairValidatingAdapter extends XmlAdapter<NameAndNam
                 throw new UnmarshalException("Cannot import a name-and-namespace pair with a blank name");
             } else if (StringUtils.isBlank(v.getNamespaceCode())) {
                 throw new UnmarshalException("Cannot import a name-and-namespace pair with a blank namespace code");
-            } if (CoreApiServiceLocator.getNamespaceService().getNamespace(v.getNamespaceCode()) == null) {
+            } if (CoreServiceApiServiceLocator.getNamespaceService().getNamespace(v.getNamespaceCode()) == null) {
                 throw new UnmarshalException("Cannot import a name-and-namespace pair with invalid or unknown namespace \"" +
                         v.getNamespaceCode() + "\"");
             }
@@ -64,7 +64,7 @@ public class NameAndNamespacePairValidatingAdapter extends XmlAdapter<NameAndNam
                 throw new MarshalException("Cannot export a name-and-namespace pair with a blank name");
             } else if (StringUtils.isBlank(v.getNamespaceCode())) {
                 throw new MarshalException("Cannot export a name-and-namespace pair with a blank namespace code");
-            } else if (CoreApiServiceLocator.getNamespaceService().getNamespace(v.getNamespaceCode()) == null) {
+            } else if (CoreServiceApiServiceLocator.getNamespaceService().getNamespace(v.getNamespaceCode()) == null) {
                 throw new MarshalException("Cannot export a name-and-namespace pair with invalid or unknown namespace \"" + v.getNamespaceCode() + "\"");
             }
             

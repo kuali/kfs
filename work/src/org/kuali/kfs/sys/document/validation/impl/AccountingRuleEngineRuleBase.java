@@ -35,9 +35,9 @@ import org.kuali.rice.krad.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocument;
-import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.krad.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.DocumentRuleBase;
+import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 
 /**
  * A rule that uses the accounting rule engine to perform rule validations.

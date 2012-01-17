@@ -27,7 +27,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class VendorDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.document.MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
         Set<String> conditionallyReadOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
         VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getDataObject();
 

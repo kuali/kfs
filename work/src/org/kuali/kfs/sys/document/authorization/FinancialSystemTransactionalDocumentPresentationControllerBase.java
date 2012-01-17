@@ -34,11 +34,11 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.NumberUtils;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**

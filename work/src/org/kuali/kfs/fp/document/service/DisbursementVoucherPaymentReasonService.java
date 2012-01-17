@@ -16,7 +16,6 @@
 package org.kuali.kfs.fp.document.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;

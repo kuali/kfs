@@ -25,7 +25,6 @@ import org.kuali.kfs.sys.document.service.DynamicNameLabelGenerator;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.document.web.AccountingLineViewOverrideField;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;

@@ -22,8 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.PermissionTemplate;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class FinancialSystemTransactionalDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase {

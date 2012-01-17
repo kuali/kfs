@@ -29,9 +29,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -39,7 +40,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * TransactionDocumentAuthorizer that wraps access security checks around another TransactionDocumentAuthorizer configured for the document type
  */
-public class SecTransactionalDocumentAuthorizer implements TransactionalDocumentAuthorizer {
+public class SecTransactionalDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     protected TransactionalDocumentAuthorizer documentAuthorizer;
 
     public Set<String> getEditModes(Document document, Person user, Set<String> editModes) {

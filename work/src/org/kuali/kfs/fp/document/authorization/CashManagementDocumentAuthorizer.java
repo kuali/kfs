@@ -22,7 +22,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * DocumentAuthorizer containing authorization code for CashManagement documents

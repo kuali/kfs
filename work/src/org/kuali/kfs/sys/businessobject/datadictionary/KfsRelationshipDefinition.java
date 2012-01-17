@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.businessobject.datadictionary;
 
 import org.kuali.rice.kim.api.group.Group;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.framework.group.GroupEbo;
 import org.kuali.rice.kim.framework.role.RoleEbo;
@@ -39,7 +38,7 @@ public class KfsRelationshipDefinition extends RelationshipDefinition {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KfsRelationshipDefinition.class);
     
     @Override
-    public Class<? extends BusinessObject> getTargetClass() {
+    public Class<?> getTargetClass() {
         if (targetClass == null) {
             Class propertyClass = DataDictionary.getAttributeClass(sourceClass, objectAttributeName);
             if (propertyClass == null) {

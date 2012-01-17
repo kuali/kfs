@@ -21,7 +21,6 @@ import org.joda.time.DateTime;
 import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.common.active.InactivatableFromToUtils;
-import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateMemberContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 

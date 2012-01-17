@@ -17,7 +17,6 @@ package org.kuali.kfs.fp.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,19 +36,15 @@ import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.document.Document;
 
 /**
  * implementing the service methods defined in DisbursementVoucherPayeeService
@@ -303,7 +298,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
      */
     protected FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(DisbursementVoucherDocument dvDoc) {
         final String docTypeName = dataDictionaryService.getDocumentTypeNameByClass(dvDoc.getClass());
-        Class<? extends DocumentAuthorizer> documentAuthorizerClass = dataDictionaryService.getDataDictionary().getDocumentEntry(docTypeName).getDocumentAuthorizerClass();
+        Class<? extends org.kuali.rice.krad.document.DocumentAuthorizer> documentAuthorizerClass = dataDictionaryService.getDataDictionary().getDocumentEntry(docTypeName).getDocumentAuthorizerClass();
         
         FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = null;
         try {

@@ -17,7 +17,7 @@ package org.kuali.kfs.fp.document.validation.event;
 
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashieringTransaction;
-import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 /**
  * An event generated when a cash management document is about to apply a cashiering transaction

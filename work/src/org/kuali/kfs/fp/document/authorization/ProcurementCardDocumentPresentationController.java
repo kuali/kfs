@@ -16,11 +16,9 @@
 package org.kuali.kfs.fp.document.authorization;
 
 import java.util.List;
-import java.util.Set;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.engine.CompatUtils;
@@ -34,7 +32,7 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         return false;
     }
 
@@ -42,7 +40,7 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canCopy(Document document) {
+    public boolean canCopy(Document document) {
         return false;
     }
 
@@ -50,7 +48,7 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canDisapprove(Document document) {
+    public boolean canDisapprove(Document document) {
         return false;
     }
 
@@ -58,7 +56,7 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         //DocumentType
         boolean canRouteReviewFullEdit = false;

@@ -16,7 +16,6 @@
 
 package org.kuali.kfs.sys.document.workflow;
 
-import java.rmi.RemoteException;
 import java.util.List;
 
 import org.apache.log4j.Logger;

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;

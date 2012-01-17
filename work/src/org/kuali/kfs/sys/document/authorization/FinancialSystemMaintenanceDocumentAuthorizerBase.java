@@ -15,7 +15,8 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
-import org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+
 
 /**
  * This class is the custom KFS maintenance document authorizer base class

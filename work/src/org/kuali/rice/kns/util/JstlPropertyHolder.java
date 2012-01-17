@@ -17,7 +17,6 @@ package org.kuali.rice.kns.util;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import org.kuali.rice.kns.util.properties.PropertyTree;

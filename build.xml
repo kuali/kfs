@@ -301,10 +301,13 @@
 		<condition property="rice.url" value="${appserver.url}/${rice.application}-${build.environment}" else="${application.url}">
 		    <istrue value="${rice.standalone}" />
 		</condition>
+        <property name="rice.core.url" value="${rice.url}/core"/>
         <property name="rice.kr.url" value="${rice.url}/kr"/>
         <property name="rice.krad.url" value="${rice.url}/kr-krad"/>
         <property name="rice.kim.url" value="${rice.url}/kim"/>
         <property name="rice.kew.url" value="${rice.url}/kew"/>
+        <property name="rice.krms.url" value="${rice.url}/krms"/>
+        <property name="rice.ken.url" value="${rice.url}/ken"/>
         <property name="rice.externalizable.images.url" value="${application.url}/kr/static/images/"/>
 		<condition property="rice.ksb.message.persistence" value="false" else="true"><isset property="is.local.build" /></condition>
 		<condition property="rice.ksb.use.quartz.database" value="true" else="false">
@@ -445,12 +448,7 @@
 		</delete>
 	</target>
 	
-	<target name="clean-spring-ide" depends="init-properties">
-		<delete dir="${rice.datadictionary.directory}" failonerror="false" />
-		<delete file="${spring.ide.support.file}" failonerror="false" />
-	</target>
-
-	<target name="clean-project" depends="init-properties,clean-help,clean-rice,clean-spring-ide">
+	<target name="clean-project" depends="init-properties,clean-help,clean-rice">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir}">
 				<include name="${source.directory}/${configuration.file}" />
@@ -558,39 +556,8 @@
 		</unzip>
 	</target>
 	
-  	<target name="filter-project-spring-ide" unless="dont.filter.project.spring.ide" depends="init-properties">
-		<echo message="Reading Properties: ${properties.directory}/springide.properties" />
-		<property file="${properties.directory}/springide.properties" />
-		<delete dir="${rice.datadictionary.directory}" failonerror="false" quiet="true"/>
-		<mkdir dir="${rice.datadictionary.directory}"/>
-		<unjar dest="${rice.datadictionary.directory}">
-			<patternset>
-				<include name="${spring.ide.support.datadictionary.files}"/>
-				<exclude name="**/conversion/**"/>
-			</patternset>
-			<fileset dir="${build.kfs.lib.directory}">
-				<include name="${rice.name}-*-*.jar" />
-			</fileset>
-		</unjar>
-		<path id="rice.datadictionary.files"><fileset dir="${rice.datadictionary.directory}" includes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
-		<path id="kfs.datadictionary.files"><fileset dir="${source.directory}" includes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
-		<path id="kfs.service.files"><fileset dir="${source.directory}" includes="**/*.xml" excludes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
-  		
-    	<echo append="false" file="${spring.ide.support.file}" message="${spring.ide.support.file.prefix}" />
-		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-    	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.datadictionary}" />
-		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-    	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.services}" />
-		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-    	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.suffix}" />
-		<replace file="${spring.ide.support.file}" token="${basedir}${file.separator}" />
-		<replace file="${spring.ide.support.file}" token="${file.separator}" value="/" />
-  	</target>
 	
-	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide,check-rice-lib">
+	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,check-rice-lib">
 		<mkdir dir="${lib.directory}" />
 		
 		<copy todir="${lib.directory}" verbose="true">

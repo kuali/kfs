@@ -727,6 +727,15 @@
 
 	<target name="make-foundation-tests" depends="init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
+		<echo>*********************************************
+Compiling Tests
+Source Paths: ${source.directory}
+              ${test.infrastructure.source.directory}
+              ${test.unit.source.directory}
+              ${test.integration.source.directory}
+Includes: ${tests.compile.includes}
+Excludes: ${tests.compile.excludes}
+*********************************************</echo>
 		<javac destdir="${test.classes.directory}" 
 	 	    source="1.5" target="1.5"
 			debug="true" nowarn="true" 
@@ -744,8 +753,6 @@
 			<fileset dir="${test.infrastructure.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
 			<fileset dir="${test.unit.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
 			<fileset dir="${test.integration.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
-		</copy>
-		<copy todir="${test.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" excludes="${tests.compile.excludes}" />
 		</copy>
 	</target>

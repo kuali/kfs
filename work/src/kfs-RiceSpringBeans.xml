@@ -42,19 +42,7 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 
-	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
-		<property name="moduleName" value="CORE" />
-		<property name="validRunModes">
-			<list>
-				<value>LOCAL</value>
-			</list>
-		</property>
-		<property name="dataSource" ref="riceDataSource${connection.pool.impl}" />
-		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
-		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
-		<property name="userTransaction" ref="jtaUserTransaction" />
-	</bean>	
-	<!-- <import resource="classpath:org/kuali/rice/core/config/COREConfigSpringBeans.xml" /> -->
+	<import resource="classpath:org/kuali/rice/core/config/COREConfigSpringBeans.xml" />
 	<import resource="classpath:org/kuali/rice/ksb/config/KSBConfigSpringBeans.xml" />
 	<import resource="classpath:org/kuali/rice/krad/config/KRADConfigSpringBeans.xml" />
 

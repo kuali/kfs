@@ -56,7 +56,7 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-  <bean id="transactionManagerXAPool" class="org.springframework.transaction.jta.JotmFactoryBean">
+  <bean id="transactionManagerXAPool" class="org.springframework.transaction.jta.JotmFactoryBean" lazy-init="true">
     <property name="defaultTimeout" value="${transaction.timeout}"/>
   </bean>
 
@@ -67,6 +67,9 @@
   </bean>
 
   <bean id="transactionManagerBitronix" class="bitronix.tm.TransactionManagerServices"
+        factory-method="getTransactionManager" depends-on="btmConfig" destroy-method="shutdown" lazy-init="true"/>
+
+  <bean id="transactionManagerBitronixXa" class="bitronix.tm.TransactionManagerServices"
         factory-method="getTransactionManager" depends-on="btmConfig" destroy-method="shutdown" lazy-init="true"/>
         
   <alias name="transactionManager${connection.pool.impl}" alias="jtaTransactionManager"/>

@@ -74,7 +74,19 @@
 	    <property name="password"        value="${rice.datasource.password}" />
     </bean>
      -->
-<!-- 
+
+	<bean id="kfsDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+		<property name="transactionManager" ref="transactionManagerXAPool" />
+		<property name="driverClassName" value="${datasource.driver.name}" />
+		<property name="url" value="${datasource.url}" />
+		<property name="maxSize" value="${datasource.pool.maxSize}" />
+		<property name="minSize" value="${datasource.pool.minSize}" />
+		<property name="maxWait" value="${datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${datasource.pool.validationQuery}" />
+		<property name="username" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+	</bean>
+
 	<bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
 		<property name="driverClassName" value="${datasource.driver.name}" />
@@ -86,7 +98,7 @@
 		<property name="username" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
 	</bean>
- -->
+
  <!-- 
   <bean id="ds-random-string" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
     <property name="staticMethod" value="org.apache.commons.lang.RandomStringUtils.randomAlphanumeric"/>
@@ -104,18 +116,18 @@
     <property name="allowLocalTransactions" value="true" />
     <property name="driverProperties">
       <props>
-        <prop key="Url">${rice.datasource.url}</prop>
+        <prop key="url">${rice.datasource.url}</prop>
         <prop key="driverClassName">${rice.datasource.driver.name}</prop>
         <prop key="user">${rice.datasource.username}</prop>
         <prop key="password">${rice.datasource.password}</prop>
       </props>
     </property>
   </bean>
-<!-- 
+
   <bean id="riceDataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
  	      destroy-method="close" lazy-init="true">
     <property name="className" value="${datasource.pool.class}" />
-    <property name="uniqueName" ref="ds-random-string" />
+    <property name="uniqueName" value="riceDataSourceBitronixXa-kfs-${environment}" />
     <property name="minPoolSize" value="${rice.datasource.pool.minSize}" />
     <property name="maxPoolSize" value="${rice.datasource.pool.maxSize}" />
     <property name="useTmJoin" value="true" />
@@ -123,13 +135,14 @@
     <property name="allowLocalTransactions" value="true" />
     <property name="driverProperties">
       <props>
-        <prop key="URL">${rice.datasource.url}</prop>
+        <prop key="url">${rice.datasource.url}</prop>
+        <prop key="driverClassName">${rice.datasource.driver.name}</prop>
         <prop key="user">${rice.datasource.username}</prop>
         <prop key="password">${rice.datasource.password}</prop>
       </props>
     </property>
   </bean>
--->
+
   <bean id="kfsDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
         destroy-method="close" lazy-init="true">
     <property name="className" value="${datasource.pool.class.non.xa}" />
@@ -148,11 +161,11 @@
       </props>
     </property>
   </bean>
-<!-- 
+
   <bean id="kfsDataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
  	      destroy-method="close" lazy-init="true">
     <property name="className" value="${datasource.pool.class}" />
-    <property name="uniqueName" ref="ds-random-string" />
+    <property name="uniqueName" value="kfsDataSourceBitronixXa-kfs-${environment}" />
     <property name="minPoolSize" value="${kfs.datasource.pool.minSize}" />
     <property name="maxPoolSize" value="${kfs.datasource.pool.maxSize}" />
     <property name="useTmJoin" value="true" />
@@ -166,7 +179,7 @@
       </props>
     </property>
   </bean>
- -->
+
   <alias name="riceDataSource${connection.pool.impl}" alias="riceDataSource"/>
   <alias name="kfsDataSource${connection.pool.impl}" alias="dataSource"/>
                            

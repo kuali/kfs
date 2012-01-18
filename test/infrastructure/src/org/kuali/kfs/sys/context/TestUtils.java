@@ -93,12 +93,6 @@ public class TestUtils {
             throw new RuntimeException( "Attempt to set system parameter in unit test set to commit database changes.");
         }
         
-        // Rice 1.0.3.3
-        
-        
-        
-        
-        // Rice 2.0
         Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
         Parameter.Builder pb = Parameter.Builder.create(parameter);
         pb.setValue(parameterText);

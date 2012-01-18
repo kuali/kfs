@@ -98,7 +98,7 @@ public class TestUtils {
         if ( willCommit == null || willCommit ) {
             throw new RuntimeException( "Attempt to set system parameter in unit test set to commit database changes.");
         }
-        
+        // JHK: this is not ideal - but the parameter service seems to be having some transactional issues, so using the BO to bypass it
         final Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", parameterName);
         map.put("applicationId", "KFS");

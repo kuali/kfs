@@ -214,22 +214,6 @@ public class SpringContext {
         return applicationContext.getBeanDefinitionNames();
     }
 
-//    protected static void initializeApplicationContext() {
-//        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
-//    }
-//    
-//    protected static void initializeApplicationContextWithoutSchedule() {
-//        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, false);
-//    }
-//
-//    protected static void initializeBatchApplicationContext() {
-//        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
-//    }
-//
-//    protected static void initializeTestApplicationContext() {
-//        initializeApplicationContext(TEST_CONTEXT_DEFINITION, false);
-//    }
-
     protected static void close() {
         if ( processWatchThread != null ) {
             LOG.info("Shutting down the ProcessWatch thread" );
@@ -248,7 +232,9 @@ public class SpringContext {
             LOG.error( "Exception while shutting down the scheduler", ex );
         }
         LOG.info( "Stopping the MemoryMonitor thread" );
-        memoryMonitor.stop();
+        if ( memoryMonitor != null ) {
+            memoryMonitor.stop();
+        }
     }
 
     public static boolean isInitialized() {
@@ -256,7 +242,7 @@ public class SpringContext {
     }
     
     private static void verifyProperInitialization() {
-        if (applicationContext == null) {
+        if (!isInitialized()) {
             LOG.fatal( "*****************************************************************" );
             LOG.fatal( "*****************************************************************" );
             LOG.fatal( "*****************************************************************" );
@@ -315,9 +301,9 @@ public class SpringContext {
                 LOG.info( "Starting the Periodic Thread Dump thread - dumping every " + (sleepPeriod/1000) + " seconds");
                 LOG.info( "Periodic Thread Dump Logs: " + monitoringLogDir.getAbsolutePath() );
             }
+            final DateFormat df = new SimpleDateFormat( "yyyyMMdd" );
+            final DateFormat tf = new SimpleDateFormat( "HH-mm-ss" );
             Runnable processWatch = new Runnable() {
-                DateFormat df = new SimpleDateFormat( "yyyyMMdd" );
-                DateFormat tf = new SimpleDateFormat( "HH-mm-ss" );
                 public void run() {                    
                     while ( true ) {
                         Date now = new Date();

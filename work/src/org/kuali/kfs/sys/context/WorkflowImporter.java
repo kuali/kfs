@@ -62,9 +62,9 @@ public class WorkflowImporter {
         context.start();
         long endInit = System.currentTimeMillis();
         LOG.info("...Kuali Rice Application successfully initialized, startup took " + (endInit - startInit) + " ms.");
-        
-        SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "KFS_RICE_SPRING_RESOURCE_LOADER_NAME") ); 
-        SpringContext.applicationContext = mainKfsSpringResourceLoader.getContext();
+// JHK: we don't need the lines below because all the remaining code to be run is Rice code and does not use SpringContext         
+//        SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "CORE_RICE_SPRING_RESOURCE_LOADER_NAME") ); 
+//        SpringContext.applicationContext = mainKfsSpringResourceLoader.getContext();
     }
     
     public static void main(String[] args) {
@@ -139,7 +139,7 @@ public class WorkflowImporter {
                 parser.run();
             }            
             
-            SpringContext.close();
+//            SpringContext.close();
             System.exit(0);
         }
         catch (Throwable t) {

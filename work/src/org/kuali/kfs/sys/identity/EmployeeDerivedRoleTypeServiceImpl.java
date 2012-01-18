@@ -50,16 +50,16 @@ public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
     protected static final String PROFESSIONAL_EMPLOYEE_TYPE_CODE = "P";
 
     @Override
-    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         List<RoleMembership> members = new ArrayList<RoleMembership>();
-        if (qualification!=null && StringUtils.isNotBlank(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID)) && hasApplicationRole(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID), null, namespaceCode, roleName, qualification)) {
+        if (qualification!=null && StringUtils.isNotBlank(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID)) && hasDerivedRole(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID), null, namespaceCode, roleName, qualification)) {
             members.add(RoleMembership.Builder.create(null, null, qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID), MemberType.PRINCIPAL, null).build());
         }
         return members;
     }
 
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
+    public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         if (StringUtils.isBlank(principalId)) {
             return false;
         }

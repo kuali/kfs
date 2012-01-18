@@ -63,7 +63,7 @@ public abstract class PassThruRoleTypeServiceBase implements RoleTypeService {
     }
     
     @Override
-	public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String, String> qualification) {
+	public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String, String> qualification) {
         if (StringUtils.isBlank(principalId)) {
             throw new RiceIllegalArgumentException("principalId was null or blank");
         }
@@ -88,7 +88,7 @@ public abstract class PassThruRoleTypeServiceBase implements RoleTypeService {
     }
 
     @Override
-	public boolean isApplicationRoleType() {
+	public boolean isDerivedRoleType() {
         return false;
     }
 

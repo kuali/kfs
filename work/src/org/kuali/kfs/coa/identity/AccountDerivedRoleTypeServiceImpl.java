@@ -74,7 +74,7 @@ public class AccountDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBas
      *      java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         // validate received attributes
         validateRequiredAttributesAgainstReceived(qualification);
         List<RoleMembership> members = new ArrayList<RoleMembership>();

@@ -40,7 +40,7 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends DerivedRoleT
      * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
+    public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         if (principalMemberOfSysUsers(principalId, qualification)) {
             if (!principalMemberOfCashManagers(principalId, qualification)) {
                 return true;

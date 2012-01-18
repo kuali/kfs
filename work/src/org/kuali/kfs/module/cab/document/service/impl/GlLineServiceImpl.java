@@ -333,6 +333,7 @@ public class GlLineServiceImpl implements GlLineService {
                 AssetPaymentAssetDetail assetPaymentAssetDetail = new AssetPaymentAssetDetail();
                 assetPaymentAssetDetail.setDocumentNumber(document.getDocumentNumber());
                 assetPaymentAssetDetail.setCapitalAssetNumber(capitalAssetInformation.getCapitalAssetNumber());
+                assetPaymentAssetDetail.setAllocatedAmount(capitalAssetInformation.getCapitalAssetLineAmount());
                 assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
                 Asset asset = assetPaymentAssetDetail.getAsset();
                 if (ObjectUtils.isNotNull(asset)) {

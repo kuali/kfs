@@ -323,14 +323,10 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 	private boolean validateAllocations(ActionForm form) {
 		AssetPaymentForm assetPaymentForm = (AssetPaymentForm) form;
 		AssetPaymentDocument assetPaymentDocument = assetPaymentForm.getAssetPaymentDocument();
-		if (!assetPaymentDocument.isAllocationFromFPDocuments()) {
-	        assetPaymentDocument.getAssetPaymentDistributor().applyDistributionsToDocument();
-	        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
-	        return getRuleService().applyRules(new AssetPaymentAllocationEvent(errorPath, assetPaymentDocument));
-		}
-//		assetPaymentDocument.getAssetPaymentDistributor().applyDistributionsToDocument();
-//		String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
-		return true;
+
+        assetPaymentDocument.getAssetPaymentDistributor().applyDistributionsToDocument();
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
+        return getRuleService().applyRules(new AssetPaymentAllocationEvent(errorPath, assetPaymentDocument));
 	}
 
 	/**

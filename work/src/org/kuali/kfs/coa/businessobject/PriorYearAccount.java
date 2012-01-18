@@ -36,6 +36,9 @@ import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * 
@@ -93,8 +96,8 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private Chart chartOfAccounts;
     private Organization organization;
     private AccountType accountType;
-    private Campus accountPhysicalCampus;
-    private State accountState;
+    private CampusEbo accountPhysicalCampus;
+    private StateEbo accountState;
     private SubFundGroup subFundGroup;
     private HigherEducationFunction financialHigherEdFunction;
     private RestrictedStatus accountRestrictedStatus;
@@ -106,7 +109,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private Person accountFiscalOfficerUser;
     private Person accountSupervisoryUser;
     private Person accountManagerUser;
-    private PostalCode postalZipCode;
+    private PostalCodeEbo postalZipCode;
     private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
 
@@ -726,8 +729,8 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the accountPhysicalCampus
      */
-    public Campus getAccountPhysicalCampus() {
-        return accountPhysicalCampus = StringUtils.isBlank( accountPhysicalCampusCode)?null:((accountPhysicalCampus!=null && accountPhysicalCampus.getCode().equals( accountPhysicalCampusCode))?accountPhysicalCampus:SpringContext.getBean(CampusService.class).getCampus( accountPhysicalCampusCode));
+    public CampusEbo getAccountPhysicalCampus() {
+        return accountPhysicalCampus = StringUtils.isBlank( accountPhysicalCampusCode)?null:((accountPhysicalCampus!=null && accountPhysicalCampus.getCode().equals( accountPhysicalCampusCode))?accountPhysicalCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( accountPhysicalCampusCode)));
     }
 
     /**
@@ -736,7 +739,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @param accountPhysicalCampus The accountPhysicalCampus to set.
      * @deprecated
      */
-    public void setAccountPhysicalCampus(Campus accountPhysicalCampus) {
+    public void setAccountPhysicalCampus(CampusEbo accountPhysicalCampus) {
         this.accountPhysicalCampus = accountPhysicalCampus;
     }
 
@@ -745,8 +748,8 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the accountState
      */
-    public State getAccountState() {
-        accountState = (StringUtils.isBlank( accountStateCode))?null:( accountState == null||!StringUtils.equals( accountState.getCode(), accountStateCode))?SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/, accountStateCode): accountState;
+    public StateEbo getAccountState() {
+        accountState = (StringUtils.isBlank( accountStateCode))?null:( accountState == null||!StringUtils.equals( accountState.getCode(), accountStateCode))? StateEbo.from( SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/, accountStateCode) ): accountState;
         return accountState;
     }
 
@@ -756,7 +759,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @param state
      * @deprecated
      */
-    public void setAccountState(State state) {
+    public void setAccountState(StateEbo state) {
         this.accountState = state;
     }
 
@@ -1292,8 +1295,8 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode): postalZipCode;
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))? PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode)): postalZipCode;
         return postalZipCode;
     }
 
@@ -1302,7 +1305,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 

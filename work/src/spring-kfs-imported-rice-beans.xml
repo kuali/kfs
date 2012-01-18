@@ -80,6 +80,14 @@
  	<bean id="inquiryViewTypeService" p:serviceName="inquiryViewTypeService" parent="grlBeanImporter" />
  	<bean id="lookupViewTypeService" p:serviceName="lookupViewTypeService" parent="grlBeanImporter" />
 	<!-- KIM -->
+ 	<bean id="personService" p:serviceName="personService" parent="grlBeanImporter" />
+ 	<bean id="kimRoleService" p:serviceName="kimRoleService" parent="grlBeanImporter" />
+ 	<alias name="kimRoleService" alias="roleService" />
+ 	<!-- 
+ 	<bean id="kimUiDocumentService" p:serviceName="kimUiDocumentService" parent="grlBeanImporter" />
+ 	<alias name="kimUiDocumentService" alias="uiDocumentService" />
+ 	<bean id="kimPersonLookupable" p:serviceName="kimPersonLookupable" parent="grlBeanImporter" />
+ 	 -->
 	<!-- KEW -->
  	<bean id="workflowDocumentService" p:serviceName="workflowDocumentService" parent="grlBeanImporter" />
  	<bean id="rice.kew.documentTypeService" p:serviceName="rice.kew.documentTypeService" parent="grlBeanImporter" />

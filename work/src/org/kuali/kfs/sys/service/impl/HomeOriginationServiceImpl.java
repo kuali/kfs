@@ -20,6 +20,7 @@ import org.kuali.kfs.sys.dataaccess.HomeOriginationDao;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.transaction.annotation.Transactional;
 
 @NonTransactional
 public class HomeOriginationServiceImpl implements HomeOriginationService {
@@ -32,6 +33,7 @@ public class HomeOriginationServiceImpl implements HomeOriginationService {
      * Retrieves a HomeOrigination object. Currently, there is only a single, unique HomeOriginationCode record in the database.
      */
     @Cacheable(value=HomeOrigination.CACHE_NAME, key="'{getHomeOrigination}'")
+    @Transactional(readOnly=true)
     public HomeOrigination getHomeOrigination() {
         return getHomeOriginationDao().getHomeOrigination();
     }

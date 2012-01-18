@@ -197,7 +197,9 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             LOG.info("Starting test transaction that will be rolled back");
             DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
             defaultTransactionDefinition.setTimeout(3600);
+//            defaultTransactionDefinition.setReadOnly(true);
             transactionStatus = getTransactionManager().getTransaction(defaultTransactionDefinition);
+            transactionStatus.setRollbackOnly();
         }
         else {
             LOG.info("Test transaction not used");

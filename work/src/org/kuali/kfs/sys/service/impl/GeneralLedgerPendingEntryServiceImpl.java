@@ -711,6 +711,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#hasPendingGeneralLedgerEntry(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Transactional(readOnly=true)
     public boolean hasPendingGeneralLedgerEntry(Account account) {
         LOG.debug("hasPendingGeneralLedgerEntry() started");
 

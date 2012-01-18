@@ -63,12 +63,9 @@
       </list>
     </property>
   </bean>
-	
+
 	<import resource="classpath:kfs-RiceJTASpringBeans.xml"/>
 	<import resource="classpath:kfs-RiceDataSourceSpringBeans.xml"/>
-	<!-- 
-	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml" />
-	 -->
 	<import resource="classpath:kfs-RiceSpringBeans.xml"/>
 
 	<bean name="kfsConfigurer" class="org.kuali.kfs.sys.context.KFSConfigurer"

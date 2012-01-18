@@ -30,7 +30,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class ParameterEvaluatorServiceImpl implements ParameterEvaluatorService {
 
-    private ParameterService parameterService;
+    protected ParameterService parameterService;
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;

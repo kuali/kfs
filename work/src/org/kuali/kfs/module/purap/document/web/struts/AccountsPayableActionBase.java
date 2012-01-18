@@ -617,9 +617,15 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             // update the accounts amounts for PREQ and distribution method = sequential
             purapAccountingService.updatePreqItemAccountAmounts(item);
-        } else {
-            purapAccountingService.updateItemAccountAmounts(item);
-        }
+        } 
+        else {
+                List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+                for (PurApAccountingLine acctLine : sourceAccountingLines) {
+                    acctLine.setAmount(KualiDecimal.ZERO);
+                }
+                
+                purapAccountingService.updatePreqProportionalItemAccountAmounts(item);
+             }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -647,7 +653,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         restoreItemAccountsAmounts(apDoc, item);
         
         item.setItemQuantity(null);
-        item.setItemUnitPrice(null);
         
         item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
         
@@ -689,17 +694,9 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected void restoreItemAccountsAmounts(AccountsPayableDocument apDoc, PurApItem preqItem) {
         List<PurApItem> pOItems = apDoc.getPurchaseOrderDocument().getItems();
 
-      //  if (pOItems.size() > 0) {
-      //      Integer index = preqItem.getItemLineNumber()- 1; //zero based index;
-      //      preqItem.getSourceAccountingLines().clear();
-      //      preqItem.getSourceAccountingLines().addAll(pOItems.get(index).getSourceAccountingLines());
-      //      for (PurApAccountingLine preqAcctLine : preqItem.getSourceAccountingLines()) {
-      //          preqAcctLine.setItemIdentifier(preqItem.getItemIdentifier());
-      //      }
-      //  }
-        
         PurApItem pOItem = getPOItem(pOItems, preqItem.getItemLineNumber());
         if (ObjectUtils.isNotNull(pOItem)) {
+            preqItem.setItemUnitPrice(pOItem.getItemUnitPrice());
             List <PurApAccountingLine> preqAccountingLines = preqItem.getSourceAccountingLines();
             for (PurApAccountingLine lineAcct : preqAccountingLines) {
                 updateItemAccountLine(pOItem, lineAcct);                

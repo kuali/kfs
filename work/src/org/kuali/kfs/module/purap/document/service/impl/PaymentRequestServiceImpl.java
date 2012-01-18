@@ -1112,7 +1112,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         purapAccountingService.updatePreqAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
                         
                     } else {
-                        purapAccountingService.updateAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
+                        purapAccountingService.updatePreqProporationalAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
                     }
                 }
                 else {

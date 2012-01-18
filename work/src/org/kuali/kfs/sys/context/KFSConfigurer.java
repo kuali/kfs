@@ -27,6 +27,8 @@ import org.kuali.rice.core.framework.config.module.WebModuleConfiguration;
 public class KFSConfigurer extends ModuleConfigurer {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSConfigurer.class);
     
+    protected boolean testMode = false;
+    
     @Override
     protected void doAdditionalContextStartedLogic() {
         LOG.info( "*********************************************************" );
@@ -62,6 +64,9 @@ public class KFSConfigurer extends ModuleConfigurer {
     @Override
     public List<String> getPrimarySpringFiles() {
         String files = ConfigContext.getCurrentContextConfig().getProperty("spring.source.files");
+        if ( testMode ) {
+            files = files + "," + ConfigContext.getCurrentContextConfig().getProperty("spring.test.files");
+        }
         return files == null ? Collections.<String>emptyList() : parseFileList(files);
     }
 
@@ -85,5 +90,13 @@ public class KFSConfigurer extends ModuleConfigurer {
     @Override
     public boolean hasWebInterface() {
         return true;
+    }
+
+    public boolean isTestMode() {
+        return testMode;
+    }
+
+    public void setTestMode(boolean testMode) {
+        this.testMode = testMode;
     }
 }

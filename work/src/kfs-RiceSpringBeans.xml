@@ -56,13 +56,4 @@
 	 -->
 	<bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer" />
 	
-	<bean name="kfsConfigurer" class="org.kuali.kfs.sys.context.KFSConfigurer"
-		p:moduleName="KFS" lazy-init="true">
-		<property name="validRunModes">
-			<list>
-				<value>LOCAL</value>
-			</list>
-		</property>
-
-	</bean>
 </beans>

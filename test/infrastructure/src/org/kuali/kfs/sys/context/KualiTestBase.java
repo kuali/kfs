@@ -47,14 +47,14 @@ import org.springmodules.orm.ojb.OjbOperationException;
 
 public abstract class KualiTestBase extends TestCase implements KualiTestConstants {
     private static final Logger LOG = Logger.getLogger(KualiTestBase.class);
-    private static boolean log4jConfigured = false;
-    private static RuntimeException configurationFailure;
-    private static boolean springContextInitialized = false;
-    private static boolean batchScheduleInitialized = false;
-    private static TransactionStatus transactionStatus;
-    private static UserNameFixture userSessionUsername;
+    protected static boolean log4jConfigured = false;
+    protected static RuntimeException configurationFailure;
+    protected static boolean springContextInitialized = false;
+    protected static boolean batchScheduleInitialized = false;
+    protected static TransactionStatus transactionStatus;
+    protected static UserNameFixture userSessionUsername;
     protected static UserSession userSession;
-    private static Set<String> generatedFiles = new HashSet<String>();
+    protected static Set<String> generatedFiles = new HashSet<String>();
 
     /**
      * Determines whether to actually run the test using the RelatesTo annotation, onfigures the appropriate context using the
@@ -152,10 +152,6 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
     protected void clearParameterCache() {
     }
     
-    protected boolean testTransactionIsRollbackOnly() {
-        return (transactionStatus != null) && (transactionStatus.isRollbackOnly());
-    }
-
     protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {
         GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
     }
@@ -185,8 +181,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         }
         if (!springContextInitialized) {
             try {
-                // RICE20 Jonathan will take a look at this
-                SpringContext.initializeTestApplicationContext();
+                KFSTestStartup.initializeKfsTestContext();
                 springContextInitialized = true;
             }
             catch (RuntimeException e) {
@@ -217,12 +212,17 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
     private void endTestTransaction() {
         if (transactionStatus != null) {
             LOG.info("rolling back transaction");
-            getTransactionManager().rollback(transactionStatus);
+            try {
+                getTransactionManager().rollback(transactionStatus);
+            }
+            catch (Exception ex) {
+                LOG.error( "Error rolling back transaction", ex );
+            }
         }
     }
 
-    private PlatformTransactionManager getTransactionManager() {
-        return SpringContext.getBean(PlatformTransactionManager.class);
+    protected PlatformTransactionManager getTransactionManager() {
+        return (PlatformTransactionManager) SpringContext.getService("transactionManager");
     }
 
     private Method getMethod(String methodName) {

@@ -71,4 +71,13 @@
 	 -->
 	<import resource="classpath:kfs-RiceSpringBeans.xml"/>
 
+	<bean name="kfsConfigurer" class="org.kuali.kfs.sys.context.KFSConfigurer"
+		p:moduleName="KFS" lazy-init="true">
+		<property name="validRunModes">
+			<list>
+				<value>LOCAL</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

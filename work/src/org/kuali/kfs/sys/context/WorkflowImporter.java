@@ -24,8 +24,11 @@ import java.nio.channels.FileChannel;
 import java.util.Arrays;
 import java.util.Properties;
 
+import javax.xml.namespace.QName;
+
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.rice.kew.batch.XmlPollerServiceImpl;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -33,20 +36,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class WorkflowImporter {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WorkflowImporter.class);
 
-    private static final String DEFAULT_SPRING_BEANS_REPLACEMENT_VALUE = "${bootstrap.spring.file}";
-    private static final String WEB_BOOTSTRAP_SPRING_FILE = "web.bootstrap.spring.file";
-
     private static ClassPathXmlApplicationContext context;
 
     public static void initializeKfs() {
         long startInit = System.currentTimeMillis();
         LOG.info("Initializing Kuali Rice Application...");
 
-        String bootstrapSpringBeans = "";
-//        if (!StringUtils.isBlank(System.getProperty(WEB_BOOTSTRAP_SPRING_FILE))) {
-//            bootstrapSpringBeans = System.getProperty(WEB_BOOTSTRAP_SPRING_FILE);
-//        }
-        bootstrapSpringBeans = "kfs-startup.xml";
+        String bootstrapSpringBeans = "kfs-workflow-importer-startup.xml";
 
         Properties baseProps = new Properties();
         baseProps.putAll(System.getProperties());
@@ -55,17 +51,20 @@ public class WorkflowImporter {
         
         context = new ClassPathXmlApplicationContext(bootstrapSpringBeans);
 
-        try {
-            context.refresh();
-        } catch (RuntimeException e) {
-            LOG.error("problem during context.refresh()", e);
-
-            throw e;
-        }
+//        try {
+//            context.refresh();
+//        } catch (RuntimeException e) {
+//            LOG.error("problem during context.refresh()", e);
+//
+//            throw e;
+//        }
 
         context.start();
         long endInit = System.currentTimeMillis();
         LOG.info("...Kuali Rice Application successfully initialized, startup took " + (endInit - startInit) + " ms.");
+        
+        SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "KFS_RICE_SPRING_RESOURCE_LOADER_NAME") ); 
+        SpringContext.applicationContext = mainKfsSpringResourceLoader.getContext();
     }
     
     public static void main(String[] args) {
@@ -79,10 +78,6 @@ public class WorkflowImporter {
             LOG.info( "Calling KualiInitializeListener.contextInitialized" );
             initializeKfs();
             LOG.info( "Completed KualiInitializeListener.contextInitialized" );
-            
-            // the super implementation above will handle the loading of Spring
-            SpringContext.applicationContext = context;
-//            LOG.info( "Loaded Spring Context from the following locations: " + Arrays.asList( context.getConfigLocations() ) );
             
             GlobalResourceLoader.logAllContents();
 
@@ -175,17 +170,4 @@ public class WorkflowImporter {
             }
         }
     }
-//    private static void copyFile(File sourceFile, File destFile) throws Exception{
-//        InputStream in = new FileInputStream(sourceFile);
-//
-//        OutputStream out = new FileOutputStream(destFile);
-//
-//        byte[] buf = new byte[1024];
-//        int len;
-//        while ((len = in.read(buf)) > 0) {
-//            out.write(buf, 0, len);
-//        }
-//        in.close();
-//        out.close();
-//    }
 }

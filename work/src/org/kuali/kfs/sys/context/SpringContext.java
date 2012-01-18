@@ -47,9 +47,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SuppressWarnings("deprecation")
 public class SpringContext {
-    protected static final Logger LOG = Logger.getLogger(SpringContext.class);
-    protected static final String APPLICATION_CONTEXT_DEFINITION = "kfs-startup.xml";
-    protected static final String TEST_CONTEXT_DEFINITION = "kfs-startup-test.xml";
+    private static final Logger LOG = Logger.getLogger(SpringContext.class);
     protected static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
     protected static final String USE_QUARTZ_SCHEDULING_KEY = "use.quartz.scheduling";
     protected static ConfigurableApplicationContext applicationContext;
@@ -279,7 +277,7 @@ public class SpringContext {
             if (Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
                 LOG.info( "Starting up MemoryMonitor thread" );
                 MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
-                memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
+                memoryMonitor = new MemoryMonitor("kfs");
                 memoryMonitor.addListener(new MemoryMonitor.Listener() {
                     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
     

@@ -146,6 +146,10 @@
   </listener>
 
 	<listener>
+		<listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+	</listener>
+	
+	<listener>
     	<listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
   	</listener>
 

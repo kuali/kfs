@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
-import org.kuali.rice.krad.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
     List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFunding;

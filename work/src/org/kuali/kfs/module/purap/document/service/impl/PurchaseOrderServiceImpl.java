@@ -842,7 +842,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @throws WorkflowException
      */
     protected String getCurrentRouteNodeName(WorkflowDocument wd) throws WorkflowException {
-        String[] nodeNames = wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        String[] nodeNames = (String[]) wd.getNodeNames().toArray();
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;
         }
@@ -888,7 +888,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             
             try {
                 //send FYI to user for printing
-                po.getDocumentHeader().getWorkflowDocument().adHocRouteDocumentToPrincipal(KewApiConstants.ACTION_REQUEST_FYI_REQ, po.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
+                po.getDocumentHeader().getWorkflowDocument().adHocRouteDocumentToPrincipal(KewApiConstants.ACTION_REQUEST_FYI_REQ, po.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toString(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
             }
             catch (WorkflowException e) {
                 LOG.error("Error sending FYI to user to print PO.", e);

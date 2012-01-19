@@ -883,9 +883,8 @@ public class ReceivingServiceImpl implements ReceivingService {
         }     
         if (docs != null){
             for (LineItemReceivingDocument receivingDoc: docs) {
-                if (StringUtils.equals(receivingDoc.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(),
-                    PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS)){
-                        approveReceivingDoc(receivingDoc);
+                if (receivingDoc.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS)){
+                          approveReceivingDoc(receivingDoc);
                     }
             }
         }

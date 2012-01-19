@@ -19,8 +19,8 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.SaveMonthlyBudgetRule;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rule.BusinessRule;
-import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 
 /**
  * Defines the save monthly budget event for the monthly budget screen.

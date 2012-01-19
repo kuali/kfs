@@ -71,7 +71,8 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                 LOG.debug("Active Action Request list size to process is " + actionRequests.size());
                 LOG.debug("Attempting to super user approve action request with id " + actionRequestDTO.getId());
             }
-            workflowDocumentService.superUserApprove(workflowDoc, annotation);
+            
+    
             workflowDoc.superUserActionRequestApprove(actionRequestDTO.getId(), annotation);
             superUserApproveAllActionRequests(superUser, documentNumber, nodeName, user, annotation);
             break;
@@ -199,7 +200,8 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
         try {
             String activeNode = null;
-            String[] nodeNames = document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+   
+            String[] nodeNames = (String[]) document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toArray();
             if (nodeNames.length == 1) {
                 activeNode = nodeNames[0];
             }

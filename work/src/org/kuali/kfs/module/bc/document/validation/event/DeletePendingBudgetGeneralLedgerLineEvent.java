@@ -19,8 +19,8 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rule.BusinessRule;
-import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 
 /**
  * Defines the delete line event for revenue or expenditure tab rows on the Budget Construction Document.

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.event;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rule.event.SaveEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveEvent;
 
 /**
  * SelectSystem Event for Accounts Payable Document.

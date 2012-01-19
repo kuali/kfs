@@ -33,8 +33,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 

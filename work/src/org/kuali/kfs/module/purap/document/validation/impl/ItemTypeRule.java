@@ -33,7 +33,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 
 /* 
  * 

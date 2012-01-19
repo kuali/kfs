@@ -21,9 +21,9 @@ import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.validation.AddReceivingItemRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rule.BusinessRule;
-import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
-import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 
 public class AddReceivingItemEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
 

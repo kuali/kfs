@@ -35,7 +35,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.question.ConfirmationQuestion;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentActionBase {

@@ -28,7 +28,7 @@ import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;

@@ -84,7 +84,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.question.ConfirmationQuestion;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;

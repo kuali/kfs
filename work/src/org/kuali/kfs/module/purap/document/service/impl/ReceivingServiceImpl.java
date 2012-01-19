@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
@@ -455,8 +456,9 @@ public class ReceivingServiceImpl implements ReceivingService {
             if(!StringUtils.equalsIgnoreCase(correctionItem.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
 
                 LineItemReceivingItem recItem = (LineItemReceivingItem) receivingDoc.getItem(correctionItem.getItemLineNumber().intValue() - 1);
-                PurchaseOrderItem poItem = (PurchaseOrderItem) receivingDoc.getPurchaseOrderDocument().getItem(correctionItem.getItemLineNumber().intValue() - 1);
-                
+                List<PurchaseOrderItem> purchaseOrderItems = receivingDoc.getPurchaseOrderDocument().getItems();
+                PurchaseOrderItem poItem = purchaseOrderItems.get(correctionItem.getItemLineNumber().intValue() - 1);
+                 
                 if(ObjectUtils.isNotNull(recItem)) {
                     recItem.setItemReceivedTotalQuantity(correctionItem.getItemReceivedTotalQuantity());
                     recItem.setItemReturnedTotalQuantity(correctionItem.getItemReturnedTotalQuantity());
@@ -805,7 +807,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                         
         List<LineItemReceivingView> rViews = null;
         WorkflowDocument workflowDocument = null;
-        Timestamp latestCreateDate = null;
+        DateTime latestCreateDate = null;
         
         //get related views
         if(ObjectUtils.isNotNull(po.getRelatedViews()) ){       
@@ -820,7 +822,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                     workflowDocument = workflowDocumentService.createWorkflowDocument(rView.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
                     
                     //if latest create date is null or the latest is before the current, current is newer
-                    if( ObjectUtils.isNull(latestCreateDate) || latestCreateDate.before(workflowDocument.getDateCreated()) ){
+                    if( ObjectUtils.isNull(latestCreateDate) || latestCreateDate.isBefore(workflowDocument.getDateCreated()) ){
                         latestCreateDate = workflowDocument.getDateCreated();
                         latestDocumentNumber = workflowDocument.getDocumentId().toString();
                     }

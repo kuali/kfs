@@ -46,7 +46,7 @@ public class AccountsPayableDocumentDerivedRoleTypeServiceImpl extends DerivedRo
      * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
+    public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
     
         String docId = new String(qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER));
         

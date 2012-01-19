@@ -55,7 +55,7 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
      *      java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         List<RoleMembership> members = new ArrayList<RoleMembership>();
         if(qualification!=null && !qualification.isEmpty()){
             if (SOURCE_DOCUMENT_ROUTER_ROLE_NAME.equals(roleName)) {

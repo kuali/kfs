@@ -69,9 +69,10 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         for (ActionRequest actionRequestDTO : actionRequests) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Active Action Request list size to process is " + actionRequests.size());
-                LOG.debug("Attempting to super user approve action request with id " + actionRequestDTO.getActionRequestId());
+                LOG.debug("Attempting to super user approve action request with id " + actionRequestDTO.getId());
             }
-            workflowDoc.superUserActionRequestApprove(actionRequestDTO.getActionRequestId(), annotation);
+            workflowDocumentService.superUserApprove(workflowDoc, annotation);
+            workflowDoc.superUserActionRequestApprove(actionRequestDTO.getId(), annotation);
             superUserApproveAllActionRequests(superUser, documentNumber, nodeName, user, annotation);
             break;
         }

@@ -1191,11 +1191,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
 
     public void refreshDocumentBusinessObject() {
-        documentBusinessObject = SpringContext.getBean(PurchaseOrderService.class).getOldestPurchaseOrder(this, (PurchaseOrderDocument) this.documentBusinessObject);
+      //rice20 documentBusinessObject removed from super class - unresolvable error
+       // documentBusinessObject = SpringContext.getBean(PurchaseOrderService.class).getOldestPurchaseOrder(this, (PurchaseOrderDocument) this.documentBusinessObject);
     }
 
     public void setDocumentBusinessObject(PurchaseOrderDocument po) {
-        documentBusinessObject = po;
+        //rice20 documentBusinessObject removed from super class - unresolvable error
+        //documentBusinessObject = po;
     }
 
     /**

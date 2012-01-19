@@ -1722,9 +1722,4 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.glOnlySourceAccountingLines = glOnlySourceAccountingLines;
     }
 
-    @Override
-    public <T> T getItem(int pos) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap;
 
 import java.util.ArrayList;
 
-import org.kuali.rice.krad.question.QuestionBase;
+import org.kuali.rice.kns.question.QuestionBase;
 
 /**
  * Support the SingleConfirmationQuestion that displays a window with an OK button.

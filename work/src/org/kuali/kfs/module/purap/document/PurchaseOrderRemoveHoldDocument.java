@@ -23,7 +23,7 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 /**
  * Purchase Order Remove Payment Hold Document

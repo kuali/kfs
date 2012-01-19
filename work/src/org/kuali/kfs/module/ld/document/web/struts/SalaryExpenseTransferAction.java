@@ -34,10 +34,10 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.krad.question.ConfirmationQuestion;
-import org.kuali.rice.krad.service.DocumentHelperService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 /**

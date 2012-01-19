@@ -86,7 +86,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -100,6 +99,7 @@ import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -1135,7 +1135,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public PaymentRequestDocument addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
-        documentService.addNoteToDocument(document, noteObj);
+        document.addNote(noteObj);
         noteService.save(noteObj);
 
         // retrieve and save with hold indicator set to true
@@ -1157,7 +1157,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public PaymentRequestDocument removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
-        documentService.addNoteToDocument(document, noteObj);
+        document.addNote(noteObj);
         noteService.save(noteObj);
 
         // retrieve and save with hold indicator set to false
@@ -1180,7 +1180,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
-        documentService.addNoteToDocument(document, noteObj);
+        document.addNote(noteObj);
         noteService.save(noteObj);
 
         // retrieve and save with hold indicator set to true
@@ -1202,7 +1202,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
-        documentService.addNoteToDocument(document, noteObj);
+        document.addNote(noteObj);
         noteService.save(noteObj);
 
         clearRequestCancelFields(document);
@@ -1246,7 +1246,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         try {
             Note cancelNote = documentService.createNoteFromDocument(paymentRequest, note);
-            documentService.addNoteToDocument(paymentRequest, cancelNote);
+            paymentRequest.addNote(cancelNote);
             noteService.save(cancelNote);
         }
         catch (Exception e) {
@@ -1280,7 +1280,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         String noteText = "This Payment Request is being reset for extraction by PDP " + note;
         try {
             Note resetNote = documentService.createNoteFromDocument(paymentRequest, noteText);
-            documentService.addNoteToDocument(paymentRequest, resetNote);
+            paymentRequest.addNote(resetNote);
             noteService.save(resetNote);
         }
         catch (Exception e) {
@@ -1661,7 +1661,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         for (String docNumber : docNumbers) {
             try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }
             catch (WorkflowException we) {
                 throw new RuntimeException(we);

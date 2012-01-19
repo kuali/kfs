@@ -30,7 +30,7 @@ import org.kuali.rice.krad.document.Document;
 public class PurchaseOrderAmendmentDocumentPresentationController extends PurchaseOrderDocumentPresentationController {
     
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
         // po amend docs in CGIP status are only editable when in Initiated or Saved status
         if (PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
@@ -66,7 +66,7 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
     }
 
     @Override
-    protected boolean canReload(Document document) {
+    public boolean canReload(Document document) {
         //  show the reload button if the doc is anything but processed or final
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         return (workflowDocument.isSaved() || workflowDocument.isEnroute()) ;

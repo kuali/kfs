@@ -147,7 +147,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         
             try{
                 //RICE20 replacement for createWorkflowDocument() needs doc type, but then this logic to find duplicate makes no sense
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -191,7 +191,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         
             try{
                 //RICE20 replacement for createWorkflowDocument() needs doc type, so now this logic won't work
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), 
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, 
                                                                                   GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);

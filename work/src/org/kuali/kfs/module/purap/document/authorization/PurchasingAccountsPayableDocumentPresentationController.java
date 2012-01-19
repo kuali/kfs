@@ -27,7 +27,7 @@ public class PurchasingAccountsPayableDocumentPresentationController extends Fin
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         //RICE20 no replacement for isAdHocRequested
         if (document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
             return false;
@@ -36,7 +36,7 @@ public class PurchasingAccountsPayableDocumentPresentationController extends Fin
     }
 
     @Override
-    protected boolean canEditDocumentOverview(Document document) {
+    public boolean canEditDocumentOverview(Document document) {
         // Change logic to allow editing document overview based on if user can edit the document
         return canEdit(document);
     }

@@ -54,7 +54,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.TransactionalDocument;
-import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;

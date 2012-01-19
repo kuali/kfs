@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ld;
 
-import org.kuali.rice.krad.authorization.AuthorizationConstants.EditMode;
-
 
 public class LaborAuthorizationConstants {
 

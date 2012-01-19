@@ -139,8 +139,8 @@ public class RequisitionServiceImpl implements RequisitionService {
             note = PurapConstants.REQ_REASON_NOT_APO + note;
             try {
                 Note apoNote = documentService.createNoteFromDocument(requisition, note);
-                documentService.addNoteToDocument(requisition, apoNote);
-            }
+                requisition.addNote(apoNote);
+              }
             catch (Exception e) {
                 throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
             }

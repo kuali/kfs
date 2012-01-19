@@ -35,7 +35,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.location.api.country.Country;

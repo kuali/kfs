@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -87,16 +88,18 @@ import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorPhoneNumber;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.core.mail.MailMessage;
 import org.kuali.rice.edl.impl.components.WorkflowDocumentActions;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
@@ -105,12 +108,13 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -204,10 +208,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
     }
     
-    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
-        this.workflowInfoService = workflowInfoService;
-    }
-
     public void setMaintenanceDocumentService(MaintenanceDocumentService maintenanceDocumentService) {
         this.maintenanceDocumentService = maintenanceDocumentService;
     }
@@ -318,10 +318,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     po.setDefaultValuesForAPO();
                     po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
                     documentService.routeDocument(po, null, null);
-                    
-                    final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
-                    workflowDocumentActions.indexDocument(new Long(po.getDocumentNumber()));
-                    return null;
+                    final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = SpringContext.getBean(DocumentAttributeIndexingQueue.class);
+                    documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());
+                     return null;
                 }
             };
             purapService.performLogicWithFakedUserSession(newSessionUserId, logicToRun, new Object[] { reqDocument });
@@ -918,12 +917,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     int fromIndex = 0;
                     String noteText1 = noteText.substring(0, noteMaxSize);
                     Note note1 = documentService.createNoteFromDocument(po, noteText1);
-                    documentService.addNoteToDocument(po, note1);
+                    po.addNote(note1);
                     noteText = noteText.substring(noteMaxSize);
                 }
 
                 Note note = documentService.createNoteFromDocument(po, noteText);
-                documentService.addNoteToDocument(po, note);
+                po.addNote(note);
             }
             catch (Exception e) {
                 throw new RuntimeException(e);
@@ -1058,7 +1057,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     if (StringUtils.isNotBlank(noteText)) {
                         // update on purchase order notes
                         Note note = documentService.createNoteFromDocument(po, noteText);
-                        documentService.addNoteToDocument(po, note);
+                        po.addNote(note);
                         noteService.save(note);
                     }
                 }
@@ -1081,12 +1080,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Note newBONote = new Note();
         newBONote.setNoteText("Change vendor document ID <" + documentNumber + ">. Document was automatically created from PO <" + poID + "> to add commodity codes used on this PO that were not yet assigned to this vendor.");
         try {
-            newBONote = noteService.createNote(newBONote, maintainable.getBusinessObject());
+           
+            newBONote = noteService.createNote(newBONote, maintainable.getBusinessObject(), GlobalVariables.getUserSession().getPrincipalId());
         }
         catch (Exception e) {
             throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
         }
-        maintainable.getBusinessObject().getNotes().add(newBONote);        
+        List<Note> noteList = noteService.getByRemoteObjectId(maintainable.getBusinessObject().getObjectId());
+        noteList.add(newBONote);
+        noteService.saveNoteList(noteList);       
     }
     
     /**
@@ -1886,8 +1888,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
 
         message.setFromAddress(toAddressList[0]); 
-
-        if (kualiConfigurationService.isProductionEnvironment()) {
+        if (SpringContext.getBean(Config.class).isProductionEnvironment()) {
             message.setSubject("Auto Close Recurring Purchase Orders");
         }
         else {

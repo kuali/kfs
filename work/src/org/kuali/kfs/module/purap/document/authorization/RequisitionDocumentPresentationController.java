@@ -44,7 +44,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class RequisitionDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
 
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument)document;
         if (!RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode()) &&
                 !RequisitionStatuses.AWAIT_CONTENT_REVIEW.equals(reqDocument.getStatusCode()) &&
@@ -138,7 +138,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     }
 
     @Override
-    protected boolean canCopy(Document document) {
+    public boolean canCopy(Document document) {
         //  disallow copying until the doc is saved
         WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDoc.isInitiated() && !workflowDoc.isSaved()) {
@@ -148,7 +148,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     }
 
     @Override
-    protected boolean canReload(Document document) {
+    public boolean canReload(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument) document;
         
         //  this is a global rule, if the doc is in your queue for ACK, then you lose the reload button
@@ -188,7 +188,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     }
 
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument) document;
 
         //  while in OrgReview ... org reviewers do NOT get reload button 

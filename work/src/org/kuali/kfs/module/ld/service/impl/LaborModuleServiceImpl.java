@@ -55,7 +55,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;

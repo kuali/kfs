@@ -40,7 +40,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class PurchaseOrderDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
 
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
         if (!PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) &&
@@ -56,7 +56,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     }
 
     @Override
-    protected boolean canFyi(Document document) {
+    public boolean canFyi(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) document;
         if (PurchaseOrderStatuses.PENDING_PRINT.equals(poDocument.getStatusCode())) {
             return false;
@@ -65,7 +65,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
         if (poDocument.isPendingSplit() || poDocument.getAssigningSensitiveData()) {
@@ -76,7 +76,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     }
 
     @Override
-    protected boolean canClose(Document document) {
+    public boolean canClose(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
         if (poDocument.isPendingSplit() || poDocument.getAssigningSensitiveData()) {
@@ -87,7 +87,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     }
 
     @Override
-    protected boolean canReload(Document document) {
+    public boolean canReload(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
         if (poDocument.isPendingSplit() || poDocument.getAssigningSensitiveData()) {
@@ -98,7 +98,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     }
 
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
         if (poDocument.isPendingSplit() || poDocument.getAssigningSensitiveData()) {
@@ -109,7 +109,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     }
 
     @Override
-    protected boolean canRoute(Document document) {
+    public boolean canRoute(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
         String statusCode = poDocument.getStatusCode();
 

@@ -69,7 +69,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -630,7 +630,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         for (String docNumber : docNumbers) {
             try{
                 //RICE20 replacement for createWorkflowDocument() needs doc type, so then this logic doesn't make sense
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }

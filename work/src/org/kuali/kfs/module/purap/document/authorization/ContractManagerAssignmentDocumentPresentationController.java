@@ -24,7 +24,7 @@ import org.kuali.rice.krad.document.Document;
 public class ContractManagerAssignmentDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
     
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         return false;
     }
 

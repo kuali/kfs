@@ -27,7 +27,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class ReceivingDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase {

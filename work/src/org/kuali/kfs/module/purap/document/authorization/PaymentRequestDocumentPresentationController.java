@@ -43,7 +43,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
     
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
@@ -58,7 +58,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     }
     
     @Override
-    protected boolean canReload(Document document) {
+    public boolean canReload(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
 
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
@@ -73,7 +73,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         //controlling the cancel button through getExtraButtons in PaymentRequestForm
         return false;
     }
@@ -90,7 +90,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     }
 
     @Override
-    protected boolean canDisapprove(Document document) {
+    public boolean canDisapprove(Document document) {
         //disapprove is never allowed for PREQ
         return false;
     }
@@ -99,7 +99,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         boolean fullDocEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument);
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();

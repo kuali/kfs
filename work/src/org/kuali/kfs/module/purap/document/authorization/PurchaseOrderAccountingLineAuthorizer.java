@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -54,7 +55,8 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDoc.getDocumentTypeName()) && StringUtils.isNotBlank(accountingGroupProperty) && accountingGroupProperty.contains(PurapPropertyConstants.ITEM)) {
             int itemNumber = determineItemNumberFromGroupProperty(accountingGroupProperty);
             PurchaseOrderAmendmentDocument poaDoc = (PurchaseOrderAmendmentDocument) accountingDocument;
-            PurchaseOrderItem item = (PurchaseOrderItem) poaDoc.getItem(itemNumber);
+            List <PurchaseOrderItem> items = poaDoc.getItems();
+            PurchaseOrderItem item = items.get(itemNumber);
             return item.isNewItemForAmendment() || item.getSourceAccountingLines().size() == 0;
         }
         

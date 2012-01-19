@@ -25,7 +25,7 @@ import org.kuali.rice.krad.document.Document;
 public class LineItemReceivingDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
     
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isInitiated()) {
             return false;
@@ -34,7 +34,7 @@ public class LineItemReceivingDocumentPresentationController extends PurchasingA
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isInitiated()) {
             return false;
@@ -43,7 +43,7 @@ public class LineItemReceivingDocumentPresentationController extends PurchasingA
     }
 
     @Override
-    protected boolean canClose(Document document) {
+    public boolean canClose(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isInitiated()) {
             return false;

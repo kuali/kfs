@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
@@ -64,7 +64,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @throws WorkflowException
      */
     protected void superUserApproveAllActionRequests(Person superUser, Long documentNumber, String nodeName, Person user, String annotation) throws WorkflowException {
-        WorkflowDocument workflowDoc = workflowDocumentService.createWorkflowDocument(documentNumber, superUser);
+        WorkflowDocument workflowDoc = workflowDocumentService.createWorkflowDocument(String.valueOf(documentNumber), superUser);
         List<ActionRequest> actionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, user);
         for (ActionRequest actionRequestDTO : actionRequests) {
             if (LOG.isDebugEnabled()) {
@@ -83,7 +83,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      */
     public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, Person userToCheck, String superUserNetworkId) {
         try {
-            Long documentNumber = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            Long documentNumber = Long.valueOf(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
             String networkIdString = (ObjectUtils.isNotNull(userToCheck)) ? userToCheck.getPrincipalName() : "none";
             List<ActionRequest> activeActionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, userToCheck);
 
@@ -108,7 +108,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             else {
                 // if a user was given... take the action as that user
                 if (ObjectUtils.isNotNull(userToCheck)) {
-                    WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(documentNumber, userToCheck);
+                    WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(documentNumber.toString(), userToCheck);
                     boolean containsFyiRequest = false;
                     boolean containsAckRequest = false;
                     boolean containsApproveRequest = false;

@@ -31,9 +31,9 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.krad.service.DocumentHelperService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**

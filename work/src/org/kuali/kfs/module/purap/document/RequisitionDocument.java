@@ -19,6 +19,7 @@ package org.kuali.kfs.module.purap.document;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +65,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -71,6 +73,7 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -136,7 +139,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     
     protected boolean isSeparationOfDutiesReviewRequired() {
         try {
-            Set<Person> priorApprovers = getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
+            Set<Person> priorApprovers = this.getAllPriorApprovers();
             
             // The initiator cannot be the approver
             String initiatorPrincipalId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
@@ -168,7 +171,24 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
     }
 
-    
+    public Set<Person> getAllPriorApprovers() throws WorkflowException {
+        PersonService personService = KimApiServiceLocator.getPersonService();
+         List<ActionTaken> actionsTaken = getDocumentHeader().getWorkflowDocument().getActionsTaken();
+        Set<String> principalIds = new HashSet<String>();
+        Set<Person> persons = new HashSet<Person>();
+        
+        for (ActionTaken actionTaken : actionsTaken) {
+            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken())) {
+                String principalId = actionTaken.getPrincipalId();
+                if (!principalIds.contains(principalId)) {
+                    principalIds.add(principalId);
+                    persons.add(personService.getPerson(principalId));
+                }
+            }
+        }
+        return persons;
+    }
+     
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria
      * specific to Requisition Document.

@@ -50,7 +50,7 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;

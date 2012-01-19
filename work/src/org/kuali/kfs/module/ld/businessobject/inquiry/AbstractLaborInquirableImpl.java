@@ -35,7 +35,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;

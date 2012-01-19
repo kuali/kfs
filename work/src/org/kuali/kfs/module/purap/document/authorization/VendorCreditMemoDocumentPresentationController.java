@@ -37,7 +37,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class VendorCreditMemoDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
 
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) document;
 
         if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
@@ -52,7 +52,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     }
 
     @Override
-    protected boolean canReload(Document document) {
+    public boolean canReload(Document document) {
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) document;
 
         if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
@@ -67,13 +67,13 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         //controlling the cancel button through getExtraButtons in CreditMemoForm
         return false;
     }
 
     @Override
-    protected boolean canDisapprove(Document document) {
+    public boolean canDisapprove(Document document) {
         //disapprove is never allowed for Credit Memo
         return false;
     }
@@ -83,7 +83,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((VendorCreditMemoDocument) document)) {
             return false;
         }

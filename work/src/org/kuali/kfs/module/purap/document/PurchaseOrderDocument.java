@@ -111,7 +111,7 @@ import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;

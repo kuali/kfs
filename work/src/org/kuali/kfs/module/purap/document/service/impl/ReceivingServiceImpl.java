@@ -19,11 +19,13 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -51,10 +53,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
@@ -214,7 +217,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         WorkflowDocument workflowDocument = null;
         
         try{
-            workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rl.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+            workflowDocument = workflowDocumentService.createWorkflowDocument(rl.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
         }catch(WorkflowException we){
             throw new RuntimeException(we);
         }
@@ -241,7 +244,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -266,7 +269,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
 
             try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }
             catch (WorkflowException we) {
                 throw new RuntimeException(we);
@@ -279,7 +282,8 @@ public class ReceivingServiceImpl implements ReceivingService {
 
         if (finalDocNumbers.size() > 0) {
             try {
-                return SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(LineItemReceivingDocument.class, finalDocNumbers);
+                 Collection<? extends LineItemReceivingDocument> docsByList = (Collection<? extends LineItemReceivingDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(LineItemReceivingDocument.class, finalDocNumbers);
+                 return (List<LineItemReceivingDocument>) docsByList;
             }
             catch (WorkflowException e) {
                 throw new InfrastructureException("unable to retrieve LineItemReceivingDocuments", e);
@@ -307,7 +311,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -334,7 +338,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -414,7 +418,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -624,7 +628,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                             String note = "Purchase Order Amendment " + amendmentPo.getPurapDocumentIdentifier() + " (document id " + amendmentPo.getDocumentNumber() + ") created for new unordered line items due to Receiving (document id " + rlDoc.getDocumentNumber() + ")";
                             
                             Note noteObj = documentService.createNoteFromDocument(amendmentPo, note);
-                            documentService.addNoteToDocument(amendmentPo, noteObj);
+                            amendmentPo.addNote(noteObj);
                             noteService.save(noteObj);
 
                             return null;
@@ -791,7 +795,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     
     public void addNoteToReceivingDocument(ReceivingDocument receivingDocument, String note) throws Exception{
         Note noteObj = documentService.createNoteFromDocument(receivingDocument, note);
-        documentService.addNoteToDocument(receivingDocument, noteObj);
+        receivingDocument.addNote(noteObj);
         noteService.save(noteObj);        
     }
     
@@ -813,12 +817,12 @@ public class ReceivingServiceImpl implements ReceivingService {
             
             for(LineItemReceivingView rView : rViews){
                 try{
-                    workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rView.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+                    workflowDocument = workflowDocumentService.createWorkflowDocument(rView.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
                     
                     //if latest create date is null or the latest is before the current, current is newer
                     if( ObjectUtils.isNull(latestCreateDate) || latestCreateDate.before(workflowDocument.getDateCreated()) ){
                         latestCreateDate = workflowDocument.getDateCreated();
-                        latestDocumentNumber = workflowDocument.getRouteHeaderId().toString();
+                        latestDocumentNumber = workflowDocument.getDocumentId().toString();
                     }
                 }catch(WorkflowException we){
                     throw new RuntimeException(we);
@@ -852,7 +856,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }

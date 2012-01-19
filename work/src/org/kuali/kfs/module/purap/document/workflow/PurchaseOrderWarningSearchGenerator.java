@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.workflow;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.rice.krad.workflow.attribute.DataDictionaryDocumentSearchCustomizer;
 import org.kuali.rice.krad.util.MessageMap;
 // rice20  undefined class
 public class PurchaseOrderWarningSearchGenerator extends DataDictionaryDocumentSearchCustomizer {

@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.cab.service.impl;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,6 +96,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.criteria.QueryByCriteria.Builder;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -486,14 +491,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected boolean validateAllFieldRequirementsByChart(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType, String systemType) {
         boolean valid = true;
         List<Parameter> results = new ArrayList<Parameter>();
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
-        criteria.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
-        criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType);
-        //rice20  not sure if this will work trying to replace getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));       
+         //rice20  not sure if this will work trying to replace getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));       
         ParameterRepositoryService paramRepositoryService = SpringContext.getBean(ParameterRepositoryService.class);
-        results = paramRepositoryService.findParameters(criteria);
-        //results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
+        Builder qbc = QueryByCriteria.Builder.create();
+        qbc.setPredicates(and(
+                equal(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE),
+                equal(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT),
+                equal(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType)));
+  
+        results = (List<Parameter>) paramRepositoryService.findParameters(qbc.build());
         for (Parameter parameter : results) {
             if (ObjectUtils.isNotNull(parameter)) {
                 if (systemType.equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
@@ -527,19 +533,21 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
                 String coa = accountingLine.getChartOfAccountsCode();
                 List<Parameter> results = new ArrayList<Parameter>();
-                Map<String, String> criteria = new HashMap<String, String>();
-                criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
-                criteria.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
-                criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType);
-                criteria.put(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + coa + "%");
-                //rice20  not sure if this will work trying to replace getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
+                 //rice20  not sure if this will work trying to replace getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
                 ParameterRepositoryService paramRepositoryService = SpringContext.getBean(ParameterRepositoryService.class);
-                results = paramRepositoryService.findParameters(criteria);
+                Builder qbc = QueryByCriteria.Builder.create();
+                qbc.setPredicates(and(
+                            equal(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE),
+                            equal(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT),
+                            equal(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType),
+                            equal(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + coa + "%")));
+                
+                results = (List<Parameter>) paramRepositoryService.findParameters(qbc.build());
                 //results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
                 for (Parameter parameter : results) {
                     if (ObjectUtils.isNotNull(parameter)) {
-                        if (parameter.getParameterValueAsString() != null) {
-                            return false;
+                        if (parameter.getValue() != null) {
+                             return false;
                         }
                     }
                 }

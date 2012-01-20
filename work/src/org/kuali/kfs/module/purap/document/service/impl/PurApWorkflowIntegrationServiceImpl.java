@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -208,11 +209,12 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             if (isGivenNodeAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
                 if (document.getDocumentHeader().getWorkflowDocument().isInitiated()) {
                     // document is only initiated so we need to pass xml for workflow to simulate route properly
-                    ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
-                    reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaDTO.setRoutingPrincipalId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                    reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
-                    boolean value = SpringContext.getBean(WorkflowDocumentService.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
+                    RoutingReportCriteria.Builder builder = RoutingReportCriteria.Builder.createByDocumentTypeName(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+                    builder.setXmlContent(document.getXmlForRouteReport());
+                    builder.setRoutingPrincipalId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                    builder.setTargetNodeName(givenNodeDetail.getName());
+                    RoutingReportCriteria reportCriteria = builder.build();
+                    boolean value = SpringContext.getBean(WorkflowDocumentService.class).documentWillHaveAtLeastOneActionRequest(reportCriteria, new String[] { KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
                     return value;
                 }
                 else {
@@ -221,10 +223,11 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                      * the existing actions taken and action requests in determining if rules will fire or not. We also need to call
                      * a save routing data so that the xml Workflow uses represents what is currently on the document
                      */
-                    ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(document.getDocumentNumber()));
-                    reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
-                    boolean value = SpringContext.getBean(WorkflowDocumentService.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
+                    RoutingReportCriteria.Builder builder = RoutingReportCriteria.Builder.createByDocumentId(document.getDocumentNumber());
+                    builder.setXmlContent(document.getXmlForRouteReport());
+                    builder.setTargetNodeName(givenNodeDetail.getName());
+                    RoutingReportCriteria reportCriteria = builder.build();
+                    boolean value = SpringContext.getBean(WorkflowDocumentService.class).documentWillHaveAtLeastOneActionRequest(reportCriteria, new String[] { KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
                     return value;
                 }
             }

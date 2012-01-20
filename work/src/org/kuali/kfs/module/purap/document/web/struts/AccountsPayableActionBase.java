@@ -47,8 +47,10 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.LogicContainer;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedPreCalculateAccountsPayableEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
@@ -611,6 +613,22 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             item.setExtendedPrice(newExtendedPrice);
         }
         
+        PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
+
+        // set amounts on any empty
+        preqDoc.updateExtendedPriceOnItems();
+
+        // calculation just for the tax area, only at tax review stage
+        // by now, the general calculation shall have been done.
+        if (preqDoc.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+            SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
+        }
+        
+        // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
+        //Calculate Payment request before rules since the rule check totalAmount.
+        SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
+        SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(preqDoc));
+        
         PurchasingAccountsPayableDocumentBase document = (PurchasingAccountsPayableDocumentBase) apDoc;
         String accountDistributionMethod = document.getAccountDistributionMethod();
 
@@ -653,6 +671,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         restoreItemAccountsAmounts(apDoc, item);
         
         item.setItemQuantity(null);
+        item.setItemTaxAmount(null);
         
         item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
         

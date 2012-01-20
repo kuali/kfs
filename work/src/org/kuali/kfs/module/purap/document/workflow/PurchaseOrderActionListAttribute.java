@@ -21,12 +21,10 @@ import org.kuali.rice.kew.api.actionlist.DisplayParameters;
 
 public class PurchaseOrderActionListAttribute implements CustomActionListAttribute {
 
-    @Override
     public ActionSet getLegalActions(String principalId, org.kuali.rice.kew.api.action.ActionItem actionItem) throws Exception {
         return ActionSet.Builder.create().build();
     }
 
-    @Override
     public DisplayParameters getDocHandlerDisplayParameters(String principalId, org.kuali.rice.kew.api.action.ActionItem actionItem) throws Exception {
         return null;
     }

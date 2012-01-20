@@ -21,10 +21,7 @@ import org.kuali.rice.krad.util.MessageMap;
 // rice20  undefined class
 public class PurchaseOrderWarningSearchGenerator extends DataDictionaryDocumentSearchCustomizer {
 
-    /**
-     * @see org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer#getMessageMap(org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO)
-     */
-    @Override
+
     public MessageMap getMessageMap(DocSearchCriteriaDTO searchCriteria) {
         MessageMap messageMap = super.getMessageMap(searchCriteria);
         if (messageMap == null) {

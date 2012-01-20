@@ -50,8 +50,9 @@
 			<column name='POS_BENEFIT_TYP_CD' type='VARCHAR2(2)'>
 				<constraints primaryKey='true' nullable='false' />
 			</column>
-			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)' defaultValue='--'>
-				<constraints primaryKey='true'/>
+			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)'
+				defaultValue='--'>
+				<constraints primaryKey='true' />
 			</column>
 			<column name='OBJ_ID' type='VARCHAR2(36)'>
 				<constraints nullable='false' />

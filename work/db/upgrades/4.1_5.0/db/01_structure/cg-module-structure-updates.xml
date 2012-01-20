@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='KFS50' id='CreateTable_ca_icr_acct_t' failOnError='true'>
+  <changeSet author='KFS50' id='CreateTable_ca_icr_acct_t'>
     <comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
     <createTable tableName='CA_ICR_ACCT_T'>
       <column name='CA_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)' defaultValueNumeric='0'>
@@ -53,7 +53,7 @@
 	  	<sql>ALTER TABLE ca_icr_acct_seq AUTO_INCREMENT=10000</sql>
   	</changeSet>
   	
-  <changeSet author='KFS50' id='CreateTable_ca_a21_icr_acct_t' failOnError='true'>
+  <changeSet author='KFS50' id='CreateTable_ca_a21_icr_acct_t'>
     <comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
     <createTable tableName='CA_A21_ICR_ACCT_T'>
       <column name='CA_A21_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)' defaultValueNumeric='0'>

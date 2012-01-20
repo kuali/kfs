@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema
 -instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchang
 elog/dbchangelog-1.9.xsd'>
-  <changeSet author='kfs50' id='KFS_50_Data_AST_PMT_DST_CD' failOnError='true'>
+  <changeSet author='kfs50' id='KFS_50_Data_AST_PMT_DST_CD'>
     <comment>KFSMI-KFSMI-5998 </comment>
    <insert tableName='CM_AST_PMT_DST_CD_T'>
       <column name='AST_PMT_DST_CD' value='1' />

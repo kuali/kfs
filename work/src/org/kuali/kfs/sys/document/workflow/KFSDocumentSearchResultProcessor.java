@@ -50,48 +50,48 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
      * 
      * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#generateSearchResult(org.kuali.rice.kew.docsearch.DocSearchDTO, java.util.List)
      */
-    @Override
-    public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
-        DocumentSearchResult docSearchResult = super.generateSearchResult(docCriteriaDTO, columns);
-        
-        //do not mask the purapDocumentIdentifier field if the document is not PO or POSP..
-        if (!KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER.equalsIgnoreCase(docCriteriaDTO.getDocTypeName()) &&
-                !KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_SPLIT.equalsIgnoreCase(docCriteriaDTO.getDocTypeName())) {
-            return docSearchResult;
-        }
-        
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        
-        for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
-            if (keyValueSort.getkey().equalsIgnoreCase(KFSPropertyConstants.PURAP_DOC_ID)) {
-                //KFSMI-4576 masking PO number...
-                String docStatus = docCriteriaDTO.getDocRouteStatusCode();
-                if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
-                    //if document status is not FINAL then check for permission to see
-                    //the value needs to be masked....
-                    String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-                    String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
-                    String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
-                    
-                    AttributeSet roleQualifiers = new AttributeSet();
-                    
-                    AttributeSet permissionDetails = new AttributeSet();
-                    permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
-                    permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
-                    
-                    Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-                    //the principalId is not authorized to view the value in purapDocumentIdentifier field...so mask the value...
-                    if (!isAuthorized) {
-                        //not authorized to see... create a string 
-                        keyValueSort.setvalue("********");
-                        keyValueSort.setSortValue("********");
-                    }
-                }
-            }
-        }
-        
-        return docSearchResult;
-    }
+ //   @Override
+ //   public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
+ //       DocumentSearchResult docSearchResult = super.generateSearchResult(docCriteriaDTO, columns);
+ //       
+ //       //do not mask the purapDocumentIdentifier field if the document is not PO or POSP..
+ //       if (!KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER.equalsIgnoreCase(docCriteriaDTO.getDocTypeName()) &&
+ //               !KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_SPLIT.equalsIgnoreCase(docCriteriaDTO.getDocTypeName())) {
+ //           return docSearchResult;
+ //       }
+ //       
+ //       IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+ //       
+ //       for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
+ //           if (keyValueSort.getkey().equalsIgnoreCase(KFSPropertyConstants.PURAP_DOC_ID)) {
+ //               //KFSMI-4576 masking PO number...
+ //               String docStatus = docCriteriaDTO.getDocRouteStatusCode();
+ //               if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+ //                   //if document status is not FINAL then check for permission to see
+ //                   //the value needs to be masked....
+ //                   String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+ //                   String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
+ //                   String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
+ //                   
+ //                   AttributeSet roleQualifiers = new AttributeSet();
+ //                   
+ //                   AttributeSet permissionDetails = new AttributeSet();
+ //                   permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
+ //                   permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
+ //                   
+ //                   Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
+ //                   //the principalId is not authorized to view the value in purapDocumentIdentifier field...so mask the value...
+ //                   if (!isAuthorized) {
+ //                       //not authorized to see... create a string 
+ //                       keyValueSort.setvalue("********");
+ //                       keyValueSort.setSortValue("********");
+ //                   }
+ //               }
+ //           }
+ //       }
+ //       
+ //       return docSearchResult;
+ //   }
     
     @Override
     public List<Column> constructColumnList(DocSearchCriteriaDTO criteria,List<DocSearchDTO> docSearchResultRows) {

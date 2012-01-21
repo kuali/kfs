@@ -20,7 +20,7 @@ import org.kuali.kfs.sys.document.workflow.DataDictionaryDocumentSearchCustomize
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kns.util.MessageMap;
 
-public class PurchaseOrderWarningSearchGenerator extends DataDictionaryDocumentSearchCustomizer {
+public class PurchaseOrderWarningSearchGenerator extends PurAPDataDictionaryDocumentSearchCustomizer {
     /**
      * @see org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer#getMessageMap(org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO)
      */

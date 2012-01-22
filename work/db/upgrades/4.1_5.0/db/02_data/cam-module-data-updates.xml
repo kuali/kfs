@@ -1,54 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-  <changeSet author="kfs50" id="KFS_50_Data_AST_PMT_DST_CD">
-    <comment>KFSMI-KFSMI-5998 </comment>
-   <insert tableName="CM_AST_PMT_DST_CD_T">
-      <column name="AST_PMT_DST_CD" value="1" />
-      <column name="OBJ_ID" valueNumeric="SYS_GUID" />
-      <column name="VER_NBR" valueNumeric="1" />
-      <column name="AST_PMT_DST_NM" value="Distribute cost by amount" />
-      <column name="AST_PMT_DST_COL_NM" value="Allocate Amount" />
-      <column name="AST_PMT_DST_EDT" value="Y" />
-      <column name="ROW_ACTV_IND" value="Y" />
-    </insert>
-    <insert tableName="CM_AST_PMT_DST_CD_T">
-      <column name="AST_PMT_DST_CD" value="2" />
-      <column name="OBJ_ID" valueNumeric="SYS_GUID" />
-      <column name="VER_NBR" valueNumeric="1" />
-      <column name="AST_PMT_DST_NM" value="Distribute cost evenly" />
-      <column name="AST_PMT_DST_COL_NM" value="Allocated" />
-      <column name="AST_PMT_DST_EDT" value="N" />
-      <column name="ROW_ACTV_IND" value="Y" />
-    </insert>
-    <insert tableName="CM_AST_PMT_DST_CD_T">
-      <column name="AST_PMT_DST_CD" value="3" />
-      <column name="OBJ_ID" valueNumeric="SYS_GUID" />
-      <column name="VER_NBR" valueNumeric="1" />
-      <column name="AST_PMT_DST_NM" value="Distribute cost by total cost" />
-      <column name="AST_PMT_DST_COL_NM" value="Allocated" />
-      <column name="AST_PMT_DST_EDT" value="N" />
-      <column name="ROW_ACTV_IND" value="Y" />
-    </insert>
-    <insert tableName="CM_AST_PMT_DST_CD_T">
-      <column name="AST_PMT_DST_CD" value="4" />
-      <column name="OBJ_ID" valueNumeric="SYS_GUID" />
-      <column name="VER_NBR" valueNumeric="1" />
-      <column name="AST_PMT_DST_NM" value="Distribute cost by percentage" />
-      <column name="AST_PMT_DST_COL_NM" value="Allocate Percentage" />
-      <column name="AST_PMT_DST_EDT" value="Y" />
-      <column name="ROW_ACTV_IND" value="Y" />
-    </insert>
-    <modifySql dbms="mysql">
-      <replace replace="SYS_GUID" with="uuid()" />
-    </modifySql>
-    <modifySql dbms="oracle">
-      <replace replace="SYS_GUID" with="sys_guid()" />
-    </modifySql>
-  </changeSet>
-	<changeSet author="kfs50" id="KFS_50_Data_CM_CPTLAST_T_oracle" context="manualRun"
-		dbms="oracle">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+	<changeSet author="kfs50" id="KFS_50_Data_AST_PMT_DST_CD">
+		<comment>KFSMI-KFSMI-5998 </comment>
+		<insert tableName="CM_AST_PMT_DST_CD_T">
+			<column name="AST_PMT_DST_CD" value="1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="AST_PMT_DST_NM" value="Distribute cost by amount" />
+			<column name="AST_PMT_DST_COL_NM" value="Allocate Amount" />
+			<column name="AST_PMT_DST_EDT" value="Y" />
+			<column name="ROW_ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CM_AST_PMT_DST_CD_T">
+			<column name="AST_PMT_DST_CD" value="2" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="AST_PMT_DST_NM" value="Distribute cost evenly" />
+			<column name="AST_PMT_DST_COL_NM" value="Allocated" />
+			<column name="AST_PMT_DST_EDT" value="N" />
+			<column name="ROW_ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CM_AST_PMT_DST_CD_T">
+			<column name="AST_PMT_DST_CD" value="3" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="AST_PMT_DST_NM" value="Distribute cost by total cost" />
+			<column name="AST_PMT_DST_COL_NM" value="Allocated" />
+			<column name="AST_PMT_DST_EDT" value="N" />
+			<column name="ROW_ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CM_AST_PMT_DST_CD_T">
+			<column name="AST_PMT_DST_CD" value="4" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="AST_PMT_DST_NM" value="Distribute cost by percentage" />
+			<column name="AST_PMT_DST_COL_NM" value="Allocate Percentage" />
+			<column name="AST_PMT_DST_EDT" value="Y" />
+			<column name="ROW_ACTV_IND" value="Y" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms="oracle">
+			<replace replace="SYS_GUID" with="sys_guid()" />
+		</modifySql>
+	</changeSet>
+	<changeSet author="kfs50" id="KFS_50_Data_CM_CPTLAST_T_oracle"
+		context="manualRun" dbms="oracle">
 		<comment>KFSMI-6628 sql script to correct Total Costs in the Asset Detail Tab</comment>
-		<sql>
+		<sql><![CDATA[
 			update cm_cptlast_t set cptlast_totcst_amt = (select
 			sum(acct_charge_amt)
 			from cm_ast_payment_t s where
@@ -63,12 +65,12 @@
 			where ast_nbr = t.cptlast_nbr
 			and pmt_sum <>
 			t.cptlast_totcst_amt));
-		</sql>
+		]]></sql>
 	</changeSet>
-	<changeSet author="kfs50" id="KFS_50_Data_CM_CPTLAST_T_MySQL" context="manualRun"
-		dbms="mysql">
+	<changeSet author="kfs50" id="KFS_50_Data_CM_CPTLAST_T_MySQL"
+		context="manualRun" dbms="mysql">
 		<comment>KFSMI-6628 sql script to correct Total Costs in the Asset Detail Tab</comment>
-		<sql>
+		<sql><![CDATA[
 			update CM_CPTLAST_T as T5
 			INNER JOIN
 			(select * from cm_cptlast_t as T2, (select sum(s.acct_charge_amt) pmt_sum,
@@ -80,7 +82,7 @@
 			T5.cptlast_nbr)
 			set T5.cptlast_totcst_amt = (select sum(acct_charge_amt) from
 			CM_AST_PAYMENT_T as s where s.cptlast_nbr=T5.cptlast_nbr)
-		</sql>
+		]]></sql>
 	</changeSet>
 
 </databaseChangeLog>

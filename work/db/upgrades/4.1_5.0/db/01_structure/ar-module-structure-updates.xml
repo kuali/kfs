@@ -8,14 +8,13 @@
 
 	<createTable tableName="AR_CUST_BILLING_STMT_T">
 		<column name='cust_nbr' type='VARCHAR2(9)' />
-		<column name='cust_nbr' type='VARCHAR2(9)' />
 		<column name='prev_billed_amt' type='NUMBER(19,2)' />
 		<column name='reported' type='DATETIME' />
 	</createTable>
 
 
 	<modifySql dbms='mysql'>
-		<replace replace='varchar2' with='varchar' />
+		<replace replace='VARCHAR2' with='VARCHAR' />
 		<replace replace='NUMBER' with='DECIMAL' />
 	</modifySql>
 </changeSet>

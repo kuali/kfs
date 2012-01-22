@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='kfs50' id='KFS_50_CreateTable_AST_PMT_DST_CD'>
-    <comment>KFSMI-KFSMI-5998 </comment>
-    <createTable tableName="CM_AST_PMT_DST_CD_T">
-      <column name="AST_PMT_DST_CD" type="VARCHAR2(1)">
-      <constraints primaryKey="true" nullable="false"/>
-      </column>
-      <column name="OBJ_ID" type="VARCHAR2(36)">
-      <constraints nullable="false" />
-      </column>
-      <column name="ver_nbr" type="NUMBER(8)">
-      <constraints nullable="false" />
-      </column>
-      <column name="AST_PMT_DST_NM" type="VARCHAR2(40)">
-      <constraints nullable="false" />
-      </column>
-      <column name="AST_PMT_DST_COL_NM" type="VARCHAR2(40)">
-      <constraints nullable="false" />
-      </column>
-      <column name="AST_PMT_DST_EDT" type="VARCHAR2(1)" >
-      <constraints nullable="false" />
-      </column>
-      <column name="ROW_ACTV_IND" type="VARCHAR2(1)" >
-      <constraints nullable="false" />
-      </column>
-    </createTable>
+<changeSet author='kfs50' id='KFS_50_CreateTable_AST_PMT_DST_CD'>
+ <comment>KFSMI-KFSMI-5998 </comment>
+ <createTable tableName="CM_AST_PMT_DST_CD_T">
+  <column name="AST_PMT_DST_CD" type="VARCHAR2(1)">
+  <constraints primaryKey="true" nullable="false"/>
+  </column>
+  <column name="OBJ_ID" type="VARCHAR2(36)">
+  <constraints nullable="false" />
+  </column>
+  <column name="ver_nbr" type="NUMBER(8)">
+  <constraints nullable="false" />
+  </column>
+  <column name="AST_PMT_DST_NM" type="VARCHAR2(40)">
+  <constraints nullable="false" />
+  </column>
+  <column name="AST_PMT_DST_COL_NM" type="VARCHAR2(40)">
+  <constraints nullable="false" />
+  </column>
+  <column name="AST_PMT_DST_EDT" type="VARCHAR2(1)" >
+  <constraints nullable="false" />
+  </column>
+  <column name="ROW_ACTV_IND" type="VARCHAR2(1)" >
+  <constraints nullable="false" />
+  </column>
+ </createTable>
 
-   <addColumn tableName="cm_ast_pmt_ast_dtl_t">
-      <column name="CPTLAST_ALLOC_AMT" type="NUMBER(19,2)" defaultValueNumeric="0">
-        <constraints nullable="false" />
+ <addColumn tableName="cm_ast_pmt_ast_dtl_t">
+  <column name="CPTLAST_ALLOC_AMT" type="NUMBER(19,2)" defaultValueNumeric="0">
+   <constraints nullable="false" />
+   </column>
 	<column name="CPTLAST_ALLOC_VAL" type="NUMBER(19,2)">
-        <constraints nullable="false" />
-      </column>
-	<column name="CPTLAST_ALLOC_VAL_PCT" type="NUMBER(19,6)">
-      </column>
-   </addColumn>
+   <constraints nullable="false" />
+  </column>
+	<column name="CPTLAST_ALLOC_VAL_PCT" type="NUMBER(19,6)"/>
+</addColumn>
 
-    <addColumn tableName="cm_ast_pmt_doc_t">
-      <column name="AST_PMT_DST_CD" type="VARCHAR2(2)" defaultValue="2">
-        <constraints nullable="false" />
-      </column>
-    </addColumn>
+ <addColumn tableName="cm_ast_pmt_doc_t">
+  <column name="AST_PMT_DST_CD" type="VARCHAR2(2)" defaultValue="2">
+   <constraints nullable="false" />
+  </column>
+ </addColumn>
 
-Ï <comment>KFSMI-KFSMI-6889 Extend the column size for CPTLAST_DESC field </comment>
+ <comment>KFSMI-KFSMI-6889 Extend the column size for CPTLAST_DESC field </comment>
     <modifyColumn tableName="CB_PRTG_T">
       <column name="CPTLAST_TOPS_DESC" type="VARCHAR2(4000))" />
     </modifyColumn>
@@ -99,13 +99,13 @@
       <column name="YEAR_END_DEPR_DTL_PROC_IND" type="VARCHAR2(1)"/>
     </createTable>
     
-    <modifySql dbms="mysql">
-      <replace replace="SYS_GUID" with="uuid()" />
+ <modifySql dbms="mysql">
+  <replace replace="SYS_GUID" with="uuid()" />
  	  <replace replace="VARCHAR2" with="VARCHAR" />
  	  <replace replace="NUMBER" with="DECIMAL" />
-    </modifySql>
-    <modifySql dbms="oracle">
-      <replace replace="SYS_GUID" with="sys_guid()" />
-    </modifySql>
-  </changeSet>
+ </modifySql>
+ <modifySql dbms="oracle">
+  <replace replace="SYS_GUID" with="sys_guid()" />
+ </modifySql>
+</changeSet>
 </databaseChangeLog>

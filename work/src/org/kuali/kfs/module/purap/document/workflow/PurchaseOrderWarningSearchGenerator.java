@@ -16,13 +16,14 @@
 package org.kuali.kfs.module.purap.document.workflow;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.krad.workflow.attribute.DataDictionaryDocumentSearchCustomizer;
 import org.kuali.rice.krad.util.MessageMap;
-// rice20  undefined class
 public class PurchaseOrderWarningSearchGenerator extends DataDictionaryDocumentSearchCustomizer {
 
 
-    public MessageMap getMessageMap(DocSearchCriteriaDTO searchCriteria) {
+    public MessageMap getMessageMap(DocumentSearchCriteria searchCriteria) {
+        //RICE20 no replacement for getMessageMap. can this be removed?
         MessageMap messageMap = super.getMessageMap(searchCriteria);
         if (messageMap == null) {
             messageMap = new MessageMap();

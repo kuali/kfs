@@ -26,6 +26,8 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.ksb.api.registry.ServiceInfo;
+import org.kuali.rice.ksb.api.registry.ServiceRegistry;
 
 public abstract class KfsService extends Service {
     protected static final Logger LOG = Logger.getLogger(KfsService.class);
@@ -42,15 +44,13 @@ public abstract class KfsService extends Service {
         URL url = null;
         String webServiceServer =  getWebServiceServerName();
 
-        //FIXME KC needs to get the services exposed and working on the KSB for this to work
-        //RICE20 needs service exposed
         if (webServiceServer == null) {
             // look for service on the KSB registry
             ServiceRegistry serviceRegistry = SpringContext.getBean(ServiceRegistry.class);
-            List<ServiceInfo> wsdlServices = serviceRegistry.fetchActiveByName(qname);
+            List<ServiceInfo> wsdlServices = serviceRegistry.getOnlineServicesByName(qname);
             if (wsdlServices.size() > 0 ) {
                 ServiceInfo serviceInfo = wsdlServices.get(0);
-                String wsdlName = serviceInfo.getActualEndpointUrl() + "?wsdl";
+                String wsdlName = serviceInfo.getEndpointUrl() + "?wsdl";
                 url = new URL(wsdlName);
             }
         } else {

@@ -24,10 +24,11 @@
 	</changeSet>
 
 	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_T">
+	<!-- 
 		<comment>KFSMI-6720</comment>
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T"
 			newTableName="FP_PRCRMNT_CARD_TRN_MT" />
-
+	 -->
 		<comment>KFSMI-7021, 5999</comment>
 		<createTable tableName="FP_CPTL_AST_INFO_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)">

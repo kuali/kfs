@@ -24,11 +24,6 @@
 	</changeSet>
 
 	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_T">
-	<!-- 
-		<comment>KFSMI-6720</comment>
-		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T"
-			newTableName="FP_PRCRMNT_CARD_TRN_MT" />
-	 -->
 		<comment>KFSMI-7021, 5999</comment>
 		<createTable tableName="FP_CPTL_AST_INFO_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)">
@@ -191,18 +186,7 @@
 		</modifySql>
 	</changeSet>
 
-<!--
-	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_Ta" dbms="oracle">
-		<comment>KFSMI-6720</comment>
-		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ"
-			newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ" />
-	</changeSet>
-	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_Tb" dbms="mysql">
-		<comment>KFSMI-6720</comment>
-		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ"
-			newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ" />
-	</changeSet>
-  -->
+
 	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_Oracle'
 		dbms="oracle">
 		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>

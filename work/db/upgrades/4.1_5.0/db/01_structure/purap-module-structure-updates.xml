@@ -26,7 +26,7 @@
 		</addColumn>
 		<update tableName="pur_po_trns_mthd_t">
 			<column name="DISPLAY_TO_USER_IND" value="N" />
-			<where>property='ELEC'</where>
+			<where>PO_TRNS_MTHD_CD='ELEC'</where>
 		</update>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />

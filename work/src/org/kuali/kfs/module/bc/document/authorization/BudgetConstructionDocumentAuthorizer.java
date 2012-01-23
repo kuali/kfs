@@ -35,7 +35,7 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
      *      java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
 
         BudgetConstructionDocument document = (BudgetConstructionDocument) businessObject;

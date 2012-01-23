@@ -161,7 +161,6 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#getFundingAwareObjectName()
      */
-    @Override
     protected String getFundingAwareObjectName() {
         return BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT;
     }

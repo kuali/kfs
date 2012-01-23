@@ -31,7 +31,7 @@ public class BudgetConstructionDocumentPresentationController extends FinancialS
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) document;
 
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
@@ -44,7 +44,7 @@ public class BudgetConstructionDocumentPresentationController extends FinancialS
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canReload(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canReload(Document document) {
+    public boolean canReload(Document document) {
         return false;
     }
 
@@ -52,7 +52,7 @@ public class BudgetConstructionDocumentPresentationController extends FinancialS
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canSave(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) document;
 
         return SpringContext.getBean(BudgetDocumentService.class).isAccountReportsExist(bcDocument.getChartOfAccountsCode(), bcDocument.getAccountNumber()) && SpringContext.getBean(FiscalYearFunctionControlService.class).isBudgetUpdateAllowed(bcDocument.getUniversityFiscalYear());

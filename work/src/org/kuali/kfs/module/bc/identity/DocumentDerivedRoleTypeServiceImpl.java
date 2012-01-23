@@ -197,4 +197,14 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         // TODO Auto-generated method stub
         return null;
     }
+
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String, String> qualification) throws RiceIllegalArgumentException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<RoleMembership> sortRoleMembers(List<RoleMembership> roleMembers) throws RiceIllegalArgumentException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

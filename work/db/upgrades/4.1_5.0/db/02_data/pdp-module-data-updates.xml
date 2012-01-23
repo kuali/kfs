@@ -3,8 +3,8 @@
   <changeSet author='KFS50' id='PDP_PMT_CHG_CD_T'>
     <comment>KFSMI-KFSMI-6802 Need to create new PaymentChangeCode</comment>
     <insert tableName='PDP_PMT_CHG_CD_T'>
-      <column name='PMT_CHG_CD' valueNumeric='RC' />
-      <column name='PMT_CHG_CD_DESC' valueNumeric='REISSUE CANCEL' />
+      <column name='PMT_CHG_CD' value='RC' />
+      <column name='PMT_CHG_CD_DESC' value='REISSUE CANCEL' />
       <column name='VER_NBR' valueNumeric='0' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
     </insert>

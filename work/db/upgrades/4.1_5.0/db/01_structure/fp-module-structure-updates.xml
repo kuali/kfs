@@ -191,6 +191,7 @@
 		</modifySql>
 	</changeSet>
 
+<!--
 	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_Ta" dbms="oracle">
 		<comment>KFSMI-6720</comment>
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ"
@@ -201,7 +202,7 @@
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ"
 			newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ" />
 	</changeSet>
-
+  -->
 	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_Oracle'
 		dbms="oracle">
 		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>

@@ -1853,7 +1853,8 @@
         </property>
     </bean>
     
- 	<bean id="ldBenefitsCalculationLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.BenefitsCalculationLookupableHelperServiceImpl" scope="prototype">
+    <bean id="ldBenefitsCalculationLookupableHelperService" parent="ldBenefitsCalculationLookupableHelperService-parentBean" scope="prototype" />
+ 	<bean id="ldBenefitsCalculationLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.BenefitsCalculationLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

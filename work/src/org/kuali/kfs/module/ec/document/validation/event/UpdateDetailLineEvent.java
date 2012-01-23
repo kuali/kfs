@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ec.document.validation.event;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.validation.UpdateDetailLineRule;
-import org.kuali.rice.krad.rule.BusinessRule;
-import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 
 public class UpdateDetailLineEvent extends KualiDocumentEventBase {
     private EffortCertificationDocument effortCertificationDocument;

@@ -193,7 +193,7 @@ public class ReportingLoadTest extends KualiTestBase {
     }
     
     private String getOutputPathAndFileName() {
-        String reportsDirectory = kualiConfigService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
+        String reportsDirectory = kualiConfigService.getPropertyValueAsString(KFSConstants.REPORTS_DIRECTORY_KEY);
         StringBuilder fileName = new StringBuilder();
         fileName.append(reportsDirectory + File.separator);
         fileName.append(ArConstants.Lockbox.LOCKBOX_REPORT_SUBFOLDER + File.separator);

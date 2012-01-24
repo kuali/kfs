@@ -36,6 +36,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 import org.kuali.rice.krad.rules.rule.RouteDocumentRule;
 import org.kuali.rice.krad.rules.rule.SaveDocumentRule;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
@@ -105,7 +106,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
      * @return an instance of a BusinessRule of the same type as the businessRuleClass parameter
      * @throws Exception
      */
-    public static <T extends BusinessRule> T getBusinessRule(Class<? extends AccountingDocument> documentClass, Class<T> businessRuleClass) throws Exception {
+    public static <T extends org.kuali.rice.krad.rules.rule.BusinessRule> T getBusinessRule(Class<? extends AccountingDocument> documentClass, Class<T> businessRuleClass) throws Exception {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         final String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(documentClass);
         T businessRule = (T) dataDictionaryService.getDataDictionary().getDocumentEntry(documentTypeName).getBusinessRulesClass().newInstance();

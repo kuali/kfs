@@ -52,7 +52,7 @@ import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.exception.InfrastructureException;
-import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 

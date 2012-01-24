@@ -40,6 +40,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Test class for testing <code>{@link ItemParser}</code>
@@ -108,7 +109,7 @@ public class ItemParserTest extends KualiTestBase {
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;
         String errorKey = ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
         assertTrue(GlobalVariables.getMessageMap().containsMessageKey(errorKey));
-        ArrayList params = GlobalVariables.getMessageMap().getMessages(errorPath);
+        AutoPopulatingList<ErrorMessage> params = GlobalVariables.getMessageMap().getMessages(errorPath);
         for (int i=0; i<params.size(); i++) {
             ErrorMessage errmsg = (ErrorMessage)params.get(i);
             if (errmsg.getErrorKey().equals(errorKey)) {

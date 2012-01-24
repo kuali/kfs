@@ -55,7 +55,7 @@ public class KualiModuleServiceTest extends KualiTestBase {
             if ( namespaceCode.equals( KFSConstants.ParameterNamespaces.GL ) ) {
                 glFound = true;
             }
-            if ( namespaceCode.equals( KRADConstants.KNS_NAMESPACE ) ) {
+            if ( namespaceCode.equals( KRADConstants.KRAD_NAMESPACE ) ) {
                 riceKnsFound = true;
             }
             if ( namespaceCode.equals( KimConstants.NAMESPACE_CODE ) ) {
@@ -70,7 +70,7 @@ public class KualiModuleServiceTest extends KualiTestBase {
         }
         // TODO: constants in Rice do not match the namespaces used in the configuration
         // so commenting out for now until the codes have stabilized
-        assertTrue( "Unable to find " + KRADConstants.KNS_NAMESPACE + " module in installed modules list", riceKnsFound );
+        assertTrue( "Unable to find " + KRADConstants.KRAD_NAMESPACE + " module in installed modules list", riceKnsFound );
         assertTrue( "Unable to find " + KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE + " module in installed modules list", riceKewFound );
         assertTrue( "Unable to find " + KimConstants.NAMESPACE_CODE + " module in installed modules list", riceKimFound );
         assertTrue( "Unable to find " + KRADConstants.KUALI_RICE_SERVICE_BUS_NAMESPACE + " module in installed modules list", riceKsbFound );

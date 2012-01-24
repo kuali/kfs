@@ -55,7 +55,7 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     
     public void testRegionalBudgetManagerQualifications() {
         List<Map<String,String>> roleQualifiers = 
-                roleService.getRoleQualifiersForPrincipalIncludingNested(
+                roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(
                         regionalBudgetManager.getPrincipalId(), 
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, 
                         BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, 
@@ -69,7 +69,7 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
 
     public void testUABudgetManagerQualifications() {
         List<Map<String,String>> roleQualifiers = 
-                roleService.getRoleQualifiersForPrincipalIncludingNested(
+                roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(
                         universityAdministrationBudgetManager.getPrincipalId(), 
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, 
                         BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, 
@@ -83,7 +83,7 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
 
     public void testBothBudgetManagerQualifications() {
         List<Map<String,String>> roleQualifiers = 
-                roleService.getRoleQualifiersForPrincipalIncludingNested(
+                roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(
                         bothManager.getPrincipalId(), 
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, 
                         BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, 
@@ -97,7 +97,7 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     
     public void testNonProcessorQualifications() {
         List<Map<String,String>> roleQualifiers = 
-                roleService.getRoleQualifiersForPrincipalIncludingNested(
+                roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(
                         nonProcessor.getPrincipalId(), 
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, 
                         BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, 

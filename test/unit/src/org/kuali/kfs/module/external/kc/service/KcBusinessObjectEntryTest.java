@@ -44,11 +44,11 @@ public class KcBusinessObjectEntryTest extends KualiTestBase {
     }
     
     public void testBOEntry(){
-        BusinessObjectEntry boe1 = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.module.external.kc.businessobject.AwardAccount");
-        BusinessObjectEntry boe2 = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.module.cg.businessobject.AwardAccount");
-        BusinessObjectEntry boe3 = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.integration.cg.businessobject.AwardAccount");
-        BusinessObjectEntry boe4 = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.module.external.kc.businessobject.Award");
-        BusinessObjectEntry boe5 = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.module.external.kc.businessobject.UnitDTO");
+        BusinessObjectEntry boe1 = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.module.external.kc.businessobject.AwardAccount");
+        BusinessObjectEntry boe2 = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.module.cg.businessobject.AwardAccount");
+        BusinessObjectEntry boe3 = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.integration.cg.businessobject.AwardAccount");
+        BusinessObjectEntry boe4 = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.module.external.kc.businessobject.Award");
+        BusinessObjectEntry boe5 = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry("org.kuali.kfs.module.external.kc.businessobject.UnitDTO");
         
         System.out.print("done");
     }

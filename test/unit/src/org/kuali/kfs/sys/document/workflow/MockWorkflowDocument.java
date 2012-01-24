@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.document.workflow;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.rice.core.api.uif.RemotableAttributeErrorContract;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.ActionRequestType;
@@ -329,7 +329,7 @@ public abstract class MockWorkflowDocument implements WorkflowDocument {
      * @see org.kuali.rice.kew.api.WorkflowDocument#validateAttributeDefinition(org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition)
      */
     @Override
-    public List<? extends RemotableAttributeErrorContract> validateAttributeDefinition(WorkflowAttributeDefinition attributeDefinition) {
+    public List<? extends RemotableAttributeError> validateAttributeDefinition(WorkflowAttributeDefinition attributeDefinition) {
         // TODO Auto-generated method stub
         return null;
     }

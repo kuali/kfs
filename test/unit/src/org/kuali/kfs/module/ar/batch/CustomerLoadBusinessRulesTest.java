@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
@@ -30,6 +31,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 @ConfigureContext(session = khuntley)
 public class CustomerLoadBusinessRulesTest extends KualiTestBase {
@@ -74,10 +76,10 @@ public class CustomerLoadBusinessRulesTest extends KualiTestBase {
             return;
         }
 
-        Set<String> errorMapKeys = GlobalVariables.getMessageMap().keySet();
-        ArrayList<ErrorMessage> errorMapEntry;
+        Set<String> errorMapKeys = ((Map<String, String>) GlobalVariables.getMessageMap()).keySet();
+        AutoPopulatingList<ErrorMessage> errorMapEntry;
         for (String errorMapKey : errorMapKeys) {
-            errorMapEntry = (ArrayList<ErrorMessage>) GlobalVariables.getMessageMap().get(errorMapKey);
+            errorMapEntry = (AutoPopulatingList<ErrorMessage>) (GlobalVariables.getMessageMap()).getMessages(errorMapKey);
             for (ErrorMessage errorMessage : errorMapEntry) {
                 
                 if (errorMessage.getMessageParameters() == null) {

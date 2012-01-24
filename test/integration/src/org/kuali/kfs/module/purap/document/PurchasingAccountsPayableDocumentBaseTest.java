@@ -21,6 +21,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -32,7 +33,7 @@ public class PurchasingAccountsPayableDocumentBaseTest extends KualiTestBase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setMessageList(new MessageList());
+        KNSGlobalVariables.setMessageList(new MessageList());
         purapDoc = new PurchaseOrderDocument();
         currentFY = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     }

@@ -43,6 +43,7 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemPreCalculateEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
@@ -50,8 +51,10 @@ import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.module.purap.util.UseTaxContainer;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -739,7 +742,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         if ((document instanceof PaymentRequestDocument) && PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             // update the accounts amounts for PREQ and distribution method = sequential
             for (PurApItem item : document.getItems()) {
-                updatePreqItemAccountAmounts(item);
+                boolean rulePassed = true;
+                // check any business rules
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
+
+            //    if (rulePassed) {
+                    updatePreqItemAccountAmounts(item);
+            //    }
             }
             
             return;
@@ -749,18 +758,28 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         if ((document instanceof PaymentRequestDocument) && PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             // update the accounts amounts for PREQ and distribution method = sequential
             for (PurApItem item : document.getItems()) {
-                updatePreqProportionalItemAccountAmounts(item);
+                boolean rulePassed = true;
+                // check any business rules
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
+
+             //   if (rulePassed) {
+                    updatePreqProportionalItemAccountAmounts(item);
+             //   }
             }
             
             return;
         }
         
-        
-        
         //do recalculate only if the account distribution method code is not equal to "S" sequential. 
         if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
-                updateItemAccountAmounts(item);
+                boolean rulePassed = true;
+                // check any business rules
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
+
+                if (rulePassed) {
+                    updateItemAccountAmounts(item);
+                }
             }
         }
     }
@@ -771,7 +790,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public void updateItemAccountAmounts(PurApItem item) {
         List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
         KualiDecimal totalAmount = item.getTotalAmount();
-
         updateAccountAmountsWithTotal(sourceAccountingLines, totalAmount);
     }
 
@@ -900,7 +918,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
         KualiDecimal totalAmount = item.getTotalAmount();
 
-        updatePreqProporationalAccountAmountsWithTotal(sourceAccountingLines, totalAmount);
+        updatePreqAccountAmountsWithTotal(sourceAccountingLines, totalAmount);
     }
     
     /**

@@ -715,7 +715,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         PurApItem pOItem = getPOItem(pOItems, preqItem.getItemLineNumber());
         if (ObjectUtils.isNotNull(pOItem)) {
-            preqItem.setItemUnitPrice(pOItem.getItemUnitPrice());
+         //   preqItem.setItemUnitPrice(pOItem.getItemUnitPrice());
             List <PurApAccountingLine> preqAccountingLines = preqItem.getSourceAccountingLines();
             for (PurApAccountingLine lineAcct : preqAccountingLines) {
                 updateItemAccountLine(pOItem, lineAcct);                

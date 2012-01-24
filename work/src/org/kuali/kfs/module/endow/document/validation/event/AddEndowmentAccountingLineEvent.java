@@ -18,8 +18,8 @@ package org.kuali.kfs.module.endow.document.validation.event;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
 import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument;
 import org.kuali.kfs.module.endow.document.validation.AddEndowmentAccountingLineRule;
-import org.kuali.rice.krad.rule.BusinessRule;
-import org.kuali.rice.krad.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 
 public class AddEndowmentAccountingLineEvent extends KualiDocumentEventBase {
     private EndowmentAccountingLine line;

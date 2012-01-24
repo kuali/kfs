@@ -18,8 +18,10 @@ package org.kuali.kfs.module.purap.document.validation.event;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.validation.PurchasingAccountsPayableItemPreCalculationRule;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
@@ -27,7 +29,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
  * 
  * contains the base methods for item events
  */
-public class PurchasingAccountsPayableItemPreCalculateEvent extends KualiDocumentEventBase {
+public class PurchasingAccountsPayableItemPreCalculateEvent extends AttributedDocumentEventBase {
     private static final Logger LOG = Logger.getLogger(PurchasingAccountsPayableItemPreCalculateEvent.class);
 
     private final PurApItem item;
@@ -52,20 +54,4 @@ public class PurchasingAccountsPayableItemPreCalculateEvent extends KualiDocumen
     public PurApItem getItem() {
         return item;
     }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    @SuppressWarnings("unchecked")
-    public Class getRuleInterfaceClass() {
-        return PurchasingAccountsPayableItemPreCalculationRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((PurchasingAccountsPayableItemPreCalculationRule) rule).checkPercentOrTotalAmountsEqual(item);
-    }
-    
 }

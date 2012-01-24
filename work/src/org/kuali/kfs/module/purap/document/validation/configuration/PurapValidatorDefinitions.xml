@@ -1146,4 +1146,6 @@
 		</property>
 	</bean>
 	
+	<bean id="PurchasingAccountsPayables-itemPreCalculateValidations" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayablesItemPreCalculateValidations" abstract="true" />		
+	
 </beans>

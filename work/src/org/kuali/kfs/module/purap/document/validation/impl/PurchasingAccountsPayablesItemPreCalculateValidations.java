@@ -21,11 +21,20 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.validation.PurchasingAccountsPayableItemPreCalculationRule;
-import org.kuali.rice.kns.rules.DocumentRuleBase;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class PurchasingAccountsPayablesItemPreCalculateDocumentRule extends DocumentRuleBase implements PurchasingAccountsPayableItemPreCalculationRule {
+public class PurchasingAccountsPayablesItemPreCalculateValidations extends GenericValidation {
+    
+    private PurApItem item;
+    
+    /**
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     */
+    public boolean validate(AttributedDocumentEvent event) {
+        return this.checkPercentOrTotalAmountsEqual(item);
+    }
     
     public boolean checkPercentOrTotalAmountsEqual(PurApItem item) {
         boolean valid = true;
@@ -44,6 +53,10 @@ public class PurchasingAccountsPayablesItemPreCalculateDocumentRule extends Docu
      */
     public boolean validatePercent(PurApItem item) {
         boolean valid = true;
+        
+        if (item.getSourceAccountingLines().size() == 0) {
+            return valid;
+        }
         
         // validate that the percents total 100 for each item
         BigDecimal totalPercent = BigDecimal.ZERO;
@@ -89,5 +102,14 @@ public class PurchasingAccountsPayablesItemPreCalculateDocumentRule extends Docu
         }
 
         return valid;
+    }
+    
+    /**
+     * Sets the accountingDocumentForValidation attribute value.
+     * 
+     * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
+     */
+    public void setItem(PurApItem item) {
+        this.item = item;
     }
 }

@@ -1160,7 +1160,11 @@
 			<entry>
 				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCommodityCodesForDistributionEvent</value></key>
 				<value>Requisition-commodityCodesForDistributionValidation</value>
-			</entry>																	
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemPreCalculateEvent</value></key>
+				<value>Requisition-purchasingAccountsPayablesItemPreCalculateValidations</value>
+			</entry>
     	</map>
     </property>
   </bean> 

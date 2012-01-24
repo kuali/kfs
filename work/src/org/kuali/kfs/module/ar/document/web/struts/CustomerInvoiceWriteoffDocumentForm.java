@@ -27,9 +27,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.krad.service.DocumentHelperService;
 
 public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
     

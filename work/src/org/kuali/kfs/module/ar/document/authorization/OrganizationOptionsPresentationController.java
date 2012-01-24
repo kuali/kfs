@@ -29,7 +29,6 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.krad.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class OrganizationOptionsPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {

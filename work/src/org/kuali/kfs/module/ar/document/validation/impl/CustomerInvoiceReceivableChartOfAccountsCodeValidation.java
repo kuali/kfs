@@ -19,8 +19,8 @@ import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleB
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants.OrganizationAccountingDefaultErrors;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants.OrganizationAccountingDefaultErrors;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;

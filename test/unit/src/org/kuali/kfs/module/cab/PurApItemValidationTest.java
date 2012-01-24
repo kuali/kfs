@@ -26,6 +26,7 @@ import org.kuali.kfs.module.purap.fixture.PurchasingCapitalAssetFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -36,7 +37,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setMessageList(new MessageList());
+        KNSGlobalVariables.setMessageList(new MessageList());
         if( null == cabModuleService ) {
             cabModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
         }

@@ -55,7 +55,7 @@ public class PreAssetTaggingStepTest extends BatchTestBase {
 
         // assert the extract date value
         SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
-        assertEquals(fmt.format(currentSqlDate), findPretagExtractDateParam().getParameterValueAsString());
+        assertEquals(fmt.format(currentSqlDate), findPretagExtractDateParam().getValue());
     }
 
     private Collection<Pretag> findByPO(String poNumber) {

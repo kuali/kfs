@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.impl.parameter.ParameterServiceImpl;
+import org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl;
 
 public class PaymentSummaryServiceTest extends KualiTestBase {
 

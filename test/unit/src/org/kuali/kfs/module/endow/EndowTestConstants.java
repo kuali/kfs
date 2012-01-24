@@ -19,9 +19,8 @@ import java.math.BigDecimal;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
-import org.kuali.rice.core.util.JSTLConstants;
 
-public class EndowTestConstants extends JSTLConstants {
+public class EndowTestConstants {
     public static final KualiDecimal ZERO_AMOUNT = KualiDecimal.ZERO;
     public static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal("-1.00");
     public static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal("2.00");

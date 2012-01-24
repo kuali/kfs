@@ -109,7 +109,7 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
         Map<String,String> qualification = buildDocQualifier();
         
         // find the AR Biller Role
-        String billerRoleId = getRoleService().getRoleIdByName(AR_NAMESPACE, AR_BILLER_ROLE);
+        String billerRoleId = getRoleService().getRoleIdByNameAndNamespaceCode(AR_NAMESPACE, AR_BILLER_ROLE);
         assertNotNull("unable to find biller role", billerRoleId);
         tempRoleIdList.add( billerRoleId );
                       
@@ -117,7 +117,7 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
         assertTrue( "exact match on billing org should have passed", result );
         
         // find the AR Processor Role
-        String processorRoleId = getRoleService().getRoleIdByName(AR_NAMESPACE, AR_PROCESSOR_ROLE);
+        String processorRoleId = getRoleService().getRoleIdByNameAndNamespaceCode(AR_NAMESPACE, AR_PROCESSOR_ROLE);
         assertNotNull("unable to find processor role", processorRoleId);
         tempRoleIdList.clear();
         tempRoleIdList.add( processorRoleId );
@@ -134,7 +134,7 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
         Map<String,String> qualification = buildDocQualifier_2();
         
         // find the AR Biller Role
-        String billerRoleId = getRoleService().getRoleIdByName(AR_NAMESPACE, AR_BILLER_ROLE);
+        String billerRoleId = getRoleService().getRoleIdByNameAndNamespaceCode(AR_NAMESPACE, AR_BILLER_ROLE);
         assertNotNull("unable to find biller role", billerRoleId);
         tempRoleIdList.add( billerRoleId );
                       
@@ -142,7 +142,7 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
         assertTrue( "exact match on billing org should have passed - user has processing org, not billing org, but all processors are also billers", result );
         
         // find the AR Processor Role
-        String processorRoleId = getRoleService().getRoleIdByName(AR_NAMESPACE, AR_PROCESSOR_ROLE);
+        String processorRoleId = getRoleService().getRoleIdByNameAndNamespaceCode(AR_NAMESPACE, AR_PROCESSOR_ROLE);
         assertNotNull("unable to find processor role", processorRoleId);
         tempRoleIdList.clear();
         tempRoleIdList.add( processorRoleId );

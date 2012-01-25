@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -41,7 +41,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * 
  * @see org.kuali.kfs.vnd.businessobject.VendorContract
  */
-public class ContractManager extends PersistableBusinessObjectBase implements Inactivatable{
+public class ContractManager extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer contractManagerCode;
     private String contractManagerName;

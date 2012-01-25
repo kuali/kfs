@@ -22,14 +22,14 @@ import java.util.List;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
  * CommodityCode Business Object
  */
-public class CommodityCode extends PersistableBusinessObjectBase implements Inactivatable  {
+public class CommodityCode extends PersistableBusinessObjectBase implements MutableInactivatable  {
     
     private String purchasingCommodityCode;
     private String commodityDescription;

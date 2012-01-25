@@ -18,19 +18,19 @@ package org.kuali.kfs.vnd.businessobject;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * Campus Parameter Business Object. Maintenance document for campus parameters.
  */
-public class CampusParameter extends PersistableBusinessObjectBase implements Inactivatable {
+public class CampusParameter extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     protected String campusCode;
     protected String campusPurchasingDirectorName;
@@ -46,18 +46,16 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
     protected String purchasingDepartmentCountryCode;
     protected boolean active;
 
-    protected Campus campus;
-    protected State purchasingDepartmentState;
-    protected Country purchasingDepartmentCountry;
+    protected CampusEbo campus;
+    protected StateEbo purchasingDepartmentState;
+    protected CountryEbo purchasingDepartmentCountry;
 
-    public Campus getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
-    /**
-     * @deprecated
-     */
-    public void setCampus(Campus campus) {
+    @Deprecated
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
@@ -101,15 +99,13 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
         this.purchasingDepartmentCityName = purchasingDepartmentCityName;
     }
 
-    public Country getPurchasingDepartmentCountry() {
-        purchasingDepartmentCountry = (purchasingDepartmentCountryCode == null)?null:( purchasingDepartmentCountry == null || !StringUtils.equals( purchasingDepartmentCountry.getCode(),purchasingDepartmentCountryCode))?SpringContext.getBean(CountryService.class).getCountry(purchasingDepartmentCountryCode): purchasingDepartmentCountry;
+    public CountryEbo getPurchasingDepartmentCountry() {
+        purchasingDepartmentCountry = (purchasingDepartmentCountryCode == null)?null:( purchasingDepartmentCountry == null || !StringUtils.equals( purchasingDepartmentCountry.getCode(),purchasingDepartmentCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(purchasingDepartmentCountryCode)): purchasingDepartmentCountry;
         return purchasingDepartmentCountry;
     }
 
-    /**
-     * @deprecated
-     */
-    public void setPurchasingDepartmentCountry(Country purchasingDepartmentCountry) {
+    @Deprecated
+    public void setPurchasingDepartmentCountry(CountryEbo purchasingDepartmentCountry) {
         this.purchasingDepartmentCountry = purchasingDepartmentCountry;
     }
 
@@ -145,15 +141,15 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
         this.purchasingDepartmentName = purchasingDepartmentName;
     }
 
-    public State getPurchasingDepartmentState() {
-        purchasingDepartmentState = (StringUtils.isBlank(purchasingDepartmentCountryCode) || StringUtils.isBlank( purchasingDepartmentStateCode))?null:( purchasingDepartmentState == null || !StringUtils.equals( purchasingDepartmentState.getCountryCode(),purchasingDepartmentCountryCode)|| !StringUtils.equals( purchasingDepartmentState.getCode(), purchasingDepartmentStateCode))?SpringContext.getBean(StateService.class).getState(purchasingDepartmentCountryCode, purchasingDepartmentStateCode): purchasingDepartmentState;
+    public StateEbo getPurchasingDepartmentState() {
+        purchasingDepartmentState = (StringUtils.isBlank(purchasingDepartmentCountryCode) || StringUtils.isBlank( purchasingDepartmentStateCode))?null:( purchasingDepartmentState == null || !StringUtils.equals( purchasingDepartmentState.getCountryCode(),purchasingDepartmentCountryCode)|| !StringUtils.equals( purchasingDepartmentState.getCode(), purchasingDepartmentStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(purchasingDepartmentCountryCode, purchasingDepartmentStateCode)): purchasingDepartmentState;
         return purchasingDepartmentState;
     }
 
     /**
      * @deprecated
      */
-    public void setPurchasingDepartmentState(State purchasingDepartmentState) {
+    public void setPurchasingDepartmentState(StateEbo purchasingDepartmentState) {
         this.purchasingDepartmentState = purchasingDepartmentState;
     }
 

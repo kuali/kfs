@@ -19,7 +19,7 @@ package org.kuali.kfs.vnd.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -28,7 +28,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * 
  * @see org.kuali.kfs.vnd.businessobject.VendorContract
  */
-public class PurchaseOrderCostSource extends PersistableBusinessObjectBase implements Inactivatable{
+public class PurchaseOrderCostSource extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String purchaseOrderCostSourceCode;
     private String purchaseOrderCostSourceDescription;

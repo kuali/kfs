@@ -18,14 +18,14 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Phone Types for Vendors. These types may be based on technical distinctions, the Vendor's organization, or the phone's intended
  * purpose.
  */
-public class PhoneType extends PersistableBusinessObjectBase implements Inactivatable{
+public class PhoneType extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String vendorPhoneTypeCode;
     private String vendorPhoneTypeDescription;

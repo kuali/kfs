@@ -26,43 +26,44 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * Address to be associated with a particular Vendor.
  */
-public class VendorAddress extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivatable {
-    private static Logger LOG = Logger.getLogger(VendorAddress.class);
+public class VendorAddress extends PersistableBusinessObjectBase implements VendorRoutingComparable, MutableInactivatable {
+    private static final Logger LOG = Logger.getLogger(VendorAddress.class);
 
-    private Integer vendorAddressGeneratedIdentifier;
-    private Integer vendorHeaderGeneratedIdentifier;
-    private Integer vendorDetailAssignedIdentifier;
-    private String vendorAddressTypeCode;
-    private String vendorLine1Address;
-    private String vendorLine2Address;
-    private String vendorCityName;
-    private String vendorStateCode;
-    private String vendorZipCode;
-    private String vendorCountryCode;
-    private String vendorAttentionName;
-    private String vendorAddressInternationalProvinceName;
-    private String vendorAddressEmailAddress;
-    private String vendorBusinessToBusinessUrlAddress;
-    private String vendorFaxNumber;
-    private boolean vendorDefaultAddressIndicator;
-    private boolean active;
+    protected Integer vendorAddressGeneratedIdentifier;
+    protected Integer vendorHeaderGeneratedIdentifier;
+    protected Integer vendorDetailAssignedIdentifier;
+    protected String vendorAddressTypeCode;
+    protected String vendorLine1Address;
+    protected String vendorLine2Address;
+    protected String vendorCityName;
+    protected String vendorStateCode;
+    protected String vendorZipCode;
+    protected String vendorCountryCode;
+    protected String vendorAttentionName;
+    protected String vendorAddressInternationalProvinceName;
+    protected String vendorAddressEmailAddress;
+    protected String vendorBusinessToBusinessUrlAddress;
+    protected String vendorFaxNumber;
+    protected boolean vendorDefaultAddressIndicator;
+    protected boolean active;
 
-    private List<VendorDefaultAddress> vendorDefaultAddresses;
+    protected List<VendorDefaultAddress> vendorDefaultAddresses;
 
-    private VendorDetail vendorDetail;
-    private AddressType vendorAddressType;
-    private State vendorState;
-    private Country vendorCountry;
+    protected VendorDetail vendorDetail;
+    protected AddressType vendorAddressType;
+    protected StateEbo vendorState;
+    protected CountryEbo vendorCountry;
 
     /**
      * Default constructor.
@@ -211,8 +212,8 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
         this.vendorAddressType = vendorAddressType;
     }
 
-    public State getVendorState() {
-        vendorState = (StringUtils.isBlank(vendorCountryCode) || StringUtils.isBlank( vendorStateCode))?null:( vendorState == null || !StringUtils.equals( vendorState.getCountryCode(),vendorCountryCode)|| !StringUtils.equals( vendorState.getCode(), vendorStateCode))?SpringContext.getBean(StateService.class).getState(vendorCountryCode, vendorStateCode): vendorState;
+    public StateEbo getVendorState() {
+        vendorState = (StringUtils.isBlank(vendorCountryCode) || StringUtils.isBlank( vendorStateCode))?null:( vendorState == null || !StringUtils.equals( vendorState.getCountryCode(),vendorCountryCode)|| !StringUtils.equals( vendorState.getCode(), vendorStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(vendorCountryCode, vendorStateCode)): vendorState;
         return vendorState;
     }
 
@@ -222,12 +223,12 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
      * @param vendorState The vendorState to set.
      * @deprecated
      */
-    public void setVendorState(State vendorState) {
+    public void setVendorState(StateEbo vendorState) {
         this.vendorState = vendorState;
     }
 
-    public Country getVendorCountry() {
-        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode): vendorCountry;
+    public CountryEbo getVendorCountry() {
+        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode)): vendorCountry;
         return vendorCountry;
     }
 
@@ -237,7 +238,7 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
      * @param vendorCountry The vendorCountry to set.
      * @deprecated
      */
-    public void setVendorCountry(Country vendorCountry) {
+    public void setVendorCountry(CountryEbo vendorCountry) {
         this.vendorCountry = vendorCountry;
     }
 

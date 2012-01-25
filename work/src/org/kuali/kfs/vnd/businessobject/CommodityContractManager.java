@@ -18,13 +18,13 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CommodityContractManager extends PersistableBusinessObjectBase implements Inactivatable {
+public class CommodityContractManager extends PersistableBusinessObjectBase implements MutableInactivatable {
 
 	private String purchasingCommodityCode;
 	private String campusCode;

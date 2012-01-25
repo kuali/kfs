@@ -37,13 +37,13 @@
 			<replace replace='NUMBER' with='DECIMAL' />
 		</modifySql>
 	</changeSet>
--->
+
 	<changeSet author="KFS50" id="CA_ACCT_AUTODEF_ICR_SEQ_oracle"
 		dbms="oracle">
 		<createSequence sequenceName="CA_ACCT_AUTODEF_ICR_SEQ"
 			startValue="10000" />
 	</changeSet>
-
+-->
 	<changeSet author="KFS50" id="CA_ACCT_AUTODEF_ICR_SEQ_mysql"
 		dbms="mysql">
 		<createTable tableName="CA_ACCT_AUTODEF_ICR_SEQ">

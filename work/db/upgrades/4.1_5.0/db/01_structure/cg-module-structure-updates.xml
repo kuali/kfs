@@ -210,7 +210,7 @@ INSERT ca_a21_icr_acct_seq value (@a21_acct_seq);
  2) CA_A21_SUB_ACCT_T -> CA_A21_ICR_ACCT_T
  3) TODO? Prior year account
 
--- CA_ICR_ACCT_T
+  CA_ICR_ACCT_T
 -->
 INSERT INTO 'CA_ICR_ACCT_T'
 ('CA_ICR_ACCT_GNRTD_ID',

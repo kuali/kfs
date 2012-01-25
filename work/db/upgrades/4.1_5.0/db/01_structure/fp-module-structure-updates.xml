@@ -222,7 +222,7 @@
 		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
 		
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
-		<renameSequence oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ" newTableName="FP_PRCRMNT_CART_TRN_MT_SEQ" />
+		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ" newTableName="FP_PRCRMNT_CART_TRN_MT_SEQ" />
 		
 	</changeSet>
 

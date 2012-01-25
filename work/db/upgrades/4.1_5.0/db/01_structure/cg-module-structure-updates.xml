@@ -203,6 +203,7 @@ INSERT ca_a21_icr_acct_seq value (@a21_acct_seq);
   	</changeSet>
    	<changeSet author='KFS50' id='Convert_CA_ICR_ACCT_T_oracle' dbms='oracle' >
   	<sql>
+ <!--  
  -- Conversion script to take the ICR COA/Account Number and populate into
 -- the new ICR collection tables
 -- 1) CA_ACCOUNT_T -> CA_ICR_ACCT_T
@@ -210,6 +211,7 @@ INSERT ca_a21_icr_acct_seq value (@a21_acct_seq);
 -- 3) TODO? Prior year account
 
 -- CA_ICR_ACCT_T
+-->
 INSERT INTO 'CA_ICR_ACCT_T'
 ('CA_ICR_ACCT_GNRTD_ID',
 'OBJ_ID',
@@ -226,7 +228,7 @@ SELECT CA_ICR_ACCT_SEQ.nextval, sys_guid(), 1, FIN_COA_CD, ACCOUNT_NBR, ICR_FIN_
    AND ICR_FIN_COA_CD IS NOT NULL
 ;
 
--- CA_ICR_ACCT_T
+<!--  -- CA_ICR_ACCT_T  -->
 INSERT INTO 'CA_A21_ICR_ACCT_T'
 ('CA_A21_ICR_ACCT_GNRTD_ID',
 'OBJ_ID',

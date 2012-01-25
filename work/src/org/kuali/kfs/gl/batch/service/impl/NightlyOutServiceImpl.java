@@ -83,14 +83,14 @@ public class NightlyOutServiceImpl implements NightlyOutService {
      * @see org.kuali.kfs.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
      */
     public void copyApprovedPendingLedgerEntries() {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("copyApprovedPendingLedgerEntries() started");
+        if (LOG.isInfoEnabled()) {
+            LOG.info("copyApprovedPendingLedgerEntries() started");
         }
         Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
         
         Iterator pendingEntries = generalLedgerPendingEntryService.findApprovedPendingLedgerEntries();
         String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION ;
-        PrintStream outputFilePs;
+        PrintStream outputFilePs = null;
         
         try {
             outputFilePs  = new PrintStream(outputFile);
@@ -102,7 +102,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         EntryListReport entryListReport = new EntryListReport();
         LedgerSummaryReport nightlyOutLedgerSummaryReport = new LedgerSummaryReport();
         
-        Collection<OriginEntryFull> group = new ArrayList();
+        Collection<OriginEntryFull> group = new ArrayList<OriginEntryFull>();
         while (pendingEntries.hasNext()) {
             // get one pending entry
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries.next();
@@ -116,11 +116,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             group.add(entry);
             
             // copy the pending entry to text file
-            try {
-                outputFilePs.printf("%s\n", entry.getLine());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            outputFilePs.printf("%s\n", entry.getLine());
 
             // update the pending entry to indicate it has been copied
             pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);

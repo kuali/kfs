@@ -3,7 +3,7 @@
 <changeSet author='kfs50' id='KFS_50_ar_inv_doc_t'>
 	<comment>KFSMI-6861</comment>
 	<addColumn tableName='AR_INV_DOC_T'>
-		<column name='REPORTED_DT' type='DATETIME' />
+		<column name='REPORTED' type='DATETIME' />
 	</addColumn>
 
 	<createTable tableName="AR_CUST_BILLING_STMT_T">

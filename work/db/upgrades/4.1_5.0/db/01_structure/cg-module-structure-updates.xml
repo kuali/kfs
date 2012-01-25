@@ -52,7 +52,7 @@
 	  	</createTable>
 	  	<sql>ALTER TABLE ca_icr_acct_seq AUTO_INCREMENT=10000</sql>
   	</changeSet>
-  	
+  	<!-- 
   <changeSet author='KFS50' id='CreateTable_ca_a21_icr_acct_t'>
     <comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
     <createTable tableName='CA_A21_ICR_ACCT_T'>
@@ -94,7 +94,7 @@
       <replace replace='NUMBER' with='DECIMAL' />
     </modifySql>
   </changeSet>
-  
+   -->
   	<changeSet author="KFS50" id="ca_a21_icr_acct_seq_oracle" dbms="oracle">
     	<createSequence sequenceName="CA_A21_ICR_ACCT_SEQ" startValue="10000"/>
   	</changeSet>

@@ -5,12 +5,10 @@
 
  	
  <changeSet author='KFS50' id='Convert_CA_ICR_ACCT_T_mysql' dbms='mysql' >
- <!--
   	<sql>
 ## MySQL data conversion for CA Account ICR values
 
 ## Set the acct seq to current max of ICR accounts - default to 10000
-
 set @acct_seq = IFNULL((select max(id) from ca_icr_acct_seq), 10000);
 select @acct_seq;
 
@@ -34,6 +32,7 @@ SELECT @acct_seq := @acct_seq + 1, uuid(), 1, FIN_COA_CD, ACCOUNT_NBR, ICR_FIN_C
 #Data conversion completed, increase the current max on the sequence table
 INSERT ca_icr_acct_seq value (@acct_seq);
 
+## -------------------------------------------------------------------- ##
 
 ## Set the acct seq to current max of A21 ICR accounts - default to 10000
 set @a21_acct_seq = IFNULL((select max(id) from ca_a21_icr_acct_seq), 10000);
@@ -58,14 +57,11 @@ SELECT @a21_acct_seq := @a21_acct_seq + 1, uuid(), 1, FIN_COA_CD, ACCOUNT_NBR, S
 
 #Data conversion completed, increase the current max on the sequence table
 INSERT ca_a21_icr_acct_seq value (@a21_acct_seq);
-
   	</sql>
-   -->
   	</changeSet>
    	<changeSet author='KFS50' id='Convert_CA_ICR_ACCT_T_oracle' dbms='oracle' >
- <!--  
   	<sql>
-
+ <!--  
  Conversion script to take the ICR COA/Account Number and populate into
  the new ICR collection tables
  1) CA_ACCOUNT_T -> CA_ICR_ACCT_T
@@ -74,8 +70,6 @@ INSERT ca_a21_icr_acct_seq value (@a21_acct_seq);
 
   CA_ICR_ACCT_T
 -->
-
-<!-- 
 INSERT INTO 'CA_ICR_ACCT_T'
 ('CA_ICR_ACCT_GNRTD_ID',
 'OBJ_ID',
@@ -91,9 +85,8 @@ SELECT CA_ICR_ACCT_SEQ.nextval, sys_guid(), 1, FIN_COA_CD, ACCOUNT_NBR, ICR_FIN_
  WHERE ICR_ACCOUNT_NBR IS NOT NULL
    AND ICR_FIN_COA_CD IS NOT NULL
 ;
- -->
- 
-<!-- CA_ICR_ACCT_T  
+
+<!-- CA_ICR_ACCT_T  -->
 INSERT INTO 'CA_A21_ICR_ACCT_T'
 ('CA_A21_ICR_ACCT_GNRTD_ID',
 'OBJ_ID',
@@ -110,9 +103,7 @@ SELECT CA_A21_ICR_ACCT_SEQ.nextval, sys_guid(), 1, FIN_COA_CD, ACCOUNT_NBR, SUB_
  WHERE ICR_ACCOUNT_NBR IS NOT NULL
    AND ICR_FIN_COA_CD IS NOT NULL
 ; 	
-
   	</sql>
--->
   	</changeSet>
 </databaseChangeLog>
  

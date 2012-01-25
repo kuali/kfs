@@ -204,7 +204,7 @@
 			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
 		<sql>
-			RENAME FP_PRCRMNT_CARD_TRN_T_SEQ TO FP_PRCRMNT_CART_TRN_MT_SEQ;
+			RENAME FP_PRCRMNT_CARD_TRN_T_SEQ TO FP_PRCRMNT_CARD_TRN_MT_SEQ;
 		</sql>
 	</changeSet>
 

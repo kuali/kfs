@@ -51,15 +51,15 @@
 		context="manualRun" dbms="oracle">
 		<comment>KFSMI-6628 sql script to correct Total Costs in the Asset Detail Tab</comment>
 		<sql><![CDATA[
-			update cm_cptlast_t set cptlast_totcst_amt = (select
+			update CM_CPTLAST_T set cptlast_totcst_amt = (select
 			sum(acct_charge_amt)
 			from cm_ast_payment_t s where
-			s.cptlast_nbr=cm_cptlast_t.cptlast_nbr)
+			s.cptlast_nbr=CM_CPTLAST_T.cptlast_nbr)
 			where rowid in (select t.rowid
-			from cm_cptlast_t t where exists (select *
+			from CM_CPTLAST_T t where exists (select *
 			from (select
 			sum(s.acct_charge_amt) pmt_sum, s.cptlast_nbr ast_nbr from
-			cm_ast_payment_t s, cm_cptlast_t t
+			cm_ast_payment_t s, CM_CPTLAST_T t
 			where s.cptlast_nbr = t.cptlast_nbr
 			group by s.cptlast_nbr)
 			where ast_nbr = t.cptlast_nbr
@@ -73,9 +73,9 @@
 		<sql><![CDATA[
 			update CM_CPTLAST_T as T5
 			INNER JOIN
-			(select * from cm_cptlast_t as T2, (select sum(s.acct_charge_amt) pmt_sum,
+			(select * from CM_CPTLAST_T as T2, (select sum(s.acct_charge_amt) pmt_sum,
 			s.cptlast_nbr ast_nbr
-			from cm_ast_payment_t as s, cm_cptlast_t as t
+			from cm_ast_payment_t as s, CM_CPTLAST_T as t
 			where s.cptlast_nbr = t.cptlast_nbr
 			group by s.cptlast_nbr) as T1 where T1.ast_nbr = T2.CPTLAST_NBR and
 			T1.pmt_sum<> T2.cptlast_totcst_amt) as T4 ON (T4.cptlast_nbr =

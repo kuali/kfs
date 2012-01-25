@@ -20,11 +20,11 @@
 	</changeSet>
 	<changeSet author='KFS50' id='KFS_50_AddColumn_DISPLAY_TO_USER_IND'>
 		<comment>KFSMI-KFSMI-6486 Add a new column to PUR_PO_TRNS_MTHD_T</comment>
-		<addColumn tableName='pur_po_trns_mthd_t'>
+		<addColumn tableName='PUR_PO_TRNS_MTHD_T'>
 			<column name='DISPLAY_TO_USER_IND' type='VARCHAR2(1)'
 				defaultValue='Y' />
 		</addColumn>
-		<update tableName="pur_po_trns_mthd_t">
+		<update tableName="PUR_PO_TRNS_MTHD_T">
 			<column name="DISPLAY_TO_USER_IND" value="N" />
 			<where>PO_TRNS_MTHD_CD='ELEC'</where>
 		</update>

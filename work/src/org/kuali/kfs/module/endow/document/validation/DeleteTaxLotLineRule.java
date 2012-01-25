@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.document.validation;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
-import org.kuali.rice.krad.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface DeleteTaxLotLineRule<E extends EndowmentTaxLotLinesDocument, D extends EndowmentTransactionTaxLotLine, T extends EndowmentTransactionLine, I extends Number, X extends Number> extends BusinessRule {
 

@@ -57,4 +57,16 @@ public class CorpusAdjustmentDocument extends EndowmentTransactionLinesDocumentB
             endowmentTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);            
         }
     }
+
+    @Override
+    public void setSourceTransactionLines(List<EndowmentTransactionLine> sourceLines) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines) {
+        // TODO Auto-generated method stub
+        
+    }
 }

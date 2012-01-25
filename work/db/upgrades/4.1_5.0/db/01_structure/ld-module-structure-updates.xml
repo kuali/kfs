@@ -39,7 +39,7 @@
 		<addColumn tableName='CA_ACCT_CHG_DOC_T'>
 			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)' />
 		</addColumn>
-
+		<comment> KFSMI-6987 Employee Benefit Exp Calc </comment>
 		<createTable tableName='LD_BENEFITS_CALC_EXT_T'>
 			<column name='UNIV_FISCAL_YR' type='NUMBER(4,0)'>
 				<constraints primaryKey='true' nullable='false' />
@@ -61,10 +61,10 @@
 				<constraints nullable='false' />
 			</column>
 			<column name='OBJ_CODE_OFF' type='VARCHAR2(4)'>
-				<constraints nullable='true' />
+				<constraints nullable='false' />
 			</column>
 			<column name='ACCT_CODE_OFF' type='VARCHAR2(7)'>
-				<constraints nullable='true' />
+				<constraints nullable='false' />
 			</column>
 		</createTable>
 

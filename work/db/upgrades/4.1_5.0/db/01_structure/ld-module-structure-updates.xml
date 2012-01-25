@@ -61,10 +61,10 @@
 				<constraints nullable='false' />
 			</column>
 			<column name='OBJ_CODE_OFF' type='VARCHAR2(4)'>
-				<constraints nullable='false' />
+				<constraints nullable='true' />
 			</column>
 			<column name='ACCT_CODE_OFF' type='VARCHAR2(7)'>
-				<constraints nullable='false' />
+				<constraints nullable='true' />
 			</column>
 		</createTable>
 

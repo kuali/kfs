@@ -180,6 +180,10 @@
 			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
 		</addColumn>
 
+		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
+		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T" newTableName="FP_PRCRMNT_CARD_TRN_MT"
+		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ" newTableName="FP_PRCRMNT_CART_TRN_MT_SEQ"
+		
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />

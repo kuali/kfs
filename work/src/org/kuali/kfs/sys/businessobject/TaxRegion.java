@@ -24,9 +24,10 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TaxRegion extends PersistableBusinessObjectBase implements Inactivatable {
+public class TaxRegion extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String taxRegionCode; // (e.g., state code or district code)
     private String taxRegionName; // (e.g., state name or tax district name)

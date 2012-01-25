@@ -20,33 +20,34 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 
-public class TaxRegionPostalCode extends PersistableBusinessObjectBase implements Inactivatable {
+public class TaxRegionPostalCode extends PersistableBusinessObjectBase implements MutableInactivatable {
 	
     private String postalCountryCode; 
 	private String postalCode;
 	private String taxRegionCode;
 	private boolean active;
 	
-	private Country country;
-	private PostalCode postalZip;
+	private CountryEbo country;
+	private PostalCodeEbo postalZip;
 	private TaxRegion taxRegion;
 	
-	public PostalCode getPostalZip() {
-	    postalZip = (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank( postalCode))?null:( postalZip == null || !StringUtils.equals( postalZip.getCountryCode(),postalCountryCode)|| !StringUtils.equals( postalZip.getCode(), postalCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(postalCountryCode, postalCode): postalZip;
+	public PostalCodeEbo getPostalZip() {
+	    postalZip = (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank( postalCode))?null:( postalZip == null || !StringUtils.equals( postalZip.getCountryCode(),postalCountryCode)|| !StringUtils.equals( postalZip.getCode(), postalCode))?PostalCodeEbo.from( SpringContext.getBean(PostalCodeService.class).getPostalCode(postalCountryCode, postalCode) ): postalZip;
 		return postalZip;
 	}
-	public void setPostalZip(PostalCode postalZip) {
+	public void setPostalZip(PostalCodeEbo postalZip) {
 		this.postalZip = postalZip;
 	}
 	public TaxRegion getTaxRegion() {
-        if(ObjectUtils.isNull(taxRegion)){
+        if(StringUtils.isNotBlank(taxRegionCode) && ObjectUtils.isNull(taxRegion)){
             this.refreshReferenceObject("taxRegion");
         }	    
         return taxRegion;
@@ -72,40 +73,17 @@ public class TaxRegionPostalCode extends PersistableBusinessObjectBase implement
 	public void setTaxRegionCode(String taxRegionCode) {
 		this.taxRegionCode = taxRegionCode;
 	}
-	
-	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("postalCode", this.postalCode);
-        m.put("taxRegionCode", this.taxRegionCode);
-        return m;
-    }
-    /**
-     * Gets the postalCountryCode attribute. 
-     * @return Returns the postalCountryCode.
-     */
     public String getPostalCountryCode() {
         return postalCountryCode;
     }
-    /**
-     * Sets the postalCountryCode attribute value.
-     * @param postalCountryCode The postalCountryCode to set.
-     */
     public void setPostalCountryCode(String postalCountryCode) {
         this.postalCountryCode = postalCountryCode;
     }
-    /**
-     * Gets the country attribute. 
-     * @return Returns the country.
-     */
-    public Country getCountry() {
-        country = (postalCountryCode == null)?null:( country == null || !StringUtils.equals( country.getCode(),postalCountryCode))?SpringContext.getBean(CountryService.class).getCountry(postalCountryCode): country;
+    public CountryEbo getCountry() {
+        country = (postalCountryCode == null)?null:( country == null || !StringUtils.equals( country.getCode(),postalCountryCode))?CountryEbo.from( SpringContext.getBean(CountryService.class).getCountry(postalCountryCode) ): country;
         return country;
     }
-    /**
-     * Sets the country attribute value.
-     * @param country The country to set.
-     */
-    public void setCountry(Country country) {
+    public void setCountry(CountryEbo country) {
         this.country = country;
     }
 }

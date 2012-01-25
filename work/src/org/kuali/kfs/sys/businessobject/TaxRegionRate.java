@@ -53,11 +53,4 @@ public class TaxRegionRate extends PersistableBusinessObjectBase {
     public void setTaxRate(BigDecimal taxRate) {
         this.taxRate = taxRate;
     }
-
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

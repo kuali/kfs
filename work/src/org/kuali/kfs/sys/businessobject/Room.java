@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class Room extends PersistableBusinessObjectBase implements Inactivatable
     private String buildingRoomDescription;
     private boolean active;
 
-    private Campus campus;
+    private CampusEbo campus;
     private Building building;
 
     /**
@@ -167,8 +167,8 @@ public class Room extends PersistableBusinessObjectBase implements Inactivatable
      * 
      * @return Returns the campus
      */
-    public Campus getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
     /**
@@ -177,7 +177,7 @@ public class Room extends PersistableBusinessObjectBase implements Inactivatable
      * @param campus The campus to set.
      * @deprecated
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 

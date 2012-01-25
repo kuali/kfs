@@ -66,6 +66,8 @@
  	<bean id="businessObjectDictionaryService" p:serviceName="businessObjectDictionaryService" parent="grlBeanImporter" />
  	<bean id="maintenanceDocumentDictionaryService" p:serviceName="maintenanceDocumentDictionaryService" parent="grlBeanImporter" />
  	<bean id="documentHeaderService" p:serviceName="documentHeaderService" parent="grlBeanImporter" />
+ 	<bean id="documentHeaderDao" p:serviceName="documentHeaderDao" parent="grlBeanImporter" />
+ 	<alias name="documentHeaderDao" alias="financialSystemDocumentHeaderDao" />
  	<bean id="documentService" p:serviceName="documentService" parent="grlBeanImporter" />
  	<bean id="maintenanceDocumentDao" p:serviceName="maintenanceDocumentDao" parent="grlBeanImporter" />
  	<bean id="documentDao" p:serviceName="documentDao" parent="grlBeanImporter" />

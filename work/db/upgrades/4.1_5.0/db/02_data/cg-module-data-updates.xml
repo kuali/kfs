@@ -30,7 +30,7 @@ SELECT @acct_seq := @acct_seq + 1, uuid(), 1, FIN_COA_CD, ACCOUNT_NBR, ICR_FIN_C
 ;
 
 #Data conversion completed, increase the current max on the sequence table
-INSERT ca_icr_acct_seq value (@acct_seq);
+INSERT CA_ICR_ACCT_SEQ value (@acct_seq);
 
 ## -------------------------------------------------------------------- ##
 

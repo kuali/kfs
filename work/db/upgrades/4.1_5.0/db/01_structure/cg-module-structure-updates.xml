@@ -50,7 +50,7 @@
 	  			<constraints nullable="false" primaryKey="true"/>
 	  		</column>
 	  	</createTable>
-	  	<sql>ALTER TABLE ca_icr_acct_seq AUTO_INCREMENT=10000</sql>
+	  	<sql>ALTER TABLE CA_ICR_ACCT_SEQ AUTO_INCREMENT=10000</sql>
   	</changeSet>
  
   <changeSet author='KFS50' id='CreateTable_ca_a21_icr_acct_t'>

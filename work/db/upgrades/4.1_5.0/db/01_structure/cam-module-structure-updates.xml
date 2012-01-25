@@ -26,7 +26,7 @@
   </column>
  </createTable>
 
- <addColumn tableName="cm_ast_pmt_ast_dtl_t">
+ <addColumn tableName="CM_AST_PMT_AST_DTL_T">
   <column name="CPTLAST_ALLOC_AMT" type="NUMBER(19,2)" defaultValueNumeric="0">
    <constraints nullable="false" />
    </column>
@@ -36,7 +36,7 @@
 	<column name="CPTLAST_ALLOC_VAL_PCT" type="NUMBER(19,6)"/>
 </addColumn>
 
- <addColumn tableName="cm_ast_pmt_doc_t">
+ <addColumn tableName="CM_AST_PMT_DOC_T">
   <column name="AST_PMT_DST_CD" type="VARCHAR2(2)" defaultValue="2">
    <constraints nullable="false" />
   </column>

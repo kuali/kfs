@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
  * 
@@ -77,7 +77,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
     private Chart chartOfAccounts;
     private Organization organization;
     private Person hrmsPersonnelApproverUniversal;
-    private Campus hrmsIuCampus;
+    private CampusEbo hrmsIuCampus;
     private Person fiscalApproverUniversal;
 
     /**
@@ -938,8 +938,8 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * 
      * @return Returns the hrmsIuCampus
      */
-    public Campus getHrmsIuCampus() {
-        return hrmsIuCampus = StringUtils.isBlank( hrmsIuCampusCode)?null:((hrmsIuCampus!=null && hrmsIuCampus.getCode().equals( hrmsIuCampusCode))?hrmsIuCampus:SpringContext.getBean(CampusService.class).getCampus( hrmsIuCampusCode));
+    public CampusEbo getHrmsIuCampus() {
+        return hrmsIuCampus = StringUtils.isBlank( hrmsIuCampusCode)?null:((hrmsIuCampus!=null && hrmsIuCampus.getCode().equals( hrmsIuCampusCode))?hrmsIuCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( hrmsIuCampusCode)));
     }
 
     /**
@@ -948,7 +948,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * @param hrmsIuCampus The hrmsIuCampus to set.
      * @deprecated
      */
-    public void setHrmsIuCampus(Campus hrmsIuCampus) {
+    public void setHrmsIuCampus(CampusEbo hrmsIuCampus) {
         this.hrmsIuCampus = hrmsIuCampus;
     }
 
@@ -967,14 +967,5 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
         this.fiscalApproverUniversal = fiscalApproverUniversal;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("organizationCode", this.organizationCode);
-        return m;
-    }
 }
 

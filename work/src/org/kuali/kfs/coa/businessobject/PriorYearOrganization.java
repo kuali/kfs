@@ -17,16 +17,15 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * 
@@ -61,14 +60,14 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
     private Chart chartOfAccounts;
     private Account organizationDefaultAccount;
     private Organization organization;
-    private Campus organizationPhysicalCampus;
+    private CampusEbo organizationPhysicalCampus;
     private Organization reportsToOrganization;
     private Chart reportsToChartOfAccounts;
     private Account organizationPlantAccount;
     private Account campusPlantAccount;
     private Chart organizationPlantChart;
     private Chart campusPlantChart;
-    private Country organizationCountry;
+    private CountryEbo organizationCountry;
 
     /**
      * Default constructor.
@@ -592,8 +591,8 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the organizationPhysicalCampus
      */
-    public Campus getOrganizationPhysicalCampus() {
-        return organizationPhysicalCampus = SpringContext.getBean(CampusService.class).getCampus(organizationPhysicalCampusCode);
+    public CampusEbo getOrganizationPhysicalCampus() {
+        return organizationPhysicalCampus = CampusEbo.from( SpringContext.getBean(CampusService.class).getCampus(organizationPhysicalCampusCode) );
     }
 
     /**
@@ -602,7 +601,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * @param organizationPhysicalCampus The organizationPhysicalCampus to set.
      * @deprecated
      */
-    public void setOrganizationPhysicalCampus(Campus organizationPhysicalCampus) {
+    public void setOrganizationPhysicalCampus(CampusEbo organizationPhysicalCampus) {
         this.organizationPhysicalCampus = organizationPhysicalCampus;
     }
 
@@ -725,8 +724,8 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the organizationCountry.
      */
-    public Country getOrganizationCountry() {
-        organizationCountry = (organizationCountryCode == null)?null:( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode))?SpringContext.getBean(CountryService.class).getCountry(organizationCountryCode): organizationCountry;
+    public CountryEbo getOrganizationCountry() {
+        organizationCountry = (organizationCountryCode == null)?null:( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(organizationCountryCode)): organizationCountry;
         return organizationCountry;
     }
 
@@ -736,17 +735,8 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * @param organizationCountry The organizationCountry to set.
      * @deprecated
      */
-    public void setOrganizationCountry(Country organizationCountry) {
+    public void setOrganizationCountry(CountryEbo organizationCountry) {
         this.organizationCountry = organizationCountry;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("organizationCode", this.organizationCode);
-        return m;
-    }
 }

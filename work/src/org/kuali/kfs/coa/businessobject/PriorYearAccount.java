@@ -1345,20 +1345,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         this.sufficientFundsCode = sufficientFundsCode;
     }
 
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("chartCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-
-        return m;
-    }
-
-
     /**
      * Implementing equals since I need contains to behave reasonably in a hashed datastructure.
      * 

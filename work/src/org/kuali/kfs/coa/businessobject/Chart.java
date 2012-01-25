@@ -66,7 +66,7 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
     protected Person finCoaManager;
     protected Chart reportsToChartOfAccounts;
 
-    private static ChartService chartService;
+    private static transient ChartService chartService;
     
     /**
      * Gets the finChartOfAccountDescription attribute.

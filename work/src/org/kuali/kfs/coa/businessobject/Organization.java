@@ -31,12 +31,12 @@ import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 
 /**
  * 
@@ -82,7 +82,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     private Account organizationDefaultAccount;
     private Person organizationManagerUniversal;
     private ResponsibilityCenter responsibilityCenter;
-    private Campus organizationPhysicalCampus;
+    private CampusEbo organizationPhysicalCampus;
     private OrganizationType organizationType;
     private Organization reportsToOrganization;
     private Chart reportsToChartOfAccounts;
@@ -90,8 +90,8 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     private Account campusPlantAccount;
     private Chart organizationPlantChart;
     private Chart campusPlantChart;
-    private PostalCode postalZip;
-    private Country organizationCountry;
+    private PostalCodeEbo postalZip;
+    private CountryEbo organizationCountry;
 
     // HRMS Org fields
     private OrganizationExtension organizationExtension;
@@ -329,8 +329,8 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * 
      * @return Returns the organizationPhysicalCampus
      */
-    public Campus getOrganizationPhysicalCampus() {
-        return organizationPhysicalCampus = StringUtils.isBlank( organizationPhysicalCampusCode)?null:((organizationPhysicalCampus!=null && organizationPhysicalCampus.getCode().equals( organizationPhysicalCampusCode))?organizationPhysicalCampus:SpringContext.getBean(CampusService.class).getCampus( organizationPhysicalCampusCode));
+    public CampusEbo getOrganizationPhysicalCampus() {
+        return organizationPhysicalCampus = StringUtils.isBlank( organizationPhysicalCampusCode)?null:((organizationPhysicalCampus!=null && organizationPhysicalCampus.getCode().equals( organizationPhysicalCampusCode))?organizationPhysicalCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( organizationPhysicalCampusCode)));
     }
 
     /**
@@ -339,7 +339,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @param organizationPhysicalCampus The organizationPhysicalCampus to set.
      * @deprecated
      */
-    public void setOrganizationPhysicalCampus(Campus organizationPhysicalCampus) {
+    public void setOrganizationPhysicalCampus(CampusEbo organizationPhysicalCampus) {
         this.organizationPhysicalCampus = organizationPhysicalCampus;
     }
 
@@ -481,8 +481,8 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * 
      * @return Returns the organizationCountry.
      */
-    public Country getOrganizationCountry() {
-        organizationCountry = (organizationCountryCode == null)?null:( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode))?SpringContext.getBean(CountryService.class).getCountry(organizationCountryCode): organizationCountry;
+    public CountryEbo getOrganizationCountry() {
+        organizationCountry = (organizationCountryCode == null)?null:( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(organizationCountryCode)): organizationCountry;
         return organizationCountry;
     }
 
@@ -492,7 +492,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @param organizationCountry The organizationCountry to set.
      * @deprecated
      */
-    public void setOrganizationCountry(Country organizationCountry) {
+    public void setOrganizationCountry(CountryEbo organizationCountry) {
         this.organizationCountry = organizationCountry;
     }
 
@@ -677,8 +677,8 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * 
      * @return Returns the postalZip.
      */
-    public PostalCode getPostalZip() {
-        postalZip = (StringUtils.isBlank(organizationCountryCode) || StringUtils.isBlank( organizationZipCode))?null:( postalZip == null || !StringUtils.equals( postalZip.getCountryCode(),organizationCountryCode)|| !StringUtils.equals( postalZip.getCode(), organizationZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(organizationCountryCode, organizationZipCode): postalZip;
+    public PostalCodeEbo getPostalZip() {
+        postalZip = (StringUtils.isBlank(organizationCountryCode) || StringUtils.isBlank( organizationZipCode))?null:( postalZip == null || !StringUtils.equals( postalZip.getCountryCode(),organizationCountryCode)|| !StringUtils.equals( postalZip.getCode(), organizationZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(organizationCountryCode, organizationZipCode)): postalZip;
         return postalZip;
     }
 
@@ -687,7 +687,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * 
      * @param postalZip The postalZip to set.
      */
-    public void setPostalZip(PostalCode postalZip) {
+    public void setPostalZip(PostalCodeEbo postalZip) {
         this.postalZip = postalZip;
     }
 
@@ -743,18 +743,6 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      */
     public void setOrganizationLine2Address(String organizationLine2Address) {
         this.organizationLine2Address = organizationLine2Address;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("organizationCode", this.organizationCode);
-
-        return m;
     }
 
     /**

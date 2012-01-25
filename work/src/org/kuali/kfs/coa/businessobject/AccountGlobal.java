@@ -33,10 +33,10 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * 
@@ -77,9 +77,9 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     protected Chart chartOfAccounts;
     protected Organization organization;
     protected SubFundGroup subFundGroup;
-    protected State accountState;
+    protected StateEbo accountState;
     protected HigherEducationFunction financialHigherEdFunction;
-    protected PostalCode postalZipCode;
+    protected PostalCodeEbo postalZipCode;
     protected SufficientFundsCode sufficientFundsCode;
 
     /**
@@ -103,7 +103,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
 
         // the list of persist-ready BOs
-        List<PersistableBusinessObject> persistables = new ArrayList();
+        List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
 
         // walk over each change detail record
         for (AccountGlobalDetail detail : accountGlobalDetails) {
@@ -778,8 +778,8 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @return Returns the accountState.
      */
-    public State getAccountState() {
-        accountState = (StringUtils.isBlank(accountStateCode))?null:( accountState == null||!StringUtils.equals( accountState.getCode(),accountStateCode))?SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,accountStateCode): accountState;
+    public StateEbo getAccountState() {
+        accountState = (StringUtils.isBlank(accountStateCode))?null:( accountState == null||!StringUtils.equals( accountState.getCode(),accountStateCode))? StateEbo.from( SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,accountStateCode)): accountState;
         return accountState;
     }
 
@@ -788,7 +788,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @param accountState The accountState to set.
      */
-    public void setAccountState(State accountState) {
+    public void setAccountState(StateEbo accountState) {
         this.accountState = accountState;
     }
 
@@ -833,8 +833,8 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode): postalZipCode;
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode)): postalZipCode;
         
         return postalZipCode;
     }
@@ -844,7 +844,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -885,15 +885,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        return m;
-    }
-
-    /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#isPersistable()
      */
     public boolean isPersistable() {
@@ -923,7 +914,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
-    public List buildListOfDeletionAwareLists() {
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
         List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
         managedLists.add( new ArrayList<PersistableBusinessObject>( getAccountGlobalDetails() ) );

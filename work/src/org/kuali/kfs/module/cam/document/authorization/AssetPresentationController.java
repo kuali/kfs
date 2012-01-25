@@ -30,7 +30,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -84,7 +84,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         // if tag was created in a prior fiscal year, set tag number, asset type code and description as view only
         if (SpringContext.getBean(AssetService.class).isAssetTaggedInPriorFiscalYear(asset)) {
-            AssetAuthorizer documentAuthorizer = (AssetAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
+            AssetAuthorizer documentAuthorizer = (AssetAuthorizer) SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer(document);
             boolean isAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.EDIT_WHEN_TAGGED_PRIOR_FISCAL_YEAR, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             if (!isAuthorized) {
                 fields.addAll(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR));
@@ -149,7 +149,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
 
 
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         AssetService assetService = SpringContext.getBean(AssetService.class);
 
         // for fabrication document, disallow edit when document routing to the 'Management' FYI users.
@@ -171,19 +171,19 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
     
     
     @Override
-    protected boolean canBlanketApprove(Document document) {
+    public boolean canBlanketApprove(Document document) {
         return true;
     }
     
     @Override
-    protected boolean canRoute(Document document) {
+    public boolean canRoute(Document document) {
         MaintenanceDocument maitDocument = (MaintenanceDocument) document;
         Asset asset = (Asset) maitDocument.getOldMaintainableObject().getBusinessObject();
         return !getAssetService().isAssetRetired(asset) & super.canRoute(document);
     }
     
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         MaintenanceDocument maitDocument = (MaintenanceDocument) document;
         Asset asset = (Asset) maitDocument.getOldMaintainableObject().getBusinessObject();
         return !getAssetService().isAssetRetired(asset) & super.canSave(document);

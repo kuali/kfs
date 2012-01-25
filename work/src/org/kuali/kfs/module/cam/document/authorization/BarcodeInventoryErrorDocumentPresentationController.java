@@ -31,32 +31,32 @@ public class BarcodeInventoryErrorDocumentPresentationController extends Financi
         assetBarcodeInventoryLoadService = SpringContext.getBean(AssetBarcodeInventoryLoadService.class); 
     }    
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         return false;
     }
 
     @Override
-    protected boolean canRoute(Document document) {
+    public boolean canRoute(Document document) {
         return false;
     }
 
     @Override
-    protected boolean canBlanketApprove(Document document) {
+    public boolean canBlanketApprove(Document document) {
         return false;
     }
     
     @Override
-    protected boolean canAddAdhocRequests(Document document) {
+    public boolean canAddAdhocRequests(Document document) {
         return SpringContext.getBean(AssetService.class).isDocumentEnrouting(document);        
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         return assetBarcodeInventoryLoadService.isCurrentUserInitiator(document);
     }
     
     @Override
-    protected boolean canDisapprove(Document document) {
+    public boolean canDisapprove(Document document) {
         return assetBarcodeInventoryLoadService.isCurrentUserInitiator(document);
     }
 }

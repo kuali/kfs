@@ -84,7 +84,6 @@
   	<cache name="KFS/Organization" eternal="false" overflowToDisk="false" />
   	<cache name="KFS/ProjectCode" eternal="false" overflowToDisk="false" />
   	<cache name="KFS/HomeOrigination" eternal="false" overflowToDisk="false" />
-  
-  
+  	<cache name="KFS/AssetObjectCode" eternal="false" overflowToDisk="false" />  
   
 </ehcache>

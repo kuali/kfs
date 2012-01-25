@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectSubType;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
@@ -31,6 +32,8 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 public class AssetObjectCode extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "AssetObjectCode";
+    
     protected Integer universityFiscalYear;
     protected String chartOfAccountsCode;
     protected String financialObjectSubTypeCode;

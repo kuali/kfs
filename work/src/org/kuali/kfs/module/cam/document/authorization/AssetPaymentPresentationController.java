@@ -30,7 +30,7 @@ import org.kuali.rice.krad.document.Document;
 public class AssetPaymentPresentationController extends AccountingDocumentPresentationControllerBase {
 
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         WorkflowDocument workflowDocument = (WorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.isEnroute()) {

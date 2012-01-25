@@ -50,7 +50,7 @@ public class EquipmentLoanOrReturnDocumentPresentationController extends Financi
     }
     
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         WorkflowDocument workflowDocument = (WorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.isEnroute()) {

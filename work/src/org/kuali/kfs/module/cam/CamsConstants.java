@@ -19,9 +19,6 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.rice.krad.authorization.AuthorizationConstants.EditMode;
-
-
 /**
  * Global constants for CAMS.
  */

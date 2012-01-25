@@ -50,6 +50,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
@@ -68,6 +69,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -553,7 +555,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     /**
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#getAssetObjectCodes(java.lang.Integer)
      */
-    @CacheNoCopy
+    @Cacheable(value=AssetObjectCode.CACHE_NAME, key="'{getAssetObjectCodes} fiscalYear=' + #p0")
     public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear) {
         LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object codes.");
@@ -575,7 +577,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      * @param fiscalYear
      * @return a List<String>
      */
-    @CacheNoCopy
+    @Cacheable(value=AssetObjectCode.CACHE_NAME, key="'{getExpenseObjectCodes} fiscalYear=' + #p0")
     protected List<String> getExpenseObjectCodes(Integer fiscalYear) {
         LOG.debug("DepreciableAssetsDAoOjb.getExpenseObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting expense object codes");
@@ -604,7 +606,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      * @param fiscalYear
      * @return List<String>
      */
-    @CacheNoCopy
+    @Cacheable(value=AssetObjectCode.CACHE_NAME, key="'{getAccumulatedDepreciationObjectCodes} fiscalYear=' + #p0")
     protected List<String> getAccumulatedDepreciationObjectCodes(Integer fiscalYear) {
         LOG.debug("DepreciableAssetsDAoOjb.getAccumulatedDepreciationObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting accum depreciation object codes");

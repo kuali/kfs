@@ -46,10 +46,10 @@ public class AssetDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase 
      *  (the borrowerUniversalIdentifier property of the document object), 
      *  and return this principal ID as the only role member for a given document.
      * 
-     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, java.util.Map)
      */
     @Override
-    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         List<RoleMembership> members = new ArrayList<RoleMembership>(1);
         if(qualification!=null && !qualification.isEmpty()){

@@ -141,7 +141,7 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
     }
 
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         WorkflowDocument workflowDocument = (WorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.isEnroute()) {

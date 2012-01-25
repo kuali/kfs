@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+<!-- winston remove
 	<changeSet author='KFS50' id='CreateTable_CA_ACCT_AUTODEF_ICR_T'>
 		<comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
 		<createTable tableName='CA_ACCT_AUTODEF_ICR_T'>
@@ -29,7 +30,7 @@
 				<constraints nullable='false' />
 			</column>
 		</createTable>
-
+  -->
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
 		</modifySql>

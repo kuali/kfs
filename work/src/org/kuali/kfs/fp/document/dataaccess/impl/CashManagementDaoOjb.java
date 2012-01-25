@@ -53,11 +53,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         criteria.addColumnIsNull("ITM_CLOSED_DT");
 
         QueryByCriteria openItemsQuery = QueryFactory.newQuery(CashieringItemInProcess.class, criteria);
-        Iterator iter = getPersistenceBrokerTemplate().getIteratorByQuery(openItemsQuery);
-        while (iter.hasNext()) {
-            openItems.add((CashieringItemInProcess) iter.next());
-        }
-        return openItems;
+        return new ArrayList<CashieringItemInProcess>( getPersistenceBrokerTemplate().getCollectionByQuery(openItemsQuery) );
     }
 
     /**

@@ -21,7 +21,7 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.document.CorpusAdjustmentDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 
 public class CorpusAdjustmentDocumentForm extends EndowmentTransactionLinesDocumentFormBase {
 

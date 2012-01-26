@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -300,6 +300,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         final Integer currentFiscalYear = TestUtils.getFiscalYearForTesting();
         final Integer pastFiscalYear = new Integer(currentFiscalYear.intValue() - 1);
         AccountingPeriod firstPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("10", new Integer(currentFiscalYear));
+        assertNotNull( "Unable to find accounting period " + currentFiscalYear + "-10", firstPeriod);
         java.util.Calendar firstPeriodInside = new java.util.GregorianCalendar(currentFiscalYear, java.util.Calendar.MAY, 8);
         java.util.Calendar firstPeriodOutside = new java.util.GregorianCalendar(currentFiscalYear, java.util.Calendar.MAY, 23);
         final AuxiliaryVoucherDocument avDoc = new AuxiliaryVoucherDocument();
@@ -307,6 +308,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         assertFalse(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodOutside.getTimeInMillis()), firstPeriod));
 
         AccountingPeriod secondPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("13", new Integer(pastFiscalYear));
+        assertNotNull( "Unable to find accounting period " + pastFiscalYear + "-13", secondPeriod);
         java.util.Calendar secondPeriodInside = new java.util.GregorianCalendar(pastFiscalYear, java.util.Calendar.JUNE, 20);
         java.util.Calendar secondPeriodOutside = new java.util.GregorianCalendar(currentFiscalYear, java.util.Calendar.JULY, 21);
         assertTrue(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodInside.getTimeInMillis()), secondPeriod));
@@ -352,7 +354,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
 
     /**
      * This method tests if the given calendar date is the first day of the month, after the rule converts it.
-     * 
+     *
      * @param cal the calendar to check
      */
     private void doFirstDayOfMonthTest(java.util.Calendar cal) {
@@ -366,14 +368,14 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     private void testAddAccountingLineRule_IsObjectTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
         boolean result = true;
         AuxiliaryVoucherDocument document = createDocument();
-        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)SpringContext.getBean(Validation.class,"AccountingDocument-IsObjectTypeAllowed-DefaultValidation"); 
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)SpringContext.getBean(Validation.class,"AccountingDocument-IsObjectTypeAllowed-DefaultValidation");
         if (validation == null) throw new IllegalStateException("No object type value allowed validation");
         validation.setAccountingDocumentForValidation(document);
         validation.setAccountingLineForValidation(accountingLine);
         result = validation.validate(null);
         assertEquals(expected, result);
     }
-    
+
     private void testAddAccountingLine_IsObjectSubTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
         boolean result = true;
         AuxiliaryVoucherDocument document = createDocument();

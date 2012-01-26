@@ -9,7 +9,7 @@
   <column name="OBJ_ID" type="VARCHAR2(36)">
   <constraints nullable="false" />
   </column>
-  <column name="ver_nbr" type="NUMBER(8)">
+  <column name="VER_NBR" type="NUMBER(8)">
   <constraints nullable="false" />
   </column>
   <column name="AST_PMT_DST_NM" type="VARCHAR2(40)">

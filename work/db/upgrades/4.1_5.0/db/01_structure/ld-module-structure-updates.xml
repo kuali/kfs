@@ -5,7 +5,7 @@
 	<changeSet author='KFS50' id='KFS_50_Create_LD_LBR_BFT_RT_CAT_T'>
 		<comment>KFSMI-KFSMI-6987 Employee Benefit Expense Calculation</comment>
 		<createTable tableName='LD_LBR_BFT_RT_CAT_T'>
-			<column name='code' type='VARCHAR2(2)'>
+			<column name='CODE' type='VARCHAR2(2)'>
 				<constraints primaryKey='true' nullable='false' />
 			</column>
 			<column name='OBJ_ID' type='VARCHAR2(36)'>
@@ -14,10 +14,10 @@
 			<column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric='1'>
 				<constraints nullable='false' />
 			</column>
-			<column name='act_ind' type='VARCHAR2(1)'>
+			<column name='ACT_IND' type='VARCHAR2(1)'>
 				<constraints nullable='false' />
 			</column>
-			<column name='code_desc' type='VARCHAR2(40)'>
+			<column name='CODE_DESC' type='VARCHAR2(40)'>
 				<constraints nullable='false' />
 			</column>
 		</createTable>

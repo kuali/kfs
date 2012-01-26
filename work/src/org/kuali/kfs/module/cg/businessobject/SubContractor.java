@@ -19,6 +19,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -44,7 +45,9 @@ public class SubContractor extends PersistableBusinessObjectBase implements Inac
 
     private State subcontractorState;
     private Country subcontractorCountry;
-
+    
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "SubContractor";
+    
     /**
      * Default no-arg constructor.
      */

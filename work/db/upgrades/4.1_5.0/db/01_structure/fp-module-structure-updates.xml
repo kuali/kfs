@@ -358,6 +358,7 @@
 			<column name='FDOC_TYP_CD' value='CMD' />
 			<where>FDOC_TYP_CD = 'CM'</where>
 		</update>
+		<!-- winston remove
 		<update tableName='FP_CURRENCY_DTL_T'>
 			<column name='CSHR_STAT_CD' value='R' />
 			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'R'</where>
@@ -402,6 +403,7 @@
 			<column name='CSHR_STAT_CD' value='R' />
 			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'I'</where>
 		</update>
+		 -->
 		<dropPrimaryKey tableName="FP_CURRENCY_DTL_T" />
 		<addPrimaryKey tableName='FP_CURRENCY_DTL_T'
 			constraintName='FP_CURRENCY_DTL_T_TP1' columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />

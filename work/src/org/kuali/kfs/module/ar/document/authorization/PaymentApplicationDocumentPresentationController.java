@@ -28,7 +28,7 @@ public class PaymentApplicationDocumentPresentationController extends FinancialS
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
 
         // KULAR-452

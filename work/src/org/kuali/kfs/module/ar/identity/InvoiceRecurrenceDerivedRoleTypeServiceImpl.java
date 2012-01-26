@@ -27,7 +27,6 @@ import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 public class InvoiceRecurrenceDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
-    @Override
     public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         List<RoleMembership> members = new ArrayList<RoleMembership>(1);
         if ((qualification != null && !qualification.isEmpty()) && StringUtils.isNotBlank(qualification.get(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_INITIATOR_USER_ID))) {

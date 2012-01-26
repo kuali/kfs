@@ -40,17 +40,17 @@ public class CustomerInvoiceWriteoffDocumentPresentationController extends Finan
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         return !isDocStatusCodeInitiated(document);
     }
 
     @Override
-    protected boolean canClose(Document document) {
+    public boolean canClose(Document document) {
         return isDocStatusCodeInitiated(document);
     }
 
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         return !isDocStatusCodeInitiated(document);
     }
     

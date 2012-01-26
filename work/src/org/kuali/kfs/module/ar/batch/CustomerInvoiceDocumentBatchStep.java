@@ -46,6 +46,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.EvaluationOperator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterType;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -184,33 +186,19 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
      */
     private void setInitiatedParameter() {
         // first see if we can find an existing Parameter object with this key
-        
-        
-            
-            
-           
-           
-           
-           
-           
-           
-           
-           
-       
-        
-        
         Parameter runIndicatorParameter = getParameterService().getParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
-         if (runIndicatorParameter == null) {
-             Parameter.Builder newParm = Parameter.Builder.create(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM, ParameterType.Builder.create(RUN_INDICATOR_PARAMETER_TYPE));
-             newParm.setEvaluationOperator( EvaluationOperator.ALLOW );
-             newParm.setDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
-             newParm.setValue("N");
-             getParameterService().createParameter(newParm.build());
-         } else {
-             Parameter.Builder newParm = Parameter.Builder.create(runIndicatorParameter);
-             newParm.setValue("N");
-             getParameterService().updateParameter(newParm.build());
-         }
+        if (runIndicatorParameter == null) {
+            Parameter.Builder newParm = Parameter.Builder.create(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM, ParameterType.Builder.create(RUN_INDICATOR_PARAMETER_TYPE));
+            newParm.setEvaluationOperator(EvaluationOperator.ALLOW);
+            newParm.setDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
+            newParm.setValue("N");
+            getParameterService().createParameter(newParm.build());
+        }
+        else {
+            Parameter.Builder newParm = Parameter.Builder.create(runIndicatorParameter);
+            newParm.setValue("N");
+            getParameterService().updateParameter(newParm.build());
+        }
     }
 
     private Lockbox populateLockbox(String invoiceNumber, Long seqNbr) {

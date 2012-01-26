@@ -106,7 +106,6 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
     }
     
     
-    @Override
     public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         if (getFinancialSystemUserService().isActiveFinancialSystemUser(principalId)) {
@@ -120,7 +119,6 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
         return false;
     }
     
-    @Override
     public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         List<RoleMembership> results = new ArrayList<RoleMembership>();

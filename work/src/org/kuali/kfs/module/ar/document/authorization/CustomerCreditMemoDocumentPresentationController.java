@@ -60,12 +60,12 @@ public class CustomerCreditMemoDocumentPresentationController extends FinancialS
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         return !isDocStatusCodeInitiated(document);
     }
 
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         return !isDocStatusCodeInitiated(document);
     }
     

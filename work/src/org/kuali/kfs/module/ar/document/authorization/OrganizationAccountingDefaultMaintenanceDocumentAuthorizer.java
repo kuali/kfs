@@ -20,6 +20,7 @@ import java.util.Map;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
 
 public class OrganizationAccountingDefaultMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     @Override

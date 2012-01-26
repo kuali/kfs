@@ -5,8 +5,8 @@
 	<changeSet author="KFS50" id="pur_po_itm_tot_amt_v">
 		<comment>KFSMI-6745</comment>
 		<createView viewName="PUR_PO_ITM_TOT_AMT_V"
-			replaceIfExists="true"><![CDATA[
-		(select fdoc_nbr, sum(
+			replaceIfExists="true">
+		select fdoc_nbr, sum(
                      CASE
                      WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC
                      WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC
@@ -15,8 +15,8 @@
                      WHEN ITM_ACTV_IND ='N' THEN 0
                      ELSE 0
                        END) as TOTAL_AMOUNT
-       from PUR_PO_ITM_T group by fdoc_nbr)
-		]]></createView>
+       from PUR_PO_ITM_T group by fdoc_nbr
+	</createView>
 	</changeSet>
 	<changeSet author='KFS50' id='KFS_50_AddColumn_DISPLAY_TO_USER_IND'>
 		<comment>KFSMI-KFSMI-6486 Add a new column to PUR_PO_TRNS_MTHD_T</comment>

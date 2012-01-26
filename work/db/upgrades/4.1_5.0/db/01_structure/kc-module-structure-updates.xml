@@ -43,7 +43,7 @@
 		<createSequence sequenceName="CA_ACCT_AUTODEF_ICR_SEQ"
 			startValue="10000" />
 	</changeSet>
--->
+
 	<changeSet author="KFS50" id="CA_ACCT_AUTODEF_ICR_SEQ_mysql"
 		dbms="mysql">
 		<createTable tableName="CA_ACCT_AUTODEF_ICR_SEQ">
@@ -53,5 +53,5 @@
 		</createTable>
 		<sql>ALTER TABLE CA_ACCT_AUTODEF_ICR_SEQ AUTO_INCREMENT=10000</sql>
 	</changeSet>
-
+-->
 </databaseChangeLog>

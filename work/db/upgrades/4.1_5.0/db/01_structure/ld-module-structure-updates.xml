@@ -54,17 +54,17 @@
 				defaultValue='--'>
 				<constraints primaryKey='true' />
 			</column>
-			<column name='OBJ_ID' type='VARCHAR2(36)'>
-				<constraints nullable='false' />
-			</column>
 			<column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric='1'>
 				<constraints nullable='false' />
 			</column>
-			<column name='OBJ_CODE_OFF' type='VARCHAR2(4)'>
+			<column name='OBJ_ID' type='VARCHAR2(36)'>
 				<constraints nullable='false' />
 			</column>
+			<column name='OBJ_CODE_OFF' type='VARCHAR2(4)'>
+				<constraints nullable='true' />
+			</column>
 			<column name='ACCT_CODE_OFF' type='VARCHAR2(7)'>
-				<constraints nullable='false' />
+				<constraints nullable='true' />
 			</column>
 		</createTable>
 

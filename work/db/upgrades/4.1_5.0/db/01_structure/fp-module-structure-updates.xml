@@ -320,6 +320,7 @@
 		<delete tableName='FP_COIN_DTL_T'>
 			<where>FDOC_TYP_CD = 'CH'</where>
 		</delete>
+		<!-- winston remove
 		<update tableName='FP_CURRENCY_DTL_T'>
 			<column name='CSHR_STAT_CD' value='C' />
 			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'C' </where>
@@ -344,6 +345,7 @@
 			<column name='CSHR_STAT_CD' value='R' />
 			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'R' </where>
 		</update>
+		 -->
 		<update tableName='FP_CURRENCY_DTL_T'>
 			<column name='FDOC_TYP_CD' value='CMD' />
 			<where>FDOC_TYP_CD = 'CM'</where>

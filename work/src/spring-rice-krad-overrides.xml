@@ -24,6 +24,9 @@
     <bean id="kualiInquirable" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" />
 
 <!-- KRAD -->
+	<bean id="kualiModuleService" class="org.kuali.kfs.sys.service.impl.KfsKualiModuleServiceImpl"/>
+
+
 	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl" >
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />

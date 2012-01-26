@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,14 +22,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ *
  */
 public class AccountDelegate extends PersistableBusinessObjectBase implements Inactivatable {
 
@@ -58,7 +59,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -67,7 +68,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -76,7 +77,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -85,7 +86,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the chartOfAccountsCode attribute value.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -94,7 +95,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentTypeCode
      */
     public String getFinancialDocumentTypeCode() {
@@ -103,7 +104,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -112,7 +113,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the accountDelegateSystemId attribute.
-     * 
+     *
      * @return Returns the accountDelegateSystemId.
      */
     public String getAccountDelegateSystemId() {
@@ -121,7 +122,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the accountDelegateSystemId attribute value.
-     * 
+     *
      * @param accountDelegateSystemId The accountDelegateSystemId to set.
      */
     public void setAccountDelegateSystemId(String accountDelegateSystemId) {
@@ -130,7 +131,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the finDocApprovalFromThisAmt attribute.
-     * 
+     *
      * @return Returns the finDocApprovalFromThisAmt
      */
     public KualiDecimal getFinDocApprovalFromThisAmt() {
@@ -139,7 +140,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the finDocApprovalFromThisAmt attribute.
-     * 
+     *
      * @param finDocApprovalFromThisAmt The finDocApprovalFromThisAmt to set.
      */
     public void setFinDocApprovalFromThisAmt(KualiDecimal finDocApprovalFromThisAmt) {
@@ -148,7 +149,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the accountsDelegatePrmrtIndicator attribute.
-     * 
+     *
      * @return Returns the accountsDelegatePrmrtIndicator
      */
     public boolean isAccountsDelegatePrmrtIndicator() {
@@ -157,7 +158,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the accountsDelegatePrmrtIndicator attribute.
-     * 
+     *
      * @param accountsDelegatePrmrtIndicator The accountsDelegatePrmrtIndicator to set.
      * @deprecated
      */
@@ -167,16 +168,17 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute.
-     * 
+     *
      * @param active The active to set.
      * @deprecated
      */
@@ -186,7 +188,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the accountDelegateStartDate attribute.
-     * 
+     *
      * @return Returns the accountDelegateStartDate
      */
     public Date getAccountDelegateStartDate() {
@@ -195,7 +197,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the accountDelegateStartDate attribute.
-     * 
+     *
      * @param accountDelegateStartDate The accountDelegateStartDate to set.
      */
     public void setAccountDelegateStartDate(Date accountDelegateStartDate) {
@@ -204,7 +206,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the finDocApprovalToThisAmount attribute.
-     * 
+     *
      * @return Returns the finDocApprovalToThisAmount
      */
     public KualiDecimal getFinDocApprovalToThisAmount() {
@@ -213,7 +215,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the finDocApprovalToThisAmount attribute.
-     * 
+     *
      * @param finDocApprovalToThisAmount The finDocApprovalToThisAmount to set.
      */
     public void setFinDocApprovalToThisAmount(KualiDecimal finDocApprovalToThisAmount) {
@@ -222,7 +224,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account
      */
     public Account getAccount() {
@@ -231,7 +233,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account to set.
      * @deprecated
      */
@@ -240,11 +242,23 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCode attribute. 
+     * Gets the financialSystemDocumentTypeCode attribute.
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( financialDocumentTypeCode ) ) {
+            financialSystemDocumentTypeCode = null;
+        } else {
+            if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialDocumentTypeCode, financialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialDocumentTypeCode);
+                if ( temp != null ) {
+                    financialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    financialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return financialSystemDocumentTypeCode;
     }
 
     public Person getAccountDelegate() {
@@ -254,7 +268,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the accountDelegate attribute value.
-     * 
+     *
      * @param accountDelegate The accountDelegate to set.
      */
     public void setAccountDelegate(Person accountDelegate) {
@@ -264,7 +278,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
     /**
      * This method (a hack by any other name...) returns a string so that an Account Delegate can have a link to view its own
      * inquiry page after a look up
-     * 
+     *
      * @return the String "View Account Delegate"
      */
     public String getAccountDelegateViewer() {
@@ -273,7 +287,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Gets the chart attribute.
-     * 
+     *
      * @return Returns the chart.
      */
     public Chart getChart() {
@@ -282,7 +296,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     /**
      * Sets the chart attribute value.
-     * 
+     *
      * @param chart The chart to set.
      */
     public void setChart(Chart chart) {
@@ -292,6 +306,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj != null) {
             if (this.getClass().equals(obj.getClass())) {
@@ -313,6 +328,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
     /**
      * @see java.lang.Object#hashCode()
      */
+    @Override
     public int hashCode() {
         return toStringBuilder(toStringMapper()).hashCode();
     }

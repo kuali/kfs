@@ -87,6 +87,7 @@
 	<!-- KEW -->
  	<bean id="workflowDocumentService" p:serviceName="workflowDocumentService" parent="grlBeanImporter" />
  	<bean id="rice.kew.documentTypeService" p:serviceName="rice.kew.documentTypeService" parent="grlBeanImporter" />
+ 	<alias name="rice.kew.documentTypeService" alias="documentTypeService" />
 	<!-- KSB -->
 
 

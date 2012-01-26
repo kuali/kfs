@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -30,17 +31,18 @@ import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * Represents the encumbrance amount for a specific university fiscal year, 
+ * Represents the encumbrance amount for a specific university fiscal year,
  * chart of accounts code, account number, sub account number, object code,
  * sub object code, balance type code, document type code, origin code, and document number.
  * This encumbrance object contains amounts for actual enumbrance amount, closed amount,
- * outstanding amount 
- * 
+ * outstanding amount
+ *
 */
 public class Encumbrance extends PersistableBusinessObjectBase {
     static final long serialVersionUID = -7494473472438516396L;
@@ -115,7 +117,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
         documentNumber = encumbranceHistory.getDocumentNumber();
     }
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
@@ -374,7 +376,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account.
      */
     public Account getAccount() {
@@ -383,7 +385,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the account attribute value.
-     * 
+     *
      * @param account The account to set.
      */
     public void setAccount(Account account) {
@@ -392,7 +394,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the chart attribute.
-     * 
+     *
      * @return Returns the chart.
      */
     public Chart getChart() {
@@ -401,7 +403,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chart attribute value.
-     * 
+     *
      * @param chart The chart to set.
      */
     public void setChart(Chart chart) {
@@ -410,7 +412,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialObject attribute.
-     * 
+     *
      * @return Returns the financialObject.
      */
     public ObjectCode getFinancialObject() {
@@ -419,7 +421,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObject attribute value.
-     * 
+     *
      * @param financialObject The financialObject to set.
      */
     public void setFinancialObject(ObjectCode financialObject) {
@@ -428,7 +430,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the balanceType attribute.
-     * 
+     *
      * @return Returns the balanceType.
      */
     public BalanceType getBalanceType() {
@@ -437,7 +439,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the balanceType attribute value.
-     * 
+     *
      * @param balanceType The balanceType to set.
      */
     public void setBalanceType(BalanceType balanceType) {
@@ -446,7 +448,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the dummyBusinessObject attribute.
-     * 
+     *
      * @return Returns the dummyBusinessObject.
      */
     public TransientBalanceInquiryAttributes getDummyBusinessObject() {
@@ -455,7 +457,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the dummyBusinessObject attribute value.
-     * 
+     *
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
     public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
@@ -464,7 +466,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the option attribute.
-     * 
+     *
      * @return Returns the option.
      */
     public SystemOptions getOption() {
@@ -473,7 +475,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the option attribute value.
-     * 
+     *
      * @param option The option to set.
      */
     public void setOption(SystemOptions option) {
@@ -482,7 +484,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the subAccount attribute.
-     * 
+     *
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -491,7 +493,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the subAccount attribute value.
-     * 
+     *
      * @param subAccount The subAccount to set.
      */
     public void setSubAccount(SubAccount subAccount) {
@@ -499,16 +501,28 @@ public class Encumbrance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCode attribute. 
+     * Gets the financialSystemDocumentTypeCode attribute.
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( documentTypeCode ) ) {
+            financialSystemDocumentTypeCode = null;
+        } else {
+            if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(documentTypeCode, financialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(documentTypeCode);
+                if ( temp != null ) {
+                    financialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    financialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return financialSystemDocumentTypeCode;
     }
 
     /**
      * Gets the financialSubObject attribute.
-     * 
+     *
      * @return Returns the financialSubObject.
      */
     public SubObjectCode getFinancialSubObject() {
@@ -517,7 +531,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialSubObject attribute value.
-     * 
+     *
      * @param financialSubObject The financialSubObject to set.
      */
     public void setFinancialSubObject(SubObjectCode financialSubObject) {

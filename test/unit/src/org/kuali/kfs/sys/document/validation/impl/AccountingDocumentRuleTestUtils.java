@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,11 +33,10 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
 import org.kuali.rice.krad.rules.rule.RouteDocumentRule;
 import org.kuali.rice.krad.rules.rule.SaveDocumentRule;
-import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
 
@@ -61,7 +60,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
             if (expected) {
                 assertGlobalMessageMapEmpty(accountingLine.toString());
             }
-            assertEquals(expected, ruleResult);
+            assertEquals("GlobalVariables.getMessageMap() : " + GlobalVariables.getMessageMap(), expected, ruleResult);
         }
     }
 
@@ -71,7 +70,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
         if (expected) {
             assertGlobalMessageMapEmpty();
         }
-        assertEquals(expected, rulePassed);
+        assertEquals("GlobalVariables.getMessageMap() : " + GlobalVariables.getMessageMap(), expected, rulePassed);
     }
 
     public static <T extends AccountingDocument> void testRouteDocumentRule_processRouteDocument(T document, boolean expected) throws Exception {
@@ -80,7 +79,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
         if (expected) {
             assertGlobalMessageMapEmpty();
         }
-        assertEquals(expected, rulePassed);
+        assertEquals("GlobalVariables.getMessageMap() : " + GlobalVariables.getMessageMap(), expected, rulePassed);
     }
 
     public static boolean testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(AccountingDocument document, AccountingLine line, GeneralLedgerPendingEntryFixture expectedExplicitFixture, GeneralLedgerPendingEntryFixture expectedOffsetFixture) throws Exception {
@@ -99,7 +98,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
     // helper methods
     /**
      * retrieves a rule instance for a given document
-     * 
+     *
      * @param <T>
      * @param documentClass the type of document to retrieve the rule for
      * @param businessRuleClass the type of rule to create

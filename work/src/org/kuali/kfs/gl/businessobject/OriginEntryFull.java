@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,8 +49,9 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -59,14 +60,14 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public class OriginEntryFull extends PersistableBusinessObjectBase implements Transaction, OriginEntryInformation, FlexibleAccountUpdateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryFull.class);
     private static OriginEntryFieldUtil originEntryFieldUtil;
-    
+
     public static final Pattern MATCH_CONTROL_CHARACTERS = Pattern.compile("\\p{Cntrl}");
     public static final String REPLACE_MATCHED_CONTROL_CHARACTERS = " ";
-    
+
  // 17 characters while it is 19 character in DD. Don't change, it has to be 17.
     // KFSMI-3308 - changed to 20
-     
-    
+
+
     private Integer entryId;
     private Integer entryGroupId;
     protected String accountNumber;
@@ -114,7 +115,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
     private UniversityDate reversalDate;
     private OriginationCode origination;
     private DocumentTypeEBO referenceFinancialSystemDocumentTypeCode;
-    
+
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     public void copyFieldsFromTransaction(Transaction t) {
@@ -177,23 +178,23 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
     /**
      * This method loads the fields of this origin entry by parsing the passed in the string It is assumed that the String does not
      * contain the origin entry ID, but if it does, it will be ignored
-     * 
+     *
      * @param line a string representing an origin entry
      * @param lineNumber used to render an error message by identifying this line
      * @throws LoadException
      */
-    
+
     public List<Message> setFromTextFileForBatch(String line, int lineNumber) throws LoadException {
-        List<Message> returnList = new ArrayList<Message>(); 
+        List<Message> returnList = new ArrayList<Message>();
         final Map<String, Integer> pMap = getOriginEntryFieldUtil().getFieldBeginningPositionMap();
-        
+
         // KFSMI-5958: Don't want any control characters in output files. They potentially disrupt further processing
         Matcher controlCharacterMatcher = MATCH_CONTROL_CHARACTERS.matcher(line);
         line = controlCharacterMatcher.replaceAll(REPLACE_MATCHED_CONTROL_CHARACTERS);
-        
+
         // Just in case
         line = org.apache.commons.lang.StringUtils.rightPad(line, GeneralLedgerConstants.getSpaceAllOriginEntryFields().length(), ' ');
-        
+
         if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)))) {
             try {
                 setUniversityFiscalYear(new Integer(getValue(line, pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE))));
@@ -216,9 +217,9 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             Account account = acctserv.getUniqueAccountForAccountNumber(getAccountNumber());
             if (account != null) {
                 setChartOfAccountsCode(account.getChartOfAccountsCode());
-            }            
+            }
         }
-        
+
         setSubAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
         setFinancialObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
         setFinancialSubObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
@@ -228,7 +229,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         setFinancialDocumentTypeCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE)));
         setFinancialSystemOriginationCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER)));
         setDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
-        
+
         // don't trim sequenceNumber because SpaceTransactionEntrySequenceNumber is "     "
         if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC))) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)))) {
             try {
@@ -242,9 +243,9 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         else {
             setTransactionLedgerEntrySequenceNumber(null);
         }
-        
+
         setTransactionLedgerEntryDescription(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT)));
-        
+
         if (!getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT), pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE)).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
                 setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT), pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE)).trim()));
@@ -257,7 +258,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             returnList.add(new Message("Transaction Amount cannot be blank." , Message.TYPE_FATAL));
             setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         }
-        
+
         setTransactionDebitCreditCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_DATE)));
 
         if (!getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_DATE), pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER)).equals(GeneralLedgerConstants.EMPTY_CODE)){
@@ -271,7 +272,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         } else {
             setTransactionDate(null);
         }
-        
+
         setOrganizationDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.PROJECT_CODE)));
         setProjectCode(getValue(line, pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID)));
         setOrganizationReferenceId(getValue(line, pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
@@ -286,16 +287,16 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             catch (ParseException e) {
                 setFinancialDocumentReversalDate(null);
                 returnList.add(new Message("Reversal Date '" + line.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD)) + "' contains an invalid value." , Message.TYPE_FATAL));
-                
+
             }
         } else {
             setFinancialDocumentReversalDate(null);
         }
-        
+
         //set till end
         setTransactionEncumbranceUpdateCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD), GeneralLedgerConstants.getSpaceAllOriginEntryFields().length()));
-    
-        return returnList;    
+
+        return returnList;
     }
 
 
@@ -313,10 +314,11 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         }
     }
 
+    @Override
     public String getLine() {
         StringBuffer sb = new StringBuffer();
         Map<String, Integer> fieldLengthMap = getOriginEntryFieldUtil().getFieldLengthMap();
-        
+
         if (universityFiscalYear == null) {
             sb.append(GeneralLedgerConstants.getSpaceUniversityFiscalYear());
         }
@@ -347,13 +349,13 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         // 3032 019350 MOVE TRN-ENTR-SEQ-NBR OF GLEN-RECORD
         // 3033 019360 TO TRN-ENTR-SEQ-NBR OF ALT-GLEN-RECORD
         // 3034 019370 END-IF
-        String seqNum ="";  
+        String seqNum ="";
         if (transactionLedgerEntrySequenceNumber != null) {
             seqNum = transactionLedgerEntrySequenceNumber.toString();
         }
         // Format to a length of 5
         sb.append(StringUtils.leftPad(seqNum.trim(), fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), "0"));
-        
+
         sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), transactionLedgerEntryDescription));
         if (transactionLedgerEntryAmount == null) {
             sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmount());
@@ -378,15 +380,15 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR), referenceFinancialDocumentNumber));
         sb.append(formatDate(financialDocumentReversalDate));
         sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD), transactionEncumbranceUpdateCode));
-        // pad to full length 
+        // pad to full length
         while (GeneralLedgerConstants.getSpaceAllOriginEntryFields().length() > sb.toString().length()) {
             sb.append(' ');
         }
-        
+
         // KFSMI-5958: Don't want any control characters in output files. They potentially disrupt further processing
         Matcher controlCharacterMatcher = MATCH_CONTROL_CHARACTERS.matcher(sb);
         String returnString = controlCharacterMatcher.replaceAll(REPLACE_MATCHED_CONTROL_CHARACTERS);
-        
+
         return returnString;
     }
 
@@ -394,72 +396,89 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         return transactionScrubberOffsetGenerationIndicator;
     }
 
+    @Override
     public void setTransactionScrubberOffsetGenerationIndicator(boolean transactionScrubberOffsetGenerationIndicator) {
         this.transactionScrubberOffsetGenerationIndicator = transactionScrubberOffsetGenerationIndicator;
     }
 
+    @Override
     public String getAccountNumber() {
         return accountNumber;
     }
 
+    @Override
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
+    @Override
     public String getFinancialBalanceTypeCode() {
         return financialBalanceTypeCode;
     }
 
+    @Override
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
         this.financialBalanceTypeCode = financialBalanceTypeCode;
     }
 
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
+    @Override
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
+    @Override
     public String getTransactionDebitCreditCode() {
         return transactionDebitCreditCode;
     }
 
+    @Override
     public void setTransactionDebitCreditCode(String transactionDebitCreditCode) {
         if (transactionDebitCreditCode != null) {
             this.transactionDebitCreditCode = transactionDebitCreditCode.toUpperCase();
         }
     }
 
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
 
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
+    @Override
     public Date getFinancialDocumentReversalDate() {
         return financialDocumentReversalDate;
     }
 
+    @Override
     public void setFinancialDocumentReversalDate(Date financialDocumentReversalDate) {
         this.financialDocumentReversalDate = financialDocumentReversalDate;
     }
 
+    @Override
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
     }
 
+    @Override
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
     }
 
+    @Override
     public String getTransactionEncumbranceUpdateCode() {
         return transactionEncumbranceUpdateCode;
     }
 
+    @Override
     public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdateCode) {
         this.transactionEncumbranceUpdateCode = transactionEncumbranceUpdateCode;
     }
@@ -468,6 +487,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         return entryGroupId;
     }
 
+    @Override
     public void setEntryGroupId(Integer entryGroupId) {
         this.entryGroupId = entryGroupId;
     }
@@ -480,51 +500,63 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         this.entryId = entryId;
     }
 
+    @Override
     public void resetEntryId() {
         this.entryId = null;
         this.versionNumber = null;
     }
 
+    @Override
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
 
+    @Override
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
     }
 
+    @Override
     public String getFinancialObjectTypeCode() {
         return financialObjectTypeCode;
     }
 
+    @Override
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
         this.financialObjectTypeCode = financialObjectTypeCode;
     }
 
+    @Override
     public String getOrganizationDocumentNumber() {
         return organizationDocumentNumber;
     }
 
+    @Override
     public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
         this.organizationDocumentNumber = organizationDocumentNumber;
     }
 
+    @Override
     public String getOrganizationReferenceId() {
         return organizationReferenceId;
     }
 
+    @Override
     public void setOrganizationReferenceId(String organizationReferenceId) {
         this.organizationReferenceId = organizationReferenceId;
     }
 
+    @Override
     public String getFinancialSystemOriginationCode() {
         return financialSystemOriginationCode;
     }
 
+    @Override
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
         this.financialSystemOriginationCode = financialSystemOriginationCode;
     }
 
+    @Override
     public String getProjectCode() {
         if (StringUtils.isBlank(projectCode)) {
             projectCode = KFSConstants.getDashProjectCode();
@@ -532,34 +564,42 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         return projectCode;
     }
 
+    @Override
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
     }
 
+    @Override
     public String getReferenceFinancialDocumentNumber() {
         return referenceFinancialDocumentNumber;
     }
 
+    @Override
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
     }
 
+    @Override
     public String getReferenceFinancialDocumentTypeCode() {
         return referenceFinancialDocumentTypeCode;
     }
 
+    @Override
     public void setReferenceFinancialDocumentTypeCode(String referenceFinancialDocumentTypeCode) {
         this.referenceFinancialDocumentTypeCode = referenceFinancialDocumentTypeCode;
     }
 
+    @Override
     public String getReferenceFinancialSystemOriginationCode() {
         return referenceFinancialSystemOriginationCode;
     }
 
+    @Override
     public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
         this.referenceFinancialSystemOriginationCode = referenceFinancialSystemOriginationCode;
     }
 
+    @Override
     public String getSubAccountNumber() {
         if (StringUtils.isBlank(subAccountNumber)) {
             subAccountNumber = KFSConstants.getDashSubAccountNumber();
@@ -567,10 +607,12 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         return subAccountNumber;
     }
 
+    @Override
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
     }
 
+    @Override
     public String getFinancialSubObjectCode() {
         if (StringUtils.isBlank(financialSubObjectCode)) {
             financialSubObjectCode = KFSConstants.getDashFinancialSubObjectCode();
@@ -578,30 +620,37 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         return financialSubObjectCode;
     }
 
+    @Override
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
     }
 
+    @Override
     public Date getTransactionDate() {
         return transactionDate;
     }
 
+    @Override
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
     }
 
+    @Override
     public Integer getTransactionLedgerEntrySequenceNumber() {
         return transactionLedgerEntrySequenceNumber;
     }
 
+    @Override
     public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
         this.transactionLedgerEntrySequenceNumber = transactionLedgerEntrySequenceNumber;
     }
 
+    @Override
     public KualiDecimal getTransactionLedgerEntryAmount() {
         return transactionLedgerEntryAmount;
     }
 
+    @Override
     public void setTransactionLedgerEntryAmount(KualiDecimal transactionLedgerEntryAmount) {
         this.transactionLedgerEntryAmount = transactionLedgerEntryAmount;
     }
@@ -614,34 +663,42 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         this.transactionLedgerEntryAmount = null;
     }
 
+    @Override
     public String getTransactionLedgerEntryDescription() {
         return transactionLedgerEntryDescription;
     }
 
+    @Override
     public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
         this.transactionLedgerEntryDescription = transactionLedgerEntryDescription;
     }
 
+    @Override
     public String getUniversityFiscalPeriodCode() {
         return universityFiscalPeriodCode;
     }
 
+    @Override
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
         this.universityFiscalPeriodCode = universityFiscalPeriodCode;
     }
 
+    @Override
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
 
+    @Override
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
 
+    @Override
     public boolean isDebit() {
         return KFSConstants.GL_DEBIT_CODE.equals(this.transactionDebitCreditCode);
     }
 
+    @Override
     public boolean isCredit() {
         return KFSConstants.GL_CREDIT_CODE.equals(this.transactionDebitCreditCode);
     }
@@ -874,7 +931,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
     }
 
     /**
-     * 
+     *
      */
     public OriginEntryFull(String financialDocumentTypeCode, String financialSystemOriginationCode) {
         super();
@@ -910,7 +967,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
     }
 
     /**
-     * 
+     *
      */
     public OriginEntryFull() {
         this(null, null);
@@ -974,42 +1031,59 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         a21SubAccount = subAccount;
     }
 
+    @Override
     public Account getAccount() {
         return account;
     }
 
+    @Override
     public void setAccount(Account account) {
         this.account = account;
     }
 
+    @Override
     public BalanceType getBalanceType() {
         return balanceType;
     }
 
+    @Override
     public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 
+    @Override
     public Chart getChart() {
         return chart;
     }
 
+    @Override
     public void setChart(Chart chart) {
         this.chart = chart;
     }
 
+    @Override
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( financialDocumentTypeCode ) ) {
+            financialSystemDocumentTypeCode = null;
+        } else {
+            if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialDocumentTypeCode, financialSystemDocumentTypeCode.getName() ) ) {
+                financialSystemDocumentTypeCode = DocumentType.from( SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialDocumentTypeCode) );
+            }
+        }
+        return financialSystemDocumentTypeCode;
     }
 
+    @Override
     public ObjectCode getFinancialObject() {
         return financialObject;
     }
 
+    @Override
     public void setFinancialObject(ObjectCode financialObject) {
         this.financialObject = financialObject;
     }
 
+    @Override
     public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
@@ -1018,18 +1092,22 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         this.financialSubObject = financialSubObject;
     }
 
+    @Override
     public ObjectType getObjectType() {
         return objectType;
     }
 
+    @Override
     public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
     }
 
+    @Override
     public SystemOptions getOption() {
         return option;
     }
 
+    @Override
     public void setOption(SystemOptions option) {
         this.option = option;
     }
@@ -1042,6 +1120,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         this.project = project;
     }
 
+    @Override
     public SubAccount getSubAccount() {
         return subAccount;
     }
@@ -1083,7 +1162,19 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
     }
 
     public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( referenceFinancialDocumentTypeCode ) ) {
+            referenceFinancialSystemDocumentTypeCode = null;
+        } else {
+            if ( referenceFinancialSystemDocumentTypeCode == null || !StringUtils.equals(referenceFinancialDocumentTypeCode, referenceFinancialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(referenceFinancialDocumentTypeCode);
+                if ( temp != null ) {
+                    referenceFinancialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    referenceFinancialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
     public static OriginEntryFull copyFromOriginEntryable(OriginEntryInformation oe) {
@@ -1115,7 +1206,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         newOriginEntry.setUniversityFiscalYear(oe.getUniversityFiscalYear());
         return newOriginEntry;
     }
-    
+
     /**
      * @return the static instance of the OriginEntryFieldUtil
      */

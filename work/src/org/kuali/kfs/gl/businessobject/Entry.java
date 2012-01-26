@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,8 +18,8 @@ package org.kuali.kfs.gl.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
@@ -29,20 +29,20 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Represents a G/L entry
- * 
+ *
  */
 public class Entry extends PersistableBusinessObjectBase implements Transaction {
     static final long serialVersionUID = -24983129882357448L;
@@ -129,7 +129,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
         setReferenceFinancialDocumentNumber(t.getReferenceFinancialDocumentNumber());
         setFinancialDocumentReversalDate(t.getFinancialDocumentReversalDate());
         setTransactionEncumbranceUpdateCode(t.getTransactionEncumbranceUpdateCode());
-        
+
         Timestamp now = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
         setTransactionDateTimeStamp(now);
     }
@@ -189,16 +189,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear
      */
+    @Override
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
 
     /**
      * Sets the universityFiscalYear attribute.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -207,16 +208,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -224,26 +226,40 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCode attribute. 
-     * 
+     * Gets the financialSystemDocumentTypeCode attribute.
+     *
      * @return Returns the financialSystemDocumentTypeCode.
      */
+    @Override
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( financialDocumentTypeCode ) ) {
+            financialSystemDocumentTypeCode = null;
+        } else {
+            if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialDocumentTypeCode, financialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialDocumentTypeCode);
+                if ( temp != null ) {
+                    financialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    financialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return financialSystemDocumentTypeCode;
     }
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber
      */
+    @Override
     public String getAccountNumber() {
         return accountNumber;
     }
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -252,16 +268,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber
      */
+    @Override
     public String getSubAccountNumber() {
         return subAccountNumber;
     }
 
     /**
      * Sets the subAccountNumber attribute.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -270,16 +287,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode
      */
+    @Override
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
 
     /**
      * Sets the financialObjectCode attribute.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -288,16 +306,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the financialSubObjectCode attribute.
-     * 
+     *
      * @return Returns the financialSubObjectCode
      */
+    @Override
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
     }
 
     /**
      * Sets the financialSubObjectCode attribute.
-     * 
+     *
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -306,16 +325,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the financialBalanceTypeCode attribute.
-     * 
+     *
      * @return Returns the financialBalanceTypeCode
      */
+    @Override
     public String getFinancialBalanceTypeCode() {
         return financialBalanceTypeCode;
     }
 
     /**
      * Sets the financialBalanceTypeCode attribute.
-     * 
+     *
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -324,16 +344,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the financialObjectTypeCode attribute.
-     * 
+     *
      * @return Returns the financialObjectTypeCode
      */
+    @Override
     public String getFinancialObjectTypeCode() {
         return financialObjectTypeCode;
     }
 
     /**
      * Sets the financialObjectTypeCode attribute.
-     * 
+     *
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -342,16 +363,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @return Returns the universityFiscalPeriodCode
      */
+    @Override
     public String getUniversityFiscalPeriodCode() {
         return universityFiscalPeriodCode;
     }
 
     /**
      * Sets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
@@ -360,16 +382,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentTypeCode
      */
+    @Override
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
     }
 
     /**
      * Sets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -378,16 +401,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the financialSystemOriginationCode attribute.
-     * 
+     *
      * @return Returns the financialSystemOriginationCode
      */
+    @Override
     public String getFinancialSystemOriginationCode() {
         return financialSystemOriginationCode;
     }
 
     /**
      * Sets the financialSystemOriginationCode attribute.
-     * 
+     *
      * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
      */
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
@@ -396,16 +420,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -414,16 +439,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the transactionLedgerEntrySequenceNumber attribute.
-     * 
+     *
      * @return Returns the transactionLedgerEntrySequenceNumber
      */
+    @Override
     public Integer getTransactionLedgerEntrySequenceNumber() {
         return transactionLedgerEntrySequenceNumber;
     }
 
     /**
      * Sets the transactionLedgerEntrySequenceNumber attribute.
-     * 
+     *
      * @param transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
      */
     public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
@@ -432,16 +458,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the transactionLedgerEntryDescription attribute.
-     * 
+     *
      * @return Returns the transactionLedgerEntryDescription
      */
+    @Override
     public String getTransactionLedgerEntryDescription() {
         return transactionLedgerEntryDescription;
     }
 
     /**
      * Sets the transactionLedgerEntryDescription attribute.
-     * 
+     *
      * @param transactionLedgerEntryDescription The transactionLedgerEntryDescription to set.
      */
     public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
@@ -450,16 +477,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the transactionLedgerEntryAmount attribute.
-     * 
+     *
      * @return Returns the transactionLedgerEntryAmount
      */
+    @Override
     public KualiDecimal getTransactionLedgerEntryAmount() {
         return transactionLedgerEntryAmount;
     }
 
     /**
      * Sets the transactionLedgerEntryAmount attribute.
-     * 
+     *
      * @param transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
      */
     public void setTransactionLedgerEntryAmount(KualiDecimal transactionLedgerEntryAmount) {
@@ -468,19 +496,20 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the transactionDebitCreditCode attribute.
-     * 
+     *
      * @return Returns the transactionDebitCreditCode
      */
+    @Override
     public String getTransactionDebitCreditCode() {
-        if (transactionDebitCreditCode == null) 
-            return " "; 
-        else 
+        if (transactionDebitCreditCode == null)
+            return " ";
+        else
             return transactionDebitCreditCode;
     }
 
     /**
      * Sets the transactionDebitCreditCode attribute.
-     * 
+     *
      * @param transactionDebitCreditCode The transactionDebitCreditCode to set.
      */
     public void setTransactionDebitCreditCode(String transactionDebitCreditCode) {
@@ -489,16 +518,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the transactionDate attribute.
-     * 
+     *
      * @return Returns the transactionDate
      */
+    @Override
     public Date getTransactionDate() {
         return transactionDate;
     }
 
     /**
      * Sets the transactionDate attribute.
-     * 
+     *
      * @param transactionDate The transactionDate to set.
      */
     public void setTransactionDate(Date transactionDate) {
@@ -507,16 +537,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the organizationDocumentNumber attribute.
-     * 
+     *
      * @return Returns the organizationDocumentNumber
      */
+    @Override
     public String getOrganizationDocumentNumber() {
         return organizationDocumentNumber;
     }
 
     /**
      * Sets the organizationDocumentNumber attribute.
-     * 
+     *
      * @param organizationDocumentNumber The organizationDocumentNumber to set.
      */
     public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
@@ -525,16 +556,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the projectCode attribute.
-     * 
+     *
      * @return Returns the projectCode
      */
+    @Override
     public String getProjectCode() {
         return projectCode;
     }
 
     /**
      * Sets the projectCode attribute.
-     * 
+     *
      * @param projectCode The projectCode to set.
      */
     public void setProjectCode(String projectCode) {
@@ -543,16 +575,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the organizationReferenceId attribute.
-     * 
+     *
      * @return Returns the organizationReferenceId
      */
+    @Override
     public String getOrganizationReferenceId() {
         return organizationReferenceId;
     }
 
     /**
      * Sets the organizationReferenceId attribute.
-     * 
+     *
      * @param organizationReferenceId The organizationReferenceId to set.
      */
     public void setOrganizationReferenceId(String organizationReferenceId) {
@@ -561,16 +594,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the referenceFinancialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the referenceFinancialDocumentTypeCode
      */
+    @Override
     public String getReferenceFinancialDocumentTypeCode() {
         return referenceFinancialDocumentTypeCode;
     }
 
     /**
      * Sets the referenceFinancialDocumentTypeCode attribute.
-     * 
+     *
      * @param referenceFinancialDocumentTypeCode The referenceFinancialDocumentTypeCode to set.
      */
     public void setReferenceFinancialDocumentTypeCode(String referenceFinancialDocumentTypeCode) {
@@ -579,16 +613,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the referenceFinancialSystemOriginationCode attribute.
-     * 
+     *
      * @return Returns the referenceFinancialSystemOriginationCode
      */
+    @Override
     public String getReferenceFinancialSystemOriginationCode() {
         return referenceFinancialSystemOriginationCode;
     }
 
     /**
      * Sets the referenceFinancialSystemOriginationCode attribute.
-     * 
+     *
      * @param referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
      */
     public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
@@ -597,16 +632,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the referenceFinancialDocumentNumber attribute.
-     * 
+     *
      * @return Returns the referenceFinancialDocumentNumber
      */
+    @Override
     public String getReferenceFinancialDocumentNumber() {
         return referenceFinancialDocumentNumber;
     }
 
     /**
      * Sets the referenceFinancialDocumentNumber attribute.
-     * 
+     *
      * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      */
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
@@ -615,16 +651,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the financialDocumentReversalDate attribute.
-     * 
+     *
      * @return Returns the financialDocumentReversalDate
      */
+    @Override
     public Date getFinancialDocumentReversalDate() {
         return financialDocumentReversalDate;
     }
 
     /**
      * Sets the financialDocumentReversalDate attribute.
-     * 
+     *
      * @param financialDocumentReversalDate The financialDocumentReversalDate to set.
      */
     public void setFinancialDocumentReversalDate(Date financialDocumentReversalDate) {
@@ -633,16 +670,17 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the transactionEncumbranceUpdateCode attribute.
-     * 
+     *
      * @return Returns the transactionEncumbranceUpdateCode
      */
+    @Override
     public String getTransactionEncumbranceUpdateCode() {
         return transactionEncumbranceUpdateCode;
     }
 
     /**
      * Sets the transactionEncumbranceUpdateCode attribute.
-     * 
+     *
      * @param transactionEncumbranceUpdateCode The transactionEncumbranceUpdateCode to set.
      */
     public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdateCode) {
@@ -651,7 +689,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the transactionPostingDate attribute.
-     * 
+     *
      * @return Returns the transactionPostingDate
      */
     public Date getTransactionPostingDate() {
@@ -660,7 +698,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Sets the transactionPostingDate attribute.
-     * 
+     *
      * @param transactionPostingDate The transactionPostingDate to set.
      */
     public void setTransactionPostingDate(Date transactionPostingDate) {
@@ -669,7 +707,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Gets the transactionDateTimeStamp attribute.
-     * 
+     *
      * @return Returns the transactionDateTimeStamp
      */
     public Timestamp getTransactionDateTimeStamp() {
@@ -678,17 +716,19 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Sets the transactionDateTimeStamp attribute.
-     * 
+     *
      * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
      */
     public void setTransactionDateTimeStamp(Timestamp transactionDateTimeStamp) {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
     }
 
+    @Override
     public Account getAccount() {
         return account;
     }
 
+    @Override
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -701,30 +741,37 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
         this.accountingPeriod = accountingPeriod;
     }
 
+    @Override
     public BalanceType getBalanceType() {
         return balanceType;
     }
 
+    @Override
     public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 
+    @Override
     public Chart getChart() {
         return chart;
     }
 
+    @Override
     public void setChart(Chart chart) {
         this.chart = chart;
     }
 
+    @Override
     public ObjectCode getFinancialObject() {
         return financialObject;
     }
 
+    @Override
     public void setFinancialObject(ObjectCode financialObject) {
         this.financialObject = financialObject;
     }
 
+    @Override
     public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
@@ -733,18 +780,22 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
         this.financialSubObject = financialSubObject;
     }
 
+    @Override
     public ObjectType getObjectType() {
         return objectType;
     }
 
+    @Override
     public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
     }
 
+    @Override
     public SystemOptions getOption() {
         return option;
     }
 
+    @Override
     public void setOption(SystemOptions option) {
         this.option = option;
     }
@@ -765,6 +816,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
         this.reversalDate = reversalDate;
     }
 
+    @Override
     public SubAccount getSubAccount() {
         return subAccount;
     }
@@ -782,29 +834,8 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     }
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("universityFiscalYear", this.universityFiscalYear.toString());
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-        m.put("subAccountNumber", this.subAccountNumber);
-        m.put("financialObjectCode", this.financialObjectCode);
-        m.put("financialSubObjectCode", this.financialSubObjectCode);
-        m.put("financialBalanceTypeCode", this.financialBalanceTypeCode);
-        m.put("financialObjectTypeCode", this.financialObjectTypeCode);
-        m.put("universityFiscalPeriodCode", this.universityFiscalPeriodCode);
-        m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-        m.put("financialSystemOriginationCode", this.financialSystemOriginationCode);
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        m.put("transactionLedgerEntrySequenceNumber", this.transactionLedgerEntrySequenceNumber.toString());
-        return m;
-    }
-
-    /**
      * Gets the dummyBusinessObject attribute.
-     * 
+     *
      * @return Returns the dummyBusinessObject.
      */
     public TransientBalanceInquiryAttributes getDummyBusinessObject() {
@@ -813,7 +844,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
 
     /**
      * Sets the dummyBusinessObject attribute value.
-     * 
+     *
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
     public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
@@ -821,12 +852,24 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     }
 
     /**
-     * Gets the referenceFinancialSystemDocumentTypeCode attribute. 
-     * 
+     * Gets the referenceFinancialSystemDocumentTypeCode attribute.
+     *
      * @return Returns the referenceFinancialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( referenceFinancialDocumentTypeCode ) ) {
+            referenceFinancialSystemDocumentTypeCode = null;
+        } else {
+            if ( referenceFinancialSystemDocumentTypeCode == null || !StringUtils.equals(referenceFinancialDocumentTypeCode, referenceFinancialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(referenceFinancialDocumentTypeCode);
+                if ( temp != null ) {
+                    referenceFinancialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    referenceFinancialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
 }

@@ -32,9 +32,10 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.util.CodeTranslator;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.attribute.KimAttribute;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
@@ -59,11 +60,11 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected static String INQUIRY_TITLE_VALUE = null;
 
     protected static transient OrgReviewRoleService orgReviewRoleService;
-    
+
     //Dummy variable
     protected String organizationTypeCode = "99";
     private static final long serialVersionUID = 1L;
-    
+
     public static final String REVIEW_ROLES_INDICATOR_FIELD_NAME = "reviewRolesIndicator";
     public static final String ROLE_NAME_FIELD_NAMESPACE_CODE = "roleMemberRoleNamespaceCode";
     public static final String ROLE_NAME_FIELD_NAME = "roleMemberRoleName";
@@ -84,21 +85,21 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public static final String FORCE_ACTION_FIELD_NAME = "forceAction";
     public static final String ACTIVE_FROM_DATE = "activeFromDate";
     public static final String ACTIVE_TO_DATE = "activeToDate";
-    
+
     public static final String ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY = "ODelMId";
     public static final String ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY = "ORMId";
-    
+
     public static final String NEW_DELEGATION_ID_KEY_VALUE = "New";
 
     protected String methodToCall;
     protected String kimTypeId;
-    
+
     protected String orgReviewRoleMemberId;
     protected Chart chart;
     protected Organization organization;
     protected boolean edit;
     protected boolean copy;
-    
+
 //    protected KfsKimDocDelegateType delegation = new KfsKimDocDelegateType();
     protected KfsKimDocDelegateMember delegationMemberRole = new KfsKimDocDelegateMember( "", MemberType.ROLE );
     protected KfsKimDocDelegateMember delegationMemberGroup = new KfsKimDocDelegateMember( "", MemberType.GROUP );
@@ -111,19 +112,19 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected Role role;
     protected Group group;
     protected Person person;
-    
+
     protected List<KfsKimDocumentAttributeData> attributes = new ArrayList<KfsKimDocumentAttributeData>();
     protected List<RoleResponsibilityAction> roleRspActions = new ArrayList<RoleResponsibilityAction>();
 
-    //Identifying information for the 3 kinds of role members this document caters to 
+    //Identifying information for the 3 kinds of role members this document caters to
     protected String roleMemberRoleId;
     protected String roleMemberRoleNamespaceCode;
     protected String roleMemberRoleName;
-    
+
     protected String groupMemberGroupId;
     protected String groupMemberGroupNamespaceCode;
     protected String groupMemberGroupName;
-    
+
     protected String principalMemberPrincipalId;
     protected String principalMemberPrincipalName;
 
@@ -131,7 +132,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected String roleId;
     protected String namespaceCode;
     protected String roleName;
-    
+
     //Identifying information for a single member (of any type)
     protected String memberId;
     protected String memberTypeCode;
@@ -143,15 +144,15 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
 
     protected String delegationMemberId;
     protected String roleMemberId;
-    
+
     protected String oDelMId;
     protected String oRMId;
-    
+
     protected String financialSystemDocumentTypeCode;
     protected DocumentTypeEBO financialSystemDocumentType;
     protected List<String> roleNamesToConsider;
     protected String reviewRolesIndicator;
-    
+
     protected String actionTypeCode;
     protected String priorityNumber;
     protected String actionPolicyCode;
@@ -163,17 +164,17 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected String overrideCode;
     protected boolean active = true;
     protected boolean delegate;
-    
+
     protected Date activeFromDate;
     protected Date activeToDate;
-    
+
     public String getReportsToChartOfAccountsCode() {
         if ( organization != null ) {
             return organization.getReportsToChartOfAccountsCode();
         }
         return null;
     }
-    
+
     public String getReportsToOrganizationCode() {
         if ( organization != null ) {
             return organization.getReportsToOrganizationCode();
@@ -181,9 +182,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         return null;
     }
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -195,7 +197,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.active = active;
     }
     /**
-     * Gets the delegate attribute. 
+     * Gets the delegate attribute.
      * @return Returns the delegate.
      */
     public boolean isDelegate() {
@@ -209,7 +211,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.delegate = delegate;
     }
     /**
-     * Gets the chart attribute. 
+     * Gets the chart attribute.
      * @return Returns the chart.
      */
     public Chart getChart() {
@@ -223,7 +225,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.chart = chart;
     }
 //    /**
-//     * Gets the delegation attribute. 
+//     * Gets the delegation attribute.
 //     * @return Returns the delegation.
 //     */
 //    public KfsKimDocDelegateType getDelegation() {
@@ -237,7 +239,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
 //        this.delegation = delegation;
 //    }
     /**
-     * Gets the groupMemberGroupId attribute. 
+     * Gets the groupMemberGroupId attribute.
      * @return Returns the groupMemberGroupId.
      */
     public String getGroupMemberGroupId() {
@@ -253,7 +255,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         delegationMemberGroup.setMemberId(groupMemberGroupId);
     }
     /**
-     * Gets the groupMemberGroupName attribute. 
+     * Gets the groupMemberGroupName attribute.
      * @return Returns the groupMemberGroupName.
      */
     public String getGroupMemberGroupName() {
@@ -269,7 +271,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         delegationMemberGroup.setMemberName(groupMemberGroupName);
     }
     /**
-     * Gets the groupMemberGroupNamespaceCode attribute. 
+     * Gets the groupMemberGroupNamespaceCode attribute.
      * @return Returns the groupMemberGroupNamespaceCode.
      */
     public String getGroupMemberGroupNamespaceCode() {
@@ -285,7 +287,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         delegationMemberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
     }
     /**
-     * Gets the principalMemberPrincipalId attribute. 
+     * Gets the principalMemberPrincipalId attribute.
      * @return Returns the principalMemberPrincipalId.
      */
     public String getPrincipalMemberPrincipalId() {
@@ -301,7 +303,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         delegationMemberPerson.setMemberId(principalMemberPrincipalId);
     }
     /**
-     * Gets the principalMemberPrincipalName attribute. 
+     * Gets the principalMemberPrincipalName attribute.
      * @return Returns the principalMemberPrincipalName.
      */
     public String getPrincipalMemberPrincipalName() {
@@ -317,7 +319,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         delegationMemberPerson.setMemberName(principalMemberPrincipalName);
     }
     /**
-     * Gets the roleMemberRoleId attribute. 
+     * Gets the roleMemberRoleId attribute.
      * @return Returns the roleMemberRoleId.
      */
     public String getRoleMemberRoleId() {
@@ -333,7 +335,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         delegationMemberRole.setMemberId(roleMemberRoleId);
     }
     /**
-     * Gets the roleMemberRoleName attribute. 
+     * Gets the roleMemberRoleName attribute.
      * @return Returns the roleMemberRoleName.
      */
     public String getRoleMemberRoleName() {
@@ -349,7 +351,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         delegationMemberRole.setMemberName(roleMemberRoleName);
     }
     /**
-     * Gets the roleMemberRoleNamespaceCode attribute. 
+     * Gets the roleMemberRoleNamespaceCode attribute.
      * @return Returns the roleMemberRoleNamespaceCode.
      */
     public String getRoleMemberRoleNamespaceCode() {
@@ -365,7 +367,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         delegationMemberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
     }
     /**
-     * Gets the organization attribute. 
+     * Gets the organization attribute.
      * @return Returns the organization.
      */
     public Organization getOrganization() {
@@ -393,7 +395,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         }
     }
     /**
-     * Gets the overrideCode attribute. 
+     * Gets the overrideCode attribute.
      * @return Returns the overrideCode.
      */
     public String getOverrideCode() {
@@ -408,17 +410,17 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.overrideCode = overrideCode;
     }
     /**
-     * Gets the fromAmount attribute. 
+     * Gets the fromAmount attribute.
      * @return Returns the fromAmount.
      */
     public KualiDecimal getFromAmount() {
         return fromAmount;
     }
-    
+
     public String getFromAmountStr() {
         return fromAmount==null?null:fromAmount.toString();
     }
-    
+
     /**
      * Sets the fromAmount attribute value.
      * @param fromAmount The fromAmount to set.
@@ -435,17 +437,17 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * Gets the toAmount attribute. 
+     * Gets the toAmount attribute.
      * @return Returns the toAmount.
      */
     public KualiDecimal getToAmount() {
         return toAmount;
     }
-    
+
     public String getToAmountStr() {
         return toAmount==null?null:toAmount.toString();
     }
-    
+
     /**
      * Sets the toAmount attribute value.
      * @param toAmount The toAmount to set.
@@ -453,7 +455,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void setToAmount(KualiDecimal toAmount) {
         this.toAmount = toAmount;
     }
-    
+
     public void setToAmount(String toAmount) {
         if(StringUtils.isNotEmpty(toAmount))
             this.toAmount = new KualiDecimal(toAmount);
@@ -462,7 +464,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * Gets the memberName attribute. 
+     * Gets the memberName attribute.
      * @return Returns the memberName.
      */
     public String getMemberName() {
@@ -476,7 +478,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.memberName = memberName;
     }
     /**
-     * Gets the activeFromDate attribute. 
+     * Gets the activeFromDate attribute.
      * @return Returns the activeFromDate.
      */
     public Date getActiveFromDate() {
@@ -489,9 +491,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void setActiveFromDate(java.util.Date activeFromDate) {
         this.activeFromDate = activeFromDate;
     }
-    
+
     /**
-     * Gets the activeToDate attribute. 
+     * Gets the activeToDate attribute.
      * @return Returns the activeToDate.
      */
     public Date getActiveToDate() {
@@ -504,9 +506,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void setActiveToDate(java.util.Date activeToDate) {
         this.activeToDate = activeToDate;
     }
-    
+
     /**
-     * Gets the orgReviewRoleMemberId attribute. 
+     * Gets the orgReviewRoleMemberId attribute.
      * @return Returns the orgReviewRoleMemberId.
      */
     public String getOrgReviewRoleMemberId() {
@@ -518,22 +520,35 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     public void setOrgReviewRoleMemberId(String orgReviewRoleMemberId) {
         this.orgReviewRoleMemberId = orgReviewRoleMemberId;
-    } 
-    
+    }
+
+    @Override
     public void refresh(){
-        
+
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCode attribute. 
+     * Gets the financialSystemDocumentTypeCode attribute.
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getFinancialSystemDocumentType() {
-        return financialSystemDocumentType = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentType, "financialSystemDocumentType");
+        if ( StringUtils.isBlank( financialSystemDocumentTypeCode ) ) {
+            financialSystemDocumentType = null;
+        } else {
+            if ( financialSystemDocumentType == null || !StringUtils.equals(financialSystemDocumentTypeCode, financialSystemDocumentType.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialSystemDocumentTypeCode);
+                if ( temp != null ) {
+                    financialSystemDocumentType = DocumentType.from( temp );
+                } else {
+                    financialSystemDocumentType = null;
+                }
+            }
+        }
+        return financialSystemDocumentType;
     }
 
     /**
-     * Gets the financialDocumentTypeCode attribute. 
+     * Gets the financialDocumentTypeCode attribute.
      * @return Returns the financialDocumentTypeCode.
      */
     public String getFinancialSystemDocumentTypeCode() {
@@ -548,10 +563,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
         setRoleNamesAndReviewIndicator(isChanged);
     }
-    
+
     private void setRoleNamesAndReviewIndicator(boolean hasFinancialSystemDocumentTypeCodeChanged){
         if(hasFinancialSystemDocumentTypeCodeChanged){
-            //If role id is populated role names to consider have already been narrowed down 
+            //If role id is populated role names to consider have already been narrowed down
             if(StringUtils.isNotBlank(getRoleId()) && StringUtils.isNotBlank(getRoleName())){
                 List<String> narrowedDownRoleNames = new ArrayList<String>();
                 narrowedDownRoleNames.add(getRoleName());
@@ -561,14 +576,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             }
             if(isBothReviewRolesIndicator()) {
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE);
-            } else if(isAccountingOrgReviewRoleIndicator()) { 
+            } else if(isAccountingOrgReviewRoleIndicator()) {
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE);
-            } else if(isOrgReviewRoleIndicator()) { 
+            } else if(isOrgReviewRoleIndicator()) {
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE);
             }
-        }        
+        }
     }
-    
+
     /**
      * Sets the financialSystemDocumentTypeCode attribute value.
      * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
@@ -577,7 +592,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.financialSystemDocumentType = financialSystemDocumentType;
     }
     /**
-     * Gets the delegationTypeCode attribute. 
+     * Gets the delegationTypeCode attribute.
      * @return Returns the delegationTypeCode.
      */
     public String getDelegationTypeCode() {
@@ -596,7 +611,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.delegationTypeCode = delegationTypeCode;
     }
     /**
-     * Gets the memberNamespaceCode attribute. 
+     * Gets the memberNamespaceCode attribute.
      * @return Returns the memberNamespaceCode.
      */
     public String getMemberNamespaceCode() {
@@ -610,7 +625,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.memberNamespaceCode = memberNamespaceCode;
     }
     /**
-     * Gets the memberTypeCode attribute. 
+     * Gets the memberTypeCode attribute.
      * @return Returns the memberTypeCode.
      */
     public String getMemberTypeCodeDescription() {
@@ -631,7 +646,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.memberId = memberId;
     }
     /**
-     * Gets the attributes attribute. 
+     * Gets the attributes attribute.
      * @return Returns the attributes.
      */
     public List<KfsKimDocumentAttributeData> getAttributes() {
@@ -644,16 +659,16 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void setAttributes(List<KfsKimDocumentAttributeData> attributes) {
         this.attributes = attributes;
     }
-    
+
     public String getAttributeValue(String attributeName){
         KfsKimDocumentAttributeData attributeData = getAttribute(attributeName);
         return attributeData==null?"":attributeData.getAttrVal();
     }
 
     private KfsKimDocumentAttributeData getAttribute(String attributeName){
-        if(StringUtils.isNotBlank(attributeName)) { 
+        if(StringUtils.isNotBlank(attributeName)) {
             for(KfsKimDocumentAttributeData attribute: attributes){
-                if( attribute.getKimAttribute()!=null 
+                if( attribute.getKimAttribute()!=null
                         && StringUtils.equals(attribute.getKimAttribute().getAttributeName(),attributeName)){
                     return attribute;
                 }
@@ -663,14 +678,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * Gets the chartCode attribute. 
+     * Gets the chartCode attribute.
      * @return Returns the chartCode.
      */
     public String getChartOfAccountsCode() {
         return this.chartOfAccountsCode;
     }
     /**
-     * Gets the organizationCode attribute. 
+     * Gets the organizationCode attribute.
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -691,7 +706,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
     /**
-     * Gets the roleNamesToConsider attribute. 
+     * Gets the roleNamesToConsider attribute.
      * @return Returns the roleNamesToConsider.
      */
     public List<String> getRoleNamesToConsider() {
@@ -711,32 +726,32 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         roleNamesToConsider = getOrgReviewRoleService().getRolesToConsider(getFinancialSystemDocumentTypeCode());
     }
     /**
-     * Gets the accountingOrgReviewRoleIndicator attribute. 
+     * Gets the accountingOrgReviewRoleIndicator attribute.
      * @return Returns the accountingOrgReviewRoleIndicator.
      */
     public boolean isAccountingOrgReviewRoleIndicator() {
-        return getRoleNamesToConsider()!=null && 
+        return getRoleNamesToConsider()!=null &&
             getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
     }
     /**
-     * Gets the bothReviewRolesIndicator attribute. 
+     * Gets the bothReviewRolesIndicator attribute.
      * @return Returns the bothReviewRolesIndicator.
      */
     public boolean isBothReviewRolesIndicator() {
-        return getRoleNamesToConsider()!=null && 
+        return getRoleNamesToConsider()!=null &&
             getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME) &&
             getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
     }
     /**
-     * Gets the orgReviewRoleIndicator attribute. 
+     * Gets the orgReviewRoleIndicator attribute.
      * @return Returns the orgReviewRoleIndicator.
      */
     public boolean isOrgReviewRoleIndicator() {
-        return getRoleNamesToConsider()!=null && 
+        return getRoleNamesToConsider()!=null &&
             getRoleNamesToConsider().contains(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
     }
     /**
-     * Gets the actionTypeCode attribute. 
+     * Gets the actionTypeCode attribute.
      * @return Returns the actionTypeCode.
      */
     public String getActionTypeCode() {
@@ -751,9 +766,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * 
+     *
      * This method fore readonlyalterdisplay
-     * 
+     *
      * @return
      */
     public String getActionTypeCodeDescription() {
@@ -769,20 +784,20 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.actionTypeCode = actionTypeCode;
     }
     /**
-     * Gets the priorityNumber attribute. 
+     * Gets the priorityNumber attribute.
      * @return Returns the priorityNumber.
      */
     public String getPriorityNumber() {
         return priorityNumber;
     }
-    
+
     public String getPriorityNumberToDisplay() {
         if(roleRspActions==null || roleRspActions.isEmpty() ) {
             return "";
         }
         return roleRspActions.get(0).getPriorityNumber()==null?"":roleRspActions.get(0).getPriorityNumber()+"";
     }
-    
+
     /**
      * Sets the priorityNumber attribute value.
      * @param priorityNumber The priorityNumber to set.
@@ -791,7 +806,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.priorityNumber = priorityNumber;
     }
     /**
-     * Gets the actionPolicyCode attribute. 
+     * Gets the actionPolicyCode attribute.
      * @return Returns the actionPolicyCode.
      */
     public String getActionPolicyCode() {
@@ -805,7 +820,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.actionPolicyCode = actionPolicyCode;
     }
     /**
-     * Gets the ignorePrevious attribute. 
+     * Gets the ignorePrevious attribute.
      * @return Returns the ignorePrevious.
      */
     public boolean isForceAction() {
@@ -820,7 +835,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * Gets the roleId attribute. 
+     * Gets the roleId attribute.
      * @return Returns the roleId.
      */
     public String getRoleId() {
@@ -834,7 +849,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.roleId = roleId;
     }
     /**
-     * Gets the reviewRolesIndicator attribute. 
+     * Gets the reviewRolesIndicator attribute.
      * @return Returns the reviewRolesIndicator.
      */
     public String getReviewRolesIndicator() {
@@ -863,15 +878,15 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public boolean hasGroup(){
         return StringUtils.isNotBlank(groupMemberGroupNamespaceCode) && StringUtils.isNotBlank(groupMemberGroupName);
     }
-    
+
     public boolean hasPrincipal(){
         return StringUtils.isNotBlank(principalMemberPrincipalName);
     }
-    
+
     public boolean hasAnyMember(){
         return hasRole() || hasGroup() || hasPrincipal();
     }
-    
+
     public KfsKimDocDelegateMember getDelegationMemberOfType(String memberTypeCode){
         if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)){
             delegationMemberRole.setMemberId(roleMemberRoleId);
@@ -893,7 +908,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         }
         return null;
     }
-    
+
     public KfsKimDocRoleMember getRoleMemberOfType(String memberTypeCode){
         if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)){
             memberRole.setMemberId(roleMemberRoleId);
@@ -912,12 +927,12 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         }
         return null;
     }
-    
+
 //    public String getMemberIdForDelegationMember(String memberTypeCode){
 //        KfsKimDocDelegateMember member = getDelegationMemberOfType(memberTypeCode);
 //        return member!=null?member.getMemberId():null;
 //    }
-//    
+//
 //    public String getMemberIdForRoleMember(String memberTypeCode){
 //        KfsKimDocRoleMember member = getRoleMemberOfType(memberTypeCode);
 //        return member!=null?member.getMemberId():null;
@@ -933,23 +948,23 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         }
         return null;
     }
-    
+
     /**
-     * Gets the memberId attribute. 
+     * Gets the memberId attribute.
      * @return Returns the memberId.
      */
     public String getMemberId() {
         return memberId;
     }
     /**
-     * Gets the memberTypeCode attribute. 
+     * Gets the memberTypeCode attribute.
      * @return Returns the memberTypeCode.
      */
     public String getMemberTypeCode() {
         return memberTypeCode;
     }
     /**
-     * Gets the group attribute. 
+     * Gets the group attribute.
      * @return Returns the group.
      */
     public Group getGroup() {
@@ -963,13 +978,13 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.group = group;
     }
     /**
-     * Gets the person attribute. 
+     * Gets the person attribute.
      * @return Returns the person.
      */
     public Person getPerson() {
-        if(StringUtils.isNotEmpty(principalMemberPrincipalId) && 
-                (person==null 
-                    || StringUtils.isBlank(person.getPrincipalId()) 
+        if(StringUtils.isNotEmpty(principalMemberPrincipalId) &&
+                (person==null
+                    || StringUtils.isBlank(person.getPrincipalId())
                     || StringUtils.isBlank(person.getPrincipalName())
                     || !StringUtils.equals(person.getPrincipalId(), principalMemberPrincipalId) )){
             person = KimApiServiceLocator.getPersonService().getPerson(principalMemberPrincipalId);
@@ -985,7 +1000,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * Gets the role attribute. 
+     * Gets the role attribute.
      * @return Returns the role.
      */
     public Role getRole() {
@@ -996,7 +1011,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * Gets the delegationMemberGroup attribute. 
+     * Gets the delegationMemberGroup attribute.
      * @return Returns the delegationMemberGroup.
      */
     public KfsKimDocDelegateMember getDelegationMemberGroup() {
@@ -1014,7 +1029,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
 //        }
     }
     /**
-     * Gets the delegationMemberPerson attribute. 
+     * Gets the delegationMemberPerson attribute.
      * @return Returns the delegationMemberPerson.
      */
     public KfsKimDocDelegateMember getDelegationMemberPerson() {
@@ -1032,7 +1047,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
 //        }
     }
     /**
-     * Gets the delegationMemberRole attribute. 
+     * Gets the delegationMemberRole attribute.
      * @return Returns the delegationMemberRole.
      */
     public KfsKimDocDelegateMember getDelegationMemberRole() {
@@ -1050,7 +1065,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         }
     }
     /**
-     * Gets the memberGroup attribute. 
+     * Gets the memberGroup attribute.
      * @return Returns the memberGroup.
      */
     public KfsKimDocRoleMember getMemberGroup() {
@@ -1068,7 +1083,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
 //        }
     }
     /**
-     * Gets the memberPerson attribute. 
+     * Gets the memberPerson attribute.
      * @return Returns the memberPerson.
      */
     public KfsKimDocRoleMember getMemberPerson() {
@@ -1086,7 +1101,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
 //        }
     }
     /**
-     * Gets the memberRole attribute. 
+     * Gets the memberRole attribute.
      * @return Returns the memberRole.
      */
     public KfsKimDocRoleMember getMemberRole() {
@@ -1130,7 +1145,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             setActiveToDate(null);
         }
     }
-    
+
     public void setKimDocumentRoleMember(RoleMember roleMember){
         if ( roleMember != null ) {
             if(MemberType.ROLE.equals(roleMember.getType()))
@@ -1157,9 +1172,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             setActiveToDate(null);
         }
     }
-    
+
     /**
-     * Gets the copy attribute. 
+     * Gets the copy attribute.
      * @return Returns the copy.
      */
     public boolean isCopy() {
@@ -1173,7 +1188,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.copy = copy;
     }
     /**
-     * Gets the edit attribute. 
+     * Gets the edit attribute.
      * @return Returns the edit.
      */
     public boolean isEdit() {
@@ -1187,7 +1202,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.edit = edit;
     }
     /**
-     * Gets the oDelMId attribute. 
+     * Gets the oDelMId attribute.
      * @return Returns the oDelMId.
      */
     public String getODelMId() {
@@ -1201,7 +1216,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         oDelMId = delMId;
     }
     /**
-     * Gets the oRMId attribute. 
+     * Gets the oRMId attribute.
      * @return Returns the oRMId.
      */
     public String getORMId() {
@@ -1215,7 +1230,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         oRMId = id;
     }
     /**
-     * Gets the delegationMemberId attribute. 
+     * Gets the delegationMemberId attribute.
      * @return Returns the delegationMemberId.
      */
     public String getDelegationMemberId() {
@@ -1229,7 +1244,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.delegationMemberId = delegationMemberId;
     }
     /**
-     * Gets the roleMemberId attribute. 
+     * Gets the roleMemberId attribute.
      * @return Returns the roleMemberId.
      */
     public String getRoleMemberId() {
@@ -1243,7 +1258,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         this.roleMemberId = roleMemberId;
     }
     /**
-     * Gets the methodToCall attribute. 
+     * Gets the methodToCall attribute.
      * @return Returns the methodToCall.
      */
     public String getMethodToCall() {
@@ -1260,7 +1275,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public boolean isEditDelegation(){
         return isEdit() && isDelegate();
     }
-    
+
     public boolean isEditRoleMember(){
         return isEdit() && !isDelegate();
     }
@@ -1268,7 +1283,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public boolean isCopyDelegation(){
         return isCopy() && isDelegate();
     }
-    
+
     public boolean isCopyRoleMember(){
         return isCopy() && !isDelegate();
     }
@@ -1276,7 +1291,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public boolean isCreateDelegation(){
         return NEW_DELEGATION_ID_KEY_VALUE.equals(getODelMId());
     }
-    
+
     public boolean isCreateRoleMember(){
         return StringUtils.isEmpty(methodToCall);
     }
@@ -1311,7 +1326,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void setKimTypeId(String kimTypeId) {
         this.kimTypeId = kimTypeId;
     }
-    
+
     public Map<String,String> getQualifierAsAttributeSet(List<KfsKimDocumentAttributeData> qualifiers) {
         Map<String,String> m = new HashMap<String,String>();
         for(KfsKimDocumentAttributeData data: qualifiers){
@@ -1337,7 +1352,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         return attributesList;
     }
     /**
-     * Gets the roleRspActions attribute. 
+     * Gets the roleRspActions attribute.
      * @return Returns the roleRspActions.
      */
     public List<RoleResponsibilityAction> getRoleRspActions() {
@@ -1350,11 +1365,11 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void setRoleRspActions(List<RoleResponsibilityAction> roleRspActions) {
         this.roleRspActions = roleRspActions;
     }
-    
+
     public String getOrgReviewRoleInquiryTitle() {
         if ( INQUIRY_TITLE_VALUE == null ) {
             INQUIRY_TITLE_VALUE = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ORR_INQUIRY_TITLE_PROPERTY);
-        }            
+        }
         return INQUIRY_TITLE_VALUE;
     }
 
@@ -1362,7 +1377,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void refreshNonUpdateableReferences() {
         // do nothing
     }
-    
+
     @Override
     public void refreshReferenceObject(String referenceObjectName) {
         // do nothing

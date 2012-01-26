@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -38,8 +39,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -94,7 +96,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private ProjectCode project;
     private OriginationCode referenceOriginationCode;
     private DocumentTypeEBO referenceFinancialSystemDocumentTypeCode;
-    
+
     @Deprecated
     private transient AccountingPeriod accountingPeriod;
 
@@ -110,7 +112,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Copy constructor Constructs a GeneralLedgerPendingEntry.java.
-     * 
+     *
      * @param original entry to copy
      */
     public GeneralLedgerPendingEntry(GeneralLedgerPendingEntry original) {
@@ -143,7 +145,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         acctSufficientFundsFinObjCd = original.getAcctSufficientFundsFinObjCd();
         transactionEntryOffsetIndicator = original.isTransactionEntryOffsetIndicator();
         transactionEntryProcessedTs = original.getTransactionEntryProcessedTs();
-        
+
         financialSystemDocumentTypeCode = original.getFinancialSystemDocumentTypeCode();
         documentHeader = original.getDocumentHeader();
 
@@ -163,7 +165,19 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     }
 
     public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( referenceFinancialDocumentTypeCode ) ) {
+            referenceFinancialSystemDocumentTypeCode = null;
+        } else {
+            if ( referenceFinancialSystemDocumentTypeCode == null || !StringUtils.equals(referenceFinancialDocumentTypeCode, referenceFinancialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(referenceFinancialDocumentTypeCode);
+                if ( temp != null ) {
+                    referenceFinancialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    referenceFinancialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
     public OriginationCode getReferenceOriginationCode() {
@@ -190,26 +204,29 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         this.originationCode = originationCode;
     }
 
+    @Override
     public void setOption(SystemOptions option) {
         this.option = option;
     }
 
+    @Override
     public SystemOptions getOption() {
         return option;
     }
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -218,16 +235,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the transactionLedgerEntrySequenceNumber attribute.
-     * 
+     *
      * @return Returns the transactionLedgerEntrySequenceNumber
      */
+    @Override
     public Integer getTransactionLedgerEntrySequenceNumber() {
         return transactionLedgerEntrySequenceNumber;
     }
 
     /**
      * Sets the transactionLedgerEntrySequenceNumber attribute.
-     * 
+     *
      * @param transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
      */
     public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
@@ -236,16 +254,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -254,16 +273,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber
      */
+    @Override
     public String getAccountNumber() {
         return accountNumber;
     }
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -272,16 +292,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber
      */
+    @Override
     public String getSubAccountNumber() {
         return subAccountNumber;
     }
 
     /**
      * Sets the subAccountNumber attribute.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -290,16 +311,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode
      */
+    @Override
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
 
     /**
      * Sets the financialObjectCode attribute.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -308,16 +330,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the financialSubObjectCode attribute.
-     * 
+     *
      * @return Returns the financialSubObjectCode
      */
+    @Override
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
     }
 
     /**
      * Sets the financialSubObjectCode attribute.
-     * 
+     *
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -326,16 +349,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the financialBalanceTypeCode attribute.
-     * 
+     *
      * @return Returns the financialBalanceTypeCode
      */
+    @Override
     public String getFinancialBalanceTypeCode() {
         return financialBalanceTypeCode;
     }
 
     /**
      * Sets the financialBalanceTypeCode attribute.
-     * 
+     *
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -344,9 +368,10 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the financialObjectTypeCode attribute.
-     * 
+     *
      * @return Returns the financialObjectTypeCode
      */
+    @Override
     public String getFinancialObjectTypeCode() {
         return financialObjectTypeCode;
     }
@@ -354,7 +379,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Sets the financialObjectTypeCode attribute.
-     * 
+     *
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -363,9 +388,10 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear
      */
+    @Override
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
@@ -373,7 +399,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Sets the universityFiscalYear attribute.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -382,16 +408,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @return Returns the universityFiscalPeriodCode
      */
+    @Override
     public String getUniversityFiscalPeriodCode() {
         return universityFiscalPeriodCode;
     }
 
     /**
      * Sets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
@@ -400,16 +427,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the transactionLedgerEntryDescription attribute.
-     * 
+     *
      * @return Returns the transactionLedgerEntryDescription
      */
+    @Override
     public String getTransactionLedgerEntryDescription() {
         return transactionLedgerEntryDescription;
     }
 
     /**
      * Sets the transactionLedgerEntryDescription attribute.
-     * 
+     *
      * @param transactionLedgerEntryDescription The transactionLedgerEntryDescription to set.
      */
     public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
@@ -418,16 +446,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the transactionLedgerEntryAmount attribute.
-     * 
+     *
      * @return Returns the transactionLedgerEntryAmount
      */
+    @Override
     public KualiDecimal getTransactionLedgerEntryAmount() {
         return transactionLedgerEntryAmount;
     }
 
     /**
      * Sets the transactionLedgerEntryAmount attribute.
-     * 
+     *
      * @param transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
      */
     public void setTransactionLedgerEntryAmount(KualiDecimal transactionLedgerEntryAmount) {
@@ -436,16 +465,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the transactionDebitCreditCode attribute.
-     * 
+     *
      * @return Returns the transactionDebitCreditCode
      */
+    @Override
     public String getTransactionDebitCreditCode() {
         return transactionDebitCreditCode;
     }
 
     /**
      * Sets the transactionDebitCreditCode attribute.
-     * 
+     *
      * @param transactionDebitCreditCode The transactionDebitCreditCode to set.
      */
     public void setTransactionDebitCreditCode(String transactionDebitCreditCode) {
@@ -454,16 +484,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the transactionDate attribute.
-     * 
+     *
      * @return Returns the transactionDate
      */
+    @Override
     public Date getTransactionDate() {
         return transactionDate;
     }
 
     /**
      * Sets the transactionDate attribute.
-     * 
+     *
      * @param transactionDate The transactionDate to set.
      */
     public void setTransactionDate(Date transactionDate) {
@@ -472,16 +503,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentTypeCode
      */
+    @Override
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
     }
 
     /**
      * Sets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -490,16 +522,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the organizationDocumentNumber attribute.
-     * 
+     *
      * @return Returns the organizationDocumentNumber
      */
+    @Override
     public String getOrganizationDocumentNumber() {
         return organizationDocumentNumber;
     }
 
     /**
      * Sets the organizationDocumentNumber attribute.
-     * 
+     *
      * @param organizationDocumentNumber The organizationDocumentNumber to set.
      */
     public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
@@ -508,16 +541,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the projectCode attribute.
-     * 
+     *
      * @return Returns the projectCode
      */
+    @Override
     public String getProjectCode() {
         return projectCode;
     }
 
     /**
      * Sets the projectCode attribute.
-     * 
+     *
      * @param projectCode The projectCode to set.
      */
     public void setProjectCode(String projectCode) {
@@ -526,16 +560,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the organizationReferenceId attribute.
-     * 
+     *
      * @return Returns the organizationReferenceId
      */
+    @Override
     public String getOrganizationReferenceId() {
         return organizationReferenceId;
     }
 
     /**
      * Sets the organizationReferenceId attribute.
-     * 
+     *
      * @param organizationReferenceId The organizationReferenceId to set.
      */
     public void setOrganizationReferenceId(String organizationReferenceId) {
@@ -544,16 +579,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the referenceFinancialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the referenceFinancialDocumentTypeCode
      */
+    @Override
     public String getReferenceFinancialDocumentTypeCode() {
         return referenceFinancialDocumentTypeCode;
     }
 
     /**
      * Sets the referenceFinancialDocumentTypeCode attribute.
-     * 
+     *
      * @param referenceFinancialDocumentTypeCode The referenceFinancialDocumentTypeCode to set.
      */
     public void setReferenceFinancialDocumentTypeCode(String referenceFinancialDocumentTypeCode) {
@@ -562,16 +598,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the referenceFinancialSystemOriginationCode attribute.
-     * 
+     *
      * @return Returns the referenceFinancialSystemOriginationCode
      */
+    @Override
     public String getReferenceFinancialSystemOriginationCode() {
         return referenceFinancialSystemOriginationCode;
     }
 
     /**
      * Sets the referenceFinancialSystemOriginationCode attribute.
-     * 
+     *
      * @param referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
      */
     public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
@@ -580,16 +617,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the referenceFinancialDocumentNumber attribute.
-     * 
+     *
      * @return Returns the referenceFinancialDocumentNumber
      */
+    @Override
     public String getReferenceFinancialDocumentNumber() {
         return referenceFinancialDocumentNumber;
     }
 
     /**
      * Sets the referenceFinancialDocumentNumber attribute.
-     * 
+     *
      * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      */
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
@@ -598,16 +636,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the financialDocumentReversalDate attribute.
-     * 
+     *
      * @return Returns the financialDocumentReversalDate
      */
+    @Override
     public Date getFinancialDocumentReversalDate() {
         return financialDocumentReversalDate;
     }
 
     /**
      * Sets the financialDocumentReversalDate attribute.
-     * 
+     *
      * @param financialDocumentReversalDate The financialDocumentReversalDate to set.
      */
     public void setFinancialDocumentReversalDate(Date financialDocumentReversalDate) {
@@ -616,16 +655,17 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the transactionEncumbranceUpdateCode attribute.
-     * 
+     *
      * @return Returns the transactionEncumbranceUpdateCode
      */
+    @Override
     public String getTransactionEncumbranceUpdateCode() {
         return transactionEncumbranceUpdateCode;
     }
 
     /**
      * Sets the transactionEncumbranceUpdateCode attribute.
-     * 
+     *
      * @param transactionEncumbranceUpdateCode The transactionEncumbranceUpdateCode to set.
      */
     public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdateCode) {
@@ -634,7 +674,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the financialDocumentApprovedCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentApprovedCode
      */
     public String getFinancialDocumentApprovedCode() {
@@ -644,7 +684,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Sets the financialDocumentApprovedCode attribute.
-     * 
+     *
      * @param financialDocumentApprovedCode The financialDocumentApprovedCode to set.
      */
     public void setFinancialDocumentApprovedCode(String financialDocumentApprovedCode) {
@@ -653,7 +693,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the acctSufficientFundsFinObjCd attribute.
-     * 
+     *
      * @return Returns the acctSufficientFundsFinObjCd
      */
     public String getAcctSufficientFundsFinObjCd() {
@@ -662,7 +702,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Sets the acctSufficientFundsFinObjCd attribute.
-     * 
+     *
      * @param acctSufficientFundsFinObjCd The acctSufficientFundsFinObjCd to set.
      */
     public void setAcctSufficientFundsFinObjCd(String acctSufficientFundsFinObjCd) {
@@ -671,7 +711,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the transactionEntryOffsetIndicator attribute.
-     * 
+     *
      * @return Returns the transactionEntryOffsetIndicator
      */
     public boolean isTransactionEntryOffsetIndicator() {
@@ -680,7 +720,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Sets the transactionEntryOffsetIndicator attribute.
-     * 
+     *
      * @param transactionEntryOffsetIndicator The transactionEntryOffsetIndicator to set.
      */
     public void setTransactionEntryOffsetIndicator(boolean transactionEntryOffsetIndicator) {
@@ -689,7 +729,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the transactionEntryProcessedTs attribute.
-     * 
+     *
      * @return Returns the transactionEntryProcessedTs
      */
     public Timestamp getTransactionEntryProcessedTs() {
@@ -698,7 +738,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Sets the transactionEntryProcessedTs attribute.
-     * 
+     *
      * @param transactionEntryProcessedTs The transactionEntryProcessedTs to set.
      */
     public void setTransactionEntryProcessedTs(Timestamp transactionEntryProcessedTs) {
@@ -708,6 +748,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     /**
      * @return Returns the financialSystemOriginationCode.
      */
+    @Override
     public String getFinancialSystemOriginationCode() {
         return financialSystemOriginationCode;
     }
@@ -736,16 +777,29 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCode attribute. 
+     * Gets the financialSystemDocumentTypeCode attribute.
      * @return Returns the financialSystemDocumentTypeCode.
      */
+    @Override
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( financialDocumentTypeCode ) ) {
+            financialSystemDocumentTypeCode = null;
+        } else {
+            if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialDocumentTypeCode, financialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialDocumentTypeCode);
+                if ( temp != null ) {
+                    financialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    financialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return financialSystemDocumentTypeCode;
     }
 
     /**
      * Gets the documentHeader attribute.
-     * 
+     *
      * @return Returns the documentHeader.
      */
     public FinancialSystemDocumentHeader getDocumentHeader() {
@@ -754,7 +808,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Sets the documentHeader attribute value.
-     * 
+     *
      * @param documentHeader The documentHeader to set.
      */
     public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
@@ -763,97 +817,107 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account.
      */
+    @Override
     public Account getAccount() {
         return account;
     }
 
     /**
      * Sets the account attribute value.
-     * 
+     *
      * @param account The account to set.
      */
+    @Override
     public void setAccount(Account account) {
         this.account = account;
     }
 
     /**
      * Gets the balanceType attribute.
-     * 
+     *
      * @return Returns the balanceType.
      */
+    @Override
     public BalanceType getBalanceType() {
         return balanceType;
     }
 
     /**
      * Sets the balanceType attribute value.
-     * 
+     *
      * @param balanceType The balanceType to set.
      */
+    @Override
     public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 
     /**
      * Gets the chart attribute.
-     * 
+     *
      * @return Returns the chart.
      */
+    @Override
     public Chart getChart() {
         return chart;
     }
 
     /**
      * Sets the chart attribute value.
-     * 
+     *
      * @param chart The chart to set.
      */
+    @Override
     public void setChart(Chart chart) {
         this.chart = chart;
     }
 
     /**
      * Gets the financialObject attribute.
-     * 
+     *
      * @return Returns the financialObject.
      */
+    @Override
     public ObjectCode getFinancialObject() {
         return financialObject;
     }
 
     /**
      * Sets the financialObject attribute value.
-     * 
+     *
      * @param financialObject The financialObject to set.
      */
+    @Override
     public void setFinancialObject(ObjectCode financialObject) {
         this.financialObject = financialObject;
     }
 
     /**
      * Gets the objectType attribute.
-     * 
+     *
      * @return Returns the objectType.
      */
+    @Override
     public ObjectType getObjectType() {
         return objectType;
     }
 
     /**
      * Sets the objectType attribute value.
-     * 
+     *
      * @param objectType The objectType to set.
      */
+    @Override
     public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
     }
 
     /**
      * Gets the a21SubAccount attribute.
-     * 
+     *
      * @return Returns the a21SubAccount.
      */
     public A21SubAccount getA21SubAccount() {
@@ -862,7 +926,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Sets the a21SubAccount attribute value.
-     * 
+     *
      * @param a21SubAccount The a21SubAccount to set.
      */
     public void setA21SubAccount(A21SubAccount a21SubAccount) {
@@ -871,7 +935,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Gets the dummyBusinessObject attribute.
-     * 
+     *
      * @return Returns the dummyBusinessObject.
      */
     public TransientBalanceInquiryAttributes getDummyBusinessObject() {
@@ -880,13 +944,14 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     /**
      * Sets the dummyBusinessObject attribute value.
-     * 
+     *
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
     public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
     }
 
+    @Override
     public SubAccount getSubAccount() {
         return subAccount;
     }
@@ -895,6 +960,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         this.subAccount = subAccount;
     }
 
+    @Override
     public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
@@ -932,7 +998,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
         this.accountingPeriod = accountingPeriod;
     }
-    
+
     /**
      * @return the amount formatted as a currency number
      */

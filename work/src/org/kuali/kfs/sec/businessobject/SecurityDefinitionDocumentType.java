@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,13 +17,15 @@ package org.kuali.kfs.sec.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
@@ -44,7 +46,7 @@ public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBas
 
     /**
      * Gets the definitionId attribute.
-     * 
+     *
      * @return Returns the definitionId.
      */
     public KualiInteger getDefinitionId() {
@@ -54,7 +56,7 @@ public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBas
 
     /**
      * Sets the definitionId attribute value.
-     * 
+     *
      * @param definitionId The definitionId to set.
      */
     public void setDefinitionId(KualiInteger definitionId) {
@@ -64,7 +66,7 @@ public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBas
 
     /**
      * Gets the financialSystemDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public String getFinancialSystemDocumentTypeCode() {
@@ -74,7 +76,7 @@ public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBas
 
     /**
      * Sets the financialSystemDocumentTypeCode attribute value.
-     * 
+     *
      * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      */
     public void setFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCode) {
@@ -83,9 +85,10 @@ public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBas
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -93,7 +96,7 @@ public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBas
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -103,17 +106,29 @@ public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBas
 
     /**
      * Gets the financialSystemDocumentType attribute.
-     * 
+     *
      * @return Returns the financialSystemDocumentType.
      */
     public DocumentTypeEBO getFinancialSystemDocumentType() {
-        return financialSystemDocumentType = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentType, "financialSystemDocumentType");
+        if ( StringUtils.isBlank( financialSystemDocumentTypeCode ) ) {
+            financialSystemDocumentType = null;
+        } else {
+            if ( financialSystemDocumentType == null || !StringUtils.equals(financialSystemDocumentTypeCode, financialSystemDocumentType.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialSystemDocumentTypeCode);
+                if ( temp != null ) {
+                    financialSystemDocumentType = DocumentType.from( temp );
+                } else {
+                    financialSystemDocumentType = null;
+                }
+            }
+        }
+        return financialSystemDocumentType;
     }
 
 
     /**
      * Sets the financialSystemDocumentType attribute value.
-     * 
+     *
      * @param financialSystemDocumentType The financialSystemDocumentType to set.
      */
     public void setFinancialSystemDocumentType(DocumentTypeEBO financialSystemDocumentType) {
@@ -124,7 +139,7 @@ public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBas
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 

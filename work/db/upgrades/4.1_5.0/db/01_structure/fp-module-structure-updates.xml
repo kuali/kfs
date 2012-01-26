@@ -202,6 +202,11 @@
 		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
 		<addPrimaryKey tableName='FP_CR_CARD_DTL_T'
 			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+			
+		<dropColumn tableName="FP_CURRENCY_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<dropColumn tableName="FP_COIN_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<dropColumn tableName="FP_CHECK_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
 		<sql>
 			RENAME FP_PRCRMNT_CARD_TRN_T_SEQ TO FP_PRCRMNT_CARD_TRN_MT_SEQ;

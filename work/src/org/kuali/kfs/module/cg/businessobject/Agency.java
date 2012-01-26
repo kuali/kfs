@@ -19,6 +19,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -39,7 +40,9 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private Agency reportsToAgency;
     private AgencyType agencyType;
     private boolean active;
-
+    
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Agency";
+    
     /**
      * Gets the agencyTypeCode attribute.
      * 

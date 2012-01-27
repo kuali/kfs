@@ -287,24 +287,24 @@
 
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="1110" />
+			<column name="OBJ_ID" value="KFSCG720001" />
+			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="10" />
 			<column name="NMSPC_CD" value="KFS-CG" />
 			<column name="NM" value="Initiate Document of Type CGIN" />
 			<column name="DESC_TXT" value="Initiate Document of Type CGIN" />
-			<column name="OBJ_ID" value="KFSCG01" />
-			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="1111" />
+			<column name="OBJ_ID" value="KFSCG720002" />
+			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-CG" />
 			<column name="NM" value="Use Screen" />
 			<column name="DESC_TXT"
 				value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice On Demand process" />
-			<column name="OBJ_ID" value="KFSCG02" />
-			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 
@@ -314,43 +314,43 @@
 		KRIM_PERM_ATTR_DATA_T_ADD</comment>
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSCG01" />
+			<column name="ATTR_DATA_ID" value="KFSCG720001" />
+			<column name="OBJ_ID" value="KFSCG720001" />
+			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="1110" />
 			<column name="KIM_TYP_ID" value="3" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
-			<column name="ATTR_VAL" value="CGIN" />
-			<column name="OBJ_ID" value="KFSCG01" />
-			<column name="VER_NBR" value="1" />
+			<column name="ATTR_VAL" value="CGIN" />		
 		</insert>
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSCG02" />
+			<column name="ATTR_DATA_ID" value="KFSCG720002" />
+			<column name="OBJ_ID" value="KFSCG720002" />
+			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="1111" />
 			<column name="KIM_TYP_ID" value="12" />
 			<column name="KIM_ATTR_DEFN_ID" value="2" />
 			<column name="ATTR_VAL"
 				value="org.kuali.kfs.module.cg.web.struts.ContractsGrantsInvoiceOnDemandSummaryAction" />
-			<column name="OBJ_ID" value="KFSCG02" />
-			<column name="VER_NBR" value="1" />
 		</insert>
 
 		<comment>Adding the permissions to the role for khuntley - default test user
 	KRIM_ROLE_PERM_T_ADD</comment>
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSCG01" />
-			<column name="PERM_ID" value="1110" />
+			<column name="ROLE_PERM_ID" value="KFSCG720001" />
+			<column name="OBJ_ID" value="KFSCG720001" />
 			<column name="ROLE_ID" value="38" />
+			<column name="PERM_ID" value="1110" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" value="KFSCG01" />
 			<column name="VER_NBR" value="1" />
 		</insert>
 
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSCG02" />
-			<column name="PERM_ID" value="1111" />
+			<column name="ROLE_PERM_ID" value="KFSCG720002" />
+			<column name="OBJ_ID" value="KFSCG720002" />
 			<column name="ROLE_ID" value="38" />
+			<column name="PERM_ID" value="1111" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" value="KFSCG02" />
 			<column name="VER_NBR" value="1" />
 		</insert>
 
@@ -359,15 +359,15 @@
 	KRIM_ROLE_T_ADD</comment>
 
 		<insert tableName="KRIM_ROLE_RSP_ACTN_T">
-			<column name="ROLE_RSP_ACTN_ID" value="KFS202" />
-			<column name="OBJ_ID" value="KFS202" />
-			<column name="VER_NBR" value="1" />
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCG7200202" />
+			<column name="OBJ_ID" value="KFSCG7200202" />
 			<column name="ACTN_TYP_CD" value="A" />
 			<column name="PRIORITY_NBR" value="1" />
 			<column name="ACTN_PLCY_CD" value="F" />
 			<column name="ROLE_MBR_ID" value="*" />
 			<column name="ROLE_RSP_ID" value="KFS1126" />
 			<column name="FRC_ACTN" value="N" />
+			<column name="VER_NBR" value="1" />
 		</insert>
 		<comment>Create Funds Manager role and assign responsibility
 	FIX_FUND_MANAGER_RSP_ATTR_DATA_1</comment>
@@ -400,13 +400,13 @@
 	KRIM_PERM_T_ADD_2</comment>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="CGPERMFFR" />
+			<column name="OBJ_ID" value="KFSCG720003" />
+			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-CG" />
 			<column name="NM" value="Use Screen" />
 			<column name="DESC_TXT"
 				value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Federal Form Generation Process" />
-			<column name="OBJ_ID" value="KFSCG03" />
-			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 
@@ -414,23 +414,23 @@
 	KRIM_PERM_ATTR_DATA_T_ADD_1</comment>
 	<insert tableName="KRIM_PERM_ATTR_DATA_T">
 		<column name="ATTR_DATA_ID" value="CGPRMTRFFR" />
+		<column name="OBJ_ID" value="KFSCG720003" />
+		<column name="VER_NBR" value="1" />
 		<column name="PERM_ID" value="CGPERMFFR" />
 		<column name="KIM_TYP_ID" value="12" />
 		<column name="KIM_ATTR_DEFN_ID" value="2" />
 		<column name="ATTR_VAL"
 			value="org.kuali.kfs.module.cg.web.struts.FederalFinancialReportAction" />
-		<column name="OBJ_ID" value="KFSCG03" />
-		<column name="VER_NBR" value="1" />
 	</insert>
 
 	<comment> Adding the permissions to the role for khuntley - default test user
 	KRIM_ROLE_PERM_T_ADD_2</comment>
 	<insert tableName="KRIM_ROLE_PERM_T">
 		<column name="ROLE_PERM_ID" value="CGRLPRMFFR" />
-		<column name="PERM_ID" value="CGPERMFFR" />
+		<column name="OBJ_ID" value="KFSCG720003" />
 		<column name="ROLE_ID" value="38" />
+		<column name="PERM_ID" value="CGPERMFFR" />
 		<column name="ACTV_IND" value="Y" />
-		<column name="OBJ_ID" value="KFSCG03" />
 		<column name="VER_NBR" value="1" />
 	</insert>
 	
@@ -439,13 +439,13 @@
 	KRIM_PERM_T_ADD_1</comment>
 	<insert tableName="KRIM_PERM_T">
 		<column name="PERM_ID" value="CGPERMIRD" />
+		<column name="OBJ_ID" value="KFSCG720004" />
+		<column name="VER_NBR" value="1" />
 		<column name="PERM_TMPL_ID" value="29" />
 		<column name="NMSPC_CD" value="KFS-CG" />
 		<column name="NM" value="Use Screen" />
 		<column name="DESC_TXT"
 			value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice Report Delivery Process" />
-		<column name="OBJ_ID" value="KFSCG04" />
-		<column name="VER_NBR" value="1" />
 		<column name="ACTV_IND" value="Y" />
 	</insert>
 
@@ -454,23 +454,23 @@
 	KRIM_PERM_ATTR_DATA_T_ADD_21</comment>
 	<insert tableName="KRIM_PERM_ATTR_DATA_T">
 		<column name="ATTR_DATA_ID" value="CGPRMTRIRD" />
+		<column name="OBJ_ID" value="KFSCG720004" />
+		<column name="VER_NBR" value="1" />
 		<column name="PERM_ID" value="CGPERMIRD" />
 		<column name="KIM_TYP_ID" value="12" />
 		<column name="KIM_ATTR_DEFN_ID" value="2" />
 		<column name="ATTR_VAL"
 			value="org.kuali.kfs.module.cg.web.struts.InvoiceReportDeliveryAction" />
-		<column name="OBJ_ID" value="KFSCG04" />
-		<column name="VER_NBR" value="1" />
 	</insert>
 
 	<comment>Adding the permissions to the role for khuntley - default test user
 	KRIM_ROLE_PERM_T_ADD_1</comment>
 	<insert tableName="KRIM_ROLE_PERM_T">
 		<column name="ROLE_PERM_ID" value="CGRLPRMIRD" />
-		<column name="PERM_ID" value="CGPERMIRD" />
+		<column name="OBJ_ID" value="KFSCG720004" />
 		<column name="ROLE_ID" value="38" />
+		<column name="PERM_ID" value="CGPERMIRD" />
 		<column name="ACTV_IND" value="Y" />
-		<column name="OBJ_ID" value="KFSCG04" />
 		<column name="VER_NBR" value="1" />
 	</insert>
 
@@ -512,32 +512,32 @@
 	<insert tableName="KRIM_ROLE_RSP_ACTN_T">
 		<column name="ROLE_RSP_ACTN_ID" value="KFSCG20111101" />
 		<column name="OBJ_ID" value="KFSCG20111101" />
-		<column name="VER_NBR" value="1" />
 		<column name="ACTN_TYP_CD" value="A" />
 		<column name="PRIORITY_NBR" value="1" />
 		<column name="ACTN_PLCY_CD" value="F" />
 		<column name="ROLE_MBR_ID" value="*" />
 		<column name="ROLE_RSP_ID" value="KFS1127" />
 		<column name="FRC_ACTN" value="N" />
+		<column name="VER_NBR" value="1" />
 	</insert>
 
 	<comment>Adding the permissions to the role
 	KRIM_ROLE_PERM_T_ADD_CGIN_PERM_TO_KFS</comment>
 	<insert tableName="KRIM_ROLE_PERM_T">
-		<column name="ROLE_PERM_ID" value="KFSCG08" />
-		<column name="PERM_ID" value="1110" />
+		<column name="ROLE_PERM_ID" value="KFSCG720008" />
+		<column name="OBJ_ID" value="KFSCG720008" />
 		<column name="ROLE_ID" value="62" />
+		<column name="PERM_ID" value="1110" />
 		<column name="ACTV_IND" value="Y" />
-		<column name="OBJ_ID" value="KFSCG08" />
 		<column name="VER_NBR" value="1" />
 	</insert>
 
 	<insert tableName="KRIM_ROLE_PERM_T">
-		<column name="ROLE_PERM_ID" value="KFSCG09" />
-		<column name="PERM_ID" value="1111" />
+		<column name="ROLE_PERM_ID" value="KFSCG720009" />
+		<column name="OBJ_ID" value="KFSCG720009" />
 		<column name="ROLE_ID" value="62" />
+		<column name="PERM_ID" value="1111" />
 		<column name="ACTV_IND" value="Y" />
-		<column name="OBJ_ID" value="KFSCG09" />
 		<column name="VER_NBR" value="1" />
 	</insert>
 </changeSet>

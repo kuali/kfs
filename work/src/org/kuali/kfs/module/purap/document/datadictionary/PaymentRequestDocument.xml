@@ -1143,7 +1143,10 @@
 				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedTradeInWarningEvent</value></key>
 				<value>PaymentRequest-tradeInWarningEvent</value>
 			</entry>																																	
-
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemPreCalculateEvent</value></key>
+				<value>PaymentRequest-purchasingAccountsPayablesItemPreCalculateValidations</value>
+			</entry>
 	   	</map>
 		</property>
 	</bean>  

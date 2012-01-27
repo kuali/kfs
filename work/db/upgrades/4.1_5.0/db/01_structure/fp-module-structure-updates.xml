@@ -185,7 +185,7 @@
 		
 		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
 		<dropPrimaryKey tableName="FP_CR_CARD_DTL_T" />
-		<!--   winston remove <dropPrimaryKey tableName="FP_CURRENCY_DTL_T" />  -->
+		<dropPrimaryKey tableName="FP_CURRENCY_DTL_T" />
 		<dropPrimaryKey tableName="FP_CHECK_DTL_T" />
 		<dropPrimaryKey tableName="FP_COIN_DTL_T" />
 		<dropPrimaryKey tableName="FP_ADV_DPST_DTL_T" />

@@ -395,6 +395,18 @@
 			constraintName='FP_ADV_DPST_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
 		<addPrimaryKey tableName='FP_CR_CARD_DTL_T'
 			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+		<modifyColumn tableName="FP_CURRENCY_DTL_T">
+    		<column name="FDOC_NBR">
+    			<constraints>nullable="false"</constraints>
+    		</column>
+    		<column name="FDOC_TYP_CD">
+    			<constraints>nullable="false"</constraints>
+    		</column>
+    		<column name="CSHR_STAT_CD">
+    			<constraints>nullable="false"</constraints>
+    		</column>
+		</modifyColumn>
+
 		<addPrimaryKey tableName='FP_CURRENCY_DTL_T'
 			constraintName='FP_CURRENCY_DTL_T_TP1' columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />	
 		<addPrimaryKey tableName='FP_CHECK_DTL_T'

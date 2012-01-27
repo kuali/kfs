@@ -412,5 +412,182 @@
     		<where>NMSPC_CD="KFS-COA" AND PARM_DTL_TYP_CD="ObjectCode" AND PARM_NM="ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND"</where>
 		</delete>
 	</changeSet>
-</databaseChangeLog>   
+	
+
+	<changeSet author="kfs50" id="KFS50CGB">
+	<comment>To insert values in to the System Parameters table to help in document 
+		validation of Invoice eDoc
+		KRNS_PARM_T_ADD_02"</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="PARM_DTL_TYP_CD" value="AgencyAddress" />
+			<column name="PARM_NM" value="DEFAULT_NUMBER_OF_COPIES_TO_PRINT" />
+			<column name="OBJ_ID" value="KFSCG7200-02" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="1" />
+			<column name="PARM_DESC_TXT"
+				value="The number of invoice copies to be printed can be configured for each Agency Address. This sets the default number of copies to print for a new Agency Address." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	<comment>"KRNS_PARM_T1"</comment>
+		<update tableName="KRNS_PARM_T">
+			<column name="PARM_DTL_TYP_CD" value="CGInvoice" />
+			<where>NMSPC_CD='KFS-CG' and PARM_DTL_TYP_CD='Invoice' and
+				PARM_NM='Categories'</where>
+		</update>
+	<comment>Inserting CGB Enhancements Indicator in to the System Parameters table
+	KRNS_PARM_T_ADD_CG_VALIDATION_SWITCH </comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="PARM_DTL_TYP_CD" value="All" />
+			<column name="PARM_NM" value="ENABLE_CG_BILLING_ENHANCEMENTS_IND" />
+			<column name="OBJ_ID" value="KFSCG7200-03" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="Y" />
+			<column name="PARM_DESC_TXT"
+				value="Set this value to Y if your institution is using the Contracts and Grants Billing enhancements. This setting will control if the validations associated with the enhancements are executed for documents." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	<comment>KRNS_PARM_T_ADD_CG_MIN_INVOICE_AMOUNT</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="PARM_DTL_TYP_CD" value="Award" />
+			<column name="PARM_NM" value="MINIMUM_INVOICE_AMOUNT" />
+			<column name="OBJ_ID" value="KFSCG7200-04" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="60" />
+			<column name="PARM_DESC_TXT"
+				value="Minimum dollar amount required on an award for Contracts and Grants Invoicing." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	<comment>Inserting CGB Enhancements Indicator in to the System Parameters table
+	KRNS_PARM_T_ADD_CG_VALIDATION_SWITCH_1</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="PARM_DTL_TYP_CD" value="All" />
+			<column name="PARM_NM" value="ENABLE_CG_PRORATE_BILL_IND" />
+			<column name="OBJ_ID" value="KFSCG7200-05" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="Y" />
+			<column name="PARM_DESC_TXT"
+				value="Set this value to Y if your institution is using the Contracts and Grants Billing Prorate Bill function.  N otherwise." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	<comment>Inserting Default processing chart code and org code to be used for 
+		Cash control in to the System Parameters table
+	KRNS_PARM_T_ADD_03</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="PARM_DTL_TYP_CD" value="CashControl" />
+			<column name="PARM_NM" value="DEFAULT_PROCESSING_CHART" />
+			<column name="OBJ_ID" value="KFSAR7200-20" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="UA" />
+			<column name="PARM_DESC_TXT"
+				value="Default value for Processing Chart code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	<comment>KRNS_PARM_T_ADD_01</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="PARM_DTL_TYP_CD" value="CashControl" />
+			<column name="PARM_NM" value="DEFAULT_PROCESSING_ORG" />
+			<column name="OBJ_ID" value="KFSAR7200-21" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="VPIT" />
+			<column name="PARM_DESC_TXT"
+				value="Default value for Processing Organization code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	<comment> Inserting Parameters for Upcoming milestones Notification job to the 
+		System Parameters table
+		KRNS_PARM_T_1</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="PARM_DTL_TYP_CD" value="UpcomingMilestoneNotificationStep" />
+			<column name="PARM_NM" value="AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT" />
+			<column name="OBJ_ID" value="KFSCG7200-06" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="Upcoming Milestones Notification for Award." />
+			<column name="PARM_DESC_TXT"
+				value="Email subject line for upcoming Milestones for Award" />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	<comment>KRNS_PARM_T_2</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="PARM_DTL_TYP_CD" value="UpcomingMilestoneNotificationStep" />
+			<column name="PARM_NM" value="AWARD_MILESTONE_CHECK_LIMIT_DAYS" />
+			<column name="OBJ_ID" value="KFSCG7200-07" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="10" />
+			<column name="PARM_DESC_TXT"
+				value="No of days (limit) to check for the Upcoming Milestones for the Award." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+
+	<comment>Insert parameter for default invoicing option for awards
+	KRNS_PARM_ADD_DEFAULT_INVOICE_OPTION</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="PARM_DTL_TYP_CD" value="Award" />
+			<column name="PARM_NM" value="DEFAULT_INVOICING_OPTION" />
+			<column name="OBJ_ID" value="KFSCG7200-08" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="2" />
+			<column name="PARM_DESC_TXT"
+				value="The default invoicing option for new Awards, where 1 = Invoice by Award, 2 = Invoice by Account, 3 = Invoice by Contract Control Account." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		
+	<comment>KRNS_PARM_T_ADD_206</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="PARM_DTL_TYP_CD" value="All" />
+			<column name="PARM_NM" value="DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING" />
+			<column name="OBJ_ID" value="KFSAR7200-22" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="1" />
+			<column name="PARM_DESC_TXT"
+				value="This parameter defines the Basis of Accounting for filling federal forms. Value of 1 corresponds to Cash and value of 2 corresponds to Accrual." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	<!-- To insert values in to the System Parameters table for defaulting Preferred 
+		Billing Frequency on Agency edoc -->
+
+	<comment>KRNS_PARM_T_ADD_DEFAULT_PREFERRED_BILLING_FREQUENCY</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="PARM_DTL_TYP_CD" value="Agency" />
+			<column name="PARM_NM" value="DEFAULT_PREFERRED_BILLING_FREQUENCY" />
+			<column name="OBJ_ID" value="KFSCG7200-09" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="MON" />
+			<column name="PARM_DESC_TXT"
+				value="The default value for the preferred billing frequency code for Agencies." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	</changeSet></databaseChangeLog>   
       

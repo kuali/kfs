@@ -269,17 +269,17 @@
 		</addColumn>
 		<addColumn tableName='FP_COIN_DTL_T'>
 			<column name='CSHR_STAT_CD' type='VARCHAR2(1)'>
-			<constraints>nullable="false"</constraints>
+			<constraints nullable="false" />
 			</column>
 		</addColumn>
 		<addColumn tableName='FP_CHECK_DTL_T'>
 			<column name='CSHR_STAT_CD' type='VARCHAR2(1)' >
-			<constraints>nullable="false"</constraints>
+			<constraints nullable="false" />
 			</column>
 		</addColumn>
 		<addColumn tableName='FP_CURRENCY_DTL_T'>
 			<column name='CSHR_STAT_CD' type='VARCHAR2(1)' >
-			<constraints>nullable="false"</constraints>
+			<constraints nullable="false" />
 			</column>
 		</addColumn>
 		<update tableName='FP_CURRENCY_DTL_T'>

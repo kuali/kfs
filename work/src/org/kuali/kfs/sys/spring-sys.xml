@@ -118,9 +118,7 @@
 	<bean id="scheduler-parentBean" class="org.kuali.kfs.sys.batch.SchedulerFactoryBean" abstract="true">
 		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
 		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
-		<property name="dataSourceReference" ref="dataSource" />
-        <property name="nonTransactionalDataSourceReference" ref="nonTransactionalDataSource" />
-		<property name="autoStartup" value="false" />
+ 		<property name="autoStartup" value="false" />
 		<property name="quartzPropertiesReference">
 			<props>
 				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>

@@ -24,9 +24,7 @@
 	<!-- parent bean to make the definitions below easier to read -->
 	<bean id="grlBeanImporter" abstract="true" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
- 	<bean id="dataSource" p:serviceName="dataSource" parent="grlBeanImporter" />
- 	<bean id="riceDataSource" p:serviceName="riceDataSource" parent="grlBeanImporter" />
-
+ 	<bean id="dataSource" p:serviceName="kradApplicationDataSource" parent="grlBeanImporter" />
 	<!-- These are beans we need to export from Rice -->
 	
 	<!-- TODO: sort by rice module -->
@@ -75,6 +73,7 @@
  	<bean id="documentDictionaryService" p:serviceName="documentDictionaryService" parent="grlBeanImporter" />
  	<bean id="inquiryViewTypeService" p:serviceName="inquiryViewTypeService" parent="grlBeanImporter" />
  	<bean id="lookupViewTypeService" p:serviceName="lookupViewTypeService" parent="grlBeanImporter" />
+ 	<bean id="persistenceServiceOjb" p:serviceName="persistenceServiceOjb" parent="grlBeanImporter" />
 	<!-- KIM -->
  	<bean id="personService" p:serviceName="personService" parent="grlBeanImporter" />
  	<bean id="kimRoleService" p:serviceName="kimRoleService" parent="grlBeanImporter" />

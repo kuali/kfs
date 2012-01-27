@@ -8,24 +8,31 @@
 	express or implied. See the License for the specific language governing permissions 
 	and limitations under the License. -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xmlns:p="http://www.springframework.org/schema/p" 
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 
-	<import resource="classpath:org/kuali/rice/core/config/COREConfigSpringBeans.xml" />
-	<import resource="classpath:org/kuali/rice/ksb/config/KSBConfigSpringBeans.xml" />
-	<import resource="classpath:org/kuali/rice/krad/config/KRADConfigSpringBeans.xml" />
+	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
+		<property name="dataSource" ref="riceDataSource${connection.pool.impl}" />
+		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
+		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
+		<property name="userTransaction" ref="jtaUserTransaction" />
+	</bean>
 
-	<bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer" />
+	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer" />
+
+	<bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer" />
+
+	<bean id="coreServiceConfigurer"
+		class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer" />
+
 	<bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer" />
+
 	<bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer" />
-	<!-- 
-	<bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer" />
-	<bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer" />
-	<bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer" />
-	 -->
+	<!-- <bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer"/> 
+		<bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer"/> 
+		<bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer"/> -->
 	<bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer" />
-	
+
 </beans>

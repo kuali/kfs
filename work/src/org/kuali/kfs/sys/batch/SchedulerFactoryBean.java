@@ -19,6 +19,8 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.ksb.messaging.quartz.MessageServiceExecutorJobListener;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -32,9 +34,7 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
     private static final Scheduler SCHEDULER_DUMMY = new SchedulerDummy();
     private boolean useQuartzScheduling;
     private boolean useJdbcJobstore;
-    private DataSource dataSourceReference;
     private Properties quartzPropertiesReference;
-    private DataSource nonTransactionalDataSourceReference;
 
     @Override
     public void destroy() throws SchedulerException {
@@ -48,8 +48,8 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
             if (useJdbcJobstore) {
                 quartzPropertiesReference.put("org.quartz.jobStore.useProperties", "false");
                 quartzPropertiesReference.put("org.quartz.jobStore.isClustered", "true");
-                setDataSource(dataSourceReference);
-                setNonTransactionalDataSource(nonTransactionalDataSourceReference);
+                setDataSource((DataSource) ConfigContext.getCurrentContextConfig().getObject(RiceConstants.DATASOURCE_OBJ));
+                setNonTransactionalDataSource((DataSource) ConfigContext.getCurrentContextConfig().getObject(RiceConstants.DATASOURCE_OBJ));
             }
             setQuartzProperties(quartzPropertiesReference);
             super.afterPropertiesSet();
@@ -73,15 +73,6 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
         return scheduler;
     }
     
-    /**
-     * Sets the dataSourceReference attribute value.
-     * 
-     * @param dataSourceReference The dataSourceReference to set.
-     */
-    public void setDataSourceReference(DataSource dataSourceReference) {
-        this.dataSourceReference = dataSourceReference;
-    }
-
     /**
      * Sets the useJdbcJobstore attribute value.
      * 
@@ -107,13 +98,5 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
      */
     public void setQuartzPropertiesReference(Properties quartzPropertiesReference) {
         this.quartzPropertiesReference = quartzPropertiesReference;
-    }
-
-    public DataSource getNonTransactionalDataSourceReference() {
-        return nonTransactionalDataSourceReference;
-    }
-
-    public void setNonTransactionalDataSourceReference(DataSource nonTransactionalDataSourceReference) {
-        this.nonTransactionalDataSourceReference = nonTransactionalDataSourceReference;
     }
 }

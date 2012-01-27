@@ -20,7 +20,11 @@ KFS-AR,OrganizationOptions,INSTITUTION_NAME,KFS15,1,CONFG,Parameter: KFS-AR / In
 KFS-AR,OrganizationOptions,REMIT_TO_ADDRESS_EDITABLE_IND,KFS16,1,CONFG,N,"This parameter controls whether the Remit to Address on the Accounts Receivable Organization Options is editable. When set to ""Y"" the Remit to Address is editable, when ""N"" the Remit to Address is not editable.",A,KFS
 KFS-AR,OrganizationOptions,REMIT_TO_NAME_EDITABLE_IND,KFS17,1,CONFG,N,"This parameter controls whether the Remit to Name on the Accounts Receivable Organization Options is editable. When set to ""Y"" the Remit to Name is editable, when ""N"" the Remit to Name is not editable.",A,KFS
 KFS-AR,CustomerBillingStatement,DUE_DATE_DAYS,KFSAR18,1,CONFG,30,"Set the number of days that will be added to the system date to calculate the due date.",A,KFS
-KFS-AR,CustomerBillingStatement,DEFAULT_FORMAT,KFSAR19,1,CONFG,SUMMARY,"Set this value to "SUMMARY" if you generate the summary statement as default. Set this value to "DETAIL" if you generate the detailed statement as default.",A,KFS
+KFS-AR,CustomerBillingStatement,DEFAULT_FORMAT,KFS19,1,CONFG,SUMMARY,'Set this value to "SUMMARY" if you generate the summary statement as default. Set this value to "DETAIL" if you generate the detailed statement as default.',A,KFS
+KFS-AR,CashControl,DEFAULT_PROCESSING_CHART,KFSAR7200-20,1,CONFG,UA,Default value for Processing Chart code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document.,A,KFS
+KFS-AR,CashControl,DEFAULT_PROCESSING_ORG,KFSAR7200-21,1,CONFG,VPIT,Default value for Processing Organization code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document.,A,KFS
+KFS-AR,All,DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING,KFSAR7200-22,1,CONFG,1,This parameter defines the Basis of Accounting for filling federal forms. Value of 1 corresponds to Cash and value of 2 corresponds to Accrual.,A,KFS
+
 KFS-BC,BudgetConstruction,ANNUAL_WORKING_HOURS,KFS18,1,CONFG,2080,The total working hours in a year,A,KFS
 KFS-BC,BudgetConstruction,BIWEEKLY_PAY_TYPE_CODES,KFS19,1,CONFG,B,The Labor Object table pay type code for hourly/biweekly pay.,A,KFS
 KFS-BC,BudgetConstruction,BUDGET_AGGREGATION_CODES,KFS20,1,VALID,O,Allowed Object Budget Aggregation Code(s),A,KFS
@@ -119,6 +123,16 @@ KFS-CAM,Document,FISCAL_YEAR_END_MONTH_AND_DAY,KFSSYS7145-05,1,CONFG,0630,The mo
 KFS-CG,All,MAXIMUM_ACCOUNT_RESPONSIBILITY_ID,KFS101,1,CONFG,17,Specifies the upper range for the Contracts & Grants Responsibility Id on Contracts & Grants Accounts. The minimum is 1.,A,KFS
 KFS-CG,CfdaBatchStep,RESULT_SUMMARY_TO_EMAIL_ADDRESSES,KFS102,1,CONFG,knoreceipt-l@indiana.edu,Listserv for recipients of CFDA batch process results.,A,KFS
 KFS-CG,CfdaBatchStep,SOURCE_URL,KFS103,1,CONFG,ftp://ftp.cfda.gov/programs,CFDA url,A,KFS
+
+KFS-CG,AgencyAddress,DEFAULT_NUMBER_OF_COPIES_TO_PRINT,KFSCG7200-02,1,CONFG,1,the number of invoice copies to be printed can be configured for each Agency Address. This sets the default number of copies to print for a new Agency Address.,A,KFS
+KFS-CG,All,ENABLE_CG_BILLING_ENHANCEMENTS_IND,KFSCG7200-03,1,CONFG,Y,Set this value to Y if your institution is using the Contracts and Grants Billing enhancements. This setting will control if the validations associated with the enhancements are executed for documents.,A,KFS
+KFS-CG,Award,MINIMUM_INVOICE_AMOUNT,KFSCG7200-04,1,CONFG,60,Minimum dollar amount required on an award for Contracts and Grants Invoicing.,A,KFS
+KFS-CG,All,ENABLE_CG_PRORATE_BILL_IND,KFSCG7200-05,1,CONFG,Y,Set this value to Y if your institution is using the Contracts and Grants Billing Prorate Bill function.  N otherwise.,A,KFS
+KFS-CG,UpcomingMilestoneNotificationStep,AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT,KFSCG7200-06,1,CONFG,Upcoming Milestones Notification for Award,Email subject line for upcoming Milestones for Award,A,KFS
+KFS-CG,UpcomingMilestoneNotificationStep,AWARD_MILESTONE_CHECK_LIMIT_DAYS,KFSCG7200-07,1,CONFG,10,No of days (limit) to check for the Upcoming Milestones for the Award.,A,KFS
+KFS-CG,Award,DEFAULT_INVOICING_OPTION,KFSCG7200-08,1,CONFG,2,"The default invoicing option for new Awards, where 1 = Invoice by Award, 2 = Invoice by Account, 3 = Invoice by Contract Control Account.",A,KFS
+KFS-CG,Agency,DEFAULT_PREFERRED_BILLING_FREQUENCY,KFSCG7200-09,1,CONFG,MON,The default value for the preferred billing frequency code for Agencies.,A,KFS
+
 KFS-COA,Account,RESEARCH_ADMIN_ACCOUNT_ADDRESS_TYPE,KFS606,1,CONFG,ADMIN;PI,"If KFS is integrated with a Research Admin System with multiple award address types (such as Kuali Coeus) and accounts are being automatically created based on awards in that system, this parameter defines the address type that should be populated as the account address. The first address type listed will be used if a value exists. If not the second will be used and if no address of the second type exists the address of the third type will be used, etc.",A,KFS
 KFS-COA,Account,KC_OVERRIDES_KFS_DEFAULT_ACCOUNT_IND,KFSCOA124,1,CONFG,Y,"When this indicator is Y, the values from KC will override the values in the CGAD table.",A,KFS
 KFS-COA,Account,CAPITAL_SUB_FUND_GROUPS,KFS117,1,CONFG,PFCMR,Indicates the SubFundGroup for this Kuali implementation that is used for CAMS/Capital purposes for capitalization of expenses related to building construction or remodeling.,A,KFS

@@ -183,6 +183,18 @@
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T" newTableName="FP_PRCRMNT_CARD_TRN_MT" />
 		
+		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
+		<dropPrimaryKey tableName="FP_CR_CARD_DTL_T" />
+		<dropPrimaryKey tableName="FP_CURRENCY_DTL_T" />
+		<dropPrimaryKey tableName="FP_CHECK_DTL_T" />
+		<dropPrimaryKey tableName="FP_COIN_DTL_T" />
+		<dropPrimaryKey tableName="FP_ADV_DPST_DTL_T" />
+		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+		<dropColumn tableName="FP_CURRENCY_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<dropColumn tableName="FP_CHECK_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<dropColumn tableName="FP_COIN_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+		<dropTable tableName='FP_REVOLVFND_DTL_T' />
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />
@@ -192,42 +204,17 @@
 
 	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_Oracle'
 		dbms="oracle">
-		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
-		<dropTable tableName='FP_REVOLVFND_DTL_T' />
-		<dropPrimaryKey tableName="FP_ADV_DPST_DTL_T" />
-		<dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-		<addPrimaryKey tableName='FP_ADV_DPST_DTL_T'
-			constraintName='FP_ADV_DPST_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
-		<dropPrimaryKey tableName="FP_CR_CARD_DTL_T" />
-		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-		<addPrimaryKey tableName='FP_CR_CARD_DTL_T'
-			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
-					
+		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>	
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
 		<sql>
 			RENAME FP_PRCRMNT_CARD_TRN_T_SEQ TO FP_PRCRMNT_CARD_TRN_MT_SEQ;
-			ALTER TABLE FP_CURRENCY_DTL_T DROP COLUMN FDOC_COLUMN_TYP_CD CASCADE CONSTRAINTS;
-			ALTER TABLE FP_COIN_DTL_T DROP COLUMN FDOC_COLUMN_TYP_CD CASCADE CONSTRAINTS;
-			ALTER TABLE FP_CHECK_DTL_T DROP COLUMN FDOC_COLUMN_TYP_CD CASCADE CONSTRAINTS;
 		</sql>
 	</changeSet>
 
 	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_mysql'
 		dbms="mysql">
 		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
-		<dropTable tableName='FP_REVOLVFND_DTL_T' />
-		<sql>ALTER TABLE FP_ADV_DPST_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY
-			(FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
-		</sql>
-		<dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-		<sql>ALTER TABLE FP_CR_CARD_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY
-			(FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
-		</sql>
-		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-		<dropColumn tableName="FP_CURRENCY_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
-		<dropColumn tableName="FP_COIN_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
-		<dropColumn tableName="FP_CHECK_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
-		
+		<dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />		
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ" newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ" />
 		
@@ -404,13 +391,14 @@
 			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'I'</where>
 		</update>
 		 -->
-		<dropPrimaryKey tableName="FP_CURRENCY_DTL_T" />
+		<addPrimaryKey tableName='FP_ADV_DPST_DTL_T'
+			constraintName='FP_ADV_DPST_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+		<addPrimaryKey tableName='FP_CR_CARD_DTL_T'
+			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
 		<addPrimaryKey tableName='FP_CURRENCY_DTL_T'
-			constraintName='FP_CURRENCY_DTL_T_TP1' columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />
-		<dropPrimaryKey tableName="FP_CHECK_DTL_T" />
+			constraintName='FP_CURRENCY_DTL_T_TP1' columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />	
 		<addPrimaryKey tableName='FP_CHECK_DTL_T'
 			constraintName='FP_CHECK_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, CSHR_STAT_CD, FDOC_LINE_NBR' />
-		<dropPrimaryKey tableName="FP_COIN_DTL_T" />
 		<addPrimaryKey tableName='FP_COIN_DTL_T' constraintName='FP_COIN_DTL_T_TP1'
 			columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />
 		<dropColumn tableName='FP_DEPOSIT_HDR_T' columnName='FDOC_REF_NBR' />

@@ -396,13 +396,13 @@
 		<addPrimaryKey tableName='FP_CR_CARD_DTL_T'
 			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
 		<modifyColumn tableName="FP_CURRENCY_DTL_T">
-    		<column name="FDOC_NBR">
+    		<column name="FDOC_NBR" type="VARCHAR2(14)">
     			<constraints>nullable="false"</constraints>
     		</column>
-    		<column name="FDOC_TYP_CD">
+    		<column name="FDOC_TYP_CD" type="VARCHAR2(4)">
     			<constraints>nullable="false"</constraints>
     		</column>
-    		<column name="CSHR_STAT_CD">
+    		<column name="CSHR_STAT_CD" type="VARCHAR2(1)">
     			<constraints>nullable="false"</constraints>
     		</column>
 		</modifyColumn>

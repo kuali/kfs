@@ -215,6 +215,9 @@
 	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_mysql'
 		dbms="mysql">
 		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
+		<dropPrimaryKey tableName="FP_CURRENCY_DTL_T" />
+		<dropPrimaryKey tableName="FP_CHECK_DTL_T" />
+		<dropPrimaryKey tableName="FP_COIN_DTL_T" />
 		<dropTable tableName='FP_REVOLVFND_DTL_T' />
 		<sql>ALTER TABLE FP_ADV_DPST_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY
 			(FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
@@ -334,13 +337,11 @@
 			<where>FDOC_TYP_CD = 'CM'</where>
 		</update>
 
-		<dropPrimaryKey tableName="FP_CURRENCY_DTL_T" />
 		<addPrimaryKey tableName='FP_CURRENCY_DTL_T'
 			constraintName='FP_CURRENCY_DTL_T_TP1' columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />
-		<dropPrimaryKey tableName="FP_CHECK_DTL_T" />
 		<addPrimaryKey tableName='FP_CHECK_DTL_T'
 			constraintName='FP_CHECK_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, CSHR_STAT_CD, FDOC_LINE_NBR' />
-		<dropPrimaryKey tableName="FP_COIN_DTL_T" />
+		
 		<addPrimaryKey tableName='FP_COIN_DTL_T' constraintName='FP_COIN_DTL_T_TP1'
 			columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />
 		<dropColumn tableName='FP_DEPOSIT_HDR_T' columnName='FDOC_REF_NBR' />

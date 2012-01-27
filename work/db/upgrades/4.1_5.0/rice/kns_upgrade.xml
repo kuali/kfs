@@ -29,7 +29,21 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
-
+		<comment>KFSMI-7158 Create CAM parameter NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CAM" />
+			<column name="PARM_DTL_TYP_CD" value="Asset Global" />
+			<column name="PARM_NM"
+				value="NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE" />
+			<column name="OBJ_ID" value="KFS684" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="7/01" />
+			<column name="PARM_DESC_TXT"
+				value="New in service asset depreciation start date (mm/dd) used for calculating the half year depreciation convention. The half year convention will calculate the depreciation date exactly six months from this parameter date." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-FP" />
 			<column name="PARM_DTL_TYP_CD" value="DisbursementVoucher" />

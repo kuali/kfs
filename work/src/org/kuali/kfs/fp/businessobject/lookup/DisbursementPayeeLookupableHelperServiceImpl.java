@@ -232,7 +232,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         vendorLookupable.setBusinessObjectClass(VendorDetail.class);
         vendorLookupable.validateSearchParameters(fieldsForLookup);
 
-        List<BusinessObject> vendorList = vendorLookupable.getSearchResults(fieldsForLookup);
+        List<? extends BusinessObject> vendorList = vendorLookupable.getSearchResults(fieldsForLookup);
         for (BusinessObject vendor : vendorList) {
             VendorDetail vendorDetail = (VendorDetail) vendor;
             DisbursementPayee payee = getPayeeFromVendor(vendorDetail, fieldValues);

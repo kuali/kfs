@@ -100,7 +100,7 @@
 
 	<bean id="platformAwareDao" abstract="true"
 		class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
-		<property name="jcdAlias" value="dataSource" />
+		<property name="jcdAlias" value="kradApplicationDataSource" />
 		<property name="dbPlatform" ref="dbPlatform" />
 	</bean>
 	<bean id="platformAwareDaoJdbc" abstract="true"

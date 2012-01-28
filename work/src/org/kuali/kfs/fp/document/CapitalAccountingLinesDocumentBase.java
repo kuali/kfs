@@ -43,6 +43,9 @@ import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
      * @return Returns the capitalAccountingLines
      */
     public List<CapitalAccountingLines> getCapitalAccountingLines() {
+        if ( capitalAccountingLines == null ) {
+            capitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+        }
         return capitalAccountingLines;
     }
 

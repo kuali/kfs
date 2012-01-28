@@ -45,7 +45,7 @@ public class AdvanceDepositAction extends CapitalAccountingLinesActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AdvanceDepositForm adForm = (AdvanceDepositForm) form;
 
-        if (adForm.hasDocumentId()) {
+        if ( adForm != null && adForm.hasDocumentId()) {
             AdvanceDepositDocument adDoc = adForm.getAdvanceDepositDocument();
 
             adDoc.setTotalAdvanceDepositAmount(calculateAdvanceDepositTotal(adDoc)); // recalc b/c changes to the amounts could

@@ -63,7 +63,7 @@ public class BankServiceImpl implements BankService {
                 Bank defaultBank = this.getByPrimaryId(defaultBankCode);
                 
                 // check active status, if not return continuation bank if active
-                if (!defaultBank.isActive() && defaultBank.getContinuationBank() != null && defaultBank.getContinuationBank().isActive()) {
+                if ( defaultBank != null && !defaultBank.isActive() && defaultBank.getContinuationBank() != null && defaultBank.getContinuationBank().isActive()) {
                     return defaultBank.getContinuationBank();
                 }
                 

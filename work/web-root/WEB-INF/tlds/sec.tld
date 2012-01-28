@@ -29,7 +29,7 @@
     </description>
     <name>canViewGLPE</name>
     <function-class>org.kuali.kfs.sec.util.SecUtil</function-class>
-    <function-signature>boolean canViewGLPE(org.kuali.rice.kns.document.Document, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)</function-signature>
+    <function-signature>boolean canViewGLPE(org.kuali.rice.krad.document.Document, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)</function-signature>
     <example>
       &lt;c:if test="${sec:canViewGLPE(document, generalLedgerPendingEntry)}"&gt;
     </example>

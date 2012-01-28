@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -85,13 +86,15 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     }
 
     protected boolean isApprovalDateWithinFiscalYear(WorkflowDocument workflowDocument) {
-        final Calendar approvalDate = workflowDocument.getDateApproved().toCalendar(Locale.getDefault());
-        if (ObjectUtils.isNotNull(approvalDate)) {
-            // compare approval fiscal year with current fiscal year
-            UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-            final Integer approvalYear = universityDateService.getFiscalYear(approvalDate.getTime());
-            final Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-            return NumberUtils.equals(currentFiscalYear, approvalYear);
+        if ( workflowDocument != null ) {
+            DateTime approvalDate = workflowDocument.getDateApproved();
+            if ( approvalDate != null ) {
+                // compare approval fiscal year with current fiscal year
+                UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+                final Integer approvalYear = universityDateService.getFiscalYear(approvalDate.toDate());
+                final Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
+                return NumberUtils.equals(currentFiscalYear, approvalYear);
+            }
         }
         return true;
     }

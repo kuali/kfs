@@ -243,21 +243,21 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      */
     protected List<CapitalAccountingLines> removeOrphanCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc) {
         List<CapitalAccountingLines> newCapitalAccountingLines = new ArrayList<CapitalAccountingLines>();
-        
-        List<AccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
-        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
-            if (removeOrphanCapitalAccountingLine(sourceAccountLines, capitalAccountingLine)) {
-                newCapitalAccountingLines.add(capitalAccountingLine);
+        if ( capitalAccountingLines != null ) {
+            List<AccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
+            for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+                if (removeOrphanCapitalAccountingLine(sourceAccountLines, capitalAccountingLine)) {
+                    newCapitalAccountingLines.add(capitalAccountingLine);
+                }
+            }
+            
+            List<AccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
+            for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+                if (removeOrphanCapitalAccountingLine(targetAccountLines, capitalAccountingLine)) {
+                    newCapitalAccountingLines.add(capitalAccountingLine);
+                }
             }
         }
-        
-        List<AccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
-        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
-            if (removeOrphanCapitalAccountingLine(targetAccountLines, capitalAccountingLine)) {
-                newCapitalAccountingLines.add(capitalAccountingLine);
-            }
-        }
-        
         return newCapitalAccountingLines;
     }
     

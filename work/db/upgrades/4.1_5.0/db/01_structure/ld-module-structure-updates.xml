@@ -69,13 +69,13 @@
 		</createTable>
 		
 		<modifyColumn tableName="LD_BENEFITS_CALC_T">
-			<column name="UNIV_FISCAL_YR" TYPE="NUMBER(4)">
+			<column name="UNIV_FISCAL_YR" type="NUMBER(4)">
 				<constraints nullable="false"/>
 			</column>
-			<column name="FIN_COA_CD" TYPE="VARCHAR(2)">
+			<column name="FIN_COA_CD" type="VARCHAR(2)">
 				<constraints nullable="false"/>
 			</column>
-			<column name="POS_BENEFIT_TYP_CD" TYPE="VARCHAR(2)">
+			<column name="POS_BENEFIT_TYP_CD" type="VARCHAR(2)">
 				<constraints nullable="false"/>
 			</column>
 		</modifyColumn>

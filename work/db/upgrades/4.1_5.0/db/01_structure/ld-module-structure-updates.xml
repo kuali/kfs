@@ -67,6 +67,18 @@
 				<constraints nullable='true' />
 			</column>
 		</createTable>
+		
+		<modifyColumn tableName="LD_BENEFITS_CALC_T">
+			<column name="UNIV_FISCAL_YR">
+				<constraints nullable="false"/>
+			</column>
+			<column name="FIN_COA_CD">
+				<constraints nullable="false"/>
+			</column>
+			<column name="POS_BENEFIT_TYP_CD">
+				<constraints nullable="false"/>
+			</column>
+		</modifyColumn>
 
 
 		<modifySql dbms='mysql'>

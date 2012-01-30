@@ -603,10 +603,25 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
-
+		
+		<comment>KFSMI 7223 Create GL parameter BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL" />
+			<column name="PARM_DTL_TYP_CD" value="Account Balance By Consolidation" />
+			<column name="PARM_NM" value="BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES" />
+			<column name="OBJ_ID" value="KFSGL7223" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="EX" />
+			<column name="PARM_DESC_TXT"
+				value="Object Types with the Basic Accounting Category value(s) in this parameter are identified as expenses for the purposes of variance calculation on the Balances by Consolidation screen. Report lines with matching Basic Accounting Categories will calculate the variance as Variance = Budget - Actuals - Encumbrances" />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+	</changeSet>
+	
 	<changeSet author="kfs" id="CG_INSERT_KRNS_PARM_T_PAYMENT_APP_REFUND" context="CGB">
 		<loadData tableName="KRNS_PARM_T" file="db/rice/cgb-data/krns_parm_t.csv" />
 	</changeSet>
-
-	</changeSet></databaseChangeLog>   
+	</databaseChangeLog>   
       

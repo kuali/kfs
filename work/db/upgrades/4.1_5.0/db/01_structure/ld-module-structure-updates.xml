@@ -68,11 +68,17 @@
 			</column>
 		</createTable>
 		
-		<addPrimaryKey tableName="LD_BENEFITS_CALC_T"
-			columnNames="UNIV_FISCAL_YR,FIN_COA_CD,POS_BENEFIT_TYP_CD"
-    		constraintName="LD_BENEFITS_CALC_TP1"/>
-
-		
+		<modifyColumn tableName="LD_BENEFITS_CALC_T">
+			<column name="UNIV_FISCAL_YR" TYPE="NUMBER(4)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="FIN_COA_CD" TYPE="VARCHAR(2)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="POS_BENEFIT_TYP_CD" TYPE="VARCHAR(2)">
+				<constraints nullable="false"/>
+			</column>
+		</modifyColumn>		
 
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />

@@ -10,6 +10,8 @@ KFS-CG,UpcomingMilestoneNotificationStep,AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT,
 KFS-CG,UpcomingMilestoneNotificationStep,AWARD_MILESTONE_CHECK_LIMIT_DAYS,KFSCG7200-07,1,CONFG,10,No of days (limit) to check for the Upcoming Milestones for the Award.,A,KFS
 KFS-CG,Award,DEFAULT_INVOICING_OPTION,KFSCG7200-08,1,CONFG,2,"The default invoicing option for new Awards, where 1 = Invoice by Award, 2 = Invoice by Account, 3 = Invoice by Contract Control Account.",A,KFS
 KFS-CG,Agency,DEFAULT_PREFERRED_BILLING_FREQUENCY,KFSCG7200-09,1,CONFG,MON,The default value for the preferred billing frequency code for Agencies.,A,KFS
+KFS-CG,Agency,DEFAULT_INVOICE_TEMPLATE,CG-DEFAULT-INV-TMPLT-PARM,1,CONFG,STD,Invoice templates can be configured for each Agency Address. This defines the default template name for new Agency Addresses.,A,KFS
+KFS-CG,Award,DEFAULT_FUND_MANAGER_ID,CG-DEFAULT-FUND-MNGR-ID,1,CONFG,khuntley,The principal name of the default fund manager for awards.,A,KFS
 KFS-AR,PaymentApplication,DV_DOCUMENT_ROUTE_ACTION,CGB-REFUND1,1,CONFG,BLANKETAPPROVE,For APP to DV integration defines (1) if the DV document should be submitted; and (2) to blanket approve or route for the normal route nodes. The three possible values are SAVE ROUTE BLANKETAPPROVE.,A,KFS
 KFS-FP,DisbursementVoucher,AR_PRE_DISBURSEMENT_EXTRACT_ORGANIZATION,CGB-REFUND2,1,CONFG,KUALI,Allowed organization code for loading Disbursement Voucher payments to process refund checks for AR.,A,KFS
 KFS-FP,DisbursementVoucher,AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT,CGB-REFUND3,1,CONFG,AR,Allowed sub unit code for loading Disbursement Voucher payments to process refund checks for AR.,A,KFS

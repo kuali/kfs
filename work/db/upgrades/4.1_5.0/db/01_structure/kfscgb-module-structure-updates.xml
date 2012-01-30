@@ -1511,41 +1511,6 @@
 		</createTable>
 	</changeSet>
 
-
-	<changeSet author="kfs"
-		id="KRNS_PARM_T_ADD_CG_DEFAULT_INVOICE_TEMPLATE">
-		<insert tableName="KRNS_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="PARM_DTL_TYP_CD" value="Agency" />
-			<column name="PARM_NM" value="DEFAULT_INVOICE_TEMPLATE" />
-			<column name="OBJ_ID" value="CG-DEFAULT-INV-TMPLT-PARM" />
-			<column name="VER_NBR" value="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="TXT" value="STD" />
-			<column name="PARM_DESC_TXT"
-				value="Invoice templates can be configured for each Agency Address. This defines the default template name for new Agency Addresses." />
-			<column name="CONS_CD" value="A" />
-			<column name="APPL_NMSPC_CD" value="KFS" />
-		</insert>
-	</changeSet>
-
-	<changeSet author="kfs" id="KRNS_PARM_T_ADD_DEFAULT_FUND_MANAGER_ID">
-		<insert tableName="KRNS_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="PARM_DTL_TYP_CD" value="Award" />
-			<column name="PARM_NM" value="DEFAULT_FUND_MANAGER_ID" />
-			<column name="OBJ_ID" value="CG-DEFAULT-FUND-MNGR-ID" />
-			<column name="VER_NBR" value="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="TXT" value="khuntley" />
-			<column name="PARM_DESC_TXT"
-				value="The principal name of the default fund manager for awards." />
-			<column name="CONS_CD" value="A" />
-			<column name="APPL_NMSPC_CD" value="KFS" />
-		</insert>
-	</changeSet>
-
-
 	<changeSet author="kfs" id="CG_MLSTN_T_EXPECTED_COMPLETION_DATE_ADD">
 		<addColumn tableName="CG_MLSTN_T">
 			<column name="MLSTN_EXPCTD_COMPLTN_DT" type="datetime" />

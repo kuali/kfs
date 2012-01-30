@@ -1,0 +1,108 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>
+				CGIN
+      </name>
+			<parent>
+				AR
+      </parent>
+			<label>
+				Contracts and Grants Invoice
+      </label>
+			<docHandler>
+				${application.url}/arContractsGrantsInvoiceDocument.do?methodToCall=docHandler
+      </docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FContractsGrantsInvoice.htm
+      </helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+      </docSearchHelpURL>
+			<active>
+				true
+      </active>
+			<routingVersion>
+				2
+      </routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RequiresApprovalSplit" />
+					<split name="RequiresApprovalSplit">
+						<branch name="True">
+							<role name="FundsManager" nextNode="RequiresApprovalJoin" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpNode" nextNode="RequiresApprovalJoin" />
+						</branch>
+						<join name="RequiresApprovalJoin" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="RequiresApprovalSplit">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+        </type>
+				</split>
+				<role name="FundsManager">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+        </qualifierResolverClass>
+				</role>
+				<simple name="NoOpNode">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+        </type>
+				</simple>
+				<join name="RequiresApprovalJoin" />
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				CGLR
+      </name>
+			<parent>
+				AR
+      </parent>
+			<label>
+				Contracts and Grants Letter of Credit Review 
+      </label>
+			<docHandler>
+				${application.url}/arContractsGrantsLOCReviewDocument.do?methodToCall=docHandler
+      </docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
+      </helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+      </docSearchHelpURL>
+			<active>
+				true
+      </active>
+		</documentType>
+		<documentType>
+			<name>
+				FIR
+      </name>
+			<parent>
+				AR
+      </parent>
+			<label>
+				Final Invoice Reversal
+      </label>
+			<docHandler>${application.url}/arFinalInvoiceReversalDocument.do?methodToCall=docHandler</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+</data>

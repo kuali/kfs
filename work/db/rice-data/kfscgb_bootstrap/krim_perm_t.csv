@@ -1,0 +1,5 @@
+PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
+1110,KFSCG720001,1,10,KFS-CG,Initiate Document of Type CGIN,Initiate Document of Type CGIN,Y
+1111,KFSCG720002,1,29,KFS-CG,Use Screen,"Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice On Demand process",Y
+CGPERMFFR,KFSCG720003,1,29,KFS-CG,Use Screen,"Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Federal Form Generation Process",Y
+CGPERMIRD,KFSCG720004,1,29,KFS-CG,Use Screen,"Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice Report Delivery Process",Y

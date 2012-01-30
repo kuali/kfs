@@ -1,0 +1,5 @@
+ATTR_DATA_ID,OBJ_ID,VER_NBR,PERM_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL
+KFSCG720001,KFSCG720001,1,1110,3,13,CGIN
+KFSCG720002,KFSCG720002,1,1111,12,2,org.kuali.kfs.module.cg.web.struts.ContractsGrantsInvoiceOnDemandSummaryAction
+CGPRMTRFFR,KFSCG720003,1,CGPERMFFR,12,2,org.kuali.kfs.module.cg.web.struts.FederalFinancialReportAction
+CGPRMTRIRD,KFSCG720004,1,CGPERMIRD,12,2,org.kuali.kfs.module.cg.web.struts.InvoiceReportDeliveryAction

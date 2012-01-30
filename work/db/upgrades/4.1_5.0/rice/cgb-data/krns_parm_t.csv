@@ -1,0 +1,5 @@
+NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD
+KFS-AR,PaymentApplication,DV_DOCUMENT_ROUTE_ACTION,CGB-REFUND1,1,CONFG,BLANKETAPPROVE,For APP to DV integration defines (1) if the DV document should be submitted; and (2) to blanket approve or route for the normal route nodes. The three possible values are SAVE ROUTE BLANKETAPPROVE.,A,KFS
+KFS-FP,DisbursementVoucher,AR_PRE_DISBURSEMENT_EXTRACT_ORGANIZATION,CGB-REFUND2,1,CONFG,KUALI,Allowed organization code for loading Disbursement Voucher payments to process refund checks for AR.,A,KFS
+KFS-FP,DisbursementVoucher,AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT,CGB-REFUND3,1,CONFG,AR,Allowed sub unit code for loading Disbursement Voucher payments to process refund checks for AR.,A,KFS
+KFS-FP,DisbursementVoucher,CUSTOMER_PAYEE_TYPE,CGB-REFUND4,1,CONFG,Customer,The Payee Type  displayed on a disbursement voucher when paying an AR Customer (Payee Type Code=C). ,A,KFS

@@ -418,7 +418,3 @@ KFSAR6012-1,KFSAR6012-1,1,KFSAR6012,15,1,customerLoadCSVInputFileType
 KFSPURAP6940-01,KFSPURAP6940-01,1,KFSPURAP6940,11,5,PurchaseOrderDocument
 KFSPURAP6940-02,KFSPURAP6940-02,1,KFSPURAP6940,11,6,purapDocumentIdentifier
 15001,KFSDL6978i,1,15001,15,1,laborEnterpriseFeederFileSetType
-KFSCG720001,KFSCG720001,1,1110,3,13,CGIN
-KFSCG720002,KFSCG720002,1,1111,12,2,org.kuali.kfs.module.cg.web.struts.ContractsGrantsInvoiceOnDemandSummaryAction
-CGPRMTRFFR,KFSCG720003,1,CGPERMFFR,12,2,org.kuali.kfs.module.cg.web.struts.FederalFinancialReportAction
-CGPRMTRIRD,KFSCG720004,1,CGPERMIRD,12,2,org.kuali.kfs.module.cg.web.struts.InvoiceReportDeliveryAction

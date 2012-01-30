@@ -428,7 +428,7 @@
 	</changeSet>
 	
 
-	<changeSet author="kfs50" id="KFS50CGB">
+	<changeSet author="kfs50" id="KFS50CGB" context="CGB">
 	<comment>To insert values in to the System Parameters table to help in document 
 		validation of Invoice eDoc
 		KRNS_PARM_T_ADD_02"</comment>
@@ -603,5 +603,10 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
+
+	<changeSet author="kfs" id="CG_INSERT_KRNS_PARM_T_PAYMENT_APP_REFUND" context="CGB">
+		<loadData tableName="KRNS_PARM_T" file="db/rice/cgb-data/krns_parm_t.csv" />
+	</changeSet>
+
 	</changeSet></databaseChangeLog>   
       

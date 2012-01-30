@@ -1,0 +1,11 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+		
+	<changeSet context="kfscgb_demo" author="kfs" id="KFSCGB_DEMO_LOAD_KRIM_ROLE_MBR_T">
+		<loadData tableName="KRIM_RSP_T" file="kfscgb_demo/krim_rsp_t.csv" />
+		<loadData tableName="KRIM_RSP_ATTR_DATA_T" file="kfscgb_demo/krim_rsp_attr_data_t.csv" />
+	</changeSet>
+
+</databaseChangeLog>   
+      

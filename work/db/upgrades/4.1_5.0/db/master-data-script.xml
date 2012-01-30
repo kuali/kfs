@@ -7,5 +7,6 @@
 	<include file="02_data/ld-module-data-updates.xml"/>
 	<include file="02_data/pdp-module-data-updates.xml"/>
 	<include file="02_data/purap-module-data-updates.xml"/>
+	<include file="02_data/kfscgb-module-data-updates.xml"/>
 </databaseChangeLog>
 	

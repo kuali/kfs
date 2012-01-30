@@ -29,15 +29,17 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.ReportBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Just as Balance is a summarization of Entry, so AccountBalance is a summarization of Balance.
  * Specifically, it stores the current budget, actual, and encumbrance totals in one record.
  */
-public class AccountBalance extends PersistableBusinessObjectBase {
+public class AccountBalance extends PersistableBusinessObjectBase implements ReportBusinessObject{
     static final long serialVersionUID = 6873573726961704771L;
 
     private Integer universityFiscalYear;
@@ -147,6 +149,40 @@ public class AccountBalance extends PersistableBusinessObjectBase {
         subAccountNumber = accountBalanceHistory.getSubAccountNumber();
         objectCode = accountBalanceHistory.getObjectCode();
         subObjectCode = accountBalanceHistory.getSubObjectCode();
+    }
+    
+    /**
+     * Perform the refresh non-updateable method but do an additional check on the following  objects
+     * within financialObject if either the object is null or the primary key returned null.  If that is true,
+     * re-use the original object/values.
+     * 
+     * 1. FinancialObjectLevel
+     * 2. FinancialObjectType
+     *
+     * @see org.kuali.kfs.gl.businessobject.ReportBusinessObject#refreshNonUpdateableForReport()
+     */
+    @Override
+    public void refreshNonUpdateableForReport() {
+        //store the orignal financial object
+        ObjectCode origfinancialObject = getFinancialObject();
+        super.refreshNonUpdateableReferences();
+        
+        if (ObjectUtils.isNull(financialObject)){
+            //entire financial object is  null, simply replace with the original
+            setFinancialObject(origfinancialObject);
+        }else{
+            //check individual subobjects
+            
+            //check financial object level - if the object is null or primary key value is null, this object needs to be updated
+            if (ObjectUtils.isNull(financialObject.getFinancialObjectLevel()) || ObjectUtils.isNull(financialObject.getFinancialObjectLevel().getFinancialObjectLevelCode())){
+                financialObject.setFinancialObjectLevel(origfinancialObject.getFinancialObjectLevel());
+                financialObject.setFinancialObjectLevelCode(origfinancialObject.getFinancialObjectCode());
+            }
+            //check financial object type - if the object is null or primary key value is null, this object needs to be updated
+            if (ObjectUtils.isNull(financialObject.getFinancialObjectType().getCode()) || ObjectUtils.isNull(financialObject.getFinancialObjectType())){
+                financialObject.setFinancialObjectType(origfinancialObject.getFinancialObjectType());
+            }
+        }
     }
 
     public void fixVariance() {

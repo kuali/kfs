@@ -32,6 +32,7 @@ import org.kuali.kfs.sec.service.AccessPermissionEvaluator;
 import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.ReportBusinessObject;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemBusinessObjectEntry;
@@ -439,7 +440,11 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplate(templateId);
         String templateName = templateInfo.getName();
 
-        if (PersistableBusinessObject.class.isAssignableFrom(businessObject.getClass())) {
+        //if the business object is of ReportBusinessObject interface, use refreshNonUpdateableForReport();
+        if (ReportBusinessObject.class.isAssignableFrom(businessObject.getClass())) {
+            ((ReportBusinessObject) businessObject).refreshNonUpdateableForReport();
+        }
+        else if (PersistableBusinessObject.class.isAssignableFrom(businessObject.getClass())) {
             ((PersistableBusinessObject) businessObject).refreshNonUpdateableReferences();
         }
         else {

@@ -315,7 +315,7 @@
 		KRIM_PERM_ATTR_DATA_T_ADD</comment>
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSCG720001" />
+			<column name="ATTR_DATA_ID" value="KFSCG01" />
 			<column name="OBJ_ID" value="KFSCG720001" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="1110" />
@@ -325,7 +325,7 @@
 		</insert>
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSCG720002" />
+			<column name="ATTR_DATA_ID" value="KFSCG02" />
 			<column name="OBJ_ID" value="KFSCG720002" />
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="1111" />
@@ -338,7 +338,7 @@
 		<comment>Adding the permissions to the role for khuntley - default test user
 	KRIM_ROLE_PERM_T_ADD</comment>
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSCG720001" />
+			<column name="ROLE_PERM_ID" value="KFSCG01" />
 			<column name="OBJ_ID" value="KFSCG720001" />
 			<column name="ROLE_ID" value="38" />
 			<column name="PERM_ID" value="1110" />
@@ -347,7 +347,7 @@
 		</insert>
 
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSCG720002" />
+			<column name="ROLE_PERM_ID" value="KFSCG02" />
 			<column name="OBJ_ID" value="KFSCG720002" />
 			<column name="ROLE_ID" value="38" />
 			<column name="PERM_ID" value="1111" />
@@ -360,7 +360,7 @@
 	KRIM_ROLE_T_ADD</comment>
 
 		<insert tableName="KRIM_ROLE_RSP_ACTN_T">
-			<column name="ROLE_RSP_ACTN_ID" value="KFSCG7200202" />
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCG202" />
 			<column name="OBJ_ID" value="KFSCG7200202" />
 			<column name="ACTN_TYP_CD" value="A" />
 			<column name="PRIORITY_NBR" value="1" />
@@ -525,7 +525,7 @@
 		<comment>Adding the permissions to the role
 	KRIM_ROLE_PERM_T_ADD_CGIN_PERM_TO_KFS</comment>
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSCG720008" />
+			<column name="ROLE_PERM_ID" value="KFSCG08" />
 			<column name="OBJ_ID" value="KFSCG720008" />
 			<column name="ROLE_ID" value="62" />
 			<column name="PERM_ID" value="1110" />
@@ -534,7 +534,7 @@
 		</insert>
 
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSCG720009" />
+			<column name="ROLE_PERM_ID" value="KFSCG09" />
 			<column name="OBJ_ID" value="KFSCG720009" />
 			<column name="ROLE_ID" value="62" />
 			<column name="PERM_ID" value="1111" />

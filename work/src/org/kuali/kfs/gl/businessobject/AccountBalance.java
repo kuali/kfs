@@ -152,7 +152,7 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
     }
     
     /**
-     * Perform the refresh non-updateable method but do an additional check on the following  objects
+     * Perform the refreshnonupdateable method but do an additional check on the following  objects
      * within financialObject if either the object is null or the primary key returned null.  If that is true,
      * re-use the original object/values.
      * 

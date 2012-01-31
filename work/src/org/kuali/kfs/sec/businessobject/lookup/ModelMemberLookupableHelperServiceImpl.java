@@ -15,17 +15,23 @@
  */
 package org.kuali.kfs.sec.businessobject.lookup;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sec.businessobject.ModelMember;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
-import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupQueryResults;
 import org.kuali.rice.kim.api.group.GroupService;
@@ -78,7 +84,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
                 }
             }
 
-            RoleQueryResults resultRoles = roleService.findRoles(searchValues);
+            RoleQueryResults resultRoles = roleService.findRoles(toQuery(searchValues));
             for (Role kimRoleInfo : resultRoles.getResults()) {
                 ModelMember member = new ModelMember();
                 member.setMemberId(kimRoleInfo.getId());
@@ -98,7 +104,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
                 }
             }
 
-            GroupQueryResults resultGroups = groupSevice.findGroups(searchValues);
+            GroupQueryResults resultGroups = groupSevice.findGroups(toQuery(searchValues));
             for (Group group : resultGroups.getResults()) {
                 ModelMember member = new ModelMember();
                 member.setMemberId(group.getId());
@@ -201,7 +207,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
         lookupFields.add(KIMPropertyConstants.Role.ROLE_ID);
         lookupFields.add(KIMPropertyConstants.Role.ROLE_NAME);
-        lookupFields.add(KimApiConstants.UniqueKeyConstants.NAMESPACE_CODE);
+        lookupFields.add(KimConstants.UniqueKeyConstants.NAMESPACE_CODE);
         lookupFields.add(KRADPropertyConstants.ACTIVE);
         lookupFields.add(SecPropertyConstants.MEMBER_TYPE_CODE);
 
@@ -217,7 +223,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
         List<String> lookupFields = new ArrayList<String>();
 
         lookupFields.add(KIMPropertyConstants.Group.GROUP_ID);
-        lookupFields.add(KimApiConstants.UniqueKeyConstants.GROUP_NAME);
+        lookupFields.add(KIMPropertyConstants.Group.GROUP_NAME);
         lookupFields.add(KRADPropertyConstants.ACTIVE);
         lookupFields.add(SecPropertyConstants.MEMBER_TYPE_CODE);
 
@@ -271,6 +277,16 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
      */
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+
+    private QueryByCriteria toQuery(Map<String,?> fieldValues) {
+        Set<Predicate> preds = new HashSet<Predicate>();
+        for (String key : fieldValues.keySet()) {
+            preds.add(equal(key, fieldValues.get(key)));
+        }
+        Predicate[] predicates = new Predicate[0];
+        predicates = preds.toArray(predicates);
+        return QueryByCriteria.Builder.fromPredicates(predicates);
     }
 
 }

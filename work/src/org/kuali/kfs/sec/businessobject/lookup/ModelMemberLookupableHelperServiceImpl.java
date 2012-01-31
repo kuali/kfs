@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,12 +24,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sec.businessobject.ModelMember;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.KimApiConstants;
-import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.group.GroupQueryResults;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleQueryResults;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -61,11 +65,11 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List results = new ArrayList();
-        
+
         Map<String, String> searchValues = new HashMap<String, String>();
 
         String memberTypeCode = fieldValues.get(SecPropertyConstants.MEMBER_TYPE_CODE);
-        if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)) {
+        if (MemberType.ROLE.getCode().equals(memberTypeCode)) {
             List<String> roleSearchFields = getRoleLookupFields();
             roleSearchFields.remove(SecPropertyConstants.MEMBER_TYPE_CODE);
             for (String roleField : roleSearchFields) {
@@ -73,19 +77,19 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
                     searchValues.put(roleField, fieldValues.get(roleField));
                 }
             }
-            
-            List<Role> resultRoles = roleService.lookupRoles(searchValues);
-            for (Role kimRoleInfo : resultRoles) {
+
+            RoleQueryResults resultRoles = roleService.findRoles(searchValues);
+            for (Role kimRoleInfo : resultRoles.getResults()) {
                 ModelMember member = new ModelMember();
                 member.setMemberId(kimRoleInfo.getId());
-                member.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
+                member.setMemberTypeCode(MemberType.ROLE.getCode());
                 member.setMemberName(kimRoleInfo.getNamespaceCode() + "-" + kimRoleInfo.getName());
                 member.setActive(kimRoleInfo.isActive());
 
                 results.add(member);
             }
         }
-        else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)) {
+        else if ( MemberType.GROUP.getCode().equals(memberTypeCode)) {
             List<String> groupSearchFields = getGroupLookupFields();
             groupSearchFields.remove(SecPropertyConstants.MEMBER_TYPE_CODE);
             for (String groupField : groupSearchFields) {
@@ -93,13 +97,13 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
                     searchValues.put(groupField, fieldValues.get(groupField));
                 }
             }
-            
-            List<? extends Group> resultGroups = groupSevice.lookupGroups(searchValues);
-            for (Group group : resultGroups) {
+
+            GroupQueryResults resultGroups = groupSevice.findGroups(searchValues);
+            for (Group group : resultGroups.getResults()) {
                 ModelMember member = new ModelMember();
-                member.setMemberId(group.getGroupId());
-                member.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
-                member.setMemberName(group.getNamespaceCode() + "-" + group.getGroupName());
+                member.setMemberId(group.getId());
+                member.setMemberTypeCode( MemberType.GROUP.getCode() );
+                member.setMemberName(group.getNamespaceCode() + "-" + group.getName());
                 member.setActive(group.isActive());
 
                 results.add(member);
@@ -113,12 +117,12 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
                     searchValues.put(personField, fieldValues.get(personField));
                 }
             }
-            
+
             List<? extends Person> resultPersons = personService.findPeople(searchValues);
             for (Person person : resultPersons) {
                 ModelMember member = new ModelMember();
                 member.setMemberId(person.getPrincipalId());
-                member.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
+                member.setMemberTypeCode(MemberType.PRINCIPAL.getCode());
                 member.setMemberName(person.getName());
                 member.setActive(person.isActive());
 
@@ -138,10 +142,10 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
         if (getParameters().containsKey(SecPropertyConstants.MEMBER_TYPE_CODE)) {
             String memberTypeCode = ((String[]) getParameters().get(SecPropertyConstants.MEMBER_TYPE_CODE))[0];
 
-            if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)) {
+            if (MemberType.ROLE.getCode().equals(memberTypeCode)) {
                 lookupFieldAttributeList = getRoleLookupFields();
             }
-            else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)) {
+            else if (MemberType.GROUP.getCode().equals(memberTypeCode)) {
                 lookupFieldAttributeList = getGroupLookupFields();
             }
             else {
@@ -154,30 +158,31 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
         // construct field object for each search attribute
         List fields = new ArrayList();
-        int numCols;
+        int numCols = 0;
         try {
             fields = FieldUtils.createAndPopulateFieldsForLookup(lookupFieldAttributeList, getReadOnlyFieldsList(), getBusinessObjectClass());
 
-            BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(this.getBusinessObjectClass().getName());
+            BusinessObjectEntry boe = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(this.getBusinessObjectClass().getName());
             numCols = boe.getLookupDefinition().getNumOfColumns();
 
         }
         catch (InstantiationException e) {
-            throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
+            throw new RuntimeException("Unable to create instance of business object class", e);
         }
         catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
+            throw new RuntimeException("Unable to create instance of business object class", e);
         }
 
-        if (numCols == 0)
+        if (numCols == 0) {
             numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS;
+        }
 
         rows = FieldUtils.wrapFields(fields, numCols);
     }
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
-     * 
+     *
      * KRAD Conversion: Performs retrieving the rows.
      * No use data dictionary.
      */
@@ -188,7 +193,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Builds List of search field names for the role lookup
-     * 
+     *
      * @return List<String> containing lookup field names
      */
     protected List<String> getRoleLookupFields() {
@@ -205,7 +210,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Builds List of search field names for the group lookup
-     * 
+     *
      * @return List<String> containing lookup field names
      */
     protected List<String> getGroupLookupFields() {
@@ -221,7 +226,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Builds List of search field names for the person lookup
-     * 
+     *
      * @return List<String> containing lookup field names
      */
     protected List<String> getPersonLookupFields() {
@@ -243,7 +248,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Sets the roleService attribute value.
-     * 
+     *
      * @param roleService The roleService to set.
      */
     public void setRoleService(RoleService roleService) {
@@ -252,7 +257,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Sets the groupSevice attribute value.
-     * 
+     *
      * @param groupSevice The groupSevice to set.
      */
     public void setGroupSevice(GroupService groupSevice) {
@@ -261,7 +266,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Sets the personService attribute value.
-     * 
+     *
      * @param personService The personService to set.
      */
     public void setPersonService(PersonService personService) {

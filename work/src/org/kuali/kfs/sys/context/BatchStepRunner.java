@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,7 @@ public class BatchStepRunner {
         }
         try {
             Log4jConfigurer.configureLogging(false);
-        //    SpringContext.initializeBatchApplicationContext();
+            SpringContextForBatchRunner.initializeKfs();
             String[] stepNames;
             if (args[0].indexOf(",") > 0) {
                 stepNames = StringUtils.split(args[0], ",");
@@ -54,7 +54,7 @@ public class BatchStepRunner {
             }
             ParameterService parameterService = SpringContext.getBean(ParameterService.class);
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-            
+
             String jobName = args.length >= 2 ? args[1] : KFSConstants.BATCH_STEP_RUNNER_JOB_NAME;
             Date jobRunDate = dateTimeService.getCurrentDate();
             LOG.info("Executing job: " + jobName + " steps: " + Arrays.toString(stepNames));
@@ -63,10 +63,10 @@ public class BatchStepRunner {
                 if ( step != null ) {
                     Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
                     Class stepClass = unProxiedStep.getClass();
-                    
-                    ModuleService module = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService( stepClass );                    
-                    Appender ndcAppender = null; 
-                    String nestedDiagnosticContext = 
+
+                    ModuleService module = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService( stepClass );
+                    Appender ndcAppender = null;
+                    String nestedDiagnosticContext =
                             StringUtils.substringAfter( module.getModuleConfiguration().getNamespaceCode(), "-").toLowerCase()
                             + File.separator + step.getName()
                             + "-" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
@@ -84,7 +84,7 @@ public class BatchStepRunner {
                         if (!Job.runStep(parameterService, jobName, i, step, jobRunDate) ) {
                             System.exit(4);
                         }
-                    } catch ( RuntimeException ex ) {                        
+                    } catch ( RuntimeException ex ) {
                         throw ex;
                     } finally {
                         if ( ndcSet ) {
@@ -106,10 +106,10 @@ public class BatchStepRunner {
             System.exit(8);
         }
     }
-    
+
     protected static String getLogFileName(String nestedDiagnosticContext) {
-        return SpringContext.getBean( ConfigurationService.class ).getPropertyValueAsString(KFSConstants.REPORTS_DIRECTORY_KEY) 
-                + File.separator 
+        return SpringContext.getBean( ConfigurationService.class ).getPropertyValueAsString(KFSConstants.REPORTS_DIRECTORY_KEY)
+                + File.separator
                 + nestedDiagnosticContext + ".log";
     }
 

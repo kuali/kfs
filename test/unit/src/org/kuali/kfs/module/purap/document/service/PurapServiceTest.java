@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
@@ -26,14 +28,15 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.TaxFixture;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 @ConfigureContext(session = khuntley)
@@ -262,16 +265,20 @@ public class PurapServiceTest extends KualiTestBase {
      */
     private void enableParameterConstraints(boolean enabled) {
         // apparently, the database values are not what the test writer originally expected. Force the issue for test (it will be rolled back anyway)
-        for (String taxable_parm_nm : TAXABLE_PARM_NMs) {
-            Parameter parameter = parameterService.retrieveParameter(NAMESPACE, parameterService.getDetailType(KfsParameterConstants.PURCHASING_DOCUMENT.class), taxable_parm_nm);
+        for (String taxableParmName : TAXABLE_PARM_NMs) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("namespaceCode", NAMESPACE);
+            fieldValues.put("componentCode", "Document");
+            fieldValues.put("applicationId", KFSConstants.APPLICATION_NAMESPACE_CODE);
+            fieldValues.put("name", taxableParmName);
+
+            ParameterBo parameter = businessObjectService.findByPrimaryKey(ParameterBo.class, fieldValues);
             if (enabled) {
-                parameter.setParameterConstraintCode("A");
+                parameter.setEvaluationOperatorCode("A");
             } else {
-                parameter.setParameterConstraintCode("D");
+                parameter.setEvaluationOperatorCode("D");
             }
             businessObjectService.save(parameter);
-            parameter = parameterService.retrieveParameter(NAMESPACE, parameterService.getDetailType(KfsParameterConstants.PURCHASING_DOCUMENT.class), taxable_parm_nm);
-            // LOG.info(parameter);
         }
     }
 }

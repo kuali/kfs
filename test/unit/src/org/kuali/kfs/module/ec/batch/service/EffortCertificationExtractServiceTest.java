@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,7 @@ import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService;
 import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
@@ -40,8 +41,8 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.core.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.PersistenceService;
@@ -106,7 +107,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * check if the service can approperiately handle the input parameters
-     * 
+     *
      * @see EffortCertificationExtractService.extract(Integer, String)
      */
     public void testInputParameters_ValidParameters() throws Exception {
@@ -131,7 +132,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * check if the service can approperiately handle the input parameters
-     * 
+     *
      * @see EffortCertificationExtractService.extract(Integer, String)
      */
     public void testInputParameters_EmptyFiscalYear() throws Exception {
@@ -148,7 +149,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * check if the service can approperiately handle the input parameters
-     * 
+     *
      * @see EffortCertificationExtractService.extract(Integer, String)
      */
     public void testInputParameters_EmptyReportNumber() throws Exception {
@@ -166,7 +167,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * check if the service can approperiately handle the input parameters
-     * 
+     *
      * @see EffortCertificationExtractService.extract(Integer, String)
      */
     public void testInputParameters_UndefinedReportDefinition() throws Exception {
@@ -184,7 +185,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * check if the service can approperiately handle the input parameters
-     * 
+     *
      * @see EffortCertificationExtractService.extract(Integer, String)
      */
     public void testInputParameters_InactiveReportDefinition() throws Exception {
@@ -206,7 +207,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * check if the service can approperiately handle the input parameters
-     * 
+     *
      * @see EffortCertificationExtractService.extract(Integer, String)
      */
     public void testInputParameters_DocumentExist() throws Exception {
@@ -510,7 +511,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * load test data into database before a test case starts
-     * 
+     *
      * @param testTarget the target test case
      */
     private void loadTestData(String testTarget) throws Exception {
@@ -532,7 +533,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * construct a ledger balance and persist it
-     * 
+     *
      * @param testTarget the given test target that specifies the test data being used
      * @return a ledger balance
      */
@@ -542,7 +543,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * build a report defintion object from the given test target
-     * 
+     *
      * @param testTarget the given test target that specifies the test data being used
      * @return a report defintion object
      */
@@ -552,7 +553,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * build an Effort Certification Document object from the given test target
-     * 
+     *
      * @param testTarget the given test target that specifies the test data being used
      * @return an Effort Certification Document object
      */
@@ -562,17 +563,19 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     /**
      * update the system parameters
-     * 
+     *
      * @param testTarget the given test target that specifies the test data being used
      */
     private void updateSystemParameters(String testTarget) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("parameterNamespaceCode", "KFS-EC");
-        fieldValues.put("parameterDetailTypeCode", EffortCertificationExtractStep.class.getSimpleName());
+        fieldValues.put("namespaceCode", KFSConstants.OptionalModuleNamespaces.EFFORT_COMMITTMENT);
+        fieldValues.put("componentCode", EffortCertificationExtractStep.class.getSimpleName());
+        fieldValues.put("applicationId", KFSConstants.APPLICATION_NAMESPACE_CODE);
 
-        List<Parameter> parameters = (List<Parameter>) businessObjectService.findMatching(Parameter.class, fieldValues);
-        for (Parameter param : parameters) {
-            String name = param.getParameterName();
+
+        List<ParameterBo> parameters = (List<ParameterBo>) businessObjectService.findMatching(ParameterBo.class, fieldValues);
+        for (ParameterBo param : parameters) {
+            String name = param.getName();
 
             String propertyKey = testTarget + "systemParameter." + name;
             String propertyValue = StringUtils.trim(properties.getProperty(propertyKey));

@@ -863,7 +863,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
             handleEndOfScrubberReport(scrubberReport);
 
-            if (!collectorMode) {  // winston
+            if (!collectorMode) {  
                 ledgerSummaryReport.writeReport(this.scrubberLedgerReportWriterService);
             }
         }

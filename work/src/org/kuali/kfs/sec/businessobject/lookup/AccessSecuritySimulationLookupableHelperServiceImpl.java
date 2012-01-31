@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,7 +57,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the search results.
      * by retrieving the default sort columns using data dictionary service.
      */
@@ -88,10 +88,10 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
      * @param templateId
      * @param additionalPermissionDetails
      * @return
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the search results.
      * by retrieving the columns using data dictionary service.
-     * 
+     *
      */
     protected List<? extends BusinessObject> runSimulation(Person person, String attributeName, String templateId, Map<String,String> additionalPermissionDetails) {
         List<BusinessObject> resultRecords = new ArrayList<BusinessObject>();
@@ -164,7 +164,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
         try {
             fields = FieldUtils.createAndPopulateFieldsForLookup(lookupFieldAttributeList, getReadOnlyFieldsList(), getBusinessObjectClass());
 
-            BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(this.getBusinessObjectClass().getName());
+            BusinessObjectEntry boe = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(this.getBusinessObjectClass().getName());
             numCols = boe.getLookupDefinition().getNumOfColumns();
 
         }
@@ -191,7 +191,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getColumns()
-     * 
+     *
      * KRAD Conversion: Lookupable performs the customization of columns
      * by  using data dictionary service for attribute properties.
      */
@@ -251,7 +251,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Builds List of search field names for searching the inquiry template
-     * 
+     *
      * @return List<String> containing lookup field names
      */
     protected List<String> getInquiryTemplateFields() {
@@ -267,7 +267,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Builds List of search field names for searching the lookup template
-     * 
+     *
      * @return List<String> containing lookup field names
      */
     protected List<String> getLookupTemplateFields() {
@@ -282,7 +282,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Builds List of search field names for searching document templates
-     * 
+     *
      * @return List<String> containing lookup field names
      */
     protected List<String> getDocumentTemplateFields() {
@@ -298,7 +298,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Sets the accessSecurityService attribute value.
-     * 
+     *
      * @param accessSecurityService The accessSecurityService to set.
      */
     public void setAccessSecurityService(AccessSecurityService accessSecurityService) {
@@ -307,7 +307,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Sets the universityDateService attribute value.
-     * 
+     *
      * @param universityDateService The universityDateService to set.
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {

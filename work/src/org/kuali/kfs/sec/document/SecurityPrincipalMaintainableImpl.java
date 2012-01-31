@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import org.kuali.kfs.sec.identity.SecKimAttributes;
 import org.kuali.kfs.sec.util.KimUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.Role;
@@ -79,7 +80,7 @@ public class SecurityPrincipalMaintainableImpl extends FinancialSystemMaintainab
 
                 assignOrUpdatePrincipalMembershipToDefinitionRoles(oldSecurityPrincipal, newSecurityPrincipal, newMaintenanceAction);
                 assignOrUpdatePrincipalModelRoles(newSecurityPrincipal);
-                
+
                 SpringContext.getBean(IdentityManagementService.class).flushAllCaches();
             }
             catch (WorkflowException e) {
@@ -91,7 +92,7 @@ public class SecurityPrincipalMaintainableImpl extends FinancialSystemMaintainab
 
     /**
      * Iterates through the principal definition list and assigns the principal to the definition role if necessary or updates the current member assignment
-     * 
+     *
      * @param oldSecurityPrincipal SecurityPrincipal before updates
      * @param newSecurityPrincipal SecurityPrincipal which contains the definition list and principal
      * @param newMaintenanceAction boolean indicating whether this is a new record (old side will not contain data)
@@ -105,7 +106,7 @@ public class SecurityPrincipalMaintainableImpl extends FinancialSystemMaintainab
             SecurityDefinition securityDefinition = securityPrincipalDefinition.getSecurityDefinition();
 
             Role definitionRoleInfo = roleService.getRole(securityDefinition.getRoleId());
-            
+
             RoleMembership principalMembershipInfo = null;
             if (!newMaintenanceAction) {
                 SecurityPrincipalDefinition oldPrincipalDefinition = null;
@@ -114,7 +115,7 @@ public class SecurityPrincipalMaintainableImpl extends FinancialSystemMaintainab
                        oldPrincipalDefinition = principalDefinition;
                    }
                 }
-                
+
                 if (oldPrincipalDefinition != null) {
                     Map<String,String> membershipQualifications = new HashMap<String,String>();
                     membershipQualifications.put(SecKimAttributes.CONSTRAINT_CODE, oldPrincipalDefinition.getConstraintCode());
@@ -122,7 +123,7 @@ public class SecurityPrincipalMaintainableImpl extends FinancialSystemMaintainab
                     membershipQualifications.put(KimConstants.AttributeConstants.PROPERTY_VALUE, oldPrincipalDefinition.getAttributeValue());
                     membershipQualifications.put(SecKimAttributes.OVERRIDE_DENY, Boolean.toString(oldPrincipalDefinition.isOverrideDeny()));
 
-                    principalMembershipInfo = KimUtil.getRoleMembershipForMemberType(definitionRoleInfo.getId(), principalId, KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE, membershipQualifications);
+                    principalMembershipInfo = KimUtil.getRoleMembershipForMemberType(definitionRoleInfo.getId(), principalId, MemberType.PRINCIPAL.getCode(), membershipQualifications);
                 }
             }
 
@@ -132,7 +133,7 @@ public class SecurityPrincipalMaintainableImpl extends FinancialSystemMaintainab
             // if membership already exists, need to remove if the principal record is now inactive or the qualifications need updated
             String principalMembershipId = "";
             if (principalMembershipInfo != null) {
-                principalMembershipId = principalMembershipInfo.getRoleMemberId();
+                principalMembershipId = principalMembershipInfo.getId();
                 boolean qualificationsMatch = KimUtil.doMembershipQualificationsMatchValues(principalMembershipInfo.getQualifier(), securityPrincipalDefinition.getConstraintCode(), securityPrincipalDefinition.getOperatorCode(), securityPrincipalDefinition.getAttributeValue());
                 if (!membershipActive || !qualificationsMatch) {
                     roleService.removeRoleFromRole(principalMembershipInfo.getMemberId(), definitionRoleInfo.getNamespaceCode(), definitionRoleInfo.getName(), principalMembershipInfo.getQualifier());
@@ -147,14 +148,14 @@ public class SecurityPrincipalMaintainableImpl extends FinancialSystemMaintainab
                 membershipQualifications.put(KimConstants.AttributeConstants.PROPERTY_VALUE, securityPrincipalDefinition.getAttributeValue());
                 membershipQualifications.put(SecKimAttributes.OVERRIDE_DENY, Boolean.toString(securityPrincipalDefinition.isOverrideDeny()));
 
-                roleService.saveRoleMemberForRole(principalMembershipId, principalId, KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE, definitionRoleInfo.getId(), membershipQualifications, null, null);
+                roleService.saveRoleMemberForRole(principalMembershipId, principalId, MemberType.PRINCIPAL.getCode(), definitionRoleInfo.getId(), membershipQualifications, null, null);
             }
         }
     }
 
     /**
      * Iterates through the principal model list and assigns the principal to the model role or updates the membership
-     * 
+     *
      * @param securityPrincipal SecurityPrincipal which contains the model list and principal
      */
     protected void assignOrUpdatePrincipalModelRoles(SecurityPrincipal securityPrincipal) {
@@ -165,22 +166,22 @@ public class SecurityPrincipalMaintainableImpl extends FinancialSystemMaintainab
         for (SecurityModelMember principalModel : securityPrincipal.getPrincipalModels()) {
             Role modelRoleInfo = roleService.getRole(principalModel.getSecurityModel().getRoleId());
 
-            RoleMembership membershipInfo = KimUtil.getRoleMembershipForMemberType(modelRoleInfo.getId(), principalId, KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE, null);
+            RoleMembership membershipInfo = KimUtil.getRoleMembershipForMemberType(modelRoleInfo.getId(), principalId, MemberType.PRINCIPAL.getCode(), null);
 
             String membershipId = "";
             if (membershipInfo != null) {
-                membershipId = membershipInfo.getRoleMemberId();
+                membershipId = membershipInfo.getId();
             }
 
             java.sql.Date fromDate = null;
             java.sql.Date toDate = null;
             if ( principalModel.getActiveFromDate() != null ) {
-                fromDate = new java.sql.Date( principalModel.getActiveFromDate().getTime() ); 
+                fromDate = new java.sql.Date( principalModel.getActiveFromDate().getTime() );
             }
             if ( principalModel.getActiveToDate() != null ) {
-                toDate = new java.sql.Date( principalModel.getActiveToDate().getTime() ); 
+                toDate = new java.sql.Date( principalModel.getActiveToDate().getTime() );
             }
-            roleService.saveRoleMemberForRole(membershipId, principalId, KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE, modelRoleInfo.getId(), new HashMap<String,String>(), fromDate, toDate);
+            roleService.saveRoleMemberForRole(membershipId, principalId, MemberType.PRINCIPAL.getCode(), modelRoleInfo.getId(), new HashMap<String,String>(), fromDate, toDate);
         }
     }
 

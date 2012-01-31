@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,7 +57,7 @@ public class SecAccountingLineGroupImpl extends DefaultAccountingLineGroupImpl {
     /**
      * Performs access security edit check and sets edit flag on container line to false if access is not allowed or removes
      * container if view is not allowed
-     * 
+     *
      * @see org.kuali.kfs.sys.document.web.DefaultAccountingLineGroupImpl#initialize(org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition,
      *      org.kuali.kfs.sys.document.AccountingDocument, java.util.List, java.lang.String, java.lang.String, java.util.Map,
      *      java.util.Map, java.util.Map, boolean)
@@ -71,9 +71,10 @@ public class SecAccountingLineGroupImpl extends DefaultAccountingLineGroupImpl {
         List<RenderableAccountingLineContainer> unviewableContainers = new ArrayList<RenderableAccountingLineContainer>();
         for (RenderableAccountingLineContainer container : containers) {
             boolean lineHasError = false;
-            for (Object errorKeyAsObject : GlobalVariables.getMessageMap().keySet()) {
-                if (((String) errorKeyAsObject).startsWith(collectionItemPropertyName))
+            for (Object errorKeyAsObject : GlobalVariables.getMessageMap().getErrorMessages().keySet() ) {
+                if (((String) errorKeyAsObject).startsWith(collectionItemPropertyName)) {
                     lineHasError = true;
+                }
             }
 
             if (lineHasError || container.isNewLine()) {
@@ -106,7 +107,7 @@ public class SecAccountingLineGroupImpl extends DefaultAccountingLineGroupImpl {
 
     /**
      * Adds info message if we have restricted view of any accounting lines and adds an additional key to match on
-     * 
+     *
      * @see org.kuali.kfs.sys.document.web.DefaultAccountingLineGroupImpl#renderErrors(javax.servlet.jsp.PageContext,
      *      javax.servlet.jsp.tagext.Tag)
      */
@@ -119,7 +120,7 @@ public class SecAccountingLineGroupImpl extends DefaultAccountingLineGroupImpl {
 
     /**
      * Helper method for outputting messages
-     * 
+     *
      * @param pageContext
      * @param parentTag
      * @param messageKey - key for messages to display
@@ -140,7 +141,7 @@ public class SecAccountingLineGroupImpl extends DefaultAccountingLineGroupImpl {
 
     /**
      * Adds info message for any security restrictions that have been applied
-     * 
+     *
      * @param pageContext
      * @param parentTag
      * @throws JspException

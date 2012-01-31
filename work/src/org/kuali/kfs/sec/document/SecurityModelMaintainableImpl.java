@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,7 @@ import org.kuali.kfs.sec.identity.SecKimAttributes;
 import org.kuali.kfs.sec.util.KimUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.GroupService;
@@ -105,7 +106,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Creates a new role for the model (if the model is new), otherwise updates the role
-     * 
+     *
      * @param oldSecurityModel SecurityModel record before updates
      * @param newSecurityModel SecurityModel after updates
      */
@@ -124,12 +125,11 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
         // always set the role as active so we can add members and definitions, after processing the indicator will be updated to
         // the appropriate value
         roleService.saveRole(roleId, roleName, newSecurityModel.getDescription(), true, SecConstants.SecurityTypes.DEFAULT_ROLE_TYPE, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE);
-        roleService.flushRoleCaches();
     }
 
     /**
      * Saves the given security model setting the active indicator to false
-     * 
+     *
      * @param newSecurityModel SecurityModel to inactivate
      */
     protected void inactivateModelRole(SecurityModel newSecurityModel) {
@@ -143,7 +143,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * Iterates through the model definition list and assigns the model role to the definition role if necessary or updates the
      * current member assignment
-     * 
+     *
      * @param oldSecurityModel SecurityModel record before updates
      * @param newSecurityModel SecurityModel whose membership should be updated
      * @param newMaintenanceAction boolean indicating whether this is a new record (old side will not contain data)
@@ -180,7 +180,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
                         LOG.error(error);
                         throw new RuntimeException(error);
                     } else {
-                        modelMembershipInfo = KimUtil.getRoleMembershipForMemberType(definitionRoleInfo.getId(), modelRoleInfo.getId(), KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE, membershipQualifications);
+                        modelMembershipInfo = KimUtil.getRoleMembershipForMemberType(definitionRoleInfo.getId(), modelRoleInfo.getId(), MemberType.ROLE.getCode(), membershipQualifications);
                     }
                 }
             }
@@ -192,7 +192,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
             // need updated
             String modelMembershipId = "";
             if (modelMembershipInfo != null) {
-                modelMembershipId = modelMembershipInfo.getRoleMemberId();
+                modelMembershipId = modelMembershipInfo.getId();
                 if (!membershipActive) {
                     roleService.removeRoleFromRole(modelMembershipInfo.getMemberId(), definitionRoleInfo.getNamespaceCode(), definitionRoleInfo.getName(), modelMembershipInfo.getQualifier());
                 }
@@ -212,7 +212,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
                     LOG.error(error);
                     throw new RuntimeException(error);
                 } else {
-                    roleService.saveRoleMemberForRole(modelMembershipId, modelRoleInfo.getId(), KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE, definitionRoleInfo.getId(), membershipQualifications, null, null);
+                    roleService.saveRoleMemberForRole(modelMembershipId, modelRoleInfo.getId(), MemberType.ROLE.getCode(), definitionRoleInfo.getId(), membershipQualifications, null, null);
                 }
             }
         }
@@ -220,7 +220,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Iterates through the model member list and assign members to the model role or updates the membership
-     * 
+     *
      * @param securityModel SecurityModel whose member list should be updated
      */
     protected void assignOrUpdateModelMembers(SecurityModel securityModel) {
@@ -237,22 +237,22 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
 
             for (SecurityModelMember modelMember : securityModel.getModelMembers()) {
                 RoleMembership membershipInfo = KimUtil.getRoleMembershipForMemberType(modelRoleInfo.getId(), modelMember.getMemberId(), modelMember.getMemberTypeCode(), null);
-    
+
                 String membershipId = "";
                 if (membershipInfo != null) {
-                    membershipId = membershipInfo.getRoleMemberId();
+                    membershipId = membershipInfo.getId();
                 }
-    
+
                 java.sql.Date fromDate = null;
                 java.sql.Date toDate = null;
                 if ( modelMember.getActiveFromDate() != null ) {
-                    fromDate = new java.sql.Date( modelMember.getActiveFromDate().getTime() ); 
+                    fromDate = new java.sql.Date( modelMember.getActiveFromDate().getTime() );
                 }
                 if ( modelMember.getActiveToDate() != null ) {
-                    toDate = new java.sql.Date( modelMember.getActiveToDate().getTime() ); 
+                    toDate = new java.sql.Date( modelMember.getActiveToDate().getTime() );
                 }
                 roleService.saveRoleMemberForRole(membershipId, modelMember.getMemberId(), modelMember.getMemberTypeCode(), modelRoleInfo.getId(), new HashMap<String,String>(), fromDate, toDate);
-    
+
                 createPrincipalSecurityRecords(modelMember.getMemberId(), modelMember.getMemberTypeCode());
             }
         }
@@ -261,22 +261,22 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * Creates security principal records for model members (if necessary) so that they will appear on security principal lookup for
      * editing
-     * 
+     *
      * @param memberId String member id of model role
      * @param memberTypeCode String member type code for member
      */
     protected void createPrincipalSecurityRecords(String memberId, String memberTypeCode) {
         Collection<String> principalIds = new HashSet<String>();
 
-        if (KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(memberTypeCode)) {
+        if (MemberType.PRINCIPAL.getCode().equals(memberTypeCode)) {
             principalIds.add(memberId);
         }
-        else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)) {
+        else if (MemberType.ROLE.getCode().equals(memberTypeCode)) {
             Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
             Collection<String> rolePrincipalIds = SpringContext.getBean(RoleService.class).getRoleMemberPrincipalIds(roleInfo.getNamespaceCode(), roleInfo.getName(), new HashMap<String,String>());
             principalIds.addAll(rolePrincipalIds);
         }
-        else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)) {
+        else if (MemberType.GROUP.getCode().equals(memberTypeCode)) {
             List<String> groupPrincipalIds = SpringContext.getBean(GroupService.class).getMemberPrincipalIds(memberId);
             principalIds.addAll(groupPrincipalIds);
         }
@@ -295,7 +295,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Determines whether the given definition is part of the SecurityModel associated definitions
-     * 
+     *
      * @param definitionName name of definition to look for
      * @param securityModel SecurityModel to check
      * @return boolean true if the definition is in the security model, false if not
@@ -312,7 +312,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Override to clear out KIM role id on copy
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.util.Map)
      */
@@ -320,7 +320,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
         SecurityModel securityModel = (SecurityModel) document.getNewMaintainableObject().getBusinessObject();
         securityModel.setRoleId("");
-        
+
         super.processAfterCopy(document, parameters);
     }
 

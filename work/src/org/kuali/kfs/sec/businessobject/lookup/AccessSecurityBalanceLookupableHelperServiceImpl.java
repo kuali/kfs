@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,8 +41,8 @@ import org.kuali.rice.kns.document.authorization.FieldRestriction;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -51,7 +51,7 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -78,111 +78,137 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
         laborInquiry = false;
     }
 
+    @Override
     public boolean allowsMaintenanceNewOrCopyAction() {
         return lookupableHelperService.allowsMaintenanceNewOrCopyAction();
     }
 
+    @Override
     public boolean allowsNewOrCopyAction(String documentTypeName) {
         return lookupableHelperService.allowsNewOrCopyAction(documentTypeName);
     }
 
+    @Override
     public void applyFieldAuthorizationsFromNestedLookups(Field field) {
         lookupableHelperService.applyFieldAuthorizationsFromNestedLookups(field);
     }
 
+    @Override
     public boolean checkForAdditionalFields(Map fieldValues) {
         return lookupableHelperService.checkForAdditionalFields(fieldValues);
     }
 
+    @Override
     public String getActionUrls(BusinessObject businessObject, List pkNames, BusinessObjectRestrictions businessObjectRestrictions) {
         return lookupableHelperService.getActionUrls(businessObject, pkNames, businessObjectRestrictions);
     }
 
+    @Override
     public String getBackLocation() {
         return lookupableHelperService.getBackLocation();
     }
 
+    @Override
     public Class getBusinessObjectClass() {
         return lookupableHelperService.getBusinessObjectClass();
     }
 
+    @Override
     public BusinessObjectDictionaryService getBusinessObjectDictionaryService() {
         return lookupableHelperService.getBusinessObjectDictionaryService();
     }
 
+    @Override
     public List getColumns() {
         return lookupableHelperService.getColumns();
     }
 
+    @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         return lookupableHelperService.getCustomActionUrls(businessObject, pkNames);
     }
 
+    @Override
     public DataDictionaryService getDataDictionaryService() {
         return lookupableHelperService.getDataDictionaryService();
     }
 
+    @Override
     public List getDefaultSortColumns() {
         return lookupableHelperService.getDefaultSortColumns();
     }
 
+    @Override
     public String getDocFormKey() {
         return lookupableHelperService.getDocFormKey();
     }
 
+    @Override
     public String getDocNum() {
         return lookupableHelperService.getDocNum();
     }
 
+    @Override
     public Field getExtraField() {
         return lookupableHelperService.getExtraField();
     }
 
+    @Override
     public HtmlData getInquiryUrl(BusinessObject businessObject, String propertyName) {
         return lookupableHelperService.getInquiryUrl(businessObject, propertyName);
     }
 
+    @Override
     public String getMaintenanceUrl(BusinessObject businessObject, HtmlData htmlData, List pkNames, BusinessObjectRestrictions businessObjectRestrictions) {
         return lookupableHelperService.getMaintenanceUrl(businessObject, htmlData, pkNames, businessObjectRestrictions);
     }
 
+    @Override
     public Map getParameters() {
         return lookupableHelperService.getParameters();
     }
 
+    @Override
     public String getPrimaryKeyFieldLabels() {
         return lookupableHelperService.getPrimaryKeyFieldLabels();
     }
 
+    @Override
     public List<String> getReadOnlyFieldsList() {
         return lookupableHelperService.getReadOnlyFieldsList();
     }
 
+    @Override
     public List getReturnKeys() {
         return lookupableHelperService.getReturnKeys();
     }
 
+    @Override
     public String getReturnLocation() {
         return lookupableHelperService.getReturnLocation();
     }
 
+    @Override
     public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
         return lookupableHelperService.getReturnUrl(businessObject, lookupForm, returnKeys, businessObjectRestrictions);
     }
 
+    @Override
     public HtmlData getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
         return lookupableHelperService.getReturnUrl(businessObject, fieldConversions, lookupImpl, returnKeys, businessObjectRestrictions);
     }
 
+    @Override
     public List<Row> getRows() {
         return lookupableHelperService.getRows();
     }
 
     /**
      * Gets search results and passes to access security service to apply access restrictions
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
+    @Override
     public List getSearchResults(Map<String, String> fieldValues) {
         List results = lookupableHelperService.getSearchResults(fieldValues);
 
@@ -202,9 +228,10 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
 
     /**
      * Gets search results and passes to access security service to apply access restrictions
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.LookupableHelperService#getSearchResultsUnbounded(java.util.Map)
      */
+    @Override
     public List getSearchResultsUnbounded(Map<String, String> fieldValues) {
         List results = lookupableHelperService.getSearchResultsUnbounded(fieldValues);
 
@@ -221,35 +248,42 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
         return results;
     }
 
+    @Override
     public String getSupplementalMenuBar() {
         return lookupableHelperService.getSupplementalMenuBar();
     }
 
+    @Override
     public String getTitle() {
         return lookupableHelperService.getTitle();
     }
 
+    @Override
     public boolean isResultReturnable(BusinessObject object) {
         return lookupableHelperService.isResultReturnable(object);
     }
 
+    @Override
     public boolean isSearchUsingOnlyPrimaryKeyValues() {
         return lookupableHelperService.isSearchUsingOnlyPrimaryKeyValues();
     }
 
+    @Override
     public void performClear(LookupForm lookupForm) {
         lookupableHelperService.performClear(lookupForm);
     }
 
+    @Override
     public boolean performCustomAction(boolean ignoreErrors) {
         return lookupableHelperService.performCustomAction(ignoreErrors);
     }
 
     /**
      * Need to duplicate the logic of performLookup so that getSearchResults will be called on this class and not the nested lookup helper service
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.LookupableHelperService#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm, java.util.Collection, boolean)
      */
+    @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Map lookupFormFields = lookupForm.getFieldsForLookup();
 
@@ -363,13 +397,13 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
             if (getBusinessObjectDictionaryService().isExportable(getBusinessObjectClass())) {
                 row.setBusinessObject(element);
             }
-            
+
             if(element instanceof SegmentedBusinessObject) {
                 for (String propertyName : ((SegmentedBusinessObject) element).getSegmentedPropertyNames()) {
                     columns.add(setupResultsColumn(element, propertyName, businessObjectRestrictions));
                 }
             }
-            
+
             if (element instanceof PersistableBusinessObject) {
                 row.setObjectId((((PersistableBusinessObject) element).getObjectId()));
             }
@@ -387,7 +421,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
 
         return displayList;
     }
-    
+
     /**
      * @param element
      * @param attributeName
@@ -468,7 +502,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
     /**
      * changes from/to dates into the range operators the lookupable dao expects ("..",">" etc) this method modifies the passed in map and returns a list containing only the
      * modified fields
-     * 
+     *
      * @param lookupFormFields
      */
     protected Map<String, String> preprocessDateFields(Map lookupFormFields) {
@@ -512,49 +546,59 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
         return maskedPropertyValue;
     }
 
+    @Override
     public void setBackLocation(String backLocation) {
         lookupableHelperService.setBackLocation(backLocation);
     }
 
+    @Override
     public void setBusinessObjectClass(Class businessObjectClass) {
         lookupableHelperService.setBusinessObjectClass(businessObjectClass);
     }
 
+    @Override
     public void setDocFormKey(String docFormKey) {
         lookupableHelperService.setDocFormKey(docFormKey);
     }
 
+    @Override
     public void setDocNum(String docNum) {
         lookupableHelperService.setDocNum(docNum);
     }
 
+    @Override
     public void setFieldConversions(Map fieldConversions) {
         lookupableHelperService.setFieldConversions(fieldConversions);
     }
 
+    @Override
     public void setParameters(Map parameters) {
         lookupableHelperService.setParameters(parameters);
     }
 
+    @Override
     public void setReadOnlyFieldsList(List<String> readOnlyFieldsList) {
         lookupableHelperService.setReadOnlyFieldsList(readOnlyFieldsList);
     }
 
+    @Override
     public boolean shouldDisplayHeaderNonMaintActions() {
         return lookupableHelperService.shouldDisplayHeaderNonMaintActions();
     }
 
+    @Override
     public boolean shouldDisplayLookupCriteria() {
         return lookupableHelperService.shouldDisplayLookupCriteria();
     }
 
+    @Override
     public void validateSearchParameters(Map fieldValues) {
         lookupableHelperService.validateSearchParameters(fieldValues);
     }
 
     /**
      * Sets the accessSecurityService attribute value.
-     * 
+     *
      * @param accessSecurityService The accessSecurityService to set.
      */
     public void setAccessSecurityService(AccessSecurityService accessSecurityService) {
@@ -563,7 +607,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
 
     /**
      * Sets the lookupableHelperService attribute value.
-     * 
+     *
      * @param lookupableHelperService The lookupableHelperService to set.
      */
     public void setLookupableHelperService(LookupableHelperService lookupableHelperService) {
@@ -572,7 +616,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
 
     /**
      * Sets the businessObjectMetaDataService attribute value.
-     * 
+     *
      * @param businessObjectMetaDataService The businessObjectMetaDataService to set.
      */
     public void setBusinessObjectMetaDataService(BusinessObjectMetaDataService businessObjectMetaDataService) {
@@ -581,7 +625,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
 
     /**
      * Sets the businessObjectAuthorizationService attribute value.
-     * 
+     *
      * @param businessObjectAuthorizationService The businessObjectAuthorizationService to set.
      */
     public void setBusinessObjectAuthorizationService(BusinessObjectAuthorizationService businessObjectAuthorizationService) {
@@ -590,7 +634,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
 
     /**
      * Sets the persistenceStructureService attribute value.
-     * 
+     *
      * @param persistenceStructureService The persistenceStructureService to set.
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
@@ -599,7 +643,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
 
     /**
      * Sets the glInquiry attribute value.
-     * 
+     *
      * @param glInquiry The glInquiry to set.
      */
     public void setGlInquiry(boolean glInquiry) {
@@ -608,7 +652,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
 
     /**
      * Sets the laborInquiry attribute value.
-     * 
+     *
      * @param laborInquiry The laborInquiry to set.
      */
     public void setLaborInquiry(boolean laborInquiry) {
@@ -616,6 +660,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
     }
 
     //@Override
+    @Override
     public void applyConditionalLogicForFieldDisplay() {
         // TODO Auto-generated method stub
     }

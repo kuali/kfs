@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,6 +39,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.template.Template;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -66,6 +67,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#applySecurityRestrictionsForGLInquiry(java.util.List,
      *      org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public void applySecurityRestrictionsForGLInquiry(List<? extends BusinessObject> results, Person person) {
         Map<String,String> additionalPermissionDetails = new HashMap<String,String>();
         additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, KFSConstants.ParameterNamespaces.GL);
@@ -77,6 +79,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#applySecurityRestrictionsForLaborInquiry(java.util.List,
      *      org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public void applySecurityRestrictionsForLaborInquiry(List<? extends BusinessObject> results, Person person) {
         Map<String,String> additionalPermissionDetails = new HashMap<String,String>();
         additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, SecConstants.LABOR_MODULE_NAMESPACE_CODE);
@@ -88,6 +91,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#applySecurityRestrictionsForLookup(java.util.List,
      *      org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public void applySecurityRestrictionsForLookup(List<? extends BusinessObject> results, Person person) {
         applySecurityRestrictions(results, person, getLookupWithFieldValueTemplateId(), null);
     }
@@ -96,6 +100,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#applySecurityRestrictions(java.util.List, org.kuali.rice.kim.api.identity.Person,
      *      java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
+    @Override
     public void applySecurityRestrictions(List<? extends BusinessObject> results, Person person, String templateId, Map<String,String> additionalPermissionDetails) {
         if (!isAccessSecurityEnabled()) {
             return;
@@ -124,6 +129,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#checkSecurityRestrictionsForBusinessObject(org.kuali.rice.krad.bo.BusinessObject,
      *      org.kuali.rice.kim.api.identity.Person, org.kuali.kfs.sec.businessobject.AccessSecurityRestrictionInfo)
      */
+    @Override
     public boolean checkSecurityRestrictionsForBusinessObject(BusinessObject businessObject, Person person, AccessSecurityRestrictionInfo restrictionInfo) {
         return evaluateSecurityPermissionsByTemplate(businessObject, businessObject.getClass(), person, getLookupWithFieldValueTemplateId(), null, restrictionInfo);
     }
@@ -132,6 +138,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#canEditDocument(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canEditDocument(AccountingDocument document, Person person) {
         return evaluateSecurityOnAccountingLinesByTemplate(document, person, getEditDocumentWithFieldValueTemplateId(), null);
     }
@@ -141,6 +148,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.rice.kim.api.identity.Person,
      *      org.kuali.kfs.sec.businessobject.AccessSecurityRestrictionInfo)
      */
+    @Override
     public boolean canEditDocumentAccountingLine(AccountingDocument document, AccountingLine accountingLine, Person person, AccessSecurityRestrictionInfo restrictionInfo) {
         // check for edit line overrides
         boolean meetsOverrideCondition = checkForEditLineOverrides(document, accountingLine, person);
@@ -164,6 +172,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#canEditDocumentAccountingLine(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canEditDocumentAccountingLine(AccountingDocument document, AccountingLine accountingLine, Person person) {
         return canEditDocumentAccountingLine(document, accountingLine, person, new AccessSecurityRestrictionInfo());
     }
@@ -172,6 +181,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#canViewDocument(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.rice.kim.api.identity.Person, org.kuali.kfs.sec.businessobject.AccessSecurityRestrictionInfo)
      */
+    @Override
     public boolean canViewDocument(AccountingDocument document, Person person, AccessSecurityRestrictionInfo restrictionInfo) {
         // any workflow requests override view document access permissions
         boolean hasWorkflowRequests = checkForWorkflowRoutingRequests(document, person);
@@ -196,6 +206,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#canViewDocumentAccountingLine(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canViewDocumentAccountingLine(AccountingDocument document, AccountingLine accountingLine, Person person) {
         // check for view line overrides
         boolean meetsOverrideCondition = checkForViewLineOverrides(document, accountingLine, person);
@@ -215,6 +226,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @see org.kuali.kfs.sec.service.AccessSecurityService#canViewDocumentNotesAttachments(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canViewDocumentNotesAttachments(AccountingDocument document, Person person) {
         // check for parameter overrides
         boolean meetsOverrideCondition = checkForViewDocumentOverrides(document, person);
@@ -228,7 +240,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * Iterates through source and target accounting lines for the given document and evaluates any permissions with the given
      * template id against the accounting line values
-     * 
+     *
      * @param document AccountingDocument instance with accounting lines to check, doc type of instance is used for retrieving
      *        permissions
      * @param person the user who we are checking access for
@@ -298,7 +310,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Checks for any workflow requests (approve, acknowledge, fyi) for the document to the given person
-     * 
+     *
      * @param document Document to check for routing requests
      * @param person Person to check for routing requests
      * @return boolean true if there are workflow requests, false if not
@@ -315,7 +327,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Checks parameter overrides for view document permission. Currently only have initiator override parameter
-     * 
+     *
      * @param document Document that we are checking permissions for
      * @param person Person we are checking permissions for
      * @return boolean true if overrides are turned on and the person meets the override conditions, false if overrides are not
@@ -337,7 +349,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * Checks parameter overrides for view line permission. Currently only have initiator, fiscal officer, and principal
      * investigator overrides
-     * 
+     *
      * @param document Document that we are checking permissions for
      * @param person Person we are checking permissions for
      * @param line AccountingLine we are checking permissions for
@@ -381,7 +393,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Checks parameter overrides for edit line permission. Currently only have fiscal officer and principal investigator overrides
-     * 
+     *
      * @param document Document that we are checking permissions for
      * @param person Person we are checking permissions for
      * @param line AccountingLine we are checking permissions for
@@ -415,7 +427,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Validates any security permissions setup for the user and attributes of the class against the business object values
-     * 
+     *
      * @param businessObject instance with attribute values to validate
      * @param entryClass Class of business object to pull attribute restrictions for
      * @param person the user who we are checking access for
@@ -435,7 +447,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         FinancialSystemBusinessObjectEntry businessObjectEntry = (FinancialSystemBusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntry(entryClass.getName());
 
         // get template name from id
-        KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplate(templateId);
+        Template templateInfo = permissionService.getPermissionTemplate(templateId);
         String templateName = templateInfo.getName();
 
         if (PersistableBusinessObject.class.isAssignableFrom(businessObject.getClass())) {
@@ -489,7 +501,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Constructs a new Map<String,String> and adds document type name detail with value from document instance
-     * 
+     *
      * @param document AccountingDocument instance which document type will be set from
      * @return Map<String,String> containing document type name detail
      */
@@ -502,7 +514,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Checks whether the given value is allowed based on the given permissions and user
-     * 
+     *
      * @param accessPermissionEvaluatorClass Class of type AccessPermissionEvaluator that will be used to evaluate the security
      *        restriction
      * @param permissions List of permissions to evaluate
@@ -517,10 +529,10 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         List<Map<String,String>> qualficationsToEvaluate = new ArrayList<Map<String,String>>();
         for (Permission permission : permissions) {
             // find all roles that have been granted this permission
-            List<String> roleIds = permissionService.getRoleIdsForPermissionId(permission.getId());
+            List<String> roleIds = permissionService.getRoleIdsForPermission(permission.getNamespaceCode(), permission.getName(), permission.getAttributes() );
 
             // for all the roles that have this permission, find the users qualification in those roles (if any)
-            List<Map<String,String>> qualfications = roleManagementService.getRoleQualifiersForPrincipalIncludingNested(person.getPrincipalId(), roleIds, null);
+            List<Map<String,String>> qualfications = roleManagementService.getNestedRoleQualifiersForPrincipalByRoleIds(person.getPrincipalId(), roleIds, null);
 
             if (qualfications != null) {
                 qualficationsToEvaluate.addAll(qualfications);
@@ -567,7 +579,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * Constructs a new instance of the AccessPermissionEvaluator class and sets the constraint, operator, and value based on the
      * given qualification
-     * 
+     *
      * @param accessPermissionEvaluatorClass Class to create instance of (must implement AccessPermissionEvaluator interface)
      * @param attributeSet Map<String,String> containing the qualifier values
      * @param otherKeyValues Map for other key field name/value pairs
@@ -597,7 +609,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Helper method to check system parameter that turns access security on/off
-     * 
+     *
      * @return boolean indicating whether access security is turned on (true) or off (false)
      */
     protected boolean isAccessSecurityEnabled() {
@@ -606,7 +618,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Sets the dataDictionaryService attribute value.
-     * 
+     *
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
@@ -615,7 +627,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -624,7 +636,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Sets the permissionService attribute value.
-     * 
+     *
      * @param permissionService The permissionService to set.
      */
     public void setPermissionService(PermissionService permissionService) {
@@ -633,7 +645,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Sets the roleManagementService attribute value.
-     * 
+     *
      * @param roleManagementService The roleManagementService to set.
      */
     public void setRoleService(RoleService roleManagementService) {
@@ -642,7 +654,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
     /**
      * Sets the contractsAndGrantsModuleService attribute value.
-     * 
+     *
      * @param contractsAndGrantsModuleService The contractsAndGrantsModuleService to set.
      */
     public void setContractsAndGrantsModuleService(ContractsAndGrantsModuleService contractsAndGrantsModuleService) {
@@ -652,10 +664,11 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * @see org.kuali.kfs.sec.service.AccessSecurityService#getEditAccountingLineWithFieldValueTemplateId()
      */
+    @Override
     public String getEditAccountingLineWithFieldValueTemplateId() {
-        KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplateByName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.EDIT_ACCOUNTING_LINE_FIELD_VALUE);
+        Template templateInfo = permissionService.findPermTemplateByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.EDIT_ACCOUNTING_LINE_FIELD_VALUE);
         if (ObjectUtils.isNotNull(templateInfo)) {
-            return templateInfo.getPermissionTemplateId();
+            return templateInfo.getId();
         }
         else
             throw new RuntimeException(SecurityTemplateNames.EDIT_ACCOUNTING_LINE_FIELD_VALUE + " parameter does not exist");
@@ -665,10 +678,11 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * @see org.kuali.kfs.sec.service.AccessSecurityService#getEditDocumentWithFieldValueTemplateId()
      */
+    @Override
     public String getEditDocumentWithFieldValueTemplateId() {
-        KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplateByName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.EDIT_DOCUMENT_FIELD_VALUE);
+        Template templateInfo = permissionService.findPermTemplateByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.EDIT_DOCUMENT_FIELD_VALUE);
         if (ObjectUtils.isNotNull(templateInfo)) {
-            return templateInfo.getPermissionTemplateId();
+            return templateInfo.getId();
         }
         else
             throw new RuntimeException(SecurityTemplateNames.EDIT_DOCUMENT_FIELD_VALUE + " parameter does not exist");
@@ -678,10 +692,11 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * @see org.kuali.kfs.sec.service.AccessSecurityService#getInquiryWithFieldValueTemplateId()
      */
+    @Override
     public String getInquiryWithFieldValueTemplateId() {
-        KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplateByName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.INQUIRY_FIELD_VALUE);
+        Template templateInfo = permissionService.findPermTemplateByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.INQUIRY_FIELD_VALUE);
         if (ObjectUtils.isNotNull(templateInfo)) {
-            return templateInfo.getPermissionTemplateId();
+            return templateInfo.getId();
         }
         else
             throw new RuntimeException(SecurityTemplateNames.INQUIRY_FIELD_VALUE + " parameter does not exist");
@@ -691,10 +706,11 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * @see org.kuali.kfs.sec.service.AccessSecurityService#getLookupWithFieldValueTemplateId()
      */
+    @Override
     public String getLookupWithFieldValueTemplateId() {
-        KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplateByName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.LOOKUP_FIELD_VALUE);
+        Template templateInfo = permissionService.findPermTemplateByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.LOOKUP_FIELD_VALUE);
         if (ObjectUtils.isNotNull(templateInfo)) {
-            return templateInfo.getPermissionTemplateId();
+            return templateInfo.getId();
         }
         else
             throw new RuntimeException(SecurityTemplateNames.LOOKUP_FIELD_VALUE + " parameter does not exist");
@@ -704,10 +720,11 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * @see org.kuali.kfs.sec.service.AccessSecurityService#getViewAccountingLineWithFieldValueTemplateId()
      */
+    @Override
     public String getViewAccountingLineWithFieldValueTemplateId() {
-        KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplateByName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.VIEW_ACCOUNTING_LINE_FIELD_VALUE);
+        Template templateInfo = permissionService.findPermTemplateByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.VIEW_ACCOUNTING_LINE_FIELD_VALUE);
         if (ObjectUtils.isNotNull(templateInfo)) {
-            return templateInfo.getPermissionTemplateId();
+            return templateInfo.getId();
         }
         else
             throw new RuntimeException(SecurityTemplateNames.VIEW_ACCOUNTING_LINE_FIELD_VALUE + " parameter does not exist");
@@ -717,10 +734,11 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * @see org.kuali.kfs.sec.service.AccessSecurityService#getViewDocumentWithFieldValueTemplateId()
      */
+    @Override
     public String getViewDocumentWithFieldValueTemplateId() {
-        KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplateByName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.VIEW_DOCUMENT_FIELD_VALUE);
+        Template templateInfo = permissionService.findPermTemplateByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.VIEW_DOCUMENT_FIELD_VALUE);
         if (ObjectUtils.isNotNull(templateInfo)) {
-            return templateInfo.getPermissionTemplateId();
+            return templateInfo.getId();
         }
         else
             throw new RuntimeException(SecurityTemplateNames.VIEW_DOCUMENT_FIELD_VALUE + " parameter does not exist");
@@ -730,10 +748,11 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * @see org.kuali.kfs.sec.service.AccessSecurityService#getViewNotesAttachmentsWithFieldValueTemplateId()
      */
+    @Override
     public String getViewNotesAttachmentsWithFieldValueTemplateId() {
-        KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplateByName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.VIEW_NOTES_ATTACHMENTS_FIELD_VALUE);
+        Template templateInfo = permissionService.findPermTemplateByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, SecurityTemplateNames.VIEW_NOTES_ATTACHMENTS_FIELD_VALUE);
         if (ObjectUtils.isNotNull(templateInfo)) {
-            return templateInfo.getPermissionTemplateId();
+            return templateInfo.getId();
         }
         else
             throw new RuntimeException(SecurityTemplateNames.VIEW_NOTES_ATTACHMENTS_FIELD_VALUE + " parameter does not exist");

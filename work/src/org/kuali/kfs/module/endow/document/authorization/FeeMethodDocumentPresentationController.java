@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
-        
+
         FeeMethod feeMethod = (FeeMethod) document.getNewMaintainableObject().getBusinessObject();
 
         String frequencyCode = feeMethod.getFeeFrequencyCode();
@@ -72,7 +72,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.document.MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
 
         // make all the tabs read only to begin with
@@ -102,22 +102,22 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
 
             List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
             feeClassCodes.clear();
-            
+
             List<FeeClassCode> oldFeeClassCodes = (List<FeeClassCode>) oldFeeMethod.getFeeClassCodes();
             oldFeeClassCodes.clear();
-            
+
             List<FeeSecurity> feeSecurity = (List<FeeSecurity>) feeMethod.getFeeSecurity();
             feeSecurity.clear();
-            
+
             List<FeeSecurity> olFeeSecurity = (List<FeeSecurity>) oldFeeMethod.getFeeSecurity();
             olFeeSecurity.clear();
-            
+
        //     List<FeePaymentType> feePaymentTypes = (List<FeePaymentType>) feeMethod.getFeePaymentTypes();
        //     feePaymentTypes.clear();
-            
+
        //     List<FeePaymentType> oldFeePaymentTypes = (List<FeePaymentType>) oldFeeMethod.getFeePaymentTypes();
        //     oldFeePaymentTypes.clear();
-            
+
             return readOnlySectionIds;
         }
 

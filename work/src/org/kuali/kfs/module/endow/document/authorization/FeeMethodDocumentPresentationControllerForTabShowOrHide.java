@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,33 +40,33 @@ public class FeeMethodDocumentPresentationControllerForTabShowOrHide extends Fin
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
-        
+
         FeeMethod feeMethod = (FeeMethod) document.getNewMaintainableObject().getBusinessObject();
-        
+
         String frequencyCode = feeMethod.getFeeFrequencyCode();
         if (StringUtils.isNotEmpty(frequencyCode)) {
             FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
             feeMethod.setFeeNextProcessDate(frequencyCodeServiceImpl.calculateProcessDate(frequencyCode));
         }
-        
+
         String feeTypeCode = feeMethod.getFeeTypeCode();
-        
+
         if (EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_PAYMENTS.equalsIgnoreCase(feeTypeCode)) {
             // rule# 8:  If fee type code is "P" then fee base code should be "I"
             feeMethod.setFeeBaseCode(EndowConstants.FeeMethod.FEE_BASE_CD_VALUE);
             readOnlyPropertyNames.add(EndowPropertyConstants.FEE_BASE_CD);
         }
-        
+
         return readOnlyPropertyNames;
     }
-    
+
     /**
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.document.MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
-    
+
         // make all the tabs read only to begin with
         readOnlySectionIds.add(EndowConstants.FeeMethod.CLASS_CODES_TAB_ID);
         readOnlySectionIds.add(EndowConstants.FeeMethod.SECURITY_TAB_ID);
@@ -76,107 +76,107 @@ public class FeeMethodDocumentPresentationControllerForTabShowOrHide extends Fin
 
         FeeMethod feeMethod = (FeeMethod) document.getNewMaintainableObject().getDataObject();
         FeeMethod oldFeeMethod = (FeeMethod) document.getOldMaintainableObject().getDataObject();
-        
+
         String documentTypeName = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(feeMethod.getClass());
         List<MaintainableSectionDefinition> sectionDefinitions = KNSServiceLocator.getMaintenanceDocumentDictionaryService().getMaintainableSections(documentTypeName);
 
         for (MaintainableSectionDefinition sectionDefinition : sectionDefinitions) {
             String sectionId = sectionDefinition.getId();
             if (EndowConstants.FeeMethod.FEE_METHOD_TAB_ID.equalsIgnoreCase(sectionId)) {
-                sectionDefinition.setDefaultOpen(true); 
+                sectionDefinition.setDefaultOpen(true);
             }
             else {
                 sectionDefinition.setDefaultOpen(false);
             }
         }
-        
+
         String feeTypeCode = feeMethod.getFeeTypeCode();
-        
+
         if (StringUtils.isEmpty(feeTypeCode)) {
             return readOnlySectionIds;
         }
-        
+
         // if Fee Type Code is T then valid tabs are Transaction Type and Endowment Transaction Type
         //  read only the rest of the tabs. Also clear the old collection records
         // also clear the read only tables collection records as they are no longer valid...
         if (EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_TRANSACTIONS.equalsIgnoreCase(feeTypeCode)) {
             readOnlySectionIds.remove(EndowConstants.FeeMethod.TRANSACTION_TYPES_TAB_ID);
             readOnlySectionIds.remove(EndowConstants.FeeMethod.ENDOWMENT_TRANSACTION_CODES_TAB_ID);
-            
+
             List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
             feeClassCodes.clear();
             List<FeeClassCode> oldFeeClassCodes = (List<FeeClassCode>) oldFeeMethod.getFeeClassCodes();
             oldFeeClassCodes.clear();
 
-            
+
             List<FeeSecurity> feeSecurity = (List<FeeSecurity>) feeMethod.getFeeSecurity();
             feeSecurity.clear();
             List<FeeSecurity> olFeeSecurity = (List<FeeSecurity>) oldFeeMethod.getFeeSecurity();
             olFeeSecurity.clear();
-            
+
             List<FeePaymentType> feePaymentTypes = (List<FeePaymentType>) feeMethod.getFeePaymentTypes();
             feePaymentTypes.clear();
             List<FeePaymentType> oldFeePaymentTypes = (List<FeePaymentType>) oldFeeMethod.getFeePaymentTypes();
             oldFeePaymentTypes.clear();
-            
+
             for (MaintainableSectionDefinition sectionDefinition : sectionDefinitions) {
                 String sectionId = sectionDefinition.getId();
                 if (EndowConstants.FeeMethod.CLASS_CODES_TAB_ID.equalsIgnoreCase(sectionId) ||
                     EndowConstants.FeeMethod.SECURITY_TAB_ID.equalsIgnoreCase(sectionId) ||
                     EndowConstants.FeeMethod.PAYMENT_TYPES_TAB_ID.equalsIgnoreCase(sectionId)) {
-                    sectionDefinition.setDefaultOpen(false); 
+                    sectionDefinition.setDefaultOpen(false);
                 }
                 else {
-                    sectionDefinition.setDefaultOpen(true);                    
+                    sectionDefinition.setDefaultOpen(true);
                 }
             }
 
-            return readOnlySectionIds;            
+            return readOnlySectionIds;
         }
-        
+
         // if Fee Type Code is B then tabs Class Codes and Security are valid. Read only the rest of the tabs...
         // Clear the old collection records and also clear the read only tables collection records as they are not longer valid...
         if (EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_BALANCES.equalsIgnoreCase(feeTypeCode)) {
             readOnlySectionIds.remove(EndowConstants.FeeMethod.CLASS_CODES_TAB_ID);
             readOnlySectionIds.remove(EndowConstants.FeeMethod.SECURITY_TAB_ID);
-            
+
             List<FeePaymentType> feePaymentTypes = (List<FeePaymentType>) feeMethod.getFeePaymentTypes();
             feePaymentTypes.clear();
             List<FeePaymentType> oldFeePaymentTypes = (List<FeePaymentType>) oldFeeMethod.getFeePaymentTypes();
             oldFeePaymentTypes.clear();
-            
+
             List<FeeTransaction> feeTransactions = (List<FeeTransaction>) feeMethod.getFeeTransactions();
             feeTransactions.clear();
             List<FeeTransaction> oldFeeTransactions = (List<FeeTransaction>) oldFeeMethod.getFeeTransactions();
             oldFeeTransactions.clear();
-            
+
             List<FeeEndowmentTransactionCode> feeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) feeMethod.getFeeEndowmentTransactionCodes();
             feeEndowmentTransactionCodes.clear();
             List<FeeEndowmentTransactionCode> oldFeeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) oldFeeMethod.getFeeEndowmentTransactionCodes();
             oldFeeEndowmentTransactionCodes.clear();
-            
+
             for (MaintainableSectionDefinition sectionDefinition : sectionDefinitions) {
                 String sectionId = sectionDefinition.getId();
                 if (EndowConstants.FeeMethod.TRANSACTION_TYPES_TAB_ID.equalsIgnoreCase(sectionId) ||
                     EndowConstants.FeeMethod.PAYMENT_TYPES_TAB_ID.equalsIgnoreCase(sectionId) ||
                     EndowConstants.FeeMethod.ENDOWMENT_TRANSACTION_CODES_TAB_ID.equalsIgnoreCase(sectionId)) {
-                    sectionDefinition.setDefaultOpen(false); 
+                    sectionDefinition.setDefaultOpen(false);
                 }
                 else {
-                    sectionDefinition.setDefaultOpen(true);                    
+                    sectionDefinition.setDefaultOpen(true);
                 }
             }
-            
-            return readOnlySectionIds;            
+
+            return readOnlySectionIds;
         }
-        
+
         // if Fee Type Code is P then only Payment Type tab is valid
         // also clear the read only tables collection records as they are not longer valid...
         // also clear the old collection records
         //  read only the rest of the tabs...
         if (EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_PAYMENTS.equalsIgnoreCase(feeTypeCode)) {
             readOnlySectionIds.remove(EndowConstants.FeeMethod.PAYMENT_TYPES_TAB_ID);
-            
+
             List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
             feeClassCodes.clear();
             List<FeeClassCode> oldFeeClassCodes = (List<FeeClassCode>) oldFeeMethod.getFeeClassCodes();
@@ -186,31 +186,31 @@ public class FeeMethodDocumentPresentationControllerForTabShowOrHide extends Fin
             feeSecurity.clear();
             List<FeeSecurity> olFeeSecurity = (List<FeeSecurity>) oldFeeMethod.getFeeSecurity();
             olFeeSecurity.clear();
-            
+
             List<FeeTransaction> feeTransactions = (List<FeeTransaction>) feeMethod.getFeeTransactions();
             feeTransactions.clear();
             List<FeeTransaction> oldFeeTransactions = (List<FeeTransaction>) oldFeeMethod.getFeeTransactions();
             oldFeeTransactions.clear();
-               
+
             List<FeeEndowmentTransactionCode> feeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) feeMethod.getFeeEndowmentTransactionCodes();
             feeEndowmentTransactionCodes.clear();
             List<FeeEndowmentTransactionCode> oldFeeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) oldFeeMethod.getFeeEndowmentTransactionCodes();
             oldFeeEndowmentTransactionCodes.clear();
-            
+
             for (MaintainableSectionDefinition sectionDefinition : sectionDefinitions) {
                 String sectionId = sectionDefinition.getId();
                 if (EndowConstants.FeeMethod.CLASS_CODES_TAB_ID.equalsIgnoreCase(sectionId) ||
                     EndowConstants.FeeMethod.SECURITY_TAB_ID.equalsIgnoreCase(sectionId) ||
-                    EndowConstants.FeeMethod.TRANSACTION_TYPES_TAB_ID.equalsIgnoreCase(sectionId) || 
+                    EndowConstants.FeeMethod.TRANSACTION_TYPES_TAB_ID.equalsIgnoreCase(sectionId) ||
                     EndowConstants.FeeMethod.ENDOWMENT_TRANSACTION_CODES_TAB_ID.equalsIgnoreCase(sectionId)) {
-                    sectionDefinition.setDefaultOpen(false);                    
+                    sectionDefinition.setDefaultOpen(false);
                 }
                 else {
-                    sectionDefinition.setDefaultOpen(true);                    
+                    sectionDefinition.setDefaultOpen(true);
                 }
             }
-            
-            return readOnlySectionIds;            
+
+            return readOnlySectionIds;
         }
 
         return readOnlySectionIds;

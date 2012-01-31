@@ -3,42 +3,42 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 		<changeSet author="kfs" id="CG_AGENCY_ADDR_TYP_T_DATA">
-		<loadData tableName="CG_AGENCY_ADDR_TYP_T" file="db/cgb-data/cg_agency_addr_typ_t.csv" />
+		<loadData tableName="CG_AGENCY_ADDR_TYP_T" file="db/02_data/cgb-data/cg_agency_addr_typ_t.csv" />
 	</changeSet>
 	
 		<!-- Loading data into the table from csv files -->
 	<changeSet author="kfs" id="CG_FIN_FORM_TYP_T_DATA">
-		<loadData tableName="CG_FIN_FORM_TYP_T" file="db/cgb-data/cg_fin_form_typ_t.csv" />
+		<loadData tableName="CG_FIN_FORM_TYP_T" file="db/02_data/cgb-data/cg_fin_form_typ_t.csv" />
 	</changeSet>
 	
 		<!-- Loading data into the table from csv files -->
 	<changeSet author="kfs" id="CG_CNTRCT_GRNT_TYP_T_DATA">
-		<loadData tableName="CG_CNTRCT_GRNT_TYP_T" file="db/cgb-data/cg_cntrct_grnt_typ_t.csv" />
+		<loadData tableName="CG_CNTRCT_GRNT_TYP_T" file="db/02_data/cgb-data/cg_cntrct_grnt_typ_t.csv" />
 	</changeSet>
 
 		<!-- Loading data into the table from csv files -->
 	<changeSet author="kfs" id="CG_INV_TYP_T_DATA">
-		<loadData tableName="CG_INV_TYP_T" file="db/cgb-data/cg_inv_typ_t.csv" />
+		<loadData tableName="CG_INV_TYP_T" file="db/02_data/cgb-data/cg_inv_typ_t.csv" />
 	</changeSet>
 	
 	<!-- Loading data into the table from csv files -->
 	<changeSet author="kfs" id="CG_FIN_RPT_FREQ_T_DATA">
-		<loadData tableName="CG_FIN_RPT_FREQ_T" file="db/cgb-data/cg_fin_rpt_freq_t.csv" />
+		<loadData tableName="CG_FIN_RPT_FREQ_T" file="db/02_data/cgb-data/cg_fin_rpt_freq_t.csv" />
 	</changeSet>
 
 	<!-- Loading data into the table from csv files -->
 	<changeSet author="kfs" id="CG_BILL_FREQ_T_DATA">
-		<loadData tableName="CG_BILL_FREQ_T" file="db/cgb-data/cg_bill_freq_t.csv" />
+		<loadData tableName="CG_BILL_FREQ_T" file="db/02_data/cgb-data/cg_bill_freq_t.csv" />
 	</changeSet>
 
 	<!-- Loading data into the table from csv files -->
 	<changeSet author="kfs" id="CG_SRC_OF_FNDS_T_DATA">
-		<loadData tableName="CG_SRC_OF_FNDS_T" file="db/cgb-data/cg_src_of_fnds_t.csv" />
+		<loadData tableName="CG_SRC_OF_FNDS_T" file="db/02_data/cgb-data/cg_src_of_fnds_t.csv" />
 	</changeSet>
 	
 	<!-- Loading data into the table from csv files -->
 	<changeSet author="kfs" id="CG_AGENCY_ACTVTY_T_DATA">
-		<loadData tableName="CG_AGENCY_ACTVTY_T" file="db/cgb-data/cg_agency_actvty_t.csv" />
+		<loadData tableName="CG_AGENCY_ACTVTY_T" file="db/02_data/cgb-data/cg_agency_actvty_t.csv" />
 	</changeSet>
 
 	<!-- Loading data into the table -->
@@ -58,16 +58,16 @@
 	</changeSet>
 
 	<changeSet author="kfs" id="AR_CATEGORIES_T_DATA">
-		<loadData tableName="AR_CATEGORIES_T" file="db/cgb-data/ar_categories_t.csv" />
+		<loadData tableName="AR_CATEGORIES_T" file="db/02_data/cgb-data/ar_categories_t.csv" />
 	</changeSet>
 
 	<!-- Loading data into the table from csv files -->
 	<changeSet author="kfs" id="CG_FIN_FORM_TYP_T_DATA_1">
-		<loadData tableName="CG_INV_IND_T" file="db/cgb-data/cg_inv_ind_t.csv" />
+		<loadData tableName="CG_INV_IND_T" file="db/02_data/cgb-data/cg_inv_ind_t.csv" />
 	</changeSet>
 
 	<changeSet author="kfs" id="AR_INSERT_SUSP_CTGRY_DATA">
-		<loadData tableName="AR_SUSP_CTGRY_T" file="db/cgb-data/ar_susp_ctgry_t.csv" />
+		<loadData tableName="AR_SUSP_CTGRY_T" file="db/02_data/cgb-data/ar_susp_ctgry_t.csv" />
 	</changeSet>
 
 </databaseChangeLog>

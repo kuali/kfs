@@ -67,21 +67,6 @@
 				<constraints nullable='true' />
 			</column>
 		</createTable>
-		<dropPrimaryKey tableName="LD_BENEFITS_CALC_T"/>
-		<addPrimaryKey tableName="LD_BENEFITS_CALC_T" columnNames="UNIV_FISCAL_YR,FIN_COA_CD,POS_BENEFIT_TYP_CD" constraintName="pk_ld_benefits_calc" />
-		<!-- 
-		<modifyColumn tableName="LD_BENEFITS_CALC_T">
-			<column name="UNIV_FISCAL_YR" type="NUMBER(4)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="FIN_COA_CD" type="VARCHAR(2)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="POS_BENEFIT_TYP_CD" type="VARCHAR(2)">
-				<constraints nullable="false"/>
-			</column>
-		</modifyColumn>		
-		 -->
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
 			<replace replace='NUMBER' with='DECIMAL' />

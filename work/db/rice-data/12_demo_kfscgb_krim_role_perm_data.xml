@@ -8,21 +8,21 @@
 	</changeSet>
 	
 	<changeSet author="kfs" id="FIX_FUND_MANAGER_RSP_ATTR_DATA_1">
-		<update tableName="krim_rsp_attr_data_t">
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="RSP_ID">169</column>
 			<where>ATTR_DATA_ID='KFS169'</where>
 		</update>
 	</changeSet>
 
 	<changeSet author="kfs" id="FIX_FUND_MANAGER_RSP_ATTR_DATA_2">
-		<update tableName="krim_rsp_attr_data_t">
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="RSP_ID">169</column>
 			<where>ATTR_DATA_ID='KFS170'</where>
 		</update>
 	</changeSet>
 
 	<changeSet author="kfs" id="FIX_FUND_MANAGER_RSP_ATTR_DATA_3">
-		<update tableName="krim_rsp_attr_data_t">
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="RSP_ID">169</column>
 			<where>ATTR_DATA_ID='KFS171'</where>
 		</update>

@@ -41,7 +41,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
 
     /**
      * If the account is not closed or the user is an Administrator the "edit" link is added The "copy" link is added for Accounts
-     * 
+     *
      * @returns links to edit and copy maintenance action for the current maintenance record.
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
@@ -67,7 +67,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
             String permissionName = KFSConstants.PermissionNames.EDIT_INACTIVE_ACCOUNT;
 
             IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-            Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+            boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName);
 
             if (isAuthorized) {
                 anchorHtmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
@@ -83,7 +83,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
 
     /**
      * Overridden to changed the "closed" parameter to an "active" parameter
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override

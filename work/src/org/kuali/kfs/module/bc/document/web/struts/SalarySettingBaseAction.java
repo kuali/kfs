@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,9 +44,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -117,7 +117,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     protected void initAuthorization(SalarySettingBaseForm salarySettingForm) {
         Person user = GlobalVariables.getUserSession().getPerson();
 
-        boolean isAuthorized = SpringContext.getBean(IdentityManagementService.class).isAuthorized(user.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.USE_ORG_SALARY_SETTING_PERMISSION_NAME, null, null);
+        boolean isAuthorized = SpringContext.getBean(IdentityManagementService.class).isAuthorized(user.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.USE_ORG_SALARY_SETTING_PERMISSION_NAME, null);
         if (isAuthorized) {
             salarySettingForm.getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_EDIT, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
@@ -333,7 +333,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
     /**
      * execute the rules associated with the given event
-     * 
+     *
      * @param event the event that just occured
      * @return true if the rules associated with the given event pass; otherwise, false
      */
@@ -343,7 +343,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
     /**
      * build the error key prefix based on the given information
-     * 
+     *
      * @param fundingAwareObjectName the name of object that holds the given set of appointment funding lines
      * @param appointmentFundings the given set of appointment funding lines
      * @param appointmentFunding the given appointment funding line

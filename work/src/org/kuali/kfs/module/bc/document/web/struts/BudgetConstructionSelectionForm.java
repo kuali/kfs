@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -68,7 +68,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the budgetConstructionHeader attribute.
-     * 
+     *
      * @return Returns the budgetConstructionHeader.
      */
     public BudgetConstructionHeader getBudgetConstructionHeader() {
@@ -77,7 +77,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the budgetConstructionHeader attribute value.
-     * 
+     *
      * @param budgetConstructionHeader The budgetConstructionHeader to set.
      */
     public void setBudgetConstructionHeader(BudgetConstructionHeader budgetConstructionHeader) {
@@ -86,7 +86,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the hideDetails attribute.
-     * 
+     *
      * @return Returns the hideDetails.
      */
     public boolean isHideDetails() {
@@ -95,7 +95,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the hideDetails attribute value.
-     * 
+     *
      * @param hideDetails The hideDetails to set.
      */
     public void setHideDetails(boolean hideDetails) {
@@ -104,7 +104,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the accountReportsExist attribute.
-     * 
+     *
      * @return Returns the accountReportsExist.
      */
     public boolean isAccountReportsExist() {
@@ -120,7 +120,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the accountReportsExist attribute value.
-     * 
+     *
      * @param accountReportsExist The accountReportsExist to set.
      */
     public void setAccountReportsExist(boolean accountReportsExist) {
@@ -129,7 +129,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the salarySettingDisabled attribute.
-     * 
+     *
      * @return Returns the salarySettingDisabled.
      */
     public boolean isSalarySettingDisabled() {
@@ -144,12 +144,12 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
         Map<String,String> qualification = new HashMap<String,String>();
         qualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, rootOrg[0]);
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, rootOrg[1]);
-        
-        return SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.IMPORT_EXPORT_PAYRATE_PERMISSION_NAME, null, qualification);
+
+        return SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.IMPORT_EXPORT_PAYRATE_PERMISSION_NAME, qualification);
     }
 
     /**
-     * Gets the sessionInProgressDetected attribute. 
+     * Gets the sessionInProgressDetected attribute.
      * @return Returns the sessionInProgressDetected.
      */
     public boolean isSessionInProgressDetected() {

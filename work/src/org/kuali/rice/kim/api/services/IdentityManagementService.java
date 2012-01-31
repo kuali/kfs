@@ -101,19 +101,19 @@ public interface IdentityManagementService {
     List<String> getParentGroupIds( String groupId);
     List<String> getDirectParentGroupIds( String groupId);
 
-    
+
     List<String> getGroupIdsForPrincipal( String principalId);
 
-    
+
     List<String> getGroupIdsForPrincipal(
              String principalId,
              String namespaceCode
     );
 
-    
+
     List<? extends Group> getGroupsForPrincipal( String principalId);
 
-    
+
     List<? extends Group> getGroupsForPrincipal(
              String principalId,
              String namespaceCode
@@ -122,13 +122,13 @@ public interface IdentityManagementService {
     List<String> getMemberGroupIds( String groupId);
     List<String> getDirectMemberGroupIds( String groupId);
 
-    
+
 	boolean isMemberOfGroup(
              String principalId,
              String groupId
     );
 
-    
+
 	boolean isMemberOfGroup(
              String principalId,
              String namespaceCode,
@@ -178,15 +178,13 @@ public interface IdentityManagementService {
     boolean hasPermission(
              String principalId,
              String namespaceCode,
-             String permissionName,
-              Map<String, String> permissionDetails
+             String permissionName
     );
 
     boolean isAuthorized(
              String principalId,
              String namespaceCode,
              String permissionName,
-              Map<String, String> permissionDetails,
               Map<String, String> qualification
     );
 

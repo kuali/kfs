@@ -74,11 +74,11 @@ public class IdentityManagementServiceImpl implements IdentityManagementService 
 
     // AUTHORIZATION SERVICE
     @Override
-    public boolean hasPermission(String principalId, String namespaceCode, String permissionName, Map<String, String> permissionDetails) {
+    public boolean hasPermission(String principalId, String namespaceCode, String permissionName) {
     	if ( LOG.isDebugEnabled() ) {
-    		logHasPermissionCheck("Permission", principalId, namespaceCode, permissionName, permissionDetails);
+    		logHasPermissionCheck("Permission", principalId, namespaceCode, permissionName, null);
     	}
-        boolean hasPerm = getPermissionService().hasPermission(principalId, namespaceCode, permissionName, permissionDetails);
+        boolean hasPerm = getPermissionService().hasPermission(principalId, namespaceCode, permissionName, null );
         if ( LOG.isDebugEnabled() ) {
             LOG.debug( "Result: " + hasPerm );
         }
@@ -86,14 +86,14 @@ public class IdentityManagementServiceImpl implements IdentityManagementService 
     }
 
     @Override
-    public boolean isAuthorized(String principalId, String namespaceCode, String permissionName, Map<String, String> permissionDetails, Map<String, String> qualification ) {
+    public boolean isAuthorized(String principalId, String namespaceCode, String permissionName, Map<String, String> qualification ) {
     	if ( qualification == null || qualification.isEmpty() ) {
-    		return hasPermission( principalId, namespaceCode, permissionName, permissionDetails );
+    		return hasPermission( principalId, namespaceCode, permissionName );
     	}
     	if ( LOG.isDebugEnabled() ) {
-    		logAuthorizationCheck("Permission", principalId, namespaceCode, permissionName, permissionDetails, qualification);
+    		logAuthorizationCheck("Permission", principalId, namespaceCode, permissionName, null, qualification);
     	}
-        boolean isAuthorized = getPermissionService().isAuthorized(principalId, namespaceCode, permissionName, permissionDetails, qualification);
+        boolean isAuthorized = getPermissionService().isAuthorized(principalId, namespaceCode, permissionName, null, qualification);
     	if ( LOG.isDebugEnabled() ) {
     		LOG.debug( "Result: " + isAuthorized );
     	}

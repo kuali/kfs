@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,7 +41,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -65,7 +64,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Processes rules when routing this global.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -109,7 +108,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * retrieve asset numbers need to be locked.
-     * 
+     *
      * @param assetLocationGlobal
      * @return
      */
@@ -125,7 +124,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Locking for asset numbers.
-     * 
+     *
      * @param documentCopy
      * @param assetLocationGlobal
      * @return
@@ -142,7 +141,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Process rules for any new {@link AssetLocationGlobalDetail} that is added to this global.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
@@ -174,7 +173,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Asset user authorization.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -188,9 +187,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             Map<String,String> qualification = new HashMap<String,String>();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ORGANIZATION_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerAccount().getOrganizationCode());
-            Map<String,String> permissionDetails = new HashMap<String,String>();
-            permissionDetails.putAll(KRADUtils.getNamespaceAndComponentSimpleName(Asset.class));
-            if (!SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, permissionDetails, qualification)) {
+            if (!SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, qualification)) {
                 success &= false;
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
             }
@@ -201,7 +198,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate if any {@link AssetLocationGlobalDetail} exist.
-     * 
+     *
      * @param assetLocationGlobal
      * @return boolean
      */
@@ -218,7 +215,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate the capital {@link Asset}. This method also calls {@link AssetService} while validating retired {@link Asset}.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -243,7 +240,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate {@link Campus} code.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -264,7 +261,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate {@link Building} code.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -285,7 +282,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate building {@link Room} number.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -306,7 +303,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate tag number.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -323,7 +320,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate duplicate tag number. This method also calls {@link AssetService}.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -361,7 +358,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check required fields after a new asset location has been added.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */

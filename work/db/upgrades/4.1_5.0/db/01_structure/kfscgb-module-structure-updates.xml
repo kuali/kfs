@@ -1407,7 +1407,7 @@
 
 	<changeSet author="kfs" id="FP_DV_EXP_TYP_T">
 		<addColumn tableName="FP_DV_EXP_TYP_T">
-			<column name="fin_object_cd" type="varchar(4)" defaultValue="NULL" />
+			<column name="fin_object_cd" type="varchar(4)" defaultValueNumeric="NULL" />
 		</addColumn>
 	</changeSet>
 
@@ -1430,7 +1430,7 @@
 
 	<changeSet author="kfs" id="AR_APPLICATION_DOC_T">
 		<addColumn tableName="AR_APPLICATION_DOC_T">
-			<column name="REFND_FDOC_NBR" type="varchar(14)" defaultValue="NULL" />
+			<column name="REFND_FDOC_NBR" type="varchar(14)" defaultValueNumeric="NULL" />
 		</addColumn>
 	</changeSet>
 

@@ -702,7 +702,7 @@
 
 	<!--Create Leter of Credit table -->
 	<changeSet author="kfs" id="CG_LTRCR_FND_T">
-		<createTable tableName="cg_ltrcr_fnd_t">
+		<createTable tableName="CG_LTRCR_FND_T">
 			<column name="CG_LTRCR_FND_CD" type="varchar(15)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>

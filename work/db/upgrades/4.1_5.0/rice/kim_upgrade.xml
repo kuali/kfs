@@ -372,26 +372,26 @@
 		</insert>
 		<comment>Create Funds Manager role and assign responsibility
 	FIX_FUND_MANAGER_RSP_ATTR_DATA_1</comment>
-		<update tableName="krim_rsp_attr_data_t">
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="RSP_ID">169</column>
 			<where>ATTR_DATA_ID='KFS169'</where>
 		</update>
 		<comment>FIX_FUND_MANAGER_RSP_ATTR_DATA_2</comment>
-		<update tableName="krim_rsp_attr_data_t">
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="RSP_ID">169</column>
 			<where>ATTR_DATA_ID='KFS170'</where>
 		</update>
 
 
 		<comment>FIX_FUND_MANAGER_RSP_ATTR_DATA_3</comment>
-		<update tableName="krim_rsp_attr_data_t">
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="RSP_ID">169</column>
 			<where>ATTR_DATA_ID='KFS171'</where>
 		</update>
 
 
 		<comment>FIX_FUND_MANAGER_RSP_ATTR_DATA_4</comment>
-		<update tableName="krim_rsp_attr_data_t">
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="RSP_ID">169</column>
 			<where>ATTR_DATA_ID='KFS172'</where>
 		</update>

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cg.document;
 
 import static org.kuali.kfs.sys.KFSPropertyConstants.AWARD_ACCOUNTS;
+import static org.kuali.kfs.sys.KFSPropertyConstants.AWARD_FUND_MANAGERS;
 import static org.kuali.kfs.sys.KFSPropertyConstants.AWARD_PROJECT_DIRECTORS;
 import static org.kuali.kfs.sys.KFSPropertyConstants.AWARD_SUBCONTRACTORS;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT;
@@ -28,12 +29,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
+import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
+import org.kuali.kfs.module.cg.businessobject.Bill;
+import org.kuali.kfs.module.cg.businessobject.CGFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.Milestone;
+import org.kuali.kfs.module.cg.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
@@ -47,9 +57,13 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -57,6 +71,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardMaintainableImpl.class);
+
     /**
      * Constructs an AwardMaintainableImpl.
      */
@@ -85,6 +100,62 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
+     * Setting the initial field value to that specified by the default invoice parameter and default billing frequency parameter,
+     * otherwise defaulting to invoice by account and monthly, respectively.
+     */
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterNew(document, parameters);
+        try {
+
+            // Retrieving Default Invoicing Option
+            String defaultInvoiceParm = SpringContext.getBean(ParameterService.class).getParameterValue(Award.class, CGConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
+            String defaultInvoiceType = CGPropertyConstants.AwardInvoicingOption.invoicingCode.get(defaultInvoiceParm);
+
+
+            // Retrieving Default Billing Schedule
+            String defaultBillingScheduleParm = SpringContext.getBean(ParameterService.class).getParameterValue(Agency.class, CGConstants.DEFAULT_PREFERRED_BILLING_FREQUENCY_PARAMETER);
+
+            // Set Invoicing Option
+
+            if (ObjectUtils.isNotNull(defaultInvoiceType)) {
+                getAward().setInvoicingOptions(defaultInvoiceType);
+            }
+            else {
+                getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
+            }
+
+
+            // Set Billing Schedule
+            if (ObjectUtils.isNotNull(defaultBillingScheduleParm)) {
+                getAward().setPreferredBillingFrequency(defaultBillingScheduleParm);
+            }
+            else {
+                getAward().setPreferredBillingFrequency(CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE);
+            }
+
+
+        }
+        catch (IllegalArgumentException e) {
+            getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
+        }
+    }
+
+    /**
+     * Not to copy over the Accounts tab, Predetermined tab, Milestone schedule tab, award account tab and award budgets tab when
+     * copying
+     */
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterCopy(document, parameters);
+        getAward().setAwardAccounts(new TypedArrayList(AwardAccount.class));
+        getAward().setMilestones(new TypedArrayList(Milestone.class));
+        getAward().setMilestoneSchedule(new MilestoneSchedule());
+        getAward().setBills(new TypedArrayList(Bill.class));
+        getAward().setLastBilledDate(null);
+    }
+
+    /**
      * This method is called for refreshing the Agency before a save to display the full name in case the agency number was changed
      * by hand just before the save.
      */
@@ -94,6 +165,10 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         List<AwardProjectDirector> directors = getAward().getAwardProjectDirectors();
         if (directors.size() == 1) {
             directors.get(0).setAwardPrimaryProjectDirectorIndicator(true);
+        }
+        List<AwardFundManager> managers = getAward().getAwardFundManagers();
+        if (managers.size() == 1) {
+            managers.get(0).setAwardPrimaryFundManagerIndicator(true);
         }
         List<AwardOrganization> organizations = getAward().getAwardOrganizations();
         if (organizations.size() == 1) {
@@ -105,56 +180,58 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         List<AwardSubcontractor> awardSubcontractors = getAward().getAwardSubcontractors();
         if (awardSubcontractors != null && !awardSubcontractors.isEmpty()) {
             // convert the list into a map of lists containing the used award subcontractor number/amendment number
-            Map<String,List<AwardSubcontractor>> subcontractorAwardMap = new HashMap<String, List<AwardSubcontractor>>();
+            Map<String, List<AwardSubcontractor>> subcontractorAwardMap = new HashMap<String, List<AwardSubcontractor>>();
             List<AwardSubcontractor> newSubcontractorRecords = new ArrayList<AwardSubcontractor>();
             for (AwardSubcontractor awardSubcontractor : awardSubcontractors) {
-                if ( !StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorNumber()) ) {
+                if (!StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorNumber())) {
                     // already has key - add to map
-                    if ( !subcontractorAwardMap.containsKey(awardSubcontractor.getSubcontractorNumber()) ) {
-                        subcontractorAwardMap.put(awardSubcontractor.getSubcontractorNumber(), new ArrayList<AwardSubcontractor>() );
+                    if (!subcontractorAwardMap.containsKey(awardSubcontractor.getSubcontractorNumber())) {
+                        subcontractorAwardMap.put(awardSubcontractor.getSubcontractorNumber(), new ArrayList<AwardSubcontractor>());
                     }
                     subcontractorAwardMap.get(awardSubcontractor.getSubcontractorNumber()).add(awardSubcontractor);
-                } else {
+                }
+                else {
                     // new record, add to new map
                     newSubcontractorRecords.add(awardSubcontractor);
                 }
             }
-            
+
             // now, loop over the new records
             for (AwardSubcontractor awardSubcontractor : newSubcontractorRecords) {
                 String awardSubcontractorNumber = "1";
                 String awardSubcontractorAmendmentNumber = "1";
                 // get the other ones for the same subcontractor
                 List<AwardSubcontractor> oldSubcontractors = subcontractorAwardMap.get(awardSubcontractor.getSubcontractorNumber());
-                if ( oldSubcontractors != null ) {
-                    // we have a hit - find the first non-used number                    
+                if (oldSubcontractors != null) {
+                    // we have a hit - find the first non-used number
                     // build an array from the unsorted list
                     boolean[][] nums = new boolean[100][100];
-                    for ( AwardSubcontractor oldSub : oldSubcontractors ) {
+                    for (AwardSubcontractor oldSub : oldSubcontractors) {
                         try {
-                            nums[Integer.valueOf( oldSub.getAwardSubcontractorNumber() )][Integer.valueOf( oldSub.getAwardSubcontractorAmendmentNumber() )] = true;
-                        } catch ( NumberFormatException ex ) {
+                            nums[Integer.valueOf(oldSub.getAwardSubcontractorNumber())][Integer.valueOf(oldSub.getAwardSubcontractorAmendmentNumber())] = true;
+                        }
+                        catch (NumberFormatException ex) {
                             // do nothing
-                            LOG.warn( "Unexpected non-integer award subcontractor / amendment number: " + oldSub.getAwardSubcontractorNumber() + " / " + oldSub.getAwardSubcontractorAmendmentNumber() );
+                            LOG.warn("Unexpected non-integer award subcontractor / amendment number: " + oldSub.getAwardSubcontractorNumber() + " / " + oldSub.getAwardSubcontractorAmendmentNumber());
                         }
                     }
                     // iterate over the array to get the first empty value
                     // loop over the awardSubcontractorNumbers first
                     boolean foundNumbers = false;
-                    for ( int i = 1; i <= 99; i++ ) {
-                        for ( int j = 1; j <= 99; j++ ) {
-                            if ( !nums[j][i] ) { 
-                                // save the values 
-                                awardSubcontractorNumber = Integer.toString(j); 
-                                awardSubcontractorAmendmentNumber = Integer.toString(i); 
-                                // mark the cell as used before the next pass 
-                                nums[j][i] = true; 
-                                // just a flag to allow us to break out of both loops 
-                                foundNumbers = true; 
-                                break; 
+                    for (int i = 1; i <= 99; i++) {
+                        for (int j = 1; j <= 99; j++) {
+                            if (!nums[j][i]) {
+                                // save the values
+                                awardSubcontractorNumber = Integer.toString(j);
+                                awardSubcontractorAmendmentNumber = Integer.toString(i);
+                                // mark the cell as used before the next pass
+                                nums[j][i] = true;
+                                // just a flag to allow us to break out of both loops
+                                foundNumbers = true;
+                                break;
                             }
                         }
-                        if ( foundNumbers ) {
+                        if (foundNumbers) {
                             break;
                         }
                         // JHK - yes, this will break down if there are more than 9801 subcontracts
@@ -164,25 +241,8 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                 awardSubcontractor.setAwardSubcontractorNumber(awardSubcontractorNumber);
                 awardSubcontractor.setAwardSubcontractorAmendmentNumber(awardSubcontractorAmendmentNumber);
             }
-            
-        }
-        
-        
-// The implementation below is **** - allows for easy key collisions         
-//        List<AwardSubcontractor> awardSubcontractors = getAward().getAwardSubcontractors();
-//        int i = 0;
-//        if (awardSubcontractors != null && !awardSubcontractors.isEmpty()) {
-//            for (AwardSubcontractor awardSubcontractor : awardSubcontractors) {
-//                i++;
-//                if (StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorAmendmentNumber())) {
-//                    awardSubcontractor.setAwardSubcontractorAmendmentNumber("" + i);
-//                }
-//                if (StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorNumber())) {
-//                    awardSubcontractor.setAwardSubcontractorNumber("" + i);
-//                }
-//            }
-//        }
 
+        }
         super.prepareForSave();
     }
 
@@ -204,7 +264,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
                 GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
             }
-            
+
             // SEE KULCG-315 for details on why this code is commented out.
             // if (AwardRuleUtil.isProposalInactive(getAward())) {
             // GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER,
@@ -219,7 +279,8 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                 getAward().populateFromProposal(getAward().getProposal());
                 refreshAward(true);
             }
-        } else {
+        }
+        else {
             refreshAward(KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
             super.refresh(refreshCaller, fieldValues, document);
         }
@@ -237,6 +298,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
         getNewCollectionLine(AWARD_SUBCONTRACTORS).refreshNonUpdateableReferences();
         getNewCollectionLine(AWARD_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
+        getNewCollectionLine(AWARD_FUND_MANAGERS).refreshNonUpdateableReferences();
         getNewCollectionLine(AWARD_ACCOUNTS).refreshNonUpdateableReferences();
 
         // the org list doesn't need any refresh
@@ -244,6 +306,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         refreshNonUpdateableReferences(award.getAwardAccounts());
         refreshNonUpdateableReferences(award.getAwardSubcontractors());
         refreshAwardProjectDirectors(refreshFromLookup);
+        refreshAwardFundManagers(refreshFromLookup);
     }
 
     /**
@@ -268,6 +331,27 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
             refreshWithSecondaryKey((AwardAccount) getNewCollectionLine(AWARD_ACCOUNTS));
             for (AwardAccount account : getAward().getAwardAccounts()) {
                 refreshWithSecondaryKey(account);
+            }
+        }
+    }
+
+    /**
+     * Refresh the collection of associated AwardFundManagers.
+     * 
+     * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
+     */
+    private void refreshAwardFundManagers(boolean refreshFromLookup) {
+        if (refreshFromLookup) {
+            getNewCollectionLine(AWARD_FUND_MANAGERS).refreshNonUpdateableReferences();
+            refreshNonUpdateableReferences(getAward().getAwardFundManagers());
+
+            getNewCollectionLine(AWARD_ACCOUNTS).refreshNonUpdateableReferences();
+            refreshNonUpdateableReferences(getAward().getAwardAccounts());
+        }
+        else {
+            refreshWithSecondaryKey((AwardFundManager) getNewCollectionLine(AWARD_FUND_MANAGERS));
+            for (AwardFundManager fundManager : getAward().getAwardFundManagers()) {
+                refreshWithSecondaryKey(fundManager);
             }
         }
     }
@@ -308,6 +392,32 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
+     * Refreshes the reference to FundManager, giving priority to its secondary key. Any secondary key that it has may be user
+     * input, so that overrides the primary key, setting the primary key. If its primary key is blank or nonexistent, then leave the
+     * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
+     * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because it may
+     * be coming from the database, without any user input.
+     * 
+     * @param director the FundManager to refresh
+     */
+    private static void refreshWithSecondaryKey(CGFundManager fundManager) {
+        Person cdFundMgr = fundManager.getFundManager();
+        if (ObjectUtils.isNotNull(cdFundMgr)) {
+            String secondaryKey = cdFundMgr.getPrincipalName();
+            if (StringUtils.isNotBlank(secondaryKey)) {
+                Person fundMgr = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(secondaryKey);
+                fundManager.setPrincipalId(fundMgr == null ? null : fundMgr.getPrincipalId());
+            }
+            if (StringUtils.isNotBlank(fundManager.getPrincipalId())) {
+                Person person = SpringContext.getBean(PersonService.class).getPerson(fundManager.getPrincipalId());
+                if (person != null) {
+                    ((PersistableBusinessObject) fundManager).refreshNonUpdateableReferences();
+                }
+            }
+        }
+    }
+
+    /**
      * Gets the underlying Award.
      * 
      * @return
@@ -327,6 +437,62 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         refreshAward(false);
         super.addNewLineToCollection(collectionName);
     }
+
+    /**
+     * Called to manipulate Billing Schedule and Milestone Schedule (hide/show) based on the value chosen in the Award Schedule drop
+     * down 
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      org.kuali.rice.kns.maintenance.Maintainable)
+     */
+    @Override
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+
+        Award award = getAward();
+        // To set preferred billing frequency to "LOC Billing" if LOC Fund is chosen - Cannot be done via scripts, as they get
+        // refreshed back to old values.
+        // To be optimized if there is a better approach.
+        if (StringUtils.isNotEmpty(award.getLetterOfCreditFundCode()) && StringUtils.isNotBlank(award.getLetterOfCreditFundCode())) {
+            award.setPreferredBillingFrequency(CGPropertyConstants.LOC_BILLING_SCHEDULE_CODE);
+        }
+
+
+        List<Section> sections = super.getSections(document, oldMaintainable);
+        if (sections != null) {
+            for (Section section : sections) {
+                String sectionId = section.getSectionId();
+                if (award.getPreferredBillingFrequency() != null && CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equalsIgnoreCase(award.getPreferredBillingFrequency())) {
+                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.BILLING_SCHEDULE_SECTION)) {
+                        section.setHidden(false);
+                        section.setDefaultOpen(true);
+                    }
+                }
+                else {
+                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.BILLING_SCHEDULE_SECTION)) {
+                        section.setHidden(true);
+                        section.setDefaultOpen(true);
+                    }
+                }
+                // To get parameter Value of GLPE Recievable offset generation method.
+                String parameterValue = SpringContext.getBean(AccountsReceivableModuleService.class).retrieveGLPEReceivableParameterValue();
+
+                if (parameterValue.equals(CGConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)) {
+                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.INVOICE_ACCOUNT_SECTION)) {
+                        section.setHidden(false);
+                        section.setDefaultOpen(true);
+                    }
+                }
+                else {
+                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.INVOICE_ACCOUNT_SECTION)) {
+                        section.setHidden(true);
+                    }
+                }
+            }
+        }
+        return sections;
+
+    }
+
 
     /**
      * This method overrides the parent method to check the status of the award document and change the linked

@@ -18,16 +18,12 @@
 				<ref bean="SystemInformationMaintenanceDocument-EditObjectCodes" />
 				<ref
 					bean="SystemInformationMaintenanceDocument-EditUniversityClearingAccount" />
-				<!-- <ref bean="SystemInformationMaintenanceDocument-EditWireAccount"/> -->
+				<ref bean="SystemInformationMaintenanceDocument-EditRefundOptions" />
 				<ref bean="SystemInformationMaintenanceDocument-EditRemitToInformation" />
 			</list>
 		</property>
 		<property name="defaultExistenceChecks">
 			<list>
-				<!-- <bean parent="ReferenceDefinition" p:attributeName="adjustmentFinancialObject" 
-					p:attributeToHighlightOnFail="adjustmentObjectCode" /> -->
-				<!-- <bean parent="ReferenceDefinition" p:attributeName="salesTaxFinancialObject" 
-					p:attributeToHighlightOnFail="salesTaxFinancialObjectCode" /> -->
 				<bean parent="ReferenceDefinition" p:attributeName="creditCardFinancialObject"
 					p:attributeToHighlightOnFail="creditCardObjectCode" />
 				<bean parent="ReferenceDefinition" p:attributeName="universityClearingSubObject"
@@ -48,10 +44,6 @@
 					p:attributeToHighlightOnFail="universityClearingChartOfAccountsCode" />
 				<bean parent="ReferenceDefinition" p:attributeName="universityClearingSubAccount"
 					p:attributeToHighlightOnFail="universityClearingSubAccountNumber" />
-				<!-- <bean parent="ReferenceDefinition" p:attributeName="wireAccount" 
-					p:attributeToHighlightOnFail="wireAccountNumber"/> <bean parent="ReferenceDefinition" 
-					p:attributeName="wireChartOfAccounts" p:attributeToHighlightOnFail="wireChartOfAccountsCode"/> 
-					<bean parent="ReferenceDefinition" p:attributeName="wireSubAccount" p:attributeToHighlightOnFail="wireSubAccountNumber"/> -->
 				<bean parent="ReferenceDefinition" p:attributeName="universityFiscalYearObject"
 					p:attributeToHighlightOnFail="universityFiscalYear" />
 				<bean parent="ReferenceDefinition" p:attributeName="financialDocumentInitiator"
@@ -162,17 +154,6 @@
 		</property>
 	</bean>
 
-	<!-- <bean id="SystemInformationMaintenanceDocument-EditWireAccount" parent="SystemInformationMaintenanceDocument-EditWireAccount-parentBean"/> 
-		<bean id="SystemInformationMaintenanceDocument-EditWireAccount-parentBean" 
-		abstract="true" parent="MaintainableSectionDefinition"> <property name="id" 
-		value="Edit Wire Account"/> <property name="title" value="Edit Wire Account"/> 
-		<property name="maintainableItems"> <list> <bean parent="MaintainableFieldDefinition" 
-		p:name="wireChartOfAccountsCode" p:required="true"/> <bean parent="MaintainableFieldDefinition" 
-		p:name="wireAccountNumber" p:required="true"/> <bean parent="MaintainableFieldDefinition" 
-		p:name="wireSubAccountNumber"/> <bean parent="MaintainableFieldDefinition" 
-		p:name="wireObjectCode" p:required="true"/> <bean parent="MaintainableFieldDefinition" 
-		p:name="wireSubObjectCode"/> </list> </property> </bean> -->
-
 	<bean id="SystemInformationMaintenanceDocument-EditRemitToInformation"
 		parent="SystemInformationMaintenanceDocument-EditRemitToInformation-parentBean" />
 	<bean
@@ -199,6 +180,22 @@
 		</property>
 	</bean>
 
+	<bean id="SystemInformationMaintenanceDocument-EditRefundOptions"
+		parent="SystemInformationMaintenanceDocument-EditRefundOptions-parentBean" />
+	<bean
+		id="SystemInformationMaintenanceDocument-EditRefundOptions-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Refund Options" />
+		<property name="title" value="Edit Refund Options" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="refundPaymentReasonCode"
+					p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="refundDocumentationLocationCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="refundFinancialObjectCode" />
+			</list>
+		</property>
+	</bean>
 	<!-- workflow attributes -->
 	<bean id="SystemInformationMaintenanceDocument-workflowAttributes"
 		parent="SystemInformationMaintenanceDocument-workflowAttributes-parentBean" />

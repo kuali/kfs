@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2006-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="AwardAutoCreateDefaults" parent="AwardAutoCreateDefaults-parentBean" />
+
+	<bean id="AwardAutoCreateDefaults-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.cg.businessobject.AwardAutoCreateDefaults" />
+		<property name="inquiryDefinition" ref="AwardAutoCreateDefaults-inquiryDefinition" />
+		<property name="lookupDefinition" ref="AwardAutoCreateDefaults-lookupDefinition" />
+		<property name="titleAttribute" value="Award Auto Create Default" />
+		<property name="objectLabel" value="AwardAutoCreateDefaults" />
+		<property name="attributes">
+			<list>
+				<ref bean="AwardAutoCreateDefaults-awardDefaultId" />
+				<ref bean="AwardAutoCreateDefaults-kcUnit" />
+				<ref bean="AwardAutoCreateDefaults-kcUnitName" />
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="awardAccountDefaults"
+					p:label="Award Accounts" p:shortLabel="Accounts" p:elementLabel="Account" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<dd:relationship objectAttribute="unitDTO">
+					<dd:primitiveAttribute source="kcUnit"
+						target="unitNumber" />
+					<dd:supportAttribute source="kcUnitName"
+						target="unitName" />
+				</dd:relationship>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<!-- Most attributes derived from Account; Define KC specific attributes 
+		here -->
+	<bean id="AwardAutoCreateDefaults-awardDefaultId" parent="AwardAutoCreateDefaults-awardDefaultId-parentBean" />
+	<bean id="AwardAutoCreateDefaults-awardDefaultId-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="awardDefaultId" />
+		<property name="label" value="Award Default Id" />
+		<property name="shortLabel" value="Awrd Deflt Id" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="16" />
+		</property>
+	</bean>
+
+	<bean id="AwardAutoCreateDefaults-kcUnit" parent="AwardAutoCreateDefaults-kcUnit-parentBean" />
+	<bean id="AwardAutoCreateDefaults-kcUnit-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit"
+		p:sourceAttributeName="unitNumber">
+		<property name="name" value="kcUnit" />
+		<property name="label" value="KC Unit" />
+		<property name="shortLabel" value="KC Unit" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<ref bean="StandardNameTextControl" />
+		</property>
+	</bean>
+
+	<bean id="AwardAutoCreateDefaults-kcUnitName" parent="AwardAutoCreateDefaults-kcUnitName-parentBean" />
+	<bean id="AwardAutoCreateDefaults-kcUnitName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="kcUnitName" />
+		<property name="label" value="KC Unit Name" />
+		<property name="shortLabel" value="KC Unit Name" />
+		<property name="maxLength" value="42" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<ref bean="StandardNameTextControl" />
+		</property>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="AwardAutoCreateDefaults-inquiryDefinition" parent="AwardAutoCreateDefaults-inquiryDefinition-parentBean" />
+
+	<bean id="AwardAutoCreateDefaults-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Award Auto-Create Default Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition" p:title="Award Auto-Create Default Details">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="awardDefaultId" />
+							<bean parent="FieldDefinition" p:attributeName="kcUnit" />
+							<bean parent="FieldDefinition" p:attributeName="kcUnitName" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="AwardAutoCreateDefaults-lookupDefinition" parent="AwardAutoCreateDefaults-lookupDefinition-parentBean" />
+
+	<bean id="AwardAutoCreateDefaults-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Award Auto-Create Default Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>kcUnit</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="awardDefaultId" />
+				<bean parent="FieldDefinition" p:attributeName="kcUnit" />
+				<bean parent="FieldDefinition" p:attributeName="kcUnitName" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="awardDefaultId" />
+				<bean parent="FieldDefinition" p:attributeName="kcUnit" />
+				<bean parent="FieldDefinition" p:attributeName="kcUnitName" />
+			</list>
+		</property>
+	</bean>
+</beans>

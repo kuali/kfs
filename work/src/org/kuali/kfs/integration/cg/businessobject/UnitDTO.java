@@ -33,7 +33,7 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
     "unitName",
     "unitNumber"
 })
-public class UnitDTO extends BusinessObjectBase implements ContractsAndGrantsUnit, Serializable {
+public class UnitDTO implements ContractsAndGrantsUnit, Serializable {
 
     private static final long serialVersionUID = 7517946137745989736L;
     
@@ -87,7 +87,13 @@ public class UnitDTO extends BusinessObjectBase implements ContractsAndGrantsUni
         this.unitAdministrators = unitAdministrators;
     }
 
-    public void refresh() {}
+    public void prepareForWorkflow() {
+        
+    }
+
+    public void refresh() {
+        
+    }
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

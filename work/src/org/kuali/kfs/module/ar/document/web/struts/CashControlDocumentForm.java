@@ -15,16 +15,23 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.authorization.CashControlDocumentPresentationController;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CashControlDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
@@ -32,8 +39,9 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
 
     protected CashControlDetail newCashControlDetail;
     protected String processingChartOfAccCodeAndOrgCode;
-    
+
     protected boolean cashPaymentMediumSelected;
+    protected transient KualiConfigurationService configService;
 
     /**
      * Constructs a CashControlDocumentForm.java.
@@ -44,11 +52,50 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
 
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase#getExtraButtons()
+     */
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        // clear extra buttons
+        extraButtons.clear();
+
+        // TODO check with presentation controller first
+        String buttonUrl = getConfigService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        CashControlDocument cashControlDocument = (CashControlDocument) getDocument();
+        CashControlDocumentPresentationController cashControlDocumentPresentationController = (CashControlDocumentPresentationController) KNSServiceLocator.getDocumentHelperService().getDocumentPresentationController(getDocument());
+
+        if (cashControlDocumentPresentationController.canErrorCorrect(cashControlDocument)) {
+            addExtraButton("methodToCall.correct", buttonUrl + "buttonsmall_correction.gif", "Correct");
+        }
+
+        return extraButtons;
+    }
+
+    /**
+     * @param property
+     * @param source
+     * @param altText
+     */
+    protected void addExtraButton(String property, String source, String altText) {
+
+        ExtraButton newButton = new ExtraButton();
+
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+
+        extraButtons.add(newButton);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDefaultDocumentTypeName()
+     */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "CTRL";
     }
-    
+
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
@@ -152,6 +199,16 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
      */
     public void setCashPaymentMediumSelected(boolean cashPaymentMediumSelected) {
         this.cashPaymentMediumSelected = cashPaymentMediumSelected;
+    }
+
+    /**
+     * @return
+     */
+    protected KualiConfigurationService getConfigService() {
+        if (configService == null) {
+            configService = SpringContext.getBean(KualiConfigurationService.class);
+        }
+        return configService;
     }
 
 }

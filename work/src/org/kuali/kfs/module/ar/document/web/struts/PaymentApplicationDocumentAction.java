@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,37 +33,51 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRuleUtil;
+import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.ModuleConfiguration;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.springframework.util.CollectionUtils;
 
 public class PaymentApplicationDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         doApplicationOfFunds((PaymentApplicationDocumentForm) form);
@@ -91,6 +108,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
     }
 
+    /**
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.ServletRequest, javax.servlet.ServletResponse)
+     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
         PaymentApplicationDocumentForm payAppForm = (PaymentApplicationDocumentForm) form;
@@ -112,6 +133,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return super.route(mapping, form, request, response);
     }
 
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteNonArLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
 
@@ -191,11 +220,23 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return paidApplied;
     }
 
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward applyAllAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         doApplicationOfFunds((PaymentApplicationDocumentForm) form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * @param paymentApplicationDocumentForm
+     * @throws WorkflowException
+     */
     protected void doApplicationOfFunds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
 
@@ -283,6 +324,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
     }
 
+    /**
+     * @param paymentApplicationDocumentForm
+     * @return
+     */
     protected List<InvoicePaidApplied> applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         String applicationDocNbr = paymentApplicationDocument.getDocumentNumber();
@@ -414,6 +459,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return identicalFlag;
     }
     
+    /**
+     * @param paymentApplicationDocumentForm
+     * @param appliedToIndividualDetails
+     * @return
+     */
     protected List<InvoicePaidApplied> quickApplyToInvoices(PaymentApplicationDocumentForm paymentApplicationDocumentForm, List<InvoicePaidApplied> appliedToIndividualDetails) {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) paymentApplicationDocumentForm.getDocument();
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
@@ -480,6 +530,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invoicePaidApplieds;
     }
 
+    /**
+     * @param payAppForm
+     * @return
+     * @throws WorkflowException
+     */
     protected NonInvoiced applyNonInvoiced(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) payAppForm.getDocument();
 
@@ -522,6 +577,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return nonInvoiced;
     }
 
+    /**
+     * @param payAppForm
+     * @return
+     * @throws WorkflowException
+     */
     protected NonAppliedHolding applyUnapplied(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
         PaymentApplicationDocument payAppDoc = payAppForm.getPaymentApplicationDocument();
         String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber();
@@ -675,18 +735,140 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         // reload invoices for the selected customer number
         if (StringUtils.isNotBlank(customerNumber)) {
             Collection<CustomerInvoiceDocument> openInvoicesForCustomer;
-
+            Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+            Collection<ContractsGrantsInvoiceDocument> newCGInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+            Collection<CustomerInvoiceDocument> newCustInvoices = new ArrayList<CustomerInvoiceDocument>();
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             // we have to special case the invoices once the document is finished, because
             // at this point, we want to show the invoices it paid against, NOT the set of
             // open invoices
             if (payAppDoc.isFinal()) {
                 openInvoicesForCustomer = payAppDoc.getInvoicesPaidAgainst();
+
+                payAppForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
+
+                payAppForm.setupInvoiceWrappers(payAppDoc.getDocumentNumber());
             }
             else {
+                // To check the document type of the invoice document and retrieve invoices based on that - this would help
+                // accomodating CG Invoices.
+                if (ObjectUtils.isNotNull(payAppDoc.getInvoiceDocumentType()) && payAppDoc.getInvoiceDocumentType().equalsIgnoreCase(ArConstants.INV_DOCUMENT_TYPE)) {
+                    // get open invoices for the current customer
+                    CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+                    if (!payAppDoc.isPaymentApplicationCorrection()) {
                 openInvoicesForCustomer = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
             }
-            payAppForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
+                    else {
+                        openInvoicesForCustomer = customerInvoiceDocumentService.getCustomerInvoiceDocumentAppliedByPaymentApplicationNumber(payAppDoc.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                    }
+                    // To add only Customer Invoices to the list. This is done specific for cash control and payment applications.
+                    for (CustomerInvoiceDocument custInv : openInvoicesForCustomer) {
+                        try {
+                            String docType = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(custInv.getDocumentNumber()).getDocumentHeader().getWorkflowDocument().getDocumentType();
+                            if (docType.equalsIgnoreCase(ArConstants.INV_DOCUMENT_TYPE)) {
+                                newCustInvoices.add(custInv);
+                            }
+                        }
+                        catch (WorkflowException e) {
+                            throw new RuntimeException("Caught WorkflowException trying to get document type name from Workflow", e);
+                        }
+                    }
+
+                    payAppForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(newCustInvoices));
+
+                    payAppForm.setupInvoiceWrappers(payAppDoc.getDocumentNumber());
+                }
+                // When the invoices are of type CG Invoices.
+                else if (ObjectUtils.isNotNull(payAppDoc.getInvoiceDocumentType()) && payAppDoc.getInvoiceDocumentType().equalsIgnoreCase(ArConstants.CGIN_DOCUMENT_TYPE)) {
+
+                    // To retrieve the batch file directory name as "reports/cg"
+                    ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
+
+                    String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
+
+                    String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
+
+                    String errOutputFile = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.LOC_CREATION_PMT_APP_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
+                    // To create error file and store all the errors in it.
+                    File errOutPutFile = new File(errOutputFile);
+                    PrintStream outputFileStream = null;
+
+                    try {
+                        outputFileStream = new PrintStream(errOutPutFile);
+                    }
+                    catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+
+                    if (!payAppDoc.isPaymentApplicationCorrection()) {
+                        // Get the CG Service to deal with each loc creation type.
+                        if (StringUtils.isNotEmpty(payAppDoc.getLocCreationType())) {
+                            if (payAppDoc.getLocCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
+                                // Retrieve open and final CG Invoices that have loc creation type = LOC Fund.
+                                if (StringUtils.isNotEmpty(payAppDoc.getLetterOfCreditFundCode())) {
+                                    cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFund(payAppDoc.getLetterOfCreditFundCode(), outputFileStream);
+                                }
+
+
+                            }
+
+                            else if (payAppDoc.getLocCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND_GRP)) {
+                                // Retrieve open and final CG Invoices that have loc creation type = LOC Fund group.
+                                if (StringUtils.isNotEmpty(payAppDoc.getLetterOfCreditFundGroupCode())) {
+                                    cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFundGroup(payAppDoc.getLetterOfCreditFundGroupCode(), outputFileStream);
+                                }
+
+                            }
+                            outputFileStream.close();// Closing the file here to avoid any further writing to the document.
+                        }
+
+                        else {
+                            // Retrieve open and final CG Invoices that have a customer number defined. This would ideally not
+                            // occur.
+                            cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByCustomerNumber(customerNumber, outputFileStream);
+                            outputFileStream.close();// Closing the file here to avoid any further writing to the document.
+                        }
+
+                    }
+                    else {
+                        cgInvoices = contractsGrantsInvoiceDocumentService.getContractsGrantsInvoiceDocumentAppliedByPaymentApplicationNumber(payAppDoc.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                    }
+                    if (!CollectionUtils.isEmpty(cgInvoices)) {
+                        // To add only CG Invoices to the list. This is done specific for cash control and payment applications.
+                        for (ContractsGrantsInvoiceDocument cgInv : cgInvoices) {
+                            try {
+                                String docType = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cgInv.getDocumentNumber()).getDocumentHeader().getWorkflowDocument().getDocumentType();
+                                if (docType.equalsIgnoreCase(ArConstants.CGIN_DOCUMENT_TYPE)) {
+                                    newCGInvoices.add(cgInv);
+                                }
+                            }
+                            catch (WorkflowException e) {
+                                throw new RuntimeException("Caught WorkflowException trying to get document type name from Workflow", e);
+                            }
+                        }
+                        payAppForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(newCGInvoices));
+
             payAppForm.setupInvoiceWrappers(payAppDoc.getDocumentNumber());
+
+                        if (!payAppDoc.isPaymentApplicationCorrection() && CollectionUtils.isEmpty(payAppDoc.getInvoicePaidApplieds()) && CollectionUtils.isEmpty(payAppDoc.getNonInvoiceds()) && ObjectUtils.isNull(payAppDoc.getNonAppliedHolding())) {
+                            // For CG invoices, clear the quick apply box if they have been unchecked beforethey are saved and
+                            // opened again.
+                            for (PaymentApplicationInvoiceApply invoiceApplication : payAppForm.getInvoiceApplications()) {
+                                if (!invoiceApplication.isQuickApply()) {
+                                    invoiceApplication.setQuickApply(true);
+        						}
+                            }
+                        }
+                    }
+                    else {
+                        LOG.error("There were no invoices retreived. Please refer to the log file " + ArConstants.BatchFileSystem.LOC_CREATION_PMT_APP_ERROR_OUTPUT_FILE + ArConstants.BatchFileSystem.EXTENSION + " for more details.");
+                    }
+                }
+                else {
+                    throw new IllegalArgumentException("The Invoice Document Type parameter passed in was null or blank.");
+                }
+            }
         }
 
         // if no invoice number entered than get the first invoice
@@ -776,7 +958,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     public ActionForward goToNextInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm payAppForm = (PaymentApplicationDocumentForm) form;
         loadInvoices(payAppForm, payAppForm.getNextInvoiceDocumentNumber());
-        if (!payAppForm.getPaymentApplicationDocument().isFinal()) {
+        if (!payAppForm.getPaymentApplicationDocument().isFinal() && !payAppForm.getPaymentApplicationDocument().isPaymentApplicationCorrection()) {
             doApplicationOfFunds(payAppForm);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -795,7 +977,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     public ActionForward goToPreviousInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm payAppForm = (PaymentApplicationDocumentForm) form;
         loadInvoices(payAppForm, payAppForm.getPreviousInvoiceDocumentNumber());
-        if (!payAppForm.getPaymentApplicationDocument().isFinal()) {
+        if (!payAppForm.getPaymentApplicationDocument().isFinal() && !payAppForm.getPaymentApplicationDocument().isPaymentApplicationCorrection()) {
             doApplicationOfFunds(payAppForm);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -879,4 +1061,24 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.DOCUMENT_ERRORS, errorKey, "document.hiddenFieldForErrors");
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
+        PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
+        CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
+        if (cashControlDocument != null) {
+            for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
+                if (cashControlDetail.getReferenceFinancialDocumentNumber().equals(paymentApplicationDocument.getDocumentNumber())) {
+                    cashControlDetail.setToCorrectIndicator(true);
+                    break;
+                }
+            }
+            cashControlDocument.toErrorCorrection();
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

@@ -64,7 +64,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -684,8 +683,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public String getParentInvoiceNumber() {
@@ -886,10 +885,16 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         // do nothing
     }
 
+    /**
+     * @return
+     */
     public Date getClosedDate() {
         return closedDate;
     }
 
+    /**
+     * @param closedDate
+     */
     public void setClosedDate(Date closedDate) {
         this.closedDate = closedDate;
     }
@@ -1064,6 +1069,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return valuesMap;
     }
 
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#getWorkflowEngineDocumentIdsToLock()
+     */
     @Override
     public List<Long> getWorkflowEngineDocumentIdsToLock() {
         //  add the invoice number of the Error Corrected doc, if this is an error correction
@@ -1118,12 +1126,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         
         //  handle Recurrence 
-        if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails()) || 
-                (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) 
-                && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) 
-                && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) 
-                && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) 
-                && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier()))) {
+        if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails()) || (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier()))) {
         }
         else {
             // set new user session to recurrence initiator
@@ -1154,7 +1157,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
             try {
                 // blanket approve the INVR, bypassing everything
-                //invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().blanketApprove("Blanket Approved by the creating Invoice Document #" + getDocumentNumber());
+                // invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().blanketApprove("Blanket Approved by the creating Invoice Document #"
+                // + getDocumentNumber());
                 //TODO temporarily just do regular route until we can get blanket approve perms setup for KFS
                 SpringContext.getBean(DocumentService.class).saveDocument(invoiceRecurrenceMaintDoc);
                 invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().routeDocument("Automatically created and routed by CustomerInvoiceDocument #" + getDocumentNumber() + ".");
@@ -1169,6 +1173,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
     }
     
+    /**
+     * @return
+     */
     protected String getInvoiceRecurrenceMaintenanceDocumentTypeName() {
         return "INVR";
     }
@@ -1267,7 +1274,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         
         // Force upper case
+        if (ObjectUtils.isNotNull(getBilledByOrganizationCode())) {
         setBilledByOrganizationCode(getBilledByOrganizationCode().toUpperCase());
+        }
 
         if (ObjectUtils.isNull(getCustomerShipToAddressIdentifier())) {
             setCustomerShipToAddress(null);
@@ -1347,7 +1356,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             customerInvoiceDetail.setCustomerInvoiceDocument(null);
 
             // revert changes for custom invoice error correction
-            //SpringContext.getBean(CustomerInvoiceDetailService.class).prepareCustomerInvoiceDetailForErrorCorrection(customerInvoiceDetail, this);            
+            // SpringContext.getBean(CustomerInvoiceDetailService.class).prepareCustomerInvoiceDetailForErrorCorrection(customerInvoiceDetail,
+            // this);
         }
     }
 
@@ -1582,7 +1592,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 //        int sequenceCounter = 0;
 //        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithoutDiscounts) {
 //            for (CustomerInvoiceDetail revisedCustomerInvoiceDetail : customerInvoiceDetails) {
-//                if (!customerInvoiceDetail.isDiscountLine() && customerInvoiceDetail.getSequenceNumber().equals(revisedCustomerInvoiceDetail.getSequenceNumber())) {
+    // if (!customerInvoiceDetail.isDiscountLine() &&
+    // customerInvoiceDetail.getSequenceNumber().equals(revisedCustomerInvoiceDetail.getSequenceNumber())) {
 //                    customerInvoiceDetailsWithoutDiscounts.remove(sequenceCounter);
 //                    customerInvoiceDetailsWithoutDiscounts.add(sequenceCounter, revisedCustomerInvoiceDetail);
 //                }
@@ -1613,6 +1624,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return discounts;
     }
 
+    /**
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(CustomerInvoiceDocument customerInvoiceDocument) {
         if (this.getBillByChartOfAccountCode().equals(customerInvoiceDocument.getBillByChartOfAccountCode()))
             if (this.getBilledByOrganizationCode().equals(customerInvoiceDocument.getBilledByOrganizationCode()))
@@ -1621,9 +1635,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * 
-     * Returns whether or not the Invoice would be paid off by applying the additional amount, passed in 
-     * by the parameter.
+     * Returns whether or not the Invoice would be paid off by applying the additional amount, passed in by the parameter.
      * 
      * @param additionalAmountToApply The additional applied amount to test against.
      * @return True if applying the additionalAmountToApply parameter amount would bring the OpenAmount to zero.
@@ -1958,8 +1970,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
+     * Determines whether this document was generated from a recurrence batch. Returns true if so, false if not.
      * 
-     * Determines whether this document was generated from a recurrence batch.  Returns true if so, false if not.
      * @return
      */
     protected boolean isBatchGenerated() {
@@ -1967,8 +1979,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
     
     /**
-     * 
      * Determines whether this document has a Recurrence filled out enough to create an INVR doc.
+     * 
      * @return
      */
     protected boolean hasRecurrence() {

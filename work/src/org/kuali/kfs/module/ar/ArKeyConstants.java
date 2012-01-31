@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar;
 
+
 /**
  * Error Key Constants for KFS-AR.
  */
@@ -166,11 +167,13 @@ public class ArKeyConstants {
     public static final String ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION = "error.ar.CantCancelCashControlDocWithAssociatedApprovedPaymentApplicationDoc";
     public static final String ERROR_INVALID_BANK_CODE = "error.ar.invalidBankCode";
     public static final String ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY = "error.ar.bankNotEligibleForDepositActivity";
-    public static final String ERROR_BANK_CODE_REQUIRED = "error.ar.bankCodeRequired";
-
+    public static final String ERROR_BANK_CODE_REQUIRED = "error.ar.bankCodeRequired";    
+    public static final String CASH_CTRL_DOC_CREATED_BY_BATCH = "message.ar.cashControlDocCreatedByLOC";
+    public static final String CASH_CTRL_DOC_CORRECTION = "message.ar.cashControlDocCorrection";
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
     public static final String DOCUMENT_DELETED_FROM_CASH_CTRL_DOC = "message.ar.documentDeletedFromCashControl";
-    public static final String ELECTRONIC_PAYMENT_CLAIM = "message.ar.electronicPaymentClaim";
+    public static final String ELECTRONIC_PAYMENT_CLAIM = "message.ar.electronicPaymentClaim";    
+    public static final String ERROR_CASH_CTRL_DTL_TO_REVERSE_NOT_SELECTED = "error.ar.cashControlDocToReverseNotSelected";
 
     // Customer Invoice Writeoff Document errors
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffObjectDoesntExist";
@@ -229,5 +232,30 @@ public class ArKeyConstants {
         public static final String CANNOT_QUICK_APPLY_ON_INVOICE_WITH_ZERO_OPEN_AMOUNT = "error.document.paymentApplication.cannotQuickApplyOnInvoiceWithZeroOpenAmount";
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceCustomerNumberInvalid";
         public static final String ENTERED_INVOICE_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceNumberInvalid";
+        public static final String ERROR_DOCUMENT_PAYMENT_APPLICATION_MISSING_SYSTEM_INFORMATION = "error.document.paymentApplication.missing.system.information";
+        public static final String ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_PAYMENT_REASON = "error.system.information.missing.refund.payment.reason";
+        public static final String ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_DOCUMENTATION_LOCATION = "error.system.information.missing.refund.documentation.location";
     }
+ 
+    //Contracts Grants Invoice constants and errors    
+    public static class ContractsGrantsInvoiceConstants {
+        public static final String MESSAGE_CONTRACTS_GRANTS_INVOICE_BATCH_SENT = "message.document.contractsGrantsInvoiceOnDemand.batchSent";
+        public static final String WARNING_PRORATE_VALUE_IS_LESS_THAN_ELIGIBLE_FOR_BILLING = "warning.prorate.value.is.less.than.eligible.for.billing";
+        public static final String WARNING_PRORATE_VALUE_IS_MORE_THAN_ELIGIBLE_FOR_BILLING = "warning.prorate.value.is.more.than.eligible.for.billing";
+        public static final String ERROR_NO_AWARDS_RETRIEVED = "error.document.no.awards.retrieved";
+        public static final String ERROR_AWARDS_INVALID = "error.document.awards.invalid";
+        public static final String ERROR_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO = "error.total.amount.less.than.equal.to.zero";
+        public static final String ERROR_DOCUMENT_GLPE_GENERATION_FAILED = "error.document.glpe.generation.failed";
+        public static final String ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID = "error.document.amount.to.draw.invalid";
+    }
+
+    // Final Invoice Reversal Error
+    public static final String FINAL_INVOICE_REVERSAL_EDOC_ERROR_KEY = "error.custom";
+    
+    /* Start TEM REFUND Merge */
+    // ar refunding
+    public static final String MESSAGE_REFUND_DV_DOCUMENT_DESCRIPTION = "message.document.refundDV.description";
+    public static final String MESSAGE_REFUND_DV_CHECK_STUB_TEXT = "message.document.refundDV.checkStubText";
+    /* End TEM REFUND Merge */
+    
 }

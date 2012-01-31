@@ -24,14 +24,15 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.gl.service.EntryService;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -41,6 +42,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
@@ -48,25 +50,37 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming, GeneralLedgerPostingDocument {
+public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming, GeneralLedgerPostingDocument, Copyable, Correctable {
     protected static final String NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT = "AssociatedWithElectronicPayment";
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);
 
     protected String referenceFinancialDocumentNumber;
+    protected String invoiceDocumentType;// this document type variable would help in differentiating Customer and CG Invoices
+    protected String locCreationType;// To categorize the CG Invoices based on Award LOC Type
+    protected Long proposalNumber;// When LOC Type = Award
+    protected String letterOfCreditFundGroupCode;// When LOC Type = LOC Fund
+    protected String letterOfCreditFundCode;// When LOC Type = LOC Fund Group
     protected Integer universityFiscalYear;
     protected String universityFiscalPeriodCode;
     protected String customerPaymentMediumCode;
@@ -408,8 +422,8 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     }
 
     /**
-     * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built
-     * using information from the <code>{@link AccountingLine}</code>. Format is "01-12345: blah blah blah".
+     * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built using
+     * information from the <code>{@link AccountingLine}</code>. Format is "01-12345: blah blah blah".
      * 
      * @param line accounting line
      * @param transactionalDocument submitted accounting document
@@ -448,7 +462,8 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
             success &= cashControlDocumentService.createCashReceiptGLPEs(this, sequenceHelper);
             success &= cashControlDocumentService.createBankOffsetGLPEs(this, sequenceHelper);
         }
-        else if (this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.WIRE_TRANSFER)) {
+        // To include CG Invoices of Payment Medium Code LOC Wire.
+        else if (this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.WIRE_TRANSFER) || this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.LOC_WIRE)) {
             success &= cashControlDocumentService.createDistributionOfIncomeAndExpenseGLPEs(this, sequenceHelper);
         }
         else if (this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.CREDIT_CARD)) {
@@ -538,6 +553,11 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         return generalLedgerPendingEntries.get(index);
     }
 
+    /**
+     * Retrieve lockBox Number
+     * 
+     * @return
+     */
     public String getLockboxNumber() {
         CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
         this.lockboxNumber = cashControlDocumentService.getLockboxNumber(this);
@@ -582,11 +602,17 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         this.electronicPaymentClaims = electronicPaymentClaims;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.LedgerPostingDocumentBase#getFinancialDocumentTypeCode()
+     */
     public String getFinancialDocumentTypeCode() {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * @return
+     */
     public Document getReferenceFinancialDocument() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         Document document = null;
@@ -662,14 +688,23 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         return null;
     }
 
+    /**
+     * @return
+     */
     public Bank getBank() {
         return bank;
     }
 
+    /**
+     * @param bank
+     */
     public void setBank(Bank bank) {
         this.bank = bank;
     }
 
+    /**
+     * 
+     */
     public void recalculateTotals() {
         KualiDecimal total = KualiDecimal.ZERO;
         for (CashControlDetail cashControlDetail : getCashControlDetails()) {
@@ -679,6 +714,9 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         getDocumentHeader().setFinancialDocumentTotalAmount(total);
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#prepareForSave()
+     */
     @Override
     public void prepareForSave() {
 
@@ -690,27 +728,276 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         recalculateTotals();
     }
 
+    /**
+     * 
+     */
     protected void deleteCashControlDetailsFromDB() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, String> pkMap = new HashMap<String, String>();
         pkMap.put("documentNumber", getDocumentNumber());
         boService.deleteMatching(CashControlDetail.class, pkMap);
     }
-    
+
     /**
      * This is a method to check the count of gl entries according to the input fields and values
      * 
      * @return totalGLRecordsCreated returns the count of the gl entries
-     */    
+     */
     public Integer getGeneralLedgerEntriesPostedCount() {
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put("documentNumber", this.getDocumentNumber());
         pkMap.put("universityFiscalYear", this.getPostingYear().toString());
         pkMap.put("universityFiscalPeriodCode", this.getPostingPeriodCode());
         pkMap.put("chartOfAccountsCode", this.getChartOfAccountsCode());
-        
+
         Integer totalGLRecordsCreated = SpringContext.getBean(EntryService.class).getEntryRecordCount(pkMap);
-        
+
         return totalGLRecordsCreated;
     }
+
+    /**
+     * Gets the invoiceDocumentType attribute.
+     * 
+     * @return Returns the invoiceDocumentType.
+     */
+    public String getInvoiceDocumentType() {
+        return invoiceDocumentType;
+    }
+
+    /**
+     * Sets the invoiceDocumentType attribute value.
+     * 
+     * @param invoiceDocumentType The invoiceDocumentType to set.
+     */
+    public void setInvoiceDocumentType(String invoiceDocumentType) {
+        this.invoiceDocumentType = invoiceDocumentType;
+    }
+
+    /**
+     * Gets the locCreationType attribute.
+     * 
+     * @return Returns the locCreationType.
+     */
+    public String getLocCreationType() {
+        return locCreationType;
+    }
+
+    /**
+     * Sets the locCreationType attribute value.
+     * 
+     * @param locCreationType The locCreationType to set.
+     */
+    public void setLocCreationType(String locCreationType) {
+        this.locCreationType = locCreationType;
+    }
+
+    /**
+     * Gets the proposalNumber attribute.
+     * 
+     * @return Returns the proposalNumber.
+     */
+    public Long getProposalNumber() {
+        return proposalNumber;
+    }
+
+    /**
+     * Sets the proposalNumber attribute value.
+     * 
+     * @param proposalNumber The proposalNumber to set.
+     */
+    public void setProposalNumber(Long proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
+
+    /**
+     * Gets the letterOfCreditFundGroupCode attribute.
+     * 
+     * @return Returns the letterOfCreditFundGroupCode.
+     */
+    public String getLetterOfCreditFundGroupCode() {
+        return letterOfCreditFundGroupCode;
+    }
+
+    /**
+     * Sets the letterOfCreditFundGroupCode attribute value.
+     * 
+     * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
+     */
+    public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
+        this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
+    }
+
+    /**
+     * Gets the letterOfCreditFundCode attribute.
+     * 
+     * @return Returns the letterOfCreditFundCode.
+     */
+    public String getLetterOfCreditFundCode() {
+        return letterOfCreditFundCode;
+    }
+
+    /**
+     * Sets the letterOfCreditFundCode attribute value.
+     * 
+     * @param letterOfCreditFundCode The letterOfCreditFundCode to set.
+     */
+    public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
+        this.letterOfCreditFundCode = letterOfCreditFundCode;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#toErrorCorrection()
+     */
+    @Override
+    public void toErrorCorrection() throws WorkflowException {
+        // making sure that we are actually correcting something
+        boolean isCorrecting = false;
+
+        // do an initial verification that a detail has been selected for correction
+        for (CashControlDetail cashControlDetail : getCashControlDetails()) {
+            if (cashControlDetail.isToCorrectIndicator()) {
+                isCorrecting = true;
+                break;
+            }
+        }
+
+        if (!isCorrecting) {
+            GlobalVariables.getMessageMap().putError(KFSConstants.CASH_CONTROL_DETAILS_ERRORS, ArKeyConstants.ERROR_CASH_CTRL_DTL_TO_REVERSE_NOT_SELECTED);
+            return;
+        }
+
+        // modifiable only if state is enroute, and GL Entries haven't been posted yet
+        boolean isCurrentCashControlDocumentModifiable = (getGeneralLedgerEntriesPostedCount().intValue() == 0) && getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+
+        String referenceCashControlDocumentNumber;
+        CashControlDocument newCashControlDocument = null;
+
+        // if can't add to current Cash Control Document, then create a New one and associate corrected payment apps with this new
+        // one.
+        if (!isCurrentCashControlDocumentModifiable) {
+            // create new document and set the header as correction document. For some reason using toErrorCorrection for this
+            // document fails, so creating manually.
+            newCashControlDocument = createCashControlDocumentCorrection();
+            if (newCashControlDocument == null) {
+                throw new WorkflowException();
+            }
+            referenceCashControlDocumentNumber = newCashControlDocument.getDocumentNumber();
+            addCopyErrorDocumentNote("this Cash Control has been corrected by document " + referenceCashControlDocumentNumber);
+        }
+        else { // not final, did not create new Cash Control Document Number, so we will set the CashControlDetail reference Number
+               // to the original CCD.
+            referenceCashControlDocumentNumber = getDocumentNumber();
+        }
+        // create payment app error correction for each cash control detail
+        for (CashControlDetail cashControlDetail : getCashControlDetails()) {
+            if (cashControlDetail.isToCorrectIndicator()) {
+                PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
+                paymentApplicationDocument.toErrorCorrectionWrapper(referenceCashControlDocumentNumber);
+            }
+        }
+
+        // recalculate total for the new cash control document if it exists.
+        if (newCashControlDocument != null) {
+            newCashControlDocument.refreshReferenceObject("cashControlDetails");
+            newCashControlDocument.recalculateTotals();
+            KNSServiceLocator.getDocumentService().saveDocument(newCashControlDocument);
+        }
+        else {
+            refreshReferenceObject("cashControlDetails");
+            this.recalculateTotals();
+        }
+
+        // modify GLPE's only if current Cash Control Document has been corrected.
+        if (isCorrecting && isCurrentCashControlDocumentModifiable) {
+            // if GLPE's are already generated, then clear and regenerate
+            if (getGeneralLedgerPendingEntries().size() > 0) {
+
+                clearAnyGeneralLedgerPendingEntries();
+
+                String paymentMediumCode = getCustomerPaymentMediumCode();
+
+                // refresh reference objects
+                refreshReferenceObject("customerPaymentMedium");
+                refreshReferenceObject("generalLedgerPendingEntries");
+
+                // payment medium might have been changed meanwhile so we save first the document
+                BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+                businessObjectService.save(this);
+
+                // generate the GLPEs
+                GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+                boolean success = glpeService.generateGeneralLedgerPendingEntries(this);
+
+                if (!success) {
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
+                }
+                // approve the GLPEs
+                changeGeneralLedgerPendingEntriesApprovedStatusCode();
+
+                // save the GLPEs in the database
+                CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+                cashControlDocumentService.saveGLPEs(this);
+            }
+        }
+
+        resetCorrectionCheckboxes(); // since the business object will still be true, eventhough it doesn't show on the jsp
+        KNSServiceLocator.getDocumentService().saveDocument(this);
+        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_CORRECTION_DOCUMENT_HAS_BEEN_CREATED);
+    }
+
+    /**
+     * 
+     */
+    protected void resetCorrectionCheckboxes() {
+        for (CashControlDetail cashControlDetail : getCashControlDetails()) {
+            cashControlDetail.setToCorrectIndicator(false);
+        }
+    }
+
+    /**
+     * This method creates a new Cash Control Document and makes it a correction document. The reason we need this is because the
+     * toErrorCorrection method does not work right. Manually copy over stuff, set the headers, save it to database and return the
+     * object.
+     * 
+     * @return
+     */
+    protected CashControlDocument createCashControlDocumentCorrection() {
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        try {
+            CashControlDocument cashControlDoc = (CashControlDocument) documentService.getNewDocument(CashControlDocument.class);
+
+            cashControlDoc.getDocumentHeader().setDocumentDescription(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ArKeyConstants.CASH_CTRL_DOC_CORRECTION));
+            cashControlDoc.getDocumentHeader().setFinancialDocumentInErrorNumber(getDocumentNumber());
+
+            AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
+            accountsReceivableDocumentHeader.setDocumentNumber(cashControlDoc.getDocumentNumber());
+            accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(this.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
+            accountsReceivableDocumentHeader.setProcessingOrganizationCode(this.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
+
+            cashControlDoc.setLocCreationType(this.getLocCreationType());
+            cashControlDoc.setLetterOfCreditFundGroupCode(this.getLetterOfCreditFundGroupCode());
+            cashControlDoc.setLetterOfCreditFundCode(this.getLetterOfCreditFundCode());
+
+            cashControlDoc.setProposalNumber(this.getProposalNumber());
+            cashControlDoc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+            cashControlDoc.setCustomerPaymentMediumCode(this.getCustomerPaymentMediumCode());
+            // To set invoice document type to CG Invoice as we would be dealing only with CG Invoices.
+            cashControlDoc.setInvoiceDocumentType(this.getInvoiceDocumentType());
+
+            documentService.saveDocument(cashControlDoc);
+
+            DocumentRouteHeaderValue documentRouteHeaderValue = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(cashControlDoc.getDocumentNumber()));
+            KEWServiceLocator.getWorkflowDocumentService().approveDocument(GlobalVariables.getUserSession().getPrincipalId(), documentRouteHeaderValue, "auto enroute error-correction Document");
+
+
+            return cashControlDoc;
+
+        }
+        catch (WorkflowException ex) {
+            LOG.error("Error Creating Error Correction Cash Control Document for document number: " + getDocumentNumber());
+        }
+
+        return null;
+    }
+
 }

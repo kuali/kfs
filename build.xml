@@ -299,11 +299,20 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 			   we need to build all the components of the string, setting them to blank if we don't want that piece. -->
 		
 		<!-- check if the various optional modules are being included -->
+		<condition property="internal.contracts.and.grants.billing.spring.files" value="${contracts.and.grants.billing.spring.files}" else="">
+		    <istrue value="${module.contracts.and.grants.billing.enabled}"/>
+		</condition>	
 		<condition property="internal.contracts.and.grants.spring.files" value="${contracts.and.grants.spring.files}" else="">
-			<istrue value="${module.contracts.and.grants.enabled}"/>
+			<and>
+				<istrue value="${module.contracts.and.grants.enabled}"/>
+				<isfalse value="${module.contracts.and.grants.billing.enabled}"/>
+			</and>				
 		</condition>
 		<condition property="internal.kuali.coeus.spring.files" value="${kuali.coeus.spring.files}" else="">
-			<istrue value="${module.external.kuali.coeus.enabled}"/>
+			<and>
+				<istrue value="${module.external.kuali.coeus.enabled}"/>
+				<isfalse value="${module.contracts.and.grants.billing.enabled}"/>
+			</and>
 		</condition>
 		<condition property="internal.accounts.receivable.spring.files" value="${accounts.receivable.spring.files}" else="">
 			<istrue value="${module.accounts.receivable.enabled}"/>
@@ -368,7 +377,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
         </condition>
 		
 		<!-- build the optional module spring files lists, but defer to ones set by the institution -->
-		<property name="optional.module.spring.source.files" value="${internal.contracts.and.grants.spring.files}${internal.kuali.coeus.spring.files}${internal.accounts.receivable.spring.files}${internal.purchasing.spring.files}${internal.access.security.purap.spring.files}${internal.capital.asset.spring.files}${internal.labor.distribution.spring.files}${internal.access.security.ld.spring.files}${internal.endowment.spring.files}" />
+		<property name="optional.module.spring.source.files" value="${internal.contracts.and.grants.spring.files}${internal.kuali.coeus.spring.files}${internal.contracts.and.grants.billing.spring.files}${internal.accounts.receivable.spring.files}${internal.purchasing.spring.files}${internal.access.security.purap.spring.files}${internal.capital.asset.spring.files}${internal.labor.distribution.spring.files}${internal.access.security.ld.spring.files}${internal.endowment.spring.files}" />
 		<property name="optional.module.spring.test.files" value="${internal.contracts.and.grants.spring.test.files}${internal.accounts.receivable.spring.test.files}${internal.purchasing.spring.test.files}${internal.capital.asset.spring.test.files}${internal.labor.distribution.spring.test.files}${internal.endowment.spring.test.files}" />
 		
 		<!-- set the final properties used by the server (placed into configuration.properties) -->

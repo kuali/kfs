@@ -19,6 +19,10 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -27,7 +31,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Customer extends PersistableBusinessObjectBase implements Inactivateable {
+public class Customer extends PersistableBusinessObjectBase implements Inactivateable, AccountsReceivableCustomer {
 
     private String customerNumber;
     private String customerName;
@@ -490,5 +494,10 @@ public class Customer extends PersistableBusinessObjectBase implements Inactivat
     public void setCustomerTaxTypeCode(String customerTaxTypeCode) {
         this.customerTaxTypeCode = customerTaxTypeCode;
     }
-    
+
+    /* Start TEM REFUND merge */
+    public AccountsReceivableCustomerAddress getPrimaryAddress() {
+        return (AccountsReceivableCustomerAddress) SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(getCustomerNumber());
+    }
+    /* End TEM REFUND merge */
 }

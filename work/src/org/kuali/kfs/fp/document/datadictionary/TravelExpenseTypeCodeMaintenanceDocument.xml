@@ -52,6 +52,7 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="prepaidExpense" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>

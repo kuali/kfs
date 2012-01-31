@@ -34,8 +34,7 @@
 			<li><portal:portalLink displayTitle="true" title='Asset Maintenance' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CAMM'/></li>
 		</ul>
 	</c:if>
-	<c:if test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true'} && 
-		${ConfigProperties['module.external.kuali.coeus.enabled'] == 'false'}">
+	<c:if test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true'}">
 		<strong>Contracts & Grants</strong><br/>
 	   	 <ul class="chan">
 			<li><portal:portalLink displayTitle="true" title='Proposals' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PRPL'/></li>

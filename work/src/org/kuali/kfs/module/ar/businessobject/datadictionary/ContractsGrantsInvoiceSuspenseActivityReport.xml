@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2008-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport" parent="ContractsGrantsInvoiceSuspenseActivityReport-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-parentBean" abstract="true" parent="BusinessObjectEntry">
+
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceSuspenseActivityReport" />
+
+		<!-- <property name="inquiryDefinition"> <ref bean="ContractsGrantsInvoiceSuspenseActivityReport-inquiryDefinition"/> </property> -->
+
+		<property name="lookupDefinition">
+			<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="ContractsGrantsInvoiceSuspenseActivityReportInquiryTitle" />
+		<property name="objectLabel" value="ContractsGrantsInvoiceSuspenseActivityReport" />
+
+		<property name="attributes">
+			<list>
+				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-fundManager" />
+				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-suspensionCategoryCode" />
+				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-categoryDescription" />
+				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesSuspended" />
+				<!-- <ref bean="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesCleared" /> -->
+				<!-- <ref bean="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesRemainingToClear" /> -->
+			</list>
+		</property>
+
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="suspensionCategory">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="suspensionCategoryCode" p:targetName="suspensionCategoryCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-fundManager" parent="ContractsGrantsInvoiceSuspenseActivityReport-fundManager-parentBean" />
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-fundManager-parentBean" abstract="true" parent="PersonImpl-name">
+		<property name="name" value="fundManager" />
+		<property name="label" value="Primary Fund Manager Name" />
+		<property name="shortLabel" value="Primary Fund Manager" />
+		<property name="control">
+			<ref bean="StandardNameTextControl" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-suspensionCategoryCode" parent="ContractsGrantsInvoiceSuspenseActivityReport-suspensionCategoryCode-parentBean" />
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-suspensionCategoryCode-parentBean" abstract="true" parent="SuspensionCategory-suspensionCategoryCode">
+		<property name="name" value="suspensionCategoryCode" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-categoryDescription" parent="ContractsGrantsInvoiceSuspenseActivityReport-categoryDescription-parentBean" />
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-categoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="categoryDescription" />
+		<property name="label" value="Suspense Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="100" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesSuspended" parent="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesSuspended-parentBean" />
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesSuspended-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="totalInvoicesSuspended" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Total Suspended" />
+		<property name="shortLabel" value="Suspended" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesCleared" parent="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesCleared-parentBean" />
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesCleared-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="totalInvoicesCleared" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Total Cleared" />
+		<property name="shortLabel" value="Cleared" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesRemainingToClear" parent="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesRemainingToClear-parentBean" />
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesRemainingToClear-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="totalInvoicesRemainingToClear" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Total Remaining" />
+		<property name="shortLabel" value="Remaining" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+	</bean>
+
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition" parent="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="ContractsGrantsInvoiceSuspenseActivityReport Lookup" />
+		<property name="lookupableID" value="contractsGrantsInvoiceSuspenseActivityReportLookupResultLookupable" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<!-- <bean parent="FieldDefinition" p:attributeName="fundManager" /> -->
+				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="categoryDescription" />
+				<bean parent="FieldDefinition" p:attributeName="totalInvoicesSuspended" />
+				<!-- <bean parent="FieldDefinition" p:attributeName="totalInvoicesCleared" /> <bean parent="FieldDefinition" p:attributeName="totalInvoicesRemainingToClear" 
+					/> -->
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<!-- <bean parent="FieldDefinition" p:attributeName="fundManager" /> -->
+				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="categoryDescription" />
+				<bean parent="FieldDefinition" p:attributeName="totalInvoicesSuspended" />
+				<!-- <bean parent="FieldDefinition" p:attributeName="totalInvoicesCleared" /> <bean parent="FieldDefinition" p:attributeName="totalInvoicesRemainingToClear" 
+					/> -->
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

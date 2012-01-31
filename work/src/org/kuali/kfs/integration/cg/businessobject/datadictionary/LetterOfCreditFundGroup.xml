@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2006-2008 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+	<bean id="LetterOfCreditFundGroup" parent="LetterOfCreditFundGroup-parentBean" />
+
+	<bean id="LetterOfCreditFundGroup-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.integration.cg.businessobject.LetterOfCreditFundGroup" />
+		<property name="objectLabel" value="Letter Of Credit Fund Group" />
+		<property name="attributes">
+			<list>
+				<ref bean="LetterOfCreditFundGroup-letterOfCreditFundGroupCode" />
+				<ref bean="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription" />
+				<ref bean="LetterOfCreditFundGroup-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="LetterOfCreditFundGroup-letterOfCreditFundGroupCode"
+		parent="LetterOfCreditFundGroup-letterOfCreditFundGroupCode-parentBean" />
+
+	<bean id="LetterOfCreditFundGroup-letterOfCreditFundGroupCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="letterOfCreditFundGroupCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Letter Of Credit Fund Group Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern">
+			<ref bean="AlphaNumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+	<bean id="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription"
+		parent="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription-parentBean" />
+
+	<bean
+		id="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="letterOfCreditFundGroupDescription" />
+		<property name="label" value="Letter Of Credit Fund Group Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="42" />
+		</property>
+	</bean>
+	<bean id="LetterOfCreditFundGroup-active" parent="LetterOfCreditFundGroup-active-parentBean" />
+
+	<bean id="LetterOfCreditFundGroup-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+</beans>

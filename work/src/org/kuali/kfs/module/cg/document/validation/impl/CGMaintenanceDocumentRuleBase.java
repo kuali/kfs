@@ -19,12 +19,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.businessobject.Agency;
+import org.kuali.kfs.module.cg.businessobject.CGFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Primaryable;
 import org.kuali.kfs.sys.KFSConstants;
@@ -40,7 +40,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * Rules for the Proposal/Award maintenance document.
+ * Rules for the Proposal/Award/Agency maintenance document.
  */
 public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
@@ -119,7 +119,30 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
-    
+
+    /**
+     * @param <T>
+     * @param projectDirectors
+     * @param elementClass
+     * @param collectionName
+     * @return
+     */
+    protected <T extends CGFundManager> boolean checkFundManagersExist(List<T> fundManagers, Class<T> elementClass, String collectionName) {
+        boolean success = true;
+        final String personUserPropertyName = KFSPropertyConstants.FUND_MANAGER + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
+        String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
+        int i = 0;
+        for (T fm : fundManagers) {
+            String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
+            String id = fm.getPrincipalId();
+            if (StringUtils.isBlank(id) || (SpringContext.getBean(PersonService.class).getPerson(id) == null)) {
+                putFieldError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+                success = false;
+            }
+        }
+        return success;
+    }
+
     /**
      * @param <T>
      * @param projectDirectors
@@ -132,10 +155,10 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
         RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
-        
+
         List<String> roleId = new ArrayList<String>();
         roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));
-        
+
         int i = 0;
         for (T pd : projectDirectors) {
             String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
@@ -147,12 +170,12 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
-    
+
 
     /**
      * This method takes in a collection of {@link ProjectDirector}s and reviews them to see if any have invalid states for being
-     * added to a {@link Proposal}. An example would be a status code of "D" which means "Deceased". Project Directors with a
-     * status of "D" cannot be added to a {@link Proposal} or {@link Award}.
+     * added to a {@link Proposal}. An example would be a status code of "D" which means "Deceased". Project Directors with a status
+     * of "D" cannot be added to a {@link Proposal} or {@link Award}.
      * 
      * @param projectDirectors Collection of project directors to be reviewed.
      * @param elementClass Type of object that the collection belongs to.
@@ -166,10 +189,10 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         for (T pd : projectDirectors) {
             String pdEmplStatusCode = pd.getProjectDirector().getEmployeeStatusCode();
             HashMap<String, String> criteria = new HashMap<String, String>();
-            criteria.put( "code", pdEmplStatusCode );
+            criteria.put("code", pdEmplStatusCode);
             if (StringUtils.isBlank(pdEmplStatusCode) || Arrays.asList(PROJECT_DIRECTOR_INVALID_STATUSES).contains(pdEmplStatusCode)) {
-                EmploymentStatusImpl empStatus = (EmploymentStatusImpl)getBoService().findByPrimaryKey(EmploymentStatusImpl.class, criteria);          
-                String pdEmplStatusName =  (empStatus != null)?empStatus.getName():"INVALID STATUS CODE " + pdEmplStatusCode;                    
+                EmploymentStatusImpl empStatus = (EmploymentStatusImpl) getBoService().findByPrimaryKey(EmploymentStatusImpl.class, criteria);
+                String pdEmplStatusName = (empStatus != null) ? empStatus.getName() : "INVALID STATUS CODE " + pdEmplStatusCode;
                 String[] errors = { pd.getProjectDirector().getName(), pdEmplStatusCode + " - " + pdEmplStatusName };
                 putFieldError(propertyName, KFSKeyConstants.ERROR_INVALID_PROJECT_DIRECTOR_STATUS, errors);
                 success = false;
@@ -244,4 +267,3 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
 
 }
-

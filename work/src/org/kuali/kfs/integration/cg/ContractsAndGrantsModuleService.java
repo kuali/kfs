@@ -20,6 +20,9 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.bo.Person;
 
+/**
+ * Methods which allow core KFS modules to interact with the ContractsAndGrants module.
+ */
 public interface ContractsAndGrantsModuleService {
 
     public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber);
@@ -51,16 +54,17 @@ public interface ContractsAndGrantsModuleService {
      * @return true if the given account is a contracts & grants account with a valid responsibility id; otherwise, return false
      */
     public boolean hasValidAccountReponsiblityIdIfNotNull(Account account);
-    
+
     public List<String> getParentUnits(String unitNumber);
-    
+
     /**
-     * Returns the proposal number for an award associated with an account and project director 
+     * Returns the proposal number for an award associated with an account and project director
      * 
      * @param chartOfAccountsCode
      * @param accountNumber
      * @return
      */
     public String getProposalNumberForAccountAndProjectDirector(String chartOfAccountsCode, String accountNumber, String projectDirectorId);
-}
 
+
+}

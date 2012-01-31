@@ -45,7 +45,8 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	private KualiDecimal financialDocumentLineAmount;
 	private String financialDocumentOverrideCode;
     private KualiDecimal nonInvoicedDistributionAmount = KualiDecimal.ZERO;
-
+    private boolean refundIndicator;
+    
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private ObjectCode financialObject;
 	private SubAccount subAccount;
@@ -480,4 +481,21 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
         this.nonInvoicedDistributionAmount = nonInvoicedDistributionAmount;
     }
 
+    /**
+     * Gets the refundIndicator attribute.
+     *
+     * @return Returns the refundIndicator 
+     */
+    public boolean isRefundIndicator() {
+        return refundIndicator;
+    }
+
+    /**
+     * Sets the refundIndicator attribute value.
+     *
+     * @param refundIndicator The refundIndicator to set.
+     */
+    public void setRefundIndicator(boolean refundIndicator) {
+        this.refundIndicator = refundIndicator;
+    }
 }

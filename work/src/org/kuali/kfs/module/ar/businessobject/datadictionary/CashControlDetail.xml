@@ -37,6 +37,7 @@
 				<ref bean="CashControlDetail-financialDocumentLineAmount" />
 				<ref bean="CashControlDetail-referenceFinancialDocumentNumber" />
 				<ref bean="CashControlDetail-status" />
+        <ref bean="CashControlDetail-toCorrectIndicator" />
 			</list>
 		</property>
 	</bean>
@@ -129,6 +130,19 @@
 		<property name="label" value="Status" />
 		<property name="shortLabel" value="Status" />
 	</bean>
+
+  <bean id="CashControlDetail-toCorrectIndicator" parent="CashControlDetail-toCorrectIndicator-parentBean"/>
+
+  <bean id="CashControlDetail-toCorrectIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="toCorrectIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="To Correct Indicator"/>
+    <property name="shortLabel" value="To Correct Indicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="control" ref="CheckboxControl" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+  
 
 	<!-- Business Object Inquiry Definition -->
 

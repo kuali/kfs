@@ -15,18 +15,21 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
+import java.util.Set;
+
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 
+/**
+ * Presentation Controller for Payment Application.
+ */
 public class PaymentApplicationDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
-    @Override
-    public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
-        return false;
-    }
-
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.kns.document.Document)
+     */
     @Override
     protected boolean canCancel(Document document) {
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
@@ -40,4 +43,44 @@ public class PaymentApplicationDocumentPresentationController extends FinancialS
         }
     }
 
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    public boolean canCopy(Document document) {
+        boolean copyable = true;
+        PaymentApplicationDocument ciDoc = (PaymentApplicationDocument) document;
+
+        // Confirm doc is in a saved and copyable state.
+        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled();
+
+        // Confirm doc is reversible.
+        copyable &= !((PaymentApplicationDocument) document).isPaymentApplicationCorrection();
+        return copyable;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canEdit(Document document) {
+        return (super.canEdit(document) && !((PaymentApplicationDocument) document).isPaymentApplicationCorrection()); // can't edit
+                                                                                                                       // if it's a
+                                                                                                                       // correction
+                                                                                                                       // document
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    public Set<String> getEditModes(Document document) {
+
+        Set<String> editModes = super.getEditModes(document);
+        if (((PaymentApplicationDocument) document).isPaymentApplicationCorrection()) {
+            editModes.add(KFSConstants.ERROR_CORRECTION_EDITING_MODE);
+        }
+        return editModes;
+    }
 }

@@ -25,6 +25,7 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 public class PaymentReasonCode extends KualiCodeBase implements Inactivateable {
 
     private String description;
+    private boolean arRefundIndicator;
 
     /**
      * Default no-arg constructor.
@@ -47,4 +48,13 @@ public class PaymentReasonCode extends KualiCodeBase implements Inactivateable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public boolean isArRefundIndicator() {
+        return arRefundIndicator;
+    }
+
+    public void setArRefundIndicator(boolean arRefundIndicator) {
+        this.arRefundIndicator = arRefundIndicator;
+    }
+    
 }

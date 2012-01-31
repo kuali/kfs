@@ -346,6 +346,9 @@
 		<property name="paymentFileEmailService">
 			<ref bean="pdpEmailService"/>
 		</property>
+        <property name="accountsReceivableModuleService">
+            <ref bean="accountsReceivableModuleService"/>
+        </property>        
 	</bean>
 
 	<bean id="cashReceiptCoverSheetService"  parent="cashReceiptCoverSheetService-parentBean"/>
@@ -450,6 +453,12 @@
 	    <property name="personService">
 			<ref bean="personService" />
 		</property>		
+        <property name="identityManagementService">
+            <ref bean="kimIdentityManagementService" />
+        </property> 
+        <property name="accountsReceivableModuleService">
+            <ref bean="accountsReceivableModuleService" />
+        </property>                 
 	</bean>
 	
 	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" scope="prototype" parent="kualiInquirable"/>

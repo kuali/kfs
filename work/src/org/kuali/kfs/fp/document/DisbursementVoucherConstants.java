@@ -44,6 +44,7 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     // payee types
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
     public static final String DV_PAYEE_TYPE_VENDOR = "V";
+    public static final String DV_PAYEE_TYPE_CUSTOMER = "C";
     public static final String DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR = "VSP";
     public static final String DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR = "VRF";
     
@@ -65,6 +66,8 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
      public static class DvPdpExtractGroup {
         public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String DV_PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
+        public static final String AR_PRE_DISBURSEMENT_EXTRACT_ORGANIZATION = "AR_PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
+        public static final String AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT = "AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
     }
     
     public static class TabKey {
@@ -181,8 +184,10 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     
     public static final String NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL_PARM_NM = "NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL";
     public static final String PO_AND_DV_PAYEE_TYPE_LABEL_PARM_NM = "PO_AND_DV_PAYEE_TYPE_LABEL";
+    public static final String CUSTOMER_PAYEE_TYPE_PARM_NM = "CUSTOMER_PAYEE_TYPE";
     public static final String INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM = "INDIVIDUAL_OWNERSHIP_TYPES";
     public static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARM_NM = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
+    public static final String TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW_PARM_NM = "TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW";
     public static final String CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARM_NM = "CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS";
 
     public static final String TAX_TYPE_SSN = "1";
@@ -201,6 +206,7 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
 
     public static final String DOCUMENT_TYPE_CHECKACH = "DVCA";
     public static final String DOCUMENT_TYPE_WTFD = "DVWF";
+    public static final String DOCUMENT_TYPE_DVAR = "DVAR";
     
     public static final String DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM = "COVER_SHEET_TEMPLATE_LINES";
     public static final String DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM = "COVER_SHEET_TEMPLATE_RLINES";

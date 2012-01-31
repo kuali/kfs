@@ -23,12 +23,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -65,7 +68,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReportService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportServiceImpl.class);
-    
+
     private AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao;
     private WorkflowDocumentService workflowDocumentService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
@@ -158,7 +161,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             details.put(nonAppliedHolding.getReferenceFinancialDocumentNumber(), detail);
             unappliedHoldingIds.add(nonAppliedHolding.getReferenceFinancialDocumentNumber());
         }
-        
+
         // for invoices
         if (invoiceIds.size() > 0)
             populateReportDetailsForInvoices(invoiceIds, results, details);
@@ -167,16 +170,18 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         if (paymentApplicationIds.size() > 0) {
             try {
                 populateReportDetailsForPaymentApplications(paymentApplicationIds, results, details);
-            } catch(WorkflowException w) {
+            }
+            catch (WorkflowException w) {
                 LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
             }
         }
-        
+
         // for unapplied payment applications
         if (unappliedHoldingIds.size() > 0) {
             try {
                 populateReportDetailsForUnappliedPaymentApplications(unappliedHoldingIds, results, details);
-            } catch(WorkflowException w) {
+            }
+            catch (WorkflowException w) {
                 LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
             }
         }
@@ -207,10 +212,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
             // Document Description
             String documentDescription = invoice.getDocumentHeader().getDocumentDescription();
-                if (ObjectUtils.isNotNull(documentDescription))
-                    detail.setDocumentDescription(documentDescription);
-                else
-                    detail.setDocumentDescription("");
+            if (ObjectUtils.isNotNull(documentDescription))
+                detail.setDocumentDescription(documentDescription);
+            else
+                detail.setDocumentDescription("");
 
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
@@ -238,6 +243,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
     protected void populateReportDetailsForPaymentApplications(List paymentApplicationIds, List results, Hashtable details) throws WorkflowException {
         Collection paymentApplications = getDocuments(PaymentApplicationDocument.class, paymentApplicationIds);
 
+        Set<String> relatedDisbursementVouchers = new HashSet<String>();
         for (Iterator itr = paymentApplications.iterator(); itr.hasNext();) {
             PaymentApplicationDocument paymentApplication = (PaymentApplicationDocument) itr.next();
             String documentNumber = paymentApplication.getDocumentNumber();
@@ -253,19 +259,46 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
             // populate Document Payment Amount
             detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
-            
+
             // populate Unpaid/Unapplied Amount if the customer number is the same
             if (ObjectUtils.isNotNull(paymentApplication.getNonAppliedHolding())) {
                 if (paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber())) {
-                    detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated()); 
+                    detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated());
                 } else {
                     detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
                 }
             } else {
                 detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
             }
-            
+
+            if (StringUtils.isNotBlank(paymentApplication.getRefundDocumentNumber())) {
+                relatedDisbursementVouchers.add(paymentApplication.getRefundDocumentNumber());
+            }
+
             results.add(detail);
+        }
+
+        // add related DVs to report
+        for (String dvNumber : relatedDisbursementVouchers) {
+            DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) documentService.getByDocumentHeaderId(dvNumber);
+            if (dvDocument != null) {
+                KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument) dvDocument.getDocumentHeader().getWorkflowDocument();
+                if (workflowDocument.stateIsApproved()) {
+                    CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
+
+                    detail.setDocumentType(workflowDocument.getDocumentType());
+                    detail.setDocumentNumber(dvNumber);
+                    detail.setDocumentDescription(dvDocument.getDocumentHeader().getDocumentDescription());
+
+                    Calendar cal = dvDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDateApproved();
+                    Date documentApprovedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+                    detail.setDueApprovedDate(documentApprovedDate);
+
+                    detail.setDocumentPaymentAmount(dvDocument.getTotalDollarAmount());
+
+                    results.add(detail);
+                }
+            }
         }
     }
 
@@ -286,7 +319,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             if ((paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber()))) {
                 continue;
             }
-            
+
             CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
 
             // populate Document Description
@@ -356,6 +389,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         return docs;
     }
 
+    /**
+     * @param cal
+     * @return
+     */
     protected Date getSqlDate(Calendar cal) {
         Date sqlDueDate = null;
 
@@ -377,18 +414,18 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      */
     public List getPopulatedReportDetails(Map urlParameters) {
         List results = new ArrayList();
-        
+
         // get arDocumentHeaders
         Collection<AccountsReceivableDocumentHeader> arDocumentHeaders = getARDocumentHeaders(urlParameters);
         if (arDocumentHeaders.size() == 0)
             return results;
-        
+
         // get ids of arDocumentHeaders
         List<String> arDocumentHeaderIds = new ArrayList<String>();
         for (AccountsReceivableDocumentHeader arDocHeader : arDocumentHeaders) {
             arDocumentHeaderIds.add(arDocHeader.getDocumentNumber());
         }
-        
+
         // get invoices
         String reportOption = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_OPTION))[0];
         Collection<CustomerInvoiceDocument> invoices;
@@ -401,15 +438,15 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         else {
             invoices = getDocuments(CustomerInvoiceDocument.class, arDocumentHeaderIds);
         }
-        if (ObjectUtils.isNull(invoices) | invoices.size()==0 )
+        if (ObjectUtils.isNull(invoices) | invoices.size() == 0)
             return results;
-        
+
         List<CustomerInvoiceDocument> selectedInvoices = new ArrayList();
 
         String columnTitle = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.COLUMN_TITLE))[0];
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        
-        java.util.Date reportRunDate= null;
+
+        java.util.Date reportRunDate = null;
         java.util.Date beginDate = null;
         java.util.Date endDate = null;
         try {
@@ -424,7 +461,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         catch (ParseException e) {
             e.printStackTrace();
         }
-        
+
         // Billing Organization
         if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.BILLING_ORG)) {
             // All days
@@ -435,9 +472,9 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             String chartCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.PROCESSING_OR_BILLING_CHART_CODE))[0];
             String orgCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.ORGANIZATION_CODE))[0];
             if (StringUtils.equals(columnTitle, KFSConstants.CustomerOpenItemReport.ALL_DAYS)) {
-                for (CustomerInvoiceDocument invoice:invoices) {
+                for (CustomerInvoiceDocument invoice : invoices) {
                     // get only invoices with open amounts
-                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()) && !reportRunDate.before(invoice.getBillingDate()) && StringUtils.equals(chartCode, invoice.getBillByChartOfAccountCode()) && StringUtils.equals(orgCode, invoice.getBilledByOrganizationCode()) )
+                    if (ObjectUtils.isNull(invoice.getClosedDate()) && ObjectUtils.isNotNull(invoice.getBillingDate()) && !reportRunDate.before(invoice.getBillingDate()) && StringUtils.equals(chartCode, invoice.getBillByChartOfAccountCode()) && StringUtils.equals(orgCode, invoice.getBilledByOrganizationCode()))
                         selectedInvoices.add(invoice);
                 }
             }
@@ -447,21 +484,21 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // 3. billByChartOfAccountsCode = chartCode
             // 4. billbyOrganizationCode = orgCode
             else {
-                for (CustomerInvoiceDocument invoice:invoices) {
-                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()) && StringUtils.equals(chartCode, invoice.getBillByChartOfAccountCode()) && StringUtils.equals(orgCode, invoice.getBilledByOrganizationCode()) )
-                        if ( (ObjectUtils.isNotNull(beginDate) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate())) || (ObjectUtils.isNull(beginDate) && !endDate.before(invoice.getBillingDate())) )
+                for (CustomerInvoiceDocument invoice : invoices) {
+                    if (ObjectUtils.isNull(invoice.getClosedDate()) && ObjectUtils.isNotNull(invoice.getBillingDate()) && StringUtils.equals(chartCode, invoice.getBillByChartOfAccountCode()) && StringUtils.equals(orgCode, invoice.getBilledByOrganizationCode()))
+                        if ((ObjectUtils.isNotNull(beginDate) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate())) || (ObjectUtils.isNull(beginDate) && !endDate.before(invoice.getBillingDate())))
                             selectedInvoices.add(invoice);
                 }
             }
-        } 
+        }
         // Processing Organization or Account
         else {
             // All days
             // 1. invoice open amount > 0
             // 2. invoice billing dates <= reportRunDate
             if (StringUtils.equals(columnTitle, KFSConstants.CustomerOpenItemReport.ALL_DAYS)) {
-                for (CustomerInvoiceDocument invoice:invoices) {
-                    if (ObjectUtils.isNull(invoice.getClosedDate()) && ObjectUtils.isNotNull(invoice.getBillingDate())&& !reportRunDate.before(invoice.getBillingDate()))
+                for (CustomerInvoiceDocument invoice : invoices) {
+                    if (ObjectUtils.isNull(invoice.getClosedDate()) && ObjectUtils.isNotNull(invoice.getBillingDate()) && !reportRunDate.before(invoice.getBillingDate()))
                         selectedInvoices.add(invoice);
                 }
             }
@@ -469,22 +506,22 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // 1. invoice open amount > 0
             // 2. beginDate <= invoice billing date <= endDate
             else {
-                for (CustomerInvoiceDocument invoice:invoices) {
-                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()))
-                        if ( (ObjectUtils.isNotNull(beginDate) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate())) || (ObjectUtils.isNull(beginDate) && !endDate.before(invoice.getBillingDate())) )
+                for (CustomerInvoiceDocument invoice : invoices) {
+                    if (ObjectUtils.isNull(invoice.getClosedDate()) && ObjectUtils.isNotNull(invoice.getBillingDate()))
+                        if ((ObjectUtils.isNotNull(beginDate) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate())) || (ObjectUtils.isNull(beginDate) && !endDate.before(invoice.getBillingDate())))
                             selectedInvoices.add(invoice);
-                }  
+                }
             }
         }
 
         if (selectedInvoices.size() == 0)
             return results;
-        
+
         if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.ACCT))
-            populateReporDetails(selectedInvoices,results,details);
+            populateReporDetails(selectedInvoices, results, details);
         else
-            populateReportDetails(selectedInvoices,results);
-        
+            populateReportDetails(selectedInvoices, results);
+
         return results;
     }
 
@@ -510,10 +547,11 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         }
         return arDocumentHeaders;
     }
-    
-    /*
-     * This method gets called only if reportOption is Account
-     * Gets invoices based on the selected invoice details <=> invoice details meeting search criteria i.e. the accountNumber and the list of documentIds
+
+    /**
+     * This method gets called only if reportOption is Account Gets invoices based on the selected invoice details <=> invoice
+     * details meeting search criteria i.e. the accountNumber and the list of documentIds
+     * 
      * @param accountNumber
      * @param arDocumentHeaderIds
      * @param details (will get populated here)
@@ -521,73 +559,79 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      */
     protected Collection<CustomerInvoiceDocument> getInvoicesByAccountNumberByDocumentIds(String accountNumber, List arDocumentHeaderIds, Collection<CustomerInvoiceDetail> details) {
         Collection<CustomerInvoiceDocument> invoices = null;
-        
-        if (ObjectUtils.isNull(details) | details.size()==0)
+
+        if (ObjectUtils.isNull(details) | details.size() == 0)
             return invoices;
-        
+
         // get list of invoice document ids (eliminate duplicate invoice document ids)
         List<String> documentIds = new ArrayList();
-        for (CustomerInvoiceDetail detail:details) {
-            String documentNumber = ((CustomerInvoiceDetail)detail).getDocumentNumber();
+        for (CustomerInvoiceDetail detail : details) {
+            String documentNumber = ((CustomerInvoiceDetail) detail).getDocumentNumber();
             if (!documentIds.contains(documentNumber))
                 documentIds.add(documentNumber);
         }
-        
+
         // get invoices for the document ids list
         if (documentIds.size() != 0)
             invoices = getDocuments(CustomerInvoiceDocument.class, documentIds);
-        
+
         return invoices;
-   }
-    
-    protected void populateReporDetails(List<CustomerInvoiceDocument> selectedInvoices,List results, Collection<CustomerInvoiceDetail> invoiceDetails) {
-        
+    }
+
+    /**
+     * @param selectedInvoices
+     * @param results
+     * @param invoiceDetails
+     */
+    protected void populateReporDetails(List<CustomerInvoiceDocument> selectedInvoices, List results, Collection<CustomerInvoiceDetail> invoiceDetails) {
+
         for (Iterator<CustomerInvoiceDocument> iter = selectedInvoices.iterator(); iter.hasNext();) {
             CustomerInvoiceDocument invoice = iter.next();
             String documentNumber = invoice.getDocumentNumber();
-                    
+
             KualiDecimal amount = KualiDecimal.ZERO;
             KualiDecimal taxAmount = KualiDecimal.ZERO;
             KualiDecimal openAmount = KualiDecimal.ZERO;
-            
+
             boolean foundFlag = false;
-                    
-            for (CustomerInvoiceDetail invoiceDetail:invoiceDetails) {
-                String tempDocumentNumber = ((CustomerInvoiceDetail)invoiceDetail).getDocumentNumber();
+
+            for (CustomerInvoiceDetail invoiceDetail : invoiceDetails) {
+                String tempDocumentNumber = ((CustomerInvoiceDetail) invoiceDetail).getDocumentNumber();
                 if (!StringUtils.equals(documentNumber, tempDocumentNumber))
                     continue;
                 foundFlag = true;
-                
-                KualiDecimal itemAmount = ((CustomerInvoiceDetail)invoiceDetail).getAmount();
+
+                KualiDecimal itemAmount = ((CustomerInvoiceDetail) invoiceDetail).getAmount();
                 if (ObjectUtils.isNotNull(itemAmount))
                     amount = amount.add(itemAmount);
-                            
-                KualiDecimal itemTaxAmount = ((CustomerInvoiceDetail)invoiceDetail).getInvoiceItemTaxAmount();
+
+                KualiDecimal itemTaxAmount = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemTaxAmount();
                 if (ObjectUtils.isNotNull(itemTaxAmount))
                     taxAmount = taxAmount.add(itemTaxAmount);
-                            
-                KualiDecimal openItemAmount = ((CustomerInvoiceDetail)invoiceDetail).getAmountOpen();
+
+                KualiDecimal openItemAmount = ((CustomerInvoiceDetail) invoiceDetail).getAmountOpen();
                 if (ObjectUtils.isNotNull(openItemAmount))
                     openAmount = openAmount.add(openItemAmount);
             }
             // How is this possible?
-            // invoiceDetails are for the list of invoices(invoices) meeting seach criteria including accountNumber and selected arDocumentHeaders
+            // invoiceDetails are for the list of invoices(invoices) meeting seach criteria including accountNumber and selected
+            // arDocumentHeaders
             // -> list of invoices gets modified based on report run date and chosen date bucket -> selectedInvoices
             // selectedInvoices.size() <= invoices.size()
             if (!foundFlag)
                 continue;
-            
+
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             // Document Type
             detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentType());
             // Document Number
             detail.setDocumentNumber(documentNumber);
             // Document Description
-            String  documentDescription = invoice.getDocumentHeader().getDocumentDescription();
-                if (ObjectUtils.isNotNull(documentDescription))
-                    detail.setDocumentDescription(documentDescription);
-                else
-                    detail.setDocumentDescription("");
+            String documentDescription = invoice.getDocumentHeader().getDocumentDescription();
+            if (ObjectUtils.isNotNull(documentDescription))
+                detail.setDocumentDescription(documentDescription);
+            else
+                detail.setDocumentDescription("");
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
             // Due Date
@@ -599,9 +643,13 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             results.add(detail);
         }
     }
-    
+
+    /**
+     * @param invoices
+     * @param results
+     */
     protected void populateReportDetails(List<CustomerInvoiceDocument> invoices, List results) {
-        for (CustomerInvoiceDocument invoice:invoices) {
+        for (CustomerInvoiceDocument invoice : invoices) {
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             // Document Type
             detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentType());
@@ -609,10 +657,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDocumentNumber(invoice.getDocumentNumber());
             // Document Description
             String documentDescription = invoice.getDocumentHeader().getDocumentDescription();
-                if (ObjectUtils.isNotNull(documentDescription))
-                    detail.setDocumentDescription(documentDescription);
-                else
-                    detail.setDocumentDescription("");
+            if (ObjectUtils.isNotNull(documentDescription))
+                detail.setDocumentDescription(documentDescription);
+            else
+                detail.setDocumentDescription("");
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
             // Due Date
@@ -622,7 +670,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // Unpaid/Unapplied Amount
             detail.setUnpaidUnappliedAmount(customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument(invoice));
             results.add(detail);
-            
+
         }
     }
     
@@ -892,4 +940,3 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         this.nonAppliedHoldingDao = nonAppliedHoldingDao;
     }
 }
-

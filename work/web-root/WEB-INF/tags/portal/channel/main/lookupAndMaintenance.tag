@@ -49,17 +49,15 @@
 	    <li><portal:portalLink displayTitle="true" title="Sub-Object Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.coa.businessobject.SubObjectCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	    <li><portal:portalLink displayTitle="true" title="Sub-Object Code Global" url="kr/maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.coa.businessobject.SubObjectCodeGlobal" /></li>
 	</ul>
-	<c:choose>
- 	<c:when test="${ConfigProperties['module.external.kuali.coeus.enabled'] == 'true'}"> 
-    </c:when>
-    <c:when test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true'}">
+ 	<c:if test="${ConfigProperties['module.external.kuali.coeus.enabled'] == 'true'}"> 
+    </c:if>
+    <c:if test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true'}">
 	    <strong>Contracts & Grants</strong><br />
 		<ul class="chan">
 			<li><portal:portalLink displayTitle="true" title="Award" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.Award&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 			<li><portal:portalLink displayTitle="true" title="Proposal" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.Proposal&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		</ul>
-    </c:when>
-    </c:choose>
+    </c:if>
 	<c:if test="${ConfigProperties.module.endowment.enabled == 'true'}">
     	<strong>Endowment</strong><br />
 		<ul class="chan">

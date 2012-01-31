@@ -18,12 +18,16 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -37,12 +41,14 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * Defines a financial award object.
  */
-public class Award extends PersistableBusinessObjectBase implements Inactivateable, ContractsAndGrantsAward {
+public class Award extends PersistableBusinessObjectBase implements Inactivateable, ContractsAndGrantsCGBAward, ContractsAndGrantsAward {
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
-
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Award.class);
     private Long proposalNumber;
+    private String awardId;
     private Date awardBeginningDate;
     private Date awardEndingDate;
+    private Date lastBilledDate;
 
     /**
      * This field is for write-only to the database via OJB, not the corresponding property of this BO. OJB uses reflection to read
@@ -52,7 +58,7 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      * @see #setAwardTotalAmount
      */
     @SuppressWarnings("unused")
-    private KualiDecimal awardTotalAmount;
+    protected KualiDecimal awardTotalAmount;
 
     private String awardAddendumNumber;
     private KualiDecimal awardAllocatedUniversityComputingServicesAmount;
@@ -72,24 +78,41 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     private Date awardClosingDate;
     private String proposalAwardTypeCode;
     private String awardStatusCode;
+    private String letterOfCreditFundCode;
     private String letterOfCreditFundGroupCode;
     private String grantDescriptionCode;
     private String agencyNumber;
+    private String locCreationType; // To create LOC
     private String federalPassThroughAgencyNumber;
     private String agencyAnalystName;
     private String analystTelephoneNumber;
+    private String preferredBillingFrequency;
+    private BillingFrequency billingFrequency;
+    private String preferredReportTemplate;
+    private FinancialFormTemplate financialFormTemplate;
+    private String preferredReportFrequency;
+    private FinancialReportFrequencies financialReportFrequencies;
     private String awardProjectTitle;
     private String awardCommentText;
     private String awardPurposeCode;
     private boolean active;
     private String kimGroupNames;
     private List<AwardProjectDirector> awardProjectDirectors;
+    private AwardProjectDirector awardPrimaryProjectDirector;
+    private List<AwardFundManager> awardFundManagers;
+    private AwardFundManager awardPrimaryFundManager;
     private List<AwardAccount> awardAccounts;
+    private List<AwardInvoiceAccount> awardInvoiceAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
+    private List<Milestone> milestones;
+    private List<Bill> bills;
+
+
     private Proposal proposal;
     private ProposalAwardType proposalAwardType;
     private AwardStatus awardStatus;
+    private LetterOfCreditFund letterOfCreditFund;
     private LetterOfCreditFundGroup letterOfCreditFundGroup;
     private GrantDescription grantDescription;
     private Agency agency;
@@ -98,13 +121,36 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     private AwardOrganization primaryAwardOrganization;
     private String routingOrg;
     private String routingChart;
-    
+
+    private boolean stateTransfer;
+    private boolean suspendInvoicing;
+    private boolean additionalFormsRequired;
+    private String additionalFormsDescription;
+    private String suspensionReason;
+    private String contractGrantType;
+    private String awardsourceOfFundsCode;
+    private SourceOfFunds sourceOfFunds;
+    private String invoicingOptions;
+
+    private KualiDecimal minInvoiceAmount = KualiDecimal.ZERO;
+
+    private boolean autoApprove;
+
+    private MilestoneSchedule milestoneSchedule;
+
+    private Date fundingExpirationDate;
+    private String drawNumber;
+    private String commentText;
+
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
     private transient Person lookupPerson;
-    
+
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
+
+    private transient String lookupFundMgrPersonUniversalIdentifier;
+    private transient Person lookupFundMgrPerson;
 
     /**
      * Default no-args constructor.
@@ -112,9 +158,49 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     public Award() {
         // Must use TypedArrayList because its get() method automatically grows the array for Struts.
         awardProjectDirectors = new TypedArrayList(AwardProjectDirector.class);
+        awardFundManagers = new TypedArrayList(AwardFundManager.class);
         awardAccounts = new TypedArrayList(AwardAccount.class);
         awardSubcontractors = new TypedArrayList(AwardSubcontractor.class);
         awardOrganizations = new TypedArrayList(AwardOrganization.class);
+        milestones = new TypedArrayList(Milestone.class);
+        bills = new TypedArrayList(Bill.class);
+        awardInvoiceAccounts = new TypedArrayList(AwardInvoiceAccount.class);
+    }
+
+    /**
+     * Gets the suspensionReason attribute.
+     * 
+     * @return Returns the suspensionReason.
+     */
+    public String getSuspensionReason() {
+        return suspensionReason;
+    }
+
+    /**
+     * Gets the stateTransfer attribute.
+     * 
+     * @return Returns the stateTransfer.
+     */
+    public boolean isStateTransfer() {
+        return stateTransfer;
+    }
+
+    /**
+     * Sets the stateTransfer attribute value.
+     * 
+     * @param stateTransfer The stateTransfer to set.
+     */
+    public void setStateTransfer(boolean stateTransfer) {
+        this.stateTransfer = stateTransfer;
+    }
+
+    /**
+     * Sets the suspensionReason attribute value.
+     * 
+     * @param suspensionReason The suspensionReason to set.
+     */
+    public void setSuspensionReason(String suspensionReason) {
+        this.suspensionReason = suspensionReason;
     }
 
     /**
@@ -130,7 +216,9 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
         managedLists.add(getAwardAccounts());
         managedLists.add(getAwardOrganizations());
         managedLists.add(getAwardProjectDirectors());
+        managedLists.add(getAwardFundManagers());
         managedLists.add(getAwardSubcontractors());
+        managedLists.add(getAwardInvoiceAccounts());
         return managedLists;
     }
 
@@ -253,6 +341,25 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
+     * Gets the kimGroupNames attribute.
+     * 
+     * @return Returns the kimGroupNames.
+     */
+    public String getKimGroupNames() {
+        return kimGroupNames;
+    }
+
+    /**
+     * Sets the kimGroupNames attribute value.
+     * 
+     * @param kimGroupNames The kimGroupNames to set.
+     */
+
+    public void setKimGroupNames(String kimGroupNames) {
+        this.kimGroupNames = kimGroupNames;
+    }
+
+    /**
      * Sets the awardEndingDate attribute.
      * 
      * @param awardEndingDate The awardEndingDate to set.
@@ -260,6 +367,26 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     public void setAwardEndingDate(Date awardEndingDate) {
         this.awardEndingDate = awardEndingDate;
     }
+
+
+    /**
+     * Gets the lastBilledDate attribute.
+     * 
+     * @return Returns the lastBilledDate.
+     */
+    public Date getLastBilledDate() {
+        return lastBilledDate;
+    }
+
+    /**
+     * Sets the lastBilledDate attribute value.
+     * 
+     * @param lastBilledDate The lastBilledDate to set.
+     */
+    public void setLastBilledDate(Date lastBilledDate) {
+        this.lastBilledDate = lastBilledDate;
+    }
+
 
     /**
      * Gets the awardTotalAmount attribute.
@@ -639,21 +766,21 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the letterOfCreditFundGroupCode attribute.
+     * Gets the letterOfCreditFundCode attribute.
      * 
-     * @return Returns the letterOfCreditFundGroupCode
+     * @return Returns the letterOfCreditFundCode.
      */
-    public String getLetterOfCreditFundGroupCode() {
-        return letterOfCreditFundGroupCode;
+    public String getLetterOfCreditFundCode() {
+        return letterOfCreditFundCode;
     }
 
     /**
-     * Sets the letterOfCreditFundGroupCode attribute.
+     * Sets the letterOfCreditFundCode attribute value.
      * 
-     * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
+     * @param letterOfCreditFundCode The letterOfCreditFundCode to set.
      */
-    public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
-        this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
+    public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
+        this.letterOfCreditFundCode = letterOfCreditFundCode;
     }
 
     /**
@@ -882,6 +1009,27 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
+     * Gets the letterOfCreditFund attribute.
+     * 
+     * @return Returns the letterOfCreditFund
+     */
+    public LetterOfCreditFund getLetterOfCreditFund() {
+        return letterOfCreditFund;
+    }
+
+    /**
+     * Sets the letterOfCreditFund attribute.
+     * 
+     * @param letterOfCreditFund The letterOfCreditFund to set.
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
+     *             creation of the object and should not be changed.
+     */
+    @Deprecated
+    public void setLetterOfCreditFund(LetterOfCreditFund letterOfCreditFund) {
+        this.letterOfCreditFund = letterOfCreditFund;
+    }
+    
+    /**
      * Gets the letterOfCreditFundGroup attribute.
      * 
      * @return Returns the letterOfCreditFundGroup
@@ -1005,6 +1153,24 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
+     * Gets the awardFundManagers list.
+     * 
+     * @return Returns the awardFundManagers list
+     */
+    public List<AwardFundManager> getAwardFundManagers() {
+        return awardFundManagers;
+    }
+
+    /**
+     * Sets the awardFundManagers list.
+     * 
+     * @param awardFundManagers The awardFundManagers list to set.
+     */
+    public void setAwardFundManagers(List<AwardFundManager> awardFundManagers) {
+        this.awardFundManagers = awardFundManagers;
+    }
+
+    /**
      * Gets the awardAccounts list.
      * 
      * @return Returns the awardAccounts.
@@ -1012,6 +1178,24 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     public List<AwardAccount> getAwardAccounts() {
         return awardAccounts;
     }
+
+    /**
+     * Gets the list of active award accounts. The integration object is used here - as this would be referred only from AR module.
+     * 
+     * @return Returns the active awardAccounts.
+     */
+    public List<ContractsAndGrantsCGBAwardAccount> getActiveAwardAccounts() {
+        List<ContractsAndGrantsCGBAwardAccount> activeAwardAccounts = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
+        List<AwardAccount> awdAccts = new TypedArrayList(AwardAccount.class);
+        for (AwardAccount awardAccount : awardAccounts) {
+            if (awardAccount.isActive()) {
+                awdAccts.add(awardAccount);
+            }
+        }
+        activeAwardAccounts = new ArrayList<ContractsAndGrantsCGBAwardAccount>(awdAccts);
+        return activeAwardAccounts;
+    }
+
 
     /**
      * Sets the awardAccounts list.
@@ -1086,21 +1270,6 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        if (this.proposalNumber != null) {
-            m.put("proposalNumber", this.proposalNumber.toString());
-        }
-        return m;
-    }
-
-    /**
      * Sums the total for all award subcontractors
      * 
      * @return Returns the total of all the award subcontractor's amounts
@@ -1143,7 +1312,7 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     public void setRoutingOrg(String routingOrg) {
         this.routingOrg = routingOrg;
     }
-    
+
     /**
      * Gets the lookup {@link Person}.
      * 
@@ -1180,7 +1349,7 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     public void setLookupPersonUniversalIdentifier(String lookupPersonId) {
         this.lookupPersonUniversalIdentifier = lookupPersonId;
     }
-    
+
     public String getUserLookupRoleNamespaceCode() {
         return userLookupRoleNamespaceCode;
     }
@@ -1194,14 +1363,14 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
 
     public void setUserLookupRoleName(String userLookupRoleName) {
     }
-    
+
     /**
      * @return a String to represent this field on the inquiry
      */
     public String getAwardInquiryTitle() {
         return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(AWARD_INQUIRY_TITLE_PROPERTY);
     }
-    
+
     /**
      * Pretends to set the inquiry title
      */
@@ -1209,5 +1378,499 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
         // ain't nothing to do
     }
 
+    public String getPreferredBillingFrequency() {
+        return preferredBillingFrequency;
+    }
+
+    public void setPreferredBillingFrequency(String preferredBillingFrequency) {
+        this.preferredBillingFrequency = preferredBillingFrequency;
+    }
+
+    public String getPreferredReportFrequency() {
+        return preferredReportFrequency;
+    }
+
+    public void setPreferredReportFrequency(String preferredReportFrequency) {
+        this.preferredReportFrequency = preferredReportFrequency;
+    }
+
+    public boolean isSuspendInvoicing() {
+        return suspendInvoicing;
+    }
+
+    public void setSuspendInvoicing(boolean suspendInvoicing) {
+        this.suspendInvoicing = suspendInvoicing;
+    }
+
+    public boolean isAdditionalFormsRequired() {
+        return additionalFormsRequired;
+    }
+
+    public void setAdditionalFormsRequired(boolean additionalFormsRequired) {
+        this.additionalFormsRequired = additionalFormsRequired;
+    }
+
+    public String getAdditionalFormsDescription() {
+        return additionalFormsDescription;
+    }
+
+    public void setAdditionalFormsDescription(String additionalFormsDescription) {
+        this.additionalFormsDescription = additionalFormsDescription;
+    }
+
+    public String getContractGrantType() {
+        return contractGrantType;
+    }
+
+    public void setContractGrantType(String contractGrantType) {
+        this.contractGrantType = contractGrantType;
+    }
+
+    public String getPreferredReportTemplate() {
+        return preferredReportTemplate;
+    }
+
+    public void setPreferredReportTemplate(String preferredReportTemplate) {
+        this.preferredReportTemplate = preferredReportTemplate;
+    }
+
+
+    /**
+     * Gets the awardsourceOfFundsCode attribute.
+     * 
+     * @return Returns the awardsourceOfFundsCode.
+     */
+    public String getAwardsourceOfFundsCode() {
+        return awardsourceOfFundsCode;
+    }
+
+    /**
+     * Sets the awardsourceOfFundsCode attribute value.
+     * 
+     * @param awardsourceOfFundsCode The awardsourceOfFundsCode to set.
+     */
+    public void setAwardsourceOfFundsCode(String awardsourceOfFundsCode) {
+        this.awardsourceOfFundsCode = awardsourceOfFundsCode;
+    }
+
+    /**
+     * Gets the sourceOfFunds attribute.
+     * 
+     * @return Returns the sourceOfFunds.
+     */
+    public SourceOfFunds getSourceOfFunds() {
+        return sourceOfFunds;
+    }
+
+    /**
+     * Sets the sourceOfFunds attribute value.
+     * 
+     * @param sourceOfFunds The sourceOfFunds to set.
+     */
+    public void setSourceOfFunds(SourceOfFunds sourceOfFunds) {
+        this.sourceOfFunds = sourceOfFunds;
+    }
+
+    /**
+     * Gets the billingFrequency attribute.
+     * 
+     * @return Returns the billingFrequency.
+     */
+    public BillingFrequency getBillingFrequency() {
+        return billingFrequency;
+    }
+
+    /**
+     * Sets the billingFrequency attribute value.
+     * 
+     * @param billingFrequency The billingFrequency to set.
+     */
+    public void setBillingFrequency(BillingFrequency billingFrequency) {
+        this.billingFrequency = billingFrequency;
+    }
+
+    /**
+     * Gets the financialFormTemplate attribute.
+     * 
+     * @return Returns the financialFormTemplate.
+     */
+    public FinancialFormTemplate getFinancialFormTemplate() {
+        return financialFormTemplate;
+    }
+
+    /**
+     * Sets the financialFormTemplate attribute value.
+     * 
+     * @param financialFormTemplate The financialFormTemplate to set.
+     */
+    public void setFinancialFormTemplate(FinancialFormTemplate financialFormTemplate) {
+        this.financialFormTemplate = financialFormTemplate;
+    }
+
+    /**
+     * Gets the financialReportFrequencies attribute.
+     * 
+     * @return Returns the financialReportFrequencies.
+     */
+    public FinancialReportFrequencies getFinancialReportFrequencies() {
+        return financialReportFrequencies;
+    }
+
+    /**
+     * Sets the financialReportFrequencies attribute value.
+     * 
+     * @param financialReportFrequencies The financialReportFrequencies to set.
+     */
+    public void setFinancialReportFrequencies(FinancialReportFrequencies financialReportFrequencies) {
+        this.financialReportFrequencies = financialReportFrequencies;
+    }
+
+    public List<Milestone> getMilestones() {
+        // To get completed milestones only - Milestones that have a completion date filled
+        List<Milestone> milestonesCompleted = new TypedArrayList(Milestone.class);
+        for (Milestone mlstn : milestones) {
+            if (mlstn.getMilestoneActualCompletionDate() != null) {
+                milestonesCompleted.add(mlstn);
+            }
+        }
+
+        return milestonesCompleted;
+    }
+
+    public void setMilestones(List<Milestone> milestones) {
+        this.milestones = milestones;
+    }
+
+    /**
+     * Gets the awardId attribute.
+     * 
+     * @return Returns the awardId.
+     */
+    public String getAwardId() {
+        return awardId;
+    }
+
+    /**
+     * Sets the awardId attribute value.
+     * 
+     * @param awardId The awardId to set.
+     */
+    public void setAwardId(String awardId) {
+        this.awardId = awardId;
+    }
+
+    /**
+     * Gets the autoApprove attribute.
+     * 
+     * @return Returns the autoApprove.
+     */
+    public boolean getAutoApprove() {
+        return autoApprove;
+    }
+
+    /**
+     * Sets the autoApprove attribute value.
+     * 
+     * @param autoApprove The autoApprove to set.
+     */
+    public void setAutoApprove(boolean autoApprove) {
+        this.autoApprove = autoApprove;
+    }
+
+    /**
+     * Gets the minInvoiceAmount attribute.
+     * 
+     * @return Returns the minInvoiceAmount.
+     */
+    public KualiDecimal getMinInvoiceAmount() {
+        return minInvoiceAmount;
+    }
+
+    /**
+     * Sets the minInvoiceAmount attribute value.
+     * 
+     * @param minInvoiceAmount The minInvoiceAmount to set.
+     */
+    public void setMinInvoiceAmount(KualiDecimal minInvoiceAmount) {
+        this.minInvoiceAmount = minInvoiceAmount;
+    }
+
+
+    /**
+     * Gets the invoicingOptions attribute.
+     * 
+     * @return Returns the invoicingOptions.
+     */
+    public String getInvoicingOptions() {
+        return invoicingOptions;
+    }
+
+    /**
+     * Sets the invoicingOptions attribute value.
+     * 
+     * @param invoicingOptions The invoicingOptions to set.
+     */
+    public void setInvoicingOptions(String invoicingOptions) {
+        this.invoicingOptions = invoicingOptions;
+    }
+
+
+    /**
+     * Gets the milestoneSchedule attribute.
+     * 
+     * @return Returns the milestoneSchedule.
+     */
+    public MilestoneSchedule getMilestoneSchedule() {
+        if (milestoneSchedule != null) {
+            milestoneSchedule.setProposalNumber(proposalNumber);
+        }
+        return milestoneSchedule;
+    }
+
+    /**
+     * Sets the milestoneSchedule attribute value.
+     * 
+     * @param milestoneSchedule The milestoneSchedule to set.
+     */
+    public void setMilestoneSchedule(MilestoneSchedule milestoneSchedule) {
+        this.milestoneSchedule = milestoneSchedule;
+    }
+
+
+    public AwardProjectDirector getAwardPrimaryProjectDirector() {
+        for (AwardProjectDirector awdProjMgr : awardProjectDirectors) {
+            if (awdProjMgr != null && awdProjMgr.isAwardPrimaryProjectDirectorIndicator()) {
+                return awdProjMgr;
+            }
+        }
+
+        return null;
+    }
+
+    public void setAwardPrimaryProjectDirector(AwardProjectDirector awardPrimaryProjectDirector) {
+        this.awardPrimaryProjectDirector = awardPrimaryProjectDirector;
+    }
+
+    /**
+     * Gets the awardPrimaryFundManager attribute. This field would not be persisted into the DB, just for display purposes.
+     * 
+     * @return Returns the awardPrimaryFundManager.
+     */
+    public AwardFundManager getAwardPrimaryFundManager() {
+        for (AwardFundManager awdFundMgr : awardFundManagers) {
+            if (awdFundMgr != null && awdFundMgr.isAwardPrimaryFundManagerIndicator()) {
+                return awdFundMgr;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Sets the awardPrimaryFundManager attribute value.
+     * 
+     * @param awardPrimaryFundManager The awardPrimaryFundManager to set.
+     */
+    public void setAwardPrimaryFundManager(AwardFundManager awardPrimaryFundManager) {
+        this.awardPrimaryFundManager = awardPrimaryFundManager;
+    }
+
+    /**
+     * Gets the awardInvoiceAccounts attribute.
+     * 
+     * @return Returns the awardInvoiceAccounts.
+     */
+    public List<AwardInvoiceAccount> getAwardInvoiceAccounts() {
+        return awardInvoiceAccounts;
+    }
+
+    /**
+     * Sets the awardInvoiceAccounts attribute value.
+     * 
+     * @param awardInvoiceAccounts The awardInvoiceAccounts to set.
+     */
+    public void setAwardInvoiceAccounts(List<AwardInvoiceAccount> awardInvoiceAccounts) {
+        this.awardInvoiceAccounts = awardInvoiceAccounts;
+    }
+
+    /**
+     * Gets the lookupFundMgrPersonUniversalIdentifier attribute.
+     * 
+     * @return Returns the lookupFundMgrPersonUniversalIdentifier.
+     */
+    public String getLookupFundMgrPersonUniversalIdentifier() {
+        return lookupFundMgrPersonUniversalIdentifier;
+    }
+
+    /**
+     * Sets the lookupFundMgrPersonUniversalIdentifier attribute value.
+     * 
+     * @param lookupFundMgrPersonUniversalIdentifier The lookupFundMgrPersonUniversalIdentifier to set.
+     */
+    public void setLookupFundMgrPersonUniversalIdentifier(String lookupFundMgrPersonUniversalIdentifier) {
+        this.lookupFundMgrPersonUniversalIdentifier = lookupFundMgrPersonUniversalIdentifier;
+    }
+
+    /**
+     * Gets the lookupFundMgrPerson attribute.
+     * 
+     * @return Returns the lookupFundMgrPerson.
+     */
+    public Person getLookupFundMgrPerson() {
+        return lookupFundMgrPerson;
+    }
+
+    /**
+     * Sets the lookupFundMgrPerson attribute value.
+     * 
+     * @param lookupFundMgrPerson The lookupFundMgrPerson to set.
+     */
+    public void setLookupFundMgrPerson(Person lookupFundMgrPerson) {
+        this.lookupFundMgrPerson = lookupFundMgrPerson;
+    }
+
+    /**
+     * Gets the locCreationType attribute.
+     * 
+     * @return Returns the locCreationType.
+     */
+    public String getLocCreationType() {
+        return locCreationType;
+    }
+
+    /**
+     * Sets the locCreationType attribute value.
+     * 
+     * @param locCreationType The locCreationType to set.
+     */
+    public void setLocCreationType(String locCreationType) {
+        this.locCreationType = locCreationType;
+    }
+
+
+    /**
+     * Gets the fundingExpirationDate attribute.
+     * 
+     * @return Returns the fundingExpirationDate
+     */
+    public Date getFundingExpirationDate() {
+        return fundingExpirationDate;
+    }
+
+    /**
+     * Sets the fundingExpirationDate attribute.
+     * 
+     * @param awardEntryDate The fundingExpirationDate to set.
+     */
+    public void setFundingExpirationDate(Date fundingExpirationDate) {
+        this.fundingExpirationDate = fundingExpirationDate;
+    }
+
+    /**
+     * Gets the drawNumber attribute.
+     * 
+     * @return Returns the drawNumber
+     */
+    public String getDrawNumber() {
+        return drawNumber;
+    }
+
+
+    /**
+     * Sets the drawNumber attribute.
+     * 
+     * @param drawNumber The drawNumber to set.
+     */
+
+    public void setDrawNumber(String drawNumber) {
+        this.drawNumber = drawNumber;
+    }
+
+    /**
+     * Gets the bills attribute.
+     * 
+     * @return Returns the bills.
+     */
+    public List<Bill> getBills() {
+        return bills;
+
+    }
+
+    /**
+     * Sets the bills attribute value.
+     * 
+     * @param bills The bills to set.
+     */
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
+    }
+
+    /**
+     * Gets the commentText attribute.
+     * 
+     * @return Returns the commentText.
+     */
+    public String getCommentText() {
+        return commentText;
+    }
+
+    /**
+     * Sets the commentText attribute value.
+     * 
+     * @param commentText The commentText to set.
+     */
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
+
+    }
+
+
+    public String getLetterOfCreditFundGroupCode() {
+        return letterOfCreditFundGroupCode;
+    }
+
+    public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
+        this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
+    }
+
+
+    /**
+     * Gets the list of active award invoice accounts. The integration object is used here - as this would be referred only from AR
+     * module.
+     * 
+     * @return Returns the active awardInvoiceAccounts.
+     */
+    public List<ContractsGrantsAwardInvoiceAccountInformation> getActiveAwardInvoiceAccounts() {
+        List<ContractsGrantsAwardInvoiceAccountInformation> activeAwardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
+        List<AwardInvoiceAccount> awdInvAccts = new TypedArrayList(AwardInvoiceAccount.class);
+        for (AwardInvoiceAccount awardInvAccount : awardInvoiceAccounts) {
+            if (awardInvAccount.isActive()) {
+                awdInvAccts.add(awardInvAccount);
+            }
+        }
+        activeAwardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>(awdInvAccts);
+        return activeAwardInvoiceAccounts;
+
+    }
+
+
+
+
+    /**
+     * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
+     * 
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
+        if (this.proposalNumber != null) {
+            m.put("proposalNumber", this.proposalNumber.toString());
+        }
+        m.put("awardId", this.awardId);
+
+        return m;
+    }
 }
 

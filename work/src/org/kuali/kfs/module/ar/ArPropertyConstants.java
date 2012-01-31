@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 package org.kuali.kfs.module.ar;
+import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Business Object Property Constants for KFS-AR.
  */
-public class ArPropertyConstants {
+public class ArPropertyConstants extends JSTLConstants {
 
     // CustomerInvoiceDocument
     public static class CustomerInvoiceDocumentFields {
+        
+        public static final String DOCUMENT_TYPE = "INV";
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String PAYMENT_CHART_OF_ACCOUNTS_CODE = "paymentChartOfAccountsCode";
         public static final String PAYMENT_FINANCIAL_OBJECT_CODE = "paymentFinancialObjectCode";
@@ -216,6 +220,47 @@ public class ArPropertyConstants {
         public static final String DELETE_NON_INVOICED_LINE_PREFIX = "methodToCall.deleteNonArLine.line";
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER = "selectedCustomerNumber";
         public static final String ENTERED_INVOICE_NUMBER = "enteredInvoiceDocumentNumber";
+        /* Start TEM REFUND Merge */
+        public static final String REFUND_DOCUMENT_NUMBER = "refundDocumentNumber";
+        /* End TEM REFUND Merge */
     }
+    
+    // Suspension Category
+    public static class SuspensionCategory{ 
+        public static final String SUSPENSION_CATEGORY_CODE = "suspensionCategoryCode";
+    }
+    
+    // Contracts and Grants Invoicing
+    public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
+    public static final String PREDETERMINED_BILLING_SCHEDULE_CODE = "PDBS";
+    public static final String MILESTONE_BILLING_SCHEDULE_CODE = "MS";
+    public static final String WEEKLY_BILLING_SCHEDULE_CODE = "WEEKLY";
+    public static final String MONTHLY_BILLING_SCHEDULE_CODE = "MON";
+    public static final String QUATERLY_BILLING_SCHEDULE_CODE = "QUAR";
+    public static final String SEMI_ANNUALLY_BILLING_SCHEDULE_CODE = "SEMI-ANN";
+    public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNUALLY";
+    public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
+    public static final String BILLED_AT_TERM = "AT_TERM";
+    public static final String BILLING_SCHEDULE_SECTION = "Predetermined Schedule";
+    public static final String INVOICE_ACCOUNT_SECTION = "Invoice Accounts";    
+    public static final String INCOME_ACCOUNT = "Income";
+    public static final String AR_ACCOUNT = "Accounts Receivable";
+    public static final String INV_AWARD = "Invoice by Award";
+    public static final String INV_ACCOUNT = "Invoice by Account";
+    public static final String INV_CONTRACT_CONTROL_ACCOUNT = "Invoice by Contract Control Account";
+    public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
+    public static final String AWARD_FUND_TYPE = "fundsType";
+    public static final String AWARD_CONTRACT_GRANT_TYPE = "contractGrantType";
+    public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
+    public static final String LOC_CRTN_TYPE = "locCreationType";
+    public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
+    public static final String INCOME_OBJECT_TYPE = "IN";    
+    public static final String EXPENSE_OBJECT_TYPE = "EX";
+    public static final String BUDGET_BALANCE_TYPE = "CB";
+    public static final String ACTUAL_BALANCE_TYPE = "AC";
+    public static final String FINAL_INVOICE_REVERSAL_ENTRIES_PROPERTY_PATH = KNSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceEntries";
+    
+    // CG Invoice Reports
+    public static final String INVOICE_REPORT_DELIVERY_PROPERTY_PATH = KNSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceReportDelivery";
 
 }

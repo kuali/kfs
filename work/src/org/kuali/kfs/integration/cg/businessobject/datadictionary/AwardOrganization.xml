@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2006-2008 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+	<bean id="AwardOrganization" parent="AwardOrganization-parentBean" />
+
+	<bean id="AwardOrganization-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.integration.cg.businessobject.AwardOrganization" />
+		<property name="objectLabel" value="Award Organization" />
+		<property name="attributes">
+			<list>
+				<ref bean="AwardOrganization-chartOfAccountsCode" />
+				<ref bean="AwardOrganization-organizationCode" />
+				<ref bean="AwardOrganization-proposalNumber" />
+				<ref bean="AwardOrganization-organization.organizationName" />
+				<ref bean="AwardOrganization-newCollectionRecord" />
+				<ref bean="AwardOrganization-awardPrimaryOrganizationIndicator" />
+				<ref bean="AwardOrganization-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="AwardOrganization-chartOfAccountsCode" parent="AwardOrganization-chartOfAccountsCode-parentBean" />
+
+	<bean id="AwardOrganization-chartOfAccountsCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Chart Of Accounts Code" />
+		<property name="control">
+			<ref bean="ChartSelectControl" />
+		</property>
+	</bean>
+	<bean id="AwardOrganization-organizationCode" parent="AwardOrganization-organizationCode-parentBean" />
+
+	<bean id="AwardOrganization-organizationCode-parentBean" abstract="true"
+		parent="Organization-organizationCode">
+		<property name="forceUppercase" value="true" />
+	</bean>
+	<bean id="AwardOrganization-proposalNumber" parent="AwardOrganization-proposalNumber-parentBean" />
+
+	<bean id="AwardOrganization-proposalNumber-parentBean" abstract="true"
+		parent="Award-proposalNumber">
+		<property name="forceUppercase" value="true" />
+	</bean>
+	<bean id="AwardOrganization-organization.organizationName"
+		parent="AwardOrganization-organization.organizationName-parentBean" />
+
+	<bean id="AwardOrganization-organization.organizationName-parentBean"
+		abstract="true" parent="Organization-organizationName">
+		<property name="name" value="organization.organizationName" />
+		<property name="label" value="Name" />
+	</bean>
+	<bean id="AwardOrganization-newCollectionRecord" parent="AwardOrganization-newCollectionRecord-parentBean" />
+
+	<bean id="AwardOrganization-newCollectionRecord-parentBean"
+		abstract="true" parent="GenericAttributes-newCollectionRecord">
+	</bean>
+	<bean id="AwardOrganization-awardPrimaryOrganizationIndicator"
+		parent="AwardOrganization-awardPrimaryOrganizationIndicator-parentBean" />
+
+	<bean id="AwardOrganization-awardPrimaryOrganizationIndicator-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="awardPrimaryOrganizationIndicator" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Primary" />
+		<property name="shortLabel" value="Primary" />
+		<property name="maxLength" value="1" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+
+	<bean id="AwardOrganization-active" parent="AwardOrganization-active-parentBean" />
+	<bean id="AwardOrganization-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+</beans>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+
+
+	<bean id="SourceOfFunds" parent="SourceOfFunds-parentBean" />
+
+	<bean id="SourceOfFunds-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.cg.businessobject.SourceOfFunds" />
+		<property name="inquiryDefinition">
+			<ref bean="SourceOfFunds-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="SourceOfFunds-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="sourceOfFunds" />
+		<property name="objectLabel" value="Source of Funds" />
+		<property name="attributes">
+			<list>
+				<ref bean="SourceOfFunds-sourceOfFunds" />
+				<ref bean="SourceOfFunds-sourceOfFundDescription" />
+				<ref bean="SourceOfFunds-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="SourceOfFunds-sourceOfFunds" parent="SourceOfFunds-sourceOfFunds-parentBean" />
+
+	<bean id="SourceOfFunds-sourceOfFunds-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="sourceOfFunds" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Source of Funds" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+	<bean id="SourceOfFunds-sourceOfFundDescription" parent="SourceOfFunds-sourceOfFundDescription-parentBean" />
+
+	<bean id="SourceOfFunds-sourceOfFundDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="sourceOfFundDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Source of Fund Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+
+	<bean id="SourceOfFunds-active" parent="SourceOfFunds-active-parentBean" />
+
+	<bean id="SourceOfFunds-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="SourceOfFunds-inquiryDefinition" parent="SourceOfFunds-inquiryDefinition-parentBean" />
+
+	<bean id="SourceOfFunds-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Source of Fund Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="sourceOfFunds" />
+							<bean parent="FieldDefinition" p:attributeName="sourceOfFundDescription" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="SourceOfFunds-lookupDefinition" parent="SourceOfFunds-lookupDefinition-parentBean" />
+
+	<bean id="SourceOfFunds-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Source of Fund Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="sourceOfFunds" />
+				<bean parent="FieldDefinition" p:attributeName="sourceOfFundDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="sourceOfFunds" />
+				<bean parent="FieldDefinition" p:attributeName="sourceOfFundDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

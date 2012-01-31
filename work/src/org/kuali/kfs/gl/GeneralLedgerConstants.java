@@ -68,6 +68,7 @@ public class GeneralLedgerConstants {
         static final public String CONSOLIDATION_OBJECT_CODE = "FIN_CONS_OBJ_CD";
         static final public String REPORT_SORT_CODE = "FIN_REPORT_SORT_CD";
         static final public String CONSOLIDATION_REPORT_SORT_CODE = "CONS_FIN_REPORT_SORT_CD";
+        static final public String ACCTG_CTGRY_CD = "ACCTG_CTGRY_CD";
         static final public String OBJECT_LEVEL_CODE = "FIN_OBJ_LVL_CD";
         static final public String OBJECT_LEVEL_CODE2 = "FIN_OBJ_LEVEL_CD";
         static final public String OBJECT_CODE = "FIN_OBJECT_CD";
@@ -129,7 +130,8 @@ public class GeneralLedgerConstants {
         static final public String REPORTING_SORT_CODE = "financialObject.financialObjectLevel.financialReportingSortCode";
         static final public String CONSOLIDATION_OBJECT_CODE = "financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode";
     }
-
+    public static final String BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES = "BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES";
+    
     public static class LookupableBeanKeys {
         static final public String PENDING_ENTRY = "glPendingEntryLookupable";
         public static final String SEGMENTED_LOOKUP_FLAG_NAME = "segmented";

@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.Log4jConfigurer;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContextForBatchRunner;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -69,7 +70,7 @@ public class EffortBatchRunner {
 
         Log4jConfigurer.configureLogging(false);
 
-        SpringContext.initializeApplicationContext();
+        SpringContextForBatchRunner.initializeKfs();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
 

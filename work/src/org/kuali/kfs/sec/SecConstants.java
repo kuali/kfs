@@ -130,12 +130,6 @@ public class SecConstants {
         public static final String INQUIRY_FIELD_VALUE = "Balance Inquiry with Field Value";
     }
 
-    public class SecurityTypes {
-        public static final String DEFAULT_ROLE_TYPE = "1";
-        @Deprecated // Similar to above, KIM IDs *NEVER* should be hard-coded
-        public static final String SECURITY_DEFINITION_ROLE_TYPE = "KFSSEC4";
-    }
-
     public class SecurityValueSpecialCharacters {
         public static final String MULTI_VALUE_SEPERATION_CHARACTER = ";";
         public static final String WILDCARD_CHARACTER = "*";

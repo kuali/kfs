@@ -31,6 +31,7 @@ import org.kuali.kfs.sec.businessobject.SecurityModelMember;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipal;
 import org.kuali.kfs.sec.identity.SecKimAttributes;
 import org.kuali.kfs.sec.util.KimUtil;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -41,6 +42,7 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -64,9 +66,8 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
         super.refresh(refreshCaller, fieldValues, document);
 
-        this.getBusinessObject().refreshNonUpdateableReferences();
-        for (Iterator iterator = newCollectionLines.values().iterator(); iterator.hasNext();) {
-            PersistableBusinessObject businessObject = (PersistableBusinessObject) iterator.next();
+        getBusinessObject().refreshNonUpdateableReferences();
+        for (PersistableBusinessObject businessObject : newCollectionLines.values() ) {
             businessObject.refreshNonUpdateableReferences();
         }
     }
@@ -87,7 +88,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
 
                 boolean newMaintenanceAction = getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION) || getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_COPY_ACTION);
 
-                createOrUpdateModelRole(oldSecurityModel, newSecurityModel);
+                createOrUpdateModelRole(newSecurityModel);
                 assignOrUpdateModelMembershipToDefinitionRoles(oldSecurityModel, newSecurityModel, newMaintenanceAction);
                 assignOrUpdateModelMembers(newSecurityModel);
 
@@ -110,23 +111,29 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
      * @param oldSecurityModel SecurityModel record before updates
      * @param newSecurityModel SecurityModel after updates
      */
-    protected void createOrUpdateModelRole(SecurityModel oldSecurityModel, SecurityModel newSecurityModel) {
+    protected void createOrUpdateModelRole(SecurityModel newSecurityModel) {
         RoleService roleService = SpringContext.getBean(RoleService.class);
 
-        String roleName = newSecurityModel.getName();
+        // the roles are created in the KFS-SEC namespace with the same name as the model
+        Role role = roleService.getRoleByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityModel.getName());
 
-        String roleId = newSecurityModel.getRoleId();
-        if (StringUtils.isBlank(roleId)) {
-            // get new id for role
-            roleId = roleService.getNextAvailableRoleId();
-            newSecurityModel.setRoleId(roleId);
+        if ( role != null ) {
+            // always set the role as active so we can add members and definitions, after processing the indicator will be updated to
+            // the appropriate value
+            Role.Builder updatedRole = Role.Builder.create(role);
+            updatedRole.setActive(true);
+            updatedRole.setDescription(newSecurityModel.getDescription());
+            roleService.updateRole(updatedRole.build());
+        } else {
+            Role.Builder newRole = Role.Builder.create(null, newSecurityModel.getName(), KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityModel.getDescription(), getDefaultRoleTypeId() );
+            roleService.createRole(newRole.build());
         }
-
-        // always set the role as active so we can add members and definitions, after processing the indicator will be updated to
-        // the appropriate value
-        roleService.saveRole(roleId, roleName, newSecurityModel.getDescription(), true, SecConstants.SecurityTypes.DEFAULT_ROLE_TYPE, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE);
     }
 
+    protected String getDefaultRoleTypeId() {
+        return KimApiServiceLocator.getKimTypeInfoService().findKimTypeByNameAndNamespace(KimConstants.KIM_TYPE_DEFAULT_NAMESPACE, KimConstants.KIM_TYPE_DEFAULT_NAME).getId();
+    }
+    
     /**
      * Saves the given security model setting the active indicator to false
      *
@@ -135,9 +142,13 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
     protected void inactivateModelRole(SecurityModel newSecurityModel) {
         RoleService roleService = SpringContext.getBean(RoleService.class);
 
-        Role roleInfo = roleService.getRole(newSecurityModel.getRoleId());
+        Role role = roleService.getRole(newSecurityModel.getRoleId());
 
-        roleService.saveRole(roleInfo.getId(), roleInfo.getName(), newSecurityModel.getDescription(), false, SecConstants.SecurityTypes.DEFAULT_ROLE_TYPE, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE);
+        if ( role != null ) {
+            Role.Builder updatedRole = Role.Builder.create(role);
+            updatedRole.setActive(false);
+            roleService.updateRole(updatedRole.build());
+        }
     }
 
     /**

@@ -15,6 +15,11 @@
 
 	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
 		<property name="moduleName" value="core" />
+		<property name="validRunModes">
+			<list>
+				<value>LOCAL</value>
+			</list>
+		</property>
 		<property name="dataSource" ref="riceDataSource${connection.pool.impl}" />
 		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
 		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />

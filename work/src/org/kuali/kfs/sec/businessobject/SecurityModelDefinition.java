@@ -26,25 +26,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * Associates a security definition with a model with qualification. The qualifications become the qualifications on the KIM assignment of the model role to the definition role
  */
-public class SecurityModelDefinition extends PersistableBusinessObjectBase implements Inactivatable {
-    private KualiInteger modelDefinitionId;
-    private KualiInteger modelId;
-    private KualiInteger definitionId;
-    private String constraintCode;
-    private String operatorCode;
-    private String attributeValue;
-    private boolean overrideDeny;
-    private boolean active;
-
-    private SecurityDefinition securityDefinition;
-
-
-    public SecurityModelDefinition() {
-        super();
-
-        overrideDeny = false;
-    }
-
+public class SecurityModelDefinition extends AbstractSecurityModelDefinition {
+    protected KualiInteger modelDefinitionId;
+    protected KualiInteger modelId;
 
     /**
      * Gets the modelDefinitionId attribute.
@@ -86,157 +70,45 @@ public class SecurityModelDefinition extends PersistableBusinessObjectBase imple
     }
 
 
-    /**
-     * Gets the definitionId attribute.
-     * 
-     * @return Returns the definitionId.
-     */
-    public KualiInteger getDefinitionId() {
-        return definitionId;
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SecurityModelDefinition [");
+        if (modelDefinitionId != null) {
+            builder.append("modelDefinitionId=");
+            builder.append(modelDefinitionId);
+            builder.append(", ");
+        }
+        if (modelId != null) {
+            builder.append("modelId=");
+            builder.append(modelId);
+            builder.append(", ");
+        }
+        if (definitionId != null) {
+            builder.append("definitionId=");
+            builder.append(definitionId);
+            builder.append(", ");
+        }
+        if (constraintCode != null) {
+            builder.append("constraintCode=");
+            builder.append(constraintCode);
+            builder.append(", ");
+        }
+        if (operatorCode != null) {
+            builder.append("operatorCode=");
+            builder.append(operatorCode);
+            builder.append(", ");
+        }
+        if (attributeValue != null) {
+            builder.append("attributeValue=");
+            builder.append(attributeValue);
+            builder.append(", ");
+        }
+        builder.append("overrideDeny=");
+        builder.append(overrideDeny);
+        builder.append("]");
+        return builder.toString();
     }
 
-
-    /**
-     * Sets the definitionId attribute value.
-     * 
-     * @param definitionId The definitionId to set.
-     */
-    public void setDefinitionId(KualiInteger definitionId) {
-        this.definitionId = definitionId;
-    }
-
-
-    /**
-     * Gets the attributeValue attribute.
-     * 
-     * @return Returns the attributeValue.
-     */
-    public String getAttributeValue() {
-        return attributeValue;
-    }
-
-
-    /**
-     * Sets the attributeValue attribute value.
-     * 
-     * @param attributeValue The attributeValue to set.
-     */
-    public void setAttributeValue(String attributeValue) {
-        this.attributeValue = attributeValue;
-    }
-
-
-    /**
-     * Gets the operatorCode attribute.
-     * 
-     * @return Returns the operatorCode.
-     */
-    public String getOperatorCode() {
-        return operatorCode;
-    }
-
-
-    /**
-     * Sets the operatorCode attribute value.
-     * 
-     * @param operatorCode The operatorCode to set.
-     */
-    public void setOperatorCode(String operatorCode) {
-        this.operatorCode = operatorCode;
-    }
-
-
-    /**
-     * Gets the constraintCode attribute.
-     * 
-     * @return Returns the constraintCode.
-     */
-    public String getConstraintCode() {
-        return constraintCode;
-    }
-
-
-    /**
-     * Sets the constraintCode attribute value.
-     * 
-     * @param constraintCode The constraintCode to set.
-     */
-    public void setConstraintCode(String constraintCode) {
-        this.constraintCode = constraintCode;
-    }
-
-
-    /**
-     * Gets the overrideDeny attribute.
-     * 
-     * @return Returns the overrideDeny.
-     */
-    public boolean isOverrideDeny() {
-        return overrideDeny;
-    }
-
-
-    /**
-     * Sets the overrideDeny attribute value.
-     * 
-     * @param overrideDeny The overrideDeny to set.
-     */
-    public void setOverrideDeny(boolean overrideDeny) {
-        this.overrideDeny = overrideDeny;
-    }
-
-
-    /**
-     * Gets the active attribute.
-     * 
-     * @return Returns the active.
-     */
-    public boolean isActive() {
-        return active;
-    }
-
-
-    /**
-     * Sets the active attribute value.
-     * 
-     * @param active The active to set.
-     */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-
-    /**
-     * Gets the securityDefinition attribute.
-     * 
-     * @return Returns the securityDefinition.
-     */
-    public SecurityDefinition getSecurityDefinition() {
-        return securityDefinition;
-    }
-
-
-    /**
-     * Sets the securityDefinition attribute value.
-     * 
-     * @param securityDefinition The securityDefinition to set.
-     */
-    public void setSecurityDefinition(SecurityDefinition securityDefinition) {
-        this.securityDefinition = securityDefinition;
-    }
-
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
     
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put(SecPropertyConstants.MODEL_ID, this.modelId);
-        m.put(SecPropertyConstants.DEFINITION_ID, this.definitionId);
-
-        return m;
-    }
-
 }

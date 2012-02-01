@@ -20,9 +20,11 @@ import java.util.Map;
 
 import org.kuali.kfs.sec.businessobject.AccessSecurityRestrictionInfo;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
 
 
 /**
@@ -196,5 +198,13 @@ public interface AccessSecurityService {
      */
     public String getInquiryWithFieldValueTemplateId();
 
+    /**
+     * Calls access security service to check view access on given GLPE for current user. Access to view the GLPE on the document should be related to the view permissions for an
+     * accounting line with the same account attributes. Called from generalLedgerPendingEntries.tag
+     * 
+     * @param pendingEntry GeneralLedgerPendingEntry to check access for
+     * @return boolean true if given user has view permission, false otherwise
+     */
+    public boolean canViewGLPE(Document document, GeneralLedgerPendingEntry pendingEntry, Person person);
 
 }

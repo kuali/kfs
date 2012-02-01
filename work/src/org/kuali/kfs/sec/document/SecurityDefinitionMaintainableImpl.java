@@ -45,17 +45,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * Maintainable implementation for the Security Definition maintenance document. Hooks into Post processing to create the KIM permissions from the definition records
  */
-public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintainable {
+public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SecurityDefinitionMaintainableImpl.class);
-
-    /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        super.refresh(refreshCaller, fieldValues, document);
-        this.getBusinessObject().refreshNonUpdateableReferences();
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)

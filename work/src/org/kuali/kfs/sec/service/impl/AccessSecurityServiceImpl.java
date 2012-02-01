@@ -32,10 +32,13 @@ import org.kuali.kfs.sec.service.AccessPermissionEvaluator;
 import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemBusinessObjectEntry;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
@@ -48,6 +51,8 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -62,6 +67,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     protected PermissionService permissionService;
     protected RoleService roleManagementService;
     protected ContractsAndGrantsModuleService contractsAndGrantsModuleService;
+    protected ConfigurationService configurationService;
 
     /**
      * @see org.kuali.kfs.sec.service.AccessSecurityService#applySecurityRestrictionsForGLInquiry(java.util.List,
@@ -600,7 +606,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
         accessPermissionEvaluator.setConstraintCode(attributeSet.get(SecKimAttributes.CONSTRAINT_CODE));
         accessPermissionEvaluator.setOperatorCode(attributeSet.get(SecKimAttributes.OPERATOR));
-        accessPermissionEvaluator.setPropertyValue(attributeSet.get(KimConstants.AttributeConstants.PROPERTY_VALUE));
+        accessPermissionEvaluator.setPropertyValue(attributeSet.get(SecKimAttributes.PROPERTY_VALUE));
         accessPermissionEvaluator.setOtherKeyFieldValueMap(otherKeyValues);
         accessPermissionEvaluator.setPerson(person);
 
@@ -652,6 +658,10 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         this.roleManagementService = roleManagementService;
     }
 
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+    
     /**
      * Sets the contractsAndGrantsModuleService attribute value.
      *
@@ -758,4 +768,36 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
             throw new RuntimeException(SecurityTemplateNames.VIEW_NOTES_ATTACHMENTS_FIELD_VALUE + " parameter does not exist");
     }
 
+    /**
+     * Calls access security service to check view access on given GLPE for current user. Access to view the GLPE on the document should be related to the view permissions for an
+     * accounting line with the same account attributes. Called from generalLedgerPendingEntries.tag
+     * 
+     * @param pendingEntry GeneralLedgerPendingEntry to check access for
+     * @return boolean true if given user has view permission, false otherwise
+     */
+    @Override
+    public boolean canViewGLPE(Document document, GeneralLedgerPendingEntry pendingEntry, Person person) {
+        boolean canView = true;
+
+        // If the module has not been loaded, then just skip any further checks as the services will not be defined
+        if ( configurationService.getPropertyValueAsBoolean(SecConstants.ACCESS_SECURITY_MODULE_ENABLED_PROPERTY_NAME) ) {   
+            if (document instanceof AccountingDocument) {
+                AccountingLine line = new SourceAccountingLine();
+    
+                line.setPostingYear(pendingEntry.getUniversityFiscalYear());
+                line.setChartOfAccountsCode(pendingEntry.getChartOfAccountsCode());
+                line.setAccountNumber(pendingEntry.getAccountNumber());
+                line.setSubAccountNumber(pendingEntry.getSubAccountNumber());
+                line.setFinancialObjectCode(pendingEntry.getFinancialObjectCode());
+                line.setFinancialSubObjectCode(pendingEntry.getFinancialSubObjectCode());
+                line.setProjectCode(pendingEntry.getProjectCode());
+    
+                line.refreshNonUpdateableReferences();
+    
+                canView = canViewDocumentAccountingLine((AccountingDocument) document, line, GlobalVariables.getUserSession().getPerson());
+            }
+        }
+
+        return canView;
+    }
 }

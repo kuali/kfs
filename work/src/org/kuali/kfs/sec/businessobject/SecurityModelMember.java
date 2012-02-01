@@ -36,23 +36,18 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Associates a member (principal, role, or group) to a model. These become the members of the model role created in KIM
  */
 public class SecurityModelMember extends PersistableBusinessObjectBase {
-    private KualiInteger modelId;
-    private String memberId;
-    private String memberTypeCode;
-    private Timestamp activeFromDate;
-    private Timestamp activeToDate;
+    protected KualiInteger modelId;
+    protected String memberId;
+    protected String memberTypeCode;
+    protected Timestamp activeFromDate;
+    protected Timestamp activeToDate;
 
-    private SecurityModel securityModel;
+    protected SecurityModel securityModel;
 
     // non db
-    private String memberName;
+    protected String memberName = "";
 
-    private ModelMember modelMember;
-
-    public SecurityModelMember() {
-        super();
-    }
-
+    protected ModelMember modelMember;
 
     /**
      * Gets the modelId attribute.
@@ -91,6 +86,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
      */
     public void setMemberId(String memberId) {
         this.memberId = memberId;
+        memberName = "";
     }
 
 
@@ -111,6 +107,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
      */
     public void setMemberTypeCode(String memberTypeCode) {
         this.memberTypeCode = memberTypeCode;
+        memberName = "";
     }
 
 
@@ -160,32 +157,28 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
      * @return Returns the memberName.
      */
     public String getMemberName() {
-        if (StringUtils.isNotBlank(memberName)) {
-            return memberName;
-        }
-
-        if (StringUtils.isNotBlank(memberTypeCode) && StringUtils.isNotBlank(memberId)) {
-            if (KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(memberTypeCode)) {
-                Person person = SpringContext.getBean(PersonService.class).getPerson(memberId);
-                if (person != null) {
-                    return person.getName();
-                }
-            }
-            else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)) {
-                Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
-                if (roleInfo != null) {
-                    return roleInfo.getName();
-                }
-            }
-            else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(memberTypeCode)) {
-                Group groupInfo = SpringContext.getBean(GroupService.class).getGroup(memberId);
-                if (groupInfo != null) {
-                    return groupInfo.getName();
+        if ( StringUtils.isBlank(memberName) ) {
+            if (StringUtils.isNotBlank(memberTypeCode) && StringUtils.isNotBlank(memberId)) {
+                if (KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(memberTypeCode)) {
+                    Person person = SpringContext.getBean(PersonService.class).getPerson(memberId);
+                    if (person != null) {
+                        memberName = person.getName();
+                    }
+                } else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)) {
+                    Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
+                    if (roleInfo != null) {
+                        memberName = roleInfo.getName();
+                    }
+                } else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(memberTypeCode)) {
+                    Group groupInfo = SpringContext.getBean(GroupService.class).getGroup(memberId);
+                    if (groupInfo != null) {
+                        memberName = groupInfo.getName();
+                    }
                 }
             }
         }
 
-        return "";
+        return memberName;
     }
 
 
@@ -258,17 +251,47 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
     }
 
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put(SecPropertyConstants.MODEL_ID, this.modelId);
-        m.put(SecPropertyConstants.MEMBER_ID, this.memberId);
-
-        return m;
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SecurityModelMember [");
+        if (modelId != null) {
+            builder.append("modelId=");
+            builder.append(modelId);
+            builder.append(", ");
+        }
+        if (memberId != null) {
+            builder.append("memberId=");
+            builder.append(memberId);
+            builder.append(", ");
+        }
+        if (memberTypeCode != null) {
+            builder.append("memberTypeCode=");
+            builder.append(memberTypeCode);
+            builder.append(", ");
+        }
+        if (activeFromDate != null) {
+            builder.append("activeFromDate=");
+            builder.append(activeFromDate);
+            builder.append(", ");
+        }
+        if (activeToDate != null) {
+            builder.append("activeToDate=");
+            builder.append(activeToDate);
+            builder.append(", ");
+        }
+        if (getMemberName() != null) {
+            builder.append("getMemberName()=");
+            builder.append(getMemberName());
+            builder.append(", ");
+        }
+        if (getModelDefinitionSummary() != null) {
+            builder.append("getModelDefinitionSummary()=");
+            builder.append(getModelDefinitionSummary());
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
+    
 }

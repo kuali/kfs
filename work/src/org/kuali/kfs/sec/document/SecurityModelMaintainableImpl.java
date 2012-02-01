@@ -18,12 +18,10 @@ package org.kuali.kfs.sec.document;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityModel;
 import org.kuali.kfs.sec.businessobject.SecurityModelDefinition;
@@ -39,6 +37,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -49,28 +48,15 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.util.ObjectUtils;
 
 
 /**
  * Maintainable implementation for the Security Model maintenance document. Hooks into Post processing to create a KIM role from
  * Model and assigns users/permissions to role based on Model
  */
-public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
+public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SecurityModelMaintainableImpl.class);
-
-    /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
-     *      org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        super.refresh(refreshCaller, fieldValues, document);
-
-        getBusinessObject().refreshNonUpdateableReferences();
-        for (PersistableBusinessObject businessObject : newCollectionLines.values() ) {
-            businessObject.refreshNonUpdateableReferences();
-        }
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
@@ -130,10 +116,6 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
         }
     }
 
-    protected String getDefaultRoleTypeId() {
-        return KimApiServiceLocator.getKimTypeInfoService().findKimTypeByNameAndNamespace(KimConstants.KIM_TYPE_DEFAULT_NAMESPACE, KimConstants.KIM_TYPE_DEFAULT_NAME).getId();
-    }
-    
     /**
      * Saves the given security model setting the active indicator to false
      *
@@ -162,37 +144,37 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
     protected void assignOrUpdateModelMembershipToDefinitionRoles(SecurityModel oldSecurityModel, SecurityModel newSecurityModel, boolean newMaintenanceAction) {
         RoleService roleService = SpringContext.getBean(RoleService.class);
 
-        Role modelRoleInfo = roleService.getRole(newSecurityModel.getRoleId());
-
+        Role modelRole = roleService.getRole(newSecurityModel.getRoleId());
+        
+        if ( modelRole == null ) {
+            LOG.error( "Model Role does not exist for SecurityModel: " + newSecurityModel );
+            throw new RuntimeException("Model Role does not exist for SecurityModel: " + newSecurityModel );
+        }
+        
         for (SecurityModelDefinition securityModelDefinition : newSecurityModel.getModelDefinitions()) {
             SecurityDefinition securityDefinition = securityModelDefinition.getSecurityDefinition();
 
-            Role definitionRoleInfo = roleService.getRole(securityDefinition.getRoleId());
+            Role definitionRole = roleService.getRole(securityDefinition.getRoleId());
 
-            RoleMembership modelMembershipInfo = null;
+            if ( definitionRole == null ) {
+                LOG.error( "Definition Role does not exist for SecurityModelDefinition: " + securityDefinition );
+                throw new RuntimeException("Definition Role does not exist for SecurityModelDefinition: " + securityDefinition );
+            }
+            
+            RoleMember modelRoleMembership = null;
             if (!newMaintenanceAction) {
                 SecurityModelDefinition oldSecurityModelDefinition = null;
                 for (SecurityModelDefinition modelDefinition : oldSecurityModel.getModelDefinitions()) {
-                    if (modelDefinition.getModelDefinitionId() != null && securityModelDefinition.getModelDefinitionId() != null && modelDefinition.getModelDefinitionId().equals(securityModelDefinition.getModelDefinitionId())) {
+                    if ( ObjectUtils.nullSafeEquals(modelDefinition.getModelDefinitionId(), securityModelDefinition.getModelDefinitionId()) ) {
                         oldSecurityModelDefinition = modelDefinition;
+                        break;
                     }
                 }
 
                 if (oldSecurityModelDefinition != null) {
-                    Map<String,String> membershipQualifications = new HashMap<String,String>();
-                    membershipQualifications.put(SecKimAttributes.CONSTRAINT_CODE, oldSecurityModelDefinition.getConstraintCode());
-                    membershipQualifications.put(SecKimAttributes.OPERATOR, oldSecurityModelDefinition.getOperatorCode());
-                    membershipQualifications.put(KimConstants.AttributeConstants.PROPERTY_VALUE, oldSecurityModelDefinition.getAttributeValue());
-                    membershipQualifications.put(SecKimAttributes.OVERRIDE_DENY, Boolean.toString(oldSecurityModelDefinition.isOverrideDeny()));
-
-                    if (modelRoleInfo == null || definitionRoleInfo == null) {
-                        // this should throw an elegant error if either are null
-                        String error = "Apparent data problem with access security. model or definition is null. this should not happen";
-                        LOG.error(error);
-                        throw new RuntimeException(error);
-                    } else {
-                        modelMembershipInfo = KimUtil.getRoleMembershipForMemberType(definitionRoleInfo.getId(), modelRoleInfo.getId(), MemberType.ROLE.getCode(), membershipQualifications);
-                    }
+                    modelRoleMembership = KimUtil.getRoleMembershipForMemberType(definitionRole.getId(), 
+                            modelRole.getId(), MemberType.ROLE.getCode(), 
+                            getRoleQualifiersFromSecurityModelDefinition(oldSecurityModelDefinition));
                 }
             }
 
@@ -201,29 +183,21 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
 
             // if membership already exists, need to remove if the model definition record is now inactive or the qualifications
             // need updated
-            String modelMembershipId = "";
-            if (modelMembershipInfo != null) {
-                modelMembershipId = modelMembershipInfo.getId();
+            if (modelRoleMembership != null) {
                 if (!membershipActive) {
-                    roleService.removeRoleFromRole(modelMembershipInfo.getMemberId(), definitionRoleInfo.getNamespaceCode(), definitionRoleInfo.getName(), modelMembershipInfo.getQualifier());
+                    roleService.removeRoleFromRole(modelRoleMembership.getMemberId(), definitionRole.getNamespaceCode(), definitionRole.getName(), modelRoleMembership.getAttributes());
                 }
             }
 
             // create of update role if membership should be active
             if (membershipActive) {
-                Map<String,String> membershipQualifications = new HashMap<String,String>();
-                membershipQualifications.put(SecKimAttributes.CONSTRAINT_CODE, securityModelDefinition.getConstraintCode());
-                membershipQualifications.put(SecKimAttributes.OPERATOR, securityModelDefinition.getOperatorCode());
-                membershipQualifications.put(KimConstants.AttributeConstants.PROPERTY_VALUE, securityModelDefinition.getAttributeValue());
-                membershipQualifications.put(SecKimAttributes.OVERRIDE_DENY, Boolean.toString(securityModelDefinition.isOverrideDeny()));
-
-                if (modelRoleInfo == null || definitionRoleInfo == null) {
-                    // this should throw an elegant error if either are null
-                    String error = "Apparent data problem with access security. model or definition is null. this should not happen";
-                    LOG.error(error);
-                    throw new RuntimeException(error);
+                if ( modelRoleMembership == null ) {
+                    roleService.assignRoleToRole(modelRole.getId(), definitionRole.getNamespaceCode(), definitionRole.getName(), getRoleQualifiersFromSecurityModelDefinition(securityModelDefinition));
                 } else {
-                    roleService.saveRoleMemberForRole(modelMembershipId, modelRoleInfo.getId(), MemberType.ROLE.getCode(), definitionRoleInfo.getId(), membershipQualifications, null, null);
+                    RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(modelRoleMembership);
+                    updatedRoleMember.setActiveToDate(null);
+                    updatedRoleMember.setAttributes(getRoleQualifiersFromSecurityModelDefinition(securityModelDefinition));
+                    roleService.updateRoleMember(updatedRoleMember.build());
                 }
             }
         }
@@ -241,31 +215,15 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
 
         if (modelRoleInfo == null) {
             // this should throw an elegant error if either are null
-            String error = "Apparent data problem with access security. model is null. this should not happen";
+            String error = "Data problem with access security. KIM Role backing the security model is missing.  SecurityModel: " + securityModel;
             LOG.error(error);
             throw new RuntimeException(error);
-        } else {
+        }
 
-            for (SecurityModelMember modelMember : securityModel.getModelMembers()) {
-                RoleMembership membershipInfo = KimUtil.getRoleMembershipForMemberType(modelRoleInfo.getId(), modelMember.getMemberId(), modelMember.getMemberTypeCode(), null);
+        for (SecurityModelMember modelMember : securityModel.getModelMembers()) {
+            updateSecurityModelRoleMember(securityModel, modelMember, modelMember.getMemberTypeCode(), modelMember.getMemberId(), null);
 
-                String membershipId = "";
-                if (membershipInfo != null) {
-                    membershipId = membershipInfo.getId();
-                }
-
-                java.sql.Date fromDate = null;
-                java.sql.Date toDate = null;
-                if ( modelMember.getActiveFromDate() != null ) {
-                    fromDate = new java.sql.Date( modelMember.getActiveFromDate().getTime() );
-                }
-                if ( modelMember.getActiveToDate() != null ) {
-                    toDate = new java.sql.Date( modelMember.getActiveToDate().getTime() );
-                }
-                roleService.saveRoleMemberForRole(membershipId, modelMember.getMemberId(), modelMember.getMemberTypeCode(), modelRoleInfo.getId(), new HashMap<String,String>(), fromDate, toDate);
-
-                createPrincipalSecurityRecords(modelMember.getMemberId(), modelMember.getMemberTypeCode());
-            }
+            createPrincipalSecurityRecords(modelMember.getMemberId(), modelMember.getMemberTypeCode());
         }
     }
 
@@ -284,7 +242,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
         }
         else if (MemberType.ROLE.getCode().equals(memberTypeCode)) {
             Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
-            Collection<String> rolePrincipalIds = SpringContext.getBean(RoleService.class).getRoleMemberPrincipalIds(roleInfo.getNamespaceCode(), roleInfo.getName(), new HashMap<String,String>());
+            Collection<String> rolePrincipalIds = SpringContext.getBean(RoleService.class).getRoleMemberPrincipalIds(roleInfo.getNamespaceCode(), roleInfo.getName(), null);
             principalIds.addAll(rolePrincipalIds);
         }
         else if (MemberType.GROUP.getCode().equals(memberTypeCode)) {

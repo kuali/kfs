@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
@@ -28,17 +29,16 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
  */
 public class SecurityInquiryNamespaceFinder extends KeyValuesBase {
 
+    protected static final List<KeyValue> OPTIONS = new ArrayList<KeyValue>();
+    static {
+        OPTIONS.add(new ConcreteKeyValue("",""));
+        OPTIONS.add(new ConcreteKeyValue(KFSConstants.CoreModuleNamespaces.GL, KFSConstants.CoreModuleNamespaces.GL));
+        OPTIONS.add(new ConcreteKeyValue(KFSConstants.OptionalModuleNamespaces.LABOR_DISTRIBUTION, KFSConstants.OptionalModuleNamespaces.LABOR_DISTRIBUTION));
+    }
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("rawtypes")
-    public List getKeyValues() {
-        List activeLabels = new ArrayList();
-
-        activeLabels.add(new ConcreteKeyValue("",""));
-        activeLabels.add(new ConcreteKeyValue(KFSConstants.ParameterNamespaces.GL, KFSConstants.ParameterNamespaces.GL));
-        activeLabels.add(new ConcreteKeyValue(SecConstants.LABOR_MODULE_NAMESPACE_CODE, SecConstants.LABOR_MODULE_NAMESPACE_CODE));
-
-        return activeLabels;
+    public List<KeyValue> getKeyValues() {
+        return OPTIONS;
     }
 }

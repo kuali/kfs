@@ -21,29 +21,22 @@ import java.util.List;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Represents the assignment of one or more definitions to one or more members (principal, group, or role). A model becomes a role in KIM
  */
-public class SecurityModel extends PersistableBusinessObjectBase implements Inactivatable {
-    private KualiInteger id;
-    private String name;
-    private String description;
-    private String roleId;
-    private boolean active;
+public class SecurityModel extends PersistableBusinessObjectBase implements MutableInactivatable {
+    protected KualiInteger id;
+    protected String name;
+    protected String description;
+    protected String roleId;
+    protected boolean active;
 
-    private List<SecurityModelDefinition> modelDefinitions;
-    private List<SecurityModelMember> modelMembers;
-
-    public SecurityModel() {
-        super();
-
-        modelDefinitions = new ArrayList<SecurityModelDefinition>();
-        modelMembers = new ArrayList<SecurityModelMember>();
-    }
-
+    protected List<SecurityModelDefinition> modelDefinitions = new ArrayList<SecurityModelDefinition>();
+    protected List<SecurityModelMember> modelMembers = new ArrayList<SecurityModelMember>();
 
     /**
      * Gets the id attribute.
@@ -184,16 +177,37 @@ public class SecurityModel extends PersistableBusinessObjectBase implements Inac
         this.modelMembers = modelMembers;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
 
-        m.put(KFSPropertyConstants.ID, this.id);
-
-        return m;
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SecurityModel [");
+        if (id != null) {
+            builder.append("id=");
+            builder.append(id);
+            builder.append(", ");
+        }
+        if (name != null) {
+            builder.append("name=");
+            builder.append(name);
+            builder.append(", ");
+        }
+        if (description != null) {
+            builder.append("description=");
+            builder.append(description);
+            builder.append(", ");
+        }
+        if (roleId != null) {
+            builder.append("roleId=");
+            builder.append(roleId);
+            builder.append(", ");
+        }
+        builder.append("active=");
+        builder.append(active);
+        builder.append("]");
+        return builder.toString();
     }
+
+    
 
 }

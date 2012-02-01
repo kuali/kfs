@@ -56,27 +56,6 @@ public class SecUtil {
      * @return boolean true if current user has view permission, false otherwise
      */
     public static boolean canViewGLPE(Document document, GeneralLedgerPendingEntry pendingEntry) {
-        boolean canView = true;
-
-        // If the module has not been loaded, then just skip any further checks as the services will not be defined
-        if ( SpringContext.getBean(ConfigurationService.class).getPropertyValueAsBoolean(SecConstants.ACCESS_SECURITY_MODULE_ENABLED_PROPERTY_NAME) ) {   
-            if (document instanceof AccountingDocument) {
-                AccountingLine line = new SourceAccountingLine();
-    
-                line.setPostingYear(pendingEntry.getUniversityFiscalYear());
-                line.setChartOfAccountsCode(pendingEntry.getChartOfAccountsCode());
-                line.setAccountNumber(pendingEntry.getAccountNumber());
-                line.setSubAccountNumber(pendingEntry.getSubAccountNumber());
-                line.setFinancialObjectCode(pendingEntry.getFinancialObjectCode());
-                line.setFinancialSubObjectCode(pendingEntry.getFinancialSubObjectCode());
-                line.setProjectCode(pendingEntry.getProjectCode());
-    
-                line.refreshNonUpdateableReferences();
-    
-                canView = SpringContext.getBean(AccessSecurityService.class).canViewDocumentAccountingLine((AccountingDocument) document, line, GlobalVariables.getUserSession().getPerson());
-            }
-        }
-
-        return canView;
+        return SpringContext.getBean(AccessSecurityService.class).canViewGLPE(document, pendingEntry, GlobalVariables.getUserSession().getPerson() );
     }
 }

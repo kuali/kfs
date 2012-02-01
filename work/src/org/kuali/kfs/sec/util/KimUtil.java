@@ -15,15 +15,21 @@
  */
 package org.kuali.kfs.sec.util;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.identity.SecKimAttributes;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+
+import com.google.common.base.Predicate;
 
 
 public class KimUtil {
@@ -36,33 +42,25 @@ public class KimUtil {
      * @param membershipQualifications Qualifications to match role membership
      * @return RoleMembership containing information on the member record, or null if the member id is not assigned to the role
      */
-    public static RoleMembership getRoleMembershipForMemberType(String roleId, String memberRoleId, String memberType, Map<String,String> membershipQualifications) {
+    public static RoleMember getRoleMembershipForMemberType(String roleId, String memberRoleId, String memberType, Map<String,String> membershipQualifications) {
         RoleService roleService = SpringContext.getBean(RoleService.class);
 
-        List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleId);
-
-        List<RoleMembership> roleMembers = roleService.getFirstLevelRoleMembers(roleIds);
-
-        RoleMembership modelMembershipInfo = null;
-        for (RoleMembership roleMembershipInfo : roleMembers) {
-            if (roleMembershipInfo.getType().code.equals(memberType) && roleMembershipInfo.getMemberId().equals(memberRoleId)) {
-                if (membershipQualifications != null) {
-                    boolean qualficationsMatch = doQualficationsMatch(membershipQualifications, roleMembershipInfo.getQualifier());
-
-                    if (qualficationsMatch) {
-                        modelMembershipInfo = roleMembershipInfo;
-                        break;
-                    }
+        RoleMemberQueryResults results = roleService.findRoleMembers( QueryByCriteria.Builder.fromPredicates( PredicateFactory.equal("id", roleId) ) );
+        for (RoleMember roleMembershipInfo : results.getResults() ) {
+            if (roleMembershipInfo.getType().code.equals(memberType) 
+                    && roleMembershipInfo.getMemberId().equals(memberRoleId)) {
+                // no qualifiers - then an automatic match
+                if (membershipQualifications == null) {
+                    return roleMembershipInfo;
                 }
-                else {
-                    modelMembershipInfo = roleMembershipInfo;
-                    break;
+                // otherwise, check the qualifier attributes
+                if (doQualificationsMatch(membershipQualifications, roleMembershipInfo.getAttributes())) {
+                    return roleMembershipInfo;
                 }
             }
         }
 
-        return modelMembershipInfo;
+        return null;
     }
 
     /**
@@ -72,25 +70,21 @@ public class KimUtil {
      * @param qualfication Map<String,String> for matching
      * @return boolean if second Map<String,String> has same keys and values as first
      */
-    public static boolean doQualficationsMatch(Map<String,String> qualfiicationToMatch, Map<String,String> qualfication) {
-        boolean qualficationsMatch = true;
+    public static boolean doQualificationsMatch(Map<String,String> qualificationToMatch, Map<String,String> qualification) {
+        for (String key : qualificationToMatch.keySet()) {
+            if (qualification.containsKey(key)) {
+                String matchValue = qualification.get(key);
+                String value = qualificationToMatch.get(key);
 
-        for (String key : qualfiicationToMatch.keySet()) {
-            String value = qualfiicationToMatch.get(key);
-
-            if (qualfication.containsKey(key)) {
-                String matchValue = qualfication.get(key);
-
-                if (!StringUtils.equals(value, matchValue)) {
-                    qualficationsMatch = false;
+                if ( !StringUtils.equals(value, matchValue) ) {
+                    return false;
                 }
-            }
-            else {
-                qualficationsMatch = false;
+            } else {
+                return false;
             }
         }
 
-        return qualficationsMatch;
+        return true;
     }
 
     /**
@@ -107,15 +101,15 @@ public class KimUtil {
         String operatorQualifyValue = membershipQualifications.get(SecKimAttributes.OPERATOR);
         String propertyValueQualifyValue = membershipQualifications.get(SecKimAttributes.PROPERTY_VALUE);
 
+        if (!StringUtils.equals(propertyValueQualifyValue, attributeValue)) {
+            return false;
+        }
+
         if (!StringUtils.equals(constraintQualifyValue, constraintCode)) {
             return false;
         }
 
         if (!StringUtils.equals(operatorQualifyValue, operator)) {
-            return false;
-        }
-
-        if (!StringUtils.equals(propertyValueQualifyValue, attributeValue)) {
             return false;
         }
 

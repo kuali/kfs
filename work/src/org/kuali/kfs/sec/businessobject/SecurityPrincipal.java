@@ -29,20 +29,12 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Represents the assignment of one or more security definitions and one or more models to a principal
  */
 public class SecurityPrincipal extends PersistableBusinessObjectBase {
-    private String principalId;
+    protected String principalId;
 
-    private Person securityPerson;
+    protected Person securityPerson;
 
-    private List<SecurityPrincipalDefinition> principalDefinitions;
-    private List<SecurityModelMember> principalModels;
-
-    public SecurityPrincipal() {
-        super();
-
-        principalDefinitions = new ArrayList<SecurityPrincipalDefinition>();
-        principalModels = new ArrayList<SecurityModelMember>();
-    }
-
+    protected List<SecurityPrincipalDefinition> principalDefinitions = new ArrayList<SecurityPrincipalDefinition>();
+    protected List<SecurityModelMember> principalModels = new ArrayList<SecurityModelMember>();
 
     /**
      * Gets the principalId attribute.
@@ -156,16 +148,28 @@ public class SecurityPrincipal extends PersistableBusinessObjectBase {
         return modelNames;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
 
-        m.put(KFSPropertyConstants.PRINCIPAL_ID, this.principalId);
-
-        return m;
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SecurityPrincipal [");
+        if (principalId != null) {
+            builder.append("principalId=");
+            builder.append(principalId);
+            builder.append(", ");
+        }
+        if (getPrincipalDefinitionNames() != null) {
+            builder.append("getPrincipalDefinitionNames()=");
+            builder.append(getPrincipalDefinitionNames());
+            builder.append(", ");
+        }
+        if (getPrincipalModelNames() != null) {
+            builder.append("getPrincipalModelNames()=");
+            builder.append(getPrincipalModelNames());
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
+    
 }

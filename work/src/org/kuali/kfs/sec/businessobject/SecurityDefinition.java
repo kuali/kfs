@@ -380,16 +380,66 @@ public class SecurityDefinition extends PersistableBusinessObjectBase implements
         this.definitionDocumentTypes = definitionDocumentTypes;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put(KFSPropertyConstants.ID, this.id);
-
-        return m;
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SecurityDefinition [");
+        if (id != null) {
+            builder.append("id=");
+            builder.append(id);
+            builder.append(", ");
+        }
+        if (name != null) {
+            builder.append("name=");
+            builder.append(name);
+            builder.append(", ");
+        }
+        if (description != null) {
+            builder.append("description=");
+            builder.append(description);
+            builder.append(", ");
+        }
+        if (roleId != null) {
+            builder.append("roleId=");
+            builder.append(roleId);
+            builder.append(", ");
+        }
+        if (attributeId != null) {
+            builder.append("attributeId=");
+            builder.append(attributeId);
+            builder.append(", ");
+        }
+        builder.append("restrictViewAccountingLine=");
+        builder.append(restrictViewAccountingLine);
+        builder.append(", restrictEditAccountingLine=");
+        builder.append(restrictEditAccountingLine);
+        builder.append(", restrictViewDocument=");
+        builder.append(restrictViewDocument);
+        builder.append(", restrictEditDocument=");
+        builder.append(restrictEditDocument);
+        builder.append(", restrictViewNotesAndAttachments=");
+        builder.append(restrictViewNotesAndAttachments);
+        builder.append(", restrictLookup=");
+        builder.append(restrictLookup);
+        builder.append(", restrictGLInquiry=");
+        builder.append(restrictGLInquiry);
+        builder.append(", restrictLaborInquiry=");
+        builder.append(restrictLaborInquiry);
+        builder.append(", active=");
+        builder.append(active);
+        builder.append(", ");
+        if (securityAttribute != null) {
+            builder.append("securityAttribute=");
+            builder.append(securityAttribute);
+            builder.append(", ");
+        }
+        if (definitionDocumentTypes != null) {
+            builder.append("definitionDocumentTypes=");
+            builder.append(definitionDocumentTypes);
+        }
+        builder.append("]");
+        return builder.toString();
     }
+
 
 }

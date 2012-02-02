@@ -22,6 +22,7 @@ import org.kuali.kfs.sec.businessobject.AccessSecurityRestrictionInfo;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kim.api.common.template.Template;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
@@ -59,28 +60,6 @@ public interface AccessSecurityService {
      * @param person Person to apply security for
      */
     public void applySecurityRestrictionsForLaborInquiry(List<? extends BusinessObject> results, Person person);
-
-    /**
-     * Retrieves any setup security permissions for the given person and evaluates against List of business objects. Any instances
-     * not passing validation are removed from given list.
-     * 
-     * @param results List of business object instances with data to check
-     * @param person Person to apply security for
-     * @param templateId KIM template id for permissions to check
-     * @param additionalPermissionDetails Any additional details that should be matched on when retrieving permissions
-     */
-    public void applySecurityRestrictions(List<? extends BusinessObject> results, Person person, String templateId, Map<String,String> additionalPermissionDetails);
-
-    /**
-     * Retrieves any access security permissions that are assigned to the user and applicable for the given business object, then
-     * evaluates permissions against the business object instance
-     * 
-     * @param businessObject BusinessObject instance to check access permissions against
-     * @param person Person to retrieve access permissions for
-     * @param restrictionInfo Object providing information on a restriction if one is found
-     * @return boolean true if all access permissions pass (or none are found), false if at least one access permission fails
-     */
-    public boolean checkSecurityRestrictionsForBusinessObject(BusinessObject businessObject, Person person, AccessSecurityRestrictionInfo restrictionInfo);
 
     /**
      * Checks any view access security permissions setup for the user and for accounting lines of the given document type
@@ -129,17 +108,6 @@ public interface AccessSecurityService {
     public boolean canViewDocument(AccountingDocument document, Person person, AccessSecurityRestrictionInfo restrictionInfo);
 
     /**
-     * Checks edit access on all accounting lines contained on the document for given user
-     * 
-     * @param document AccountingDocument instance with accounting lines to check, doc type of instance is used for retrieving
-     *        permissions
-     * @param person the user who we are checking access for
-     * @return boolean true if the user has edit access for all accounting lines on the document, false if access is denied on one
-     *         or more lines
-     */
-    public boolean canEditDocument(AccountingDocument document, Person person);
-
-    /**
      * Checks access is allowed to view document notes based on the document's accounting lines
      * 
      * @param document AccountingDocument instance with accounting lines to check, doc type of instance is used for retrieving
@@ -154,49 +122,49 @@ public interface AccessSecurityService {
      * 
      * @return the View Document With Field Values template ID
      */
-    public String getViewDocumentWithFieldValueTemplateId();
+    public Template getViewDocumentWithFieldValueTemplate();
 
     /**
      * Gets the View Accounting Line With Field Value Template Id.
      * 
      * @return the View Accounting Line With Field Value Template Id
      */
-    public String getViewAccountingLineWithFieldValueTemplateId();
+    public Template getViewAccountingLineWithFieldValueTemplate();
 
     /**
      * Gets the View Notes Attachments With Field Value Template Id.
      * 
      * @return the View Notes Attachments With Field Value Template Id
      */
-    public String getViewNotesAttachmentsWithFieldValueTemplateId();
+    public Template getViewNotesAttachmentsWithFieldValueTemplate();
 
     /**
      * Gets the Edit Document With Field Value Template Id.
      * 
      * @return the Edit Document With Field Value Template Id
      */
-    public String getEditDocumentWithFieldValueTemplateId();
+    public Template getEditDocumentWithFieldValueTemplate();
 
     /**
      * Gets the Edit Accounting Line With Field Value Template Id.
      * 
      * @return the Edit Accounting Line With Field Value Template Id
      */
-    public String getEditAccountingLineWithFieldValueTemplateId();
+    public Template getEditAccountingLineWithFieldValueTemplate();
 
     /**
      * Gets the Lookup With Field Value Template Id.
      * 
      * @return the Lookup With Field Value Template Id
      */
-    public String getLookupWithFieldValueTemplateId();
+    public Template getLookupWithFieldValueTemplate();
 
     /**
      * Gets the Inquiry With Field Value Template Id.
      * 
      * @return the InquiryWithFieldValueTemplateId
      */
-    public String getInquiryWithFieldValueTemplateId();
+    public Template getInquiryWithFieldValueTemplate();
 
     /**
      * Calls access security service to check view access on given GLPE for current user. Access to view the GLPE on the document should be related to the view permissions for an

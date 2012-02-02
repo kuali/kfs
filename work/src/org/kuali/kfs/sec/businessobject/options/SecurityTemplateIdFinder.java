@@ -35,13 +35,13 @@ public class SecurityTemplateIdFinder extends KeyValuesBase {
     
     protected void buildOptionsList() {
         List<KeyValue> temp = new ArrayList<KeyValue>();
-        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId(), "Balance Inquiry"));
-        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getEditAccountingLineWithFieldValueTemplateId(), "Edit Accounting Line"));
-        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getEditDocumentWithFieldValueTemplateId(), "Edit Document"));
-        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getLookupWithFieldValueTemplateId(), "Lookup Records"));
-        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getViewAccountingLineWithFieldValueTemplateId(), "View Accounting Line"));
-        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getViewDocumentWithFieldValueTemplateId(), "View Document"));
-        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getViewNotesAttachmentsWithFieldValueTemplateId(), "View Notes/Attachments"));
+        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplate().getId(), "Balance Inquiry"));
+        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getEditAccountingLineWithFieldValueTemplate().getId(), "Edit Accounting Line"));
+        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getEditDocumentWithFieldValueTemplate().getId(), "Edit Document"));
+        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getLookupWithFieldValueTemplate().getId(), "Lookup Records"));
+        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getViewAccountingLineWithFieldValueTemplate().getId(), "View Accounting Line"));
+        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getViewDocumentWithFieldValueTemplate().getId(), "View Document"));
+        temp.add(new ConcreteKeyValue(SpringContext.getBean(AccessSecurityService.class).getViewNotesAttachmentsWithFieldValueTemplate().getId(), "View Notes/Attachments"));
         OPTIONS = temp;
     }
     

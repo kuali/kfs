@@ -70,11 +70,11 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
         String templateId = fieldValues.get(SecPropertyConstants.TEMPLATE_ID);
 
         Map<String,String> additionalPermissionDetails = new HashMap<String,String>();
-        if (accessSecurityService.getInquiryWithFieldValueTemplateId().equals(templateId)) {
+        if (accessSecurityService.getInquiryWithFieldValueTemplate().getId().equals(templateId)) {
             String namespaceCode = fieldValues.get(SecPropertyConstants.INQUIRY_NAMESPACE_CODE);
             additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
         }
-        else if (!accessSecurityService.getLookupWithFieldValueTemplateId().equals(templateId)) {
+        else if (!accessSecurityService.getLookupWithFieldValueTemplate().getId().equals(templateId)) {
             String documentTypeCode = fieldValues.get(SecPropertyConstants.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
             additionalPermissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeCode);
         }
@@ -144,10 +144,10 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
         if (getParameters().containsKey(SecPropertyConstants.TEMPLATE_ID)) {
             String templateId = ((String[]) getParameters().get(SecPropertyConstants.TEMPLATE_ID))[0];
 
-            if (accessSecurityService.getInquiryWithFieldValueTemplateId().equals(templateId)) {
+            if (accessSecurityService.getInquiryWithFieldValueTemplate().getId().equals(templateId)) {
                 lookupFieldAttributeList = getInquiryTemplateFields();
             }
-            else if (accessSecurityService.getLookupWithFieldValueTemplateId().equals(templateId)) {
+            else if (accessSecurityService.getLookupWithFieldValueTemplate().getId().equals(templateId)) {
                 lookupFieldAttributeList = getLookupTemplateFields();
             }
             else {

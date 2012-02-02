@@ -17,6 +17,8 @@ package org.kuali.kfs.sys.document;
 
 import java.util.List;
 
+import javax.jws.WebParam;
+
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;

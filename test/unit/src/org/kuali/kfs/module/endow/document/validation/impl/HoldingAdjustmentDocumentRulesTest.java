@@ -241,13 +241,13 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         
         // add a source transaction line and check the rule - the rule should pass.
         document.getTargetTransactionLines().clear();        
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         document.setSourceTransactionLines(sourceTransactionLines);
         assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getSourceTransactionLines().get(index), index));
         
         //add a target transaction line and check the rule - should pass.
         document.getSourceTransactionLines().clear();
-        List<EndowmentTargetTransactionLine> targetTransactionLines = createTargetTransactionLine(index);
+        List<EndowmentTransactionLine> targetTransactionLines = createTargetTransactionLine(index);
         document.setTargetTransactionLines(targetTransactionLines);
         
         assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getTargetTransactionLines().get(index), index));
@@ -256,9 +256,9 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         document.getTargetTransactionLines().clear();
         document.getSourceTransactionLines().clear();
         
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLinesForBoth = createSourceTransactionLine(index);
+        List<EndowmentTransactionLine> sourceTransactionLinesForBoth = createSourceTransactionLine(index);
         document.setSourceTransactionLines(sourceTransactionLinesForBoth);
-        List<EndowmentTargetTransactionLine> targetTransactionLinesForBoth = createTargetTransactionLine(index);
+        List<EndowmentTransactionLine> targetTransactionLinesForBoth = createTargetTransactionLine(index);
         document.setTargetTransactionLines(targetTransactionLinesForBoth);
         assertFalse(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getTargetTransactionLines().get(index), index));
     }
@@ -272,9 +272,9 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         int index = 0;        
         
         // add a source transaction line and check the rule - the rule should pass.
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         document.setSourceTransactionLines(sourceTransactionLines);
-        List<EndowmentTargetTransactionLine> targetTransactionLines = createTargetTransactionLine(index);
+        List<EndowmentTransactionLine> targetTransactionLines = createTargetTransactionLine(index);
         document.setTargetTransactionLines(targetTransactionLines);
         //fails since there are lines in both sections....
         assertFalse("Both Source and Target Lines entered.", rule.hasOnlySourceOrTargetTransactionLines(document));
@@ -291,8 +291,8 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
     /**
      * Helper Method to create a source transaction line
      */
-    private ArrayList<EndowmentSourceTransactionLine> createSourceTransactionLine(int index) {
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLine = new ArrayList<EndowmentSourceTransactionLine>();
+    private List<EndowmentTransactionLine> createSourceTransactionLine(int index) {
+        ArrayList<EndowmentTransactionLine> sourceTransactionLine = new ArrayList<EndowmentTransactionLine>();
 
         EndowmentTransactionLineBase endowmentSourceTransactionLine = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
         endowmentSourceTransactionLine.setEtranCode(EndowTestConstants.ETRAN_CODE);
@@ -310,12 +310,12 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
     /**
      * Helper Method to create a source transaction line
      */
-    private List<EndowmentTargetTransactionLine> createTargetTransactionLine(int index) {
-        ArrayList<EndowmentTargetTransactionLine> targetTransactionLine = new ArrayList<EndowmentTargetTransactionLine>();
+    private List<EndowmentTransactionLine> createTargetTransactionLine(int index) {
+        ArrayList<EndowmentTransactionLine> targetTransactionLine = new ArrayList<EndowmentTransactionLine>();
 
         EndowmentTransactionLineBase endowmentTargetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
         endowmentTargetTransactionLine.setEtranCode(EndowTestConstants.ETRAN_CODE);
-        endowmentTargetTransactionLine.setTransactionLineDescription("Source Line Description");
+        endowmentTargetTransactionLine.setTransactionLineDescription("Target Line Description");
         endowmentTargetTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
         endowmentTargetTransactionLine.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
         endowmentTargetTransactionLine.setUnitAdjustmentAmount(EndowTestConstants.POSITIVE_UNITS.bigDecimalValue());
@@ -337,7 +337,7 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         int index = 0;
         
         // add a source transaction line and check the rule - the rule should pass.
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         sourceTransactionLines.get(index).setTransactionAmount(null);
         sourceTransactionLines.get(index).setUnitAdjustmentAmount(null);
         //the assertion should be true
@@ -365,7 +365,7 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         int index = 0;
         
         // add a source transaction line and check the rule - the rule should pass.
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         sourceTransactionLines.get(index).setTransactionAmount(null);
         sourceTransactionLines.get(index).setUnitAdjustmentAmount(null);
         //the assertion should be false
@@ -394,7 +394,7 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         String registrationCode = document.getSourceTransactionSecurity().getRegistrationCode();
 
         // add a source transaction line and check the rule - the rule should pass.
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         document.setSourceTransactionLines(sourceTransactionLines);
         document.getSourceTransactionSecurity().setRegistrationCode(EndowTestConstants.INVALID_REGISTRATION_CODE);
         
@@ -415,7 +415,7 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         String registrationCode = document.getSourceTransactionSecurity().getRegistrationCode();
 
         // add a source transaction line and check the rule - the rule should pass.
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         document.setSourceTransactionLines(sourceTransactionLines);
         sourceTransactionLines.get(index).setUnitAdjustmentAmount(null);
         document.getSourceTransactionSecurity().setRegistrationCode(EndowTestConstants.INVALID_REGISTRATION_CODE);
@@ -437,7 +437,7 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         int index = 0;
         
         //add a source line...
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         document.setSourceTransactionLines(sourceTransactionLines);
         document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(null);
 
@@ -476,7 +476,7 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         GlobalVariables.getMessageMap().clearErrorMessages();
         
         // add a source transaction line and check the rule - the rule should pass.
-        ArrayList<EndowmentSourceTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         document.setSourceTransactionLines(sourceTransactionLines);
         sourceTransactionLines.get(index).setUnitAdjustmentAmount(new BigDecimal("20.00"));
         assertTrue(rule.processCustomRouteDocumentBusinessRules(document));

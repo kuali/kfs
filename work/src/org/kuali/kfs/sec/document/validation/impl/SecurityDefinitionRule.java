@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,10 +21,8 @@ import java.util.Map;
 import org.kuali.kfs.sec.SecKeyConstants;
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -35,12 +33,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class SecurityDefinitionRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SecurityDefinitionRule.class);
 
-    private SecurityDefinition oldSecurityDefinition;
-    private SecurityDefinition newSecurityDefinition;
-
-    public SecurityDefinitionRule() {
-        super();
-    }
+    protected SecurityDefinition oldSecurityDefinition;
+    protected SecurityDefinition newSecurityDefinition;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -89,7 +83,7 @@ public class SecurityDefinitionRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates business rules against a security definition record
-     * 
+     *
      * @param isMaintenanceEdit boolean indicating whether the maintenance action is an edit (true), or a new/copy (false)
      * @return boolean true if all rules pass, false if at least one fails
      */
@@ -108,7 +102,7 @@ public class SecurityDefinitionRule extends MaintenanceDocumentRuleBase {
 
     /**
      * For new or copy action verifies the name given for the definition is not being used by another definition
-     * 
+     *
      * @param securityDefinition SecurityDefinition with name to check
      * @param errorKeyPrefix String errorPrefix to use if any errors are found
      * @return boolean true if name exists, false if not
@@ -119,11 +113,12 @@ public class SecurityDefinitionRule extends MaintenanceDocumentRuleBase {
         Map<String, String> searchValues = new HashMap<String, String>();
         searchValues.put(KFSPropertyConstants.NAME, securityDefinition.getName());
 
-        int matchCount = SpringContext.getBean(BusinessObjectService.class).countMatching(SecurityDefinition.class, searchValues);
+        int matchCount = getBoService().countMatching(SecurityDefinition.class, searchValues);
         if (matchCount > 0) {
             GlobalVariables.getMessageMap().putError(errorKeyPrefix + KFSPropertyConstants.NAME, SecKeyConstants.ERROR_DEFINITION_NAME_NON_UNIQUE, securityDefinition.getName());
             isValid = false;
         }
+        // TODO: check if KIM role exists - fail if present
 
         return isValid;
     }

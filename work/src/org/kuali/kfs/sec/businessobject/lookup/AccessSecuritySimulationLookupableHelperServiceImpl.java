@@ -177,8 +177,9 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
             throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
         }
 
-        if (numCols == 0)
+        if (numCols == 0) {
             numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS;
+        }
 
         rows = FieldUtils.wrapFields(fields, numCols);
     }

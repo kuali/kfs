@@ -28,12 +28,11 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.template.Template;
 import org.kuali.rice.kim.api.permission.Permission;
-import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -88,12 +87,9 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
      * @param newSecurityDefinition SecurityDefinition after updates
      */
     protected void createOrUpdateDefinitionRole(SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition ) { //, List<Permission> permissionsToAssign ) {
-        RoleService roleService = SpringContext.getBean(RoleService.class);
-        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
-
         Role oldRole = null;
         if ( StringUtils.isNotBlank(oldSecurityDefinition.getRoleId()) ) {
-            oldRole = roleService.getRole(oldSecurityDefinition.getRoleId());
+            oldRole = KimApiServiceLocator.getRoleService().getRole(oldSecurityDefinition.getRoleId());
         }
 
         if ( oldRole == null ) {
@@ -103,26 +99,17 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
             newRole.setDescription(newSecurityDefinition.getDescription());
             newRole.setActive(newSecurityDefinition.isActive());
             newRole.setKimTypeId(getDefaultRoleTypeId());
-            roleService.createRole(newRole.build());
-            Role createdRole = roleService.getRoleByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityDefinition.getName());
+            KimApiServiceLocator.getRoleService().createRole(newRole.build());
+            Role createdRole = KimApiServiceLocator.getRoleService().getRoleByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityDefinition.getName());
             newSecurityDefinition.setRoleId(createdRole.getId());
         } else {
             // update role active indicator if it has been updated on the definition
             if ( oldSecurityDefinition.isActive() != newSecurityDefinition.isActive() ) {
                 Role.Builder updatedRole = Role.Builder.create(oldRole);
                 updatedRole.setActive(newSecurityDefinition.isActive());
-                roleService.updateRole(updatedRole.build());
+                KimApiServiceLocator.getRoleService().updateRole(updatedRole.build());
             }
         }
-
-        // assign all permissions for definition to role (have same name as role)
-//        List<Permission> permissions = permissionService.findPermByNamespaceCodeAndName(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, roleName);
-//        for (Permission perm : permissionsToAssign) {
-//            List<String> permissionRoleIds = permissionService.getRoleIdsForPermission(perm.getNamespaceCode(), perm.getName(), null);
-//            if (!permissionRoleIds.contains(newSecurityDefinition.getRoleId())) {
-//                roleService.assignPermissionToRole(perm.getId(), newSecurityDefinition.getRoleId());
-//            }
-//        }
     }
 
     /**
@@ -136,7 +123,6 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
         for (SecurityDefinitionDocumentType definitionDocumentType : securityDefinition.getDefinitionDocumentTypes()) {
             String documentType = definitionDocumentType.getFinancialSystemDocumentTypeCode();
             boolean documentTypePermissionActive = securityDefinition.isActive() && definitionDocumentType.isActive();
-            //boolean isNewDocumentType = newMaintenanceAction || !isDocumentTypeInDefinition(documentType, oldSecurityDefinition);
 
             createOrUpdateDocumentTypePermissions(documentType, documentTypePermissionActive, securityDefinition);
         }
@@ -359,5 +345,13 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
             accessSecurityService = SpringContext.getBean(AccessSecurityService.class);
         }
         return accessSecurityService;
+    }
+
+    @Override
+    public void processBeforeAddLine(String collectionName, Class collectionClass, BusinessObject addedBoLine) {
+        if ( collectionName.equals("definitionDocumentTypes") ) {
+            ((SecurityDefinitionDocumentType)addedBoLine).setDefinitionId( ((SecurityDefinition)getBusinessObject()).getId() );
+        }
+        super.processBeforeAddLine(collectionName, collectionClass, addedBoLine);
     }
 }

@@ -68,7 +68,7 @@
   
   <bean id="SecurityModelDefinition-constraintCode" parent="SecurityModelDefinition-constraintCode-parentBean"/>
 
-  <bean id="SecurityModelDefinition-constraintCode-parentBean" abstract="true" parent="Parameter-parameterConstraintCode">
+  <bean id="SecurityModelDefinition-constraintCode-parentBean" abstract="true" parent="Parameter-evaluationOperatorCode">
     <property name="name" value="constraintCode"/>
     <property name="label" value="Constraint Code"/>
   </bean>

@@ -38,7 +38,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="ModelMember-memberId" parent="ModelMember-memberId-parentBean"/>
 
-  <bean id="ModelMember-memberId-parentBean" abstract="true" parent="RoleMemberImpl-memberId">
+  <bean id="ModelMember-memberId-parentBean" abstract="true" parent="RoleMemberBo-memberId">
     <property name="name" value="memberId"/>
   </bean>
   
@@ -61,7 +61,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="ModelMember-memberTypeCode" parent="ModelMember-memberTypeCode-parentBean"/>
 
-  <bean id="ModelMember-memberTypeCode-parentBean" abstract="true" parent="RoleMemberImpl-memberTypeCode">
+  <bean id="ModelMember-memberTypeCode-parentBean" abstract="true" parent="RoleMemberBo-typeCode">
     <property name="name" value="memberTypeCode"/>
   </bean>
   

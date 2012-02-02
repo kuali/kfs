@@ -88,7 +88,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="AccessSecuritySimulation-inquiryNamespaceCode" parent="AccessSecuritySimulation-inquiryNamespaceCode-parentBean"/>
 
-  <bean id="AccessSecuritySimulation-inquiryNamespaceCode-parentBean" abstract="true" parent="KimTypeImpl-namespaceCode">
+  <bean id="AccessSecuritySimulation-inquiryNamespaceCode-parentBean" abstract="true" parent="Namespace-code">
     <property name="name" value="inquiryNamespaceCode"/>
     <property name="label" value="Inquiry Namespace"/>
     <property name="control">

@@ -53,6 +53,12 @@
 		
 		        <value>classpath:org/kuali/rice/core/web/cache/CacheAdmin.xml</value>
 		
+				<value>classpath:org/kuali/rice/kim/impl/group/Group.xml</value>
+				<value>classpath:org/kuali/rice/kim/impl/role/RoleBo.xml</value>
+				<value>classpath:org/kuali/rice/kim/impl/role/RoleMemberBo.xml</value>
+				<value>classpath:org/kuali/rice/kim/impl/permission/PermissionBo.xml</value>
+				<value>classpath:org/kuali/rice/kim/impl/responsibility/Responsibility.xml</value>		
+		
 		        <value>classpath:org/kuali/rice/coreservice/web/namespace/NamespaceMaintenanceDocument.xml</value>
 		        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterTypeMaintenanceDocument.xml</value>
 		        <value>classpath:org/kuali/rice/location/web/postalcode/PostalCodeMaintenanceDocument.xml</value>

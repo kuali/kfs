@@ -18,7 +18,6 @@ package org.kuali.kfs.sec.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +36,6 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemBusinessObjectEntry;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -56,7 +54,6 @@ import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.cache.annotation.Cacheable;
 
 
 /**
@@ -102,12 +99,13 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * Retrieves any setup security permissions for the given person and evaluates against List of business objects. Any instances
      * not passing validation are removed from given list.
-     * 
+     *
      * @param results List of business object instances with data to check
      * @param person Person to apply security for
      * @param templateId KIM template id for permissions to check
      * @param additionalPermissionDetails Any additional details that should be matched on when retrieving permissions
      */
+    @Override
     public void applySecurityRestrictions(List<? extends BusinessObject> results, Person person, Template permissionTemplate, Map<String,String> additionalPermissionDetails) {
         if (!isAccessSecurityEnabled()) {
             return;
@@ -619,14 +617,14 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         }
         return permissionService;
     }
-    
+
     public RoleService getRoleService() {
         if ( roleService == null ) {
             roleService = KimApiServiceLocator.getRoleService();
         }
         return roleService;
     }
-    
+
     /**
      * Sets the contractsAndGrantsModuleService attribute value.
      *
@@ -736,7 +734,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
     /**
      * Calls access security service to check view access on given GLPE for current user. Access to view the GLPE on the document should be related to the view permissions for an
      * accounting line with the same account attributes. Called from generalLedgerPendingEntries.tag
-     * 
+     *
      * @param pendingEntry GeneralLedgerPendingEntry to check access for
      * @return boolean true if given user has view permission, false otherwise
      */
@@ -745,10 +743,10 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         boolean canView = true;
 
         // If the module has not been loaded, then just skip any further checks as the services will not be defined
-        if ( configurationService.getPropertyValueAsBoolean(SecConstants.ACCESS_SECURITY_MODULE_ENABLED_PROPERTY_NAME) ) {   
+        if ( configurationService.getPropertyValueAsBoolean(SecConstants.ACCESS_SECURITY_MODULE_ENABLED_PROPERTY_NAME) ) {
             if (document instanceof AccountingDocument) {
                 AccountingLine line = new SourceAccountingLine();
-    
+
                 line.setPostingYear(pendingEntry.getUniversityFiscalYear());
                 line.setChartOfAccountsCode(pendingEntry.getChartOfAccountsCode());
                 line.setAccountNumber(pendingEntry.getAccountNumber());
@@ -756,9 +754,9 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
                 line.setFinancialObjectCode(pendingEntry.getFinancialObjectCode());
                 line.setFinancialSubObjectCode(pendingEntry.getFinancialSubObjectCode());
                 line.setProjectCode(pendingEntry.getProjectCode());
-    
+
                 line.refreshNonUpdateableReferences();
-    
+
                 canView = canViewDocumentAccountingLine((AccountingDocument) document, line, GlobalVariables.getUserSession().getPerson());
             }
         }

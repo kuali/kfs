@@ -32,11 +32,13 @@ import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -115,7 +117,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
         // retrieve records for this attribute to iterate over and call security service
         List allAttributeData = (List) getBusinessObjectService().findMatching(attributeClass, searchCriteria);
-        accessSecurityService.applySecurityRestrictions(allAttributeData, person, templateId, additionalPermissionDetails);
+        accessSecurityService.applySecurityRestrictions(allAttributeData, person, KimApiServiceLocator.getPermissionService().getPermissionTemplate(templateId), additionalPermissionDetails);
 
         // iterate through business object instances and construct simulation info result objects
         // for (Iterator iterator = allAttributeData.iterator(); iterator.hasNext();) {
@@ -159,7 +161,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
         }
 
         // construct field object for each search attribute
-        List fields = new ArrayList();
+        List<Field> fields = new ArrayList<Field>();
         int numCols;
         try {
             fields = FieldUtils.createAndPopulateFieldsForLookup(lookupFieldAttributeList, getReadOnlyFieldsList(), getBusinessObjectClass());

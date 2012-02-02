@@ -15,13 +15,10 @@
  */
 package org.kuali.kfs.sec.document;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType;
 import org.kuali.kfs.sec.service.AccessSecurityService;
@@ -69,9 +66,9 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
 
                 createOrUpdateDefinitionRole(oldSecurityDefinition, newSecurityDefinition);
 
-                createOrUpdateDocumentPermissions(oldSecurityDefinition, newSecurityDefinition, newMaintenanceAction);
-                createOrUpdateLookupPermission(oldSecurityDefinition, newSecurityDefinition, newMaintenanceAction);
-                createOrUpdateInquiryPermissions(oldSecurityDefinition, newSecurityDefinition, newMaintenanceAction);
+                createOrUpdateDocumentPermissions(newSecurityDefinition);
+                createOrUpdateLookupPermission(newSecurityDefinition);
+                createOrUpdateInquiryPermissions(newSecurityDefinition);
 
 
                 SpringContext.getBean(IdentityManagementService.class).flushAllCaches();
@@ -117,7 +114,7 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
                 roleService.updateRole(updatedRole.build());
             }
         }
-        
+
         // assign all permissions for definition to role (have same name as role)
 //        List<Permission> permissions = permissionService.findPermByNamespaceCodeAndName(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, roleName);
 //        for (Permission perm : permissionsToAssign) {
@@ -135,13 +132,13 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
      * @param newSecurityDefinition SecurityDefinition record with requested changes (new side of maintenance document)
      * @param newMaintenanceAction Indicates whether this is a new maintenance record (old side in empty)
      */
-    protected void createOrUpdateDocumentPermissions(SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition, boolean newMaintenanceAction) {
-        for (SecurityDefinitionDocumentType definitionDocumentType : newSecurityDefinition.getDefinitionDocumentTypes()) {
+    protected void createOrUpdateDocumentPermissions(SecurityDefinition securityDefinition) {
+        for (SecurityDefinitionDocumentType definitionDocumentType : securityDefinition.getDefinitionDocumentTypes()) {
             String documentType = definitionDocumentType.getFinancialSystemDocumentTypeCode();
-            boolean documentTypePermissionActive = newSecurityDefinition.isActive() && definitionDocumentType.isActive();
+            boolean documentTypePermissionActive = securityDefinition.isActive() && definitionDocumentType.isActive();
             //boolean isNewDocumentType = newMaintenanceAction || !isDocumentTypeInDefinition(documentType, oldSecurityDefinition);
 
-            createOrUpdateDocumentTypePermissions(documentType, documentTypePermissionActive, oldSecurityDefinition, newSecurityDefinition);
+            createOrUpdateDocumentTypePermissions(documentType, documentTypePermissionActive, securityDefinition);
         }
     }
 
@@ -154,23 +151,12 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
      * @param newSecurityDefinition SecurityDefinition record with requested changes (new side of maintenance document)
      * @param newMaintenanceAction Indicates whether this is a new maintenance record (old side in empty)
      */
-    protected void createOrUpdateLookupPermission(SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition, boolean newMaintenanceAction) {
-        Map<String,String> permissionDetails = populateLookupPermissionDetails(newSecurityDefinition);
+    protected void createOrUpdateLookupPermission(SecurityDefinition securityDefinition) {
+        Template lookupTemplate = getAccessSecurityService().getLookupWithFieldValueTemplate();
 
-        String permissionId = "";
-        if (!newMaintenanceAction) {
-            // find old Lookup permission
-            List<Permission> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(), getAccessSecurityService().getLookupWithFieldValueTemplate());
-            if (permissions != null && !permissions.isEmpty()) {
-                Permission oldPermission = permissions.get(0);
-                permissionId = oldPermission.getId();
-            }
-        }
+        String permissionName = securityDefinition.getName() + "/" + lookupTemplate.getName();
 
-        // need to save lookup permission if new side indicator is true or already has a permission in which case we need to update details and active indicator
-        if (newSecurityDefinition.isRestrictLookup() || StringUtils.isNotBlank(permissionId)) {
-            createOrUpdateDocumentTypePermissionAndAssignToRole(newSecurityDefinition, permissionId, getAccessSecurityService().getLookupWithFieldValueTemplate(), newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictLookup(), permissionDetails);
-        }
+        createOrUpdatePermissionAndAssignToRole(permissionName, securityDefinition.getRoleId(), securityDefinition.getDescription(), securityDefinition.isRestrictLookup(), lookupTemplate, getLookupPermissionDetails(securityDefinition));
     }
 
     /**
@@ -183,42 +169,19 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
      * @param newSecurityDefinition SecurityDefinition record with requested changes (new side of maintenance document)
      * @param newMaintenanceAction Indicates whether this is a new maintenance record (old side in empty)
      */
-    protected void createOrUpdateInquiryPermissions(SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition) {
+    protected void createOrUpdateInquiryPermissions(SecurityDefinition securityDefinition) {
         // find old inquiry permissions
-        String glPermissionName = newSecurityDefinition.getName() + "/" + getAccessSecurityService().getInquiryWithFieldValueTemplate().getName() + "/" + KFSConstants.CoreModuleNamespaces.GL;
-        String ldPermissionName = newSecurityDefinition.getName() + "/" + getAccessSecurityService().getInquiryWithFieldValueTemplate().getName() + "/" + KFSConstants.OptionalModuleNamespaces.LABOR_DISTRIBUTION;
-        
+        Template inquiryTemplate = getAccessSecurityService().getInquiryWithFieldValueTemplate();
+        String glPermissionName = securityDefinition.getName() + "/" + inquiryTemplate.getName() + "/" + KFSConstants.CoreModuleNamespaces.GL;
+        String ldPermissionName = securityDefinition.getName() + "/" + inquiryTemplate.getName() + "/" + KFSConstants.OptionalModuleNamespaces.LABOR_DISTRIBUTION;
+
         Permission glPermission = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, glPermissionName );
         Permission ldPermission = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, ldPermissionName );
 
         // need to save gl inquiry permission if new side indicator is true or already has a permission in which case we need to update details and active indicator
-        if ( newSecurityDefinition.isRestrictGLInquiry() ) {
-            if ( glPermission == null ) {
-                createOrUpdateDocumentTypePermissionAndAssignToRole(oldSecurityDefinition, newSecurityDefinition, 
-                        true, getAccessSecurityService().getInquiryWithFieldValueTemplate(), 
-                        glPermissionName, 
-                        populateInquiryPermissionDetails(KFSConstants.CoreModuleNamespaces.GL,newSecurityDefinition));
-            } else if ( !glPermission.isActive() ) {
-                // reactivate the permission
-            }
-        } else {
-            if ( glPermission != null && glPermission.isActive() ) {
-                // inactivate the permission
-            }
-        }
-        // TODO: complete the above and then refactor so that code is not duplicated for LD
-        
-        
-        if (newSecurityDefinition.isRestrictGLInquiry() || StringUtils.isNotBlank(glPermissionId)) {
-            Map<String,String> permissionDetails = populateInquiryPermissionDetails(KFSConstants.ParameterNamespaces.GL, newSecurityDefinition);
-            createOrUpdateDocumentTypePermissionAndAssignToRole(newSecurityDefinition, glPermissionId, getAccessSecurityService().getInquiryWithFieldValueTemplate(), newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictGLInquiry(), permissionDetails);
-        }
+        createOrUpdatePermissionAndAssignToRole(glPermissionName, securityDefinition.getRoleId(), securityDefinition.getDescription(), securityDefinition.isRestrictGLInquiry(), inquiryTemplate, getInquiryPermissionDetails(KFSConstants.CoreModuleNamespaces.GL,securityDefinition));
 
-        // need to save ld inquiry permission if new side indicator is true or already has a permission in which case we need to update details and active indicator
-        if (newSecurityDefinition.isRestrictLaborInquiry() || StringUtils.isNotBlank(ldPermissionId)) {
-            Map<String,String> permissionDetails = populateInquiryPermissionDetails(SecConstants.LABOR_MODULE_NAMESPACE_CODE, newSecurityDefinition);
-            createOrUpdateDocumentTypePermissionAndAssignToRole(newSecurityDefinition, ldPermissionId, getAccessSecurityService().getInquiryWithFieldValueTemplate(), newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictLaborInquiry(), permissionDetails);
-        }
+        createOrUpdatePermissionAndAssignToRole(ldPermissionName, securityDefinition.getRoleId(), securityDefinition.getDescription(), securityDefinition.isRestrictLaborInquiry(), inquiryTemplate, getInquiryPermissionDetails(KFSConstants.OptionalModuleNamespaces.LABOR_DISTRIBUTION,securityDefinition));
     }
 
     /**
@@ -229,58 +192,40 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
      * @param oldSecurityDefinition SecurityDefiniton record before requested changes (old side of maintenance document)
      * @param newSecurityDefinition SecurityDefinition record with requested changes (new side of maintenance document)
      */
-    protected void createOrUpdateDocumentTypePermissions(String documentType, boolean active, SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition) {
-        Map<String,String> permissionDetails = populateDocumentTypePermissionDetails(documentType, newSecurityDefinition);
+    protected void createOrUpdateDocumentTypePermissions(String documentType, boolean active, SecurityDefinition securityDefinition) {
+        Map<String,String> permissionDetails = populateDocumentTypePermissionDetails(documentType, securityDefinition);
         // Permission Names must be unique
         // So - Security Definition Name/template name/document type
         // view document
         Template permissionTemplate = getAccessSecurityService().getViewDocumentWithFieldValueTemplate();
-        String permissionName = newSecurityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
-        createOrUpdateDocumentTypePermissionAndAssignToRole(oldSecurityDefinition, newSecurityDefinition, active && newSecurityDefinition.isRestrictViewDocument(), permissionTemplate, permissionName, permissionDetails);
+        String permissionName = securityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
+        createOrUpdatePermissionAndAssignToRole(permissionName, securityDefinition.getRoleId(), securityDefinition.getDescription(),
+                active && securityDefinition.isRestrictViewDocument(), permissionTemplate, permissionDetails);
 
         // view accounting line
         permissionTemplate = getAccessSecurityService().getViewAccountingLineWithFieldValueTemplate();
-        permissionName = newSecurityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
-        createOrUpdateDocumentTypePermissionAndAssignToRole(oldSecurityDefinition, newSecurityDefinition, active && newSecurityDefinition.isRestrictViewAccountingLine(),  permissionTemplate, permissionName, permissionDetails);
+        permissionName = securityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
+        createOrUpdatePermissionAndAssignToRole(permissionName, securityDefinition.getRoleId(), securityDefinition.getDescription(),
+                active && securityDefinition.isRestrictViewAccountingLine(),  permissionTemplate, permissionDetails);
 
         // view notes/attachments
         permissionTemplate = getAccessSecurityService().getViewNotesAttachmentsWithFieldValueTemplate();
-        permissionName = newSecurityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
-        createOrUpdateDocumentTypePermissionAndAssignToRole(oldSecurityDefinition, newSecurityDefinition, active && newSecurityDefinition.isRestrictViewNotesAndAttachments(),  permissionTemplate, permissionName, permissionDetails);
+        permissionName = securityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
+        createOrUpdatePermissionAndAssignToRole(permissionName, securityDefinition.getRoleId(), securityDefinition.getDescription(),
+                active && securityDefinition.isRestrictViewNotesAndAttachments(),  permissionTemplate, permissionDetails);
 
         // edit accounting line
         permissionTemplate = getAccessSecurityService().getEditAccountingLineWithFieldValueTemplate();
-        permissionName = newSecurityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
-        createOrUpdateDocumentTypePermissionAndAssignToRole(oldSecurityDefinition, newSecurityDefinition, active && newSecurityDefinition.isRestrictEditAccountingLine(),  permissionTemplate, permissionName, permissionDetails);
+        permissionName = securityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
+        createOrUpdatePermissionAndAssignToRole(permissionName, securityDefinition.getRoleId(), securityDefinition.getDescription(),
+                active && securityDefinition.isRestrictEditAccountingLine(),  permissionTemplate, permissionDetails);
 
         // edit document
         permissionTemplate = getAccessSecurityService().getEditDocumentWithFieldValueTemplate();
-        permissionName = newSecurityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
-        createOrUpdateDocumentTypePermissionAndAssignToRole(oldSecurityDefinition, newSecurityDefinition, active && newSecurityDefinition.isRestrictEditDocument(),  permissionTemplate, permissionName, permissionDetails);
+        permissionName = securityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + documentType;
+        createOrUpdatePermissionAndAssignToRole(permissionName, securityDefinition.getRoleId(), securityDefinition.getDescription(),
+                active && securityDefinition.isRestrictEditDocument(),  permissionTemplate, permissionDetails);
     }
-
-//    /**
-//     * First tries to find an existing permission for the document type, template, and definition. If found the permission will be updated with the new details and the active
-//     * indicator will be updated based on the active parameter. If not found and active parameter is true, then a new permission is created for the given doc type, template, and
-//     * definition.
-//     *
-//     * @param documentType workflow document type name for permission detail
-//     * @param active boolean indicating whether the permissions should be set to active (true) or non-active (false)
-//     * @param oldSecurityDefinition SecurityDefiniton record before requested changes (old side of maintenance document)
-//     * @param newSecurityDefinition SecurityDefinition record with requested changes (new side of maintenance document)
-//     * @param templateId KIM template id for the permission record that is should be created or updated
-//     */
-//    protected void createOrUpdateDocumentTypePermission(String documentType, boolean active, SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition, String templateId) {
-//        Map<String,String> permissionDetails = populateDocumentTypePermissionDetails(documentType, newSecurityDefinition);
-//
-//        Permission oldPermission = findDocumentPermission(oldSecurityDefinition, templateId, documentType);
-//        String permissionId = "";
-//        if (oldPermission != null) {
-//            permissionId = oldPermission.getId();
-//        }
-//
-//        createOrUpdateDocumentTypePermissionAndAssignToRole(newSecurityDefinition, permissionId, templateId, active, permissionDetails);
-//    }
 
     /**
      * Builds an Map<String,String> populated from the given method parameters. Details are set based on the KIM 'Security Document Permission' type.
@@ -303,7 +248,7 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
      * @param securityDefinition SecurityDefiniton record
      * @return Map<String,String> populated with property name, operator, and property value details
      */
-    protected Map<String,String> populateLookupPermissionDetails(SecurityDefinition securityDefinition) {
+    protected Map<String,String> getLookupPermissionDetails(SecurityDefinition securityDefinition) {
         Map<String,String> permissionDetails = new HashMap<String,String>();
         permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, securityDefinition.getSecurityAttribute().getName());
 
@@ -317,64 +262,13 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
      * @param securityDefinition SecurityDefiniton record
      * @return Map<String,String> populated with namespace, property name, operator, and property value details
      */
-    protected Map<String,String> populateInquiryPermissionDetails(String namespaceCode, SecurityDefinition securityDefinition) {
+    protected Map<String,String> getInquiryPermissionDetails(String namespaceCode, SecurityDefinition securityDefinition) {
         Map<String,String> permissionDetails = new HashMap<String,String>();
         permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
         permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, securityDefinition.getSecurityAttribute().getName());
 
         return permissionDetails;
     }
-
-//    /**
-//     * Calls helper method to find all permissions for the given template ID and security defintion name (permission name). Iterates through the results to find the permission with
-//     * matching document type detail
-//     *
-//     * @param securityDefinition SecurityDefiniton record for permission
-//     * @param templateId KIM template ID for permission
-//     * @param documentType KEW document type name for permission detail
-//     * @return Permission provides information on the matching permission
-//     */
-//    protected Permission findDocumentPermission(SecurityDefinition securityDefinition, String templateId, String documentType) {
-//        // get all the permissions for the definition record and template
-//        List<Permission> permissions = findSecurityPermissionsByNameAndTemplate(securityDefinition.getName(), templateId);
-//
-//        // iterate through permission list finding permissions that have the document type detail
-//        Permission foundPermission = null;
-//        for (Permission permissionInfo : permissions) {
-//            String permissionDocType = permissionInfo.getAttributes().get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
-//            if (StringUtils.equalsIgnoreCase(documentType, permissionDocType)) {
-//                foundPermission = permissionInfo;
-//                break;
-//            }
-//        }
-//
-//        return foundPermission;
-//    }
-
-//    /**
-//     * Calls permission service to find all permissions for the given name. Iterates through results and finds ones that match given template ID as well
-//     *
-//     * @param permissionName name of permission to find
-//     * @param templateId KIM template ID of permission to find
-//     * @return List<Permission> List of matching permissions
-//     * @see org.kuali.rice.kim.service.PermissionService#getPermissionsByName()
-//     */
-//    protected List<Permission> findSecurityPermissionsByNameAndTemplate(String permissionName, String templateId) {
-//        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
-//
-//        // get all the permissions for the given name
-//        throw new UnsupportedOperationException("Implmentation not correct for Rice 2.0 - needs to use a criteria to and a prefix string");
-//        List<Permission> permissions = permissionService.findPermsByNamespaceCodeTemplateName(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, permissionName);
-//
-//        List<Permission> templatePermissions = new ArrayList<Permission>();
-//        for (Permission permissionInfo : permissions) {
-//            if (StringUtils.equals(templateId, permissionInfo.getTemplate().getId())) {
-//                templatePermissions.add(permissionInfo);
-//            }
-//        }
-//
-//        return templatePermissions;
-//    }
 
     /**
      * Determines whether a given document type name is included in the document type list for the given security definition
@@ -404,40 +298,42 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
      * @param permissionDetails Map<String,String> representing the permission details
      * @see org.kuali.rice.kim.service.PermissionUpdateService#savePermission()
      */
-    protected void createOrUpdateDocumentTypePermissionAndAssignToRole(SecurityDefinition oldSecurityDefinition, SecurityDefinition securityDefinition, boolean active, Template permissionTemplate, String permissionName, Map<String,String> permissionDetails) {
-//        String permissionName = securityDefinition.getName() + "/" + permissionTemplate.getName() + "/" + permissionDetails.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
-        
-        // Ensure it does not already exist
+    protected void createOrUpdatePermissionAndAssignToRole(String permissionName, String roleId, String permissionDescription, boolean active, Template permissionTemplate, Map<String,String> permissionDetails) {
+        // Get the existing permission
         Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, permissionName);
-        
+
         if ( perm == null ) {
             if ( active ) {
                 Permission.Builder newPerm = Permission.Builder.create(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, permissionName);
                 newPerm.setTemplate( Template.Builder.create(permissionTemplate) );
-                newPerm.setDescription(securityDefinition.getDescription() );
+                newPerm.setDescription(permissionDescription );
                 newPerm.setAttributes(permissionDetails);
                 newPerm.setActive(true);
                 if ( LOG.isDebugEnabled() ) {
                     LOG.debug( "About to save new permission: " + newPerm);
-                }        
+                }
                 KimApiServiceLocator.getPermissionService().createPermission(newPerm.build());
                 // now, reload to get the permission ID
                 perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, permissionName);
             }
         } else {
             if ( perm.isActive() != active ) {
-                Permission.Builder updatedPerm = Permission.Builder.create(perm);            
+                Permission.Builder updatedPerm = Permission.Builder.create(perm);
                 updatedPerm.setActive(active);
                 KimApiServiceLocator.getPermissionService().updatePermission(updatedPerm.build());
             }
         }
-        
+
+        assignPermissionToRole(perm, roleId);
+    }
+
+    protected void assignPermissionToRole( Permission perm, String roleId ) {
         if ( perm != null ) {
-            if ( active ) {
-                KimApiServiceLocator.getRoleService().assignPermissionToRole(perm.getId(), securityDefinition.getRoleId());
+            if ( perm.isActive() ) {
+                KimApiServiceLocator.getRoleService().assignPermissionToRole(perm.getId(), roleId );
             } else {
-                // RICE20: We need this API to exist on Rice 2.0
-//                KimApiServiceLocator.getRoleService().removePermissionFromRole(perm.getId(), securityDefinition.getRoleId());
+                throw new UnsupportedOperationException( "Unable to proceed: revokePermissionFromRole not implemented on KIM Permission Service" );
+                // RICE20: KimApiServiceLocator.getRoleService().revokePermissionFromRole(perm.getId(), roleId );
             }
         }
     }

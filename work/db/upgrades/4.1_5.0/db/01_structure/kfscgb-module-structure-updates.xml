@@ -14,17 +14,17 @@
 	<changeSet author="kfs" id="CG_AGENCY_ADDR_TYP_T">
 		<createTable tableName="CG_AGENCY_ADDR_TYP_T">
 			<column name="CG_AGENCY_ADDR_TYPE_CD" type="varchar(2)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="CG_AGENCY_ADDR_TYP_DESC" type="varchar(30)" />
 			<column name="ROW_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -33,14 +33,14 @@
 	<changeSet author="kfs" id="CG_AGENCY_ADDR_T">
 		<createTable tableName="CG_AGENCY_ADDR_T">
 			<column name="CG_AGENCY_NBR" type="varchar(5)" defaultValue="">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="CG_AGENCY_ADDR_ID" type="decimal(12,0)"
 				defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
 			<column name="CG_AGENCY_ADDR_NM" type="varchar(40)" />
@@ -77,7 +77,7 @@
 		dbms="mysql">
 		<createTable tableName="AGENCY_ADDR_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
@@ -91,17 +91,17 @@
 	<changeSet author="kfs" id="CG_FIN_FORM_TYP_T">
 		<createTable tableName="CG_FIN_FORM_TYP_T">
 			<column name="FIN_FORM_TYP_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="FIN_FORM_TYP_DESC" type="varchar(45)" />
 			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -111,17 +111,17 @@
 	<changeSet author="kfs" id="CG_CNTRCT_GRNT_TYP_T">
 		<createTable tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="CNTRCT_GRNT_TYP_DESC" type="varchar(45)" />
 			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -131,17 +131,17 @@
 	<changeSet author="kfs" id="CG_INV_TYP_T">
 		<createTable tableName="CG_INV_TYP_T">
 			<column name="INV_TYP_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="INV_TYP_DESC" type="varchar(45)" />
 			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -154,17 +154,17 @@
 	<changeSet author="kfs" id="CG_FIN_RPT_FREQ_T">
 		<createTable tableName="CG_FIN_RPT_FREQ_T">
 			<column name="FIN_RPT_FREQ_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="FIN_RPT_FREQ_DESC" type="varchar(45)" />
 			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -174,17 +174,17 @@
 	<changeSet author="kfs" id="CG_BILL_FREQ_T">
 		<createTable tableName="CG_BILL_FREQ_T">
 			<column name="BILL_FREQ_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="BILL_FREQ_DESC" type="varchar(45)" />
 			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -195,17 +195,17 @@
 	<changeSet author="kfs" id="CG_SRC_OF_FNDS_T">
 		<createTable tableName="CG_SRC_OF_FNDS_T">
 			<column name="SRC_OF_FNDS_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="SRC_OF_FNDS_DESC" type="varchar(45)" />
 			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -215,17 +215,17 @@
 	<changeSet author="kfs" id="CG_AGENCY_ACTVTY_T">
 		<createTable tableName="CG_AGENCY_ACTVTY_T">
 			<column name="AGENCY_ACT_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="AGENCY_ACT_DESC" type="varchar(45)" />
 			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -302,10 +302,10 @@
 			<column name="MLSTN_ID" type="decimal(12,0)" defaultValue="0">
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_AMT" type="decimal(19,2)" />
@@ -322,7 +322,7 @@
 	<changeSet author="kfs" id="CGB_MLSTN_ID_SEQ_mysql" dbms="mysql">
 		<createTable tableName="MLSTN_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
@@ -337,19 +337,19 @@
 	<changeSet author="kfs" id="CG_BILL_T">
 		<createTable tableName="CG_BILL_T">
 			<column name="BILL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="BILL_ID" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="BILL_DT" type="datetime" />
 			<column name="EST_AMT" type="decimal(7,0)" />
@@ -369,7 +369,7 @@
 	<changeSet author="kfs" id="CGB_BILL_ID_SEQ_mysql" dbms="mysql">
 		<createTable tableName="BILL_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
@@ -417,21 +417,21 @@
 	<changeSet author="kfs" id="AWARD_FUND_MANAGER">
 		<createTable tableName="CG_AWD_FNDMGR_T">
 			<column name="PERSON_UNVL_ID" type="varchar(40)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="CGAWD_PRM_FNDMGR_IND" type="varchar(1)" />
 			<column name="CGAWD_FNDMGR_PRJ_TTL" type="varchar(100)" />
 			<column name="ROW_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 		<addForeignKeyConstraint constraintName="CG_AWD_FNDMGR_TR2"
@@ -445,13 +445,13 @@
 	<changeSet author="kfs" id="CG_MLSTN_SCHDL_T">
 		<createTable tableName="CG_MLSTN_SCHDL_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="TOT_AMT_SCHDL" type="decimal(19,2)" />
 			<column name="TOT_AWD_REMNG" type="decimal(19,2)" />
@@ -467,10 +467,10 @@
 			<column name="FDOC_NBR" type="varchar(10)" />
 			<column name="INV_CTG" type="varchar(120)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="INV_BDGT" type="decimal(19,2)" />
 			<column name="INV_EXPND" type="decimal(19,2)" />
@@ -499,21 +499,21 @@
 	<changeSet author="kfs" id="AR_INV_AGENCY_ADDR_DTL_T">
 		<createTable tableName="AR_INV_AGENCY_ADDR_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="AGENCY_NBR" type="varchar(5)" defaultValue="">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="AGENCY_ADDR_ID" type="decimal(12,0)"
 				defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="AGENCY_ADDR_TYPE_CD" type="varchar(2)" />
 			<column name="AGENCY_ADDR_NM" type="varchar(40)" />
 			<column name="AGENCY_INV_TYP_CD" type="varchar(10)" />
 			<column name="PREF_AGENCY_INV_TYP_CD" type="varchar(10)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
 		</createTable>
@@ -523,23 +523,23 @@
 	<changeSet author="kfs" id="AR_INV_ACCT_DTL_T">
 		<createTable tableName="AR_INV_ACCT_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FIN_COA_CD" type="varchar(2)" defaultValue="">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="ACCOUNT_NBR" type="varchar(7)" defaultValue="">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="BDGT_AMT" type="decimal(19,2)" />
 			<column name="EXP_AMT" type="decimal(19,2)" />
 			<column name="CUM_AMT" type="decimal(19,2)" />
 			<column name="BAL_AMT" type="decimal(19,2)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
 		</createTable>
@@ -590,7 +590,7 @@
 	<changeSet author="kfs" id="CGB_INV_DTL_SEQ_mysql" dbms="mysql">
 		<createTable tableName="INV_DTL_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
@@ -654,7 +654,7 @@
 	<changeSet author="kfs" id="AR_INV_GNRL_DTL_T">
 		<createTable tableName="AR_INV_GNRL_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="AWD_DT_RNG" type="varchar(50)" />
 			<column name="BILL_FREQ" type="varchar(50)" />
@@ -662,10 +662,10 @@
 			<column name="CNTRCT_GRNT_TYP" type="varchar(50)" />
 			<column name="FINAL_BILL" type="varchar(1)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="AWD_TOT" type="decimal(19,2)" />
 			<column name="NW_TOT_BLD" type="decimal(19,2)" />
@@ -704,7 +704,7 @@
 	<changeSet author="kfs" id="CG_LTRCR_FND_T">
 		<createTable tableName="CG_LTRCR_FND_T">
 			<column name="CG_LTRCR_FND_CD" type="varchar(15)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="CG_LTRCR_FND_DESC" type="varchar(40)" />
 			<column name="CG_LTRCR_FNDGRP_CD" type="varchar(4)" />
@@ -721,17 +721,17 @@
 	<changeSet author="kfs" id="AR_CATEGORIES_T">
 		<createTable tableName="AR_CATEGORIES_T">
 			<column name="CTGRY_CD" type="varchar(4)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="CTGRY_NM" type="varchar(127)" />
 			<column name="CTGRY_DESC" type="varchar(45)" />
 			<column name="OBJ_CDS" type="varchar(255)" />
 			<column name="CTGRY_ACTV_IND" type="varchar(1)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -739,7 +739,7 @@
 	<changeSet author="kfs" id="CG_AWD_INV_ACCT_T">
 		<createTable tableName="CG_AWD_INV_ACCT_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FIN_COA_CD" type="varchar(2)" />
 			<column name="UNIV_FISCAL_YR" type="decimal(4,0)" />
@@ -750,7 +750,7 @@
 			<column name="ACCT_TYP" type="varchar(45)" />
 			<column name="ROW_ACTV_IND" type="varchar(1)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
 		</createTable>
@@ -806,7 +806,7 @@
 	<changeSet author="kfs" id="CG_LTRCR_FND_T_ADD_FIELDS">
 		<addColumn tableName="CG_LTRCR_FND_T">
 			<column name="ROW_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</addColumn>
 	</changeSet>
@@ -852,22 +852,22 @@
 	<changeSet author="kfs" id="AR_INV_MLSTN_T">
 		<createTable tableName="AR_INV_MLSTN_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="MLSTN_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="MLSTN_ID" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_COMPLTN_DT" type="datetime" />
@@ -889,7 +889,7 @@
 	<changeSet author="kfs" id="CGB_INV_MLSTN_ID_SEQ_mysql" dbms="mysql">
 		<createTable tableName="INV_MLSTN_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
@@ -901,22 +901,22 @@
 	<changeSet author="kfs" id="AR_INV_BILL_T">
 		<createTable tableName="AR_INV_BILL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="BILL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="BILL_ID" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="BILL_DESC" type="varchar(45)" />
 			<column name="BILL_DT" type="datetime" />
@@ -937,7 +937,7 @@
 	<changeSet author="kfs" id="CGB_INV_BILL_ID_SEQ_mysql" dbms="mysql">
 		<createTable tableName="INV_BILL_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
@@ -1027,17 +1027,17 @@
 	<changeSet author="kfs" id="CG_INV_IND_T">
 		<createTable tableName="CG_INV_IND_T">
 			<column name="INV_IND_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="INV_IND_DESC" type="varchar(45)" />
 			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -1066,35 +1066,35 @@
 	<changeSet author="kfs" id="AR_INV_DTL_ACCT_OBJ_CD_T">
 		<createTable tableName="AR_INV_DTL_ACCT_OBJ_CD_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FIN_COA_CD" type="varchar(2)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="ACCOUNT_NBR" type="varchar(7)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FIN_OBJ_CD" type="varchar(4)">
 				<constraints primaryKey="true" />
 			</column>
 			<column name="CTGRY_CD" type="varchar(4)" />
 			<column name="TTL_BILLED" type="decimal(12,2)" defaultValue="0">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="CURR_EXPND" type="decimal(12,2)" defaultValue="0">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="CUM_EXPND" type="decimal(12,2)" defaultValue="0">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 		<addForeignKeyConstraint constraintName="AR_INV_DTL_ACCT_OBJ_CD_FK1"
@@ -1108,25 +1108,25 @@
 	<changeSet author="kfs" id="AR_AWD_ACCT_OBJ_CD_TTL_BILLED_T">
 		<createTable tableName="AR_AWDACCT_OBJCD_TL_BLD_T">
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FIN_COA_CD" type="varchar(2)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="ACCOUNT_NBR" type="varchar(7)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FIN_OBJ_CD" type="varchar(4)">
 				<constraints primaryKey="true" />
 			</column>
 			<column name="TTL_BILLED" type="decimal(12,2)" defaultValue="0">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 		<addForeignKeyConstraint constraintName="AR_AWDACCT_OBJCD_TL_BLD_FK"
@@ -1181,16 +1181,16 @@
 		<dropTable tableName="CG_AWD_INV_ACCT_T" />
 		<createTable tableName="CG_AWD_INV_ACCT_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FIN_COA_CD" type="varchar(2)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="UNIV_FISCAL_YR" type="decimal(4,0)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="ACCOUNT_NBR" type="varchar(7)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FIN_OBJECT_CD" type="varchar(4)" />
 			<column name="SUB_ACCT_NBR" type="varchar(5)" />
@@ -1199,7 +1199,7 @@
 			<column name="ACCT_TYP" type="varchar(45)" />
 			<column name="ROW_ACTV_IND" type="varchar(1)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
 		</createTable>
@@ -1240,14 +1240,14 @@
 	<changeSet author="kfs" id="AR_SUSP_CTGRY_T">
 		<createTable tableName="AR_SUSP_CTGRY_T">
 			<column name="SUSP_CTGRY_CD" type="varchar(4)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="SUSP_CTGRY_DESC" type="varchar(200)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="ROW_ACTV_IND" type="varchar(1)" defaultValue="Y" />
 		</createTable>
@@ -1257,16 +1257,16 @@
 	<changeSet author="kfs" id="AR_INV_SUSP_CTGRY_T">
 		<createTable tableName="AR_INV_SUSP_CTGRY_T">
 			<column name="SUSP_CTGRY_CD" type="varchar(4)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -1291,7 +1291,7 @@
 	<changeSet author="kfs" id="AR_LOC_RVW_DOC_T">
 		<createTable tableName="AR_LOC_RVW_DOC_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 	</changeSet>
@@ -1308,17 +1308,17 @@
 	<changeSet author="kfs" id="AR_FINAL_INV_RVRSL_ENTRY_T_CREATE">
 		<createTable tableName="AR_FINAL_INV_RVRSL_ENTRY_T">
 			<column name="ENTRY_ID" type="decimal(12,0)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="DOC_HDR_ID" type="decimal(12,0)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="INVOICE_NBR" type="VARCHAR(14)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -1335,7 +1335,7 @@
 		id="CGB_FINAL_INV_RVRSL_ENTRY_SEQ_CREATE_mysql" dbms="mysql">
 		<createTable tableName="FINAL_INV_RVRSL_ENTRY_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
@@ -1346,13 +1346,13 @@
 	<changeSet author="kfs" id="AR_FINAL_INV_RVRSL_DOC_T_CREATE">
 		<createTable tableName="AR_FINAL_INV_RVRSL_DOC_T">
 			<column name="DOC_HDR_ID" type="decimal(12,0)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 		</createTable>
 	</changeSet>
@@ -1464,11 +1464,11 @@
 	<changeSet author="kfs" id="AR_LOC_RVW_DTL_T_RECREATE">
 		<createTable tableName="AR_LOC_RVW_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="LOC_RVW_DTL_ID" type="decimal(12,0)"
 				defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0"></column>
 			<column name="FIN_COA_CD" type="varchar(2)"></column>
@@ -1477,10 +1477,10 @@
 			<column name="AMT_DRW" type="decimal(19,2)" defaultValue="0" />
 			<column name="AMT_AVL_DRW" type="decimal(19,2)" defaultValue="0" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="AWD_DOC_NBR" type="varchar(12)" />
 			<column name="ACCOUNT_DESC" type="varchar(45)" />
@@ -1509,7 +1509,7 @@
 		dbms="mysql">
 		<createTable tableName="LOC_RVW_DTL_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
@@ -1521,14 +1521,14 @@
 	<changeSet author="kfs" id="CREATE_CG_AWRD_CRT_DFLT_T">
 		<createTable tableName="CG_AWD_CRT_DFLT_T">
 			<column name="AWD_DFLT_ID" type="decimal(22,0)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="KC_UNIT" type="varchar(8)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="ROW_ACTV_IND" type="varchar(1)" />
 		</createTable>
@@ -1538,19 +1538,19 @@
 	<changeSet author="kfs" id="CREATE_CG_AWRD_ACCT_DFLT_T">
 		<createTable tableName="CG_AWD_ACCT_DFLT_T">
 			<column name="AWD_DFLT_ID" type="decimal(22,0)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="FIN_COA_CD" type="varchar(2)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="ACCOUNT_NBR" type="varchar(7)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="PERSON_UNVL_ID" type="varchar(40)" />
 			<column name="ROW_ACTV_IND" type="varchar(1)" />
@@ -1566,7 +1566,7 @@
 		dbms="mysql">
 		<createTable tableName="CG_AWD_CRT_DFLT_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
@@ -1577,20 +1577,20 @@
 	<changeSet author="kfs" id="CREATE_CG_PRPSL_CRT_DFLT_T">
 		<createTable tableName="CG_PRPSL_CRT_DFLT_T">
 			<column name="PRPSL_DFLT_ID" type="decimal(22,0)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="KC_UNIT" type="varchar(8)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 			<column name="PRPSL_PRJ_DRTR_ID" type="varchar(40)" />
 			<column name="PRPSL_INDRCS_AMT" type="decimal(19,2)" />
 			<column name="FIN_COA_CD" type="varchar(2)" />
 			<column name="ORG_CD" type="varchar(4)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
+				
 			</column>
 			<column name="ROW_ACTV_IND" type="varchar(1)" />
 		</createTable>
@@ -1605,7 +1605,7 @@
 		dbms="mysql">
 		<createTable tableName="CG_PRPSL_CRT_DFLT_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" />
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">

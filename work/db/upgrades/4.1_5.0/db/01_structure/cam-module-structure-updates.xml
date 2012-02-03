@@ -7,38 +7,29 @@
   <constraints primaryKey="true" nullable="false"/>
   </column>
   <column name="OBJ_ID" type="VARCHAR2(36)">
-  <constraints nullable="false" />
   </column>
   <column name="VER_NBR" type="NUMBER(8)">
-  <constraints nullable="false" />
   </column>
   <column name="AST_PMT_DST_NM" type="VARCHAR2(40)">
-  <constraints nullable="false" />
   </column>
   <column name="AST_PMT_DST_COL_NM" type="VARCHAR2(40)">
-  <constraints nullable="false" />
   </column>
   <column name="AST_PMT_DST_EDT" type="VARCHAR2(1)" >
-  <constraints nullable="false" />
   </column>
   <column name="ROW_ACTV_IND" type="VARCHAR2(1)" >
-  <constraints nullable="false" />
   </column>
  </createTable>
 
  <addColumn tableName="CM_AST_PMT_AST_DTL_T">
   <column name="CPTLAST_ALLOC_AMT" type="NUMBER(19,2)" defaultValueNumeric="0">
-   <constraints nullable="false" />
    </column>
 	<column name="CPTLAST_ALLOC_VAL" type="NUMBER(19,2)">
-   <constraints nullable="false" />
   </column>
 	<column name="CPTLAST_ALLOC_VAL_PCT" type="NUMBER(19,6)"/>
 </addColumn>
 
  <addColumn tableName="CM_AST_PMT_DOC_T">
   <column name="AST_PMT_DST_CD" type="VARCHAR2(2)" defaultValue="2">
-   <constraints nullable="false" />
   </column>
  </addColumn>
 
@@ -73,10 +64,8 @@
                 <constraints primaryKey="true" nullable="false"/>
       </column>
       <column name="OBJ_ID" type="VARCHAR2(36)">
-        <constraints nullable="false" />
       </column>
       <column name="VER_NBR" type="NUMBER(8)" defaultValue="1">
-        <constraints nullable="false" />
       </column>
       <column name="YEAR_END_DEPR_RUN_DATE" type="DATE"/>
       <column name="YEAR_END_DEPR_ACTV_IND" type="VARCHAR2(1)"/>
@@ -84,16 +73,14 @@
 
     <createTable tableName="CM_FSCL_YR_END_DEPR_DTL_T">
       <column name="UNIV_FISCAL_YR" type="NUMBER(4)">
-        <constraints primaryKey="true" nullable="false" />
+        <constraints primaryKey="true"/>
       </column>
       <column name="OBJ_ID" type="VARCHAR2(36)">
-        <constraints nullable="false" />
       </column>
       <column name="VER_NBR" type="NUMBER(8)">
-        <constraints nullable="false" />
       </column>
       <column name="CPTLAST_NBR" type="NUMBER(12)">
-        <constraints primaryKey="true" nullable="false" />
+        <constraints primaryKey="true"/>
       </column>
       <column name="YEAR_END_DEPR_DTL_ACTV_IND" type="VARCHAR2(1)"/>
       <column name="YEAR_END_DEPR_DTL_PROC_IND" type="VARCHAR2(1)"/>

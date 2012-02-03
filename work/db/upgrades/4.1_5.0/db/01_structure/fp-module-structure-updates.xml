@@ -27,17 +27,13 @@
 		<comment>KFSMI-7021, 5999</comment>
 		<createTable tableName="FP_CPTL_AST_INFO_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)">
-				<constraints nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR2(36)">
-				<constraints nullable="false" />
 			</column>
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValue="1">
-				<constraints nullable="false" />
 			</column>
 			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)"
 				defaultValue="1">
-				<constraints nullable="false" />
 			</column>
 			<column name="VNDR_HDR_GNRTD_ID" type="NUMBER(10,0)">
 				<constraints nullable="true" />
@@ -70,11 +66,9 @@
 			</column>
 			<column name="CPTLAST_ACTION_IND" type="VARCHAR2(1)"
 				defaultValue="C">
-				<constraints nullable="false" />
 			</column>
 			<column name="CPTLAST_PROCESSED_IND" type="VARCHAR2(1)"
 				defaultValue="N">
-				<constraints nullable="false" />
 			</column>
 		</createTable>
 		<addPrimaryKey tableName="FP_CPTL_AST_INFO_T"
@@ -82,19 +76,14 @@
 
 		<createTable tableName="FP_CPTL_AST_INFO_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)">
-				<constraints nullable="false" />
 			</column>
 			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)">
-				<constraints nullable="false" />
 			</column>
 			<column name="ITM_LN_NBR" type="NUMBER(7,0)">
-				<constraints nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR2(36)">
-				<constraints nullable="false" />
 			</column>
 			<column name="VER_NBR" type="NUMBER(8,0)">
-				<constraints nullable="false" />
 			</column>
 			<column name="CAMPUS_CD" type="VARCHAR2(2)">
 				<constraints nullable="true" />
@@ -125,36 +114,26 @@
 
 		<createTable tableName="FP_CPTL_AST_ACCT_GRP_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)">
-				<constraints nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR2(36)">
-				<constraints nullable="false" />
 			</column>
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValue="1">
-				<constraints nullable="false" />
 			</column>
 			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)"
 				defaultValue="1">
-				<constraints nullable="false" />
 			</column>
 			<column name="CPTLAST_ACCTLINE_NBR" type="NUMBER(7,0)"
 				defaultValue="1">
-				<constraints nullable="false" />
 			</column>
 			<column name="FDOC_LINE_NBR" type="NUMBER(7,0)" defaultValue="1">
-				<constraints nullable="false" />
 			</column>
 			<column name="FDOC_LN_TYP_CD" type="VARCHAR2(1)">
-				<constraints nullable="false" />
 			</column>
 			<column name="FIN_COA_CD" type="VARCHAR2(2)">
-				<constraints nullable="false" />
 			</column>
 			<column name="ACCOUNT_NBR" type="VARCHAR2(7)">
-				<constraints nullable="false" />
 			</column>
 			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)">
-				<constraints nullable="false" />
 			</column>
 			<column name="FDOC_LINE_AMT" type="NUMBER(19,2)" defaultValue="0.00">
 				<constraints nullable="true" />

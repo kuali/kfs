@@ -61,12 +61,21 @@
           <property name="summaryFields">
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="securityDefinition.name" />
+              <bean parent="MaintainableFieldDefinition" p:name="prettyPrint" />
             </list>
           </property>
+          <property name="duplicateIdentificationFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="modelDefinitionId"/>
+              <bean parent="MaintainableFieldDefinition" p:name="definitionId"/>
+            </list>
+          </property>                 
           <property name="maintainableFields">
             <list>
+            <!-- 
               <bean parent="MaintainableFieldDefinition" p:name="modelDefinitionId" p:required="true" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="definitionId" p:required="true"/>
+               -->
               <bean parent="MaintainableFieldDefinition" p:name="securityDefinition.name" p:required="true" p:readOnlyAfterAdd="true" p:lookupReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="constraintCode" p:required="true" p:defaultValue="A"/>
               <bean parent="MaintainableFieldDefinition" p:name="operatorCode" p:required="true" p:defaultValue="="/>

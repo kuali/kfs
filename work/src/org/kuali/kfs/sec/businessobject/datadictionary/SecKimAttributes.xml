@@ -21,12 +21,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="SecKimAttributes-constraintCode" parent="SecKimAttributes-constraintCode-parentBean"/>
-  <bean id="SecKimAttributes-constraintCode-parentBean" abstract="true" parent="SecurityModelDefinition-constraintCode">
+  <bean id="SecKimAttributes-constraintCode-parentBean" abstract="true" parent="AbstractSecurityModelDefinition-constraintCode">
     <property name="name" value="constraintCode"/>
   </bean>  
 
   <bean id="SecKimAttributes-operator" parent="SecKimAttributes-operator-parentBean"/>
-  <bean id="SecKimAttributes-operator-parentBean" abstract="true" parent="SecurityModelDefinition-operatorCode">
+  <bean id="SecKimAttributes-operator-parentBean" abstract="true" parent="AbstractSecurityModelDefinition-operatorCode">
     <property name="name" value="operator"/>
   </bean>
   
@@ -44,7 +44,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="SecKimAttributes-overrideDeny" parent="SecKimAttributes-overrideDeny-parentBean"/>
-  <bean id="SecKimAttributes-overrideDeny-parentBean" abstract="true" parent="SecurityModelDefinition-overrideDeny">
+  <bean id="SecKimAttributes-overrideDeny-parentBean" abstract="true" parent="AbstractSecurityModelDefinition-overrideDeny">
     <property name="name" value="overrideDeny"/>
   </bean>  
 

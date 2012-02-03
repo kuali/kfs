@@ -35,8 +35,8 @@ public class SecurityModel extends PersistableBusinessObjectBase implements Muta
     protected String roleId;
     protected boolean active;
 
-    protected List<SecurityModelDefinition> modelDefinitions = new ArrayList<SecurityModelDefinition>();
-    protected List<SecurityModelMember> modelMembers = new ArrayList<SecurityModelMember>();
+    protected List<SecurityModelDefinition> modelDefinitions = new org.apache.ojb.broker.util.collections.ManageableArrayList();// = new ArrayList<SecurityModelDefinition>();
+    protected List<SecurityModelMember> modelMembers = new org.apache.ojb.broker.util.collections.ManageableArrayList();// = new ArrayList<SecurityModelMember>();
 
     /**
      * Gets the id attribute.

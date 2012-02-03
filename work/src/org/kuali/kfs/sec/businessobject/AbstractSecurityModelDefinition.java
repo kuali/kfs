@@ -18,6 +18,7 @@ package org.kuali.kfs.sec.businessobject;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class AbstractSecurityModelDefinition extends PersistableBusinessObjectBase implements MutableInactivatable {
 
@@ -169,4 +170,10 @@ public abstract class AbstractSecurityModelDefinition extends PersistableBusines
         this.securityDefinition = securityDefinition;
     }
     
+    public String getPrettyPrint() {
+        if ( ObjectUtils.isNotNull(securityDefinition) && ObjectUtils.isNotNull(securityDefinition.getSecurityAttribute()) ) {
+            return securityDefinition.getSecurityAttribute().getName() + " " + operatorCode + " " + attributeValue + "(" + constraintCode + ")";
+        }
+        return "";
+    }
 }

@@ -24,21 +24,6 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
  * An DAO interface declaring methods needed by UniversityDates to interact with the database
  */
 public interface UniversityDateDao {
-    /**
-     * Returns a university date record based on a given java.sql.Date
-     * 
-     * @param date a Date to find the corresponding University Date record
-     * @return a University Date record if found, null if not
-     */
-    public UniversityDate getByPrimaryKey(Date date);
-
-    /**
-     * Returns a university date record based on java.util.Date
-     * 
-     * @param date a java.util.Date to find the corresponding University Date record
-     * @return a University Date record if found, null if not
-     */
-    public UniversityDate getByPrimaryKey(java.util.Date date);
 
     /**
      * Returns the last university date for a given fiscal year
@@ -55,11 +40,4 @@ public interface UniversityDateDao {
      * @return a UniversityDate record for the first day of the given fiscal year, or null if nothing can be found
      */
     public UniversityDate getFirstFiscalYearDate(Integer fiscalYear);
-
-    /**
-     * Returns all distinct accounting period codes from the table
-     * 
-     * @return a Collection of all distinct accounting period codes represented by UniversityDate records in the database
-     */
-    public Collection getAccountingPeriodCode();
 }

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar;
 
-//RICE20 extends JSTLConstants?
 public class ArAuthorizationConstants {
 
     public static class CustomerInvoiceDocumentEditMode {

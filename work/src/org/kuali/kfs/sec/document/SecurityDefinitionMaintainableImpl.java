@@ -346,12 +346,4 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
         }
         return accessSecurityService;
     }
-
-    @Override
-    public void processBeforeAddLine(String collectionName, Class collectionClass, BusinessObject addedBoLine) {
-        if ( collectionName.equals("definitionDocumentTypes") ) {
-            ((SecurityDefinitionDocumentType)addedBoLine).setDefinitionId( ((SecurityDefinition)getBusinessObject()).getId() );
-        }
-        super.processBeforeAddLine(collectionName, collectionClass, addedBoLine);
-    }
 }

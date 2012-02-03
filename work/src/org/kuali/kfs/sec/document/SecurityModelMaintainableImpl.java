@@ -16,7 +16,6 @@
 package org.kuali.kfs.sec.document;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -27,24 +26,18 @@ import org.kuali.kfs.sec.businessobject.SecurityModel;
 import org.kuali.kfs.sec.businessobject.SecurityModelDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityModelMember;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipal;
-import org.kuali.kfs.sec.identity.SecKimAttributes;
-import org.kuali.kfs.sec.util.KimUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
-import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -98,7 +91,7 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
      * @param newSecurityModel SecurityModel after updates
      */
     protected void createOrUpdateModelRole(SecurityModel newSecurityModel) {
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
         // the roles are created in the KFS-SEC namespace with the same name as the model
         Role role = roleService.getRoleByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityModel.getName());
@@ -110,8 +103,16 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
             updatedRole.setActive(true);
             updatedRole.setDescription(newSecurityModel.getDescription());
             roleService.updateRole(updatedRole.build());
+            newSecurityModel.setRoleId(role.getId());
         } else {
-            Role.Builder newRole = Role.Builder.create(null, newSecurityModel.getName(), KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityModel.getDescription(), getDefaultRoleTypeId() );
+            String roleId = KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY+"-"+newSecurityModel.getId();
+            newSecurityModel.setRoleId(roleId);
+            Role.Builder newRole = Role.Builder.create();
+            newRole.setId(roleId);
+            newRole.setName(newSecurityModel.getName());
+            newRole.setNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY);
+            newRole.setDescription(newSecurityModel.getDescription());
+            newRole.setKimTypeId(getDefaultRoleTypeId());
             roleService.createRole(newRole.build());
         }
     }
@@ -142,7 +143,7 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
      * @param newMaintenanceAction boolean indicating whether this is a new record (old side will not contain data)
      */
     protected void assignOrUpdateModelMembershipToDefinitionRoles(SecurityModel oldSecurityModel, SecurityModel newSecurityModel, boolean newMaintenanceAction) {
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
         Role modelRole = roleService.getRole(newSecurityModel.getRoleId());
         
@@ -172,7 +173,7 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
                 }
 
                 if (oldSecurityModelDefinition != null) {
-                    modelRoleMembership = KimUtil.getRoleMembershipForMemberType(definitionRole.getId(), 
+                    modelRoleMembership = getRoleMembershipForMemberType(definitionRole.getId(), 
                             modelRole.getId(), MemberType.ROLE.getCode(), 
                             getRoleQualifiersFromSecurityModelDefinition(oldSecurityModelDefinition));
                 }
@@ -209,7 +210,7 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
      * @param securityModel SecurityModel whose member list should be updated
      */
     protected void assignOrUpdateModelMembers(SecurityModel securityModel) {
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
         Role modelRoleInfo = roleService.getRole(securityModel.getRoleId());
 

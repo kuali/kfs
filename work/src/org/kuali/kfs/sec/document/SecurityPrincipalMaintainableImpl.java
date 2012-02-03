@@ -15,13 +15,10 @@
  */
 package org.kuali.kfs.sec.document;
 
-import org.joda.time.DateTime;
-import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityModelMember;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipal;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipalDefinition;
-import org.kuali.kfs.sec.util.KimUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -29,6 +26,7 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
@@ -78,7 +76,7 @@ public class SecurityPrincipalMaintainableImpl extends AbstractSecurityModuleMai
      * @param newMaintenanceAction boolean indicating whether this is a new record (old side will not contain data)
      */
     protected void assignOrUpdatePrincipalMembershipToDefinitionRoles(SecurityPrincipal oldSecurityPrincipal, SecurityPrincipal newSecurityPrincipal, boolean newMaintenanceAction) {
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
         String principalId = newSecurityPrincipal.getPrincipalId();
 
@@ -97,7 +95,7 @@ public class SecurityPrincipalMaintainableImpl extends AbstractSecurityModuleMai
                 }
 
                 if (oldPrincipalDefinition != null) {
-                    principalMembershipInfo = KimUtil.getRoleMembershipForMemberType(definitionRoleInfo.getId(), principalId, MemberType.PRINCIPAL.getCode(), getRoleQualifiersFromSecurityModelDefinition(oldPrincipalDefinition));
+                    principalMembershipInfo = getRoleMembershipForMemberType(definitionRoleInfo.getId(), principalId, MemberType.PRINCIPAL.getCode(), getRoleQualifiersFromSecurityModelDefinition(oldPrincipalDefinition));
                 }
             }
 
@@ -106,7 +104,7 @@ public class SecurityPrincipalMaintainableImpl extends AbstractSecurityModuleMai
 
             // if membership already exists, need to remove if the principal record is now inactive or the qualifications need updated
             if (principalMembershipInfo != null) {
-                boolean qualificationsMatch = KimUtil.doMembershipQualificationsMatchValues(principalMembershipInfo.getAttributes(), securityPrincipalDefinition.getConstraintCode(), securityPrincipalDefinition.getOperatorCode(), securityPrincipalDefinition.getAttributeValue());
+                boolean qualificationsMatch = doMembershipQualificationsMatchValues(principalMembershipInfo.getAttributes(), securityPrincipalDefinition.getConstraintCode(), securityPrincipalDefinition.getOperatorCode(), securityPrincipalDefinition.getAttributeValue());
                 if (!membershipActive || !qualificationsMatch) {
                     roleService.removePrincipalFromRole(principalMembershipInfo.getMemberId(), definitionRoleInfo.getNamespaceCode(), definitionRoleInfo.getName(), principalMembershipInfo.getAttributes());
                 }
@@ -132,8 +130,6 @@ public class SecurityPrincipalMaintainableImpl extends AbstractSecurityModuleMai
      * @param securityPrincipal SecurityPrincipal which contains the model list and principal
      */
     protected void assignOrUpdatePrincipalModelRoles(SecurityPrincipal securityPrincipal) {        
-        RoleService roleService = SpringContext.getBean(RoleService.class);
-
         String principalId = securityPrincipal.getPrincipalId();
 
         for (SecurityModelMember principalModel : securityPrincipal.getPrincipalModels()) {

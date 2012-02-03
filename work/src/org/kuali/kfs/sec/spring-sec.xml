@@ -136,15 +136,9 @@
     <bean id="modelMemberLookupableHelperService" parent="modelMemberLookupableHelperService-parentBean" scope="prototype"/>
 	
 	<bean id="modelMemberLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.sec.businessobject.lookup.ModelMemberLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
-		<property name="roleService">
-			<ref bean="kimRoleService" />
-		</property>	
-		<property name="groupSevice">
-			<ref bean="kimGroupService" />
-		</property>
-		<property name="personService">
-			<ref bean="personService" />
-		</property>	
+		<property name="roleService" ref="kimRoleService" />
+		<property name="groupSevice" ref="kimGroupService" />
+		<property name="personService" ref="personService" />
 	</bean>
     <bean id="modelMemberLookupable" parent="modelMemberLookupable-parentBean" scope="prototype"/>
 

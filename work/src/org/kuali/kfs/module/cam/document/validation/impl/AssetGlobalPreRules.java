@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AssetGlobalPreRules extends MaintenancePreRulesBase {
@@ -79,11 +80,7 @@ public class AssetGlobalPreRules extends MaintenancePreRulesBase {
 
 
     protected boolean isOkHavingDifferentObjectSubTypes() {
-        //RICE20: getNamespace method with class as paramter does not exist..
-        //RICE20: method getDetailType(Class) method does not exist.
-        //String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
-        
-        String parameterDetail = "(module:)";
+        String parameterDetail = "(module:" + KRADServiceLocatorWeb.getKualiModuleService().getNamespaceCode(AssetGlobal.class) + "/component:" + AssetGlobal.class.getSimpleName() + ")";
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
         String continueQuestion = kualiConfiguration.getPropertyValueAsString(CamsKeyConstants.CONTINUE_QUESTION);

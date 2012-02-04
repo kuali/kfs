@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.document.CapitalAccountingLinesDocumentBase;
 import org.kuali.kfs.integration.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
@@ -34,6 +35,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -133,11 +135,7 @@ public class CapitalAccountingLinesPreRules extends PromptBeforeValidationBase {
     }
     
     protected boolean isOkHavingDifferentObjectSubTypes() {
-        //RICE20: getNamespace method with class as paramter does not exist..
-        //RICE20: method getDetailType(Class) method does not exist.
-        //String parameterDetail = "(module:" + getParameterService().getNamespace(Asset.class) + "/component:" + getParameterService().getDetailType(Asset.class) + ")";
-        
-        String parameterDetail = "(module:)";
+        String parameterDetail = "(module:" + KRADServiceLocatorWeb.getKualiModuleService().getNamespaceCode(Asset.class) + "/component:" + Asset.class.getSimpleName() + ")";
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
         String continueQuestion = kualiConfiguration.getPropertyValueAsString(KFSKeyConstants.CONTINUE_QUESTION);

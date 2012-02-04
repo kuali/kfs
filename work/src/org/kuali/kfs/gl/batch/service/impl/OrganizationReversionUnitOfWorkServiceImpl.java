@@ -16,6 +16,7 @@
 package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -31,9 +32,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationReversionUnitOfWorkService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionUnitOfWorkServiceImpl.class);
-    private BusinessObjectService businessObjectService;
-    private OrganizationReversionUnitOfWorkDao orgReversionUnitOfWorkDao;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionUnitOfWorkServiceImpl.class);
+    
+    protected BusinessObjectService businessObjectService;
+    protected OrganizationReversionUnitOfWorkDao orgReversionUnitOfWorkDao;
 
     /**
      * This method takes a unit of work retrieved from the persistence store and loads its categories
@@ -43,13 +45,14 @@ public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationR
      * @see org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService#loadCategories(org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork)
      */
     public OrgReversionUnitOfWork loadCategories(OrgReversionUnitOfWork orgRevUnitOfWork) {
-        //RICE20 orgRevUnitOfWork.toString_refactor_me 
-        //Collection categoryAmounts = businessObjectService.findMatching(OrgReversionUnitOfWorkCategoryAmount.class, orgRevUnitOfWork.toStringMapper());
-        Collection categoryAmounts = null;
+        Map<String,Object> criteria = new HashMap<String, Object>();
+        criteria.put("chartOfAccountsCode", orgRevUnitOfWork.chartOfAccountsCode);
+        criteria.put("accountNbr", orgRevUnitOfWork.accountNumber);
+        criteria.put("subAccountNbr", orgRevUnitOfWork.subAccountNumber);
+
+        Collection<OrgReversionUnitOfWorkCategoryAmount> categoryAmounts = businessObjectService.findMatching(OrgReversionUnitOfWorkCategoryAmount.class, criteria);
         Map<String, OrgReversionUnitOfWorkCategoryAmount> categories = orgRevUnitOfWork.getCategoryAmounts();
-        Iterator iter = categoryAmounts.iterator();
-        while (iter.hasNext()) {
-            OrgReversionUnitOfWorkCategoryAmount catAmount = (OrgReversionUnitOfWorkCategoryAmount) iter.next();
+        for ( OrgReversionUnitOfWorkCategoryAmount catAmount : categoryAmounts ) {
             categories.put(catAmount.getCategoryCode(), catAmount);
         }
         return orgRevUnitOfWork;
@@ -75,23 +78,14 @@ public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationR
         if (LOG.isDebugEnabled()) {
             LOG.debug("Saving org reversion summary for " + orgRevUnitOfWork.toString() + "; its category keys are: " + orgRevUnitOfWork.getCategoryAmounts().keySet());
         }
-        getBusinessObjectService().save(orgRevUnitOfWork);
+        businessObjectService.save(orgRevUnitOfWork);
         for (String category: orgRevUnitOfWork.getCategoryAmounts().keySet()) {
             final OrgReversionUnitOfWorkCategoryAmount categoryAmount = orgRevUnitOfWork.getCategoryAmounts().get(category);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Saving category amount for " + categoryAmount.toString());
             }
-            getBusinessObjectService().save(categoryAmount);
+            businessObjectService.save(categoryAmount);
         }
-    }
-
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
     }
 
     /**
@@ -101,15 +95,6 @@ public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationR
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Gets the orgReversionUnitOfWorkDao attribute.
-     * 
-     * @return Returns the orgReversionUnitOfWorkDao.
-     */
-    public OrganizationReversionUnitOfWorkDao getOrgReversionUnitOfWorkDao() {
-        return orgReversionUnitOfWorkDao;
     }
 
     /**

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.vnd.document.service.impl;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,6 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +66,7 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.kfs.vnd.document.service.getByVendorNumber(String)
      */
     public VendorDetail getByVendorNumber(String vendorNumber) {
-        return this.getVendorDetail(vendorNumber);
+        return getVendorDetail(vendorNumber);
     }
 
     /**
@@ -75,8 +76,9 @@ public class VendorServiceImpl implements VendorService {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getVendorDetail for vendorNumber: " + vendorNumber);
         }
-        if (StringUtils.isEmpty(vendorNumber))
+        if (StringUtils.isBlank(vendorNumber)) {
             return null;
+        }
 
         int dashInd = vendorNumber.indexOf('-');
         // make sure there's at least one char before and after '-'
@@ -102,10 +104,10 @@ public class VendorServiceImpl implements VendorService {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getVendorDetail for headerId:" + headerId + ", detailId:" + detailId);
         }
-        Map keys = new HashMap();
+        HashMap<String, Integer> keys = new HashMap<String, Integer>();
         keys.put("vendorHeaderGeneratedIdentifier", headerId);
         keys.put("vendorDetailAssignedIdentifier", detailId);
-        return (VendorDetail) businessObjectService.findByPrimaryKey(VendorDetail.class, keys);
+        return businessObjectService.findByPrimaryKey(VendorDetail.class, keys);
     }
 
     /**
@@ -118,13 +120,11 @@ public class VendorServiceImpl implements VendorService {
 
         // check for the special case of a contractOrg for this contract in the contract-orgs table
         if (ObjectUtils.isNotNull(contractId) && ObjectUtils.isNotNull(chart) && ObjectUtils.isNotNull(org)) {
-            // RICE20: update this to build the map, not use an example object
-            VendorContractOrganization exampleContractOrg = new VendorContractOrganization();
-            exampleContractOrg.setVendorContractGeneratedIdentifier(contractId);
-            exampleContractOrg.setChartOfAccountsCode(chart);
-            exampleContractOrg.setOrganizationCode(org);
-            Map orgKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContractOrg);
-            VendorContractOrganization contractOrg = (VendorContractOrganization) businessObjectService.findByPrimaryKey(VendorContractOrganization.class, orgKeys);
+            Map<String,Object> pkFields = new HashMap<String, Object>(3);
+            pkFields.put("vendorContractGeneratedIdentifier", contractId);
+            pkFields.put("chartOfAccountsCode", chart);
+            pkFields.put("organizationCode", org);
+            VendorContractOrganization contractOrg = businessObjectService.findByPrimaryKey(VendorContractOrganization.class, pkFields);
             // if the contractOrg is found
             if (ObjectUtils.isNotNull(contractOrg)) {
                 // if the contractOrg is excluded, return the special value of the APO limit from the table
@@ -139,13 +139,9 @@ public class VendorServiceImpl implements VendorService {
 
         // didn't search the contract-org table or not found in the table but contract exists, return the default APO limit in
         // contract
-        if (ObjectUtils.isNotNull(contractId)) {
-            // RICE20: update this to build the map, not use an example object
-            VendorContract exampleContract = new VendorContract();
-            exampleContract.setVendorContractGeneratedIdentifier(contractId);
-            Map contractKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContract);
-            VendorContract contract = (VendorContract) businessObjectService.findByPrimaryKey(VendorContract.class, contractKeys);
-            if (ObjectUtils.isNotNull(contract)) {
+        if ( contractId != null ) {
+            VendorContract contract = (VendorContract) businessObjectService.findBySinglePrimaryKey(VendorContract.class, contractId);
+            if (contract != null) {
                 return contract.getOrganizationAutomaticPurchaseOrderLimit();
             }
         }
@@ -161,11 +157,10 @@ public class VendorServiceImpl implements VendorService {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getParentVendor for vendorHeaderGeneratedIdentifier:" + vendorHeaderGeneratedIdentifier);
         }
-        Map criterion = new HashMap();
-        criterion.put("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedIdentifier);
-        List<VendorDetail> vendors = (List<VendorDetail>) businessObjectService.findMatching(VendorDetail.class, criterion);
+        Collection<VendorDetail> vendors = businessObjectService.findMatching(VendorDetail.class, 
+                Collections.singletonMap("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedIdentifier));
         VendorDetail result = null;
-        if (ObjectUtils.isNull(vendors)) {
+        if (vendors == null || vendors.isEmpty() ) {
             LOG.warn("Error: No vendors exist with vendor header " + vendorHeaderGeneratedIdentifier + ".");
         }
         else {
@@ -196,15 +191,15 @@ public class VendorServiceImpl implements VendorService {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getVendorByDunsNumber for vendorDunsNumber:" + vendorDunsNumber);
         }
-        Map criteria = new HashMap();
+        HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put(VendorPropertyConstants.VENDOR_DUNS_NUMBER, vendorDunsNumber);
-        List<VendorDetail> vds = (List) businessObjectService.findMatching(VendorDetail.class, criteria);
+        Collection<VendorDetail> vds = businessObjectService.findMatching(VendorDetail.class, criteria);
         LOG.debug("Exiting getVendorByDunsNumber.");
         if (vds.size() < 1) {
             return null;
         }
         else {
-            return vds.get(0);
+            return vds.iterator().next();
         }
     }
 
@@ -215,11 +210,11 @@ public class VendorServiceImpl implements VendorService {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getVendorDefaultAddress for vendorHeaderId:" + vendorHeaderId + ", vendorDetailId:" + vendorDetailId + ", addressType:" + addressType + ", campus:" + campus);
         }
-        Map criteria = new HashMap();
+        HashMap<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, vendorHeaderId);
         criteria.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailId);
         criteria.put(VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, addressType);
-        List<VendorAddress> addresses = (List) businessObjectService.findMatching(VendorAddress.class, criteria);
+        Collection<VendorAddress> addresses = businessObjectService.findMatching(VendorAddress.class, criteria);
         LOG.debug("Exiting getVendorDefaultAddress.");
         return getVendorDefaultAddress(addresses, addressType, campus);
     }
@@ -227,7 +222,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(List, String, String)
      */
-    public VendorAddress getVendorDefaultAddress(List<VendorAddress> addresses, String addressType, String campus) {
+    public VendorAddress getVendorDefaultAddress(Collection<VendorAddress> addresses, String addressType, String campus) {
         LOG.debug("Entering getVendorDefaultAddress.");
         VendorAddress allDefaultAddress = null;
         for (VendorAddress address : addresses) {

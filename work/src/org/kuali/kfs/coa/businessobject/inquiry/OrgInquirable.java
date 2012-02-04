@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
@@ -62,8 +63,7 @@ public class OrgInquirable extends KfsInquirableImpl {
             Properties parameters = new Properties();
             parameters.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, org.getChartOfAccountsCode());
             parameters.put(KfsKimAttributes.ORGANIZATION_CODE, org.getOrganizationCode());
-            // RICE20: restore when pulling in org review
-//            parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
+            parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
             parameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, KRADConstants.PORTAL_ACTION);
             parameters.put(KRADConstants.DOC_FORM_KEY, KimConstants.KimUIConstants.KIM_ROLE_DOCUMENT_SHORT_KEY);
             String hrefStr = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, parameters);

@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -60,11 +61,7 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
         
         List<String> validSubtypeCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES) );
         
-        //RICE20: getNamespace method with class as paramter does not exist..
-        //RICE20: method getDetailType(Class) method does not exist.
-        //String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
-        
-        String parameterDetail = "(module:)";
+        String parameterDetail = "(module:" + KRADServiceLocatorWeb.getKualiModuleService().getNamespaceCode(AssetGlobal.class) + "/component:" + AssetGlobal.class.getSimpleName() + ")";
         boolean capitalAssetFound = false;
         
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = assetPaymentDocument.getAssetPaymentAssetDetail();

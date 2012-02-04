@@ -68,7 +68,7 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
                 // populate workflowDocument in documentHeader, if needed
                 try {
                     WorkflowDocument workflowDocument = null;
-                    //RICE20 workflowDocument doesn't exist in UserSession anymore; use SessionDocumentService.getDocumentFromSession(UserSession userSession, String docId) 
+                    //RICE20 workflowDocument doesn't exist in UserSession anymore; use SessionDocumentService.getDocumentFromSession(UserSession userSession, String docId)
                     workflowDocument = SpringContext.getBean(SessionDocumentService.class).getDocumentFromSession(GlobalVariables.getUserSession(), cashControlDetail.getReferenceFinancialDocumentNumber());
                     
                     if (workflowDocument == null) {                        

@@ -629,8 +629,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         
         for (String docNumber : docNumbers) {
             try{
-                //RICE20 replacement for createWorkflowDocument() needs doc type, so then this logic doesn't make sense
-                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.loadWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }

@@ -28,6 +28,7 @@ import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.type.KimAttributeField;
+import org.kuali.rice.kim.api.type.KimAttributeField.Builder;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 
@@ -38,11 +39,6 @@ import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase {
     public static final String FINANCIAL_SYSTEM_USER_ROLE_NAME = "User";
     public static final String PERFORM_QUALIFIER_MATCH = "performQualifierMatch";
-    
-
-
-
-
 
 
     @Override
@@ -159,22 +155,5 @@ public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase 
         uniqueAttributes.add(KimConstants.AttributeConstants.NAMESPACE_CODE);
         return uniqueAttributes;
     }
-
-    /**
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#getAttributeDefinitions(java.lang.String)
-     */
-    @Override
-    public List<KimAttributeField> getAttributeDefinitions(String kimTypeId) {
-        List<KimAttributeField> kimAttributeList = super.getAttributeDefinitions(kimTypeId);
-        for (KimAttributeField field : kimAttributeList) {
-            if (KimConstants.AttributeConstants.NAMESPACE_CODE.equals(field.getAttributeField().getName()) || KfsKimAttributes.CHART_OF_ACCOUNTS_CODE.equals(field.getAttributeField().getName())
-                    || KfsKimAttributes.ORGANIZATION_CODE.equals(field.getAttributeField().getName())) {
-                //RICE20 update field using builder 
-                //field.setRequired(Boolean.FALSE);
-            }
-        }
-        return kimAttributeList;
-    }
-    
     
 }

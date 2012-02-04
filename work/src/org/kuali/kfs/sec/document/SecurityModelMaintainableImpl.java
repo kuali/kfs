@@ -16,6 +16,7 @@
 package org.kuali.kfs.sec.document;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -67,12 +68,12 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
 
                 boolean newMaintenanceAction = getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION) || getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_COPY_ACTION);
 
-                createOrUpdateModelRole(newSecurityModel);
-                assignOrUpdateModelMembershipToDefinitionRoles(oldSecurityModel, newSecurityModel, newMaintenanceAction);
-                assignOrUpdateModelMembers(newSecurityModel);
+                Role modelRole = createOrUpdateModelRole(newSecurityModel);
+                assignOrUpdateModelMembershipToDefinitionRoles(modelRole, oldSecurityModel, newSecurityModel, newMaintenanceAction);
+                assignOrUpdateModelMembers(modelRole, newSecurityModel);
 
                 if (!newSecurityModel.isActive()) {
-                    inactivateModelRole(newSecurityModel);
+                    inactivateModelRole(modelRole);
                 }
 
                 SpringContext.getBean(IdentityManagementService.class).flushAllCaches();
@@ -90,31 +91,32 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
      * @param oldSecurityModel SecurityModel record before updates
      * @param newSecurityModel SecurityModel after updates
      */
-    protected void createOrUpdateModelRole(SecurityModel newSecurityModel) {
+    protected Role createOrUpdateModelRole(SecurityModel newSecurityModel) {
         RoleService roleService = KimApiServiceLocator.getRoleService();
 
         // the roles are created in the KFS-SEC namespace with the same name as the model
-        Role role = roleService.getRoleByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityModel.getName());
+        Role modelRole = roleService.getRoleByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityModel.getName());
 
-        if ( role != null ) {
+        if ( modelRole != null ) {
             // always set the role as active so we can add members and definitions, after processing the indicator will be updated to
             // the appropriate value
-            Role.Builder updatedRole = Role.Builder.create(role);
+            Role.Builder updatedRole = Role.Builder.create(modelRole);
             updatedRole.setActive(true);
             updatedRole.setDescription(newSecurityModel.getDescription());
-            roleService.updateRole(updatedRole.build());
-            newSecurityModel.setRoleId(role.getId());
+            modelRole = roleService.updateRole(updatedRole.build());
         } else {
             String roleId = KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY+"-"+newSecurityModel.getId();
-            newSecurityModel.setRoleId(roleId);
             Role.Builder newRole = Role.Builder.create();
             newRole.setId(roleId);
             newRole.setName(newSecurityModel.getName());
             newRole.setNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY);
             newRole.setDescription(newSecurityModel.getDescription());
             newRole.setKimTypeId(getDefaultRoleTypeId());
-            roleService.createRole(newRole.build());
+            newRole.setActive(true);
+            modelRole = roleService.createRole(newRole.build());
         }
+        newSecurityModel.setRoleId(modelRole.getId());
+        return modelRole;
     }
 
     /**
@@ -122,15 +124,13 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
      *
      * @param newSecurityModel SecurityModel to inactivate
      */
-    protected void inactivateModelRole(SecurityModel newSecurityModel) {
+    protected void inactivateModelRole(Role modelRole) {
         RoleService roleService = SpringContext.getBean(RoleService.class);
 
-        Role role = roleService.getRole(newSecurityModel.getRoleId());
-
-        if ( role != null ) {
-            Role.Builder updatedRole = Role.Builder.create(role);
+        if ( modelRole != null ) {
+            Role.Builder updatedRole = Role.Builder.create(modelRole);
             updatedRole.setActive(false);
-            roleService.updateRole(updatedRole.build());
+            KimApiServiceLocator.getRoleService().updateRole(updatedRole.build());
         }
     }
 
@@ -142,11 +142,9 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
      * @param newSecurityModel SecurityModel whose membership should be updated
      * @param newMaintenanceAction boolean indicating whether this is a new record (old side will not contain data)
      */
-    protected void assignOrUpdateModelMembershipToDefinitionRoles(SecurityModel oldSecurityModel, SecurityModel newSecurityModel, boolean newMaintenanceAction) {
+    protected void assignOrUpdateModelMembershipToDefinitionRoles(Role modelRole, SecurityModel oldSecurityModel, SecurityModel newSecurityModel, boolean newMaintenanceAction) {
         RoleService roleService = KimApiServiceLocator.getRoleService();
 
-        Role modelRole = roleService.getRole(newSecurityModel.getRoleId());
-        
         if ( modelRole == null ) {
             LOG.error( "Model Role does not exist for SecurityModel: " + newSecurityModel );
             throw new RuntimeException("Model Role does not exist for SecurityModel: " + newSecurityModel );
@@ -209,12 +207,8 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
      *
      * @param securityModel SecurityModel whose member list should be updated
      */
-    protected void assignOrUpdateModelMembers(SecurityModel securityModel) {
-        RoleService roleService = KimApiServiceLocator.getRoleService();
-
-        Role modelRoleInfo = roleService.getRole(securityModel.getRoleId());
-
-        if (modelRoleInfo == null) {
+    protected void assignOrUpdateModelMembers( Role modelRole, SecurityModel securityModel) {
+        if (modelRole == null) {
             // this should throw an elegant error if either are null
             String error = "Data problem with access security. KIM Role backing the security model is missing.  SecurityModel: " + securityModel;
             LOG.error(error);
@@ -222,7 +216,7 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
         }
 
         for (SecurityModelMember modelMember : securityModel.getModelMembers()) {
-            updateSecurityModelRoleMember(securityModel, modelMember, modelMember.getMemberTypeCode(), modelMember.getMemberId(), null);
+            updateSecurityModelRoleMember(modelRole, modelMember, modelMember.getMemberTypeCode(), modelMember.getMemberId(), new HashMap<String, String>(0));
 
             createPrincipalSecurityRecords(modelMember.getMemberId(), modelMember.getMemberTypeCode());
         }

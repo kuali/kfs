@@ -226,7 +226,8 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
                     fieldDefinedMaxLength = Integer.valueOf(getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE, KRADConstants.RESULTS_DEFAULT_MAX_COLUMN_LENGTH));
                 }
                 catch (NumberFormatException ex) {
-                    LOG.error("Lookup field max length parameter not found and unable to parse default set in system parameters (RESULTS_DEFAULT_MAX_COLUMN_LENGTH).");
+                    LOG.error("Lookup field max length parameter not found for " + attributeClass.getName() + "." + attributeName + " -- and unable to parse default set in system parameters (RESULTS_DEFAULT_MAX_COLUMN_LENGTH).");
+                    fieldDefinedMaxLength = 50;
                 }
             }
             column.setMaxLength(fieldDefinedMaxLength.intValue());

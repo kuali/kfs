@@ -438,7 +438,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
                 permissionDetails.putAll(additionalPermissionDetails);
             }
 
-            List<Permission> permissions = getPermissionService().getAuthorizedPermissionsByTemplateName(person.getPrincipalId(), permissionTemplate.getNamespaceCode(), permissionTemplate.getName(), permissionDetails, null);
+            List<Permission> permissions = getPermissionService().getAuthorizedPermissionsByTemplateName(person.getPrincipalId(), permissionTemplate.getNamespaceCode(), permissionTemplate.getName(), permissionDetails, new HashMap<String, String>(0));
             if (permissions == null || permissions.isEmpty()) {
                 continue;
             }

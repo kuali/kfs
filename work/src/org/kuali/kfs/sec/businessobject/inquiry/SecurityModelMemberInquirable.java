@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sec.SecPropertyConstants;
+import org.kuali.kfs.sec.businessobject.SecurityModelDefinition;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -72,7 +72,7 @@ public class SecurityModelMemberInquirable extends KfsInquirableImpl {
                     fieldList.put(KimConstants.PrimaryKeyConstants.PRINCIPAL_ID, memberId.toString());
                 }
 
-                return getHyperLink(PayeeACHAccount.class, fieldList, UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, parameters));
+                return getHyperLink(SecurityModelDefinition.class, fieldList, UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, parameters));
             }
         }
 

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sec.document;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.businessobject.AbstractSecurityModelDefinition;
-import org.kuali.kfs.sec.businessobject.SecurityModel;
 import org.kuali.kfs.sec.businessobject.SecurityModelMember;
 import org.kuali.kfs.sec.identity.SecKimAttributes;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,6 +30,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -69,26 +68,26 @@ public abstract class AbstractSecurityModuleMaintainable extends FinancialSystem
         return membershipQualifications;
     }
     
-    protected void updateSecurityModelRoleMember( SecurityModel securityModel, SecurityModelMember modelMember, String memberTypeCode, String memberId, Map<String,String> roleQualifiers ) {
+    protected void updateSecurityModelRoleMember( Role modelRole, SecurityModelMember modelMember, String memberTypeCode, String memberId, Map<String,String> roleQualifiers ) {
         RoleService roleService = KimApiServiceLocator.getRoleService();
 
-        RoleMember existingRoleMember = getRoleMembershipForMemberType(securityModel.getRoleId(), memberId, memberTypeCode, roleQualifiers);
+        RoleMember existingRoleMember = getRoleMembershipForMemberType(modelRole.getId(), memberId, memberTypeCode, roleQualifiers);
         
         if ( existingRoleMember == null ) {
             // new role member
             if ( memberTypeCode.equals( MemberType.PRINCIPAL.getCode() ) ) {
-                roleService.assignPrincipalToRole(memberId, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, securityModel.getName(), roleQualifiers);
+                roleService.assignPrincipalToRole(memberId, modelRole.getNamespaceCode(), modelRole.getName(), roleQualifiers);
             } else if ( memberTypeCode.equals( MemberType.GROUP.getCode() ) ) {
-                roleService.assignGroupToRole(memberId, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, securityModel.getName(), roleQualifiers);
+                roleService.assignGroupToRole(memberId, modelRole.getNamespaceCode(), modelRole.getName(), roleQualifiers);
             } else if ( memberTypeCode.equals( MemberType.ROLE.getCode() ) ) {
-                roleService.assignRoleToRole(memberId, SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, securityModel.getName(), roleQualifiers);
+                roleService.assignRoleToRole(memberId, modelRole.getNamespaceCode(), modelRole.getName(), roleQualifiers);
             } else {
                 throw new RuntimeException( "Invalid role member type code: " + memberTypeCode );
             }
             // now, we need to re-retrieve it in order to set the from/to dates
-            existingRoleMember = getRoleMembershipForMemberType(securityModel.getRoleId(), memberId, memberTypeCode, roleQualifiers);
+            existingRoleMember = getRoleMembershipForMemberType(modelRole.getId(), memberId, memberTypeCode, roleQualifiers);
             if ( existingRoleMember == null ) {
-                throw new RuntimeException( "Role member was not saved properly.  Retrieval of role member after save failed for role: " + securityModel.getRoleId() + " and Member Type/ID: " + memberTypeCode + "/" + memberId );
+                throw new RuntimeException( "Role member was not saved properly.  Retrieval of role member after save failed for role: " + modelRole.getId() + " and Member Type/ID: " + memberTypeCode + "/" + memberId );
             }
         } 
         RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(existingRoleMember);
@@ -109,21 +108,22 @@ public abstract class AbstractSecurityModuleMaintainable extends FinancialSystem
      * @param membershipQualifications Qualifications to match role membership
      * @return RoleMembership containing information on the member record, or null if the member id is not assigned to the role
      */
-    protected RoleMember getRoleMembershipForMemberType(String roleId, String memberRoleId, String memberType, Map<String,String> membershipQualifications) {
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+    protected RoleMember getRoleMembershipForMemberType(String roleId, String memberId, String memberType, Map<String,String> membershipQualifications) {
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
-        RoleMemberQueryResults results = roleService.findRoleMembers( QueryByCriteria.Builder.fromPredicates( PredicateFactory.equal("id", roleId) ) );
+        RoleMemberQueryResults results = roleService.findRoleMembers( 
+                QueryByCriteria.Builder.fromPredicates( 
+                        PredicateFactory.equal("roleId", roleId),
+                        PredicateFactory.equal("typeCode", memberType),
+                        PredicateFactory.equal("memberId", memberId) ) );
         for (RoleMember roleMembershipInfo : results.getResults() ) {
-            if (roleMembershipInfo.getType().code.equals(memberType) 
-                    && roleMembershipInfo.getMemberId().equals(memberRoleId)) {
-                // no qualifiers - then an automatic match
-                if (membershipQualifications == null) {
-                    return roleMembershipInfo;
-                }
-                // otherwise, check the qualifier attributes
-                if (doQualificationsMatch(membershipQualifications, roleMembershipInfo.getAttributes())) {
-                    return roleMembershipInfo;
-                }
+            // no qualifiers - then an automatic match
+            if (membershipQualifications == null || membershipQualifications.isEmpty() ) {
+                return roleMembershipInfo;
+            }
+            // otherwise, check the qualifier attributes
+            if (doQualificationsMatch(membershipQualifications, roleMembershipInfo.getAttributes())) {
+                return roleMembershipInfo;
             }
         }
 

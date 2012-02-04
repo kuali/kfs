@@ -28,7 +28,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Base KFS Inquirable Implementation
  */
 public class KfsInquirableImpl extends KualiInquirableImpl {
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KfsInquirableImpl.class);
     /**
      * Helper method to build an inquiry url for a result field. Special implementation to not build an inquiry link if the value is
      * all dashes.
@@ -38,16 +38,22 @@ public class KfsInquirableImpl extends KualiInquirableImpl {
      * @return String url to inquiry
      */
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
-        if (PropertyUtils.isReadable(businessObject, attributeName)) {
-            Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
-            String fieldValue = objFieldValue == null ? KFSConstants.EMPTY_STRING : objFieldValue.toString();
-
-            if (StringUtils.containsOnly(fieldValue, KFSConstants.DASH)) {
-                return new AnchorHtmlData();
+        try {
+            if (PropertyUtils.isReadable(businessObject, attributeName)) {
+                Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
+                String fieldValue = objFieldValue == null ? KFSConstants.EMPTY_STRING : objFieldValue.toString();
+    
+                if (StringUtils.containsOnly(fieldValue, KFSConstants.DASH)) {
+                    return new AnchorHtmlData();
+                }
             }
+    
+            return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
+        } catch ( Exception ex ) {
+            LOG.error( "Unable to determine inquiry link for BO Class: " + businessObject.getClass() + " and property " + attributeName );
+            LOG.debug( "Unable to determine inquiry link for BO Class: " + businessObject.getClass() + " and property " + attributeName, ex );
+            return new AnchorHtmlData();
         }
-
-        return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
     }
 
 }

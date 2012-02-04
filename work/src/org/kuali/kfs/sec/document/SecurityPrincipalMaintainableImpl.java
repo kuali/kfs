@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.sec.document;
 
+import java.util.HashMap;
+
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityModelMember;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipal;
@@ -130,10 +132,12 @@ public class SecurityPrincipalMaintainableImpl extends AbstractSecurityModuleMai
      * @param securityPrincipal SecurityPrincipal which contains the model list and principal
      */
     protected void assignOrUpdatePrincipalModelRoles(SecurityPrincipal securityPrincipal) {        
+        RoleService roleService = KimApiServiceLocator.getRoleService();
         String principalId = securityPrincipal.getPrincipalId();
 
         for (SecurityModelMember principalModel : securityPrincipal.getPrincipalModels()) {
-            updateSecurityModelRoleMember(principalModel.getSecurityModel(), principalModel, MemberType.PRINCIPAL.getCode(), principalId, null);
+            Role modelRole = roleService.getRole(principalModel.getSecurityModel().getRoleId());
+            updateSecurityModelRoleMember(modelRole, principalModel, MemberType.PRINCIPAL.getCode(), principalId, new HashMap<String, String>(0));
         }
     }
 

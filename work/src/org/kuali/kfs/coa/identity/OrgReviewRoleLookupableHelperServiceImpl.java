@@ -33,6 +33,7 @@ import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.DelegateMemberQueryResults;
@@ -412,13 +413,12 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     protected List<KfsKimDocDelegateMember> searchDelegations(Map<String, String> searchCriteriaDelegateMembers){
         DelegateMemberQueryResults tempResults = KimApiServiceLocator.getRoleService().findDelegateMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(searchCriteriaDelegateMembers)));
         ArrayList<KfsKimDocDelegateMember> results = new ArrayList<KfsKimDocDelegateMember>( tempResults.getTotalRowCount() );
-        // RICE20: Need to add missing primary/secondary delegate information
-        // may need to then get all for role and match up on delegation ID
-        throw new UnsupportedOperationException( "Rice delegation member data does not contain primary/secondary information" );
-//        for ( DelegateMember dm : tempResults.getResults() ) {
-//            results.add( new KfsKimDocDelegateMember( dm ) );
-//        }
-//        return results;
+        if ( tempResults.getTotalRowCount() > 0 ) {
+            for ( DelegateMember dm : tempResults.getResults() ) {
+                results.add( new KfsKimDocDelegateMember( dm ) );
+            }
+        }
+        return results;
     }
 
     

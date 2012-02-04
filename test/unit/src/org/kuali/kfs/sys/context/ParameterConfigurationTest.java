@@ -46,7 +46,6 @@ public class ParameterConfigurationTest extends KualiTestBase {
      */
     
     public void testValidateParameterComponents() throws Exception {
-    	// RICE20 Use ParameterService here instead of BusinessObjectService
         Collection<ParameterBo> params = SpringContext.getBean(BusinessObjectService.class).findAll(ParameterBo.class);
         ParameterRule paramRule = new ParameterRule();
         StringBuffer badComponents = new StringBuffer();

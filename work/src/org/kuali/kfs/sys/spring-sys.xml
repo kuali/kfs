@@ -844,27 +844,10 @@
 			<ref bean="electronicPaymentClaimingService" />
 		</property>
 	</bean> 
-	<!-- RICE20: see if this service is still needed with Spring caching
+
 	<bean id="cacheService" parent="cacheService-parentBean"/>
-	
-	<bean id="cacheService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.CacheServiceImpl" abstract="true">
-	    <property name="cacheAdminstrators">
-          <list>
-            <ref bean="methodResultsCacheAdministrator" />
-            <ref bean="methodResultsCacheNoCopyAdministrator" />
-          </list>	
-        </property>  
-		<property name="roleManagementService">
-			<ref bean="kimRoleService" />
-		</property>
-		<property name="identityManagementService">
-			<ref bean="kimIdentityManagementService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>		
-	</bean>
- 	-->
+	<bean id="cacheService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.CacheServiceImpl" abstract="true" />
+
 	<bean id="preparedStatementCachingDao" parent="platformAwareDaoJdbc" abstract="true" />
 	
 	<bean id="businessObjectReportHelper" abstract="true" class="org.kuali.kfs.sys.report.BusinessObjectReportHelper">

@@ -143,7 +143,6 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         }
     }
 
-    // RICE20 took this from CacheServiceImpl. This flushes all caches? Is that really what we want here?
     @CacheEvict(allEntries=true, value = { "" })
     protected void clearMethodCache() {
     }

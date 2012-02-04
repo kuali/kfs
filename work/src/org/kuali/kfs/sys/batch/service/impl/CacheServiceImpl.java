@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.batch.service.impl;
 
 import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.common.template.Template;
 import org.kuali.rice.kim.api.responsibility.Responsibility;
@@ -24,26 +25,20 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.location.framework.campus.CampusValuesFinder;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 
 /**
  * @see org.kuali.kfs.sys.batch.service.CacheService
  */
 @NonTransactional
 public class CacheServiceImpl implements CacheService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CacheServiceImpl.class);
-
-    private RoleService roleManagementService;
-    private IdentityManagementService identityManagementService;
-    private ParameterService parameterService;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CacheServiceImpl.class);
 
     /**
      * @see org.kuali.kfs.sys.batch.service.CacheService#clearSystemCache()
      */
     public void clearSystemCache() {
         clearMethodCache();
-        clearKIMCache();
-        clearParameterCache();
-        new CampusValuesFinder().clearInternalCache();
     }
 
     /**
@@ -55,80 +50,11 @@ public class CacheServiceImpl implements CacheService {
     }
 
     /**
-     * Clears out KIM cache by calling flush methods on role and identity services
-     */
-    @CacheEvict(value={Responsibility.Cache.NAME, Template.Cache.NAME + "{Responsibility}"}, allEntries = true)
-    protected void clearKIMCache() {
-        LOG.info("clearing KIM role & identity service cache ...");
-
-      //RICE20: clearCache method does not exist in ParameterService..        
-       // roleManagementService.flushRoleCaches();
-        identityManagementService.flushAllCaches();
-        //RICE20 need to find out how to flush the Responsibility Cache in rice; can we flush this on our own?? 
-        //       added @CacheEvict to function (ref - org.kuali.rice.kim.api.responsibility.ResponsibilityService) 
-        //SpringContext.getBean(RiceCacheAdministrator.class).flushGroup("ResponsibilityImpl");
-    }
-
-    /**
      * Clears out parameter cache by calling flush method on parameter service
      */
+    @CacheEvict(value={Parameter.Cache.NAME}, allEntries=true)
     protected void clearParameterCache() {
         LOG.info("clearing parameter cache ...");
-        //RICE20: clearCache method does not exist in ParameterService..
-     //   parameterService.clearCache();
     }
     
-    /**
-     * Gets the roleManagementService attribute.
-     * 
-     * @return Returns the roleManagementService.
-     */
-    protected RoleService getRoleService() {
-        return roleManagementService;
-    }
-
-    /**
-     * Sets the roleManagementService attribute value.
-     * 
-     * @param roleManagementService The roleManagementService to set.
-     */
-    public void setRoleService(RoleService roleManagementService) {
-        this.roleManagementService = roleManagementService;
-    }
-
-    /**
-     * Gets the identityManagementService attribute.
-     * 
-     * @return Returns the identityManagementService.
-     */
-    protected IdentityManagementService getIdentityManagementService() {
-        return identityManagementService;
-    }
-
-    /**
-     * Sets the identityManagementService attribute value.
-     * 
-     * @param identityManagementService The identityManagementService to set.
-     */
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
-        this.identityManagementService = identityManagementService;
-    }
-
-    /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
-     */
-    protected ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
 }

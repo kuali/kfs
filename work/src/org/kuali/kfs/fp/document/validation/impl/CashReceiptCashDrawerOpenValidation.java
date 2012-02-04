@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import java.util.List;
+import java.util.Set;
+
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
@@ -24,8 +27,12 @@ import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -43,20 +50,29 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         CashDrawer cd = getCashDrawerService().getByCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());
-        /*
-         * RICE20
-         * cannot find 
         if (cd == null) {
             throw new IllegalStateException("There is no cash drawer associated with unitName '" + getCashReceiptDocumentForValidation().getCampusLocationCode() + "' from cash receipt " + getCashReceiptDocumentForValidation().getDocumentNumber());
-
+        } 
+        WorkflowDocument workflowDocument = getCashReceiptDocumentForValidation().getDocumentHeader().getWorkflowDocument();
+        boolean isAdhocApproval = false;
+        Set<String> currentNodes = workflowDocument.getCurrentNodeNames();
+        if ( currentNodes != null && !currentNodes.isEmpty() ) {
+            String currentNode = currentNodes.iterator().next();
+            List<ActionRequest> requests = SpringContext.getBean(WorkflowDocumentService.class).getActionRequestsForPrincipalAtNode(workflowDocument.getDocumentId(), currentNode, GlobalVariables.getUserSession().getPrincipalId());
+            for ( ActionRequest ar : requests ) {
+                if ( ar.isActivated() && ar.isCurrent() 
+                        && ar.isApprovalRequest() && ar.isAdHocRequest() ) {
+                    isAdhocApproval = true;
+                    break;
+                }
+            }
         }
-        //RICE20: isAdHocRequested method does not exist in WorkflowDocument class.
-        //        else if (cd.isClosed() && !getCashReceiptDocumentForValidation().getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
-        else if (cd.isClosed()) {
+        
+        if (cd.isClosed() && !isAdhocApproval) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getCampusCode());
             return false;
         }
-        */
+
         //check whether cash manager confirmed amount equals to the old amount
         CashReceiptDocument crDoc = (CashReceiptDocument) getCashReceiptDocumentForValidation();
         if ((crDoc.getTotalDollarAmount().compareTo(crDoc.getTotalConfirmedCashAmount().add(crDoc.getTotalConfirmedCheckAmount()).add(crDoc.getTotalConfirmedCoinAmount()))) != 0) {

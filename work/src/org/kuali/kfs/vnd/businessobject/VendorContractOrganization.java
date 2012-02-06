@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * @see org.kuali.kfs.vnd.businessobject.VendorContract
  * @see org.kuali.kfs.coa.businessobject.Org
  */
-public class VendorContractOrganization extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivatable {
+public class VendorContractOrganization extends PersistableBusinessObjectBase implements VendorRoutingComparable, MutableInactivatable {
 
     private Integer vendorContractGeneratedIdentifier;
     private String chartOfAccountsCode;

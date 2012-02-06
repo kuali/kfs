@@ -22,7 +22,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This
  * way an award can maintain a collection of these references instead of owning accounts directly.
  */
-public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector, Inactivatable, ContractsAndGrantsAccountAwardInformation {
+public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector, MutableInactivatable, ContractsAndGrantsAccountAwardInformation {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardAccount.class);
     
     protected Long proposalNumber;
@@ -217,14 +217,14 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

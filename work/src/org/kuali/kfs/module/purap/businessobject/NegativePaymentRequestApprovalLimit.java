@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -29,7 +29,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Negative Payment Request Approval Limit Business Object. Maintenance document for setting limits for the auto-approve PREQ batch
  * job.
  */
-public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObjectBase implements Inactivatable{
+public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private Integer negativePaymentRequestApprovalLimitIdentifier;
     private String chartOfAccountsCode;

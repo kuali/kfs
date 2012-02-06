@@ -19,14 +19,14 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl;
 
 /**
  * 
  */
-public class SubObjectCode extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
+public class SubObjectCode extends PersistableBusinessObjectBase implements MutableInactivatable, FiscalYearBasedBusinessObject {
 
     private static final long serialVersionUID = -5292158248714650271L;
 

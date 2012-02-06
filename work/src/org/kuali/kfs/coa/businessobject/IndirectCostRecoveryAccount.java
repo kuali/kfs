@@ -20,14 +20,14 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.springframework.beans.BeanUtils;
 
 /**
  * IndrectCostRecoveryAccount
  */
-public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase implements Inactivatable{
+public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase implements MutableInactivatable{
     private static Logger LOG = Logger.getLogger(IndirectCostRecoveryAccount.class);
 
     private Integer indirectCostRecoveryAccountGeneratedIdentifier;

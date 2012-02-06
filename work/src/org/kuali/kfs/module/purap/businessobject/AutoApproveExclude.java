@@ -20,14 +20,14 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Auto Approve Exclude Business Object. Defines attributes in maintenance document for excluding payment request from automatic
  * approval.
  */
-public class AutoApproveExclude extends PersistableBusinessObjectBase implements Inactivatable{
+public class AutoApproveExclude extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private String chartOfAccountsCode;
     private String accountNumber;

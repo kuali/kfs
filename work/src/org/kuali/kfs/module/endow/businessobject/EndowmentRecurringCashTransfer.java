@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBase implements Inactivatable {
+public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBase implements MutableInactivatable {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EndowmentRecurringCashTransfer.class);
     

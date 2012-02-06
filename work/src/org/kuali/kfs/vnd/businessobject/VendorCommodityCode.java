@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.vnd.businessobject;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class VendorCommodityCode extends PersistableBusinessObjectBase implements Inactivatable {
+public class VendorCommodityCode extends PersistableBusinessObjectBase implements MutableInactivatable {
 
 	private Integer vendorHeaderGeneratedIdentifier;
 	private Integer vendorDetailAssignedIdentifier;

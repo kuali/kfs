@@ -19,13 +19,13 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Sensitive Data Business Object.
  */
-public class SensitiveData extends PersistableBusinessObjectBase implements PurchasingAccountsPayableSensitiveData, Inactivatable{
+public class SensitiveData extends PersistableBusinessObjectBase implements PurchasingAccountsPayableSensitiveData, MutableInactivatable{
 
     private String sensitiveDataCode;
     private String sensitiveDataDescription;

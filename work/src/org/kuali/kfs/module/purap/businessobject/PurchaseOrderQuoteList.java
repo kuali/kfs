@@ -21,13 +21,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Purchase Order Quote List Business Object.
  */
-public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase implements Inactivatable{
+public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private Integer purchaseOrderQuoteListIdentifier;
     private String purchaseOrderQuoteListName;

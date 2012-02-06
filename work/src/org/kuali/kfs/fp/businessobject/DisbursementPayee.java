@@ -29,13 +29,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 
-public class DisbursementPayee extends TransientBusinessObjectBase implements Inactivatable {
+public class DisbursementPayee extends TransientBusinessObjectBase implements MutableInactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayee.class);
 
     private String payeeIdNumber;

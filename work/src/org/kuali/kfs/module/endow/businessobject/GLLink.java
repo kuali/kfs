@@ -20,10 +20,10 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class GLLink extends PersistableBusinessObjectBase implements Inactivatable {
+public class GLLink extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String endowmentTransactionCode;
     private String chartCode;
@@ -157,14 +157,14 @@ public class GLLink extends PersistableBusinessObjectBase implements Inactivatab
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

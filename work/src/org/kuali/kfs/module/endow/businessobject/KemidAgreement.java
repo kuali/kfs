@@ -19,14 +19,14 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This KemidAgreement class provides the documentation used to establish a KEMID.
  */
-public class KemidAgreement extends PersistableBusinessObjectBase implements Inactivatable {
+public class KemidAgreement extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String kemid;
     private KualiInteger agreementId;
@@ -56,14 +56,14 @@ public class KemidAgreement extends PersistableBusinessObjectBase implements Ina
 
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

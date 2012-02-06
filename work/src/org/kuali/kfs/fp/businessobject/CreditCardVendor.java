@@ -23,13 +23,13 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class CreditCardVendor extends PersistableBusinessObjectBase implements Inactivatable {
+public class CreditCardVendor extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String financialDocumentCreditCardVendorNumber;
     private String financialDocumentCreditCardVendorName;

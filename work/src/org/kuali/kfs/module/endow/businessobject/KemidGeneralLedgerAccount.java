@@ -20,14 +20,14 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This KemidGeneralLedgerAccount class provides the general ledger account to which transaction information will be interfaced.
  * Also controls etran code use.
  */
-public class KemidGeneralLedgerAccount extends PersistableBusinessObjectBase implements Inactivatable{
+public class KemidGeneralLedgerAccount extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private String kemid;
     private String incomePrincipalIndicatorCode;
@@ -196,14 +196,14 @@ public class KemidGeneralLedgerAccount extends PersistableBusinessObjectBase imp
     }
     
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

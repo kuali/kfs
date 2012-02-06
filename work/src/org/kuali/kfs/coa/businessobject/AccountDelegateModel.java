@@ -22,14 +22,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
  */
-public class AccountDelegateModel extends PersistableBusinessObjectBase implements Inactivatable {
+public class AccountDelegateModel extends PersistableBusinessObjectBase implements MutableInactivatable {
     private static final Logger LOG = Logger.getLogger(AccountDelegateModel.class);
 
     private String chartOfAccountsCode;

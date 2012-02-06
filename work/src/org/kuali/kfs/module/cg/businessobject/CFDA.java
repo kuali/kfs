@@ -19,14 +19,14 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
-public class CFDA extends PersistableBusinessObjectBase implements ContractsAndGrantsCfda, Inactivatable {
+public class CFDA extends PersistableBusinessObjectBase implements ContractsAndGrantsCfda, MutableInactivatable {
 
     private String cfdaNumber;
     private String cfdaProgramTitleName;

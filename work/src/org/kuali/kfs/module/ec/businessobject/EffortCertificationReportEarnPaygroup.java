@@ -19,13 +19,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for the Effort Certification Report Earn Paygroup Table.
  */
-public class EffortCertificationReportEarnPaygroup extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
+public class EffortCertificationReportEarnPaygroup extends PersistableBusinessObjectBase implements MutableInactivatable, FiscalYearBasedBusinessObject {
     private Integer universityFiscalYear;
     private String effortCertificationReportTypeCode;
     private String earnCode;

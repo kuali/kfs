@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.membership.MemberType;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.util.CodeTranslator;
@@ -55,7 +55,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class OrgReviewRole extends PersistableBusinessObjectBase implements Inactivatable {
+public class OrgReviewRole extends PersistableBusinessObjectBase implements MutableInactivatable {
     protected static final String ORR_INQUIRY_TITLE_PROPERTY = "message.inquiry.org.review.role.title";
     protected static String INQUIRY_TITLE_VALUE = null;
 

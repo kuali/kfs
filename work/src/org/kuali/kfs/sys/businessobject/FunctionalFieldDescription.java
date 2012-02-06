@@ -18,10 +18,10 @@ package org.kuali.kfs.sys.businessobject;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class FunctionalFieldDescription extends PersistableBusinessObjectBase implements Inactivatable {
+public class FunctionalFieldDescription extends PersistableBusinessObjectBase implements MutableInactivatable {
     private String namespaceCode;
     private String componentClass;
     private String propertyName;

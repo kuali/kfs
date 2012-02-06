@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.location.api.campus.CampusService;
 import org.kuali.rice.location.framework.campus.CampusEbo;
@@ -28,7 +28,7 @@ import org.kuali.rice.location.framework.campus.CampusEbo;
 /**
  * 
  */
-public class Room extends PersistableBusinessObjectBase implements Inactivatable {
+public class Room extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String campusCode;
     private String buildingCode;

@@ -21,13 +21,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
+public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBase implements MutableInactivatable, FiscalYearBasedBusinessObject {
 
     /**
      * Default no-arg constructor.

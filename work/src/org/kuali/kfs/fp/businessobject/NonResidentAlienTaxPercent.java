@@ -18,7 +18,7 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -26,7 +26,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * This class is used to represent a non-resident alien tax percent.  This is the percentage of a total 
  * reimbursement that is collected in taxes for non-resident aliens.
  */
-public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase implements Inactivatable {
+public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String incomeClassCode;
     private String incomeTaxTypeCode;

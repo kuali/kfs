@@ -21,13 +21,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Purchase Order Contract Language Business Object.
  */
-public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase implements Inactivatable{
+public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private Integer purchaseOrderContractLanguageIdentifier;
     private String campusCode;

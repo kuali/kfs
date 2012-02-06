@@ -30,13 +30,13 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.TicklerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for Security table.
  */
-public class Security extends PersistableBusinessObjectBase implements Inactivatable {
+public class Security extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String id;
     private String description;
@@ -103,14 +103,14 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

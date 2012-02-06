@@ -19,13 +19,13 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Asset Transaction Type Business Object.
  */
-public class AssetTransactionType extends PersistableBusinessObjectBase implements CapitalAssetBuilderAssetTransactionType, Inactivatable {
+public class AssetTransactionType extends PersistableBusinessObjectBase implements CapitalAssetBuilderAssetTransactionType, MutableInactivatable {
 
     private String capitalAssetTransactionTypeCode;
     private String capitalAssetTransactionTypeDescription;

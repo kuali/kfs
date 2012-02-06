@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -193,7 +193,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable
      * @see org.kuali.kfs.coa.dataaccess.FiscalYearMaker#createSelectionCriteria(java.lang.Integer)
      */
     public Criteria createNextYearSelectionCriteria(Integer baseFiscalYear) {
@@ -210,9 +210,9 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
     /**
      * Selects records for the given base year or base year minus one if this is a lagging copy. If this is a two year copy base
      * year plus one records will be selected as well. In addition will only select active records if the business object class
-     * implements the Inactivatable interface and has the active property.
+     * implements the MutableInactivatable interface and has the active property.
      * 
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable
      * @see org.kuali.kfs.coa.dataaccess.FiscalYearMaker#createSelectionCriteria(java.lang.Integer)
      */
     public Criteria createSelectionCriteria(Integer baseFiscalYear) {
@@ -225,7 +225,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
 
         // add active criteria if the business object class supports the inactivateable interface
         List<String> fields = getPropertyNames();
-        if (Inactivatable.class.isAssignableFrom(businessObjectClass) && fields.contains(KFSPropertyConstants.ACTIVE) && !carryForwardInactive) {
+        if (MutableInactivatable.class.isAssignableFrom(businessObjectClass) && fields.contains(KFSPropertyConstants.ACTIVE) && !carryForwardInactive) {
             criteria.addEqualTo(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
         }
 

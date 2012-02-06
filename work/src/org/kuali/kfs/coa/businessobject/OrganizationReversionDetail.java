@@ -20,13 +20,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class OrganizationReversionDetail extends PersistableBusinessObjectBase implements Inactivatable, OrganizationReversionCategoryInfo, FiscalYearBasedBusinessObject {
+public class OrganizationReversionDetail extends PersistableBusinessObjectBase implements MutableInactivatable, OrganizationReversionCategoryInfo, FiscalYearBasedBusinessObject {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

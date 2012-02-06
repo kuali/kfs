@@ -19,13 +19,13 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsType;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for Benefits Type
  */
-public class BenefitsType extends PersistableBusinessObjectBase implements LaborLedgerBenefitsType, Inactivatable {
+public class BenefitsType extends PersistableBusinessObjectBase implements LaborLedgerBenefitsType, MutableInactivatable {
 
     private String positionBenefitTypeCode;
     private String positionBenefitTypeDescription;

@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Pretag extends PersistableBusinessObjectBase implements Inactivatable {
+public class Pretag extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String purchaseOrderNumber;
     private Integer itemLineNumber;

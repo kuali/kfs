@@ -18,13 +18,13 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Recurring Payment Type Business Object.
  */
-public class RecurringPaymentType extends PersistableBusinessObjectBase implements Inactivatable{
+public class RecurringPaymentType extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private String recurringPaymentTypeCode;
     private String recurringPaymentTypeDescription;

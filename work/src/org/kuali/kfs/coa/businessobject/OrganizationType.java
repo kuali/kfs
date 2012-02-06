@@ -17,13 +17,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Org Type Business Object
  */
-public class OrganizationType extends PersistableBusinessObjectBase implements Inactivatable {
+public class OrganizationType extends PersistableBusinessObjectBase implements MutableInactivatable {
     private String organizationTypeCode;
     private String organizationTypeName;
     private boolean active;

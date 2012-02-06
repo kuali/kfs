@@ -30,7 +30,7 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -43,7 +43,7 @@ import org.kuali.rice.location.api.state.State;
 /**
  * 
  */
-public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase implements Inactivatable {
+public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase implements MutableInactivatable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountAutoCreateDefaults.class);
     private Integer accountDefaultId;
     private String kcUnit;

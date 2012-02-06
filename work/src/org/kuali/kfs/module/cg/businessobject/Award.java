@@ -27,7 +27,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -37,7 +37,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines a financial award object.
  */
-public class Award extends PersistableBusinessObjectBase implements Inactivatable, ContractsAndGrantsAward {
+public class Award extends PersistableBusinessObjectBase implements MutableInactivatable, ContractsAndGrantsAward {
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
 
     private Long proposalNumber;

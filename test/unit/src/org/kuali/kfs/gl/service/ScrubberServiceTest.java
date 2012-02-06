@@ -2067,7 +2067,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     /**
-     * deactivate a business object of the type clazz with the given primary keys. If the business object is not Inactivatable, do
+     * deactivate a business object of the type clazz with the given primary keys. If the business object is not MutableInactivatable, do
      * nothing on it.
      *
      * @param <T> the type of the business object to be deactivated

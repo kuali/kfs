@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
@@ -32,7 +32,7 @@ import org.kuali.rice.location.api.state.StateService;
 /**
  * 
  */
-public class Building extends PersistableBusinessObjectBase implements Inactivatable {
+public class Building extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     protected String campusCode;
     protected String buildingCode;

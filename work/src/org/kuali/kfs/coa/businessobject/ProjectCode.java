@@ -17,14 +17,14 @@ package org.kuali.kfs.coa.businessobject;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * 
  */
-public class ProjectCode extends KualiCodeBase implements Inactivatable {
+public class ProjectCode extends KualiCodeBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 4529316062843227897L;
 

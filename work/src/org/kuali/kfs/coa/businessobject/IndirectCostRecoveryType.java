@@ -18,13 +18,13 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * This class...
  */
-public class IndirectCostRecoveryType extends KualiCodeBase implements Inactivatable {
+public class IndirectCostRecoveryType extends KualiCodeBase implements MutableInactivatable {
     
     private String code;
     private String name;

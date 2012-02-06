@@ -24,14 +24,14 @@ import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsType;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiPercent;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for Benefits Calculation.
  */
-public class BenefitsCalculation extends PersistableBusinessObjectBase implements LaborLedgerBenefitsCalculation, Inactivatable, FiscalYearBasedBusinessObject {
+public class BenefitsCalculation extends PersistableBusinessObjectBase implements LaborLedgerBenefitsCalculation, MutableInactivatable, FiscalYearBasedBusinessObject {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

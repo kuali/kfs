@@ -18,13 +18,13 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Phone number for a Vendor Contact.
  */
-public class VendorContactPhoneNumber extends PersistableBusinessObjectBase implements Inactivatable {
+public class VendorContactPhoneNumber extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer vendorContactPhoneGeneratedIdentifier;
     private Integer vendorContactGeneratedIdentifier;

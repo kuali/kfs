@@ -20,13 +20,13 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for Pooled Fund Control table.
  */
-public class PooledFundControl extends PersistableBusinessObjectBase implements Inactivatable {
+public class PooledFundControl extends PersistableBusinessObjectBase implements MutableInactivatable {
     private String pooledSecurityID;
     private String pooledFundDescription;
     private Integer incrementValuationDays;
@@ -60,14 +60,14 @@ public class PooledFundControl extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

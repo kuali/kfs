@@ -18,10 +18,10 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TicklerKEMID extends PersistableBusinessObjectBase implements Inactivatable
+public class TicklerKEMID extends PersistableBusinessObjectBase implements MutableInactivatable
 {
     private String number;
     private String kemId;

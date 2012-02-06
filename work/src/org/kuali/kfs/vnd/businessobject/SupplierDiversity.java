@@ -18,14 +18,14 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Ways in which chosen Vendors are demonstrably diverse, including having certification as a Minority-owned or Woman-owned Business
  * Enterprise (M/WBE), as a Small Business Enterprise (SBE), etc.
  */
-public class SupplierDiversity extends PersistableBusinessObjectBase implements Inactivatable{
+public class SupplierDiversity extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private String vendorSupplierDiversityCode;
     private String vendorSupplierDiversityDescription;

@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -29,7 +29,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * This KemidBenefittingOrganization class provides the institutional organizations that benefit from the KEMID.
  */
-public class KemidBenefittingOrganization extends PersistableBusinessObjectBase implements Inactivatable {
+public class KemidBenefittingOrganization extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String kemid;
     private KualiInteger benefittingOrgSeqNumber;
@@ -59,14 +59,14 @@ public class KemidBenefittingOrganization extends PersistableBusinessObjectBase 
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

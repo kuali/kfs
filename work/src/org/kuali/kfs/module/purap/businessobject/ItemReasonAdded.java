@@ -17,13 +17,13 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ItemReasonAdded extends PersistableBusinessObjectBase implements Inactivatable{
+public class ItemReasonAdded extends PersistableBusinessObjectBase implements MutableInactivatable{
 
 	private String itemReasonAddedCode;
 	private String itemReasonAddedDescription;

@@ -18,13 +18,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class UniversityBudgetOfficeFunction extends PersistableBusinessObjectBase implements Inactivatable {
+public class UniversityBudgetOfficeFunction extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String financialUniversityBudgetOfficeFunctionCode;
     private String financialUniversityBudgetOfficeFunctionName;

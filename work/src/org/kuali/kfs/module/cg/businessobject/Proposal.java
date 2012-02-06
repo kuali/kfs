@@ -26,7 +26,7 @@ import java.util.List;
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -37,7 +37,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * See functional documentation.
  */
-public class Proposal extends PersistableBusinessObjectBase implements Inactivatable, ContractAndGrantsProposal {
+public class Proposal extends PersistableBusinessObjectBase implements MutableInactivatable, ContractAndGrantsProposal {
 
     private Long proposalNumber;
     private Date proposalBeginningDate;

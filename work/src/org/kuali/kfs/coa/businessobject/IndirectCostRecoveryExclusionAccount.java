@@ -18,13 +18,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObjectBase implements Inactivatable {
+public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String chartOfAccountsCode;
     private String accountNumber;

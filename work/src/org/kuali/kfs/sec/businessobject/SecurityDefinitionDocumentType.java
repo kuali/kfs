@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * Associates a document type to a security definition
  */
-public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBase implements Inactivatable {
+public class SecurityDefinitionDocumentType extends PersistableBusinessObjectBase implements MutableInactivatable {
     private KualiInteger definitionId;
     private String financialSystemDocumentTypeCode;
     private boolean active;

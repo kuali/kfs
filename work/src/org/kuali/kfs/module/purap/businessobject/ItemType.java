@@ -19,13 +19,13 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Item Type Business Object. Defines various types of items.
  */
-public class ItemType extends PersistableBusinessObjectBase implements Inactivatable{
+public class ItemType extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private String itemTypeCode;
     private String itemTypeDescription;

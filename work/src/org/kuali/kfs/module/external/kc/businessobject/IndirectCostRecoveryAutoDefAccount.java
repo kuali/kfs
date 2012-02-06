@@ -22,14 +22,14 @@ import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.springframework.beans.BeanUtils;
 
 /**
  * IndrectCostRecoveryAccount
  */
-public class IndirectCostRecoveryAutoDefAccount extends PersistableBusinessObjectBase implements Inactivatable{
+public class IndirectCostRecoveryAutoDefAccount extends PersistableBusinessObjectBase implements MutableInactivatable{
     private static Logger LOG = Logger.getLogger(IndirectCostRecoveryAutoDefAccount.class);
 
     private Integer indirectCostRecoveryAccountGeneratedIdentifier;

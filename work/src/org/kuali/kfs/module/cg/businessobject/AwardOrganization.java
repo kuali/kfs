@@ -20,14 +20,14 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents an association between an award and an organization. It's like a reference to the organization from the
  * award. This way an award can maintain a collection of these references instead of owning organizations directly.
  */
-public class AwardOrganization extends PersistableBusinessObjectBase implements Primaryable, Inactivatable {
+public class AwardOrganization extends PersistableBusinessObjectBase implements Primaryable, MutableInactivatable {
 
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -167,14 +167,14 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

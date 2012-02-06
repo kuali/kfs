@@ -20,14 +20,14 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
 
-public class ACHBank extends PersistableBusinessObjectBase implements Inactivatable {
+public class ACHBank extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String bankRoutingNumber;
     private String bankOfficeCode;
@@ -413,7 +413,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivata
     
     /**
      * 
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
@@ -421,7 +421,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivata
     
     /**
      * 
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

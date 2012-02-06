@@ -20,7 +20,7 @@ import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.location.api.campus.CampusService;
 import org.kuali.rice.location.api.country.CountryService;
@@ -30,7 +30,7 @@ import org.kuali.rice.location.framework.country.CountryEbo;
 /**
  * 
  */
-public class PriorYearOrganization extends PersistableBusinessObjectBase implements Inactivatable {
+public class PriorYearOrganization extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String chartOfAccountsCode;
     private String organizationCode;

@@ -20,13 +20,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Represents a relationship between a {@link Proposal} and an {@Org}.
  */
-public class ProposalOrganization extends PersistableBusinessObjectBase implements Primaryable, Inactivatable {
+public class ProposalOrganization extends PersistableBusinessObjectBase implements Primaryable, MutableInactivatable {
 
     private String chartOfAccountsCode;
     private String organizationCode;

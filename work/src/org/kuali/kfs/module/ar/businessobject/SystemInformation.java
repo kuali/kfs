@@ -27,7 +27,7 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.location.api.postalcode.PostalCode;
@@ -38,7 +38,7 @@ import org.kuali.rice.location.api.state.StateService;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class SystemInformation extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
+public class SystemInformation extends PersistableBusinessObjectBase implements MutableInactivatable, FiscalYearBasedBusinessObject {
 
 	protected Integer universityFiscalYear;
 	protected String processingChartOfAccountCode;

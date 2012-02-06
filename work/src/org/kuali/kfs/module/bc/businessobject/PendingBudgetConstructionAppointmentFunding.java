@@ -33,7 +33,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -41,7 +41,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class PendingBudgetConstructionAppointmentFunding extends PersistableBusinessObjectBase implements Inactivatable {
+public class PendingBudgetConstructionAppointmentFunding extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

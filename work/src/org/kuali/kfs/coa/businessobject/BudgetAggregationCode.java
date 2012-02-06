@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 
 
 /**
  * Budget Aggregation Code Business Object
  */
-public class BudgetAggregationCode extends KualiCodeBase implements Inactivatable {
+public class BudgetAggregationCode extends KualiCodeBase implements MutableInactivatable {
 
     public BudgetAggregationCode() {
         super.setActive(true); // always active, plus no column in the table

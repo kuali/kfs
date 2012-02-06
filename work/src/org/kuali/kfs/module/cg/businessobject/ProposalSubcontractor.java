@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -26,7 +26,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * 
  */
-public class ProposalSubcontractor extends PersistableBusinessObjectBase implements Inactivatable {
+public class ProposalSubcontractor extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String proposalSubcontractorNumber;
     private Long proposalNumber;

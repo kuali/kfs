@@ -31,13 +31,13 @@ import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for the Effort Certification Report Definition Table.
  */
-public class EffortCertificationReportDefinition extends PersistableBusinessObjectBase implements EffortCertificationReport, Inactivatable, FiscalYearBasedBusinessObject {
+public class EffortCertificationReportDefinition extends PersistableBusinessObjectBase implements EffortCertificationReport, MutableInactivatable, FiscalYearBasedBusinessObject {
 
     private Integer universityFiscalYear;
     private String effortCertificationReportNumber;

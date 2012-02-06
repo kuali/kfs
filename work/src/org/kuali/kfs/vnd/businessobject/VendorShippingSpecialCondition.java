@@ -19,7 +19,7 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -28,7 +28,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * 
  * @see org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition
  */
-public class VendorShippingSpecialCondition extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivatable {
+public class VendorShippingSpecialCondition extends PersistableBusinessObjectBase implements VendorRoutingComparable, MutableInactivatable {
 
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;

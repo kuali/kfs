@@ -27,7 +27,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.location.api.campus.Campus;
@@ -43,7 +43,7 @@ import org.kuali.rice.location.framework.state.StateEbo;
 /**
  * 
  */
-public class PriorYearAccount extends PersistableBusinessObjectBase implements AccountIntf, Inactivatable {
+public class PriorYearAccount extends PersistableBusinessObjectBase implements AccountIntf, MutableInactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PriorYearAccount.class);
 
     private String chartOfAccountsCode;

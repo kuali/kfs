@@ -27,7 +27,7 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -41,7 +41,7 @@ import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 /**
  * 
  */
-public class Organization extends PersistableBusinessObjectBase implements Inactivatable {
+public class Organization extends PersistableBusinessObjectBase implements MutableInactivatable {
     private static final Logger LOG = Logger.getLogger(Organization.class);
 
     private static final long serialVersionUID = 121873645110037203L;

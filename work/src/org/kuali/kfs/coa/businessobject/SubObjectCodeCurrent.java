@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * This is for ojb only to map to the object code view. Should not be used by application code.
  */
-public class SubObjectCodeCurrent extends SubObjectCode implements Inactivatable {
+public class SubObjectCodeCurrent extends SubObjectCode implements MutableInactivatable {
 
 }

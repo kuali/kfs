@@ -30,13 +30,13 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
-public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Position, Inactivatable {
+public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Position, MutableInactivatable {
 
     private String positionNumber;
     private Integer universityFiscalYear;

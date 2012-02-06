@@ -19,13 +19,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TicklerRecipientGroup extends PersistableBusinessObjectBase implements Inactivatable
+public class TicklerRecipientGroup extends PersistableBusinessObjectBase implements MutableInactivatable
 {
     private String number;
     private boolean active;

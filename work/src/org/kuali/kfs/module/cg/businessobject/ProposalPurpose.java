@@ -18,13 +18,13 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * A generalized purpose for a proposal.
  */
-public class ProposalPurpose extends PersistableBusinessObjectBase implements Inactivatable {
+public class ProposalPurpose extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String proposalPurposeCode;
     private String proposalPurposeDescription;

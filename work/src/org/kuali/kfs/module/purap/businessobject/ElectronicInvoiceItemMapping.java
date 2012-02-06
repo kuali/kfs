@@ -21,10 +21,10 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class ElectronicInvoiceItemMapping extends PersistableBusinessObjectBase implements Inactivatable {
+public class ElectronicInvoiceItemMapping extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer invoiceMapIdentifier;
     private Integer vendorHeaderGeneratedIdentifier;

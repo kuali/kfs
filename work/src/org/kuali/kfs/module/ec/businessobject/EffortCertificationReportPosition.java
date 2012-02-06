@@ -22,14 +22,14 @@ import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
  * Business Object for the Effort Certification Report Position Table.
  */
-public class EffortCertificationReportPosition extends PersistableBusinessObjectBase implements Inactivatable, FiscalYearBasedBusinessObject {
+public class EffortCertificationReportPosition extends PersistableBusinessObjectBase implements MutableInactivatable, FiscalYearBasedBusinessObject {
     private Integer universityFiscalYear;
     private String effortCertificationReportNumber;
     private String effortCertificationReportPositionObjectGroupCode;

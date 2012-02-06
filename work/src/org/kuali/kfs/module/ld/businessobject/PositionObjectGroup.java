@@ -19,13 +19,13 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for PositionObjectGroup
  */
-public class PositionObjectGroup extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectGroup, Inactivatable {
+public class PositionObjectGroup extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectGroup, MutableInactivatable {
     private String positionObjectGroupCode;
     private String positionObjectGroupName;
     private boolean active;

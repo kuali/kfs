@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -28,7 +28,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * This class represents an association between an award and a project director. It's like a reference to the project director from
  * the award. This way an award can maintain a collection of these references instead of owning project directors directly.
  */
-public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivatable {
+public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, MutableInactivatable {
 
     private String principalId;
     private Long proposalNumber;
@@ -138,14 +138,14 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

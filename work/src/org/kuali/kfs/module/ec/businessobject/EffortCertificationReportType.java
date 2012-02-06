@@ -18,13 +18,13 @@ package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for the Effort Certification Report Type Table.
  */
-public class EffortCertificationReportType extends PersistableBusinessObjectBase implements Inactivatable {
+public class EffortCertificationReportType extends PersistableBusinessObjectBase implements MutableInactivatable {
     private String effortCertificationReportTypeCode;
     private String effortCertificationReportDescription;
     private boolean active;

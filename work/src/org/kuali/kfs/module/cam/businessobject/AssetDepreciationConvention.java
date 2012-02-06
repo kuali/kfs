@@ -18,13 +18,13 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.ObjectSubType;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AssetDepreciationConvention extends PersistableBusinessObjectBase implements Inactivatable {
+public class AssetDepreciationConvention extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String financialObjectSubTypeCode;
     private String depreciationConventionCode;

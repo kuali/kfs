@@ -16,13 +16,13 @@
 
 package org.kuali.kfs.vnd.businessobject;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Alternate name for a Vendor.
  */
-public class VendorAlias extends PersistableBusinessObjectBase implements Inactivatable {
+public class VendorAlias extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String vendorAliasName;
     private Integer vendorDetailAssignedIdentifier;

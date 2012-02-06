@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.InquiryDefinition;
 import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
@@ -59,7 +59,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     public final static String BUSINESS_OBJECT_PATH_QUALIFIER = "businessobject/datadictionary";
     public final static String DOCUMENT_PATH_QUALIFIER = "document/datadictionary";
     public final static String RICE_PACKAGE_NAME_PREFIX = "org.kuali.rice";
-    public final static String INACTIVATEABLE_INTERFACE_CLASS = Inactivatable.class.getName();
+    public final static String INACTIVATEABLE_INTERFACE_CLASS = MutableInactivatable.class.getName();
     public final static String ACTIVE_FIELD_NAME = "active";
     
     public void testAllDataDictionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
@@ -151,7 +151,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
                     && !INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.contains(businessObjectEntry.getBusinessObjectClass().getPackage().getName()) ) {
                 try {
                     LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
-                    // Class implements Inactivatable but active field not used on Lookup.
+                    // Class implements MutableInactivatable but active field not used on Lookup.
                     if(Class.forName(INACTIVATEABLE_INTERFACE_CLASS).isAssignableFrom(businessObjectEntry.getBusinessObjectClass())) {
                         if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains(ACTIVE_FIELD_NAME) && lookupDefinition.getResultFieldNames().contains(ACTIVE_FIELD_NAME))){
                             noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
@@ -163,7 +163,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
                             }
                         }
                     }else{
-                        // Lookup show active flag, but class does not implement Inactivatable.
+                        // Lookup show active flag, but class does not implement MutableInactivatable.
                         if(lookupDefinition != null && (lookupDefinition.getLookupFieldNames().contains(ACTIVE_FIELD_NAME) || lookupDefinition.getResultFieldNames().contains(ACTIVE_FIELD_NAME))){
                             notImplementInactivatableList.add(businessObjectEntry.getBusinessObjectClass());
                         }

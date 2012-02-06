@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * 
  */
-public class ObjectType extends KualiCodeBase implements Inactivatable {
+public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Default no-arg constructor.

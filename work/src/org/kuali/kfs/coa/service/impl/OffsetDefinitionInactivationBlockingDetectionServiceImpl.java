@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.datadictionary.InactivationBlockingMetadata;
 import org.kuali.rice.krad.service.impl.InactivationBlockingDetectionServiceImpl;
@@ -52,7 +53,7 @@ public class OffsetDefinitionInactivationBlockingDetectionServiceImpl extends In
             Collection<? extends BusinessObject> potentialBlockingRecords = businessObjectService.findMatching(
                     inactivationBlockingMetadata.getBlockingReferenceBusinessObjectClass(), queryMap);
             for (Iterator<? extends BusinessObject> iterator = potentialBlockingRecords.iterator(); iterator.hasNext();) {
-                Inactivatable businessObject = (Inactivatable) iterator.next();
+                MutableInactivatable businessObject = (MutableInactivatable) iterator.next();
                 blockingRecords.add((BusinessObject) businessObject);
             }
         }

@@ -17,14 +17,14 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Asset payment Allocation type is used to select the method of Allocation of payments. In other words, the type determines how
  * source line payments are distributed/allocated amonth the target assets.
  */
-public class AssetPaymentAllocationType extends PersistableBusinessObjectBase implements Inactivatable {
+public class AssetPaymentAllocationType extends PersistableBusinessObjectBase implements MutableInactivatable {
     private boolean active;
     private String allocationCode;
     private String allocationName;
@@ -50,7 +50,7 @@ public class AssetPaymentAllocationType extends PersistableBusinessObjectBase im
 
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
@@ -58,7 +58,7 @@ public class AssetPaymentAllocationType extends PersistableBusinessObjectBase im
 
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

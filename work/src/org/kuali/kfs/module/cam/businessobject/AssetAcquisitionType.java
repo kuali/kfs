@@ -17,13 +17,13 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AssetAcquisitionType extends PersistableBusinessObjectBase implements Inactivatable {
+public class AssetAcquisitionType extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String acquisitionTypeCode;
     private String acquisitionTypeName;

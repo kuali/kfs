@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -29,7 +29,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * @see org.kuali.kfs.coa.businessobject.Chart
  * @see org.kuali.kfs.coa.businessobject.Org
  */
-public class VendorCustomerNumber extends PersistableBusinessObjectBase implements Inactivatable {
+public class VendorCustomerNumber extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer vendorCustomerNumberGeneratedIdentifier;
     private Integer vendorHeaderGeneratedIdentifier;

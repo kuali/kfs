@@ -17,13 +17,13 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Represents a relationship between a {@link Proposal} and a {@link ResearchRisk}.
  */
-public class ProposalResearchRisk extends PersistableBusinessObjectBase implements Inactivatable {
+public class ProposalResearchRisk extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String researchRiskTypeCode;
     private Long proposalNumber;

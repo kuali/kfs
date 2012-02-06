@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  *
  */
-public class AccountDelegate extends PersistableBusinessObjectBase implements Inactivatable {
+public class AccountDelegate extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 6883162275377881235L;
 

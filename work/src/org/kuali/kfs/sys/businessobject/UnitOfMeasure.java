@@ -17,13 +17,13 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Unit Of Measure Business Object.
  */
-public class UnitOfMeasure extends PersistableBusinessObjectBase implements Inactivatable {
+public class UnitOfMeasure extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String itemUnitOfMeasureCode;
     private String itemUnitOfMeasureDescription;

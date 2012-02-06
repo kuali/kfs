@@ -16,13 +16,13 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * Fund Group Business Object
  */
-public class FundGroup extends KualiCodeBase implements Inactivatable {
+public class FundGroup extends KualiCodeBase implements MutableInactivatable {
     private static final long serialVersionUID = 6940405128416948259L;
     private String financialReportingSortCode;
     private String fundGroupBudgetAdjustmentRestrictionLevelCode;

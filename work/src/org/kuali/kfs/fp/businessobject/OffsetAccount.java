@@ -21,13 +21,13 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents an offset account business object.
  */
-public class OffsetAccount extends PersistableBusinessObjectBase implements Inactivatable {
+public class OffsetAccount extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String chartOfAccountsCode;
     private String accountNumber;

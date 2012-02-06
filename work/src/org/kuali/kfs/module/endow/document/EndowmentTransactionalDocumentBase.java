@@ -203,7 +203,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#isErrorCorrectedDocument()
      */
     public boolean isErrorCorrectedDocument() {
-        if (StringUtils.isEmpty(getDocumentHeader().getFinancialDocumentInErrorNumber()))
+        if (StringUtils.isEmpty(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber()))
             return false;
         else
             return true;

@@ -153,7 +153,7 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         }
         
         //  force the docHeader docTotal
-        customerCreditMemoDocument.getDocumentHeader().setFinancialDocumentTotalAmount(customerCreditMemoDocument.getCrmTotalAmount());
+        customerCreditMemoDocument.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(customerCreditMemoDocument.getCrmTotalAmount());
     }
 
     public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String invoiceNumber) {

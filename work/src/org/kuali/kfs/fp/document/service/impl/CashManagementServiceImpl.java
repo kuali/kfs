@@ -291,7 +291,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         List dccList = new ArrayList();
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
-            FinancialSystemDocumentHeader dh = crDoc.getDocumentHeader();
+            FinancialSystemDocumentHeader dh = crDoc.getFinancialSystemDocumentHeader();
 
             // change the doc status if it is not interim
             String statusCode = isFinalDeposit ? DocumentStatusCodes.CashReceipt.FINAL : DocumentStatusCodes.CashReceipt.INTERIM;
@@ -351,7 +351,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
         else {
             for (CashReceiptDocument cashReceipt : selectedCashReceipts) {
-                String statusCode = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
+                String statusCode = cashReceipt.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
                 //if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED)) {
                 if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED) && !StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.INTERIM)) {
                     throw new InvalidCashReceiptState("cash receipt document " + cashReceipt.getDocumentNumber() + " has a status other than 'verified' or 'interim' ");
@@ -395,7 +395,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         KualiDecimal total = KualiDecimal.ZERO;
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
-            if (crDoc.getDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(CashReceipt.VERIFIED)) {
+            if (crDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(CashReceipt.VERIFIED)) {
                 total = total.add(crDoc.getTotalConfirmedCheckAmount());
             }
         }
@@ -461,7 +461,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // cleanup the CMDoc, but let the postprocessor itself save it
         cmDoc.setDeposits(new ArrayList());
-        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.CANCELLED);
+        cmDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.CANCELLED);
         
         // kill off cumulative currency/coin detail records for this document (canceling the deposits kills the deposit records)
         String[] cashieringSourcesToDelete = { KFSConstants.CurrencyCoinSources.CASH_RECEIPTS, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT };
@@ -509,7 +509,7 @@ public class CashManagementServiceImpl implements CashManagementService {
                 CashReceiptDocument crDoc = dcc.getCashReceiptDocument();
                 if (!ObjectUtils.isNull(crDoc)) {
                     crDoc.refreshReferenceObject("documentHeader");
-                    FinancialSystemDocumentHeader crdh = crDoc.getDocumentHeader();
+                    FinancialSystemDocumentHeader crdh = crDoc.getFinancialSystemDocumentHeader();
                     if (!ObjectUtils.isNull(crdh)) {
                         if (!(deposit.getDepositTypeCode().equalsIgnoreCase(DocumentStatusCodes.CashReceipt.FINAL) 
                                 && crdh.getFinancialDocumentStatusCode().equalsIgnoreCase(DocumentStatusCodes.CashReceipt.INTERIM))) {
@@ -591,7 +591,7 @@ public class CashManagementServiceImpl implements CashManagementService {
                 }
 
                 // mark CRs themselves as APPROVED
-                receipt.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
+                receipt.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
 
                 // persist
                 documentService.updateDocument(receipt);
@@ -605,7 +605,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         //businessObjectService.save(masterCoinDetail);
         generateMasterRecord(cmDoc, masterCurrencyDetail, masterCoinDetail);
         // finalize the CMDoc, but let the postprocessor save it
-        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
+        cmDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
     }
     
     /**
@@ -719,7 +719,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         List cashReceipts = this.retrieveCashReceipts(deposit);
         for (Object o: cashReceipts) {
             CashReceiptDocument crDoc = (CashReceiptDocument)o;
-            crDoc.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.FINAL);
+            crDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.FINAL);
             documentService.updateDocument(crDoc);
         }
     }

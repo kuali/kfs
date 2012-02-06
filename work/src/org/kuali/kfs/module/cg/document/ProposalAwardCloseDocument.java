@@ -47,7 +47,7 @@ public class ProposalAwardCloseDocument extends FinancialSystemTransactionalDocu
      * @return whether or not this document has been approved.
      */
     public boolean isApproved() {
-        return KFSConstants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode());
+        return KFSConstants.DocumentStatusCodes.APPROVED.equals(getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
     }
 
     /**

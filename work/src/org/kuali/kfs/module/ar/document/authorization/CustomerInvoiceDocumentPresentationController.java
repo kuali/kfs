@@ -79,7 +79,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
         // check if this document has been error corrected
-        if (StringUtils.isNotBlank(document.getDocumentHeader().getCorrectedByDocumentId())) {
+        if (StringUtils.isNotBlank(document.getFinancialSystemDocumentHeader().getCorrectedByDocumentId())) {
             return false;
         }
         

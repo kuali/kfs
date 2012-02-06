@@ -279,7 +279,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
         // Update the doc total if it is not a CashControl generated PayApp
         if (!paymentApplicationDocument.hasCashControlDetail()) {
-            paymentApplicationDocument.getDocumentHeader().setFinancialDocumentTotalAmount(appliedAmount);
+            paymentApplicationDocument.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(appliedAmount);
         }
     }
 

@@ -131,7 +131,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         // Clearing document overview fields
         getDocumentHeader().setDocumentDescription(null);
         getDocumentHeader().setExplanation(null);
-        getDocumentHeader().setFinancialDocumentTotalAmount(null);
+        getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(null);
         getDocumentHeader().setOrganizationDocumentNumber(null);
 
         // Clearing document Init fields

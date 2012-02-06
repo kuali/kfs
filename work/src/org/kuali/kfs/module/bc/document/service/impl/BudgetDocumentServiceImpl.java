@@ -123,7 +123,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     public Document saveDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException, ValidationException {
 
         // user did explicit save here so mark as touched
-        budgetConstructionDocument.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
+        budgetConstructionDocument.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
 
         this.saveDocumentNoWorkflow(budgetConstructionDocument);
 
@@ -1066,7 +1066,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         budgetConstructionDocument.setBudgetTransactionLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         budgetConstructionDocument.setBudgetLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
 
-        FinancialSystemDocumentHeader kualiDocumentHeader = budgetConstructionDocument.getDocumentHeader();
+        FinancialSystemDocumentHeader kualiDocumentHeader = budgetConstructionDocument.getFinancialSystemDocumentHeader();
         budgetConstructionDocument.setDocumentNumber(budgetConstructionDocument.getDocumentHeader().getDocumentNumber());
         kualiDocumentHeader.setOrganizationDocumentNumber(budgetConstructionDocument.getUniversityFiscalYear().toString());
         kualiDocumentHeader.setFinancialDocumentStatusCode(KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);

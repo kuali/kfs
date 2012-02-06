@@ -144,7 +144,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         effortCertificationDetailLines.add(testDetailLine);
         document.setEffortCertificationDetailLines(effortCertificationDetailLines);
 
-        document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(200.00));
+        document.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(200.00));
         SpringContext.getBean(DocumentService.class).saveDocument(document);
         return (EffortCertificationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
     }

@@ -112,7 +112,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     public static void testConvertIntoErrorCorrection_documentAlreadyCorrected(AccountingDocument document, TransactionalDocumentDictionaryService dictionaryService) throws Exception {
 
         if (((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) {
-            document.getDocumentHeader().setCorrectedByDocumentId("1");
+            document.getFinancialSystemDocumentHeader().setCorrectedByDocumentId("1");
 
             boolean failedAsExpected = false;
             try {
@@ -210,7 +210,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
 
             // collect some preCorrect data
             String preCorrectId = document.getDocumentNumber();
-            String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+            String preCorrectCorrectsId = document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
 
             int preCorrectPECount = document.getGeneralLedgerPendingEntries().size();
             // int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
@@ -242,7 +242,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             // LOG.debug("postcorrect note text = " + note.getFinancialDocumentNoteText());
             // assertTrue(note.getFinancialDocumentNoteText().indexOf("correction") != -1);
             // correctsId should be equal to old id
-            String correctsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+            String correctsId = document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
             LOG.debug("postcorrect correctsId = " + correctsId);
             assertEquals(preCorrectId, correctsId);
             // accounting lines should have sign reversed on amounts

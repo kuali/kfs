@@ -172,7 +172,7 @@ public enum CustomerInvoiceDocumentFixture {
         customerInvoiceDocument.setPaymentFinancialSubObjectCode(paymentFinancialSubObjectCode);
         customerInvoiceDocument.setPaymentProjectCode(paymentProjectCode);
         customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(paymentOrganizationReferenceIdentifier);
-        customerInvoiceDocument.getDocumentHeader().setFinancialDocumentInErrorNumber(financialDocumentInErrorNumber);
+        customerInvoiceDocument.getFinancialSystemDocumentHeader().setFinancialDocumentInErrorNumber(financialDocumentInErrorNumber);
         if( StringUtils.isNotEmpty(billByChartOfAccountsCode)){
             customerInvoiceDocument.setBillByChartOfAccountCode(billByChartOfAccountsCode);
         }

@@ -235,7 +235,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isErrorCorrection(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource)
      */
     public boolean isErrorCorrection(GeneralLedgerPendingEntrySource poster) {
-        return StringUtils.isNotBlank(poster.getDocumentHeader().getFinancialDocumentInErrorNumber());
+        return StringUtils.isNotBlank(poster.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
     }
 
     /**

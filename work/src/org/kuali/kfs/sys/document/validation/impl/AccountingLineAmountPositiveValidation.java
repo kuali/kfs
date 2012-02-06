@@ -43,7 +43,7 @@ public class AccountingLineAmountPositiveValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {        
         KualiDecimal amount = accountingLineForValidation.getAmount();
-        String correctsDocumentId = accountingDocumentForValidation.getDocumentHeader().getFinancialDocumentInErrorNumber();
+        String correctsDocumentId = accountingDocumentForValidation.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
         
         if (KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
             GlobalVariables.getMessageMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");

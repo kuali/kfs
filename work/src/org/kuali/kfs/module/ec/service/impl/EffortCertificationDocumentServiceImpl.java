@@ -128,7 +128,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         }
 
         // populate the document header of the document
-        FinancialSystemDocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
+        FinancialSystemDocumentHeader documentHeader = effortCertificationDocument.getFinancialSystemDocumentHeader();
         documentHeader.setDocumentDescription(effortCertificationDocumentBuild.getEmplid());
         documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
 

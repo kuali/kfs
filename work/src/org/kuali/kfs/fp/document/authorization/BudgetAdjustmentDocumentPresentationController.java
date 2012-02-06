@@ -55,7 +55,7 @@ public class BudgetAdjustmentDocumentPresentationController extends AccountingDo
 
         if (!(document instanceof Correctable)) return false;
         if (!((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) return false;
-        if (document.getDocumentHeader().getCorrectedByDocumentId() != null) return false;
+        if (document.getFinancialSystemDocumentHeader().getCorrectedByDocumentId() != null) return false;
         return (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal());
     }
 

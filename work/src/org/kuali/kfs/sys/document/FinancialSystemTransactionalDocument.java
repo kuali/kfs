@@ -23,7 +23,7 @@ public interface FinancialSystemTransactionalDocument extends TransactionalDocum
     /**
      * @see org.kuali.rice.krad.document.Document#getDocumentHeader()
      */
-    public FinancialSystemDocumentHeader getDocumentHeader();
+    public FinancialSystemDocumentHeader getFinancialSystemDocumentHeader();
 
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException;
     

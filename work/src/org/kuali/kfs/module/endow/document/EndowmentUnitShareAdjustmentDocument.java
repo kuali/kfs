@@ -48,7 +48,7 @@ public class EndowmentUnitShareAdjustmentDocument extends EndowmentTaxLotLinesDo
     @Override
     public void prepareForSave() {
         if (this instanceof AmountTotaling) {
-            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+            getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
         }
 
         sourceTransactionSecurities.clear();

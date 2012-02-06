@@ -333,7 +333,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getTransferOfFundsFinancialDocumentNumber())) {
             TransferOfFundsDocument transferOfFundsFinancialDocument = assetTransferDocument.getTransferOfFundsFinancialDocument();
-            if (ObjectUtils.isNull(transferOfFundsFinancialDocument) || !KFSConstants.DocumentStatusCodes.APPROVED.equals(transferOfFundsFinancialDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+            if (ObjectUtils.isNull(transferOfFundsFinancialDocument) || !KFSConstants.DocumentStatusCodes.APPROVED.equals(transferOfFundsFinancialDocument.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.TRANSFER_FUND_FINANCIAL_DOC_NUM, CamsKeyConstants.Transfer.ERROR_TRFR_FDOC_INVALID);
                 valid &= false;
             }

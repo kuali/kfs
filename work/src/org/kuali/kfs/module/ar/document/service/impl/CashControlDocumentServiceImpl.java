@@ -81,7 +81,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         doc.getDocumentHeader().setDocumentDescription(description);
 
         // the line amount for the new PaymentApplicationDocument should be the line amount in the new cash control detail
-        doc.getDocumentHeader().setFinancialDocumentTotalAmount(cashControlDetail.getFinancialDocumentLineAmount());
+        doc.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(cashControlDetail.getFinancialDocumentLineAmount());
 
         //  re-use the Processing Chart/Org from the CashControlDoc's arDocHeader
         String processingChartCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();

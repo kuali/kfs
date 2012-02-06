@@ -908,7 +908,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @return
      */
     public boolean isInvoiceReversal() {
-        return ObjectUtils.isNotNull(getDocumentHeader().getFinancialDocumentInErrorNumber());
+        return ObjectUtils.isNotNull(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
     }
 
     /**
@@ -1066,9 +1066,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     public List<String> getWorkflowEngineDocumentIdsToLock() {
         //  add the invoice number of the Error Corrected doc, if this is an error correction
         if (this.isInvoiceReversal()) {
-            if (StringUtils.isNotBlank(getDocumentHeader().getFinancialDocumentInErrorNumber())) {
+            if (StringUtils.isNotBlank(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber())) {
                 List<String> documentIds = new ArrayList<String>();
-                documentIds.add(getDocumentHeader().getFinancialDocumentInErrorNumber());
+                documentIds.add(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
                 return documentIds;
             }
         }
@@ -1104,10 +1104,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         if (this.isInvoiceReversal()) {
             CustomerInvoiceDocument correctedCustomerInvoiceDocument;
             try {
-                correctedCustomerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                correctedCustomerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
             }
             catch (WorkflowException e) {
-                throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                throw new RuntimeException("Cannot find customer invoice document with id " + this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
             }
 
             // if reversal, close both this reversal invoice and the original invoice
@@ -1185,7 +1185,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         //  make sure the docHeader gets its doc total right.  This is here because there's an ordering 
         // bug in the struts classes for invoice that is preventing this from being set right.  There is 
         // probably a better way to fix this that can be pursued later.
-        getDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
+        getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
         
         //  invoice recurrence stuff, if there is a recurrence object
         if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails()) && getProcessRecurrenceFlag()) {
@@ -1309,7 +1309,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         super.toCopy();
         CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         customerInvoiceDocumentService.setupDefaultValuesForCopiedCustomerInvoiceDocument(this);
-        this.getDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
+        this.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
     }
 
     /**
@@ -1320,7 +1320,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         super.toErrorCorrection();
         negateCustomerInvoiceDetailUnitPrices();
         this.setOpenInvoiceIndicator(false);
-        this.getDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
+        this.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
         
         //  if we dont force this on the error correction, the recurrence will 
         // have the old doc number, and will revert the main doc due to OJB fun, 

@@ -708,10 +708,10 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     @Override
     public void populateDocumentForRouting() {
         if (ObjectUtils.isNotNull(getTotalPayrollAmount())) {
-            getDocumentHeader().setFinancialDocumentTotalAmount(getTotalPayrollAmount());
+            getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(getTotalPayrollAmount());
         }
         else {
-            getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(0));
+            getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(0));
         }
         super.populateDocumentForRouting();
     }

@@ -507,7 +507,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         BarcodeInventoryErrorDocument document = (BarcodeInventoryErrorDocument) documentService.getNewDocument(BarcodeInventoryErrorDocument.class);
 
         document.getDocumentHeader().setExplanation(DOCUMENT_EXPLANATION);
-        document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(0));
+        document.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
         document.getDocumentHeader().setDocumentDescription(uploadDescription);
         document.setUploaderUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);

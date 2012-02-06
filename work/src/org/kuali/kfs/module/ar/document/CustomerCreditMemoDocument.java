@@ -316,7 +316,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
         if (isTaxableItemFlag)
             crmTotalTaxAmount = crmTotalTaxAmount.add(getTaxService().getTotalSalesTaxAmount(invoice.getBillingDate(), getPostalCode(), itemAmount));
         crmTotalAmount = crmTotalItemAmount.add(crmTotalTaxAmount);
-        getDocumentHeader().setFinancialDocumentTotalAmount(crmTotalAmount);
+        getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(crmTotalAmount);
     }
 
     /*
@@ -646,7 +646,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     }  
 
     public KualiDecimal getTotalDollarAmount() {
-        return getDocumentHeader().getFinancialDocumentTotalAmount();
+        return getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount();
     } 
     
     

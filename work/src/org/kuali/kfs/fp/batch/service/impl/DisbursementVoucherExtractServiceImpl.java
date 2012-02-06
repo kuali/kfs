@@ -185,7 +185,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         if (!testMode) {
             try {
-                document.getDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.EXTRACTED);
+                document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.EXTRACTED);
                 document.setExtractDate(new java.sql.Date(processRunDate.getTime()));
                 SpringContext.getBean(DocumentService.class).saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
             }
@@ -708,7 +708,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                     dv.setGeneralLedgerPendingEntries(newGLPEs);
                 }
                 // set the financial document status to canceled
-                dv.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
+                dv.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document
                 SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
             }

@@ -1094,7 +1094,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     @Override
     public void prepareForSave() {
         if (this instanceof AmountTotaling) {
-            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+            getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
         }
 
         if (dvWireTransfer != null) {
@@ -1278,7 +1278,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.extractDate = null;
         this.paidDate = null;
         this.cancelDate = null;
-        getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.INITIATED);
+        getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.INITIATED);
     }
 
     /**

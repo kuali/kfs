@@ -182,7 +182,7 @@ public class DepositWizardAction extends KualiAction {
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
             receipt.processAfterRetrieve(); // To populate Currency and Coin details
-            String docStatus = receipt.getDocumentHeader().getFinancialDocumentStatusCode();
+            String docStatus = receipt.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
             if (docStatus.equalsIgnoreCase(CashReceipt.VERIFIED)) { // for interim or final deposit
                 if (receipt.getCheckCount() == 0 && receipt.getTotalConfirmedCheckAmount().equals(KualiDecimal.ZERO)) {
                     dform.getCheckFreeCashReceipts().add(receipt);
@@ -436,12 +436,12 @@ public class DepositWizardAction extends KualiAction {
             for (Object crDocObj : cashReceipts) {
                 CashReceiptDocument crDoc = (CashReceiptDocument) crDocObj;
                 crDoc.refreshCashDetails();
-                if (crDoc.getDocumentHeader().getFinancialDocumentStatusCode().equals(CashReceipt.VERIFIED) && crDoc.getCheckCount() == 0) {
+                if (crDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(CashReceipt.VERIFIED) && crDoc.getCheckCount() == 0) {
                     // it's check free; it is automatically deposited as part of the final deposit
                     selectedIds.add(crDoc.getDocumentNumber());
                     dform.getCheckFreeCashReceipts().add(crDoc);
                 }
-                else if (crDoc.getDocumentHeader().getFinancialDocumentStatusCode().equals(CashReceipt.INTERIM) &&
+                else if (crDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(CashReceipt.INTERIM) &&
                         crDoc.getGrandTotalConfirmedCashAmount().isGreaterThan(KualiDecimal.ZERO)) {
 //                        crDoc.setChecks(null);
 //                        crDoc.setConfirmedChecks(new ArrayList<Check>());

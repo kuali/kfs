@@ -123,7 +123,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         // Clearing document overview fields
         this.getDocumentHeader().setDocumentDescription(null);
         this.getDocumentHeader().setExplanation(null);
-        this.getDocumentHeader().setFinancialDocumentTotalAmount(null);
+        this.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(null);
         this.getDocumentHeader().setOrganizationDocumentNumber(null);
 
         // Clearing document Init fields

@@ -53,18 +53,18 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
         // NOTE: DO NOT call the super implementation.  It has the GLCP processing logic which should not be run here.
         // The code below is copied from the super.super implementation:
         if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         } else if (getDocumentHeader().getWorkflowDocument().isEnroute()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
         if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
         }
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         if ( LOG.isInfoEnabled() ) {
-            LOG.info("Document: " + statusChangeEvent.getDocumentId() + " -- Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+            LOG.info("Document: " + statusChangeEvent.getDocumentId() + " -- Status is: " + getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
         }
         // End of super.super code
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {

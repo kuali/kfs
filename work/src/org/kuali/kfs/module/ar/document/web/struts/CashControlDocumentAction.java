@@ -181,10 +181,10 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
             PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-            if (KFSConstants.DocumentStatusCodes.CANCELLED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+            if (KFSConstants.DocumentStatusCodes.CANCELLED.equals(applicationDocument.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode())) {
                 // Ignore this case, as it should not impact the ability to cancel a cash control doc.
             }
-            else if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+            else if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(applicationDocument.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode())) {
                 documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
             }
             else {

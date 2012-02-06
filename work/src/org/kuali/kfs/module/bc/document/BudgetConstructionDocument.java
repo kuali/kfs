@@ -824,13 +824,13 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         if (getDocumentHeader().getWorkflowDocument().isEnroute()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
         /* the status below is comparable to "approved" status for other documents */
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
         }
-        LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+        LOG.info("Status is: " + getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
     }
 
 

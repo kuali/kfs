@@ -674,7 +674,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
             total = total.add(cashControlDetail.getFinancialDocumentLineAmount());
         }
         cashControlTotalAmount = total;
-        getDocumentHeader().setFinancialDocumentTotalAmount(total);
+        getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(total);
     }
 
     @Override

@@ -460,7 +460,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @return Returns the totalCheckAmount.
      */
     public KualiDecimal getTotalConfirmedCheckAmountForInterim() {
-        if (totalConfirmedCheckAmount == null || getDocumentHeader().getFinancialDocumentStatusCode().equals(CashReceipt.INTERIM)) {
+        if (totalConfirmedCheckAmount == null || getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(CashReceipt.INTERIM)) {
             setTotalConfirmedCheckAmount(KualiDecimal.ZERO);
         }
         return totalConfirmedCheckAmount;
@@ -592,7 +592,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        if(getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
+        if(getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
             return getTotalConfirmedDollarAmount();
         } else {
             return getTotalCoinAmount().add(getTotalCheckAmount()).add(getTotalCashAmount());
@@ -840,7 +840,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         
         // Workflow Status of PROCESSED --> Kuali Doc Status of Verified
         if (workflowDocument.isProcessed()) {
-            this.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+            this.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
             LOG.info("Adding Cash to Cash Drawer");
             SpringContext.getBean(CashReceiptService.class).addCashDetailsToCashDrawer(this);
         }

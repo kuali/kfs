@@ -211,7 +211,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         for (Iterator depositCashReceiptControls = deposit.getDepositCashReceiptControl().iterator(); depositCashReceiptControls.hasNext();) {
             DepositCashReceiptControl depositCashReceiptControl = (DepositCashReceiptControl) depositCashReceiptControls.next();
             CashReceiptDocument cashReceipt = depositCashReceiptControl.getCashReceiptDocument();
-            String crState = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
+            String crState = cashReceipt.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
             if (!desiredCRStates.contains(crState)) {
                 throw new IllegalStateException("Cash receipt document number " + cashReceipt.getDocumentNumber() + " is not in an appropriate state for the associated CashManagementDocument to be submitted.");
             }

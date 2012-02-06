@@ -16,11 +16,11 @@
 package org.kuali.kfs.module.purap.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 public class PurapSearchUtils {
 
-    public static String getWorkFlowStatusString(FinancialSystemDocumentHeader documentHeader) {
+    public static String getWorkFlowStatusString(DocumentHeader documentHeader) {
         if (documentHeader.getWorkflowDocument().isInitiated()) {
             return "INITIATED";
         }

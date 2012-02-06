@@ -371,7 +371,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
-            receipt.getDocumentHeader().setFinancialDocumentStatusCode("Z");
+            receipt.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode("Z");
             SpringContext.getBean(DocumentService.class).updateDocument(receipt);
         }
     }
@@ -380,7 +380,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         CashReceiptDocument crDoc = (CashReceiptDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CashReceiptDocument.class);
 
         crDoc.getDocumentHeader().setDocumentDescription(description);
-        crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
+        crDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(status);
 
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
         crDoc.setTotalCashAmount(cashAmount);

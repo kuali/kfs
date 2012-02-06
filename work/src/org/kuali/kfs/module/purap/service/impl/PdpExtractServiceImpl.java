@@ -533,7 +533,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         paymentDetail.setInvoiceDate(creditMemoDocument.getCreditMemoDate());
         paymentDetail.setOrigInvoiceAmount(creditMemoDocument.getCreditMemoAmount().negated());
-        paymentDetail.setNetPaymentAmount(creditMemoDocument.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+        paymentDetail.setNetPaymentAmount(creditMemoDocument.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
 
         KualiDecimal shippingAmount = KualiDecimal.ZERO;
         KualiDecimal discountAmount = KualiDecimal.ZERO;

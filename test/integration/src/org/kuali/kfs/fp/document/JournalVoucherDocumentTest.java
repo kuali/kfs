@@ -183,7 +183,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         document = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
         // collect some preCorrect data
         String preCorrectId = document.getDocumentNumber();
-        String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+        String preCorrectCorrectsId = document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
 
         int preCorrectPECount = document.getGeneralLedgerPendingEntries().size();
         // int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
@@ -213,7 +213,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // DocumentNote note = document.getDocumentHeader().getNote(0);
         // assertTrue(note.getFinancialDocumentNoteText().indexOf("correction") != -1);
         // correctsId should be equal to old id
-        String correctsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+        String correctsId = document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
         assertEquals(preCorrectId, correctsId);
         // accounting lines should have sign reversed on amounts
         List postCorrectSourceLines = document.getSourceAccountingLines();

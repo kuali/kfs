@@ -117,7 +117,7 @@ public class IsDebitTestUtils {
      */
     public static AccountingDocument getErrorCorrectionDocument(DocumentService documentService, Class<? extends AccountingDocument> documentClass) throws WorkflowException {
         AccountingDocument financialDocument = getDocument(documentService, documentClass);
-        financialDocument.getDocumentHeader().setFinancialDocumentInErrorNumber("fakeErrorCorrection");
+        financialDocument.getFinancialSystemDocumentHeader().setFinancialDocumentInErrorNumber("fakeErrorCorrection");
 
         return financialDocument;
     }

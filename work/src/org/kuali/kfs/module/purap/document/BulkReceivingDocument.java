@@ -227,7 +227,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
         // Clearing document overview fields
         getDocumentHeader().setDocumentDescription(null);
         getDocumentHeader().setExplanation(null);
-        getDocumentHeader().setFinancialDocumentTotalAmount(null);
+        getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(null);
         getDocumentHeader().setOrganizationDocumentNumber(null);
 
         setPurchaseOrderIdentifier(null);

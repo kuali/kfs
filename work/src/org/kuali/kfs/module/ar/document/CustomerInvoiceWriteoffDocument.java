@@ -248,7 +248,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     public KualiDecimal getInvoiceWriteoffAmount() {
         // only pull the invoice open amount as the invoice writeoff amount while the doc
         // is in play. once its been approved, rely on the amount stored in the db.
-        if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode())) {
+        if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode())) {
             invoiceWriteoffAmount = customerInvoiceDocument.getOpenAmount();
         }
         return invoiceWriteoffAmount;

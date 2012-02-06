@@ -217,7 +217,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     public String getFinancialDocumentStatusMessage() {
         String financialDocumentStatusMessage = "";
         CashReceiptDocument crd = getCashReceiptDocument();
-        String financialDocumentStatusCode = crd.getDocumentHeader().getFinancialDocumentStatusCode();
+        String financialDocumentStatusCode = crd.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         if (financialDocumentStatusCode.equals(CashReceipt.VERIFIED)) {
             financialDocumentStatusMessage = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
         }

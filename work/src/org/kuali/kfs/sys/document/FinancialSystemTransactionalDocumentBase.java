@@ -49,7 +49,12 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      * @see org.kuali.rice.krad.document.DocumentBase#getDocumentHeader()
      */
     @Override
-    public FinancialSystemDocumentHeader getDocumentHeader() {
+    public DocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+    
+    @Override
+    public FinancialSystemDocumentHeader getFinancialSystemDocumentHeader() {
         return documentHeader;
     }
 
@@ -72,7 +77,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     @Override
     public void prepareForSave() {
         if (this instanceof AmountTotaling) {
-            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+            getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
         }
         super.prepareForSave();
     }
@@ -86,9 +91,9 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     public void processAfterRetrieve() {
         // set correctedByDocumentId manually, since OJB doesn't maintain that relationship
         try {
-            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getDocumentId().toString());
+            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentId().toString());
             if (correctingDocumentHeader != null) {
-                getDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
+                getFinancialSystemDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
             }
         } catch (Exception e) {
             LOG.error("Received WorkflowException trying to get route header id from workflow document. Exception was " + e);
@@ -108,19 +113,19 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         }
         else if (getDocumentHeader().getWorkflowDocument().isEnroute()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
         if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
         }
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         if ( LOG.isInfoEnabled() ) {
-            LOG.info("Document: " + statusChangeEvent.getDocumentId() + " -- Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+            LOG.info("Document: " + statusChangeEvent.getDocumentId() + " -- Status is: " + getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
         }
        
         super.doRouteStatusChange(statusChangeEvent);
@@ -140,7 +145,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
 
         String sourceDocumentHeaderId = getDocumentNumber();
         setNewDocumentHeader();
-        getDocumentHeader().setFinancialDocumentInErrorNumber(sourceDocumentHeaderId);
+        getFinancialSystemDocumentHeader().setFinancialDocumentInErrorNumber(sourceDocumentHeaderId);
         addCopyErrorDocumentNote("error-correction for document " + sourceDocumentHeaderId);
     }
 

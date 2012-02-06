@@ -419,7 +419,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
 
         // The document is eligible for auto-approval if the document total is below the limit.
-        if (document.getDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
+        if (document.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
             return true;
         }
 

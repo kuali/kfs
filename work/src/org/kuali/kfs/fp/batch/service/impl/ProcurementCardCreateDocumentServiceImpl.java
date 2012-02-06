@@ -325,7 +325,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 transactionLineNumber++;
             }
             
-            pcardDocument.getDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
+            pcardDocument.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
             pcardDocument.getDocumentHeader().setDocumentDescription("SYSTEM Generated");
 
             // Remove duplicate messages from errorText

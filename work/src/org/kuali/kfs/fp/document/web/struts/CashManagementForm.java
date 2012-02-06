@@ -373,7 +373,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             checkAmount = crd.getTotalConfirmedCheckAmount();
             cashAmount = crd.getTotalConfirmedCashAmount();
             totalAmount = crd.getTotalConfirmedDollarAmount().subtract(crd.getTotalChangeAmount());
-            documentStatusCode = crd.getDocumentHeader().getFinancialDocumentStatusCode();
+            documentStatusCode = crd.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         }
 
         /**
@@ -556,7 +556,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             finalReceiptStats.clear();
 
             for (CashReceiptDocument receipt : interestingReceipts) {
-                String status = receipt.getDocumentHeader().getFinancialDocumentStatusCode();
+                String status = receipt.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
                 overallReceiptStats.add(receipt);
                 if (status.equals(CashReceipt.VERIFIED)) {
                     verifiedReceiptStats.add(receipt);

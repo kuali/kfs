@@ -135,7 +135,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         
         //  set the final document total for the invoice
         writeoff.setInvoiceWriteoffAmount(totalApplied);
-        writeoff.getDocumentHeader().setFinancialDocumentTotalAmount(totalApplied);
+        writeoff.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(totalApplied);
         documentService.updateDocument(writeoff);
     }
     

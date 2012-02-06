@@ -70,11 +70,11 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
             return false;
         }
 
-        if (document.getDocumentHeader().getCorrectedByDocumentId() != null) {
+        if (document.getFinancialSystemDocumentHeader().getCorrectedByDocumentId() != null) {
             return false;
         }
 
-        if (document.getDocumentHeader().getFinancialDocumentInErrorNumber() != null) {
+        if (document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber() != null) {
             return false;
         }
 

@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 /**
  * A collection of methods needed by anything - document or otherwise - that plans to generate
@@ -52,8 +53,14 @@ public interface GeneralLedgerPendingEntrySource {
      * Returns a document header associated with this general ledger posting helper
      * @return a document header, having information which should be put into the generated GeneralLedgerPendingEntry records
      */
-    public FinancialSystemDocumentHeader getDocumentHeader();
-    
+    public FinancialSystemDocumentHeader getFinancialSystemDocumentHeader();
+
+    /**
+     * Returns a document header associated with this general ledger posting helper
+     * @return a document header, having information which should be put into the generated GeneralLedgerPendingEntry records
+     */
+    public DocumentHeader getDocumentHeader();
+
     /**
      * Requests that the posting helper removes any general ledger pending entries it might be holding, so that new ones can be generated
      */

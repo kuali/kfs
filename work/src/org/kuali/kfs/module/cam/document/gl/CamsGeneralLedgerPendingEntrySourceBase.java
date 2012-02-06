@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public abstract class CamsGeneralLedgerPendingEntrySourceBase implements GeneralLedgerPendingEntrySource {
@@ -58,8 +59,15 @@ public abstract class CamsGeneralLedgerPendingEntrySourceBase implements General
         return true;
     }
 
-    public FinancialSystemDocumentHeader getDocumentHeader() {
+    @Override
+    public DocumentHeader getDocumentHeader() {
         return documentHeader;
+    }
+    
+    @Override
+    public FinancialSystemDocumentHeader getFinancialSystemDocumentHeader() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {

@@ -289,7 +289,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
-        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() + "\n\t\t 111111111 HEADER TOTAL AMOUNT (should be null): " + customerInvoiceDocument.getDocumentHeader().getFinancialDocumentTotalAmount() + "\n\n");
+        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() + "\n\t\t 111111111 HEADER TOTAL AMOUNT (should be null): " + customerInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "\n\n");
         customerInvoiceDocument.getDocumentNumber();
         // original-amount = SpringContext.getBean(FinancialSystemDocumentService.class).get
         HashMap criteria = new HashMap();
@@ -299,7 +299,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         KualiDecimal originalTotalAmount = KualiDecimal.ZERO;
         originalTotalAmount = financialSystemDocumentHeader.getFinancialDocumentTotalAmount();
 
-        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() + "\n\t\t 333333333333 HEADER TOTAL AMOUNT (should be set now): " + customerInvoiceDocument.getDocumentHeader().getFinancialDocumentTotalAmount() + "\n\n");
+        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() + "\n\t\t 333333333333 HEADER TOTAL AMOUNT (should be set now): " + customerInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "\n\n");
         return originalTotalAmount;
     }
 

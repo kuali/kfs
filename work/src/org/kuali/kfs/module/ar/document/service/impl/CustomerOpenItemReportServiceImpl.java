@@ -206,7 +206,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDueApprovedDate(invoice.getInvoiceDueDate());
 
             // Document Payment Amount
-            detail.setDocumentPaymentAmount(invoice.getDocumentHeader().getFinancialDocumentTotalAmount());
+            detail.setDocumentPaymentAmount(invoice.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount());
 
             // Unpaid/Unapplied Amount
             detail.setUnpaidUnappliedAmount(customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument(invoice));
@@ -239,7 +239,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 detail.setDocumentDescription("");
 
             // populate Document Payment Amount
-            detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+            detail.setDocumentPaymentAmount(paymentApplication.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
             
             // populate Unpaid/Unapplied Amount if the customer number is the same
             if (ObjectUtils.isNotNull(paymentApplication.getNonAppliedHolding())) {
@@ -285,7 +285,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         
             // populate Document Payment Amount - original document amount
             //detail.setDocumentPaymentAmount(KualiDecimal.ZERO);
-            detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+            detail.setDocumentPaymentAmount(paymentApplication.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
 
             // populate Unpaid/Unapplied Amount if the customer number is not the same
             detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
@@ -610,7 +610,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // Due Date
             detail.setDueApprovedDate(invoice.getInvoiceDueDate());
             // Document Payment Amount
-            detail.setDocumentPaymentAmount(invoice.getDocumentHeader().getFinancialDocumentTotalAmount());
+            detail.setDocumentPaymentAmount(invoice.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount());
             // Unpaid/Unapplied Amount
             detail.setUnpaidUnappliedAmount(customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument(invoice));
             results.add(detail);
@@ -777,7 +777,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                         detail.setDocumentDescription("");
 
                     // populate Document Payment Amount
-                    detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+                    detail.setDocumentPaymentAmount(paymentApplication.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
                     
                     // populate Unpaid/Unapplied Amount if the customer number is the same
                     if (ObjectUtils.isNotNull(paymentApplication.getNonAppliedHolding())) {
@@ -808,7 +808,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                     detail.setDocumentDescription("");
 
                 // populate Document Payment Amount
-                detail.setDocumentPaymentAmount(creditMemo.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+                detail.setDocumentPaymentAmount(creditMemo.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
                 
                 // Unpaid/Unapplied Amount
                 detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);            
@@ -833,7 +833,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                     detail.setDocumentDescription("");
 
                 // populate Document Payment Amount
-                detail.setDocumentPaymentAmount(invoiceWriteoffDocument.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+                detail.setDocumentPaymentAmount(invoiceWriteoffDocument.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
                 
                 // Unpaid/Unapplied Amount
                 detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);            

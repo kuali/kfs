@@ -216,9 +216,9 @@ public class CashManagementServiceTest extends KualiTestBase {
                 assertEquals(3, depositedReceiptControls.size());
 
                 // CRs are in appropriate state
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
             }
 
         }
@@ -455,9 +455,9 @@ public class CashManagementServiceTest extends KualiTestBase {
             assertEquals(3, depositedReceiptControls.size());
 
             // CRs are in appropriate state
-            assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-            assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-            assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
+            assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+            assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+            assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
 
             // total value of the deposit is the sum of the values of the 3 CRs
             assertEquals(new KualiDecimal("58.00"), deposit.getDepositAmount());
@@ -550,9 +550,9 @@ public class CashManagementServiceTest extends KualiTestBase {
                 assertEquals(3, depositedReceiptControls.size());
 
                 // CRs are in appropriate state
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
             }
 
 
@@ -578,9 +578,9 @@ public class CashManagementServiceTest extends KualiTestBase {
                 assertEquals(0, SpringContext.getBean(BusinessObjectService.class).countMatching(Deposit.class, depositPK));
 
                 // cash receipts have been restored to appropriate state
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr1.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr2.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr3.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
             }
         }
         finally {
@@ -697,7 +697,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
-            receipt.getDocumentHeader().setFinancialDocumentStatusCode("Z");
+            receipt.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode("Z");
             SpringContext.getBean(DocumentService.class).updateDocument(receipt);
         }
     }
@@ -706,7 +706,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         CashReceiptDocument crDoc = (CashReceiptDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CashReceiptDocument.class);
 
         crDoc.getDocumentHeader().setDocumentDescription(description);
-        crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
+        crDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(status);
 
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
         crDoc.setTotalConfirmedCashAmount(KualiDecimal.ZERO); // cash amounts are now calculated differently

@@ -849,7 +849,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         newBCHdr.setBudgetTransactionLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         newBCHdr.setBudgetLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         newBCHdr.setVersionNumber(DEFAULT_VERSION_NUMBER);
-        FinancialSystemDocumentHeader kualiDocumentHeader = newBCHdr.getDocumentHeader();
+        FinancialSystemDocumentHeader kualiDocumentHeader = newBCHdr.getFinancialSystemDocumentHeader();
         newBCHdr.setDocumentNumber(newBCHdr.getDocumentHeader().getDocumentNumber());
         kualiDocumentHeader.setOrganizationDocumentNumber(newBCHdr.getUniversityFiscalYear().toString());
         kualiDocumentHeader.setFinancialDocumentStatusCode(KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);

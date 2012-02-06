@@ -341,7 +341,7 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
         List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 
         for (EffortCertificationDocument document : documentList) {
-            assertEquals(document.getDocumentHeader().getFinancialDocumentStatusCode(), KFSConstants.DocumentStatusCodes.ENROUTE);
+            assertEquals(document.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode(), KFSConstants.DocumentStatusCodes.ENROUTE);
         }
     }
 

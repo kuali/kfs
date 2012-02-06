@@ -39,7 +39,7 @@ public class DocumentStatusMonitor extends ChangeMonitor {
         Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
         String currentStatus = null;
         if (d instanceof FinancialSystemTransactionalDocument) {
-            currentStatus = ((FinancialSystemTransactionalDocument) d).getDocumentHeader().getFinancialDocumentStatusCode();
+            currentStatus = ((FinancialSystemTransactionalDocument) d).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         } else if (d instanceof FinancialSystemMaintenanceDocument) {
             currentStatus = ((FinancialSystemMaintenanceDocument) d).getDocumentHeader().getFinancialDocumentStatusCode();
         } else {

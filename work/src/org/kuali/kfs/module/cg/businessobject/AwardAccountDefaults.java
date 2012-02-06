@@ -48,10 +48,12 @@ public class AwardAccountDefaults extends PersistableBusinessObjectBase implemen
      */
     public AwardAccountDefaults() {
         // Struts needs this instance to populate the secondary key, principalName.
-        try {
-            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
-        }
-        catch (Exception e) {
+        if ( SpringContext.isInitialized() ) {
+            try {
+                projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+            }
+            catch (Exception e) {
+            }
         }
     }
 

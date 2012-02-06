@@ -248,8 +248,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                 }
             }
             // If the user replies 'No' to either of the questions, redirect to the PREQ initiate page.
-            else if ((PurapConstants.PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION.equals(question) || PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
+            else if ((PurapConstants.PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION.equals(question) || PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {			                    
+                paymentRequestDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
                 forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
 
@@ -393,7 +393,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         // calculation just for the tax area, only at tax review stage
         // by now, the general calculation shall have been done.
-        if (preqDoc.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+        if (preqDoc.getAppDocStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
             SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
             return;
         }
@@ -489,7 +489,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     protected boolean requiresCalculateTax(PaymentRequestForm preqForm) {
         PaymentRequestDocument preq = (PaymentRequestDocument) preqForm.getDocument();
-        boolean requiresCalculateTax = StringUtils.equals(preq.getStatusCode(), PaymentRequestStatuses.AWAITING_TAX_REVIEW) && !preqForm.isCalculatedTax(); 
+        boolean requiresCalculateTax = StringUtils.equals(preq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW) && !preqForm.isCalculatedTax(); 
         return requiresCalculateTax;
     }
 

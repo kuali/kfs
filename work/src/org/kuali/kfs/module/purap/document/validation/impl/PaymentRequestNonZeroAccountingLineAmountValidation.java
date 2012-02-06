@@ -39,14 +39,14 @@ public class PaymentRequestNonZeroAccountingLineAmountValidation extends Purchas
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;        
-        String status = ((PaymentRequestDocument)event.getDocument()).getStatusCode();
+        String status = ((PaymentRequestDocument)event.getDocument()).getAppDocStatus();
 
         AccountingDocument accountingDocument = (AccountingDocument)event.getDocument();
         this.setAccountingDocumentForValidation(accountingDocument);
         this.setDataDictionaryService(SpringContext.getBean(DataDictionaryService.class));
         
         //Do this for AFOA only
-        if (StringUtils.equals(PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, status)) {
+        if (StringUtils.equals(PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW, status)) {
             for (PurApAccountingLine acct : itemForValidation.getSourceAccountingLines()) {
                 this.setAccountingLineForValidation(acct);
                 final boolean lineIsAccessible =  lookupAccountingLineAuthorizer().hasEditPermissionOnAccountingLine(accountingDocument, acct, getAccountingLineCollectionProperty(), GlobalVariables.getUserSession().getPerson(), true);

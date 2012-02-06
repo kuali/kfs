@@ -43,7 +43,6 @@ public class PurApGenericAttributes extends PersistableBusinessObjectBase {
     private String paymentPaidTimestamp;
     private String creditMemoPaidTimestamp;
     private String purchaseOrderDocumentCurrentIndicator;
-    private String statusCode;
     private String purchaseOrderAutomaticIndicator;
     private String requisitionIdentifier;
     private String receivingDocumentRequiredIndicator;
@@ -201,14 +200,6 @@ public class PurApGenericAttributes extends PersistableBusinessObjectBase {
 
     public void setPurchaseOrderDocumentCurrentIndicator(String purchaseOrderDocumentCurrentIndicator) {
         this.purchaseOrderDocumentCurrentIndicator = purchaseOrderDocumentCurrentIndicator;
-    }
-
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
     }
 
     public String getPurchaseOrderAutomaticIndicator() {

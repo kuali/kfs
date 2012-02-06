@@ -29,7 +29,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
 
     // REQUISITION FIXTURES
     REQ_ONLY_REQUIRED_FIELDS(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             null, // vendorHeaderGeneratedIdentifier
             null, // vendorDetailAssignedIdentifier
             null, // vendorName
@@ -43,9 +43,9 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null, // vendorCustomerNumber
             null, // accountsPayablePurchasingDocumentLinkIdentifier, 
             false), //useTaxIndicator
-    REQ_WITH_MANUALLY_ENTERED_VENDOR(null, RequisitionStatuses.IN_PROCESS, null, null, "Colts Gear Shop", "111 Champs St", null, "Indy Rocks", "IN", null, "11111", "US", null, null,false),
+    REQ_WITH_MANUALLY_ENTERED_VENDOR(null, RequisitionStatuses.APPDOC_IN_PROCESS, null, null, "Colts Gear Shop", "111 Champs St", null, "Indy Rocks", "IN", null, "11111", "US", null, null,false),
     REQ_TAX(null, 
-            RequisitionStatuses.IN_PROCESS, 
+            RequisitionStatuses.APPDOC_IN_PROCESS, 
             1000, 
             0, 
             "ABC CLEANING SERVICES", 
@@ -61,7 +61,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false),
     // APO FIXTURES
     REQ_VALID_APO(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1002, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "ABC Cleaning Services", // vendorName
@@ -76,7 +76,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null, // accountsPayablePurchasingDocumentLinkIdentifier, 
             false), //useTaxIndicator
     REQ_ALTERNATE_APO(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1016, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "Physik Instrument L. P.", // vendorName
@@ -92,7 +92,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false), //useTaxIndicator
 
     REQ_WITH_RESTRICTED_VENDOR(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1005, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "RESTRICTED LEGAL SERVICES VENDOR", // vendorName
@@ -108,7 +108,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false), //useTaxIndicator
                     
     REQ_WITH_VENDOR_NOT_IN_DATABASE(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             -999999999, // vendorHeaderGeneratedIdentifier
             -9, // vendorDetailAssignedIdentifier
             "MY UNEXISTING VENDOR", // vendorName
@@ -124,7 +124,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false), //useTaxIndicator)
 
     REQ_WITH_DEBARRED_VENDOR(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1004, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "DEBARRED VENDOR", // vendorName
@@ -140,7 +140,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false), //useTaxIndicator)
 
     REQ_WITH_INACTIVE_VENDOR(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1019, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "INACTIVE PO VENDOR", // vendorName
@@ -156,7 +156,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false), //useTaxIndicator)
 
     REQ_WITH_DV_VENDOR(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1003, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "BASIC CORP ACTIVE", // vendorName
@@ -172,7 +172,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false), //useTaxIndicator)
             
     REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_CONTAINS_LETTERS(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1002, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "BASIC CORP ACTIVE", // vendorName
@@ -188,7 +188,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false), //useTaxIndicator)
                     
     REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_BAD_FORMAT(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1002, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "BASIC CORP ACTIVE", // vendorName
@@ -204,7 +204,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false), //useTaxIndicator)
                     
     REQ_WITH_INVALID_NON_US_VENDOR_ZIP_CODE_CONTAINS_LETTERS(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1002, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "BASIC CORP ACTIVE", // vendorName
@@ -220,7 +220,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             false), //useTaxIndicator)
                     
     REQ_WITH_VALID_US_VENDOR_ZIP_CODE_WITH_4_TRAILING_NUMBERS(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1002, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "BASIC CORP ACTIVE", // vendorName
@@ -238,7 +238,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
     // PURCHASE ORDER FIXTURES
     // TODO f2f: fix the PO one because actually, the vendor must be selected from the database
     PO_ONLY_REQUIRED_FIELDS(null, // purapDocumentIdentifier
-            PurchaseOrderStatuses.IN_PROCESS, // statusCode
+            PurchaseOrderStatuses.APPDOC_IN_PROCESS, // statusCode
             1000, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "ABC Cleaning Services", // vendorName
@@ -252,11 +252,11 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null, // vendorCustomerNumber
             null, // accountsPayablePurchasingDocumentLinkIdentifier, 
             false), //useTaxIndicator)
-    PO_WITH_MANUALLY_ENTERED_VENDOR(null, PurchaseOrderStatuses.IN_PROCESS, 1000, 0, "ABC Cleaning Services", "123456 BROAD ST", null, "TRUMANSBURG", "NY", null, "14886", "US", null, null, false),
+    PO_WITH_MANUALLY_ENTERED_VENDOR(null, PurchaseOrderStatuses.APPDOC_IN_PROCESS, 1000, 0, "ABC Cleaning Services", "123456 BROAD ST", null, "TRUMANSBURG", "NY", null, "14886", "US", null, null, false),
 
     // PAYMENT REQUEST FIXTURES
     PREQ_ONLY_REQUIRED_FIELDS(null, // purapDocumentIdentifier 
-            PaymentRequestStatuses.IN_PROCESS,  // statusCode
+            PaymentRequestStatuses.APPDOC_IN_PROCESS,  // statusCode
             1010,   // vendorHeaderGeneratedIdentifier
             2,   // vendorDetailAssignedIdentifier
             "DIVISION 2 OF PO BASIC",   // vendorName
@@ -271,7 +271,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null,    // accountsPayablePurchasingDocumentLinkIdentifier
             false), //useTaxIndicator)
     PREQ_VENDOR_FOR_PO_CLOSE_DOC(null, // purapDocumentIdentifier
-            PaymentRequestStatuses.DEPARTMENT_APPROVED, // statusCode
+            PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED, // statusCode
             1000, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "ABC Cleaning Services", // vendorName
@@ -288,7 +288,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             
     // CREDIT MEMO FIXTURES
     CM_ONLY_REQUIRED_FIELDS(null, // purapDocumentIdentifier
-            CreditMemoStatuses.IN_PROCESS, // statusCode
+            CreditMemoStatuses.APPDOC_IN_PROCESS, // statusCode
             1000, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "ABC Cleaning Services", // vendorName
@@ -303,7 +303,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null, // accountsPayablePurchasingDocumentLinkIdentifier, 
             false), //useTaxIndicator)
     REQ_MULTI_QUANTITY(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1002, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "MK CORPORATION ACTIVE", // vendorName
@@ -318,7 +318,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null, // accountsPayablePurchasingDocumentLinkIdentifier, 
             false), //useTaxIndicator)
     REQ_MULTI_NON_QUANTITY(null, // purapDocumentIdentifier
-            RequisitionStatuses.IN_PROCESS, // statusCode
+            RequisitionStatuses.APPDOC_IN_PROCESS, // statusCode
             1016, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "PHYSIK INSTRUMENT L.P.", // vendorName
@@ -333,7 +333,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null, // accountsPayablePurchasingDocumentLinkIdentifier, 
             false), //useTaxIndicator)
      EINVOICE_PO(null, // purapDocumentIdentifier
-            PurchaseOrderStatuses.IN_PROCESS, // statusCode
+            PurchaseOrderStatuses.APPDOC_IN_PROCESS, // statusCode
             1001, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "KUALI UNIVERSITY", // vendorName
@@ -392,7 +392,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             throw new RuntimeException("Document creation failed.");
         }
         doc.setPurapDocumentIdentifier(this.purapDocumentIdentifier);
-        doc.setStatusCode(this.statusCode);
+        doc.setAppDocStatus(this.statusCode);
         doc.setVendorHeaderGeneratedIdentifier(this.vendorHeaderGeneratedIdentifier);
         doc.setVendorDetailAssignedIdentifier(this.vendorDetailAssignedIdentifier);
         doc.setVendorName(this.vendorName);

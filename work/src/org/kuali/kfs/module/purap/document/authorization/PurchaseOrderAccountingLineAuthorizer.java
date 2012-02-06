@@ -106,7 +106,7 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         // the PO status is not In Process.
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)accountingDocument;
-        if (!poDocument.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS) && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+        if (!poDocument.getAppDocStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS) && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
             if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDocument.getDocumentType())) {
                 PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
                 PurchaseOrderItem item = (PurchaseOrderItem)purapAccount.getPurapItem();

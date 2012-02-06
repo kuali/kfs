@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cab.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -36,7 +37,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(311);
             obj.setDocumentNumber("31");
-            obj.setStatusCode("DPTA");
+            obj.setAppDocStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(21);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -85,7 +86,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(321);
             obj.setDocumentNumber("32");
-            obj.setStatusCode("DPTA");
+            obj.setAppDocStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(21);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -134,7 +135,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(331);
             obj.setDocumentNumber("33");
-            obj.setStatusCode("DPTA");
+            obj.setAppDocStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(22);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -183,7 +184,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(341);
             obj.setDocumentNumber("34");
-            obj.setStatusCode("DPTA");
+            obj.setAppDocStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(22);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -232,7 +233,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(351);
             obj.setDocumentNumber("35");
-            obj.setStatusCode("DPTA");
+            obj.setAppDocStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(23);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -281,7 +282,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(361);
             obj.setDocumentNumber("36");
-            obj.setStatusCode("DPTA");
+            obj.setAppDocStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(23);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);

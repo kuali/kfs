@@ -28,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -74,7 +73,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // SHARED FIELDS BETWEEN REQUISITION, PURCHASE ORDER, PAYMENT REQUEST, AND CREDIT MEMO
     protected Integer purapDocumentIdentifier;
-    protected String statusCode;
     protected Integer vendorHeaderGeneratedIdentifier;
     protected Integer vendorDetailAssignedIdentifier;
     protected String vendorCustomerNumber;
@@ -103,7 +101,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
     
     // REFERENCE OBJECTS
-    protected Status status;
     protected VendorDetail vendorDetail;
     protected Country vendorCountry;
 
@@ -252,17 +249,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return false;
     }
 
-    /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isDocumentStoppedInRouteNode(NodeDetails
-     *      nodeDetails)
-     */
-    public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails) {
+    // for app doc status
+    public boolean isDocumentStoppedInRouteNode(String nodeName) {
         List<String> currentRouteLevels = new ArrayList<String>();
 
         KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
         String[] names = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         currentRouteLevels = Arrays.asList(names);
-        if (currentRouteLevels.contains(nodeDetails.getName()) && workflowDoc.isApprovalRequested()) {
+            if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
             return true;
         }
         return false;
@@ -831,26 +825,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.purapDocumentIdentifier = identifier;
     }
 
-    public Status getStatus() {
-        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode()))  {
-            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
+    public String getAppDocStatus(){
+        return getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
         }
-        else if (ObjectUtils.isNotNull(status) && StringUtils.isNotEmpty(getStatusCode()) && !status.getStatusCode().equals(getStatusCode())) {
-            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
-        }
-        return status;
-    }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
+    public void setAppDocStatus(String appDocStatus){
+        getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(appDocStatus);        
     }
 
     public VendorDetail getVendorDetail() {
@@ -1023,10 +1003,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.relatedViews = relatedViews;
     }
     
-    public String getStatusCodeForMultiboxSearching() {
-        return statusCode;
-    }
-        
     @Override
     public void refreshNonUpdateableReferences() {
 

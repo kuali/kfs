@@ -66,8 +66,7 @@
         <ref bean="LineItemReceivingDocument-vendorLine2Address"/>
         <ref bean="LineItemReceivingDocument-vendorStateCode"/>
         <ref bean="LineItemReceivingDocument-vendorPostalCode"/>
-        <ref bean="LineItemReceivingDocument-versionNumber"/>
-        <ref bean="LineItemReceivingDocument-lineItemReceivingStatusCode"/>      
+        <ref bean="LineItemReceivingDocument-versionNumber"/>             
         <ref bean="LineItemReceivingDocument-workflowStatusForResult"/>   
         <ref bean="LineItemReceivingDocument-documentTitleForResult"/>
         <ref bean="LineItemReceivingDocument-createDateForResult"/>
@@ -427,23 +426,7 @@
 
   <bean id="LineItemReceivingDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
-  
-  <bean id="LineItemReceivingDocument-lineItemReceivingStatusCode" parent="LineItemReceivingDocument-lineItemReceivingStatusCode-parentBean"/>
-
-  <bean id="LineItemReceivingDocument-lineItemReceivingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-	<property name="name" value="lineItemReceivingStatusCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Line Item Receiving Status"/>
-    <property name="shortLabel" value="Line Item Receiving Status"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <ref bean="FourCharacterTextControl" />
-    </property>
-</bean>
-  
+    
   <bean id="LineItemReceivingDocument-workflowStatusForResult" parent="LineItemReceivingDocument-workflowStatusForResult-parentBean"/>
 
   <bean id="LineItemReceivingDocument-workflowStatusForResult-parentBean" abstract="true" parent="AttributeDefinition">

@@ -22,13 +22,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -37,7 +35,6 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -48,10 +45,10 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     @Override
     protected boolean canEdit(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument)document;
-        if (!RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode()) &&
-                !RequisitionStatuses.AWAIT_CONTENT_REVIEW.equals(reqDocument.getStatusCode()) &&
-                !RequisitionStatuses.AWAIT_HAS_ACCOUNTING_LINES.equals(reqDocument.getStatusCode()) &&
-                !RequisitionStatuses.AWAIT_FISCAL_REVIEW.equals(reqDocument.getStatusCode())) {
+        if (!RequisitionStatuses.APPDOC_IN_PROCESS.equals(reqDocument.getAppDocStatus()) &&
+                !RequisitionStatuses.APPDOC_AWAIT_CONTENT_REVIEW.equals(reqDocument.getAppDocStatus()) &&
+                !RequisitionStatuses.APPDOC_AWAIT_HAS_ACCOUNTING_LINES.equals(reqDocument.getAppDocStatus()) &&
+                !RequisitionStatuses.APPDOC_AWAIT_FISCAL_REVIEW.equals(reqDocument.getAppDocStatus())) {
             //unless the Requisition is in process, awaiting content, awaiting accounting lines or awaiting fiscal, editing is not allowed
             return false;
         }
@@ -110,13 +107,18 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         }
 
         // CONTENT ROUTE LEVEL - Approvers can edit full detail on Requisition except they cannot change the CHART/ORG.
-        if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) ||
-                reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.HAS_ACCOUNTING_LINES)) {
+        //to be removed
+        //for app doc status 
+        if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_CONTENT_REVIEW) || 
+            reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_HAS_ACCOUNTING_LINES)) 
+        {
             editModes.add(RequisitionEditMode.LOCK_CONTENT_ENTRY);
         }
 
          // FISCAL OFFICER ROUTE LEVEL - Approvers can edit only the accounting lines that they own and no other detail on REQ.
-        else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
+        // to be removed
+        //for app doc status
+        else if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_ACCOUNT)) {
 
             // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
             editModes.add(RequisitionEditMode.RESTRICT_FISCAL_ENTRY);
@@ -158,31 +160,30 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         if (workflowDoc.isAcknowledgeRequested()) {
             return false;
         }
-        
-        //  while in subAccountReview ... sub account approvers do NOT get reload button
-        if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.SUB_ACCOUNT_REVIEW)) {
+        if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_SUBACCOUNT)) {
             return false;
         }
         //  but the non-approvers do 
-        else if (isDocInRouteNodeNotForCurrentUser(reqDocument, NodeDetailEnum.SUB_ACCOUNT_REVIEW)) {
+        
+        else if (isDocInRouteNodeNotForCurrentUser(reqDocument, RequisitionStatuses.NODE_SUBACCOUNT)) {
             return true;
         }
         
         //  while in AccountingHierarchyOrgReview ... org reviewers do NOT get reload button 
-        else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ORG_REVIEW)) {
+        else if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_ORG_REVIEW)) {
             return false;
         }
         // but the non-approvers do
-        else if (isDocInRouteNodeNotForCurrentUser(reqDocument, NodeDetailEnum.ORG_REVIEW)) {
+        else if (isDocInRouteNodeNotForCurrentUser(reqDocument, RequisitionStatuses.NODE_ORG_REVIEW)) {
             return true;
         }
 
         //  while in SeparationOfDuties ... approvers do NOT get reload button 
-        else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.SEPARATION_OF_DUTIES_REVIEW)) {
+        else if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_SEPARATION_OF_DUTIES)) {
             return false;
         }
         // but the non-approvers do
-        else if (isDocInRouteNodeNotForCurrentUser(reqDocument, NodeDetailEnum.SEPARATION_OF_DUTIES_REVIEW)) {
+        else if (isDocInRouteNodeNotForCurrentUser(reqDocument, RequisitionStatuses.NODE_SEPARATION_OF_DUTIES)) {
             return true;
         }
 
@@ -192,9 +193,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     @Override
     protected boolean canSave(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument) document;
-
-        //  while in OrgReview ... org reviewers do NOT get reload button 
-        if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ORG_REVIEW)) {
+        if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_ORG_REVIEW)) {
             return false;
         }
         return super.canSave(document);
@@ -206,12 +205,12 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
      * @param nodeDetails
      * @return
      */
-    protected boolean isDocInRouteNodeNotForCurrentUser(Document document, NodeDetails nodeDetails) {
+    protected boolean isDocInRouteNodeNotForCurrentUser(Document document, String nodeName) {
         List<String> currentRouteLevels = new ArrayList<String>();
         KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         String[] names = document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         currentRouteLevels = Arrays.asList(names);
-        if (currentRouteLevels.contains(nodeDetails.getName()) && !workflowDoc.isApprovalRequested()) {
+            if (currentRouteLevels.contains(nodeName) && !workflowDoc.isApprovalRequested()) {
             return true;
         }
         return false;

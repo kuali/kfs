@@ -30,8 +30,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 public class PurchaseOrderView extends AbstractRelatedView {
 
-    private Boolean purchaseOrderCurrentIndicator;
-    private String purchaseOrderStatusCode;
+    private Boolean purchaseOrderCurrentIndicator;    
     private String recurringPaymentTypeCode;
     private String vendorChoiceCode;
     private Timestamp recurringPaymentEndDate;
@@ -52,11 +51,11 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
 
     public String getPurchaseOrderStatusCode() {
-        return purchaseOrderStatusCode;
+        return SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderAppDocStatus(this.getPurapDocumentIdentifier());
     }
 
-    public void setPurchaseOrderStatusCode(String purchaseOrderStatusCode) {
-        this.purchaseOrderStatusCode = purchaseOrderStatusCode;
+    @Deprecated
+    public void setPurchaseOrderStatusCode(String purchaseOrderStatusCode) {        
     }
 
     public String getRecurringPaymentTypeCode() {

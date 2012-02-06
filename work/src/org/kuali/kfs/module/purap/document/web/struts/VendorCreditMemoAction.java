@@ -136,7 +136,7 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
 
         //if source is (PREQ or PO) and the PO status is CLOSED, automatically reopen the PO
         PurchaseOrderDocument po = creditMemoDocument.getPurchaseOrderDocument();
-        if ((creditMemoDocument.isSourceDocumentPaymentRequest() || creditMemoDocument.isSourceDocumentPurchaseOrder()) && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode())) {
+        if ((creditMemoDocument.isSourceDocumentPaymentRequest() || creditMemoDocument.isSourceDocumentPurchaseOrder()) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getAppDocStatus())) {
             initiateReopenPurchaseOrder(po, cmForm.getAnnotation());
         }
         

@@ -165,7 +165,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             customCalculate(apDoc);
 
             // set calculated flag according to document type and status
-            if (apForm instanceof PaymentRequestForm && apDoc.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+            if (apForm instanceof PaymentRequestForm && apDoc.getAppDocStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
                 // set calculated tax flag for tax area calculation 
                 PaymentRequestForm preqForm = (PaymentRequestForm)apForm;
                 preqForm.setCalculatedTax(true);
@@ -524,7 +524,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             }
 
             PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
-            if (!po.isPendingActionIndicator() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode())) {
+            if (!po.isPendingActionIndicator() && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getAppDocStatus())) {
                 /*
                  * Below if-else code block calls PurchaseOrderService methods that will throw ValidationException objects if errors
                  * occur during any process in the attempt to perform its actions. Assume, if these return successfully, that the
@@ -565,7 +565,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     po.addNote(cancelNote);
                     SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
 
-                    return SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, (String) objects[1], null, PurchaseOrderStatuses.PENDING_REOPEN);
+                    return SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, (String) objects[1], null, PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);
                 }
             };
             return (PurchaseOrderDocument) SpringContext.getBean(PurapService.class).performLogicWithFakedUserSession(KFSConstants.SYSTEM_USER, logicToRun, new Object[] { po, annotation });
@@ -620,7 +620,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         // calculation just for the tax area, only at tax review stage
         // by now, the general calculation shall have been done.
-        if (preqDoc.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+        if (preqDoc.getAppDocStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
             SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
         }
         

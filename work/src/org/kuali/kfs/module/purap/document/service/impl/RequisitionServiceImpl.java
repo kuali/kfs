@@ -338,7 +338,7 @@ public class RequisitionServiceImpl implements RequisitionService {
      */
     public List<RequisitionDocument> getRequisitionsAwaitingContractManagerAssignment() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
+        fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
         List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(RequisitionDocument.class, fieldValues, PurapPropertyConstants.PURAP_DOC_ID, true));
         return unassignedRequisitions;
     }

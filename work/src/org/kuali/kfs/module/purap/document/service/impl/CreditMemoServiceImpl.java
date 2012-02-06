@@ -29,11 +29,9 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -330,8 +328,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void populateAndSaveCreditMemo(VendorCreditMemoDocument document) {
         try {
-            document.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
-            
+            document.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
+            document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
             if (document.isSourceDocumentPaymentRequest()) {
                 document.setBankCode(document.getPaymentRequestDocument().getBankCode());
                 document.setBank(document.getPaymentRequestDocument().getBank());
@@ -348,11 +346,13 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             documentService.saveDocument(document, AttributedContinuePurapEvent.class);
         }
         catch (ValidationException ve) {
-            document.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
+            document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+            document.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
         }
         catch (WorkflowException we) {
             // set the status back to initiate
-            document.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
+            document.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);  
+            document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
             String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
@@ -373,7 +373,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         if (ObjectUtils.isNotNull(purchaseOrderDocumentId)) {
             PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderDocumentId);
             // only reopen if the po is not null, it does not have a pending change already scheduled, and it is in closed status
-            if (ObjectUtils.isNotNull(purchaseOrderDocument) && (!purchaseOrderDocument.isPendingActionIndicator()) && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(purchaseOrderDocument.getStatusCode())) {
+            if (ObjectUtils.isNotNull(purchaseOrderDocument) && (!purchaseOrderDocument.isPendingActionIndicator()) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(purchaseOrderDocument.getAppDocStatus())) {
 
             }
         }
@@ -444,17 +444,14 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         String cancelledStatusCode = "";
         if (StringUtils.isEmpty(currentNodeName)) {
-            cancelledStatusCode = PurapConstants.CreditMemoStatuses.CANCELLED_POST_AP_APPROVE;
+            cancelledStatusCode = PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_POST_AP_APPROVE;
         }
         else {
-            NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
-            if (ObjectUtils.isNotNull(currentNode)) {
-                cancelledStatusCode = currentNode.getDisapprovedStatusCode();
-            }
+            cancelledStatusCode = CreditMemoStatuses.getCreditMemoAppDocDisapproveStatuses().get(currentNodeName);                        
         }
 
-        if (StringUtils.isNotBlank(cancelledStatusCode)) {
-            purapService.updateStatus(cmDoc, cancelledStatusCode);
+        if (StringUtils.isNotBlank(cancelledStatusCode)) {                     
+            cmDoc.setAppDocStatus(cancelledStatusCode);           
             purapService.saveDocumentNoValidation(cmDoc);
             return cancelledStatusCode;
         }
@@ -470,7 +467,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void cancelExtractedCreditMemo(VendorCreditMemoDocument cmDocument, String note) {
         LOG.debug("cancelExtractedCreditMemo() started");
-        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) {
+        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getAppDocStatus())) {
             LOG.debug("cancelExtractedCreditMemo() ended");
             return;
         }
@@ -497,7 +494,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void resetExtractedCreditMemo(VendorCreditMemoDocument cmDocument, String note) {
         LOG.debug("resetExtractedCreditMemo() started");
-        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) {
+        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getAppDocStatus())) {
             LOG.debug("resetExtractedCreditMemo() ended");
             return;
         }
@@ -543,7 +540,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) apDoc;
         if (cmDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-            purchaseOrderService.createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE);
+            purchaseOrderService.createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE);
         }
     }
 

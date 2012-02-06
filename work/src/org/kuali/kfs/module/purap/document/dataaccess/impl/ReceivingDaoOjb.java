@@ -169,7 +169,7 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
    public List<String> getReceivingDocumentsForPOAmendment() {
         
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("lineItemReceivingStatusCode", PurapConstants.LineItemReceivingStatuses.AWAITING_PO_OPEN_STATUS);
+        criteria.addEqualTo("lineItemReceivingStatusCode", PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS);
         
         
         Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);       

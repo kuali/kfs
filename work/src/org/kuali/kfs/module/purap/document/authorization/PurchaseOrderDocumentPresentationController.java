@@ -42,13 +42,13 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     protected boolean canEdit(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
-        if (!PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) &&
-                !PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()) &&
-                !PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(poDocument.getStatusCode()) &&
-                !PurchaseOrderStatuses.QUOTE.equals(poDocument.getStatusCode()) &&
-                !PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()) &&
-                !PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getStatusCode()) &&
-                !PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
+        if (!PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(poDocument.getAppDocStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT.equals(poDocument.getAppDocStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR.equals(poDocument.getAppDocStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_QUOTE.equals(poDocument.getAppDocStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW.equals(poDocument.getAppDocStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getAppDocStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getAppDocStatus())) {
             return false;
         }
         return super.canEdit(document);
@@ -57,7 +57,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     protected boolean canFyi(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) document;
-        if (PurchaseOrderStatuses.PENDING_PRINT.equals(poDocument.getStatusCode())) {
+        if (PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(poDocument.getAppDocStatus())) {
             return false;
         }
         return super.canFyi(document);
@@ -110,11 +110,11 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     protected boolean canRoute(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        String statusCode = poDocument.getStatusCode();
+        String statusCode = poDocument.getAppDocStatus();
 
-        if (StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT) || 
-                StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_VENDOR) || 
-                StringUtils.equals(statusCode, PurchaseOrderStatuses.QUOTE)) {
+        if (StringUtils.equals(statusCode, PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT) || 
+                StringUtils.equals(statusCode, PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR) || 
+                StringUtils.equals(statusCode, PurchaseOrderStatuses.APPDOC_QUOTE)) {
             return false;
         }
 
@@ -130,7 +130,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         Set<String> editModes = super.getEditModes(document);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        String statusCode = poDocument.getStatusCode();
+        String statusCode = poDocument.getAppDocStatus();
 
         editModes.add(PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA);
 
@@ -165,11 +165,11 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         // if not B2B requisition, users can edit the posting year if within a given amount of time set in a parameter
         if (!RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode()) && 
                 SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
-                (PurchaseOrderStatuses.IN_PROCESS.equals(statusCode) || 
-                        PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(statusCode) ||
-                        PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(statusCode) ||
-                        PurchaseOrderStatuses.QUOTE.equals(statusCode) ||
-                        PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(statusCode))) {
+                (PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(statusCode) || 
+                        PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR.equals(statusCode) ||
+                        PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT.equals(statusCode) ||
+                        PurchaseOrderStatuses.APPDOC_QUOTE.equals(statusCode) ||
+                        PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW.equals(statusCode))) {
             editModes.add(PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY);
         }
 
@@ -195,17 +195,17 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         }
 
         // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
-        // for ex, contract manager, manual status change, and quote etc
+        // for ex, contract manager, manual status change, and APPDOC_QUOTE etc
         //if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-        if (PurchaseOrderStatuses.IN_PROCESS.equals(statusCode) || 
-                PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(statusCode) ||
-                PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(statusCode) ||
-                PurchaseOrderStatuses.QUOTE.equals(statusCode)) {
+        if (PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(statusCode) || 
+                PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR.equals(statusCode) ||
+                PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT.equals(statusCode) ||
+                PurchaseOrderStatuses.APPDOC_QUOTE.equals(statusCode)) {
             editModes.add(PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE);
         }
 
         // INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the CHART/ORG.
-        if (poDocument.isDocumentStoppedInRouteNode(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
+        if (poDocument.isDocumentStoppedInRouteNode(PurapConstants.PurchaseOrderStatuses.NODE_CONTRACT_MANAGEMENT)) {
             editModes.add(PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY);
         }
 
@@ -235,9 +235,9 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      */
     protected boolean canFirstTransmitPrintPo(PurchaseOrderDocument poDocument) {
         // status shall be Pending Print, or the transmission method is changed to PRINT during amendment, 
-        boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(poDocument.getStatusCode());
+        boolean can = PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(poDocument.getAppDocStatus());
         if (!can) {
-            can = PurchaseOrderStatuses.OPEN.equals(poDocument.getStatusCode());
+            can = PurchaseOrderStatuses.APPDOC_OPEN.equals(poDocument.getAppDocStatus());
             can = can && poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal();
             can = can && poDocument.getPurchaseOrderLastTransmitTimestamp() == null;
             can = can && PurapConstants.POTransmissionMethods.PRINT.equals(poDocument.getPurchaseOrderTransmissionMethodCode());
@@ -275,7 +275,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      */
     protected boolean canResendCxml(PurchaseOrderDocument poDocument) {
         // check PO status etc
-        boolean can = PurchaseOrderStatuses.CXML_ERROR.equals(poDocument.getStatusCode());
+        boolean can = PurchaseOrderStatuses.APPDOC_CXML_ERROR.equals(poDocument.getAppDocStatus());
         can = can && poDocument.isPurchaseOrderCurrentIndicator() && !poDocument.isPendingActionIndicator();
 
         return can;

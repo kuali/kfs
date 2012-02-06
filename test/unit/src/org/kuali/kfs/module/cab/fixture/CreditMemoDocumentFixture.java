@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cab.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -46,7 +47,7 @@ public enum CreditMemoDocumentFixture {
             obj.setVendorCountryCode("US");
             obj.setPurchaseOrderIdentifier(21);
             obj.setPostingYear(2009);
-            obj.setStatusCode("CMPT");
+            obj.setAppDocStatus(CreditMemoStatuses.APPDOC_COMPLETE);
             obj.setCreditMemoNumber("1003");
             obj.setCreditMemoDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setCreditMemoAmount(new KualiDecimal(7000));

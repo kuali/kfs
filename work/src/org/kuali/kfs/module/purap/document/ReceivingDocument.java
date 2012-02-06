@@ -208,5 +208,8 @@ public interface ReceivingDocument extends TransactionalDocument, PurapItemOpera
     public boolean getIsPODoc();
 
     public boolean getIsReqsDoc(); 
+
+    public String getAppDocStatus();
     
+    public void setAppDocStatus(String appDocStatus);
 }

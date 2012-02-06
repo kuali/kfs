@@ -165,7 +165,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
     private Integer prepareAndSavePO() throws Exception {
         PurchaseOrderDocumentTest poDocTest = new PurchaseOrderDocumentTest();
         PurchaseOrderDocument po = poDocTest.buildSimpleDocument();
-        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         //po.prepareForSave(); Duplicated by saveDocument.
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AccountingDocumentTestUtils.saveDocument(po, documentService);

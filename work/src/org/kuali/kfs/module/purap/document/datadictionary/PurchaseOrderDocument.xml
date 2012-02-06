@@ -50,6 +50,7 @@
     </property>
     <property name="attributes">
       <list>
+        <ref bean="PurchaseOrderDocument-appDocStatus"/>
         <ref bean="PurchaseOrderDocument-statusDescription"/>
         <ref bean="PurchaseOrderDocument-contractManagerName"/>
         <ref bean="PurchaseOrderDocument-versionNumber"/>
@@ -71,8 +72,7 @@
         <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator"/>
         <ref bean="PurchaseOrderDocument-contractManagerCode"/>
         <ref bean="PurchaseOrderDocument-contractManager"/>
-        <ref bean="PurchaseOrderDocument-purapDocumentIdentifier"/>
-        <ref bean="PurchaseOrderDocument-statusCode"/>
+        <ref bean="PurchaseOrderDocument-purapDocumentIdentifier"/>        
         <ref bean="PurchaseOrderDocument-chartOfAccountsCode"/>
         <ref bean="PurchaseOrderDocument-organizationCode"/>
         <ref bean="PurchaseOrderDocument-vendorAddressGeneratedIdentifier"/>
@@ -173,8 +173,7 @@
         <ref bean="PurchaseOrderDocument-copyingNotesWhenSplitting"/>
         <ref bean="PurchaseOrderDocument-capitalAssetSystemTypeCode"/>
         <ref bean="PurchaseOrderDocument-capitalAssetSystemStateCode"/>
-        <ref bean="PurchaseOrderDocument-useTaxIndicator"/>
-        <ref bean="PurchaseOrderDocument-statusCodeForMultiboxSearching"/>
+        <ref bean="PurchaseOrderDocument-useTaxIndicator"/>        
         <ref bean="PurchaseOrderDocument-purchaseOrderCurrentIndicatorForSearching"/>
         <ref bean="PurchaseOrderDocument-receivingDocumentRequiredIndicatorForSearching"/>
         <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicatorForSearching"/>
@@ -237,6 +236,11 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="PurchaseOrderDocument-appDocStatus" parent="PurchaseOrderDocument-appDocStatus-parentBean"/>
+
+  <bean id="PurchaseOrderDocument-appDocStatus-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
+    <property name="name" value="appDocStatus"/>
+  </bean>
   <bean id="PurchaseOrderDocument-statusDescription" parent="PurchaseOrderDocument-statusDescription-parentBean"/>
 
   <bean id="PurchaseOrderDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
@@ -425,11 +429,7 @@
     <property name="label" value="Purchase Order #"/>
     <property name="shortLabel" value="Purchase Order #"/>
   </bean>
-  <bean id="PurchaseOrderDocument-statusCode" parent="PurchaseOrderDocument-statusCode-parentBean"/>
 
-  <bean id="PurchaseOrderDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
-    <property name="name" value="statusCode"/>
-  </bean>
   <bean id="PurchaseOrderDocument-chartOfAccountsCode" parent="PurchaseOrderDocument-chartOfAccountsCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
@@ -1306,22 +1306,6 @@
   	<property name="label" value="Use Tax Indicator"/>
   	<property name="shortLabel" value="Use Tax"/>
   </bean>
-
-  <bean id="PurchaseOrderDocument-statusCodeForMultiboxSearching" parent="PurchaseOrderDocument-statusCodeForMultiboxSearching-parentBean"/>
-
-  <bean id="PurchaseOrderDocument-statusCodeForMultiboxSearching-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="statusCodeForMultiboxSearching"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Purchase Order Status"/>
-    <property name="shortLabel" value="Status"/>
-    <property name="maxLength" value="8"/>
-    <property name="control">
-      <bean parent="MultiselectControlDefinition">
-		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderStatusValuesFinder"/>
-	  </bean>
-    </property>
-  </bean>
-  
   <bean id="PurchaseOrderDocument-chartAndOrgCodeForResult" parent="PurchaseOrderDocument-chartAndOrgCodeForResult-parentBean"/>
 
   <bean id="PurchaseOrderDocument-chartAndOrgCodeForResult-parentBean" abstract="true" parent="AttributeDefinition">

@@ -19,12 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -94,9 +96,13 @@ public class LineItemReceivingForm extends ReceivingFormBase {
         //leave the first field blank to match the other PURAP docs
         getDocInfo().add(new HeaderField());
         
-        if (ObjectUtils.isNotNull(this.getLineItemReceivingDocument().getLineItemReceivingStatus())) {
-            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", this.getLineItemReceivingDocument().getLineItemReceivingStatus().getLineItemReceivingStatusDescription()));
+        if (ObjectUtils.isNotNull(this.getLineItemReceivingDocument().getAppDocStatus())) {
+            
+            String appDocStatus = workflowDocument.getRouteHeader().getAppDocStatus();
+         
+            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", appDocStatus));
         }
+        
         else {
             getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", "Not Available"));
         }

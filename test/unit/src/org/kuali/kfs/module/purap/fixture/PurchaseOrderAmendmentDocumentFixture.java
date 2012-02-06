@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PO;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -56,7 +55,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
             null, // purchaseOrderFirstTransmissionTimestamp
-            PurchaseOrderStatuses.AMENDMENT,
+            PurchaseOrderStatuses.APPDOC_AMENDMENT,
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
@@ -89,7 +88,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
             null, // purchaseOrderFirstTransmissionTimestamp
-            PurchaseOrderStatuses.OPEN,
+            PurchaseOrderStatuses.APPDOC_OPEN,
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
@@ -190,7 +189,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
         doc.setPurchaseOrderCurrentIndicator(this.purchaseOrderCurrentIndicator);
         doc.setPendingActionIndicator(this.pendingActionIndicator);
         doc.setPurchaseOrderFirstTransmissionTimestamp(this.purchaseOrderFirstTransmissionTimestamp);
-        doc.setStatusCode(status);
+        doc.setAppDocStatus(status);
         
         for (PurchaseOrderItemFixture purchaseOrderItemFixture : purchaseOrderItemFixtures) {
             purchaseOrderItemFixture.addTo(doc);

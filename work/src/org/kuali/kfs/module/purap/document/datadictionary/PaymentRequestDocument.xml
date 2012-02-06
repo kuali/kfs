@@ -45,6 +45,7 @@
     
     <property name="attributes">
       <list>
+        <ref bean="PaymentRequestDocument-appDocStatus"/>
         <ref bean="PaymentRequestDocument-statusDescription"/>
         <ref bean="PaymentRequestDocument-requisitionIdentifier"/>
         <ref bean="PaymentRequestDocument-versionNumber"/>
@@ -72,8 +73,7 @@
         <ref bean="PaymentRequestDocument-noteLine2Text"/>
         <ref bean="PaymentRequestDocument-noteLine3Text"/>
         <ref bean="PaymentRequestDocument-purapDocumentIdentifier"/>
-        <ref bean="PaymentRequestDocument-purchaseOrderIdentifier"/>
-        <ref bean="PaymentRequestDocument-statusCode"/>
+        <ref bean="PaymentRequestDocument-purchaseOrderIdentifier"/>        
         <ref bean="PaymentRequestDocument-invoiceDate"/>
         <ref bean="PaymentRequestDocument-receivingDocumentRequiredIndicator"/>
         <ref bean="PaymentRequestDocument-paymentRequestPositiveApprovalIndicator"/>
@@ -123,8 +123,7 @@
     	<ref bean="PaymentRequestDocument-taxSpecialW4Amount"/>
     	<ref bean="PaymentRequestDocument-taxUSAIDPerDiemIndicator"/>
     	<ref bean="PaymentRequestDocument-taxOtherExemptIndicator"/>
-    	<ref bean="PaymentRequestDocument-taxNQIId"/>
- 		<ref bean="PaymentRequestDocument-statusCodeForMultiboxSearching"/>
+    	<ref bean="PaymentRequestDocument-taxNQIId"/> 		
  		<ref bean="PaymentRequestDocument-extractedIndicatorForSearching"/>
  		<ref bean="PaymentRequestDocument-holdIndicatorForSearching"/>
  		<ref bean="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching"/>    
@@ -189,6 +188,11 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="PaymentRequestDocument-appDocStatus" parent="PaymentRequestDocument-appDocStatus-parentBean"/>
+
+  <bean id="PaymentRequestDocument-appDocStatus-parentBean" abstract="true" parent="PurApGenericAttributes-paymentRequestStatus">
+    <property name="name" value="appDocStatus"/>
+  </bean>
   <bean id="PaymentRequestDocument-statusDescription" parent="PaymentRequestDocument-statusDescription-parentBean"/>
 
   <bean id="PaymentRequestDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-paymentRequestStatus">
@@ -428,11 +432,6 @@
     <property name="label" value="Purchase Order #"/>
     <property name="shortLabel" value="Purchase Order #"/>
     <property name="required" value="true"/>
-  </bean>
-  <bean id="PaymentRequestDocument-statusCode" parent="PaymentRequestDocument-statusCode-parentBean"/>
-
-  <bean id="PaymentRequestDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-paymentRequestStatus">
-    <property name="name" value="statusCode"/>    
   </bean>
   <bean id="PaymentRequestDocument-invoiceDate" parent="PaymentRequestDocument-invoiceDate-parentBean"/>
 
@@ -974,22 +973,6 @@
       <bean parent="TextControlDefinition" p:size="36"/>
     </property>
   </bean>
-  
-  <bean id="PaymentRequestDocument-statusCodeForMultiboxSearching" parent="PaymentRequestDocument-statusCodeForMultiboxSearching-parentBean"/>
-
-  <bean id="PaymentRequestDocument-statusCodeForMultiboxSearching-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="statusCodeForMultiboxSearching"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Payment Request Status"/>
-    <property name="shortLabel" value="Status"/>
-    <property name="maxLength" value="4"/>
-    <property name="control">
-  	  <bean parent="MultiselectControlDefinition">
-		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PaymentRequestStatusValuesFinder"/>
-	  </bean>
-    </property> 
-  </bean>    
-
   <bean id="PaymentRequestDocument-documentChartOfAccountsCodeForSearching" parent="PaymentRequestDocument-documentChartOfAccountsCodeForSearching-parentBean"/>
 
   <bean id="PaymentRequestDocument-documentChartOfAccountsCodeForSearching-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
@@ -1246,7 +1229,7 @@
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus"/>
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="statusDescription"/>
     						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>
@@ -1254,7 +1237,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>status.statusDescription</value>
+    						<value>statusDescription</value>
     					</list>
     				</property>
     			</bean>
@@ -1493,20 +1476,6 @@
     					</list>
     				</property>
     			</bean>
-          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
-    						<property name="attributeName" value="statusCodeForMultiboxSearching"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>statusCode</value>
-    					</list>
-    				</property>
-    			</bean>
-    			
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

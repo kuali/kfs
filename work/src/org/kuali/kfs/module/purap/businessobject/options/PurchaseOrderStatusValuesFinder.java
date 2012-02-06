@@ -16,25 +16,22 @@
 package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
 
 /**
  * Value Finder for Purchase Order Statuses.
  */
-public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
+public class PurchaseOrderStatusValuesFinder extends KeyValuesBase {
 
     /**
      * Overide this method to sort the PO statuses for proper display. 
@@ -42,62 +39,24 @@ public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
      * @see org.kuali.kfs.module.purap.businessobject.options.PurApStatusKeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
-        // get all PO statuses
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection<Status> statuses = boService.findAll(getStatusClass());
-        
-        Set<String> incompleteCodes = PurchaseOrderStatuses.INCOMPLETE_STATUSES;
-        Set<String> completeCodes = PurchaseOrderStatuses.COMPLETE_STATUSES;
-
-        List<Status> incompleteStatus = new ArrayList<Status>();
-        List<Status> completeStatus = new ArrayList<Status>();
-        List<Status> unsorted = new ArrayList<Status>();
-        
-        for (Status status : statuses) {
-            if (incompleteCodes.contains(status.getStatusCode())) {
-                incompleteStatus.add(status);
-            } else if (completeCodes.contains(status.getStatusCode())) {
-                completeStatus.add(status);
-            } else {
-                unsorted.add(status);
-            }
-        }
-        
-        Comparator<Status> comparator = new Status();
-        Collections.sort(incompleteStatus, comparator);
-        Collections.sort(completeStatus, comparator);
-        Collections.sort(unsorted, comparator);
-           
+        // get all PO statuses        
+        SortedSet<String> incompleteCodes = new TreeSet<String>(PurchaseOrderStatuses.INCOMPLETE_STATUSES);
+        SortedSet<String> completeCodes = new TreeSet<String>(PurchaseOrderStatuses.COMPLETE_STATUSES);
+                   
         // generate output
         List labels = new ArrayList();
         
         labels.add(new KeyLabelPair("INCOMPLETE", "INCOMPLETE STATUSES"));
-        for (Status status : incompleteStatus) {
-            labels.add(new KeyLabelPair(status.getStatusCode(), "- "+status.getStatusDescription()));
+        for (String status : incompleteCodes) {
+            labels.add(new KeyLabelPair(status, "- " + status));
         }
 
         labels.add(new KeyLabelPair("COMPLETE", "COMPLETE STATUSES"));
-        for (Status status : completeStatus) {
-            labels.add(new KeyLabelPair(status.getStatusCode(), "- "+status.getStatusDescription()));
+        for (String status : completeCodes) {
+            labels.add(new KeyLabelPair(status, "- " + status));
         }
-        
-        if (!unsorted.isEmpty())
-            labels.add(new KeyLabelPair("UNSORTED", "Unsorted Statuses"));
-        for (Status status : unsorted) {
-            labels.add(new KeyLabelPair(status.getStatusCode(), "- "+status.getStatusDescription()));
-        }
-        
-        
+                
         return labels;
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.purap.businessobject.options.PurApStatusKeyValuesBase#getStatusClass()
-     */
-    @Override
-    public Class getStatusClass() {
-        return PurchaseOrderStatus.class;
-    }
-    
+    }       
     
 }

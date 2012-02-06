@@ -18,6 +18,8 @@ package org.kuali.kfs.module.cab.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -32,7 +34,7 @@ public enum RequisitionDocumentFixture {
             obj.setDocumentNumber("11");
             obj.setDocumentFundingSourceCode("INST");
             obj.setRequisitionSourceCode("STAN");
-            obj.setStatusCode("ACMR");
+            obj.setAppDocStatus(RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
             obj.setPurchaseOrderCostSourceCode("EST");
             obj.setChartOfAccountsCode("UA");
@@ -75,7 +77,7 @@ public enum RequisitionDocumentFixture {
             obj.setDocumentNumber("12");
             obj.setDocumentFundingSourceCode("INST");
             obj.setRequisitionSourceCode("STAN");
-            obj.setStatusCode("ACMR");
+            obj.setAppDocStatus(RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
             obj.setPurchaseOrderCostSourceCode("EST");
             obj.setChartOfAccountsCode("UA");
@@ -118,7 +120,7 @@ public enum RequisitionDocumentFixture {
             obj.setDocumentNumber("13");
             obj.setDocumentFundingSourceCode("INST");
             obj.setRequisitionSourceCode("STAN");
-            obj.setStatusCode("ACMR");
+            obj.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
             obj.setPurchaseOrderCostSourceCode("EST");
             obj.setChartOfAccountsCode("UA");

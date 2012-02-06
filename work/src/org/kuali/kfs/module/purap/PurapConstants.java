@@ -120,24 +120,79 @@ public class PurapConstants extends JSTLConstants {
     public static final String TAX_RECALCULATION_QUESTION = "The postal code of the delivery address has changed.[br]Selecting \"Yes\" will submit the document without recalculating the taxes.[br]Selecting \"No\" will return you to the document so that the taxes can be recalculated.[br]The \"clear all\" button can be used to clear all tax amounts which will force taxes to be recalculated upon submission.";
     
     public static class RequisitionStatuses {
-        public static final String IN_PROCESS = "INPR";
-        public static final String CANCELLED = "CANC";
-        public static final String CLOSED = "CLOS";
-        public static final String AWAIT_CONTENT_REVIEW = "ACNT";
-        public static final String AWAIT_HAS_ACCOUNTING_LINES = "AHAL";
-        public static final String AWAIT_SUB_ACCT_REVIEW = "ASUB";
-        public static final String AWAIT_FISCAL_REVIEW = "AFIS";
-        public static final String AWAIT_CHART_REVIEW = "ACHA";
-        public static final String AWAIT_COMMODITY_CODE_REVIEW = "WCOM";
-        public static final String AWAIT_SEP_OF_DUTY_REVIEW = "ASOD";
-        public static final String DAPRVD_CONTENT = "DCNT";
-        public static final String DAPRVD_HAS_ACCOUNTING_LINES = "DHAL";
-        public static final String DAPRVD_SUB_ACCT = "DSUB";
-        public static final String DAPRVD_FISCAL = "DFIS";
-        public static final String DAPRVD_CHART = "DCHA";
-        public static final String DAPRVD_COMMODITY_CODE = "DCOM";
-        public static final String DAPRVD_SEP_OF_DUTY = "DSOD";
-        public static final String AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
+        // Added for updating app doc status for disapproved
+        public static final String APPDOC_IN_PROCESS = "In Process";
+        public static final String APPDOC_CANCELLED = "Cancelled";
+        public static final String APPDOC_CLOSED = "Closed";
+        public static final String APPDOC_AWAIT_FISCAL_REVIEW = "Awaiting Fiscal Officer";
+        public static final String APPDOC_AWAIT_CONTENT_REVIEW = "Awaiting Content Approval";
+        public static final String APPDOC_AWAIT_HAS_ACCOUNTING_LINES = "Awaiting Accounting Lines";
+        public static final String APPDOC_AWAIT_SUB_ACCT_REVIEW = "Awaiting Sub Account";
+        public static final String APPDOC_AWAIT_CHART_REVIEW = "Awaiting Base Org Review";
+        public static final String APPDOC_AWAIT_COMMODITY_CODE_REVIEW = "Awaiting Commodity Code";
+        public static final String APPDOC_AWAIT_SEP_OF_DUTY_REVIEW = "Awaiting Separation of Duties";
+        public static final String APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN = "Awaiting Contract Manager Assignment";    
+        
+        public static final String APPDOC_DAPRVD_CONTENT = "Disapproved - Content";
+        public static final String APPDOC_DAPRVD_HAS_ACCOUNTING_LINES = "Disapproved - Accounting Lines";
+        public static final String APPDOC_DAPRVD_SUB_ACCT = "Disapproved - Sub Account";
+        public static final String APPDOC_DAPRVD_FISCAL = "Disapproved - Fiscal";
+        public static final String APPDOC_DAPRVD_CHART = "Disapproved - Base Org Review";
+        public static final String APPDOC_DAPRVD_COMMODITY_CODE = "Disapproved - Commodity Code";
+        public static final String APPDOC_DAPRVD_SEP_OF_DUTY = "Disapproved - Separation of Duties";                
+        
+        public static HashMap<String, String> getAllAppDocStatuses(){
+            HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
+            
+            appDocStatusMap.put(APPDOC_IN_PROCESS, APPDOC_IN_PROCESS);
+            appDocStatusMap.put(APPDOC_CANCELLED, APPDOC_CANCELLED);
+            appDocStatusMap.put(APPDOC_CLOSED, APPDOC_CLOSED);
+            appDocStatusMap.put(APPDOC_AWAIT_FISCAL_REVIEW, APPDOC_AWAIT_FISCAL_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_CONTENT_REVIEW, APPDOC_AWAIT_CONTENT_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_HAS_ACCOUNTING_LINES, APPDOC_AWAIT_HAS_ACCOUNTING_LINES);
+            appDocStatusMap.put(APPDOC_AWAIT_SUB_ACCT_REVIEW, APPDOC_AWAIT_SUB_ACCT_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_CHART_REVIEW, APPDOC_AWAIT_CHART_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_COMMODITY_CODE_REVIEW, APPDOC_AWAIT_COMMODITY_CODE_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_SEP_OF_DUTY_REVIEW, APPDOC_AWAIT_SEP_OF_DUTY_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN, APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
+            appDocStatusMap.put(APPDOC_DAPRVD_CONTENT, APPDOC_DAPRVD_CONTENT);
+            appDocStatusMap.put(APPDOC_DAPRVD_HAS_ACCOUNTING_LINES, APPDOC_DAPRVD_HAS_ACCOUNTING_LINES);
+            appDocStatusMap.put(APPDOC_DAPRVD_SUB_ACCT, APPDOC_DAPRVD_SUB_ACCT);
+            appDocStatusMap.put(APPDOC_DAPRVD_FISCAL, APPDOC_DAPRVD_FISCAL);
+            appDocStatusMap.put(APPDOC_DAPRVD_CHART, APPDOC_DAPRVD_CHART);
+            appDocStatusMap.put(APPDOC_DAPRVD_COMMODITY_CODE, APPDOC_DAPRVD_COMMODITY_CODE);
+            appDocStatusMap.put(APPDOC_DAPRVD_SEP_OF_DUTY, APPDOC_DAPRVD_SEP_OF_DUTY);
+            
+            return appDocStatusMap;
+        }
+        
+        // Node Name Declarations
+        public static final String NODE_CONTENT_REVIEW = "Organization";
+        public static final String NODE_SUBACCOUNT = "SubAccount";
+        public static final String NODE_SEPARATION_OF_DUTIES = "SeparationOfDuties";
+        public static final String NODE_ACCOUNT = "Account";
+        public static final String NODE_HAS_ACCOUNTING_LINES = "Initiator";
+        public static final String NODE_ORG_REVIEW = "AccountingOrganizationHierarchy";        
+        public static final String NODE_COMMODITY_CODE_REVIEW = "Commodity";
+        
+        public static HashMap<String, String> getRequistionAppDocStatuses() {
+            HashMap<String, String> reqAppDocStatusMap;
+            
+            reqAppDocStatusMap = new HashMap<String, String>();
+            reqAppDocStatusMap.put(NODE_CONTENT_REVIEW, APPDOC_DAPRVD_CONTENT);
+            reqAppDocStatusMap.put(NODE_HAS_ACCOUNTING_LINES, APPDOC_DAPRVD_HAS_ACCOUNTING_LINES);
+            reqAppDocStatusMap.put(NODE_SUBACCOUNT,  APPDOC_DAPRVD_SUB_ACCT);
+            reqAppDocStatusMap.put(NODE_ACCOUNT, APPDOC_DAPRVD_FISCAL); 
+            reqAppDocStatusMap.put(NODE_ORG_REVIEW, APPDOC_DAPRVD_CHART); 
+            reqAppDocStatusMap.put(NODE_COMMODITY_CODE_REVIEW, APPDOC_DAPRVD_COMMODITY_CODE);
+            reqAppDocStatusMap.put(NODE_SEPARATION_OF_DUTIES, APPDOC_DAPRVD_SEP_OF_DUTY); 
+            reqAppDocStatusMap.put(APPDOC_IN_PROCESS,  APPDOC_IN_PROCESS);
+            reqAppDocStatusMap.put(APPDOC_CLOSED, APPDOC_CLOSED);
+            reqAppDocStatusMap.put(APPDOC_CANCELLED, APPDOC_CANCELLED);
+            reqAppDocStatusMap.put(APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN, APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
+            
+            return reqAppDocStatusMap;
+        }
         
     }
     
@@ -203,88 +258,160 @@ public class PurapConstants extends JSTLConstants {
     public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";
 
     public static class PurchaseOrderStatuses {
-        public static final String IN_PROCESS = "INPR";
-        public static final String WAITING_FOR_VENDOR = "WVEN";
-        public static final String WAITING_FOR_DEPARTMENT = "WDPT";
-        public static final String OPEN = "OPEN";
-        public static final String CLOSED = "CLOS";
-        public static final String CANCELLED = "CANC";
-        public static final String PAYMENT_HOLD = "PHOL";
-        public static final String AWAIT_TAX_REVIEW = "WTAX";
-        public static final String AWAIT_BUDGET_REVIEW = "WBUD";
-        public static final String AWAIT_CONTRACTS_GRANTS_REVIEW = "WCG";
-        public static final String AWAIT_PURCHASING_REVIEW = "WPUR";
-        public static final String AWAIT_COMMODITY_CODE_REVIEW = "WCOM";
-        public static final String AWAIT_NEW_UNORDERED_ITEM_REVIEW = "WNUI";
-        public static final String DAPRVD_TAX = "DTAX";
-        public static final String DAPRVD_BUDGET = "DBUD";
-        public static final String DAPRVD_CONTRACTS_GRANTS = "DCG";
-        public static final String DAPRVD_PURCHASING = "DPUR";
-        public static final String DAPRVD_COMMODITY_CODE = "DCOM";
-        public static final String CXML_ERROR = "CXER";
-        public static final String PENDING_CXML = "CXPE";
-        public static final String PENDING_FAX = "FXPE";
-        public static final String FAX_ERROR = "FXER";
-        public static final String PENDING_PRINT = "PRPE";
-        public static final String QUOTE = "QUOT";
-        public static final String VOID = "VOID";
-        public static final String AMENDMENT = "AMND";
+        // Added for updating app doc status for disapproved
+        public static final String APPDOC_DAPRVD_UNORDERED_ITEM = "Disapproved - New Unordered Item Review";
+        public static final String APPDOC_DAPRVD_PURCHASING = "Disapproved - Purchasing";
+        public static final String APPDOC_DAPRVD_COMMODITY_CODE = "Disapproved - Commodity Code";
+        public static final String APPDOC_DAPRVD_CG_APPROVAL = "Disapproved - C and G";
+        public static final String APPDOC_DAPRVD_BUDGET = "Disapproved - Budget";
+        public static final String APPDOC_DAPRVD_TAX = "Disapproved - Tax";
+        public static final String APPDOC_CANCELLED = "Cancelled";
+        public static final String APPDOC_VOID = "Void";
+        public static final String APPDOC_IN_PROCESS = "In Process";
+        public static final String APPDOC_CHANGE_IN_PROCESS = "Change in Process";
+        public static final String APPDOC_CLOSED = "Closed";
+        public static final String APPDOC_OPEN = "Open";
+        public static final String APPDOC_PAYMENT_HOLD = "Payment Hold";        
+        public static final String APPDOC_PENDING_PRINT = "Pending Print";
+        public static final String APPDOC_AWAIT_TAX_REVIEW = "Awaiting Tax Approval";
+        public static final String APPDOC_AWAIT_BUDGET_REVIEW = "Awaiting Budget Approval";
+        public static final String APPDOC_AWAIT_CONTRACTS_GRANTS_REVIEW = "Awaiting C and G Approval";
+        public static final String APPDOC_AWAIT_PURCHASING_REVIEW = "Awaiting Purchasing Approval";
+        public static final String APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW = "Awaiting New Unordered Item Review";
+        public static final String APPDOC_AWAIT_COMMODITY_CODE_REVIEW = "Awaiting Commodity Code Approval";
+        public static final String APPDOC_FAX_ERROR = "Error occurred sending fax";
+        public static final String APPDOC_QUOTE = "Out for Quote";
+        public static final String APPDOC_CXML_ERROR = "Error occurred sending cxml";
+        public static final String APPDOC_PENDING_CXML = "Pending cxml";
+        public static final String APPDOC_PENDING_FAX = "Pending Fax";
+        public static final String APPDOC_WAITING_FOR_VENDOR = "Waiting for Vendor";
+        public static final String APPDOC_WAITING_FOR_DEPARTMENT = "Waiting for Department";
+        public static final String APPDOC_AMENDMENT = "Pending Amendment";
+        public static final String APPDOC_PENDING_CLOSE = "Pending Close";
+        public static final String APPDOC_CANCELLED_CHANGE = "Cancelled Change";
+        public static final String APPDOC_DISAPPROVED_CHANGE = "Disapproved Change";
+        public static final String APPDOC_DAPRVD_CONTRACTS_GRANTS = "Disapproved - C and G";
+        public static final String APPDOC_PENDING_PAYMENT_HOLD = "Pending Payment Hold";
+        public static final String APPDOC_PENDING_REMOVE_HOLD = "Pending Remove Hold";
+        public static final String APPDOC_PENDING_REOPEN = "Pending Reopen";
+        public static final String APPDOC_PENDING_RETRANSMIT = "Pending Retransmit";
+        public static final String APPDOC_RETIRED_VERSION = "Retired Version";
+        public static final String APPDOC_PENDING_VOID = "Pending Void";
 
-        public static final String RETIRED_VERSION = "RTVN";
-        public static final String CHANGE_IN_PROCESS = "CGIN";
-        public static final String CANCELLED_CHANGE = "CNCG";
-        public static final String DISAPPROVED_CHANGE = "DACG";
-        public static final String PENDING_VOID = "VOPE";
-        public static final String PENDING_PAYMENT_HOLD = "PHPE";
-        public static final String PENDING_RETRANSMIT = "RTPE";
-        public static final String PENDING_CLOSE = "CLPE";
-        public static final String PENDING_REOPEN = "ROPE";
-        public static final String PENDING_REMOVE_HOLD = "RHPE";
+        public static HashMap<String, String> getAllAppDocStatuses(){
+            HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
+
+            appDocStatusMap.put(APPDOC_DAPRVD_UNORDERED_ITEM, APPDOC_DAPRVD_UNORDERED_ITEM);
+            appDocStatusMap.put(APPDOC_DAPRVD_PURCHASING, APPDOC_DAPRVD_PURCHASING);
+            appDocStatusMap.put(APPDOC_DAPRVD_COMMODITY_CODE, APPDOC_DAPRVD_COMMODITY_CODE);
+            appDocStatusMap.put(APPDOC_DAPRVD_CG_APPROVAL, APPDOC_DAPRVD_CG_APPROVAL);
+            appDocStatusMap.put(APPDOC_DAPRVD_BUDGET, APPDOC_DAPRVD_BUDGET);
+            appDocStatusMap.put(APPDOC_DAPRVD_TAX, APPDOC_DAPRVD_TAX);
+            appDocStatusMap.put(APPDOC_CANCELLED, APPDOC_CANCELLED);
+            appDocStatusMap.put(APPDOC_VOID, APPDOC_VOID);
+            appDocStatusMap.put(APPDOC_IN_PROCESS, APPDOC_IN_PROCESS);
+            appDocStatusMap.put(APPDOC_CHANGE_IN_PROCESS, APPDOC_CHANGE_IN_PROCESS);
+            appDocStatusMap.put(APPDOC_CLOSED, APPDOC_CLOSED);
+            appDocStatusMap.put(APPDOC_OPEN, APPDOC_OPEN);
+            appDocStatusMap.put(APPDOC_PAYMENT_HOLD, APPDOC_PAYMENT_HOLD);
+            appDocStatusMap.put(APPDOC_PENDING_PRINT, APPDOC_PENDING_PRINT);
+            appDocStatusMap.put(APPDOC_AWAIT_TAX_REVIEW, APPDOC_AWAIT_TAX_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_BUDGET_REVIEW, APPDOC_AWAIT_BUDGET_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_CONTRACTS_GRANTS_REVIEW, APPDOC_AWAIT_CONTRACTS_GRANTS_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_PURCHASING_REVIEW, APPDOC_AWAIT_PURCHASING_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW, APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAIT_COMMODITY_CODE_REVIEW, APPDOC_AWAIT_COMMODITY_CODE_REVIEW);
+            appDocStatusMap.put(APPDOC_FAX_ERROR, APPDOC_FAX_ERROR);
+            appDocStatusMap.put(APPDOC_QUOTE, APPDOC_QUOTE);
+            appDocStatusMap.put(APPDOC_CXML_ERROR, APPDOC_CXML_ERROR);
+            appDocStatusMap.put(APPDOC_PENDING_CXML, APPDOC_PENDING_CXML);
+            appDocStatusMap.put(APPDOC_PENDING_FAX, APPDOC_PENDING_FAX);
+            appDocStatusMap.put(APPDOC_WAITING_FOR_VENDOR, APPDOC_WAITING_FOR_VENDOR);
+            appDocStatusMap.put(APPDOC_WAITING_FOR_DEPARTMENT, APPDOC_WAITING_FOR_DEPARTMENT);
+            appDocStatusMap.put(APPDOC_AMENDMENT, APPDOC_AMENDMENT);
+            appDocStatusMap.put(APPDOC_PENDING_CLOSE, APPDOC_PENDING_CLOSE);
+            appDocStatusMap.put(APPDOC_CANCELLED_CHANGE, APPDOC_CANCELLED_CHANGE);
+            appDocStatusMap.put(APPDOC_DISAPPROVED_CHANGE, APPDOC_DISAPPROVED_CHANGE);
+            appDocStatusMap.put(APPDOC_DAPRVD_CONTRACTS_GRANTS, APPDOC_DAPRVD_CONTRACTS_GRANTS);
+            appDocStatusMap.put(APPDOC_PENDING_PAYMENT_HOLD, APPDOC_PENDING_PAYMENT_HOLD);
+            appDocStatusMap.put(APPDOC_PENDING_REMOVE_HOLD, APPDOC_PENDING_REMOVE_HOLD);
+            appDocStatusMap.put(APPDOC_PENDING_REOPEN, APPDOC_PENDING_REOPEN);
+            appDocStatusMap.put(APPDOC_PENDING_RETRANSMIT, APPDOC_PENDING_RETRANSMIT);
+            appDocStatusMap.put(APPDOC_RETIRED_VERSION, APPDOC_RETIRED_VERSION);
+            appDocStatusMap.put(APPDOC_PENDING_VOID, APPDOC_PENDING_VOID);
+                        
+            return appDocStatusMap;
+        }
+        
+        public static final String NODE_CONTRACT_MANAGEMENT = "ContractManagement";
+        public static final String NODE_AWAIT_NEW_UNORDERED_ITEM_REVIEW = "NewUnorderedItems";
+        public static final String NODE_INTERNAL_PURCHASING_REVIEW = "ContractManagement";
+        public static final String NODE_COMMODITY_CODE_REVIEW = "Commodity";
+        public static final String NODE_CONTRACTS_AND_GRANTS_REVIEW = "Award";
+        public static final String NODE_BUDGET_OFFICE_REVIEW = "Budget";
+        public static final String NODE_VENDOR_TAX_REVIEW = "Tax";
+        public static final String NODE_DOCUMENT_TRANSMISSION = "JoinVendorIsEmployeeOrNonResidentAlien";
+        
+        public static final HashMap<String, String> getPurchaseOrderAppDocDisapproveStatuses(){
+            
+            HashMap<String, String> poAppDocStatusMap = new HashMap<String, String>();
+            
+            poAppDocStatusMap.put(NODE_AWAIT_NEW_UNORDERED_ITEM_REVIEW,PurchaseOrderStatuses.APPDOC_DAPRVD_UNORDERED_ITEM);
+            poAppDocStatusMap.put(NODE_INTERNAL_PURCHASING_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING);
+            poAppDocStatusMap.put(NODE_COMMODITY_CODE_REVIEW,  PurchaseOrderStatuses.APPDOC_DAPRVD_COMMODITY_CODE);
+            poAppDocStatusMap.put(NODE_CONTRACTS_AND_GRANTS_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_CG_APPROVAL); 
+            poAppDocStatusMap.put(NODE_BUDGET_OFFICE_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_BUDGET); 
+            poAppDocStatusMap.put(NODE_VENDOR_TAX_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_TAX);
+            poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_CANCELLED,  PurchaseOrderStatuses.APPDOC_CANCELLED);
+            poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_VOID,  PurchaseOrderStatuses.APPDOC_VOID);
+            poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_IN_PROCESS,  PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+            poAppDocStatusMap.put(PurchaseOrderStatuses.APPDOC_CLOSED,  PurchaseOrderStatuses.APPDOC_CLOSED);
+            
+            return poAppDocStatusMap;
+
+        }
 
         public static final Set<String> INCOMPLETE_STATUSES = new HashSet<String>();
         public static final Set<String> COMPLETE_STATUSES = new HashSet<String>();
 
         static {
-            INCOMPLETE_STATUSES.add(AWAIT_TAX_REVIEW);
-            INCOMPLETE_STATUSES.add(AWAIT_BUDGET_REVIEW);
-            INCOMPLETE_STATUSES.add(AWAIT_CONTRACTS_GRANTS_REVIEW);
-            INCOMPLETE_STATUSES.add(AWAIT_PURCHASING_REVIEW);
-            INCOMPLETE_STATUSES.add(AWAIT_NEW_UNORDERED_ITEM_REVIEW);
-            INCOMPLETE_STATUSES.add(AWAIT_COMMODITY_CODE_REVIEW);
-            INCOMPLETE_STATUSES.add(FAX_ERROR);
-            INCOMPLETE_STATUSES.add(QUOTE);
-            INCOMPLETE_STATUSES.add(CXML_ERROR);
-            INCOMPLETE_STATUSES.add(PENDING_CXML);
-            INCOMPLETE_STATUSES.add(IN_PROCESS);
-            INCOMPLETE_STATUSES.add(PAYMENT_HOLD);
-            INCOMPLETE_STATUSES.add(PENDING_FAX);
-            INCOMPLETE_STATUSES.add(PENDING_PRINT);
-            INCOMPLETE_STATUSES.add(WAITING_FOR_VENDOR);
-            INCOMPLETE_STATUSES.add(WAITING_FOR_DEPARTMENT);
+            INCOMPLETE_STATUSES.add(APPDOC_AWAIT_TAX_REVIEW);
+            INCOMPLETE_STATUSES.add(APPDOC_AWAIT_BUDGET_REVIEW);
+            INCOMPLETE_STATUSES.add(APPDOC_AWAIT_CONTRACTS_GRANTS_REVIEW);
+            INCOMPLETE_STATUSES.add(APPDOC_AWAIT_PURCHASING_REVIEW);
+            INCOMPLETE_STATUSES.add(APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW);
+            INCOMPLETE_STATUSES.add(APPDOC_AWAIT_COMMODITY_CODE_REVIEW);
+            INCOMPLETE_STATUSES.add(APPDOC_FAX_ERROR);
+            INCOMPLETE_STATUSES.add(APPDOC_QUOTE);
+            INCOMPLETE_STATUSES.add(APPDOC_CXML_ERROR);
+            INCOMPLETE_STATUSES.add(APPDOC_PENDING_CXML);
+            INCOMPLETE_STATUSES.add(APPDOC_IN_PROCESS);
+            INCOMPLETE_STATUSES.add(APPDOC_PAYMENT_HOLD);
+            INCOMPLETE_STATUSES.add(APPDOC_PENDING_FAX);
+            INCOMPLETE_STATUSES.add(APPDOC_PENDING_PRINT);
+            INCOMPLETE_STATUSES.add(APPDOC_WAITING_FOR_VENDOR);
+            INCOMPLETE_STATUSES.add(APPDOC_WAITING_FOR_DEPARTMENT);
             
-            COMPLETE_STATUSES.add(AMENDMENT);
-            COMPLETE_STATUSES.add(CANCELLED);
-            COMPLETE_STATUSES.add(CHANGE_IN_PROCESS);
-            COMPLETE_STATUSES.add(CLOSED);
-            COMPLETE_STATUSES.add(PENDING_CLOSE);
-            COMPLETE_STATUSES.add(CANCELLED_CHANGE);
-            COMPLETE_STATUSES.add(CXML_ERROR);
-            COMPLETE_STATUSES.add(DISAPPROVED_CHANGE);
-            COMPLETE_STATUSES.add(DAPRVD_BUDGET);
-            COMPLETE_STATUSES.add(DAPRVD_CONTRACTS_GRANTS);
-            COMPLETE_STATUSES.add(DAPRVD_COMMODITY_CODE);
-            COMPLETE_STATUSES.add(DAPRVD_PURCHASING);
-            COMPLETE_STATUSES.add(DAPRVD_TAX);
-            COMPLETE_STATUSES.add(OPEN);
-            COMPLETE_STATUSES.add(PAYMENT_HOLD);
-            COMPLETE_STATUSES.add(PENDING_PAYMENT_HOLD);
-            COMPLETE_STATUSES.add(PENDING_REMOVE_HOLD);
-            COMPLETE_STATUSES.add(PENDING_REOPEN);
-            COMPLETE_STATUSES.add(PENDING_RETRANSMIT);
-            COMPLETE_STATUSES.add(RETIRED_VERSION);
-            COMPLETE_STATUSES.add(VOID);
-            COMPLETE_STATUSES.add(PENDING_VOID);
-
+            COMPLETE_STATUSES.add(APPDOC_AMENDMENT);
+            COMPLETE_STATUSES.add(APPDOC_CANCELLED);
+            COMPLETE_STATUSES.add(APPDOC_CHANGE_IN_PROCESS);
+            COMPLETE_STATUSES.add(APPDOC_CLOSED);
+            COMPLETE_STATUSES.add(APPDOC_PENDING_CLOSE);
+            COMPLETE_STATUSES.add(APPDOC_CANCELLED_CHANGE);            
+            COMPLETE_STATUSES.add(APPDOC_DISAPPROVED_CHANGE);
+            COMPLETE_STATUSES.add(APPDOC_DAPRVD_BUDGET);
+            COMPLETE_STATUSES.add(APPDOC_DAPRVD_CONTRACTS_GRANTS);
+            COMPLETE_STATUSES.add(APPDOC_DAPRVD_COMMODITY_CODE);
+            COMPLETE_STATUSES.add(APPDOC_DAPRVD_PURCHASING);
+            COMPLETE_STATUSES.add(APPDOC_DAPRVD_TAX);
+            COMPLETE_STATUSES.add(APPDOC_OPEN);            
+            COMPLETE_STATUSES.add(APPDOC_PENDING_PAYMENT_HOLD);
+            COMPLETE_STATUSES.add(APPDOC_PENDING_REMOVE_HOLD);
+            COMPLETE_STATUSES.add(APPDOC_PENDING_REOPEN);
+            COMPLETE_STATUSES.add(APPDOC_PENDING_RETRANSMIT);
+            COMPLETE_STATUSES.add(APPDOC_RETIRED_VERSION);
+            COMPLETE_STATUSES.add(APPDOC_VOID);
+            COMPLETE_STATUSES.add(APPDOC_PENDING_VOID);
         }
         
        
@@ -298,9 +425,9 @@ public class PurapConstants extends JSTLConstants {
          */
         private static final Map<String, String> getStatusesByTransmissionType() {
             Map<String, String> statusByTrans = new HashMap<String, String>();
-            statusByTrans.put(PurapConstants.POTransmissionMethods.PRINT, PENDING_PRINT);
-            statusByTrans.put(PurapConstants.POTransmissionMethods.ELECTRONIC, PENDING_CXML);
-            statusByTrans.put(PurapConstants.POTransmissionMethods.FAX, PENDING_FAX);
+            statusByTrans.put(PurapConstants.POTransmissionMethods.PRINT, APPDOC_PENDING_PRINT);
+            statusByTrans.put(PurapConstants.POTransmissionMethods.ELECTRONIC, APPDOC_PENDING_CXML);
+            statusByTrans.put(PurapConstants.POTransmissionMethods.FAX, APPDOC_PENDING_FAX);
             return Collections.unmodifiableMap(statusByTrans);
         }
 
@@ -452,37 +579,68 @@ public class PurapConstants extends JSTLConstants {
         public static final String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD"; // Waiting for Accounts Payable approval
     }
     
+    public static final class AccountsPayableStatuses{
+        public static final String NODE_ACCOUNT_PAYABLE_REVIEW = "ImageAttachment";
+    }
+    
     public static final class PaymentRequestStatuses {
-        public static final String INITIATE = "INIT";
-        public static final String IN_PROCESS = "INPR";
-        public static final String CANCELLED_IN_PROCESS = "CIPR";
-        public static final String CANCELLED_POST_AP_APPROVE = "CANC";
-        public static final String DEPARTMENT_APPROVED = "DPTA";
-        public static final String AUTO_APPROVED = "AUTO";
-        public static final String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD"; // Waiting for Accounts Payable approval
-        public static final String AWAITING_RECEIVING_REVIEW = "ARVR"; // Waiting for Receiving approval 
-        public static final String AWAITING_SUB_ACCT_MGR_REVIEW = "ASAA"; // Waiting for Sub Acct Manager approval
-        public static final String AWAITING_FISCAL_REVIEW = "AFOA"; // Waiting for Fiscal Officer approval
-        public static final String AWAITING_ORG_REVIEW = "ACHA"; // Waiting for Chart/Org approval
-        public static final String AWAITING_TAX_REVIEW = "ATAX"; // Waiting for Vendor Tax approval
-        public static final String PENDING_E_INVOICE = "PEIN";
+        public static final String APPDOC_INITIATE = "Initiated";
+        public static final String APPDOC_IN_PROCESS = "In Process";
+        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled - In Process";
+        public static final String APPDOC_CANCELLED_POST_AP_APPROVE = "Cancelled";
+        public static final String APPDOC_DEPARTMENT_APPROVED = "Department-Approved";
+        public static final String APPDOC_AUTO_APPROVED = "Auto-Approved";
+        public static final String APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW = "Awaiting AP Review"; // Waiting for Accounts Payable approval
+        public static final String APPDOC_AWAITING_RECEIVING_REVIEW = "Awaiting Receiving"; // Waiting for Receiving approval 
+        public static final String APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW = "Awaiting Sub-Account Manager Approval"; // Waiting for Sub Acct Manager approval
+        public static final String APPDOC_AWAITING_FISCAL_REVIEW = "Awaiting Fiscal Officer Approval"; // Waiting for Fiscal Officer approval
+        public static final String APPDOC_AWAITING_ORG_REVIEW = "Awaiting Chart Approval"; // Waiting for Chart/Org approval
+        public static final String APPDOC_AWAITING_TAX_REVIEW = "Awaiting Tax Approval"; // Waiting for Vendor Tax approval
+        public static final String APPDOC_PENDING_E_INVOICE = "Pending Route Electronic Invoice";
+
+        public static HashMap<String, String> getAllAppDocStatuses(){
+            HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
+            
+            appDocStatusMap.put(APPDOC_INITIATE, APPDOC_INITIATE);
+            appDocStatusMap.put(APPDOC_IN_PROCESS, APPDOC_IN_PROCESS);
+            appDocStatusMap.put(APPDOC_CANCELLED_IN_PROCESS, APPDOC_CANCELLED_IN_PROCESS);
+            appDocStatusMap.put(APPDOC_CANCELLED_POST_AP_APPROVE, APPDOC_CANCELLED_POST_AP_APPROVE);
+            appDocStatusMap.put(APPDOC_DEPARTMENT_APPROVED, APPDOC_DEPARTMENT_APPROVED);
+            appDocStatusMap.put(APPDOC_AUTO_APPROVED, APPDOC_AUTO_APPROVED);
+            appDocStatusMap.put(APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW, APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAITING_RECEIVING_REVIEW, APPDOC_AWAITING_RECEIVING_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW, APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAITING_FISCAL_REVIEW, APPDOC_AWAITING_FISCAL_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAITING_ORG_REVIEW, APPDOC_AWAITING_ORG_REVIEW);
+            appDocStatusMap.put(APPDOC_AWAITING_TAX_REVIEW, APPDOC_AWAITING_TAX_REVIEW);
+            appDocStatusMap.put(APPDOC_PENDING_E_INVOICE, APPDOC_PENDING_E_INVOICE);
+            
+            return appDocStatusMap;
+        }
+
+        public static final String NODE_ADHOC_REVIEW = "AdHoc";        
+        public static final String NODE_AWAITING_RECEIVING_REVIEW = "PurchaseWasReceived"; 
+        public static final String NODE_SUB_ACCOUNT_REVIEW = "SubAccount"; 
+        public static final String NODE_ACCOUNT_REVIEW = "Account"; 
+        public static final String NODE_ORG_REVIEW = "AccountingOrganizationHierarchy"; 
+        public static final String NODE_VENDOR_TAX_REVIEW = "Tax";
 
         // keep these in the order of potential routing
         // Note it doesn't make much sense to compare auto_approved and dept_approved but this is
         // easier than two enums plus this should primarily be used for user enterred areas
         public enum STATUS_ORDER {
-            CANCELLED_IN_PROCESS(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), 
-            CANCELLED_POST_AP_APPROVE(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), 
-            INITIATE(PurapConstants.PaymentRequestStatuses.INITIATE, true), 
-            IN_PROCESS(PurapConstants.PaymentRequestStatuses.IN_PROCESS, true), 
-            AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), 
-            AWAITING_RECEIVING_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW, false), 
-            AWAITING_SUB_ACCT_MGR_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, false), 
-            AWAITING_FISCAL_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, false), 
-            AWAITING_ORG_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, false), 
-            AWAITING_TAX_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW, false), 
-            DEPARTMENT_APPROVED(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED, false), 
-            AUTO_APPROVED(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED, false), ;
+            CANCELLED_IN_PROCESS(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS, false), 
+            CANCELLED_POST_AP_APPROVE(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE, false), 
+            INITIATE(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE, true), 
+            IN_PROCESS(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS, true), 
+            AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), 
+            AWAITING_RECEIVING_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW, false), 
+            AWAITING_SUB_ACCT_MGR_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW, false), 
+            AWAITING_FISCAL_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW, false), 
+            AWAITING_ORG_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_ORG_REVIEW, false), 
+            AWAITING_TAX_REVIEW(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW, false), 
+            DEPARTMENT_APPROVED(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED, false), 
+            AUTO_APPROVED(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED, false), ;
 
             private String statusCode = new String();
             private boolean fullEntryAllowed = false;
@@ -524,11 +682,11 @@ public class PurapConstants extends JSTLConstants {
         }
 
 
-        public static final String[] PREQ_STATUSES_FOR_AUTO_APPROVE = { AWAITING_SUB_ACCT_MGR_REVIEW, AWAITING_FISCAL_REVIEW, AWAITING_ORG_REVIEW };
+        public static final String[] PREQ_STATUSES_FOR_AUTO_APPROVE = { APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW, APPDOC_AWAITING_FISCAL_REVIEW, APPDOC_AWAITING_ORG_REVIEW };
 
-        public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { AUTO_APPROVED, DEPARTMENT_APPROVED };
+        public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { APPDOC_AUTO_APPROVED, APPDOC_DEPARTMENT_APPROVED };
 
-        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { IN_PROCESS, DEPARTMENT_APPROVED, AUTO_APPROVED, AWAITING_ACCOUNTS_PAYABLE_REVIEW, AWAITING_RECEIVING_REVIEW, AWAITING_SUB_ACCT_MGR_REVIEW, AWAITING_FISCAL_REVIEW, AWAITING_ORG_REVIEW, AWAITING_TAX_REVIEW };
+        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { APPDOC_IN_PROCESS, APPDOC_DEPARTMENT_APPROVED, APPDOC_AUTO_APPROVED, APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW, APPDOC_AWAITING_RECEIVING_REVIEW, APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW, APPDOC_AWAITING_FISCAL_REVIEW, APPDOC_AWAITING_ORG_REVIEW, APPDOC_AWAITING_TAX_REVIEW };
         
         public static final Set CANCELLED_STATUSES = new HashSet();
         public static final Set STATUSES_DISALLOWING_HOLD = new HashSet();
@@ -536,24 +694,50 @@ public class PurapConstants extends JSTLConstants {
         public static final Set STATUSES_DISALLOWING_REQUEST_CANCEL = new HashSet();
         public static final Set STATUSES_DISALLOWING_REMOVE_REQUEST_CANCEL = new HashSet();
         static {
-            CANCELLED_STATUSES.add(CANCELLED_IN_PROCESS);
-            CANCELLED_STATUSES.add(CANCELLED_POST_AP_APPROVE);
+            CANCELLED_STATUSES.add(APPDOC_CANCELLED_IN_PROCESS);
+            CANCELLED_STATUSES.add(APPDOC_CANCELLED_POST_AP_APPROVE);
 
-            STATUSES_DISALLOWING_HOLD.add(INITIATE);
-            STATUSES_DISALLOWING_HOLD.add(IN_PROCESS);
+            STATUSES_DISALLOWING_HOLD.add(APPDOC_INITIATE);
+            STATUSES_DISALLOWING_HOLD.add(APPDOC_IN_PROCESS);
             STATUSES_DISALLOWING_HOLD.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
 
             STATUSES_DISALLOWING_REMOVE_HOLD.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
 
-            STATUSES_DISALLOWING_REQUEST_CANCEL.add(INITIATE);
-            STATUSES_DISALLOWING_REQUEST_CANCEL.add(IN_PROCESS);
-            STATUSES_DISALLOWING_REQUEST_CANCEL.add(DEPARTMENT_APPROVED);
-            STATUSES_DISALLOWING_REQUEST_CANCEL.add(AUTO_APPROVED);
-            STATUSES_DISALLOWING_REQUEST_CANCEL.add(AWAITING_ACCOUNTS_PAYABLE_REVIEW);
+            STATUSES_DISALLOWING_REQUEST_CANCEL.add(APPDOC_INITIATE);
+            STATUSES_DISALLOWING_REQUEST_CANCEL.add(APPDOC_IN_PROCESS);
+            STATUSES_DISALLOWING_REQUEST_CANCEL.add(APPDOC_DEPARTMENT_APPROVED);
+            STATUSES_DISALLOWING_REQUEST_CANCEL.add(APPDOC_AUTO_APPROVED);
+            STATUSES_DISALLOWING_REQUEST_CANCEL.add(APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW);
             STATUSES_DISALLOWING_REQUEST_CANCEL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
 
             STATUSES_DISALLOWING_REMOVE_REQUEST_CANCEL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
         }
+        
+        public static final HashMap<String, String> getPaymentRequestAppDocDisapproveStatuses(){
+            
+            HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
+                                                
+            appDocStatusMap.put(AccountsPayableStatuses.NODE_ACCOUNT_PAYABLE_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS);
+            appDocStatusMap.put(NODE_AWAITING_RECEIVING_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
+            appDocStatusMap.put(NODE_SUB_ACCOUNT_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
+            appDocStatusMap.put(NODE_ACCOUNT_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE); 
+            appDocStatusMap.put(NODE_ORG_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE); 
+            appDocStatusMap.put(NODE_VENDOR_TAX_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
+            
+            return appDocStatusMap;
+                        
+    }
+    
+        public static final List<String> getNodesRequiringCorrectingGeneralLedgerEntries(){
+            
+            List<String> returnList = new ArrayList<String>();
+            
+            returnList.add(NODE_ACCOUNT_REVIEW);
+            returnList.add(NODE_VENDOR_TAX_REVIEW);
+            
+            return returnList;
+        }
+
     }
     
     public static class LineItemReceivingDocumentStrings{
@@ -564,10 +748,10 @@ public class PurapConstants extends JSTLConstants {
     }
     
     public static class LineItemReceivingStatuses{
-        public static final String IN_PROCESS = "INPR";
-        public static final String AWAITING_PO_OPEN_STATUS = "APOO";
-        public static final String COMPLETE = "CMPT";
-        public static final String CANCELLED = "CANC";
+        public static final String APPDOC_IN_PROCESS = "In Process";
+        public static final String APPDOC_AWAITING_PO_OPEN_STATUS = "Awaiting Purchase Order Open Status";
+        public static final String APPDOC_COMPLETE = "Complete";
+        public static final String APPDOC_CANCELLED = "Cancelled";
     }
 
     public static class CorrectionReceivingDocumentStrings{
@@ -636,16 +820,33 @@ public class PurapConstants extends JSTLConstants {
     public static final String CREDIT_MEMO_ACTION_NAME = "VendorCreditMemo";
 
     public static class CreditMemoStatuses {
-        public static final String INITIATE = "INIT";
-        public static final String IN_PROCESS = "INPR";
-        public static final String CANCELLED_IN_PROCESS = "CIPR";
-        public static final String CANCELLED_PRIOR_TO_AP_APPROVAL = "VOID";
-        public static final String CANCELLED_POST_AP_APPROVE = "CANC";
-        public static final String COMPLETE = "CMPT";
-        public static final String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD"; // Waiting for Accounts Payable approval
+        public static final String APPDOC_INITIATE = "Initiated";
+        public static final String APPDOC_IN_PROCESS = "In Process";
+        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled - In Process";
+        public static final String APPDOC_CANCELLED_PRIOR_TO_AP_APPROVAL = "Void";
+        public static final String APPDOC_CANCELLED_POST_AP_APPROVE = "Cancelled";
+        public static final String APPDOC_COMPLETE = "Complete";
+        public static final String APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW = "Awaiting AP Review"; // Waiting for Accounts Payable approval
+        
+        public static HashMap<String, String> getAllAppDocStatuses(){
+            HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
+            
+            appDocStatusMap.put(APPDOC_INITIATE, APPDOC_INITIATE);
+            appDocStatusMap.put(APPDOC_IN_PROCESS, APPDOC_IN_PROCESS);
+            appDocStatusMap.put(APPDOC_CANCELLED_IN_PROCESS, APPDOC_CANCELLED_IN_PROCESS);
+            appDocStatusMap.put(APPDOC_CANCELLED_PRIOR_TO_AP_APPROVAL, APPDOC_CANCELLED_PRIOR_TO_AP_APPROVAL);
+            appDocStatusMap.put(APPDOC_CANCELLED_POST_AP_APPROVE, APPDOC_CANCELLED_POST_AP_APPROVE);
+            appDocStatusMap.put(APPDOC_COMPLETE, APPDOC_COMPLETE);
+            appDocStatusMap.put(APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW, APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW);
+            
+            return appDocStatusMap;
+        }
+
+        public static final String NODE_ADHOC_REVIEW = "AdHoc";                
+        public static final String NODE_ACCOUNT_REVIEW = "Account";
 
         public enum STATUS_ORDER {
-            CANCELLED_IN_PROCESS(PurapConstants.CreditMemoStatuses.CANCELLED_IN_PROCESS, false), CANCELLED_PRIOR_TO_AP_APPROVAL(PurapConstants.CreditMemoStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), CANCELLED_POST_AP_APPROVE(PurapConstants.CreditMemoStatuses.CANCELLED_POST_AP_APPROVE, false), INITIATE(PurapConstants.CreditMemoStatuses.INITIATE, true), IN_PROCESS(PurapConstants.CreditMemoStatuses.IN_PROCESS, true), AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.CreditMemoStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), COMPLETE(PurapConstants.CreditMemoStatuses.COMPLETE, false), ;
+            CANCELLED_IN_PROCESS(PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS, false), CANCELLED_PRIOR_TO_AP_APPROVAL(PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_PRIOR_TO_AP_APPROVAL, false), CANCELLED_POST_AP_APPROVE(PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_POST_AP_APPROVE, false), INITIATE(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE, true), IN_PROCESS(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS, true), AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.CreditMemoStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), COMPLETE(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE, false), ;
 
             private String statusCode = new String();
             private boolean fullEntryAllowed = false;
@@ -683,26 +884,39 @@ public class PurapConstants extends JSTLConstants {
             }
         }
 
-        public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { AWAITING_ACCOUNTS_PAYABLE_REVIEW, COMPLETE };
+        public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW, APPDOC_COMPLETE };
         
-        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { IN_PROCESS, AWAITING_ACCOUNTS_PAYABLE_REVIEW };
+        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { APPDOC_IN_PROCESS, APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW };
                
         public static final Set CANCELLED_STATUSES = new HashSet();
         public static final Set STATUSES_DISALLOWING_HOLD = new HashSet();
         public static final Set STATUSES_NOT_REQUIRING_ENTRY_REVERSAL = new HashSet();
         static {
-            CANCELLED_STATUSES.add(CANCELLED_IN_PROCESS);
-            CANCELLED_STATUSES.add(CANCELLED_PRIOR_TO_AP_APPROVAL);
-            CANCELLED_STATUSES.add(CANCELLED_POST_AP_APPROVE);
+            CANCELLED_STATUSES.add(APPDOC_CANCELLED_IN_PROCESS);
+            CANCELLED_STATUSES.add(APPDOC_CANCELLED_PRIOR_TO_AP_APPROVAL);
+            CANCELLED_STATUSES.add(APPDOC_CANCELLED_POST_AP_APPROVE);
 
-            STATUSES_DISALLOWING_HOLD.add(INITIATE);
-            STATUSES_DISALLOWING_HOLD.add(IN_PROCESS);
+            STATUSES_DISALLOWING_HOLD.add(APPDOC_INITIATE);
+            STATUSES_DISALLOWING_HOLD.add(APPDOC_IN_PROCESS);
             STATUSES_DISALLOWING_HOLD.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
 
-            STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(INITIATE);
-            STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(IN_PROCESS);
+            STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(APPDOC_INITIATE);
+            STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(APPDOC_IN_PROCESS);
             STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
         }
+        
+        public static final HashMap<String, String> getCreditMemoAppDocDisapproveStatuses(){
+            
+            HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
+                        
+            appDocStatusMap.put(NODE_ADHOC_REVIEW,APPDOC_CANCELLED_IN_PROCESS);
+            appDocStatusMap.put(AccountsPayableStatuses.NODE_ACCOUNT_PAYABLE_REVIEW, APPDOC_CANCELLED_PRIOR_TO_AP_APPROVAL);
+            appDocStatusMap.put(NODE_ACCOUNT_REVIEW, APPDOC_CANCELLED_POST_AP_APPROVE);
+            
+            return appDocStatusMap;
+                        
+    }
+
     }
 
     public static class CMDocumentsStrings {
@@ -1118,25 +1332,25 @@ public class PurapConstants extends JSTLConstants {
         
         private static HashSet<String> getRequisitionStatusCAMSWarnings() {
             HashSet<String> statuses = new HashSet<String>();
-            statuses.add(RequisitionStatuses.IN_PROCESS);
-            statuses.add(RequisitionStatuses.AWAIT_CONTENT_REVIEW);
-            statuses.add(RequisitionStatuses.AWAIT_FISCAL_REVIEW);
+            statuses.add(RequisitionStatuses.APPDOC_IN_PROCESS);
+            statuses.add(RequisitionStatuses.APPDOC_AWAIT_CONTENT_REVIEW);
+            statuses.add(RequisitionStatuses.APPDOC_AWAIT_FISCAL_REVIEW);
             return statuses;
         }
         private static HashSet<String> getPurchaseOrderStatusCAMSWarnings() {
             HashSet<String> statuses = new HashSet<String>();
-            statuses.add(PurchaseOrderStatuses.IN_PROCESS);
-            statuses.add(PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW);
+            statuses.add(PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+            statuses.add(PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW);
             return statuses;
         }
         private static HashSet<String> getPaymentRequestStatusCAMSWarnings() {
             HashSet<String> statuses = new HashSet<String>();
-            statuses.add(PaymentRequestStatuses.IN_PROCESS);
+            statuses.add(PaymentRequestStatuses.APPDOC_IN_PROCESS);
             return statuses;
         }
         private static HashSet<String> getCreditMemoStatusCAMSWarnings() {
             HashSet<String> statuses = new HashSet<String>();
-            statuses.add(CreditMemoStatuses.IN_PROCESS);
+            statuses.add(CreditMemoStatuses.APPDOC_IN_PROCESS);
             return statuses;
         }
     }

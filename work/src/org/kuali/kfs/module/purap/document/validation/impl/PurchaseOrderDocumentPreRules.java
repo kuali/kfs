@@ -79,8 +79,8 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
      * @return boolean
      */
     protected boolean isDocumentInStateToReceiveNextFyWarning(PurchaseOrderDocument poDocument){
-        return (PurapConstants.PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) ||
-                PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()));
+        return (PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(poDocument.getAppDocStatus()) ||
+                PurapConstants.PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW.equals(poDocument.getAppDocStatus()));
     }
 
     /**
@@ -164,7 +164,7 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
 
     @Override
     protected boolean checkCAMSWarningStatus(PurchasingAccountsPayableDocument purapDocument) {
-        return PurapConstants.CAMSWarningStatuses.PURCHASEORDER_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getStatusCode());
+        return PurapConstants.CAMSWarningStatuses.PURCHASEORDER_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getAppDocStatus());
     }
     
 }

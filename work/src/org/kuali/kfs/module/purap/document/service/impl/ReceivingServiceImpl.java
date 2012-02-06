@@ -206,9 +206,9 @@ public class ReceivingServiceImpl implements ReceivingService {
         return po != null &&
                ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) && 
                po.isPurchaseOrderCurrentIndicator() && 
-                   (PurchaseOrderStatuses.OPEN.equals(po.getStatusCode()) || 
-                    PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode()) || 
-                    PurchaseOrderStatuses.PAYMENT_HOLD.equals(po.getStatusCode()));
+                   (PurchaseOrderStatuses.APPDOC_OPEN.equals(po.getAppDocStatus()) || 
+                    PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getAppDocStatus()) || 
+                    PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD.equals(po.getAppDocStatus()));
     }
     
     public boolean canCreateCorrectionReceivingDocument(LineItemReceivingDocument rl) throws RuntimeException {
@@ -619,7 +619,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                             String poDocNumber = (String)objects[1];
                             
                             //create a PO amendment
-                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
+                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
 
                             //add new lines to amendement
                             addUnorderedItemsToAmendment(amendmentPo, rlDoc);

@@ -23,14 +23,12 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItemUseTax;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
@@ -51,7 +49,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -104,9 +101,9 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     @Override
     public boolean isInquiryRendered() {
         if ( isPostingYearPrior() && 
-             ( getStatusCode().equals(PurapConstants.CreditMemoStatuses.COMPLETE) ||
-               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE) ||
-               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS) ) )  {
+             ( getAppDocStatus().equals(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE) ||
+               getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE) ||
+               getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS) ) )  {
                return false;            
         }
         else {
@@ -119,8 +116,8 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
-        setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
-
+        setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+        this.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
         Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
         setAccountsPayableProcessorIdentifier(currentUser.getPrincipalId());
         setProcessingCampusCode(currentUser.getCampusCode());
@@ -209,7 +206,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-                SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.CreditMemoStatuses.COMPLETE);
+                setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
 
                 return;
@@ -217,18 +214,17 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
-                if (ObjectUtils.isNotNull(currentNode)) {
-                    String newStatusCode = currentNode.getDisapprovedStatusCode();
-                    if ((StringUtils.isBlank(newStatusCode)) && ((StringUtils.isBlank(currentNode.getDisapprovedStatusCode())) && ((CreditMemoStatuses.INITIATE.equals(getStatusCode())) || (CreditMemoStatuses.IN_PROCESS.equals(getStatusCode()))))) {
-                        newStatusCode = CreditMemoStatuses.CANCELLED_IN_PROCESS;
-                    }
-                    if (StringUtils.isNotBlank(newStatusCode)) {
-                        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
-                        return;
-                    }
+                
+                String disapprovalStatus = CreditMemoStatuses.getCreditMemoAppDocDisapproveStatuses().get(nodeName);
+                                
+                if (((StringUtils.isBlank(disapprovalStatus)) && ((CreditMemoStatuses.APPDOC_INITIATE.equals(getAppDocStatus())) || (CreditMemoStatuses.APPDOC_IN_PROCESS.equals(getAppDocStatus()))))) {
+                    disapprovalStatus = CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS;
                 }
-                logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                if (StringUtils.isNotBlank(disapprovalStatus)) {
+                    SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
+                    return;
+                }else                
+                    logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
@@ -248,12 +244,12 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
-        if (NodeDetailEnum.ADHOC_REVIEW.getName().equals(oldNodeName)) {
+        if (CreditMemoStatuses.NODE_ADHOC_REVIEW.equals(oldNodeName)) {
             SpringContext.getBean(AccountsPayableService.class).performLogicForFullEntryCompleted(this);
         }
 
         // if we've hit Account node then reopen po
-        else if ("Account".equals(newNodeName) && this.isReopenPurchaseOrderIndicator()) {
+        else if (CreditMemoStatuses.NODE_ACCOUNT_REVIEW.equals(newNodeName) && this.isReopenPurchaseOrderIndicator()) {
             SpringContext.getBean(PurapService.class).performLogicForCloseReopenPO(this);
         }        
         return true;
@@ -296,13 +292,6 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         return documentTitle;
     }
     
-    /**
-     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#getNodeDetailEnum(java.lang.String)
-     */
-    public NodeDetails getNodeDetailEnum(String nodeName) {
-        return NodeDetailEnum.getNodeDetailEnumByName(nodeName);
-    }
-
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
      */

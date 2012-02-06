@@ -31,9 +31,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
@@ -42,7 +39,9 @@ import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
@@ -230,7 +229,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
     
     public boolean isPurchaseOrderOpenForProcessing(PurchaseOrderDocument purchaseOrderDocument) {
-        boolean can = PurchaseOrderStatuses.OPEN.equals(purchaseOrderDocument.getStatusCode());
+        boolean can = PurchaseOrderStatuses.APPDOC_OPEN.equals(purchaseOrderDocument.getAppDocStatus());
         can = can && purchaseOrderDocument.isPurchaseOrderCurrentIndicator() && !purchaseOrderDocument.isPendingActionIndicator();
         
         // in addition, check conditions about No In Process PREQ and CM) 
@@ -238,7 +237,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             List<PaymentRequestView> preqViews = purchaseOrderDocument.getRelatedViews().getRelatedPaymentRequestViews();
             if ( preqViews != null ) {
                 for (PaymentRequestView preqView : preqViews) {
-                    if (StringUtils.equalsIgnoreCase(preqView.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                    if (StringUtils.equalsIgnoreCase(preqView.getAppDocStatus(), PaymentRequestStatuses.APPDOC_IN_PROCESS)) {
                         return false;
                     }
                 }
@@ -246,7 +245,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             List<CreditMemoView> cmViews = purchaseOrderDocument.getRelatedViews().getRelatedCreditMemoViews();
             if ( cmViews != null ) {
                 for (CreditMemoView cmView : cmViews) {
-                    if (StringUtils.equalsIgnoreCase(cmView.getCreditMemoStatusCode(), CreditMemoStatuses.IN_PROCESS)) {
+                    if (StringUtils.equalsIgnoreCase(cmView.getAppDocStatus(), CreditMemoStatuses.APPDOC_IN_PROCESS)) {
                         return false;
                     }
                 }
@@ -388,8 +387,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     protected PurchaseOrderDocument generatePurchaseOrderFromRequisition(RequisitionDocument reqDocument) throws WorkflowException {
         PurchaseOrderDocument poDocument = null;
         poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
-        poDocument.populatePurchaseOrderFromRequisition(reqDocument);
-        poDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
+        poDocument.populatePurchaseOrderFromRequisition(reqDocument);        
+        poDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+        
         poDocument.setPurchaseOrderCurrentIndicator(true);
         poDocument.setPendingActionIndicator(false);
 
@@ -542,13 +542,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setPurchaseOrderFirstTransmissionTimestamp(currentDate);
         po.setPurchaseOrderLastTransmitTimestamp(currentDate);
         po.setOverrideWorkflowButtons(Boolean.FALSE);
-        boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson(), null);
+        boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, GlobalVariables.getUserSession().getPerson(), null);
         if (!performedAction) {
             Person systemUserPerson = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
-            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), systemUserPerson, KFSConstants.SYSTEM_USER);
+            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, systemUserPerson, KFSConstants.SYSTEM_USER);
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
-        if (!po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {
+        if (!po.getAppDocStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
             attemptSetupOfInitialOpenOfDocument(po);
         }
         purapService.saveDocumentNoValidation(po);
@@ -675,11 +675,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
             
-            if (ObjectUtils.isNotNull(newDocument)) {
-                newDocument.setStatusCode(PurchaseOrderStatuses.CHANGE_IN_PROCESS);
+            if (ObjectUtils.isNotNull(newDocument)) {                
+                newDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
+                
                 // set status if needed
-                if (StringUtils.isNotBlank(currentDocumentStatusCode)) {
-                    purapService.updateStatus(currentDocument, currentDocumentStatusCode);
+                if (StringUtils.isNotBlank(currentDocumentStatusCode)) {                    
+                    currentDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(currentDocumentStatusCode);
                 }
                 try {
                     documentService.saveDocument(newDocument, DocumentSystemSaveEvent.class);
@@ -713,12 +714,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      *      java.lang.String, java.lang.String, java.util.List, java.lang.String)
      */
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
-        PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
-        purapService.updateStatus(currentDocument, currentDocumentStatusCode);
-        
+        PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);        
+        currentDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(currentDocumentStatusCode);
         try {
-            PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
-            newDocument.setStatusCode(PurchaseOrderStatuses.CHANGE_IN_PROCESS);
+            PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);            
+            newDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
+           
             if (ObjectUtils.isNotNull(newDocument)) {
                 try {
                     // set the pending indictor before routing, so that when routing is done in synch mode, the pending indicator won't be set again after route finishes and cause inconsistency 
@@ -810,9 +811,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 catch (Exception e) {
                     throw new RuntimeException(e);
-                }
-                newDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
-                
+                }                
+                newDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                              
                 //fix references before saving
                 fixItemReferences(newDocument);
                 
@@ -887,13 +888,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // FOLLOWING LINES COULD INVOLVE TRANSMITTING THE PO TO THE VENDOR WHICH WILL NOT BE REVERSED IN A TRANSACTION ROLLBACK
         
         // if the document is set in a Pending Transmission status then don't OPEN the PO just leave it as is
-        if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getStatusCode())) {
+        if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getAppDocStatus())) {
             attemptSetupOfInitialOpenOfDocument(po);
         }
-        else if (PurchaseOrderStatuses.PENDING_CXML.equals(po.getStatusCode())) {
+        else if (PurchaseOrderStatuses.APPDOC_PENDING_CXML.equals(po.getAppDocStatus())) {
             completeB2BPurchaseOrder(po);
         }
-        else if (PurchaseOrderStatuses.PENDING_PRINT.equals(po.getStatusCode())) {
+        else if (PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(po.getAppDocStatus())) {
             //default to using user that routed PO
             String userToRouteFyi = po.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
             if (po.getPurchaseOrderAutomaticIndicator()) {
@@ -943,8 +944,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            
-            purapService.updateStatus(po, PurchaseOrderStatuses.CXML_ERROR);
+                        
+            po.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurchaseOrderStatuses.APPDOC_CXML_ERROR);
             return false;
         }
     }
@@ -961,7 +962,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     public boolean canHoldPayment(PurchaseOrderDocument purchaseOrder){
         
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && 
+        if (purchaseOrder.getAppDocStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN) && 
             purchaseOrder.isPurchaseOrderCurrentIndicator() && 
             !purchaseOrder.isPendingActionIndicator()) {
             return true;
@@ -983,7 +984,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews().size() > 0) {
                
                for (PaymentRequestView preq : purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews()) {
-                   if (StringUtils.equalsIgnoreCase(preq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                   if (StringUtils.equalsIgnoreCase(preq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_IN_PROCESS)) {
                        return false;
                    }
                }
@@ -994,7 +995,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 purchaseOrder.getRelatedViews().getRelatedCreditMemoViews().size() > 0) {
                 
                 for (CreditMemoView cm : purchaseOrder.getRelatedViews().getRelatedCreditMemoViews()) {
-                    if (StringUtils.equalsIgnoreCase(cm.getCreditMemoStatusCode(), CreditMemoStatuses.IN_PROCESS)) {
+                    if (StringUtils.equalsIgnoreCase(cm.getAppDocStatus(), CreditMemoStatuses.APPDOC_IN_PROCESS)) {
                         return false;
                     }
                 }
@@ -1178,8 +1179,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
             if (LOG.isDebugEnabled()) {
                 LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
-            }
-            purapService.updateStatus(po, newStatusCode);
+            }            
+            po.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(newStatusCode);
         }
     }
 
@@ -1194,20 +1195,20 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.debug("attemptSetupOfInitialOpenOfDocument() started using document with doc id " + po.getDocumentNumber());
         }
 
-        if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
+        if (!PurchaseOrderStatuses.APPDOC_OPEN.equals(po.getAppDocStatus())) {
             if (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenTimestamp())) {
                 LOG.debug("attemptSetupOfInitialOpenOfDocument() setting initial open date on document");
                 po.setPurchaseOrderInitialOpenTimestamp(dateTimeService.getCurrentTimestamp());
             }
             else {
-                throw new RuntimeException("Document does not have status code '" + PurchaseOrderStatuses.OPEN + "' on it but value of initial open date is " + po.getPurchaseOrderInitialOpenTimestamp());
+                throw new RuntimeException("Document does not have status code '" + PurchaseOrderStatuses.APPDOC_OPEN + "' on it but value of initial open date is " + po.getPurchaseOrderInitialOpenTimestamp());
             }
-            LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'");
-            purapService.updateStatus(po, PurchaseOrderStatuses.OPEN);
+            LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getAppDocStatus() + "' to '" + PurchaseOrderStatuses.APPDOC_OPEN + "'");
+            po.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             //no need to save here because calling class should handle the save if needed
         }
         else {
-            LOG.error("attemptSetupOfInitialOpenOfDocument() Found document already in '" + PurchaseOrderStatuses.OPEN + "' status for PO#" + po.getPurapDocumentIdentifier() + "; will not change or update");
+            LOG.error("attemptSetupOfInitialOpenOfDocument() Found document already in '" + PurchaseOrderStatuses.APPDOC_OPEN + "' status for PO#" + po.getPurapDocumentIdentifier() + "; will not change or update");
         }
     }
 
@@ -1340,8 +1341,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             oldPO.setPurchaseOrderCurrentIndicator(false);
             oldPO.setPendingActionIndicator(false);
 
-            // set the status and status history of the oldPO to retired version
-            purapService.updateStatus(oldPO, PurapConstants.PurchaseOrderStatuses.RETIRED_VERSION);
+            // set the status and status history of the oldPO to retired version            
+            oldPO.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_RETIRED_VERSION);
 
             saveDocumentNoValidationUsingClearErrorMap(oldPO);
         }
@@ -1355,42 +1356,42 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(PurchaseOrderDocument newPO) {
-        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.OPEN);
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.APPDOC_DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForCancelledChangePODocuments(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void setCurrentAndPendingIndicatorsForCancelledChangePODocuments(PurchaseOrderDocument newPO) {
-        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.OPEN);
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(PurchaseOrderDocument newPO) {
-        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.CLOSED);
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED);
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(PurchaseOrderDocument newPO) {
-        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.CLOSED);
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.APPDOC_DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED);
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(PurchaseOrderDocument newPO) {
-        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD);
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(PurchaseOrderDocument newPO) {
-        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.APPDOC_DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD);
     }
 
     /**
@@ -1406,9 +1407,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
         // Set the Pending indicator for the oldPO to N
-        oldPO.setPendingActionIndicator(false);
-        purapService.updateStatus(oldPO, oldPOStatus);
-        purapService.updateStatus(newPO, newPOStatus);
+        oldPO.setPendingActionIndicator(false);        
+        oldPO.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(oldPOStatus);        
+        newPO.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(newPOStatus);
         saveDocumentNoValidationUsingClearErrorMap(oldPO);
         saveDocumentNoValidationUsingClearErrorMap(newPO);
     }
@@ -1706,9 +1707,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // Get the requisition for this ContractManagerAssignmentDetail.
                 RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(detail.getRequisitionIdentifier());
 
-                if (req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) {
+                if ( PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equals(req.getAppDocStatus())) {
                     // only update REQ if code is empty and status is correct
-                    purapService.updateStatus(req, PurapConstants.RequisitionStatuses.CLOSED);
+                    req.setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_CLOSED);                    
                     purapService.saveDocumentNoValidation(req);
                     createPurchaseOrderDocument(req, KFSConstants.SYSTEM_USER, detail.getContractManagerCode());
                 }
@@ -1729,7 +1730,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
             if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
                 LOG.info("autoCloseFullyDisencumberedOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " with total " + poAutoClose.getTotalAmount().doubleValue() + " will be closed");
-                String newStatus = PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE;
+                String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
                 String annotation = "This PO was automatically closed in batch.";
                 String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
                 PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
@@ -1823,7 +1824,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
             LOG.info("autoCloseRecurringOrders(): Testing PO ID " + poAutoClose.getPurapDocumentIdentifier() + ". recurringPaymentEndDate: " + poAutoClose.getRecurringPaymentEndDate());
             if (poAutoClose.getRecurringPaymentEndDate().before(appSettingsDay)) {
-                String newStatus = PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE;
+                String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
                 String annotation = "This recurring PO was automatically closed in batch.";
                 String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;                
                 PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());                
@@ -2031,6 +2032,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return purchaseOrderDao.getPendingPurchaseOrdersForFaxing();
     }
 
+    public String getPurchaseOrderAppDocStatus(Integer poId){
+        //TODO: This could be kind of expensive for one field
+        PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
+        if (ObjectUtils.isNotNull(po)) {
+            po.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
+        }
+        
+        return null;
+    }
     /**
      * @return Returns the personService.
      */

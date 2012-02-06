@@ -26,12 +26,10 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
-import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.DefaultPrincipalAddress;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -40,6 +38,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.businessobject.options.RequisitionStatusValuesFinder;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
@@ -57,11 +56,10 @@ import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Copyable;
@@ -74,7 +72,6 @@ import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
@@ -92,6 +89,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     protected String alternate4VendorName;
     protected String alternate5VendorName;
     protected KualiDecimal organizationAutomaticPurchaseOrderLimit;
+    protected List reqStatusList;
     
     // non-persistent property used for controlling validation for accounting lines when doc is request for blanket approve.
     protected boolean isBlanketApproveRequest = false;
@@ -183,8 +181,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public boolean isInquiryRendered() {
         if ( isPostingYearPrior() && 
-             ( getStatusCode().equals(PurapConstants.RequisitionStatuses.CLOSED) || 
-               getStatusCode().equals(PurapConstants.RequisitionStatuses.CANCELLED) ) )  {
+             ( getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_CLOSED) || 
+               getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_CANCELLED) ) )  {
                return false;            
         }
         else {
@@ -198,7 +196,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void initiateDocument() {
         this.setupAccountDistributionMethod();
         this.setRequisitionSourceCode(PurapConstants.RequisitionSources.STANDARD_ORDER);
-        this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
+        setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
         this.setDocumentFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValue(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
@@ -245,6 +243,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         
         // populate receiving address with the default one for the chart/org
         loadReceivingAddress();
+        
+        // Load Requistion Statuses
+        RequisitionStatusValuesFinder requisitionStatusValuesFinder = new RequisitionStatusValuesFinder();
+        reqStatusList = requisitionStatusValuesFinder.getKeyValues();
+        
         
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.refreshNonUpdateableReferences();
@@ -318,7 +321,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setPurapDocumentIdentifier(null);
 
         // Set req status to INPR.
-        this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
+        //for app doc status
+        setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
+        
 
         // Set fields from the user.
         if (ObjectUtils.isNotNull(purapChartOrg)) {
@@ -391,10 +396,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * Updates status of this document and saves it.
      * 
-     * @param statusCode the status code of the current status.
+     * @param disApprovedAppDocStatus is the current status of the document.
      */
-    protected void updateStatusAndSave(String statusCode) {
-        SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
+   protected void updateAndSaveAppDocStatus(String disApprovedAppDocStatus) {
+       setAppDocStatus(disApprovedAppDocStatus);
         SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
     }
 
@@ -426,28 +431,32 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-                String newRequisitionStatus = PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN;
+                String newRequisitionStatus = PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN;
                 if (SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(this)) {
-                    newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
+                    newRequisitionStatus = PurapConstants.RequisitionStatuses.APPDOC_CLOSED;
                     SpringContext.getBean(PurchaseOrderService.class).createAutomaticPurchaseOrderDocument(this);
                 }
-                updateStatusAndSave(newRequisitionStatus);
+                // for app doc status
+                String reqStatus = PurapConstants.RequisitionStatuses.getRequistionAppDocStatuses().get(newRequisitionStatus);
+                updateAndSaveAppDocStatus(reqStatus);
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
-                if (ObjectUtils.isNotNull(currentNode)) {
-                    if (StringUtils.isNotBlank(currentNode.getDisapprovedStatusCode())) {
-                        updateStatusAndSave(currentNode.getDisapprovedStatusCode());
+                
+                String disapprovalStatus = RequisitionStatuses.getRequistionAppDocStatuses().get(nodeName);                
+                
+                if (StringUtils.isNotBlank(disapprovalStatus)) {
+                    updateAndSaveAppDocStatus(disapprovalStatus);                    
                         return;
                     }
-                }
                 logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                updateStatusAndSave(RequisitionStatuses.CANCELLED);
+                String reqStatus = RequisitionStatuses.getRequistionAppDocStatuses().get(RequisitionStatuses.APPDOC_CANCELLED);
+                updateAndSaveAppDocStatus(reqStatus);
+
             }
         }
         catch (WorkflowException e) {
@@ -463,6 +472,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
         LOG.debug("handleRouteLevelChange() started");
         super.doRouteLevelChange(change);
+/*       
+  FIXME: Remove this code 
         try {
             String newNodeName = change.getNewNodeName();
             if (StringUtils.isNotBlank(newNodeName)) {
@@ -486,8 +497,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         catch (WorkflowException e) {
             String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
             LOG.warn(errorMsg, e);
+        }*/
         }
-    }
 
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLineClass()
@@ -654,10 +665,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * Used for routing only.
      * 
-     * @deprecated
      */
     public String getStatusDescription() {
-        return "";
+        return getAppDocStatus();
     }
 
     /**
@@ -689,8 +699,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     
     @Override
     public boolean shouldGiveErrorForEmptyAccountsProration() {
-        if (isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) ||
-            getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS)) {
+        //to be removed
+        //for app doc status
+        //remove   isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) kfsmi - 4592
+        if (isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_CONTENT_REVIEW) ||
+            getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS)) {
             return false;
         }
         return true;
@@ -714,6 +727,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     public void setBlanketApproveRequest(boolean isBlanketApproveRequest) {
         this.isBlanketApproveRequest = isBlanketApproveRequest;
+    }
+
+    public String getStatusDescription(String statusCode) {
+       
+        for (Iterator i = reqStatusList.iterator(); i.hasNext();) {
+                KeyLabelPair pair = (KeyLabelPair) i.next();
+                if (StringUtils.equals((String) pair.getKey(), statusCode)) {
+                    return pair.getLabel();
+                }
+            }
+            return "";
+       
     }
     
     /**

@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -179,15 +178,19 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
         LOG.debug("handleRouteLevelChange() started");
         super.doRouteLevelChange(levelChangeEvent);
+        saveDocumentFromPostProcessing();
+        
+        /*
+         * FIXME: Should be handled by XML now
         String newNodeName = levelChangeEvent.getNewNodeName();
         if (processNodeChange(newNodeName, levelChangeEvent.getOldNodeName())) {
             if (StringUtils.isNotBlank(newNodeName)) {
                 NodeDetails nodeDetailEnum = getNodeDetailEnum(newNodeName);
                 if (ObjectUtils.isNotNull(nodeDetailEnum)) {
                     String statusCode = nodeDetailEnum.getAwaitingStatusCode();
-                    if (StringUtils.isNotBlank(statusCode)) {
-                        SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
-                        saveDocumentFromPostProcessing();
+                    if (StringUtils.isNotBlank(statusCode)) {                        
+                        setAppDocStatus(statusCode);
+                        
                     }
                     else {
                         if (LOG.isDebugEnabled()) {
@@ -196,7 +199,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
                     }
                 }
             }
-        }
+        }*/        
     }
 
     /**
@@ -214,7 +217,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @param nodeName - route level
      * @return - Information about the supplied route level
      */
-    public abstract NodeDetails getNodeDetailEnum(String nodeName);
+    //public abstract NodeDetails getNodeDetailEnum(String nodeName);
 
     /**
      * Hook point to allow processing after a save.

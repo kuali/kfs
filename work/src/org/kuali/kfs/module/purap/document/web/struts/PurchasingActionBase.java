@@ -1117,7 +1117,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         }
         else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
             // Add a note if system change occurs when the document is a PO that is being amended.
-            if ((document instanceof PurchaseOrderDocument) && (PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(document.getStatusCode()))) {
+            if ((document instanceof PurchaseOrderDocument) && (PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(document.getAppDocStatus()))) {
                 Integer poId = document.getPurapDocumentIdentifier();
                 PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poId);
                 String oldSystemTypeCode = "";

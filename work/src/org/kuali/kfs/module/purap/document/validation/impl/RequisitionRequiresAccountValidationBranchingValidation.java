@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -37,12 +37,17 @@ public class RequisitionRequiresAccountValidationBranchingValidation extends Bra
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
         RequisitionDocument req = (RequisitionDocument)event.getDocument();
-
-        if (req.isDocumentStoppedInRouteNode(NodeDetailEnum.HAS_ACCOUNTING_LINES) ||
+        //for app doc status
+        //to be removed
+        /*remove req.isDocumentStoppedInRouteNode(NodeDetailEnum.HAS_ACCOUNTING_LINES) ||
             req.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW) ||
             req.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) ||
-            !itemForValidation.getSourceAccountingLines().isEmpty() || req.isBlanketApproveRequest()) {
-            return NEEDS_ACCOUNT_VALIDATION;
+            -kfsmi-4592*/
+        if (req.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_HAS_ACCOUNTING_LINES) ||
+                req.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_ACCOUNT) ||
+                req.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_CONTENT_REVIEW) ||
+                !itemForValidation.getSourceAccountingLines().isEmpty() || req.isBlanketApproveRequest()) {
+                return NEEDS_ACCOUNT_VALIDATION;
         } else {
             return KFSConstants.EMPTY_STRING;
         }

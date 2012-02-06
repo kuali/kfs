@@ -33,7 +33,7 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
     protected boolean canEdit(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
         // po amend docs in CGIP status are only editable when in Initiated or Saved status
-        if (PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
+        if (PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getAppDocStatus())) {
             KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
             if (!workflowDoc.stateIsInitiated() && !workflowDoc.stateIsSaved()) {
                 return false;
@@ -47,14 +47,14 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
         Set<String> editModes = super.getEditModes(document);
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
-        if (PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
+        if (PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getAppDocStatus())) {
             KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
             //  amendment doc needs to lock its field for initiator while enroute
             if (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved()) {
                 editModes.add(PurchaseOrderEditMode.AMENDMENT_ENTRY);
             }
         }
-        if (PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getStatusCode())) {
+        if (PurchaseOrderStatuses.APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getAppDocStatus())) {
             editModes.add(PurchaseOrderEditMode.AMENDMENT_ENTRY);
         }
         

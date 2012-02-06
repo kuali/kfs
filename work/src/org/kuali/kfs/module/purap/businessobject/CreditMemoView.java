@@ -35,7 +35,6 @@ public class CreditMemoView extends AbstractRelatedView {
     private String creditMemoNumber;
     private Integer paymentRequestIdentifier;
     private Integer purchaseOrderIdentifier;
-    private String creditMemoStatusCode;
     private boolean creditHoldIndicator;
     private String vendorCustomerNumber;
     private Timestamp accountsPayableApprovalTimestamp;
@@ -44,7 +43,6 @@ public class CreditMemoView extends AbstractRelatedView {
     private String vendorName;
     
     // REFERENCE OBJECTS
-    private Status status;
     private FinancialSystemDocumentHeader documentHeader;
 
 
@@ -92,25 +90,6 @@ public class CreditMemoView extends AbstractRelatedView {
     public void setCreditMemoPaidTimestamp(Timestamp creditMemoPaidTimestamp) {
         this.creditMemoPaidTimestamp = creditMemoPaidTimestamp;
     }
-
-    public String getCreditMemoStatusCode() {
-        return creditMemoStatusCode;
-    }
-
-    public void setCreditMemoStatusCode(String creditMemoStatusCode) {
-        this.creditMemoStatusCode = creditMemoStatusCode;
-    }
-    
-    public Status getStatus() {
-        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getCreditMemoStatusCode())) {
-            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
-        }
-        return status;
-    }
-    
-    public void setStatus(Status status) {
-        this.status = status;
-    }    
 
     public Integer getPaymentRequestIdentifier() {
         return paymentRequestIdentifier;
@@ -181,6 +160,14 @@ public class CreditMemoView extends AbstractRelatedView {
     @Override
     public String getDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO;
+    }
+    
+	public String getAppDocStatus(){
+        return documentHeader.getWorkflowDocument().getRouteHeader().getAppDocStatus();
+    }
+    
+    public void setAppDocStatus(String appDocStatus){
+        documentHeader.getWorkflowDocument().getRouteHeader().setAppDocStatus(appDocStatus);        
     }
     
 }

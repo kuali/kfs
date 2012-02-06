@@ -38,7 +38,6 @@ public class PaymentRequestView extends AbstractRelatedView {
 
     private String invoiceNumber;
     private Integer purchaseOrderIdentifier;
-    private String statusCode;
     private boolean paymentHoldIndicator;
     private boolean paymentRequestedCancelIndicator;
     private String vendorName;
@@ -48,7 +47,6 @@ public class PaymentRequestView extends AbstractRelatedView {
     private Timestamp paymentPaidTimestamp;
     
     // REFERENCE OBJECTS
-    private Status status;
     private FinancialSystemDocumentHeader documentHeader;
 
 
@@ -113,25 +111,6 @@ public class PaymentRequestView extends AbstractRelatedView {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
-    }
-    
-    public Status getStatus() {
-        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode())) {
-            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
-        }
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public String getVendorCustomerNumber() {
         return vendorCustomerNumber;
     }
@@ -192,4 +171,13 @@ public class PaymentRequestView extends AbstractRelatedView {
     public String getDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST;
     }
+
+    public String getAppDocStatus(){
+        return documentHeader.getWorkflowDocument().getRouteHeader().getAppDocStatus();
+    }
+    
+    public void setAppDocStatus(String appDocStatus){
+        documentHeader.getWorkflowDocument().getRouteHeader().setAppDocStatus(appDocStatus);        
+    }
+        
 }

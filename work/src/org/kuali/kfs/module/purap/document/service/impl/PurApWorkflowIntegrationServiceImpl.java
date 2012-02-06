@@ -20,12 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.engine.node.RouteNode;
+import org.kuali.rice.kew.engine.node.service.RouteNodeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.WorkflowInfo;
@@ -194,8 +197,8 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#willDocumentStopAtGivenFutureRouteNode(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,
      *      org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails)
      */
-    public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail) {
-        if (givenNodeDetail == null) {
+    public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, String givenNodeName) {
+        if (givenNodeName == null) {
             throw new InvalidParameterException("Given Node Detail object was null");
         }
         try {
@@ -204,25 +207,24 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             if (nodeNames.length == 1) {
                 activeNode = nodeNames[0];
             }
-            if (isGivenNodeAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
+
+            if (isGivenNodeAfterCurrentNode(document, activeNode, givenNodeName)) {
                 if (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
                     // document is only initiated so we need to pass xml for workflow to simulate route properly
                     ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
                     reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
                     reportCriteriaDTO.setRoutingPrincipalId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                    reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
+                    reportCriteriaDTO.setTargetNodeName(givenNodeName);
                     boolean value = getWorkflowInfo().documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
                     return value;
-                }
-                else {
-                    /*
-                     * Document has had at least one workflow action taken so we need to pass the doc id so the simulation will use
+                }else {                
+                    /* Document has had at least one workflow action taken so we need to pass the doc id so the simulation will use
                      * the existing actions taken and action requests in determining if rules will fire or not. We also need to call
                      * a save routing data so that the xml Workflow uses represents what is currently on the document
                      */
                     ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(document.getDocumentNumber()));
                     reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
+                    reportCriteriaDTO.setTargetNodeName(givenNodeName);
                     boolean value = getWorkflowInfo().documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
                     return value;
                 }
@@ -230,7 +232,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             return false;
         }
         catch (WorkflowException e) {
-            String errorMessage = "Error trying to test document id '" + document.getDocumentNumber() + "' for action requests at node name '" + givenNodeDetail.getName() + "'";
+            String errorMessage = "Error trying to test document id '" + document.getDocumentNumber() + "' for action requests at node name '" + givenNodeName + "'";
             LOG.error("isDocumentStoppingAtRouteLevel() " + errorMessage, e);
             throw new RuntimeException(errorMessage, e);
         }
@@ -243,16 +245,40 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @param givenNodeDetail
      * @return boolean to indicate if given node is after the current node
      */
-    protected boolean isGivenNodeAfterCurrentNode(NodeDetails currentNodeDetail, NodeDetails givenNodeDetail) {
-        if (ObjectUtils.isNull(givenNodeDetail)) {
+    protected boolean isGivenNodeAfterCurrentNode(Document document, String currentNodeName, String givenNodeName) {
+        if (ObjectUtils.isNull(givenNodeName)) {
             // given node does not exist
             return false;
         }
-        if (ObjectUtils.isNull(currentNodeDetail)) {
+        if (ObjectUtils.isNull(currentNodeName)) {
             // current node does not exist... assume we are pre-route
             return true;
         }
-        return givenNodeDetail.getOrdinal() > currentNodeDetail.getOrdinal();
+
+        //grab doctype, and get node list
+        String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        DocumentType docType = SpringContext.getBean(DocumentTypeService.class).findByName(docTypeName);        
+        List<RouteNode>nodes = SpringContext.getBean(RouteNodeService.class).getFlattenedNodes(docType, false);
+        
+        int currentNodeIndex = 0;
+        int givenNodeIndex = 0;
+        RouteNode node = null;
+        
+        //find index of given and current node
+        for(int i=0; i < nodes.size(); i++){
+            node = nodes.get(i);
+
+            if(node.getRouteNodeName().equals(currentNodeName)){
+                currentNodeIndex = i;                
+            }
+            if(node.getRouteNodeName().equals(givenNodeName)){
+                givenNodeIndex = i;                
+            }
+        }
+        
+        //compare
+        return givenNodeIndex > currentNodeIndex;
+        
     }
     
     protected WorkflowInfo getWorkflowInfo() {

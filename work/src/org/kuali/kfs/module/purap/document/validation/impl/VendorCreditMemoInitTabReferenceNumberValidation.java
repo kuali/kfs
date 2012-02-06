@@ -58,7 +58,7 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
                     GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID, preqNumber.toString());
                     valid = false;
                 }
-                else if ((PurapConstants.PaymentRequestStatuses.IN_PROCESS.equals(preq.getStatusCode())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(preq.getStatusCode()))) {
+                else if ((PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(preq.getAppDocStatus())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(preq.getAppDocStatus()))) {
                     GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID_SATATUS, preqNumber.toString());
                     valid = false;
                 }
@@ -76,7 +76,7 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
                     valid &= false;
                 }
-                else if (!(StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN) || StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED))) {
+                else if (!(StringUtils.equals(purchaseOrder.getAppDocStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN) || StringUtils.equals(purchaseOrder.getAppDocStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED))) {
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_INVALID_STATUS, purchaseOrderID.toString());
                     valid = false;
                 }

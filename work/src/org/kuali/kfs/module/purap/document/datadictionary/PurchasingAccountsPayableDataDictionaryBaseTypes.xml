@@ -301,7 +301,7 @@
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus"/>
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
     						<property name="attributeName" value="statusDescription"/>
     						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>
@@ -309,10 +309,10 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>status.statusDescription</value>
+    						<value>statusDescription</value>
     					</list>
     				</property>
-    			</bean>    
+    			</bean>    		 
     			 <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
                     <property name="searchingAttribute">
                         <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -559,19 +559,6 @@
                         </list>
                     </property>
                 </bean>             
-           		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
-    						<property name="attributeName" value="statusCodeForMultiboxSearching"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>statusCode</value>
-    					</list>
-    				</property>
-    			</bean>
  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

@@ -21,15 +21,15 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 public enum PurchaseOrderChangeDocumentFixture {
 
-    STATUS_IN_PROCESS(PurchaseOrderStatuses.IN_PROCESS), 
-    STATUS_PENDING_PRINT(PurchaseOrderStatuses.PENDING_PRINT), 
-    STATUS_OPEN(PurchaseOrderStatuses.OPEN), 
-    STATUS_AMENDMENT(PurchaseOrderStatuses.AMENDMENT),
-    STATUS_PENDING_PAYMENT_HOLD(PurchaseOrderStatuses.PENDING_PAYMENT_HOLD),
-    STATUS_PENDING_REMOVE_HOLD(PurchaseOrderStatuses.PENDING_REMOVE_HOLD),
-    STATUS_CLOSED(PurchaseOrderStatuses.CLOSED),
-    STATUS_PENDING_CLOSE(PurchaseOrderStatuses.PENDING_CLOSE), 
-    STATUS_VOID(PurchaseOrderStatuses.VOID);
+    STATUS_IN_PROCESS(PurchaseOrderStatuses.APPDOC_IN_PROCESS), 
+    STATUS_PENDING_PRINT(PurchaseOrderStatuses.APPDOC_PENDING_PRINT), 
+    STATUS_OPEN(PurchaseOrderStatuses.APPDOC_OPEN), 
+    STATUS_AMENDMENT(PurchaseOrderStatuses.APPDOC_AMENDMENT),
+    STATUS_PENDING_PAYMENT_HOLD(PurchaseOrderStatuses.APPDOC_PENDING_PAYMENT_HOLD),
+    STATUS_PENDING_REMOVE_HOLD(PurchaseOrderStatuses.APPDOC_PENDING_REMOVE_HOLD),
+    STATUS_CLOSED(PurchaseOrderStatuses.APPDOC_CLOSED),
+    STATUS_PENDING_CLOSE(PurchaseOrderStatuses.APPDOC_PENDING_CLOSE), 
+    STATUS_VOID(PurchaseOrderStatuses.APPDOC_VOID);
 
     private String status;
 
@@ -41,7 +41,7 @@ public enum PurchaseOrderChangeDocumentFixture {
         PurchaseOrderDocument po = new PurchaseOrderDocument();
         try {
             po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
-            po.setStatusCode(status);
+            po.setAppDocStatus(status);
             po.refreshNonUpdateableReferences();
         }
         catch (Exception e) {

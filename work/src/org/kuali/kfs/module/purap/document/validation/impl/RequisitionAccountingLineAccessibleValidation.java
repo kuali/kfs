@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -37,8 +37,11 @@ public class RequisitionAccountingLineAccessibleValidation extends PurchasingAcc
         KualiWorkflowDocument workflowDocument = event.getDocument().getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
         RequisitionDocument requisitionDocument = (RequisitionDocument) event.getDocument();
-        if (requisitionDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) ||
-            requisitionDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS)) {
+        //for app doc status
+        //to be removed
+       //remove (requisitionDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) - kfsmi-4592
+        if (requisitionDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_CONTENT_REVIEW) ||                
+            requisitionDocument.getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS)) {
             // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on REQ
 
             return true;

@@ -36,15 +36,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public interface PurapService {
 
-    /**
-     * Update the status for the given Purchasing/Accounts Payable document
-     * 
-     * @param document
-     * @param statusToSet
-     * @return
-     */
-    public boolean updateStatus(PurchasingAccountsPayableDocument document, String statusToSet);
-
     public List<String> getRelatedDocumentIds(Integer accountsPayablePurchasingDocumentLinkIdentifier);
     
     public void saveRoutingDataForRelatedDocuments(Integer accountsPayablePurchasingDocumentLinkIdentifier);

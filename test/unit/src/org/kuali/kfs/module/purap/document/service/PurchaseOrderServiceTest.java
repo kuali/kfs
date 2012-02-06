@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl2.php
+ * http://www.APPDOC_OPENsource.org/licenses/ecl2.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -77,7 +77,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         // Create and save a minimally-populated basic PO document for each test.
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
-        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         po.refreshNonUpdateableReferences();
         po.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(po, docService);
@@ -87,7 +87,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             poRetrans = poService.createAndSavePotentialChangeDocument(
                     po.getDocumentNumber(), 
                     PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, 
-                    PurchaseOrderStatuses.PENDING_RETRANSMIT);  
+                    PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT);  
             po = poService.getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
         }
         catch (ValidationException ve) {
@@ -113,7 +113,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public final void testPurchaseOrderPrint() throws Exception {        
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
-        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         po.refreshNonUpdateableReferences();
         po.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(po, docService);
@@ -273,7 +273,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         RequisitionDocument requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
         PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
-        assertEquals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+        assertEquals(purchaseOrderDocument.getAppDocStatus(),PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
         assertEquals(purchaseOrderDocument.getContractManagerCode(), contractManagerCode);
     }
     
@@ -296,11 +296,11 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         
         //Test the pending action indicator and status codes after invoking 
         //the createAndSavePotentialChangeDocument method.
-        PurchaseOrderDocument newDocument = poService.createAndSavePotentialChangeDocument(poDocId, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
-        assertEquals (newDocument.getStatusCode(), PurchaseOrderStatuses.CHANGE_IN_PROCESS);
+        PurchaseOrderDocument newDocument = poService.createAndSavePotentialChangeDocument(poDocId, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
+        assertEquals (newDocument.getAppDocStatus(), PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
         PurchaseOrderDocument oldDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
         assertTrue(oldDocument.isPendingActionIndicator());
-        assertEquals(oldDocument.getStatusCode(), PurchaseOrderStatuses.AMENDMENT);
+        assertEquals(oldDocument.getAppDocStatus(), PurchaseOrderStatuses.APPDOC_AMENDMENT);
     }
     
     /**
@@ -322,9 +322,9 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
         //Test the status codes after invoking 
         //the createAndRoutePotentialChangeDocument method.
-        PurchaseOrderDocument newDocument = poService.createAndRoutePotentialChangeDocument(poDocId, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, "", null, PurchaseOrderStatuses.PENDING_VOID);
+        PurchaseOrderDocument newDocument = poService.createAndRoutePotentialChangeDocument(poDocId, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, "", null, PurchaseOrderStatuses.APPDOC_PENDING_VOID);
         PurchaseOrderDocument oldDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
-        assertEquals(oldDocument.getStatusCode(), PurchaseOrderStatuses.RETIRED_VERSION);
+        assertEquals(oldDocument.getAppDocStatus(), PurchaseOrderStatuses.APPDOC_RETIRED_VERSION);
     }
 
     /**
@@ -336,7 +336,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public void testPrintPurchaseOrderQuoteRequestsListPDF() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
-        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         
         po.refreshNonUpdateableReferences();
         
@@ -370,7 +370,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public void testPrintPurchaseOrderQuotePDF() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
-        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         
         po.refreshNonUpdateableReferences();
         
@@ -407,7 +407,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public void testPerformPurchaseOrderFirstTransmitViaPrinting() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
-        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         
         po.refreshNonUpdateableReferences();
         
@@ -444,7 +444,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public void testPerformPurchaseOrderPreviewPrinting() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
-        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         
         po.refreshNonUpdateableReferences();
         
@@ -481,7 +481,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public void testPerformPrintPurchaseOrderPDFOnly() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
-        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         
         po.refreshNonUpdateableReferences();
         
@@ -519,12 +519,12 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public void testCompletePurchaseOrder_NonB2B() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
-        po.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
+        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_IN_PROCESS);
         po.refreshNonUpdateableReferences();
         po.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(po, docService);
         poService.completePurchaseOrder(po);
-        assertEquals(po.getStatusCode(), PurchaseOrderStatuses.OPEN);
+        assertEquals(po.getAppDocStatus(), PurchaseOrderStatuses.APPDOC_OPEN);
         assertTrue(po.isPurchaseOrderCurrentIndicator());
         assertNotNull(po.getPurchaseOrderInitialOpenTimestamp());
     }
@@ -545,7 +545,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
         WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
         poService.completePurchaseOrder(purchaseOrderDocument);
-        assertEquals(purchaseOrderDocument.getStatusCode(), PurchaseOrderStatuses.OPEN);
+        assertEquals(purchaseOrderDocument.getAppDocStatus(), PurchaseOrderStatuses.APPDOC_OPEN);
         assertTrue(purchaseOrderDocument.isPurchaseOrderCurrentIndicator());
         assertNotNull(purchaseOrderDocument.getPurchaseOrderInitialOpenTimestamp());
     }
@@ -590,7 +590,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         PaymentRequestDocument paymentRequestDocument = preqDocTest.createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, 
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
         paymentRequestDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
-        paymentRequestDocument.setStatusCode(PaymentRequestStatuses.IN_PROCESS);        
+        paymentRequestDocument.setAppDocStatus(PaymentRequestStatuses.APPDOC_IN_PROCESS);        
         docService.saveDocument(paymentRequestDocument);
         assertFalse(poService.isPurchaseOrderOpenForProcessing(purchaseOrderDocument));
     }

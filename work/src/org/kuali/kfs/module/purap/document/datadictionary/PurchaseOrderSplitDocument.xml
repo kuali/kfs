@@ -39,7 +39,7 @@
     </property>    
     <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderDocument-statusDescription"/>
+        <ref bean="PurchaseOrderDocument-appDocStatus"/>
         <ref bean="PurchaseOrderDocument-contractManagerName"/>
         <ref bean="PurchaseOrderDocument-versionNumber"/>
         <ref bean="PurchaseOrderDocument-postingYear"/>
@@ -57,8 +57,7 @@
         <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator"/>
         <ref bean="PurchaseOrderDocument-contractManagerCode"/>
         <ref bean="PurchaseOrderDocument-contractManager"/>
-        <ref bean="PurchaseOrderDocument-purapDocumentIdentifier"/>
-        <ref bean="PurchaseOrderDocument-statusCode"/>
+        <ref bean="PurchaseOrderDocument-purapDocumentIdentifier"/>        
         <ref bean="PurchaseOrderDocument-chartOfAccountsCode"/>
         <ref bean="PurchaseOrderDocument-organizationCode"/>
         <ref bean="PurchaseOrderDocument-vendorAddressGeneratedIdentifier"/>

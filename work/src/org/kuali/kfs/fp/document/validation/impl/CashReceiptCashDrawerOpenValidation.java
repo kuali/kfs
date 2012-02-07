@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kfs.fp.document.validation.impl;
-
-import java.util.List;
-import java.util.Set;
 
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
@@ -30,9 +27,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.action.ActionRequest;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -48,26 +44,15 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
      * open. If it's not, the the rule fails.
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         CashDrawer cd = getCashDrawerService().getByCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());
         if (cd == null) {
             throw new IllegalStateException("There is no cash drawer associated with unitName '" + getCashReceiptDocumentForValidation().getCampusLocationCode() + "' from cash receipt " + getCashReceiptDocumentForValidation().getDocumentNumber());
-        } 
-        WorkflowDocument workflowDocument = getCashReceiptDocumentForValidation().getDocumentHeader().getWorkflowDocument();
-        boolean isAdhocApproval = false;
-        Set<String> currentNodes = workflowDocument.getCurrentNodeNames();
-        if ( currentNodes != null && !currentNodes.isEmpty() ) {
-            String currentNode = currentNodes.iterator().next();
-            List<ActionRequest> requests = SpringContext.getBean(WorkflowDocumentService.class).getActionRequestsForPrincipalAtNode(workflowDocument.getDocumentId(), currentNode, GlobalVariables.getUserSession().getPrincipalId());
-            for ( ActionRequest ar : requests ) {
-                if ( ar.isActivated() && ar.isCurrent() 
-                        && ar.isApprovalRequest() && ar.isAdHocRequest() ) {
-                    isAdhocApproval = true;
-                    break;
-                }
-            }
         }
-        
+        WorkflowDocument workflowDocument = getCashReceiptDocumentForValidation().getDocumentHeader().getWorkflowDocument();
+        boolean isAdhocApproval = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(workflowDocument, GlobalVariables.getUserSession().getPrincipalId());
+
         if (cd.isClosed() && !isAdhocApproval) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getCampusCode());
             return false;
@@ -85,12 +70,12 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
         }
         return true;
     }
-    
+
     /**
-     * 
-     * This method checks whether the change request is valid by comparing the currency/coin counts in the request with the 
-     * counts in the cash drawer + currency/coin counts sent with the cash receipt itself. 
-     * @return Returns true if the request is valid. 
+     *
+     * This method checks whether the change request is valid by comparing the currency/coin counts in the request with the
+     * counts in the cash drawer + currency/coin counts sent with the cash receipt itself.
+     * @return Returns true if the request is valid.
      */
     public boolean checkChangeRequestIsValid() {
         CashDrawer cd = getCashDrawerService().getByCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());
@@ -98,7 +83,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
         CoinDetail changeCoin = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getChangeCoinDetail();
         CurrencyDetail confirmedCurrency = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getConfirmedCurrencyDetail();
         CoinDetail confirmedCoin = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getConfirmedCoinDetail();
-        
+
         if(changeCurrency.getHundredDollarCount() > cd.getHundredDollarCount() + confirmedCurrency.getHundredDollarCount() ||
                 changeCurrency.getFiftyDollarCount() > cd.getFiftyDollarCount() + confirmedCurrency.getFiftyDollarCount() ||
                 changeCurrency.getTwentyDollarCount() > cd.getTwentyDollarCount() + confirmedCurrency.getTwentyDollarCount() ||
@@ -112,16 +97,16 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
                 changeCoin.getTenCentCount() > cd.getTenCentCount() + confirmedCoin.getTenCentCount() ||
                 changeCoin.getFiveCentCount() > cd.getFiveCentCount() + confirmedCoin.getFiveCentCount() ||
                 changeCoin.getOneCentCount() > cd.getOneCentCount() + confirmedCoin.getOneCentCount()) {
-                 
+
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CHANGE_REQUEST, "");
             return false;
         }
-        
+
         return true;
     }
 
     /**
-     * Gets the cashReceiptDocumentForValidation attribute. 
+     * Gets the cashReceiptDocumentForValidation attribute.
      * @return Returns the cashReceiptDocumentForValidation.
      */
     public CashReceiptFamilyBase getCashReceiptDocumentForValidation() {
@@ -137,7 +122,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
     }
 
     /**
-     * Gets the cashDrawerService attribute. 
+     * Gets the cashDrawerService attribute.
      * @return Returns the cashDrawerService.
      */
     public CashDrawerService getCashDrawerService() {
@@ -153,7 +138,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
     }
 
     /**
-     * Gets the cashReceiptService attribute. 
+     * Gets the cashReceiptService attribute.
      * @return Returns the cashReceiptService.
      */
     public CashReceiptService getCashReceiptService() {

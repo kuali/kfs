@@ -74,6 +74,7 @@
  	<bean id="inquiryViewTypeService" p:serviceName="inquiryViewTypeService" parent="grlBeanImporter" />
  	<bean id="lookupViewTypeService" p:serviceName="lookupViewTypeService" parent="grlBeanImporter" />
  	<bean id="persistenceServiceOjb" p:serviceName="persistenceServiceOjb" parent="grlBeanImporter" />
+ 	<bean id="workflowDocumentService" p:serviceName="workflowDocumentService" parent="grlBeanImporter" />
 	<!-- KIM -->
  	<bean id="personService" p:serviceName="personService" parent="grlBeanImporter" />
  	<bean id="kimRoleService" p:serviceName="kimRoleService" parent="grlBeanImporter" />
@@ -85,7 +86,7 @@
  	<bean id="kimPersonLookupable" p:serviceName="kimPersonLookupable" parent="grlBeanImporter" />
  	 -->
 	<!-- KEW -->
- 	<bean id="workflowDocumentService" p:serviceName="workflowDocumentService" parent="grlBeanImporter" />
+	<bean id="rice.kew.workflowDocumentService" p:serviceName="rice.kew.workflowDocumentService" parent="grlBeanImporter" />
  	<bean id="rice.kew.documentTypeService" p:serviceName="rice.kew.documentTypeService" parent="grlBeanImporter" />
  	<alias name="rice.kew.documentTypeService" alias="documentTypeService" />
 	<!-- KSB -->

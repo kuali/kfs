@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.fp.businessobject.CashDrawer;
@@ -26,10 +25,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.action.ActionRequest;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -54,23 +52,11 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
 
     protected boolean canApproveOrBlanketApprove(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
         if (workflowDocument.isApprovalRequested() ) {
-            boolean isAdhocApproval = false;
-            Set<String> currentNodes = workflowDocument.getCurrentNodeNames();
-            if ( currentNodes != null && !currentNodes.isEmpty() ) {
-                String currentNode = currentNodes.iterator().next();
-                List<ActionRequest> requests = SpringContext.getBean(WorkflowDocumentService.class).getActionRequestsForPrincipalAtNode(workflowDocument.getDocumentId(), currentNode, GlobalVariables.getUserSession().getPrincipalId());
-                for ( ActionRequest ar : requests ) {
-                    if ( ar.isActivated() && ar.isCurrent() 
-                            && ar.isApprovalRequest() && ar.isAdHocRequest() ) {
-                        isAdhocApproval = true;
-                        break;
-                    }
-                }
-            }
-            if (!isAdhocApproval) {
+            if (!SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(workflowDocument, GlobalVariables.getUserSession().getPrincipalId())) {
                 CashReceiptDocument cashReceiptDocument = (CashReceiptDocument) document;
-    
+
                 String campusCode = cashReceiptDocument.getCampusLocationCode();
                 CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode);
                 if (cashDrawer == null) {
@@ -94,7 +80,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         if (document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) return false;
         return super.canEdit(document);
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
@@ -103,10 +89,10 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         Set<String> editModes = super.getEditModes(document);
         addFullEntryEntryMode(document, editModes);
         addChangeRequestMode(document, editModes);
-        
+
         return editModes;
     }
-    
+
     protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
@@ -117,12 +103,12 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
             }
         }
     }
-    
+
     protected void addChangeRequestMode(Document document, Set<String> editModes) {
         boolean IndValue = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(CashReceiptDocument.class, "CHANGE_REQUEST_ENABLED_IND");
         if(IndValue) {
             editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CHANGE_REQUEST_MODE);
         }
     }
-    
+
 }

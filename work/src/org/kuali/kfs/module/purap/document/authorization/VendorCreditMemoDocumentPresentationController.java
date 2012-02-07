@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,10 +27,12 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -58,7 +60,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
         if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
             return false;
         }
-        
+
         if (canEditPreExtraction(vendorCreditMemoDocument)) {
             return true;
         }
@@ -79,7 +81,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     }
 
     /**
-     * 
+     *
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
@@ -92,7 +94,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     }
 
     /**
-     * 
+     *
      * @see org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
     @Override
@@ -104,7 +106,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
         if (canCancel(vendorCreditMemoDocument)) {
             editModes.add(CreditMemoEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL);
         }
-        
+
         if (canHold(vendorCreditMemoDocument)) {
             editModes.add(CreditMemoEditMode.HOLD);
         }
@@ -117,8 +119,8 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
             editModes.add(CreditMemoEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
         }
         else {
-            if (ObjectUtils.isNotNull(vendorCreditMemoDocument.getPurchaseOrderDocument()) && 
-                    !vendorCreditMemoDocument.isSourceVendor() && 
+            if (ObjectUtils.isNotNull(vendorCreditMemoDocument.getPurchaseOrderDocument()) &&
+                    !vendorCreditMemoDocument.isSourceVendor() &&
                     PurapConstants.PurchaseOrderStatuses.CLOSED.equals(vendorCreditMemoDocument.getPurchaseOrderDocument().getStatusCode())) {
                 // TODO hjs-is this right? check to see if the checkbox is showing up for non-AP folks
                 editModes.add(CreditMemoEditMode.ALLOW_REOPEN_PURCHASE_ORDER);
@@ -128,7 +130,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
         if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
             editModes.add(CreditMemoEditMode.DISPLAY_INIT_TAB);
         }
-        
+
         if (canEditPreExtraction(vendorCreditMemoDocument)) {
             editModes.add(CreditMemoEditMode.EDIT_PRE_EXTRACT);
         }
@@ -141,7 +143,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
         boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
-            
+
             if (vendorCreditMemoDocument.isUseTaxIndicator()) {
                 // only allow tax editing if doc is not using use tax
                 editModes.add(CreditMemoEditMode.LOCK_TAX_AMOUNT_ENTRY);
@@ -161,9 +163,9 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     }
 
     /**
-     * Determines if the document can be put on hold. Credit memo not already on hold, extracted date is null, and credit memo 
+     * Determines if the document can be put on hold. Credit memo not already on hold, extracted date is null, and credit memo
      * status approved or complete.
-     * 
+     *
      * @param cmDocument - credit memo document to hold.
      * @return boolean - true if hold can occur, false if not allowed.
      */
@@ -173,7 +175,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
 
     /**
      * Determines if the document can be taken off hold.  Credit memo must be on hold.
-     * 
+     *
      * @param cmDocument - credit memo document that is on hold.
      * @return boolean - true if document can be taken off hold, false if it cannot.
      */
@@ -184,7 +186,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     /**
      * Determines if the document can be canceled. Document can be canceled if not in canceled status already, extracted date is
      * null, and hold indicator is false.
-     * 
+     *
      * @param cmDocument - credit memo document to cancel.
      * @return boolean - true if document can be canceled, false if it cannot be.
      */
@@ -193,10 +195,11 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     }
 
     protected boolean canEditPreExtraction(VendorCreditMemoDocument vendorCreditMemoDocument) {
-        //RICE20 no replacement for isAdHocRequested
-        return (!vendorCreditMemoDocument.isExtracted() && 
-                !vendorCreditMemoDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested() &&
-                !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getStatusCode()));
+
+        return (!vendorCreditMemoDocument.isExtracted()
+                && !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getStatusCode())
+                && !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(vendorCreditMemoDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId())
+                );
     }
-    
+
 }

@@ -590,8 +590,11 @@
 		</property>
 	</bean>
 
+	<bean id="financialSystemWorkflowHelperService" parent="financialSystemWorkflowHelperService-parentBean"/>
+	<bean id="financialSystemWorkflowHelperService-parentBean" class="org.kuali.kfs.sys.service.impl.FinancialSystemWorkflowHelperServiceImpl" abstract="true">
+		<property name="workflowDocumentService" ref="rice.kew.workflowDocumentService" />
+	</bean>
     
-    <!-- RICE20: Restore these after other conversions complete
 	<bean id="businessObjectMetaDataDao" parent="businessObjectMetaDataDao-parentBean"/>
 
     <bean id="businessObjectMetaDataDao-parentBean" class="org.kuali.kfs.sys.dataaccess.impl.BusinessObjectMetaDataDaoJdbc" parent="platformAwareDaoJdbc" abstract="true" />
@@ -643,8 +646,6 @@
         </property>
     </bean>
     
-     -->
-     
 	<bean id="accountingDocumentRuleHelperService" parent="accountingDocumentRuleHelperService-parentBean"/>
     
     <bean id="accountingDocumentRuleHelperService-parentBean" class="org.kuali.kfs.sys.document.service.impl.AccountingDocumentRuleHelperServiceImpl" abstract="true">

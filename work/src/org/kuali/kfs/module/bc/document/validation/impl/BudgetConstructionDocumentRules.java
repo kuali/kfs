@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -102,6 +102,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     /**
      * @see org.kuali.kfs.module.bc.document.validation.AddBudgetConstructionDocumentRule#processAddBudgetConstructionDocumentRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
+    @Override
     public boolean processAddBudgetConstructionDocumentRules(BudgetConstructionDocument budgetConstructionDocument) {
         LOG.debug("processAddBudgetConstructionDocumentRules(Document) - start");
 
@@ -153,7 +154,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * and while in edit mode documents can be pushed down the review hierarchy, monthly budgets and appointment funding updated,
      * benefits calculated, etc. Each of these operations require the document's data be in a consistent state with respect to
      * business rules before the operation be performed.
-     * 
+     *
      * @see org.kuali.rice.krad.rules.DocumentRuleBase#processSaveDocument(org.kuali.rice.krad.document.Document)
      */
     @Override
@@ -175,6 +176,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isValid;
     }
 
+    @Override
     public boolean processDeleteMonthlySpreadRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType) {
         LOG.debug("processDeleteRevenueMonthlySpreadRules(Document) - start");
 
@@ -199,7 +201,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * amount referential integrity checks against appointment funding and monthly detail amounts. Checks are performed when the
      * request amount has been updated, since initial add action, the last save event or since opening the document, whatever is
      * latest.
-     * 
+     *
      * @see org.kuali.module.budget.rule.SaveBudgetDocumentRule#processSaveBudgetDocumentRules(D)
      */
     public boolean processSaveBudgetDocumentRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType) {
@@ -241,12 +243,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * Checks a new PBGL line. Comprehensive checks are done.
-     * 
+     *
      * @param budgetConstructionDocument
      * @param pendingBudgetConstructionGeneralLedger
      * @param isRevenue
      * @return
      */
+    @Override
     public boolean processAddPendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue) {
         LOG.debug("processAddPendingBudgetGeneralLedgerLineRules() start");
 
@@ -289,12 +292,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * Runs rules for deleting an existing revenue or expenditure line.
-     * 
+     *
      * @param budgetConstructionDocument
      * @param pendingBudgetConstructionGeneralLedger
      * @param isRevenue
      * @return
      */
+    @Override
     public boolean processDeletePendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue) {
         LOG.debug("processDeletePendingBudgetGeneralLedgerLineRules() start");
 
@@ -354,6 +358,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @see org.kuali.kfs.module.bc.document.validation.SaveMonthlyBudgetRule#processSaveMonthlyBudgetRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
      *      org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly)
      */
+    @Override
     public boolean processSaveMonthlyBudgetRules(BudgetConstructionDocument budgetConstructionDocument, BudgetConstructionMonthly budgetConstructionMonthly) {
         LOG.debug("processSaveMonthlyBudgetRules() start");
 
@@ -423,7 +428,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     /**
      * Iterates existing revenue or expenditure lines. Checks if request amount is non-zero or has changed and runs business rules
      * on the line.
-     * 
+     *
      * @param budgetConstructionDocument
      * @param errors
      * @param isRevenue
@@ -585,7 +590,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * Checks a PBGL line. Assumes the line has been checked against the dd for formatting and if required
-     * 
+     *
      * @param budgetConstructionDocument
      * @param pendingBudgetConstructionGeneralLedger
      * @return
@@ -686,7 +691,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * Validates a single primitive in a BO
-     * 
+     *
      * @param object
      * @param attributeName
      * @param errorPrefix
@@ -711,7 +716,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * Validates a primitive in a BO
-     * 
+     *
      * @param entryName
      * @param object
      * @param propertyDescriptor
@@ -728,14 +733,12 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             if (TypeUtils.isStringClass(propertyType) || TypeUtils.isIntegralClass(propertyType) || TypeUtils.isDecimalClass(propertyType) || TypeUtils.isTemporalClass(propertyType)) {
 
                 // check value format against dictionary
-                //RICE20 what to do with this since validateAttribute methods have been depracated
                 if (value != null && StringUtils.isNotBlank(value.toString())) {
                     if (!TypeUtils.isTemporalClass(propertyType)) {
-                        getDictionaryValidationService().validateAttributeFormat(entryName, propertyDescriptor.getName(), value.toString(), errorPrefix + propertyDescriptor.getName());
+                        getDictionaryValidationService().validate( object, entryName, propertyDescriptor.getName(), false);
                     }
-                }
-                else if (validateRequired) {
-                    getDictionaryValidationService().validateAttributeRequired(entryName, propertyDescriptor.getName(), value, Boolean.FALSE, errorPrefix + propertyDescriptor.getName());
+                } else if (validateRequired) {
+                    getDictionaryValidationService().validate( object, entryName, propertyDescriptor.getName(), true);
                 }
             }
         }
@@ -871,7 +874,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * runs rule checks that don't allow a budget
-     * 
+     *
      * @param budgetConstructionDocument
      * @param propertyName
      * @param errors
@@ -978,7 +981,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * Runs existence and active tests on the SubObjectCode reference This method is differenct than the one in
      * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
      * AccountingLineRuleHelper
-     * 
+     *
      * @param subObjectCode
      * @param value
      * @param dataDictionary
@@ -1006,7 +1009,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * Runs existence and active tests on the ObjectCode reference This method is differenct than the one in
      * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
      * AccountingLineRuleHelper
-     * 
+     *
      * @param objectCode
      * @param value
      * @param dataDictionary
@@ -1034,7 +1037,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     /**
      * puts error to errormap for propertyName if isAdd, otherwise the property name is replaced with value of
      * TARGET_ERROR_PROPERTY_NAME
-     * 
+     *
      * @param propertyName
      * @param errorKey
      * @param isAdd

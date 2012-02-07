@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.identity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +24,8 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizat
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
+import org.kuali.rice.kim.api.type.KimAttributeField;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
-import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
 public class AccountOrganizationHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
@@ -71,12 +71,12 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends RoleTypeSer
             String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
             Integer organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
             String accountReportExists = qualification.get(BCPropertyConstants.ACCOUNT_REPORTS_EXIST);
-            
+
             // if account report mapping does not exist, want to give special view access
             if (Boolean.FALSE.toString().equals(accountReportExists)) {
                 return true;
             }
-            
+
             Integer roleOrganizationLevelCode = -1;
             List<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) budgetDocumentService.retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
             for (BudgetConstructionAccountOrganizationHierarchy accountOrganization : accountOrganizationHierarchy) {
@@ -84,7 +84,7 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends RoleTypeSer
                     roleOrganizationLevelCode = accountOrganization.getOrganizationLevelCode();
                 }
             }
-            
+
             if (roleOrganizationLevelCode == -1) {
                 return false;
             }
@@ -97,7 +97,7 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends RoleTypeSer
 
     /**
      * Sets the budgetDocumentService attribute value.
-     * 
+     *
      * @param budgetDocumentService The budgetDocumentService to set.
      */
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
@@ -107,17 +107,21 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends RoleTypeSer
     /**
      * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#getAttributeDefinitions(java.lang.String)
      */
-    //RICE20 not sure how to resolve this since super call now returns List<KimAttributeField>
     @Override
-    public AttributeDefinitionMap getAttributeDefinitions(String kimTypId) {
-        AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypId);
-        
-        for (AttributeDefinition definition : map.values()) {
-            if (KFSPropertyConstants.ORGANIZATION_CODE.equals(definition.getName())) {
-                definition.setRequired(Boolean.FALSE);
+    public List<KimAttributeField> getAttributeDefinitions(String kimTypId) {
+        List<KimAttributeField> fields = super.getAttributeDefinitions(kimTypId);
+        List<KimAttributeField> updatedFields = new ArrayList<KimAttributeField>( fields.size() );
+
+        for (KimAttributeField definition : fields ) {
+            if (KFSPropertyConstants.ORGANIZATION_CODE.equals(definition.getAttributeField().getName())) {
+                KimAttributeField.Builder updatedField = KimAttributeField.Builder.create(definition);
+                updatedField.getAttributeField().setRequired(false);
+                updatedFields.add(updatedField.build());
+            } else {
+                updatedFields.add(definition);
             }
         }
-        
-        return map;
+
+        return fields;
     }
 }

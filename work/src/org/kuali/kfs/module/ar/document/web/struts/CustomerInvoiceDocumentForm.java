@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,11 +61,11 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
 
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "INV";
+        return KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE;
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @return
      */
@@ -84,7 +84,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
 
     /**
      * Reused to create new source accounting line (i.e customer invoice detail line) with defaulted values.
-     * 
+     *
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#createNewSourceAccountingLine(org.kuali.kfs.sys.document.AccountingDocument)
      */
     @Override
@@ -102,11 +102,11 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
 
     /**
      * By overriding this method, we can add the invoice total and open amount to the document header.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getDocInfo()
-     * 
+     *
      * KRAD Conversion: Performs the customization of the header fields.
-     * No data dictionary is involved here. 
+     * No data dictionary is involved here.
      */
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
@@ -117,9 +117,10 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
 
     /**
      * Configure lookup for Invoice Item Code source accounting line
-     * 
+     *
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
      */
+    @Override
     public Map getForcedLookupOptionalFields() {
         Map forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
 
@@ -131,9 +132,10 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
 
     /**
      * Make amount and sales tax read only
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
+    @Override
     public Map getForcedReadOnlyFields() {
         Map map = super.getForcedReadOnlyFields();
         map.put(KFSPropertyConstants.AMOUNT, Boolean.TRUE);
@@ -141,29 +143,29 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         map.put("openAmount", Boolean.TRUE);
         return map;
     }
-    
+
     /**
      * Build additional customer invoice specific buttons and set extraButtons list.
-     * 
+     *
      * @return - list of extra buttons to be displayed to the user
-     * 
-     * KRAD Conversion: Performs the creation of extra buttons. 
-     * No data dictionary is involved here. 
+     *
+     * KRAD Conversion: Performs the creation of extra buttons.
+     * No data dictionary is involved here.
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
-        
+
         // clear out the extra buttons array
         extraButtons.clear();
 
         //  get the edit modes from the preso controller
         CustomerInvoiceDocument invoiceDocument = (CustomerInvoiceDocument) getDocument();
         DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);
-        CustomerInvoiceDocumentPresentationController presoController = 
+        CustomerInvoiceDocumentPresentationController presoController =
                 (CustomerInvoiceDocumentPresentationController) docHelperService.getDocumentPresentationController(invoiceDocument);
         Set<String> editModes = presoController.getEditModes(invoiceDocument);
-        
-        //  draw the Print File button if appropriate 
+
+        //  draw the Print File button if appropriate
         if (editModes.contains(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON)) {
             String printButtonURL = getConfigService().getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
             addExtraButton("methodToCall.print", printButtonURL + "buttonsmall_genprintfile.gif", "Print");
@@ -174,19 +176,19 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
             String printButtonURL = getConfigService().getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
             addExtraButton("methodToCall.correct", printButtonURL + "buttonsmall_correction.gif", "Correct");
         }
-        
+
         return extraButtons;
     }
-        
+
     /**
      * Adds a new button to the extra buttons collection.
-     * 
+     *
      * @param property - property for button
      * @param source - location of image
      * @param altText - alternate text for button if images don't appear
-     * 
-     * KRAD Conversion: Performs extra button customization. 
-     * No data dictionary is involved here. 
+     *
+     * KRAD Conversion: Performs extra button customization.
+     * No data dictionary is involved here.
      */
     protected void addExtraButton(String property, String source, String altText) {
 

@@ -943,8 +943,8 @@
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>
-		<property name="financialSystemDocumentHeaderDao">
-			<ref bean="documentHeaderDao" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />

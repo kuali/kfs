@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ public class ArConstants {
     public static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
     public static final String PAYMENT_DOC_TYPE = "Payment";
     public static final String WRITEOFF_DOC_TYPE = "Writeoff";
-    
+
     //System Parameters
     public static final String INSTITUTION_NAME = "INSTITUTION_NAME";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD = "GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD";
@@ -42,7 +42,7 @@ public class ArConstants {
     public static final String DEFAULT_FORMAT = "DEFAULT_FORMAT";
     public static final String DUE_DATE_DAYS = "DUE_DATE_DAYS";
     public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "INCLUDE_ZERO_BALANCE_CUSTOMERS";
-    
+
     //Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;
 
@@ -52,7 +52,7 @@ public class ArConstants {
     public static final String CUSTOMER_INVOICE_DOCUMENT_GL_POSTING_HELPER_BEAN_ID = "customerInvoiceDocumentGeneralLedgerPostingHelper";
 
     public static final String CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT = "EA"; //TODO: System parameter?
-    
+
     public static final String LOOKUP_CUSTOMER_NAME = "customerName";
     public static final String LOOKUP_CUSTOMER_NUMBER = "customerNumber";
     public static final String LOOKUP_INVOICE_NUMBER = "invoiceNumber";
@@ -74,19 +74,19 @@ public class ArConstants {
         public static final String CREDIT_CARD = "CR";
     }
 
-    public static class CustomerAgingReportFields {        
+    public static class CustomerAgingReportFields {
         // Report Options
         public static final String PROCESSING_ORG = "Processing Organization";
         public static final String BILLING_ORG = "Billing Organization";
         public static final String ACCT = "Account";
-        
+
         public static final String TOTAL_0_TO_30 = "total0to30";
         public static final String TOTAL_31_TO_60 = "total31to60";
         public static final String TOTAL_61_TO_90 = "total61to90";
         public static final String TOTAL_91_TO_SYSPR = "total90toSYSPR";
         public static final String TOTAL_SYSPR_PLUS_1_OR_MORE = "totalSYSPRplus1orMore";
         public static final String TOTAL_AMOUNT_DUE = "totalAmountDue";
-    }    
+    }
 
     public static class OrganizationAccountingOptionsConstants {
         public static final String SHOW_EDIT_PAYMENTS_DEFAULTS_TAB = GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU;
@@ -102,7 +102,7 @@ public class ArConstants {
     public static class CustomerInvoiceWriteoffStatuses {
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
-    }    
+    }
 
     public static class CustomerCreditMemoConstants {
         public static final String CUSTOMER_CREDIT_MEMO_ITEM_QUANTITY = "qty";
@@ -117,18 +117,18 @@ public class ArConstants {
         public static final String CUSTOMER_LOAD_REPORT_SUBFOLDER = "ar";
         public static final String BATCH_REPORT_BASENAME = "ar_customer_load";
     }
-    
+
     public static final class CustomerInvoiceWriteoff {
         public static final String CUSTOMER_INVOICE_WRITEOFF_FILE_TYPE_IDENTIFIER = "customerInvoiceWriteoffInputFileType";
         public static final String CUSTOMER_INVOICE_WRITEOFF_REPORT_SUBFOLDER = "ar";
         public static final String BATCH_REPORT_BASENAME = "customer_invoice_writeoff";
     }
-    
+
     public static final class Lockbox {
         public static final String LOCKBOX_REPORT_SUBFOLDER = "ar";
         public static final String BATCH_REPORT_BASENAME = "lockbox_batch";
     }
-    
+
     public static final String ORGANIZATION_RECEIVABLE_ACCOUNT_DEFAULTS = "Organization Receivable Account Defaults";
     public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
     public static final String GLPE_WRITEOFF_OBJECT_CODE_BY_CHART = "GLPE_WRITEOFF_OBJECT_CODE_BY_CHART";
@@ -149,10 +149,9 @@ public class ArConstants {
     public static final String LOCKBOX_REMITTANCE_FOR_CLOSED_INVOICE_NUMBER = "Lockbox: Remittance for CLOSED invoice number ";
     public static final String LOCKBOX_REMITTANCE_FOR_INVOICE_NUMBER = "Lockbox: Remittance for invoice number ";
 
-    // Probably refactor these two constants out to pull them from a service, system parameter or something.
-    public static final String ACTUALS_BALANCE_TYPE_CODE = "AC";
     public static final String PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE = "APP";
-    
+    public static final String INVOICE_WRITEOFF_DOCUMENT_TYPE_CODE = "INVW";
+
     // Organization Options Section Ids
     public static class OrganizationOptionsSections {
         public static final String  EDIT_ORGANIZATION_REMIT_TO_ADDRESS = "Edit Organization Remit To Address";
@@ -162,6 +161,6 @@ public class ArConstants {
     public static final String STATEMENT_FORMAT_SUMMARY = "Summary";
     public static final String STATEMENT_FORMAT_DETAIL = "Detail";
     public static final String INCLUDE_ZERO_BALANCE_YES = "Yes";
-    public static final String INCLUDE_ZERO_BALANCE_NO = "No"; 
+    public static final String INCLUDE_ZERO_BALANCE_NO = "No";
 
 }

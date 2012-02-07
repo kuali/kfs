@@ -2077,7 +2077,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     private <T extends PersistableBusinessObject> void deactivate(Class<T> clazz, Map<String, Object> primaryKeys) {
         PersistableBusinessObject bo = businessObjectService.findByPrimaryKey(clazz, primaryKeys);
 
-        // RICE20 This will fail until we have our BOs implement MutableInactivatable
         if (bo instanceof MutableInactivatable) {
             MutableInactivatable mutableInactivatable = (MutableInactivatable) bo;
             mutableInactivatable.setActive(false);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -74,7 +74,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 
     protected static final String LAUNCHED_FROM_BATCH = "LaunchedBySystemUser";
-    
+
     protected String hiddenFieldForErrors;
     protected List<InvoicePaidApplied> invoicePaidApplieds;
     protected List<NonInvoiced> nonInvoiceds;
@@ -82,7 +82,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     protected Collection<NonAppliedDistribution> nonAppliedDistributions;
     protected NonAppliedHolding nonAppliedHolding;
     protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-    
+
     protected transient PaymentApplicationDocumentService paymentApplicationDocumentService;
     protected transient CashControlDetail cashControlDetail;
     protected transient FinancialSystemUserService fsUserService;
@@ -90,7 +90,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     protected transient DocumentService docService;
     protected transient NonAppliedHoldingService nonAppliedHoldingService;
     protected transient BusinessObjectService boService;
-    
+
     // used for non-cash-control payapps
     protected ArrayList<NonAppliedHolding> nonAppliedHoldingsForCustomer; // control docs for non-cash-control payapps
 
@@ -104,9 +104,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * Returns the PaymentMediumIdentifier on the associated CashControlDetail, 
+     * Returns the PaymentMediumIdentifier on the associated CashControlDetail,
      * if one exists, otherwise returns null.
-     * @return CustomerPaymentMediumIdentifier from the associated CashControlDetail if 
+     * @return CustomerPaymentMediumIdentifier from the associated CashControlDetail if
      *         one exists, otherwise null.
      */
     public String getPaymentNumber() {
@@ -116,7 +116,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public boolean hasCashControlDocument() {
         return (getCashControlDocument() != null);
     }
-    
+
     /**
      * @return
      * @throws WorkflowException
@@ -132,7 +132,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public boolean hasCashControlDetail() {
         return (null != getCashControlDetail());
     }
-    
+
     /**
      * @return
      * @throws WorkflowException
@@ -143,16 +143,16 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return cashControlDetail;
     }
-    
+
     public void setCashControlDetail(CashControlDetail cashControlDetail) {
         this.cashControlDetail = cashControlDetail;
     }
-    
+
     /**
      * This method calculates the total amount available to be applied on this document.
-     * 
-     * @return The total from the cash control detail if this is a 
-     * cash-control based payapp.  Otherwise, it just returns the total 
+     *
+     * @return The total from the cash control detail if this is a
+     * cash-control based payapp.  Otherwise, it just returns the total
      * available to be applied from previously unapplied holdings.
      */
     public KualiDecimal getTotalFromControl() {
@@ -163,12 +163,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             return getNonAppliedControlAvailableUnappliedAmount();
         }
     }
- 
+
     /**
-     * This method calculates the total amount available to be applied from 
+     * This method calculates the total amount available to be applied from
      * previously unapplied funds for the associated customer.
-     * 
-     * @return The total amount of previously NonApplied funds available 
+     *
+     * @return The total amount of previously NonApplied funds available
      * to apply to invoices and other applications on this document.
      */
     public KualiDecimal getNonAppliedControlAvailableUnappliedAmount() {
@@ -178,7 +178,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return amount;
     }
-    
+
     /**
      * @return the sum of all invoice paid applieds.
      */
@@ -191,7 +191,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return amount;
     }
-    
+
     /**
      * @return the sum of all non-invoiced amounts
      */
@@ -202,7 +202,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return total;
     }
-    
+
     /**
      * @return the sum of all non-invoiced distributions
      */
@@ -213,7 +213,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return amount;
     }
-    
+
     /**
      * @return the sum of all non-applied distributions
      */
@@ -224,7 +224,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return amount;
     }
-    
+
     /**
      * @return the non-applied holding total.
      */
@@ -237,11 +237,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return getNonAppliedHolding().getFinancialDocumentLineAmount();
     }
-    
+
     /**
      * This method returns the total amount allocated against the cash
      * control total.
-     * 
+     *
      * @return
      */
     public KualiDecimal getTotalApplied() {
@@ -251,26 +251,26 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         amount = amount.add(getNonAppliedHoldingAmount());
         return amount;
     }
-    
+
     /**
-     * This method subtracts the sum of the invoice paid applieds, non-ar and 
+     * This method subtracts the sum of the invoice paid applieds, non-ar and
      * unapplied totals from the outstanding amount received via the cash
      * control document.
-     * 
-     * NOTE this method is not useful for a non-cash control PayApp, as it 
-     * doesnt have access to the control documents until it is saved.  Use 
+     *
+     * NOTE this method is not useful for a non-cash control PayApp, as it
+     * doesnt have access to the control documents until it is saved.  Use
      * the same named method on the Form instead.
-     * 
+     *
      * @return
      * @throws WorkflowException
      */
     public KualiDecimal getUnallocatedBalance() {
-        
+
         KualiDecimal amount = getTotalFromControl();
         amount = amount.subtract(getTotalApplied());
         return amount;
     }
-    
+
     public KualiDecimal getNonArTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
         for (NonInvoiced item : getNonInvoiceds()) {
@@ -282,36 +282,36 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public boolean isFinal() {
         return isApproved();
     }
-    
+
     public boolean isApproved() {
         return getDocumentHeader().getWorkflowDocument().isApproved();
     }
-    
+
     /**
-     * 
-     * This method is very specialized for a specific use.  It 
-     * retrieves the list of invoices that have been paid-applied 
-     * by this PayApp document.  
-     * 
-     * It is only used to retrieve what invoices were applied to it, 
+     *
+     * This method is very specialized for a specific use.  It
+     * retrieves the list of invoices that have been paid-applied
+     * by this PayApp document.
+     *
+     * It is only used to retrieve what invoices were applied to it,
      * when the document is being viewed in Final state.
-     * 
+     *
      * @return
      */
     public List<CustomerInvoiceDocument> getInvoicesPaidAgainst() {
         List<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
-        
+
         //  short circuit if no paidapplieds available
         if (invoicePaidApplieds == null || invoicePaidApplieds.isEmpty()) {
             return invoices;
         }
-        
+
         //  get the list of invoice docnumbers from paidapplieds
         List<String> invoiceDocNumbers = new ArrayList<String>();
         for (InvoicePaidApplied paidApplied : invoicePaidApplieds) {
             invoiceDocNumbers.add(paidApplied.getFinancialDocumentReferenceInvoiceNumber());
         }
-        
+
         //  attempt to retrieve all the invoices paid applied against
         try {
             invoices.addAll((Collection<? extends CustomerInvoiceDocument>) getDocService().getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, invoiceDocNumbers));
@@ -323,24 +323,24 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * 
-     * This is a very specialized method, that is only intended to be used once the 
+     *
+     * This is a very specialized method, that is only intended to be used once the
      * document is in a Final/Approved state.
-     * 
-     * It retrieves the PaymentApplication documents that were used as a control source 
+     *
+     * It retrieves the PaymentApplication documents that were used as a control source
      * for this document, if any, or none, if none.
-     * 
+     *
      * @return
      */
     public List<PaymentApplicationDocument> getPaymentApplicationDocumentsUsedAsControlDocuments() {
         List<PaymentApplicationDocument> payApps = new ArrayList<PaymentApplicationDocument>();
-        
+
         //  short circuit if no non-applied-distributions available
-        if ((nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) && 
+        if ((nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) &&
                 (nonInvoicedDistributions == null || nonInvoicedDistributions.isEmpty())) {
             return payApps;
         }
-        
+
         //  get the list of payapp docnumbers from non-applied-distributions
         List<String> payAppDocNumbers = new ArrayList<String>();
         for (NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
@@ -348,19 +348,19 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 payAppDocNumbers.add(nonAppliedDistribution.getReferenceFinancialDocumentNumber());
             }
         }
-        
+
         //  get the list of payapp docnumbers from non-applied-distributions
         for (NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
             if (!payAppDocNumbers.contains(nonInvoicedDistribution.getReferenceFinancialDocumentNumber())) {
                 payAppDocNumbers.add(nonInvoicedDistribution.getReferenceFinancialDocumentNumber());
             }
         }
-        
+
         //  exit out if no results, dont even try to retrieve
         if (payAppDocNumbers.isEmpty()) {
             return payApps;
         }
-        
+
         //  attempt to retrieve all the invoices paid applied against
         try {
             payApps.addAll((Collection<? extends PaymentApplicationDocument>) getDocService().getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, payAppDocNumbers));
@@ -370,16 +370,16 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return payApps;
     }
-    
+
     public List<NonAppliedHolding> getNonAppliedHoldingsUsedAsControls() {
         List<NonAppliedHolding> nonAppliedHoldingControls = new ArrayList<NonAppliedHolding>();
-        
+
         //  short circuit if no non-applied-distributions available
-        if ((nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) && 
+        if ((nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) &&
                 (nonInvoicedDistributions == null || nonInvoicedDistributions.isEmpty())) {
             return nonAppliedHoldingControls;
         }
-        
+
         //  get the list of payapp docnumbers from non-applied-distributions
         List<String> payAppDocNumbers = new ArrayList<String>();
         for (NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
@@ -387,7 +387,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 payAppDocNumbers.add(nonAppliedDistribution.getReferenceFinancialDocumentNumber());
             }
         }
-        
+
         //  get the list of non-invoiced/non-ar distro payapp doc numbers
         for (NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
             if (!payAppDocNumbers.contains(nonInvoicedDistribution.getReferenceFinancialDocumentNumber())) {
@@ -401,7 +401,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return nonAppliedHoldingControls;
     }
-    
+
     public List<InvoicePaidApplied> getInvoicePaidApplieds() {
         return invoicePaidApplieds;
     }
@@ -452,18 +452,18 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method retrieves a specific applied payment from the list, by array index
-     * 
+     *
      * @param index the index of the applied payment to retrieve
      * @return an InvoicePaidApplied
      */
     public InvoicePaidApplied getInvoicePaidApplied(int index) {
-        
+
         return index < getInvoicePaidApplieds().size() ? getInvoicePaidApplieds().get(index) : new InvoicePaidApplied();
     }
 
     /**
      * This method retrieves a specific non invoiced payment from the list, by array index
-     * 
+     *
      * @param index the index of the non invoiced payment to retrieve
      * @return an NonInvoiced
      */
@@ -473,7 +473,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method gets an ObjectCode from an invoice document.
-     * 
+     *
      * @param invoicePaidApplied
      * @return
      * @throws WorkflowException
@@ -488,16 +488,16 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return objectCode;
     }
-    
+
     /**
      * @param sequenceHelper
      * @return the pending entries for the document
      */
     protected List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) throws WorkflowException {
-        
+
         // Collection of all generated entries
         List<GeneralLedgerPendingEntry> generatedEntries = new ArrayList<GeneralLedgerPendingEntry>();
-        
+
         // Get handles to the services we need
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         BalanceTypeService balanceTypeService = SpringContext.getBean(BalanceTypeService.class);
@@ -505,13 +505,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         SystemInformationService systemInformationService = SpringContext.getBean(SystemInformationService.class);
         OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        
+
         // Current fiscal year
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-        
+
         // The processing chart and org comes from the the cash control document if there is one.
-        // If the payment application document is created from scratch though, then we pull it 
-        // from the current user.  Note that we're not checking here that the user actually belongs 
+        // If the payment application document is created from scratch though, then we pull it
+        // from the current user.  Note that we're not checking here that the user actually belongs
         // to a billing or processing org, we're assuming that is handled elsewhere.
         String processingChartCode = null;
         String processingOrganizationCode = null;
@@ -528,28 +528,28 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
         // Some information comes from the cash control document
         CashControlDocument cashControlDocument = getCashControlDocument();
-        
+
         // Get the System Information
-        SystemInformation unappliedSystemInformation = 
+        SystemInformation unappliedSystemInformation =
             systemInformationService.getByProcessingChartOrgAndFiscalYear(
                     processingChartCode, processingOrganizationCode, currentFiscalYear);
-        
+
         // Get the university clearing account
         unappliedSystemInformation.refreshReferenceObject("universityClearingAccount");
         Account universityClearingAccount = unappliedSystemInformation.getUniversityClearingAccount();
-        
+
         // Get the university clearing object, object type and sub-object code
         String unappliedSubAccountNumber = unappliedSystemInformation.getUniversityClearingSubAccountNumber();
         String unappliedObjectCode = unappliedSystemInformation.getUniversityClearingObjectCode();
         String unappliedObjectTypeCode = unappliedSystemInformation.getUniversityClearingObject().getFinancialObjectTypeCode();
         String unappliedSubObjectCode = unappliedSystemInformation.getUniversityClearingSubObjectCode();
-        
+
         // Get the object code for the university clearing account.
-        SystemInformation universityClearingAccountSystemInformation = 
+        SystemInformation universityClearingAccountSystemInformation =
             systemInformationService.getByProcessingChartOrgAndFiscalYear(
                     processingChartCode, processingOrganizationCode, currentFiscalYear);
         String universityClearingAccountObjectCode = universityClearingAccountSystemInformation.getUniversityClearingObjectCode();
-        
+
         // Generate glpes for unapplied
         NonAppliedHolding holding = getNonAppliedHolding();
         if(ObjectUtils.isNotNull(holding)) {
@@ -560,8 +560,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             actualCreditUnapplied.setFinancialObjectCode(unappliedObjectCode);
             actualCreditUnapplied.setFinancialObjectTypeCode(unappliedObjectTypeCode);
-            actualCreditUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualCreditUnapplied.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            actualCreditUnapplied.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            actualCreditUnapplied.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             actualCreditUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
             if (StringUtils.isBlank(unappliedSubAccountNumber)) {
                 actualCreditUnapplied.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -580,21 +580,21 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditUnapplied.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(actualCreditUnapplied);
             sequenceHelper.increment();
-            
+
             GeneralLedgerPendingEntry offsetDebitUnapplied = new GeneralLedgerPendingEntry();
             offsetDebitUnapplied.setUniversityFiscalYear(actualCreditUnapplied.getUniversityFiscalYear());
             offsetDebitUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             offsetDebitUnapplied.setChartOfAccountsCode(actualCreditUnapplied.getChartOfAccountsCode());
             offsetDebitUnapplied.setAccountNumber(actualCreditUnapplied.getAccountNumber());
-            OffsetDefinition offsetDebitDefinition = 
+            OffsetDefinition offsetDebitDefinition =
                 offsetDefinitionService.getByPrimaryId(
-                    getPostingYear(), universityClearingAccount.getChartOfAccountsCode(), 
-                    KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+                    getPostingYear(), universityClearingAccount.getChartOfAccountsCode(),
+                    ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
             offsetDebitDefinition.refreshReferenceObject("financialObject");
             offsetDebitUnapplied.setFinancialObjectCode(offsetDebitDefinition.getFinancialObjectCode());
             offsetDebitUnapplied.setFinancialObjectTypeCode(offsetDebitDefinition.getFinancialObject().getFinancialObjectTypeCode());
-            offsetDebitUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetDebitUnapplied.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            offsetDebitUnapplied.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            offsetDebitUnapplied.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             offsetDebitUnapplied.setTransactionLedgerEntryAmount(actualCreditUnapplied.getTransactionLedgerEntryAmount());
             offsetDebitUnapplied.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetDebitUnapplied.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -611,8 +611,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             actualDebitUnapplied.setFinancialObjectCode(unappliedObjectCode);
             actualDebitUnapplied.setFinancialObjectTypeCode(unappliedObjectTypeCode);
-            actualDebitUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualDebitUnapplied.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            actualDebitUnapplied.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            actualDebitUnapplied.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             actualDebitUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
             if (StringUtils.isBlank(unappliedSubAccountNumber)) {
                 actualDebitUnapplied.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -626,7 +626,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitUnapplied.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(actualDebitUnapplied);
             sequenceHelper.increment();
-            
+
             // Offsets for unapplied entries are just offsets to themselves, same info.
             // So set the values into the offsets based on the values in the actuals.
             GeneralLedgerPendingEntry offsetCreditUnapplied = new GeneralLedgerPendingEntry();
@@ -634,15 +634,15 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             offsetCreditUnapplied.setChartOfAccountsCode(actualDebitUnapplied.getChartOfAccountsCode());
             offsetCreditUnapplied.setAccountNumber(actualDebitUnapplied.getAccountNumber());
-            OffsetDefinition offsetCreditDefinition = 
+            OffsetDefinition offsetCreditDefinition =
                 offsetDefinitionService.getByPrimaryId(
-                    getPostingYear(), universityClearingAccount.getChartOfAccountsCode(), 
-                    KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+                    getPostingYear(), universityClearingAccount.getChartOfAccountsCode(),
+                    ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
             offsetCreditDefinition.refreshReferenceObject("financialObject");
             offsetCreditUnapplied.setFinancialObjectCode(offsetCreditDefinition.getFinancialObjectCode());
             offsetCreditUnapplied.setFinancialObjectTypeCode(offsetCreditDefinition.getFinancialObject().getFinancialObjectTypeCode());
-            offsetCreditUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetCreditUnapplied.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            offsetCreditUnapplied.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            offsetCreditUnapplied.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             offsetCreditUnapplied.setTransactionLedgerEntryAmount(actualDebitUnapplied.getTransactionLedgerEntryAmount());
             offsetCreditUnapplied.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetCreditUnapplied.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -652,7 +652,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             generatedEntries.add(offsetCreditUnapplied);
             sequenceHelper.increment();
         }
-        
+
         // Generate glpes for non-ar
         for(NonInvoiced nonInvoiced : getNonInvoiceds()) {
             // Actual entries
@@ -664,9 +664,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setFinancialObjectCode(nonInvoiced.getFinancialObjectCode());
             nonInvoiced.refreshReferenceObject("financialObject");
             actualCreditEntry.setFinancialObjectTypeCode(nonInvoiced.getFinancialObject().getFinancialObjectTypeCode());
-            actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualCreditEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
-            actualCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());            
+            actualCreditEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            actualCreditEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
+            actualCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
             if (StringUtils.isBlank(nonInvoiced.getSubAccountNumber())) {
                 actualCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             }
@@ -689,7 +689,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(actualCreditEntry);
             sequenceHelper.increment();
-            
+
             GeneralLedgerPendingEntry actualDebitEntry = new GeneralLedgerPendingEntry();
             actualDebitEntry.setUniversityFiscalYear(getPostingYear());
             actualDebitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
@@ -711,9 +711,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                     actualDebitEntry.setFinancialSubObjectCode(unappliedSubObjectCode);
                 }
             }
-            actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualDebitEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
-            actualDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());            
+            actualDebitEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            actualDebitEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
+            actualDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
             if (StringUtils.isBlank(unappliedSubAccountNumber)) {
                 actualDebitEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             }
@@ -732,15 +732,15 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitEntry.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
             offsetDebitEntry.setAccountNumber(nonInvoiced.getAccountNumber());
             offsetDebitEntry.setUniversityFiscalYear(getPostingYear());
-            OffsetDefinition debitOffsetDefinition = 
+            OffsetDefinition debitOffsetDefinition =
                 offsetDefinitionService.getByPrimaryId(
-                    getPostingYear(), nonInvoiced.getChartOfAccountsCode(), 
-                    KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+                    getPostingYear(), nonInvoiced.getChartOfAccountsCode(),
+                    ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
             debitOffsetDefinition.refreshReferenceObject("financialObject");
             offsetDebitEntry.setFinancialObjectCode(debitOffsetDefinition.getFinancialObjectCode());
             offsetDebitEntry.setFinancialObjectTypeCode(debitOffsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
-            offsetDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetDebitEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            offsetDebitEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            offsetDebitEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             offsetDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
             offsetDebitEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetDebitEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -749,22 +749,22 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(offsetDebitEntry);
             sequenceHelper.increment();
-            
+
             GeneralLedgerPendingEntry offsetCreditEntry = new GeneralLedgerPendingEntry();
             offsetCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             offsetCreditEntry.setUniversityFiscalYear(getPostingYear());
             offsetCreditEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             offsetCreditEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
             Integer fiscalYearForCreditOffsetDefinition = null == cashControlDocument ? currentFiscalYear : cashControlDocument.getUniversityFiscalYear();
-            OffsetDefinition creditOffsetDefinition = 
+            OffsetDefinition creditOffsetDefinition =
                 offsetDefinitionService.getByPrimaryId(
-                        fiscalYearForCreditOffsetDefinition, processingChartCode, 
-                        KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+                        fiscalYearForCreditOffsetDefinition, processingChartCode,
+                        ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
             creditOffsetDefinition.refreshReferenceObject("financialObject");
             offsetCreditEntry.setFinancialObjectCode(creditOffsetDefinition.getFinancialObjectCode());
             offsetCreditEntry.setFinancialObjectTypeCode(creditOffsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
-            offsetCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetCreditEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            offsetCreditEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            offsetCreditEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             offsetCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
             offsetCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -774,23 +774,23 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             generatedEntries.add(offsetCreditEntry);
             sequenceHelper.increment();
         }
-        
+
         // Generate GLPEs for applied payments
         List<InvoicePaidApplied> appliedPayments = getInvoicePaidApplieds();
         for(InvoicePaidApplied ipa : appliedPayments) {
-            
+
             // Skip payments for 0 dollar amount
             if(KualiDecimal.ZERO.equals(ipa.getInvoiceItemAppliedAmount())) {
                 continue;
             }
-            
+
             ipa.refreshNonUpdateableReferences();
             Account billingOrganizationAccount = ipa.getInvoiceDetail().getAccount();
             ObjectCode invoiceObjectCode = getInvoiceReceivableObjectCode(ipa);
-            ObjectUtils.isNull(invoiceObjectCode); // Refresh 
+            ObjectUtils.isNull(invoiceObjectCode); // Refresh
             ObjectCode accountsReceivableObjectCode = ipa.getAccountsReceivableObjectCode();
             ObjectCode unappliedCashObjectCode = ipa.getSystemInformation().getUniversityClearingObject();
-            
+
             GeneralLedgerPendingEntry actualDebitEntry = new GeneralLedgerPendingEntry();
             actualDebitEntry.setUniversityFiscalYear(getPostingYear());
             actualDebitEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
@@ -819,13 +819,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 actualDebitEntry.setSubAccountNumber(unappliedSubAccountNumber);
             }
             actualDebitEntry.setProjectCode(KFSConstants.getDashProjectCode());
-            actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualDebitEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            actualDebitEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            actualDebitEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             actualDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
-            actualDebitEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());            
+            actualDebitEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(actualDebitEntry);
             sequenceHelper.increment();
-            
+
             GeneralLedgerPendingEntry actualCreditEntry = new GeneralLedgerPendingEntry();
             actualCreditEntry.setUniversityFiscalYear(getPostingYear());
             actualCreditEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
@@ -834,16 +834,16 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             actualCreditEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
             actualCreditEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
-            actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualCreditEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            actualCreditEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            actualCreditEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             actualCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             actualCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-            actualCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());                        
+            actualCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), actualDebitEntry, sequenceHelper, actualCreditEntry);
             actualCreditEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(actualCreditEntry);
             sequenceHelper.increment();
-            
+
             GeneralLedgerPendingEntry offsetDebitEntry = new GeneralLedgerPendingEntry();
             offsetDebitEntry.setUniversityFiscalYear(getPostingYear());
             offsetDebitEntry.setAccountNumber(billingOrganizationAccount.getAccountNumber());
@@ -852,8 +852,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             offsetDebitEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
             offsetDebitEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
-            offsetDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetDebitEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            offsetDebitEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            offsetDebitEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             if (StringUtils.isBlank(ipa.getInvoiceDetail().getSubAccountNumber())) {
                 offsetDebitEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             }
@@ -873,7 +873,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 offsetDebitEntry.setProjectCode(ipa.getInvoiceDetail().getProjectCode());
             }
             offsetDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
-            offsetDebitEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());            
+            offsetDebitEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(offsetDebitEntry);
             sequenceHelper.increment();
 
@@ -885,8 +885,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             offsetCreditEntry.setFinancialObjectCode(accountsReceivableObjectCode.getFinancialObjectCode());
             offsetCreditEntry.setFinancialObjectTypeCode(accountsReceivableObjectCode.getFinancialObjectTypeCode());
-            offsetCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetCreditEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+            offsetCreditEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            offsetCreditEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             offsetCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             offsetCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());
@@ -895,18 +895,19 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             generatedEntries.add(offsetCreditEntry);
             sequenceHelper.increment();
         }
-        
+
         // Set the origination code for all entries.
         for(GeneralLedgerPendingEntry entry : generatedEntries) {
             entry.setFinancialSystemOriginationCode("01");
         }
-        
+
         return generatedEntries;
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         try {
             List<GeneralLedgerPendingEntry> entries = createPendingEntries(sequenceHelper);
@@ -917,33 +918,37 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             LOG.error("Exception encountered while generating pending entries.",t);
             return false;
         }
-        
+
         return true;
     }
-    
+
+    @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
 
+    @Override
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
         return null;
     }
 
+    @Override
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
 
+    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return false;
     }
 
     /**
-     * 
-     * This method is used ONLY for handleRouteStatus change and other 
-     * postProcessor related tasks (like getWorkflowEngineDocumentIdsToLock()) 
-     * and should not otherwise be used.  The reason this is its own method 
-     * is to make sure that handleRouteStatusChange and 
-     * getWorkflowEngineDocumentIdsToLock use the same method to retrieve 
+     *
+     * This method is used ONLY for handleRouteStatus change and other
+     * postProcessor related tasks (like getWorkflowEngineDocumentIdsToLock())
+     * and should not otherwise be used.  The reason this is its own method
+     * is to make sure that handleRouteStatusChange and
+     * getWorkflowEngineDocumentIdsToLock use the same method to retrieve
      * what invoices to update.
      * @return
      */
@@ -954,7 +959,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return docIds;
     }
-    
+
     @Override
     public List<String> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = getInvoiceNumbersToUpdateOnFinal();
@@ -967,17 +972,17 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        
+
         if(getDocumentHeader().getWorkflowDocument().isFinal()) {
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-            
+
             //  get the now time to stamp invoices with
             java.sql.Date today = new java.sql.Date(dateTimeService.getCurrentDate().getTime());
-            
+
             List<String> invoiceDocNumbers = getInvoiceNumbersToUpdateOnFinal();
             for(String invoiceDocumentNumber : invoiceDocNumbers) {
                 CustomerInvoiceDocument invoice = null;
-                
+
                 //  attempt to retrieve the invoice doc
                 try {
                      invoice = (CustomerInvoiceDocument) getDocService().getByDocumentHeaderId(invoiceDocumentNumber);
@@ -987,7 +992,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 if (invoice == null) {
                     throw new RuntimeException("DocumentService returned a Null CustomerInvoice Document for Doc# " + invoiceDocumentNumber + ".");
                 }
-                
+
                 // KULAR-384 - close the invoice if its open and the openAmount is zero
                 if (invoice.getOpenAmount().isZero() && invoice.isOpenInvoiceIndicator()) {
                     invoice.setClosedDate(today);
@@ -1001,33 +1006,33 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     @Override
     public List buildListOfDeletionAwareLists() {
         List deletionAwareLists = super.buildListOfDeletionAwareLists();
-        if (invoicePaidApplieds != null) { deletionAwareLists.add(invoicePaidApplieds); }  
-        if (nonInvoiceds != null) { deletionAwareLists.add(nonInvoiceds); }  
-        if (nonInvoicedDistributions != null) { deletionAwareLists.add(nonInvoicedDistributions); }  
-        if (nonAppliedDistributions != null) { deletionAwareLists.add(nonAppliedDistributions); }  
+        if (invoicePaidApplieds != null) { deletionAwareLists.add(invoicePaidApplieds); }
+        if (nonInvoiceds != null) { deletionAwareLists.add(nonInvoiceds); }
+        if (nonInvoicedDistributions != null) { deletionAwareLists.add(nonInvoicedDistributions); }
+        if (nonAppliedDistributions != null) { deletionAwareLists.add(nonAppliedDistributions); }
         return deletionAwareLists;
     }
 
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
-        
+
         // set primary key for NonAppliedHolding if data entered
         if (ObjectUtils.isNotNull(this.nonAppliedHolding)) {
             if (ObjectUtils.isNull(this.nonAppliedHolding.getReferenceFinancialDocumentNumber())) {
                 this.nonAppliedHolding.setReferenceFinancialDocumentNumber(this.documentNumber);
             }
         }
-        
+
         //  generate GLPEs only when routing or blanket approving
         if (event instanceof RouteDocumentEvent || event instanceof BlanketApproveDocumentEvent) {
-            // if this document is not generated thru CashControl, 
+            // if this document is not generated thru CashControl,
             // create nonApplied and nonInvoiced Distributions
             if (!this.hasCashControlDetail()) {
                 createDistributions();
             }
 
-            GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class); 
+            GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
             if (!glpeService.generateGeneralLedgerPendingEntries(this)) {
                 logErrors();
                 throw new ValidationException("general ledger GLPE generation failed");
@@ -1049,35 +1054,35 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return fsUserService;
     }
-    
+
     protected CustomerInvoiceDocumentService getInvoiceDocService() {
         if (invoiceDocService == null) {
             invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         }
         return invoiceDocService;
     }
-    
+
     protected DocumentService getDocService() {
         if (docService == null) {
             docService = SpringContext.getBean(DocumentService.class);
         }
         return docService;
     }
-    
+
     protected NonAppliedHoldingService getNonAppliedHoldingService() {
         if (nonAppliedHoldingService == null) {
             nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
         }
         return nonAppliedHoldingService;
     }
-    
+
     protected BusinessObjectService getBoService() {
         if (boService == null) {
             boService = SpringContext.getBean(BusinessObjectService.class);
         }
         return boService;
     }
-    
+
     public String getHiddenFieldForErrors() {
         return hiddenFieldForErrors;
     }
@@ -1087,19 +1092,19 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * 
-     * Retrieves the NonApplied Holdings that are the Controls for this 
-     * PaymentApplication.  
-     * 
+     *
+     * Retrieves the NonApplied Holdings that are the Controls for this
+     * PaymentApplication.
+     *
      * Note that this is dangerous to use and should not be relied upon.
-     * The data is never persisted to the database, so will always be 
-     * null/empty when retrieved fresh.  It is only populated while the 
-     * document is live from the website, or while its in flight in workflow, due 
+     * The data is never persisted to the database, so will always be
+     * null/empty when retrieved fresh.  It is only populated while the
+     * document is live from the website, or while its in flight in workflow, due
      * to the fact that it has been serialized.
-     * 
-     * You should probably not be using this method unless you are sure you know 
+     *
+     * You should probably not be using this method unless you are sure you know
      * what you are doing.
-     * 
+     *
      * @return
      */
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer() {
@@ -1107,14 +1112,14 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * 
-     * Warning, this property is not ever persisted to the database, and is only 
-     * used during workflow processing (since its been serialized) and during 
+     *
+     * Warning, this property is not ever persisted to the database, and is only
+     * used during workflow processing (since its been serialized) and during
      * presentation of the document on the webapp.
-     * 
-     * You should probably not be using this method unless you are sure you know 
+     *
+     * You should probably not be using this method unless you are sure you know
      * what you are doing.
-     * 
+     *
      * @param nonApplieds
      */
     public void setNonAppliedHoldingsForCustomer(ArrayList<NonAppliedHolding> nonApplieds) {
@@ -1122,15 +1127,15 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * 
+     *
      * Collects and returns the combined distributions from NonInvoiced/NonAr and Unapplied.
-     * 
-     * This method is intended to be used only when the document has gone to final, to show what 
+     *
+     * This method is intended to be used only when the document has gone to final, to show what
      * control documents were issued what funds.
-     * 
-     * The return value is a Map<String,KualiDecimal> where the key is the NonAppliedHolding's 
+     *
+     * The return value is a Map<String,KualiDecimal> where the key is the NonAppliedHolding's
      * ReferenceFinancialDocumentNumber and the value is the Amount to be applied.
-     *  
+     *
      * @return
      */
     public Map<String,KualiDecimal> getDistributionsFromControlDocuments() {
@@ -1139,13 +1144,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
 
         Map<String,KualiDecimal> distributions = new HashMap<String,KualiDecimal>();
-        
+
         //  short circuit if no non-applied-distributions available
-        if ((nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) && 
+        if ((nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) &&
                 (nonInvoicedDistributions == null || nonInvoicedDistributions.isEmpty())) {
             return distributions;
         }
-        
+
         //  get the list of payapp docnumbers from non-applied-distributions
         for (NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
             String refDocNbr = nonAppliedDistribution.getReferenceFinancialDocumentNumber();
@@ -1156,7 +1161,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 distributions.put(refDocNbr, nonAppliedDistribution.getFinancialDocumentLineAmount());
             }
         }
-        
+
         //  get the list of payapp docnumbers from non-applied-distributions
         for (NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
             String refDocNbr = nonInvoicedDistribution.getReferenceFinancialDocumentNumber();
@@ -1167,21 +1172,21 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 distributions.put(refDocNbr, nonInvoicedDistribution.getFinancialDocumentLineAmount());
             }
         }
-        
+
         return distributions;
     }
-    
+
     /**
      *
-     *  Walks through the nonAppliedHoldings passed in (the control docs) and allocates how the 
+     *  Walks through the nonAppliedHoldings passed in (the control docs) and allocates how the
      *  funding should be allocated.
-     *  
-     *  This function is intended to be used when the document is still live, ie not for when its 
-     *  been finalized. 
-     *  
-     *  The return value is a Map<String,KualiDecimal> where the key is the NonAppliedHolding's 
+     *
+     *  This function is intended to be used when the document is still live, ie not for when its
+     *  been finalized.
+     *
+     *  The return value is a Map<String,KualiDecimal> where the key is the NonAppliedHolding's
      *  ReferenceFinancialDocumentNumber and the value is the Amount to be applied.
-     *  
+     *
      */
     public Map<String,KualiDecimal> allocateFundsFromUnappliedControls(List<NonAppliedHolding> nonAppliedHoldings, KualiDecimal amountToBeApplied) {
         if (nonAppliedHoldings == null) {
@@ -1193,7 +1198,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         if (isFinal()) {
             throw new UnsupportedOperationException("This method should not be used when the document has been approved/gone to final.");
         }
-        
+
         // special-case the situation where the amountToBeApplied is negative, then make all allocations zero
         if (amountToBeApplied.isNegative()) {
             Map<String,KualiDecimal> allocations = new HashMap<String,KualiDecimal>();
@@ -1202,17 +1207,17 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
             return allocations;
         }
-        
+
         Map<String,KualiDecimal> allocations = new HashMap<String,KualiDecimal>();
         KualiDecimal remainingAmount = new KualiDecimal(amountToBeApplied.toString()); //clone it
-        
-        //  due to the way the control list is generated, this will result in applying 
-        // from the oldest to newest, which is the ordering desired.  If this ever changes, 
-        // then the internal logic here should be to apply to the oldest doc first, and then 
+
+        //  due to the way the control list is generated, this will result in applying
+        // from the oldest to newest, which is the ordering desired.  If this ever changes,
+        // then the internal logic here should be to apply to the oldest doc first, and then
         // move forward in time until you run out of money or docs
         for (NonAppliedHolding nonAppliedHolding : nonAppliedHoldings) {
             String refDocNumber = nonAppliedHolding.getReferenceFinancialDocumentNumber();
-            
+
             //  this shouldnt ever happen, but lets sanity check it
             if (allocations.containsKey(nonAppliedHolding.getReferenceFinancialDocumentNumber())) {
                 throw new RuntimeException("The same NonAppliedHolding RefDocNumber came up twice, which should never happen.");
@@ -1220,7 +1225,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             else {
                 allocations.put(refDocNumber, KualiDecimal.ZERO);
             }
-            
+
             if (remainingAmount.isGreaterThan(KualiDecimal.ZERO)) {
                 if (nonAppliedHoldings.iterator().hasNext()) {
                     if (remainingAmount.isLessEqual(nonAppliedHolding.getAvailableUnappliedAmount())) {
@@ -1236,21 +1241,21 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return allocations;
     }
-    
-    // this method is only used by Unapplied PayApp. 
+
+    // this method is only used by Unapplied PayApp.
     // create nonApplied and nonInvoiced Distributions
     public void createDistributions() {
-        
+
         // if there are non nonApplieds, then we have nothing to do
         if (nonAppliedHoldingsForCustomer == null || nonAppliedHoldingsForCustomer.isEmpty()) {
             return;
         }
-        
+
         Collection<InvoicePaidApplied> invoicePaidAppliedsForCurrentDoc = this.getInvoicePaidApplieds();
         Collection<NonInvoiced> nonInvoicedsForCurrentDoc = this.getNonInvoiceds();
 
         for(NonAppliedHolding nonAppliedHoldings : this.getNonAppliedHoldingsForCustomer()) {
-            
+
             // check if payment has been applied to Invoices
             // create Unapplied Distribution for each PaidApplied
             KualiDecimal remainingUnappliedForDistribution = nonAppliedHoldings.getAvailableUnappliedAmount();
@@ -1261,7 +1266,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                     remainingUnappliedForDistribution.equals(KualiDecimal.ZERO)) {
                     continue;
                 }
-                
+
                     // set NonAppliedDistributions for the current document
                     NonAppliedDistribution nonAppliedDistribution = new NonAppliedDistribution();
                     nonAppliedDistribution.setDocumentNumber(invoicePaidAppliedForCurrentDoc.getDocumentNumber());
@@ -1289,7 +1294,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                     remainingUnappliedForDistribution.equals(KualiDecimal.ZERO)) {
                     continue;
                 }
-                
+
                 // set NonAppliedDistributions for the current document
                 NonInvoicedDistribution nonInvoicedDistribution = new NonInvoicedDistribution();
                 nonInvoicedDistribution.setDocumentNumber(nonInvoicedForCurrentDoc.getDocumentNumber());
@@ -1309,9 +1314,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
         }
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
@@ -1329,11 +1334,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         result = initiator.getPrincipalId().equalsIgnoreCase(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         return result;
     }
- 
+
     /** CUSTOM SEARCH HELPER METHODS **/
-    
+
     /**
-     * 
+     *
      * This method is defined to assist in the custom search implementation.
      * @return
      */
@@ -1343,9 +1348,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return nonAppliedHolding.getCustomerNumber();
     }
-    
+
     /**
-     * 
+     *
      * This method is defined to assist in the custom search implementation.
      * @return
      */
@@ -1355,24 +1360,24 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return nonAppliedHolding.getCustomer().getCustomerName();
     }
-    
+
     /**
-     * 
+     *
      * This method is defined to assist in the custom search implementation.
      * @return
      */
     public String getInvoiceAppliedCustomerNumber() {
         return getAccountsReceivableDocumentHeader().getCustomerNumber();
     }
-    
+
     /**
-     * 
+     *
      * This method is defined to assist in the custom search implementation.
      * @return
      */
     public String getInvoiceAppliedCustomerName() {
         return getAccountsReceivableDocumentHeader().getCustomer().getCustomerName();
     }
-    
+
 }
 

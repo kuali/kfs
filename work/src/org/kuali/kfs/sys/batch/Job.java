@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -63,6 +64,7 @@ public class Job implements StatefulJob, InterruptableJob {
     /**
      * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
      */
+    @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         workerThread = Thread.currentThread();
         if (isNotRunnable()) {
@@ -144,13 +146,13 @@ public class Job implements StatefulJob, InterruptableJob {
         else {
             LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()).append(" for user ").append(GlobalVariables.getUserSession().getPrincipalName()));
         }
-        
+
         if (!skipStep(parameterService, step, jobRunDate)) {
-            
+
             Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
             Class stepClass = unProxiedStep.getClass();
             GlobalVariables.clear();
-            
+
             String stepUserName = KFSConstants.SYSTEM_USER;
             if (parameterService.parameterExists(stepClass, STEP_USER_PARM_NM)) {
                 stepUserName = parameterService.getParameterValueAsString(stepClass, STEP_USER_PARM_NM);
@@ -185,29 +187,25 @@ public class Job implements StatefulJob, InterruptableJob {
         return continueJob;
     }
 
-    
+
     /**
      * This method determines whether the Job should not run the Step based on the RUN_IND and RUN_DATE Parameters.
-     * When RUN_IND exists and equals 'Y' it takes priority and does not consult RUN_DATE. 
+     * When RUN_IND exists and equals 'Y' it takes priority and does not consult RUN_DATE.
      * If RUN_DATE exists, but contains an empty value the step will not be skipped.
      */
     protected static boolean skipStep(ParameterService parameterService, Step step, Date jobRunDate) {
         Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
         Class stepClass = unProxiedStep.getClass();
-        
+
         DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
-        //RICE20  Parameter DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE was in knsconstants but is not in kradconstants
-        //commenting original line and setting up string as a fudge to get it working
-        String DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE = "DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE";
-        //String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
-        String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
-        
+        String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, CoreConstants.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
+
         //RUN_IND takes priority: when RUN_IND exists and RUN_IND=Y always run the Step
         //RUN_DATE: when RUN_DATE exists, but the value is empty run the Step
-        
+
         boolean runIndExists = parameterService.parameterExists(stepClass, STEP_RUN_PARM_NM);
         boolean runInd = (runIndExists ? parameterService.getParameterValueAsBoolean(stepClass, STEP_RUN_PARM_NM) : true);
-        
+
         boolean runDateExists = parameterService.parameterExists(stepClass, STEP_RUN_ON_DATE_PARM_NM);
         boolean runDateIsEmpty = (runDateExists ? StringUtils.isEmpty(parameterService.getParameterValueAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM)) : true);
         boolean runDateContainsTodaysDate = runDateExists ? parameterService.getParameterValuesAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM).contains(dTService.toString(jobRunDate, dateFormat)): true;
@@ -215,7 +213,7 @@ public class Job implements StatefulJob, InterruptableJob {
         if (!runInd && !runDateExists) {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Skipping step due to system parameter: " + STEP_RUN_PARM_NM +" for "+ stepClass.getName());
-            }            
+            }
             return true;
         }
         else if (!runInd && !runDateIsEmpty && !runDateContainsTodaysDate) {
@@ -238,6 +236,7 @@ public class Job implements StatefulJob, InterruptableJob {
     /**
      * @throws UnableToInterruptJobException
      */
+    @Override
     public void interrupt() throws UnableToInterruptJobException {
         // ask the step to interrupt
         if (currentStep != null) {
@@ -286,7 +285,7 @@ public class Job implements StatefulJob, InterruptableJob {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     protected String jobDataMapToString(JobDataMap jobDataMap) {
         StringBuilder buf = new StringBuilder();
         buf.append("{");
@@ -310,7 +309,7 @@ public class Job implements StatefulJob, InterruptableJob {
         buf.append("}");
         return buf.toString();
     }
-    
+
     protected String getMachineName() {
         try {
             return InetAddress.getLocalHost().getHostName();

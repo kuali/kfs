@@ -101,18 +101,17 @@ public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
 
     @Override
     public DocumentSearchResultSetConfiguration customizeResultSetConfiguration(DocumentSearchCriteria documentSearchCriteria) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean isCustomizeCriteriaEnabled(String documentTypeName) {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCustomizeClearCriteriaEnabled(String documentTypeName) {
-        return true;
+        return false;
     }
 
     @Override
@@ -122,7 +121,7 @@ public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
 
     @Override
     public boolean isCustomizeResultSetFieldsEnabled(String documentTypeName) {
-        return true;
+        return false;
     }
 
 

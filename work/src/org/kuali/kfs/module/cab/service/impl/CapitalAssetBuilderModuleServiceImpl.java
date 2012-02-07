@@ -104,6 +104,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.criteria.QueryByCriteria.Builder;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
@@ -498,16 +499,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean validateAllFieldRequirementsByChart(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType, String systemType) {
         boolean valid = true;
-        List<Parameter> results = new ArrayList<Parameter>();
-         //rice20  not sure if this will work trying to replace getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));       
         ParameterRepositoryService paramRepositoryService = SpringContext.getBean(ParameterRepositoryService.class);
         Builder qbc = QueryByCriteria.Builder.create();
         qbc.setPredicates(and(
                 equal(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE),
                 equal(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT),
-                equal(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType)));
+                PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType)));
   
-        results = (List<Parameter>) paramRepositoryService.findParameters(qbc.build());
+        List<Parameter> results = paramRepositoryService.findParameters(qbc.build()).getResults();
         for (Parameter parameter : results) {
             if (ObjectUtils.isNotNull(parameter)) {
                 if (systemType.equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
@@ -547,8 +546,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 qbc.setPredicates(and(
                             equal(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE),
                             equal(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT),
-                            equal(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType),
-                            equal(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + coa + "%")));
+                            PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType),
+                            PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + coa + "%")));
                 
                 results = (List<Parameter>) paramRepositoryService.findParameters(qbc.build());
                 //results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));

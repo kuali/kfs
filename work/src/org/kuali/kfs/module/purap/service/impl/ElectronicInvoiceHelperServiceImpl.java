@@ -830,16 +830,15 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         attachment.setNote(note);
         
         PersistableBusinessObject noteParent = getNoteParent(eInvoiceRejectDocument, note);
-        //rice20 addNote doesn't exist for PersistableBusinessObject
-        //noteParent.addNote(note);
-        //eInvoiceRejectDocument.getDocumentHeader().addNote(note);
+        //RICE20 addNote doesn't exist for PersistableBusinessObject
+        noteParent.addNote(note);
+        eInvoiceRejectDocument.getDocumentHeader().addNote(note);
     }
     
     protected PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
         //get the property name to set (this assumes this is a document type note)
-        //rice20 extractNoteService method does not exist
-        String propertyName = null;
-        //String propertyName = SpringContext.getBean(NoteService.class).extractNoteProperty(newNote);
+        //RICE20 extractNoteService method does not exist
+        String propertyName = SpringContext.getBean(NoteService.class).extractNoteProperty(newNote);
         //get BO to set
         PersistableBusinessObject noteParent = (PersistableBusinessObject)ObjectUtils.getPropertyValue(document, propertyName);
         return noteParent;
@@ -900,8 +899,8 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         try {
             Note note = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eInvoiceRejectDocument, rejectReasons);
             PersistableBusinessObject noteParent = getNoteParent(eInvoiceRejectDocument, note);
-            //rice20 addNote doesn't exist for PersistableBusinessObject
-            //noteParent.addNote(note);
+            //RICE20 addNote doesn't exist for PersistableBusinessObject
+            noteParent.addNote(note);
         }catch (Exception e) {
             LOG.error("Error creating reject reason note - " + e.getMessage());
         }

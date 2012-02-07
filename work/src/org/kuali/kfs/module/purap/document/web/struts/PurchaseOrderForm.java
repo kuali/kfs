@@ -369,8 +369,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         PurchaseOrderDocument po = (PurchaseOrderDocument) this.getDocument();
 
         // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
-        //rice20 undefined method
-        //po.getDocumentBusinessObject();
+        // RICE20 undefined method
+        po.getDocumentBusinessObject();
         
         super.populate(request);
         

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -77,7 +77,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     }
 
     private CashControlDocument createCashControlDocument() throws WorkflowException {
-        
+
         CashControlDocument doc = (CashControlDocument) documentService.getNewDocument(CashControlDocument.class);
         doc.getDocumentHeader().setDocumentDescription("This is a test document.");
 
@@ -86,10 +86,10 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         doc.setAccountsReceivableDocumentHeader(arDocHeader);
 
         documentService.saveDocument(doc);
-        
+
         return doc;
     }
-    
+
     /**
      * This method tests if validateCashControlDetails rule returns true when passed a valid line amount
      */
@@ -139,7 +139,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         // get the first application document from the details as it is the only one we have added
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) document.getCashControlDetail(0).getReferenceFinancialDocument();
         // mock a fully approved payment application document
-        applicationDocument.getDocumentHeader().getWorkflowDocument().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
+        applicationDocument.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
 
     }
 

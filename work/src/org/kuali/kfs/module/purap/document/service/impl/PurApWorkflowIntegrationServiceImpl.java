@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,9 @@ package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
@@ -28,14 +30,14 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.RoutingReportCriteria;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -45,18 +47,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegrationService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApWorkflowIntegrationServiceImpl.class);
 
-    
+
     private WorkflowDocumentService workflowDocumentService;
     private PersonService personService;
 
-    
+
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
 
     /**
      * Performs a super user approval of all action requests.
-     * 
+     *
      * @param superUser
      * @param documentNumber
      * @param nodeName
@@ -64,18 +66,15 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @param annotation
      * @throws WorkflowException
      */
-    protected void superUserApproveAllActionRequests(Person superUser, Long documentNumber, String nodeName, Person user, String annotation) throws WorkflowException {
-        WorkflowDocument workflowDoc = workflowDocumentService.createWorkflowDocument(String.valueOf(documentNumber), superUser);
+    protected void superUserApproveAllActionRequests(Person superUser, String documentNumber, String nodeName, Person user, String annotation) throws WorkflowException {
+        WorkflowDocument workflowDoc = workflowDocumentService.loadWorkflowDocument(documentNumber, superUser);
         List<ActionRequest> actionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, user);
         for (ActionRequest actionRequestDTO : actionRequests) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Active Action Request list size to process is " + actionRequests.size());
                 LOG.debug("Attempting to super user approve action request with id " + actionRequestDTO.getId());
             }
-            
-    
-            workflowDoc.superUserActionRequestApprove(actionRequestDTO.getId(), annotation);
-            superUserApproveAllActionRequests(superUser, documentNumber, nodeName, user, annotation);
+            SpringContext.getBean(org.kuali.rice.kew.routeheader.service.WorkflowDocumentService.class).superUserActionRequestApproveAction(superUser.getPrincipalId(), documentNumber, actionRequestDTO.getId(), annotation, true );
             break;
         }
     }
@@ -84,9 +83,10 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#takeAllActionsForGivenCriteria(org.kuali.rice.krad.document.Document,
      *      java.lang.String, java.lang.String, org.kuali.rice.kim.api.identity.Person, java.lang.String)
      */
+    @Override
     public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, Person userToCheck, String superUserNetworkId) {
         try {
-            Long documentNumber = Long.valueOf(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+            String documentNumber = document.getDocumentNumber();
             String networkIdString = (ObjectUtils.isNotNull(userToCheck)) ? userToCheck.getPrincipalName() : "none";
             List<ActionRequest> activeActionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, userToCheck);
 
@@ -167,19 +167,19 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
     /**
      * Retrieves the active action requests for the given criteria
-     * 
+     *
      * @param documentNumber
      * @param nodeName
      * @param user
      * @return List of action requests
      * @throws WorkflowException
      */
-    protected List<ActionRequest> getActiveActionRequestsForCriteria(Long documentNumber, String nodeName, Person user) throws WorkflowException {
-        if (ObjectUtils.isNull(documentNumber)) {
+    protected List<ActionRequest> getActiveActionRequestsForCriteria(String documentNumber, String nodeName, Person user) throws WorkflowException {
+        if ( StringUtils.isBlank(documentNumber) ) {
             // throw exception
         }
         List<ActionRequest> activeRequests = new ArrayList<ActionRequest>();
-        ActionRequest[] actionRequests = SpringContext.getBean(WorkflowDocumentService.class).getActionRequests(documentNumber, nodeName, user.getPrincipalId());
+        List<ActionRequest> actionRequests = SpringContext.getBean(org.kuali.rice.kew.api.document.WorkflowDocumentService.class).getActionRequestsForPrincipalAtNode(documentNumber, nodeName, user.getPrincipalId());
         for (ActionRequest actionRequest : actionRequests) {
             // identify which requests for the given node name can be satisfied by an action by this user
             if (actionRequest.isActivated()) {
@@ -191,20 +191,21 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
     /**
      * DON'T CALL THIS IF THE DOC HAS NOT BEEN SAVED
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#willDocumentStopAtGivenFutureRouteNode(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,
      *      org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails)
      */
+    @Override
     public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail) {
         if (givenNodeDetail == null) {
             throw new InvalidParameterException("Given Node Detail object was null");
         }
         try {
             String activeNode = null;
-   
-            String[] nodeNames = (String[]) document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toArray();
-            if (nodeNames.length == 1) {
-                activeNode = nodeNames[0];
+
+            Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
+            if (!nodeNames.isEmpty()) {
+                activeNode = nodeNames.iterator().next();
             }
             if (isGivenNodeAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
                 if (document.getDocumentHeader().getWorkflowDocument().isInitiated()) {
@@ -214,7 +215,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     builder.setRoutingPrincipalId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                     builder.setTargetNodeName(givenNodeDetail.getName());
                     RoutingReportCriteria reportCriteria = builder.build();
-                    boolean value = SpringContext.getBean(WorkflowDocumentService.class).documentWillHaveAtLeastOneActionRequest(reportCriteria, new String[] { KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
+                    boolean value = SpringContext.getBean(WorkflowDocumentActionsService.class).documentWillHaveAtLeastOneActionRequest(reportCriteria, Arrays.asList( KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ ), false);
                     return value;
                 }
                 else {
@@ -227,13 +228,12 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     builder.setXmlContent(document.getXmlForRouteReport());
                     builder.setTargetNodeName(givenNodeDetail.getName());
                     RoutingReportCriteria reportCriteria = builder.build();
-                    boolean value = SpringContext.getBean(WorkflowDocumentService.class).documentWillHaveAtLeastOneActionRequest(reportCriteria, new String[] { KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
+                    boolean value = SpringContext.getBean(WorkflowDocumentActionsService.class).documentWillHaveAtLeastOneActionRequest(reportCriteria, Arrays.asList( KewApiConstants.ACTION_REQUEST_APPROVE_REQ, KewApiConstants.ACTION_REQUEST_COMPLETE_REQ ), false);
                     return value;
                 }
             }
             return false;
-        }
-        catch (WorkflowException e) {
+        } catch (Exception e) {
             String errorMessage = "Error trying to test document id '" + document.getDocumentNumber() + "' for action requests at node name '" + givenNodeDetail.getName() + "'";
             LOG.error("isDocumentStoppingAtRouteLevel() " + errorMessage, e);
             throw new RuntimeException(errorMessage, e);
@@ -242,7 +242,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
     /**
      * Evaluates if given node is after the current node
-     * 
+     *
      * @param currentNodeDetail
      * @param givenNodeDetail
      * @return boolean to indicate if given node is after the current node
@@ -258,8 +258,8 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
         return givenNodeDetail.getOrdinal() > currentNodeDetail.getOrdinal();
     }
-    
-   
+
+
     /**
      * @return Returns the personService.
      */

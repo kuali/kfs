@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,10 +33,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -66,9 +64,10 @@ public class CloseServiceImpl implements CloseService {
      * above and the award_closed_count to the number of awards brought back above.</li>
      * <li>Save the Close.</li>
      * </ul>
-     * 
+     *
      * @see org.kuali.kfs.module.cg.service.CloseService#close()
      */
+    @Override
     public boolean close() {
 
         Date today = dateTimeService.getCurrentSqlDateMidnight();
@@ -80,7 +79,7 @@ public class CloseServiceImpl implements CloseService {
 
         boolean result = true;
         String noteText = null;
-        if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), CGConstants.CGKimApiConstants.UNPROCESSED_ROUTING_NODE_NAME)) {
+        if (max.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeInstances().contains( CGConstants.CGKimApiConstants.UNPROCESSED_ROUTING_NODE_NAME) ) {
 
             ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
 
@@ -121,6 +120,7 @@ public class CloseServiceImpl implements CloseService {
     /**
      * @see org.kuali.kfs.module.cg.service.CloseService#getMostRecentClose()
      */
+    @Override
     public ProposalAwardCloseDocument getMostRecentClose() {
         Date today = dateTimeService.getCurrentSqlDateMidnight();
         String documentNumber = closeDao.getMostRecentClose(today);
@@ -142,14 +142,10 @@ public class CloseServiceImpl implements CloseService {
      * @see org.kuali.kfs.module.cg.service.CloseService#addDocumentNoteAfterClosing(String)
      */
     protected boolean addDocumentNoteAfterClosing(ProposalAwardCloseDocument close, String noteText) {
-        Note note = new Note();
-        note.setNoteText(noteText);
-        note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-
         DocumentService service = SpringContext.getBean(DocumentService.class);
         try {
-            service.addNoteToDocument(close, note);
-            service.approveDocument(close, note.getNoteText(), null);
+            service.createNoteFromDocument(close, noteText);
+            service.approveDocument(close, noteText, null);
         }
         catch (WorkflowException we) {
             we.printStackTrace();
@@ -161,6 +157,7 @@ public class CloseServiceImpl implements CloseService {
     /**
      * @see org.kuali.kfs.module.cg.service.CloseService#getMaxApprovedClose(java.sql.Date)
      */
+    @Override
     public ProposalAwardCloseDocument getMaxApprovedClose(Date today) {
         String documentNumber = closeDao.getMaxApprovedClose(today);
         if (StringUtils.isNotBlank(documentNumber)) {

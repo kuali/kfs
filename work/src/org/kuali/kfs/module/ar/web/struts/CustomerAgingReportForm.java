@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,6 +32,7 @@ import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.LookupUtils;
 
 
@@ -63,13 +64,14 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.form.LookupForm#populate(javax.servlet.http.HttpServletRequest)
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the fields and check for additional fields.
-     *  
+     *
      * Data dictionary is used to retrieve the field properties.
      */
+    @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
@@ -121,7 +123,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
 
             // init lookupable with bo class
-            getLookupable().setBusinessObjectClass(Class.forName(getBusinessObjectClassName()));
+            getLookupable().setBusinessObjectClass((Class<? extends BusinessObject>) Class.forName(getBusinessObjectClassName()));
             if (null != getPendingEntryLookupable()) {
                 getPendingEntryLookupable().setBusinessObjectClass(GeneralLedgerPendingEntry.class);
             }
@@ -207,6 +209,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @return Returns the lookupableImplServiceName.
      */
+    @Override
     public String getLookupableImplServiceName() {
         return lookupableImplServiceName;
     }
@@ -214,6 +217,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @param lookupableImplServiceName The lookupableImplServiceName to set.
      */
+    @Override
     public void setLookupableImplServiceName(String lookupableImplServiceName) {
         this.lookupableImplServiceName = lookupableImplServiceName;
     }
@@ -222,6 +226,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @return Returns the backLocation.
      */
+    @Override
     public String getBackLocation() {
         return backLocation;
     }
@@ -229,6 +234,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @param backLocation The backLocation to set.
      */
+    @Override
     public void setBackLocation(String backLocation) {
         this.backLocation = backLocation;
     }
@@ -236,6 +242,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @return Returns the formKey.
      */
+    @Override
     public String getFormKey() {
         return formKey;
     }
@@ -243,6 +250,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @param formKey The formKey to set.
      */
+    @Override
     public void setFormKey(String formKey) {
         this.formKey = formKey;
     }
@@ -250,6 +258,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @return Returns the fields.
      */
+    @Override
     public Map getFields() {
         return fields;
     }
@@ -257,6 +266,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @param fields The fields to set.
      */
+    @Override
     public void setFields(Map fields) {
         this.fields = fields;
     }
@@ -265,6 +275,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @return Returns the conversionFields.
      */
+    @Override
     public String getConversionFields() {
         return conversionFields;
     }
@@ -272,6 +283,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @param conversionFields The conversionFields to set.
      */
+    @Override
     public void setConversionFields(String conversionFields) {
         this.conversionFields = conversionFields;
     }
@@ -279,6 +291,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @return Returns the fieldConversions.
      */
+    @Override
     public Map getFieldConversions() {
         return fieldConversions;
     }
@@ -286,6 +299,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @param fieldConversions The fieldConversions to set.
      */
+    @Override
     public void setFieldConversions(Map fieldConversions) {
         this.fieldConversions = fieldConversions;
     }
@@ -293,6 +307,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @return Returns the businessObjectClassName.
      */
+    @Override
     public String getBusinessObjectClassName() {
         return businessObjectClassName;
     }
@@ -300,6 +315,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @param businessObjectClassName The businessObjectClassName to set.
      */
+    @Override
     public void setBusinessObjectClassName(String businessObjectClassName) {
         this.businessObjectClassName = businessObjectClassName;
     }
@@ -308,6 +324,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @return Returns the lookupable.
      */
+    @Override
     public Lookupable getLookupable() {
         return lookupable;
     }
@@ -316,6 +333,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @param lookupable The lookupable to set.
      */
+    @Override
     public void setLookupable(Lookupable lookupable) {
         this.lookupable = lookupable;
     }
@@ -324,6 +342,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @return Returns the hideReturnLink.
      */
+    @Override
     public boolean isHideReturnLink() {
         return hideReturnLink;
     }
@@ -332,6 +351,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * @param hideReturnLink The hideReturnLink to set.
      */
+    @Override
     public void setHideReturnLink(boolean hideReturnLink) {
         this.hideReturnLink = hideReturnLink;
     }
@@ -354,7 +374,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Gets the total0to30 attribute.
-     * 
+     *
      * @return Returns the total0to30.
      */
     public String getTotal0to30() {
@@ -363,7 +383,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the total0to30 attribute value.
-     * 
+     *
      * @param total0to30 The total0to30 to set.
      */
     public void setTotal0to30(String total0to30) {
@@ -372,7 +392,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Gets the total31to60 attribute.
-     * 
+     *
      * @return Returns the total31to60.
      */
     public String getTotal31to60() {
@@ -381,7 +401,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the total31to60 attribute value.
-     * 
+     *
      * @param total31to60 The total31to60 to set.
      */
     public void setTotal31to60(String total31to60) {
@@ -390,7 +410,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Gets the total61to90 attribute.
-     * 
+     *
      * @return Returns the total61to90.
      */
     public String getTotal61to90() {
@@ -399,7 +419,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the total61to90 attribute value.
-     * 
+     *
      * @param total61to90 The total61to90 to set.
      */
     public void setTotal61to90(String total61to90) {
@@ -408,7 +428,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Gets the total91toSYSPR attribute.
-     * 
+     *
      * @return Returns the total91toSYSPR.
      */
     public String getTotal91toSYSPR() {
@@ -417,7 +437,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the total91toSYSPR attribute value.
-     * 
+     *
      * @param total91toSYSPR The total91toSYSPR to set.
      */
     public void setTotal91toSYSPR(String total91toSYSPR) {
@@ -426,7 +446,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Gets the totalSYSPRplus1orMore attribute.
-     * 
+     *
      * @return Returns the totalSYSPRplus1orMore.
      */
     public String getTotalSYSPRplus1orMore() {
@@ -435,7 +455,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the totalSYSPRplus1orMore attribute value.
-     * 
+     *
      * @param totalSYSPRplus1orMore The totalSYSPRplus1orMore to set.
      */
     public void setTotalSYSPRplus1orMore(String totalSYSPRplus1orMore) {

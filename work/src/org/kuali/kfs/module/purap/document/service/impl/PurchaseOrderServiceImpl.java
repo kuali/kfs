@@ -94,8 +94,8 @@ import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -901,14 +901,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 userToRouteFyi = req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             }
 
-            try {
-                //send FYI to user for printing
-                po.getDocumentHeader().getWorkflowDocument().adHocRouteDocumentToPrincipal(KewApiConstants.ACTION_REQUEST_FYI_REQ, po.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toString(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
-            }
-            catch (WorkflowException e) {
-                LOG.error("Error sending FYI to user to print PO.", e);
-                throw new RuntimeException("Error sending FYI to user to print PO.", e);
-            }
+            po.getDocumentHeader().getWorkflowDocument().adHocToPrincipal(ActionRequestType.FYI, po.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
         }
 
     }
@@ -1961,17 +1954,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * Resets the AUTO_CLOSE_RECURRING_ORDER_DT system parameter to "mm/dd/yyyy".
      *
      */
-    // FIXME: Not only does this need to use the ParameterService - it also needs to use the *entire* key for
-    // retrieval, not assume that there is only one parameter with that name.
     // FIXME: Also, that string (mm/dd/yyyy) must be coded into a constant and used here and in the autoCloseRecurringOrders method.
     protected void resetAutoCloseRecurringOrderDateParameter() {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("parameterName", PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
-
-        Collection result = businessObjectService.findMatching(Parameter.class, fieldValues);
-        Parameter autoCloseRecurringPODate = (Parameter)result.iterator().next();
-        autoCloseRecurringPODate.setParameterValue("mm/dd/yyyy");
-        businessObjectService.save(autoCloseRecurringPODate);
+        Parameter autoCloseRecurringPODate = parameterService.getParameter(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
+        if ( autoCloseRecurringPODate != null ) {
+            Parameter.Builder updatedParameter = Parameter.Builder.create(autoCloseRecurringPODate);
+            updatedParameter.setValue("mm/dd/yyyy");
+            parameterService.updateParameter(updatedParameter.build());
+        }
     }
 
     /**

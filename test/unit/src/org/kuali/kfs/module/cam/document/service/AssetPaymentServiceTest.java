@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -119,7 +119,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         document.setDocumentHeader(getDocumentHeader());
         document.setAssetPaymentAllocationTypeCode(CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_BY_TOTAL_COST_CODE);
 
-        KualiDecimal totalDocument = new KualiDecimal(0); 
+        KualiDecimal totalDocument = new KualiDecimal(0);
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
 
@@ -133,16 +133,16 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         HashMap<Long,Double>assets = new HashMap();
         HashMap<Long,KualiDecimal>assetsNewCost = new HashMap();
 
-        Map key;        
+        Map key;
         for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
             assetRows++;
-            assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);            
+            assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
             assets.put(assetPaymentAssetDetail.getCapitalAssetNumber(), new Double(assetPaymentAssetDetail.getAsset().getTotalCostAmount().toString()));
 
             assetPaymentAssetDetail.setPreviousTotalCostAmount(assetPaymentAssetDetail.getAsset().getTotalCostAmount());
             totalHistoricalAmount = totalHistoricalAmount +  new Double(assetPaymentAssetDetail.getAsset().getTotalCostAmount().toString());
 
-            LOG.info("***Asset:"+assetPaymentAssetDetail.getCapitalAssetNumber().toString()+" Previous Cost:"+assetPaymentAssetDetail.getAsset().getTotalCostAmount());            
+            LOG.info("***Asset:"+assetPaymentAssetDetail.getCapitalAssetNumber().toString()+" Previous Cost:"+assetPaymentAssetDetail.getAsset().getTotalCostAmount());
         }
 
 
@@ -181,7 +181,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         //Comparing records by record
         for (int x = 0; x < document.getAssetPaymentAssetDetail().size(); x++) {
             AssetPaymentAssetDetail assetPaymentAssetDetail =document.getAssetPaymentAssetDetail().get(x);
-            assetPaymentAssetDetail.refreshReferenceObject("asset");            
+            assetPaymentAssetDetail.refreshReferenceObject("asset");
             Long capitalAssetNumber =  assetPaymentAssetDetail.getAsset().getCapitalAssetNumber();
 
             key = new HashMap();
@@ -190,20 +190,20 @@ public class AssetPaymentServiceTest extends KualiTestBase {
             assetPayments = (List<AssetPayment>) businessObjectService.findMatching(AssetPayment.class, key);
 
             calculatedAssetNewCost = new KualiDecimal(assets.get(capitalAssetNumber));
-            Double previousTotalCostAmount = assets.get(capitalAssetNumber);                 
-            Double percentage = (previousTotalCostAmount/totalHistoricalAmount);            
+            Double previousTotalCostAmount = assets.get(capitalAssetNumber);
+            Double percentage = (previousTotalCostAmount/totalHistoricalAmount);
 
             for (int i = 0; i < document.getSourceAccountingLines().size(); i++) {
-                AssetPaymentDetail assetPaymentDetail =(AssetPaymentDetail)document.getSourceAccountingLines().get(i);              
+                AssetPaymentDetail assetPaymentDetail =(AssetPaymentDetail)document.getSourceAccountingLines().get(i);
                 Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
                 KualiDecimal amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
                 calculatedAssetNewCost = calculatedAssetNewCost.add(amount);
 
                 //                LOG.info("*****************************************************************************");
                 //                LOG.info("***Asset: "+capitalAssetNumber);
-                //                LOG.info("***Previous Cost:"+previousTotalCostAmount);            
-                //                LOG.info("***New      Cost:"+assetPaymentAssetDetail.getAsset().getTotalCostAmount());            
-                //                LOG.info("*** % :"+ percentage + " - Total Historical Cost:"+totalHistoricalAmount);            
+                //                LOG.info("***Previous Cost:"+previousTotalCostAmount);
+                //                LOG.info("***New      Cost:"+assetPaymentAssetDetail.getAsset().getTotalCostAmount());
+                //                LOG.info("*** % :"+ percentage + " - Total Historical Cost:"+totalHistoricalAmount);
                 //                LOG.info("***Payment amount:"+paymentAmount);
                 //                LOG.info("***Calculated Amount:"+amount);
                 //                LOG.info("***Calculated new cost:"+calculatedAssetNewCost);
@@ -225,24 +225,24 @@ public class AssetPaymentServiceTest extends KualiTestBase {
 
         for (int x = 0; x < document.getAssetPaymentAssetDetail().size(); x++) {
             AssetPaymentAssetDetail assetPaymentAssetDetail =document.getAssetPaymentAssetDetail().get(x);
-            assetPaymentAssetDetail.refreshReferenceObject("asset");            
-            Long capitalAssetNumber =  assetPaymentAssetDetail.getAsset().getCapitalAssetNumber();            
+            assetPaymentAssetDetail.refreshReferenceObject("asset");
+            Long capitalAssetNumber =  assetPaymentAssetDetail.getAsset().getCapitalAssetNumber();
 
             calculatedAssetNewCost  = assetsNewCost.get(capitalAssetNumber);
             //assetOldCost            = new KualiDecimal(assets.get(capitalAssetNumber));
-            assertEquals(calculatedAssetNewCost, assetPaymentAssetDetail.getAsset().getTotalCostAmount());            
-        }        
+            assertEquals(calculatedAssetNewCost, assetPaymentAssetDetail.getAsset().getTotalCostAmount());
+        }
     }
 
     public DocumentHeader getDocumentHeader() throws Exception {
-        WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(AssetPaymentDocument.class), GlobalVariables.getUserSession().getPerson());
+        WorkflowDocument workflowDocument = SpringContext.getBean(org.kuali.rice.krad.workflow.service.WorkflowDocumentService.class).createWorkflowDocument(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(AssetPaymentDocument.class), GlobalVariables.getUserSession().getPerson());
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         documentHeader.setWorkflowDocument(workflowDocument);
-        documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
+        documentHeader.setDocumentNumber(workflowDocument.getDocumentId());
         documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         documentHeader.setExplanation("New asset payment");
         documentHeader.setDocumentDescription("New asset payment");
-        documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
+        documentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
         return documentHeader;
     }
 
@@ -259,7 +259,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         int currentYear = universityDateService.getCurrentFiscalYear();
         int testYear = universityDateService.getCurrentFiscalYear() + 1000;
 
-        currentDate.setTime(dateFormat.parse(currentYear+"-01-01"));        
+        currentDate.setTime(dateFormat.parse(currentYear+"-01-01"));
         jsqlD = new java.sql.Date(currentDate.getTime().getTime());
 
         assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(jsqlD);
@@ -271,7 +271,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         jsqlD = new java.sql.Date(currentDate.getTime().getTime());
 
         assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(jsqlD);
-        assertEquals(assetPaymentService.extractPostedDatePeriod(assetPaymentDetail),false);        
+        assertEquals(assetPaymentService.extractPostedDatePeriod(assetPaymentDetail),false);
     }
 }
 

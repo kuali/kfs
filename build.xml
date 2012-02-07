@@ -152,6 +152,8 @@
 		<tstamp><format property="build.version" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
 	  	<tstamp><format property="current.year" pattern="yyyy" locale="en,US" /></tstamp>
 
+		<property name="fail.when.compile.fails" value="true"/>
+		
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"' else="">
 			<isset property="is.local.build" />
 		</condition>
@@ -685,9 +687,10 @@
 	<target name="make-foundation-source" depends="init-make-references,filter-project" unless="dont.make.source">
 		<mkdir dir="${war.classes.directory}" />
 	    <echo message="Compiling Source from ${source.directory} into ${war.classes.directory}" />
-		<javac destdir="${war.classes.directory}" srcdir="${source.directory}" includeantruntime="false" source="1.6" target="1.6"
+		<javac destdir="${war.classes.directory}" srcdir="${source.directory}" includeantruntime="false" source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
 			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
 			<classpath refid="compile.source.classpath" />			
+			<compilerarg line="-Xmaxerrs 500"/>
 		</javac>
 		<copy todir="${war.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
@@ -697,7 +700,7 @@
 	<target name="make-additional-source" if="institution.source.directory" unless="dont.make.source" depends="init-make-references,filter-project">
         <echo message="Compiling Source from ${institution.source.directory} into ${war.classes.directory}" />
         <javac destdir="${war.classes.directory}" srcdir="${institution.source.directory}"
-               debug="true" fork="true"  source="1.6" target="1.6"
+               debug="true" fork="true"  source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
                memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
             <!-- add the just compiled files to the classpath for compiling the customizations -->
             <classpath>
@@ -740,8 +743,8 @@ Includes: ${tests.compile.includes}
 Excludes: ${tests.compile.excludes}
 *********************************************</echo>
 		<javac destdir="${test.classes.directory}" 
-	 	    source="1.5" target="1.5"
-			debug="true" nowarn="true" 
+	 	    source="1.6" target="1.6"
+			debug="true" nowarn="true" failonerror="${fail.when.compile.fails}" 
 			optimize="true" fork="true" 
 			memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
 			includes="${tests.compile.includes}"
@@ -751,6 +754,7 @@ Excludes: ${tests.compile.excludes}
 			<src path="${test.infrastructure.source.directory}" />
 			<src path="${test.unit.source.directory}" />
 			<src path="${test.integration.source.directory}" />
+			<compilerarg line="-Xmaxerrs 500"/>
 		</javac>
 		<copy todir="${test.classes.directory}">
 			<fileset dir="${test.infrastructure.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
@@ -763,7 +767,8 @@ Excludes: ${tests.compile.excludes}
 	<target name="make-additional-tests" depends="init-make-references,filter-project" if="institution.test.source.directory">
         <echo message="Compiling Test Source from ${institution.test.source.directory} into ${test.classes.directory}" />
         <javac destdir="${test.classes.directory}" debug="true" nowarn="true" 
-        	   optimize="true" fork="true" 
+		 	    source="1.6" target="1.6"
+        	   optimize="true" fork="true" failonerror="${fail.when.compile.fails}" 
         	   memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
 			   includes="${tests.compile.includes}"
 			   excludes="${tests.compile.excludes}">

@@ -23,8 +23,6 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
-import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,6 +33,7 @@ import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -68,12 +67,6 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    protected String wireObjectCode;
 //    protected String wireSubObjectCode;
     
-    /* Start TEM REFUND Merge */
-    private String refundPaymentReasonCode;
-    private String refundFinancialObjectCode;
-    private String refundDocumentationLocationCode;
-	/* End TEM REFUND Merge */  
-
 	protected ObjectCode creditCardFinancialObject;
 	protected SubObjectCode universityClearingSubObject;
 	protected ObjectCode universityClearingObject;
@@ -93,11 +86,6 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     protected Person financialDocumentInitiator;
     protected transient SystemOptions universityFiscal;
     protected PostalCode orgRemitToZipCode;
-    /* Start TEM REFUND Merge */
-    private PaymentReasonCode refundPaymentReason;
-    private ObjectCode refundObjectCode;
-    private DisbursementVoucherDocumentationLocation refundDocumentationLocation;
-    /* End TEM REFUND Merge */    
     
 	public Person getFinancialDocumentInitiator() {
 	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
@@ -951,53 +939,4 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
         this.orgRemitToZipCode = orgRemitToZipCode;
     }
 
-    /* Start TEM REFUND Merge */
-    public String getRefundPaymentReasonCode() {
-        return refundPaymentReasonCode;
-    }
-
-    public void setRefundPaymentReasonCode(String refundPaymentReasonCode) {
-        this.refundPaymentReasonCode = refundPaymentReasonCode;
-    }
-
-    public String getRefundFinancialObjectCode() {
-        return refundFinancialObjectCode;
-    }
-
-    public void setRefundFinancialObjectCode(String refundFinancialObjectCode) {
-        this.refundFinancialObjectCode = refundFinancialObjectCode;
-    }
-
-    public String getRefundDocumentationLocationCode() {
-        return refundDocumentationLocationCode;
-    }
-
-    public void setRefundDocumentationLocationCode(String refundDocumentationLocationCode) {
-        this.refundDocumentationLocationCode = refundDocumentationLocationCode;
-    }
-
-    public PaymentReasonCode getRefundPaymentReason() {
-        return refundPaymentReason;
-    }
-
-    public void setRefundPaymentReason(PaymentReasonCode refundPaymentReason) {
-        this.refundPaymentReason = refundPaymentReason;
-    }
-
-    public ObjectCode getRefundObjectCode() {
-        return refundObjectCode;
-    }
-
-    public void setRefundObjectCode(ObjectCode refundObjectCode) {
-        this.refundObjectCode = refundObjectCode;
-    }
-
-    public DisbursementVoucherDocumentationLocation getRefundDocumentationLocation() {
-        return refundDocumentationLocation;
-    }
-
-    public void setRefundDocumentationLocation(DisbursementVoucherDocumentationLocation refundDocumentationLocation) {
-        this.refundDocumentationLocation = refundDocumentationLocation;
-    }
-	/* End TEM REFUND Merge */
 }

@@ -364,6 +364,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         }
         
         capitalAsset.setCapitalAssetLineAmount(capitalAsset.getCapitalAssetLineAmount().add(amount.multiply(new KualiDecimal(assetQuantity))));
+        
         int lastAccountIndex = 0;
         KualiDecimal appliedAccountingLinesTotal = KualiDecimal.ZERO;
         
@@ -492,35 +493,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         KualiDecimal variance = capitalAcctLine.getAmount().subtract(totalAccountsAmount);
         if (variance.isNonZero() && ObjectUtils.isNotNull(lastAcctLine)) {
             lastAcctLine.setAmount(lastAcctLine.getAmount().add(variance));
-        }
-    }
-    
-    /**
-     * adjusts variances on capital assets where distribution method is set
-     * as "distribute evenly" and capital asset amount is odd value.  Reduce the
-     * capital asset amount line by 0.01 and then adjust the account amounts. Finally
-     * any variance between capital accounting lines and capital assets is added
-     * to the last capital asset and its accounting lines.
-     * 
-     * @param capitalAssetInformation
-     */
-    protected void adjustVarianceOnCapitalAssets(List<CapitalAssetInformation> capitalAssetInformation) {
-        KualiDecimal adjustedCapitalAssetBalance = KualiDecimal.ZERO;
-        CapitalAssetInformation lastCapitalAsset = null;
-        
-        for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
-            //look at only cost equall assets...
-            if (KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE.equalsIgnoreCase(capitalAsset.getDistributionAmountCode())) {
-                if (capitalAsset.getCapitalAssetLineAmount().mod(new KualiDecimal(2)) != KualiDecimal.ZERO) {
-                    capitalAsset.setCapitalAssetLineAmount(capitalAsset.getCapitalAssetLineAmount().subtract(new KualiDecimal(0.01)));
-                    adjustedCapitalAssetBalance = adjustedCapitalAssetBalance.add(new KualiDecimal(0.01));
-                    lastCapitalAsset = capitalAsset;                    
-                }
-            }
-        }
-        
-        if (ObjectUtils.isNotNull(lastCapitalAsset) && adjustedCapitalAssetBalance.isNonZero()) {
-            lastCapitalAsset.setCapitalAssetLineAmount(lastCapitalAsset.getCapitalAssetLineAmount().add(adjustedCapitalAssetBalance));
         }
     }
     
@@ -1047,14 +1019,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             
             List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
             for (CapitalAssetInformation capitalAsset : capitalAssets) {
-                Long capitalAssetNumber = capitalAsset.getCapitalAssetNumber();
                 resetCapitalAssetInfo(capitalAsset);
-                
-                //set capital asset number to copied asset line if "modify" asset
-                //because resetCapitalAssetInfo cleared the value.
-                if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equalsIgnoreCase(capitalAsset.getCapitalAssetActionIndicator())) {
-                    capitalAsset.setCapitalAssetNumber(capitalAssetNumber);
-                }
                 capitalAsset.setCapitalAssetProcessedIndicator(false);
             }
         }
@@ -1693,9 +1658,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         
         //adjust any variance from capital accounting lines to the distributed accounting lines amounts....
         adjustCapitalAssetsAccountingLinesAmounts(selectedCapitalAccountingLines, capitalAssetInformation);
-        
-        //now perform calculations of adjusting variance when asset amounts are odd
-    /////    adjustVarianceOnCapitalAssets(capitalAssetInformation);
         
         checkCapitalAccountingLinesSelected(calfb);
         

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,22 +25,17 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.util.AccountsReceivableUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.gl.service.EntryService;
+import org.kuali.kfs.sys.KFSConstants;
 
-/**
- * Cash Control Document presentation Controller.
- */
 public class CashControlDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
-    /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
-     */
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
@@ -82,10 +79,10 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
                 }
                 Integer totalGLRecordsCreated = cashControlDocument.getGeneralLedgerEntriesPostedCount();
-
+                
                 if (totalGLRecordsCreated.intValue() > 0) {
                     editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
-                    editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
+                    editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);                    
                 }
             }
             if (workflowDocument.isApprovalRequested() && ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
@@ -99,66 +96,31 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         return editModes;
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.kns.document.Document)
-     */
     @Override
     public boolean canBlanketApprove(Document document) {
         return false;
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.kns.document.Document)
-     */
     @Override
     public boolean canDisapprove(Document document) {
         return !hasAtLeastOneAppDocApproved((CashControlDocument) document);
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canApprove(org.kuali.rice.kns.document.Document)
-     */
     @Override
     public boolean canApprove(Document document) {
         return hasAllAppDocsApproved((CashControlDocument) document);
     }
 
-    /*
-     * Can correct if 1. there is at least one correctable cash control detail (payment application) 2. and cash control document is
-     * enroute or final
-     */
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
-        return (hasAtLeastOneCorrectableCashControlDetail((CashControlDocument) document) && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() || document.getDocumentHeader().getWorkflowDocument().stateIsFinal()));
-    }
-
-    /**
-     * This method returns true if there is at least one correctable cash control detail.
-     * 
-     * @param cashControlDocument
-     * @return
-     */
-    protected boolean hasAtLeastOneCorrectableCashControlDetail(CashControlDocument cashControlDocument) {
-        for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
-            if (AccountsReceivableUtils.canCorrectDetail(cashControlDetail)) {
-                return true;
-            }
-        }
         return false;
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.kns.document.Document)
-     */
     @Override
     public boolean canCancel(Document document) {
         return !hasAtLeastOneAppDocApproved((CashControlDocument) document);
     }
 
-    /**
-     * @param document
-     * @return
-     */
     protected boolean containsGLPEs(CashControlDocument document) {
         return !document.getGeneralLedgerPendingEntries().isEmpty();
     }

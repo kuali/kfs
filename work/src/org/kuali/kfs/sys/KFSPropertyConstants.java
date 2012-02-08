@@ -15,6 +15,11 @@
  */
 package org.kuali.kfs.sys;
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
@@ -113,7 +118,6 @@ public class KFSPropertyConstants {
     public static final String AGENCY_REQUEST_TOTAL_AMOUNT = "agencyRequestTotalAmount";
     public static final String AGENCY_REQUEST_TOTAL_AMOUNT_TASK = "agencyRequestTotalAmountTask";
     public static final String AGENCY_TO_BE_NAMED_INDICATOR = "agencyToBeNamedIndicator";
-    public static final String AGENCY_ADDRESSES = "agencyAddresses";
     public static final String AGENCY_TYPE = "agencyType";
     public static final String AGENCY_TYPE_CODE = "agencyTypeCode";
     public static final String ALIEN_PAYMENT_CODE = "alienPaymentCode";
@@ -156,8 +160,6 @@ public class KFSPropertyConstants {
     public static final String AWARD_PERIOD_END_MONTH = "awardPeriodEndMonth";
     public static final String AWARD_PERIOD_END_YEAR = "awardPeriodEndYear";
     public static final String AWARD_PROJECT_DIRECTORS = "awardProjectDirectors";
-    public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
-    public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
     public static final String AWARD_SUBCONTRACTORS = "awardSubcontractors";
     public static final String AWARD_THRESHOLD_AMOUNT = "awardThresholdAmount";
     public static final String AWARD_TOTAL_AMOUNT = "awardTotalAmount";
@@ -321,10 +323,6 @@ public class KFSPropertyConstants {
     public static final String COMPLETE = "complete";
     public static final String COMPONENT_CLASS = "componentClass";
     public static final String COMPONENT_LABEL = "componentLabel";
-    public static final String CUSTOMER_ADDRESS_IDENTIFIER = "customerAddressIdentifier";
-    public static final String CUSTOMER_NUMBER = "customerNumber";
-    public static final String CUSTOMER_NAME = "customerName";
-    public static final String CUSTOMER_TAX_NUMBER = "customerTaxNbr";
     public static final String DEPARTMENT_NAME = "departmentName";
     public static final String DESCRIPTION = KNSPropertyConstants.DESCRIPTION;
     public static final String EXTENSION = "extension";
@@ -350,9 +348,6 @@ public class KFSPropertyConstants {
     public static final String COST_SHARE_SOURCE_ACCOUNT_NUMBER = "costShareSourceAccountNumber";
     public static final String COST_SHARE_SOURCE_SUB_ACCOUNT = "costShareSourceSubAccount";
     public static final String COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER = "costShareSourceSubAccountNumber";
-    public static final String COST_SHARE_CHART_OF_ACCOUNT = "costShareChartOfAccount";
-    public static final String COST_SHARE_CHART_OF_ACCOUNT_CODE = "costShareChartOfAccountCode";
-    public static final String COST_SHARE_FIN_CHART_OF_ACCOUNT_CD = "costShareFinChartOfAccountCd";
     public static final String COST_SHARE_FRINGE_RATE_AMOUNT = "costShareFringeRateAmount";
     public static final String COST_SHARE_OPTION = "costShareOption";
     public static final String COST_SHARE_ORG_CD = "costShareOrgCd";
@@ -709,7 +704,6 @@ public class KFSPropertyConstants {
     public static final String FUND_BALANCE_INDICATOR = "fundBalanceIndicator";
     public static final String FUND_GROUP = "fundGroup";
     public static final String FUND_GROUP_CODE = "fundGroupCode";
-    public static final String FUND_MANAGER = "fundManager";
     public static final String GENERAL_LEDGER_PENDING_ENTRIES = "generalLedgerPendingEntries";
     public static final String GENERAL_LEDGER_PENDING_ENTRY = "generalLedgerPendingEntry";
     public static final String GENERAL_LEDGER_INPUT_TYPE_CODE = "inputTypeCode";
@@ -1110,7 +1104,6 @@ public class KFSPropertyConstants {
     public static final String SUFFICIENT_FUNDS_OBJECT_CODE = "sufficientFundsObjectCode";
     public static final String SUM_TOTAL_AMOUNT = "sumTotalAmount";
     public static final String SUPERVISOR_USER = "supervisorUser";
-    public static final String SUSPENSION_REASON = "suspensionReason";
     public static final String TABLE_NAME = "tableName";
     public static final String TARGET_ACCOUNTING_LINE = "targetAccountingLine";
     public static final String TARGET_ACCOUNTING_LINES = "targetAccountingLines";

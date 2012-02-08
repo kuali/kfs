@@ -37,7 +37,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
@@ -61,7 +60,6 @@ import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -71,26 +69,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
 
-    protected PersonService<Person> personService;
-    protected BusinessObjectService businessObjectService;
-    protected DateTimeService dateTimeService;
-    protected ReceivableAccountingLineService receivableAccountingLineService;
-    protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
-    protected CustomerAddressService customerAddressService;
-    protected CustomerInvoiceDocumentDao customerInvoiceDocumentDao;
-    protected DocumentService documentService;
-    protected DocumentDao documentDao;
-    protected InvoicePaidAppliedService<CustomerInvoiceDetail> invoicePaidAppliedService;
-    protected NonInvoicedDistributionService nonInvoicedDistributionService;
-    protected CustomerInvoiceDetailService customerInvoiceDetailService;
-    protected CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
-    protected UniversityDateService universityDateService;
+    private PersonService<Person> personService;
+    private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
+    private ReceivableAccountingLineService receivableAccountingLineService;
+    private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    private CustomerAddressService customerAddressService;
+    private CustomerInvoiceDocumentDao customerInvoiceDocumentDao;
+    private DocumentService documentService;
+    private DocumentDao documentDao;
+    private InvoicePaidAppliedService<CustomerInvoiceDetail> invoicePaidAppliedService;
+    private NonInvoicedDistributionService nonInvoicedDistributionService;
+    private CustomerInvoiceDetailService customerInvoiceDetailService;
+    private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
+    private UniversityDateService universityDateService;
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#convertDiscountsToPaidApplieds(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     */
     public void convertDiscountsToPaidApplieds(CustomerInvoiceDocument invoice) {
 
         // this needs a little explanation. we have to calculate manually
@@ -138,24 +133,14 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         }
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllOpenCustomerInvoiceDocuments()
-     */
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocuments() {
         return getAllOpenCustomerInvoiceDocuments(true);
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllOpenCustomerInvoiceDocumentsWithoutWorkflow()
-     */
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocumentsWithoutWorkflow() {
         return getAllOpenCustomerInvoiceDocuments(false);
     }
 
-    /**
-     * @param includeWorkflowHeaders
-     * @return
-     */
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocuments(boolean includeWorkflowHeaders) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
@@ -185,9 +170,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return docs;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#attachWorkflowHeadersToTheInvoices(java.util.Collection)
-     */
     public Collection<CustomerInvoiceDocument> attachWorkflowHeadersToTheInvoices(Collection<CustomerInvoiceDocument> invoices) {
         List<CustomerInvoiceDocument> docs = new ArrayList<CustomerInvoiceDocument>();
         if (invoices == null || invoices.isEmpty()) {
@@ -211,9 +193,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return docs;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getOpenInvoiceDocumentsByCustomerNumber(java.lang.String)
-     */
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
@@ -227,10 +206,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return invoices;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getOpenInvoiceDocumentsByCustomerNameByCustomerType(java.lang.String,
-     *      java.lang.String)
-     */
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNameByCustomerType(String customerName, String customerTypeCode) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
@@ -247,9 +222,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return invoices;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getOpenInvoiceDocumentsByCustomerName(java.lang.String)
-     */
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerName(String customerName) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
@@ -263,9 +235,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return invoices;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getOpenInvoiceDocumentsByCustomerType(java.lang.String)
-     */
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerType(String customerTypeCode) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
@@ -298,9 +267,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getOpenAmountForCustomerInvoiceDocument(java.lang.String)
-     */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
         if (null == customerInvoiceDocumentNumber) {
             return null;
@@ -308,9 +274,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return getOpenAmountForCustomerInvoiceDocument(getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber));
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getOpenAmountForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         KualiDecimal total = new KualiDecimal(0);
         if (customerInvoiceDocument.isOpenInvoiceIndicator()) {
@@ -326,9 +289,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return total;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getOriginalTotalAmountForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     */
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() + "\n\t\t 111111111 HEADER TOTAL AMOUNT (should be null): " + customerInvoiceDocument.getDocumentHeader().getFinancialDocumentTotalAmount() + "\n\n");
         customerInvoiceDocument.getDocumentNumber();
@@ -410,9 +370,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocumentDao.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(java.lang.String)
-     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(String initiatorPrincipalName) {
         if (StringUtils.isBlank(initiatorPrincipalName)) {
             throw new IllegalArgumentException("The parameter [initiatorPrincipalName] passed in was null or blank.");
@@ -437,7 +394,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // This isnt as performant a solution as the other getPrintableCustomerInvoiceBy...
         // methods, but its the best we can do in this release, and it should be manageable.
 
-        //
+        // 
         // attempt to retrieve the initiator person specified, and puke if not found
         Person initiator = getPersonService().getPersonByPrincipalName(initiatorPrincipalName);
         if (initiator == null) {
@@ -472,10 +429,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocuments;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(java.lang.String,
-     *      java.lang.String)
-     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
         List<String> documentHeaderIds = customerInvoiceDocumentDao.getPrintableCustomerInvoiceDocumentNumbersByBillingChartAndOrg(chartOfAccountsCode, organizationCode);
 
@@ -491,10 +444,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocuments;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(java.lang.String,
-     *      java.lang.String)
-     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
         List<String> documentHeaderIds = customerInvoiceDocumentDao.getPrintableCustomerInvoiceDocumentNumbersForBillingStatementByBillingChartAndOrg(chartOfAccountsCode, organizationCode);
 
@@ -529,9 +478,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocuments;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDocumentsByAccountNumber(java.lang.String)
-     */
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByAccountNumber(String accountNumber) {
 
         List<String> docNumbers = customerInvoiceDetailService.getCustomerInvoiceDocumentNumbersByAccountNumber(accountNumber);
@@ -550,10 +496,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocuments;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDocumentsByBillingChartAndOrg(java.lang.String,
-     *      java.lang.String)
-     */
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
         List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(chartOfAccountsCode, organizationCode);
 
@@ -678,6 +620,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getInvoicePaidAppliedsForCustomerInvoiceDocument(java.lang.String)
+     */
+    // public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber) {
+    // return invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(documentNumber);
+    // }
+    /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getNonInvoicedDistributionsForInvoice(java.lang.String)
      */
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber) {
@@ -753,9 +701,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return sqlDueDate;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#closeCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     */
     public void closeCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         customerInvoiceDocument.setOpenInvoiceIndicator(false);
         customerInvoiceDocument.setClosedDate(dateTimeService.getCurrentSqlDate());
@@ -910,23 +855,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             }
         }
         return success;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDocumentAppliedByPaymentApplicationNumber(java.lang.String)
-     */
-    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentAppliedByPaymentApplicationNumber(String paymentApplicationNumberCorrecting) {
-        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
-        try {
-            PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(paymentApplicationNumberCorrecting);
-            for (InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
-                invoices.add(invoicePaidApplied.getCustomerInvoiceDocument());
-            }
-            return invoices;
-        }
-        catch (WorkflowException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
 }

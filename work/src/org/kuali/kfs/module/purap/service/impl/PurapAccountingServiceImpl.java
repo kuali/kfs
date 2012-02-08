@@ -726,9 +726,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
         
         PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase) document;
-        String accountDistributionMethod = purApDocument.getAccountDistributionMethod();
         
-        KualiRuleService kualiRuleService = (KualiRuleService) SpringContext.getBean(KualiRuleService.class);
+        String accountDistributionMethod = purApDocument.getAccountDistributionMethod();
         
         // the percent at fiscal approve
         // don't update if past the AP review level
@@ -743,7 +742,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         if ((document instanceof PaymentRequestDocument) && PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             // update the accounts amounts for PREQ and distribution method = sequential
             for (PurApItem item : document.getItems()) {
-                updatePreqItemAccountAmounts(item);
+                boolean rulePassed = true;
+                // check any business rules
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
+
+            //    if (rulePassed) {
+                    updatePreqItemAccountAmounts(item);
+            //    }
             }
             
             return;
@@ -755,33 +760,22 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             for (PurApItem item : document.getItems()) {
                 boolean rulePassed = true;
                 // check any business rules
-                rulePassed &= kualiRuleService.applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
 
-                if (rulePassed) {
+             //   if (rulePassed) {
                     updatePreqProportionalItemAccountAmounts(item);
-                }
+             //   }
             }
             
             return;
         }
         
-        //do recalculate only if the account distribution method code is not equal to "S" sequential ON REQ or POs..
-        if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
-            for (PurApItem item : document.getItems()) {
-                boolean rulePassed = true;
-                // check any business rules
-                rulePassed &= kualiRuleService.applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
-
-                return;
-            }
-        }
-        
-        //do recalculate only if the account distribution method code is not equal to "P" proportional. 
+        //do recalculate only if the account distribution method code is not equal to "S" sequential. 
         if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
                 boolean rulePassed = true;
                 // check any business rules
-                rulePassed &= kualiRuleService.applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
 
                 if (rulePassed) {
                     updateItemAccountAmounts(item);

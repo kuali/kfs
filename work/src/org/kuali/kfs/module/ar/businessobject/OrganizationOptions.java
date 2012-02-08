@@ -53,7 +53,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private String organizationCheckPayableToName;
     private String organizationPostalZipCode;
     private String organizationPostalCountryCode;
-    private boolean cgBiller;
+
     private Organization organization;
 	private Chart chartOfAccounts;
 	private Chart processingChartOfAccount;
@@ -73,22 +73,6 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	}
 
 	/**
-	 * Gets the cgBiller attribute. 
-	 * @return Returns the cgBiller.
-	 */
-	public boolean isCgBiller() {
-	    return cgBiller;
-	}
-
-    /**
-     * Sets the cgBiller attribute value.
-     * @param cgBiller The cgBiller to set.
-     */
-    public void setCgBiller(boolean cgBiller) {
-        this.cgBiller = cgBiller;
-    }
-
-    /**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
 	 * @return Returns the chartOfAccountsCode

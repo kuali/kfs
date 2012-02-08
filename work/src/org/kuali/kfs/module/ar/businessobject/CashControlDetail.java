@@ -24,7 +24,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -37,16 +36,14 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	private String customerPaymentMediumIdentifier;
 	private KualiDecimal financialDocumentLineAmount;
 	private String customerPaymentDescription;
-	private String customerNumber;    
-    private String status;
+	private String customerNumber;
 	private Date customerPaymentDate;
 
     private transient PaymentApplicationDocument referenceFinancialDocument;
     private transient CashControlDocument cashControlDocument;
-    private transient boolean toCorrectIndicator;
-    
 	private Customer customer;
-
+    
+    private String status;
     
 	/**
 	 * Default constructor.
@@ -296,34 +293,6 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
      */
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    /**
-     * This method returns the indicator.  This indicator is only used for UI for user selection to choose which detail to correct.  
-     * This data is not stored in the database, nor is it a flag to indicate whether THIS object is a correction detail.
-     * @return
-     */
-    public boolean isToCorrectIndicator() {
-        return toCorrectIndicator;
-    }
-
-    public void setToCorrectIndicator(boolean toCorrectIndicator) {
-        this.toCorrectIndicator = toCorrectIndicator;
-    }
-    
-    /**
-     * This method returns true if the Cash Control Detail's Payment Application is a correction document, false otherwise.
-     * @return
-     * @throws WorkflowException
-     */
-    public boolean isCashControlDetailErrorCorrection() throws WorkflowException{
-        if(this.getReferenceFinancialDocumentNumber() != null){  // referenceFinancialDocumentNumber could be null if it is first time adding to line
-            PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(this.getReferenceFinancialDocumentNumber());
-            if( paymentApplicationDocument.isPaymentApplicationCorrection()){
-                return true;
-            }
-        }
-        return false;
     }
     
 }

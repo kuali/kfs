@@ -37,7 +37,7 @@
 <kul:tab tabTitle="General Info" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
 	<div class="tab-container" align=center>
-		<h3>General Info</h3>
+			<h3>General Info</h3>
 		<table cellpadding="0" cellspacing="0" summary="General Info">
 
 			<tr>
@@ -45,39 +45,40 @@
 					attributeEntry="${arDocHeaderAttributes.processingChartOfAccCodeAndOrgCode}"
 					horizontal="true" width="50%" />
 
-				<td class="datacell-nowrap"><kul:htmlControlAttribute
+				<td class="datacell-nowrap">
+					<kul:htmlControlAttribute
 						attributeEntry="${arDocHeaderAttributes.processingChartOfAccCodeAndOrgCode}"
 						property="processingChartOfAccCodeAndOrgCode" readOnly="true" />
 				</td>
 			</tr>
-			<c:if test="${showBankCode}">
-				<tr>
-					<kul:htmlAttributeHeaderCell
-						attributeEntry="${documentAttributes.bankCode}" horizontal="true"
-						forceRequired="true" labelFor="document.bankCode" />
+			<c:if test="${showBankCode}" >
+			<tr>
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${documentAttributes.bankCode}"
+					horizontal="true" forceRequired="true" labelFor="document.bankCode" />
 
-					<c:choose>
-						<c:when test="${editBankCode}">
-							<sys:bankControl property="document.bankCode"
-								objectProperty="document.bank" depositOnly="false"
-								disbursementOnly="false" readOnly="${readOnly}"
-								style="datacell-nowrap" />
-						</c:when>
-						<c:otherwise>
-							<td class="datacell-nowrap"><c:out
-									value="${KualiForm.document.bankCode}" /></td>
-						</c:otherwise>
-					</c:choose>
-				</tr>
+				<c:choose>
+					<c:when test="${editBankCode}">
+					<sys:bankControl property="document.bankCode" objectProperty="document.bank" 
+									 depositOnly="false" disbursementOnly="false" 
+									 readOnly="${readOnly}" style="datacell-nowrap" />
+					</c:when>
+					<c:otherwise>
+					<td class="datacell-nowrap">
+						<c:out value="${KualiForm.document.bankCode}" />
+					</td>
+					</c:otherwise>
+				</c:choose>
+			</tr>
 			</c:if>
 
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.customerPaymentMediumCode}"
-					horizontal="true" forceRequired="true"
-					labelFor="document.customerPaymentMediumCode" />
+					horizontal="true" forceRequired="true" labelFor="document.customerPaymentMediumCode" />
 
-				<td class="datacell-nowrap"><c:choose>
+				<td class="datacell-nowrap">
+					<c:choose>
 						<c:when test="${editPaymentMedium}">
 							<kul:htmlControlAttribute
 								attributeEntry="${documentAttributes.customerPaymentMediumCode}"
@@ -85,97 +86,25 @@
 								onchange="submitForm()" forceRequired="true" />
 						</c:when>
 						<c:otherwise>
-							<c:out
-								value="${KualiForm.document.customerPaymentMedium.customerPaymentMediumDescription}" />
+							<c:out value="${KualiForm.document.customerPaymentMedium.customerPaymentMediumDescription}" />
 						</c:otherwise>
-					</c:choose></td>
-			</tr>
-
-
-			<tr>
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${documentAttributes.invoiceDocumentType}"
-					horizontal="true" forceRequired="true"
-					labelFor="document.invoiceDocumentType" useShortLabel="false" />
-				<td class="datacell-nowrap"><kul:htmlControlAttribute
-						attributeEntry="${documentAttributes.invoiceDocumentType}"
-						property="document.invoiceDocumentType" onchange="submitForm()"
-						forceRequired="true" /></td>
-			</tr>
-			<c:choose>
-				<c:when
-					test="${!empty KualiForm.document.invoiceDocumentType && KualiForm.document.invoiceDocumentType == 'CGIN'}">
-
-					<tr>
-						<kul:htmlAttributeHeaderCell
-							attributeEntry="${documentAttributes.locCreationType}"
-							horizontal="true" labelFor="document.locCreationType"
-							useShortLabel="false" />
-						<td class="datacell-nowrap"><kul:htmlControlAttribute
-								attributeEntry="${documentAttributes.locCreationType}"
-								property="document.locCreationType" onchange="submitForm()" />
-
-						</td>
-					</tr>
-
-					<c:choose>
-						<c:when
-							test="${!empty KualiForm.document.locCreationType && KualiForm.document.locCreationType == CGConstants.LOC_BY_LOC_FUND}">
-
-							<tr>
-								<kul:htmlAttributeHeaderCell
-									attributeEntry="${documentAttributes.letterOfCreditFundCode}"
-									horizontal="true" labelFor="document.letterOfCreditFundCode"
-									useShortLabel="false" />
-								<td class="datacell-nowrap"><kul:htmlControlAttribute
-										attributeEntry="${documentAttributes.letterOfCreditFundCode}"
-										property="document.letterOfCreditFundCode" /></td>
-							</tr>
-						</c:when>
-						<c:when
-							test="${!empty KualiForm.document.locCreationType && KualiForm.document.locCreationType == CGConstants.LOC_BY_LOC_FUND_GRP}">
-
-
-							<tr>
-								<kul:htmlAttributeHeaderCell
-									attributeEntry="${documentAttributes.letterOfCreditFundGroupCode}"
-									horizontal="true"
-									labelFor="document.letterOfCreditFundGroupCode"
-									useShortLabel="false" />
-								<td class="datacell-nowrap"><kul:htmlControlAttribute
-										attributeEntry="${documentAttributes.letterOfCreditFundGroupCode}"
-										property="document.letterOfCreditFundGroupCode" />
-
-								</td>
-							</tr>
-						</c:when>
-						<c:when
-							test="${!empty KualiForm.document.locCreationType && KualiForm.document.locCreationType == CGConstants.LOC_BY_AWARD}">
-
-
-							<tr>
-								<kul:htmlAttributeHeaderCell
-									attributeEntry="${documentAttributes.proposalNumber}"
-									horizontal="true" labelFor="document.proposalNumber"
-									useShortLabel="false" />
-								<td class="datacell-nowrap"><kul:htmlControlAttribute
-										attributeEntry="${documentAttributes.proposalNumber}"
-										property="document.proposalNumber" /></td>
-							</tr>
-						</c:when>
 					</c:choose>
-				</c:when>
-			</c:choose>
+				</td>
+			</tr>
+
+
 			<c:if test="${KualiForm.cashPaymentMediumSelected}">
 				<tr>
 					<kul:htmlAttributeHeaderCell
 						attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
 						horizontal="true" />
 
-					<td class="datacell-nowrap"><kul:htmlControlAttribute
+					<td class="datacell-nowrap">
+						<kul:htmlControlAttribute
 							attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
 							property="document.referenceFinancialDocumentNumber"
-							readOnly="${not editRefDocNbr}" forceRequired="true" /></td>
+							readOnly="${not editRefDocNbr}" forceRequired="true" />
+					</td>
 				</tr>
 			</c:if>
 
@@ -184,12 +113,13 @@
 					<kul:htmlAttributeHeaderCell
 						literalLabel="Generate General Ledger Pending Entries:"
 						horizontal="true" />
-					<td class="datacell-nowrap"><html:image
-							property="methodToCall.generateGLPEs"
+					<td class="datacell-nowrap">
+						<html:image property="methodToCall.generateGLPEs"
 							src="${ConfigProperties.externalizable.images.url}tinybutton-generate.gif"
 							alt="Generate General Ledger Pending Entries"
 							title="Generate General Ledger Pending Entries"
-							styleClass="tinybutton" /></td>
+							styleClass="tinybutton" />
+					</td>
 				</tr>
 			</c:if>
 		</table>

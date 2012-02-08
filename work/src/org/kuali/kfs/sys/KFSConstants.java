@@ -36,8 +36,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
     public static final String APPLICATION_NAMESPACE_CODE = "KFS";    
     
-    @Deprecated
-    // Please switch all references to KFSConstants.CoreModuleNamespaces
+    @Deprecated // Please switch all references to KFSConstants.CoreModuleNamespaces 
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";
         public static final String CHART = "KFS-COA";
@@ -83,7 +82,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String LOG4J_SETTINGS_FILE_KEY = "log4j.settings.file";
     public static final String LOG4J_RELOAD_MINUTES_KEY = "log4j.reload.minutes";
     public static final String APPLICATION_URL_KEY = "application.url";
-    public static final String TEMPLATES_DIRECTORY_KEY = "templates.directory";
     public static final String TEMP_DIRECTORY_KEY = "temp.directory";
     public static final String EXTERNALIZABLE_HELP_URL_KEY = "externalizable.help.url";
     public static final String EXTERNALIZABLE_IMAGES_URL_KEY = "externalizable.images.url";
@@ -112,8 +110,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String NON_ACTIVE_INDICATOR = "N";
     public static final String BLANK_SPACE = " ";
     public static final String BACK_LOCATION = "backLocation";
-    @Deprecated
-    // Move to GL constants
+    @Deprecated // Move to GL constants
     public static final String BALANCE_INQUIRY_REPORT_MENU_ACTION = "balanceInquiryReportMenu.do";
     public static final String ASSET_INQUIRY_MENU_ACTION = "camsAssetPayment.do";
     @Deprecated
@@ -194,17 +191,13 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String FROM = "From";
     public static final String GENERIC_CODE_PROPERTY_NAME = "code";
     public static final String GL_BALANCE_INQUIRY_FLAG = "inquiryFlag";
-    @Deprecated
-    // Move to GL constants
+    @Deprecated // Move to GL constants
     public static final String GL_ACCOUNT_BALANCE_BY_CONSOLIDATION_LOOKUP_ACTION = "glAccountBalanceByConsolidationLookup.do";
-    @Deprecated
-    // Move to GL constants
+    @Deprecated // Move to GL constants
     public static final String GL_BALANCE_INQUIRY_ACTION = "glBalanceInquiry.do";
-    @Deprecated
-    // Move to GL constants
+    @Deprecated // Move to GL constants
     public static final String GL_MODIFIED_INQUIRY_ACTION = "glModifiedInquiry.do";
-    @Deprecated
-    // Move to GL constants
+    @Deprecated // Move to GL constants
     public static final String GL_PE_OFFSET_STRING = "TP Generated Offset";
     @Deprecated
     public static final String SUB_OBJECT_CODE_PROPERTY_NAME = KFSPropertyConstants.SUB_OBJECT_CODE;
@@ -327,7 +320,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String AUXILIARY_LINE_HELPER_PROPERTY_NAME = "auxiliaryLineHelper";
     public static final String VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME = ".credit";
     public static final String VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME = ".debit";
-    public static final String KUALI_WORKFLOW_APPLICATION_CODE = "kuali";
     public static final String LOOKUP_ACTION = "kr/lookup.do";
     public static final String LOOKUP_RESULTS_SEQUENCE_NUMBER = "lookupResultsSequenceNumber";
     public static final String LOOKUP_RESULTS_BO_CLASS_NAME = "lookupResultsBOClassName";
@@ -339,7 +331,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String LOOKUPABLE_IMPL_ATTRIBUTE_NAME = "lookupableImplServiceName";
     public static final String LOOKUPABLE_SUFFIX = "Lookupable";
     public static final String KUALI_LOOKUPABLE_IMPL = "kualiLookupable";
-    public static final String KUALI_CUSTOMER_LOOKUPABLE_IMPL = "customerLookupable";
     public static final String KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL = "disbursementPayeeLookupable";
     public static final String KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String DOC_HANDLER_ACTION = "DocHandler.do";
@@ -435,7 +426,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final int CORRECTION_RECENT_GROUPS_DAY = 10;
 
     public static final String GLOBAL_ERRORS = "GLOBAL_ERRORS";
-    public static final String INVOICE_TEMPLATE_UPLOAD = "document.invoiceTemplateUpload";
     public static final String GLOBAL_MESSAGES = "GlobalMessages";
     public static final String DOCUMENT_DOCUMENT_ERRORS = "document.document*";
     public static final String DOCUMENT_EXPLANATION_ERRORS = "document.explanation*";
@@ -761,8 +751,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static class ParameterValues {
         public static final String YES = "Y";
         public static final String NO = "N";
-        public static final String STRING_NO = "No";
-        public static final String STRING_YES = "Yes";
     }
 
     public static class Maintenance {
@@ -872,9 +860,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String DONE_FILE_TYPE = "DONE_FILE";
     
     /**
-     * The base implementation of {@link org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatusBase} uses strings contained
-     * within ApplicationResources.properties to store the human-readable descriptions of each status object. The fully qualified
-     * class name is appended to the end of this key to generate the true key. For example,
+     * The base implementation of {@link org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatusBase} uses strings contained within
+     * ApplicationResources.properties to store the human-readable descriptions of each status object. The fully qualified class
+     * name is appended to the end of this key to generate the true key. For example,
      * gl.EnterpriseFeeder.StatusDescriptionPrefix.org.kuali.kfs.gl.batch.service.impl.FileReconBadLoadAbortedStatus
      */
     public static final String ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX = "gl.EnterpriseFeeder.StatusDescription.";
@@ -1062,15 +1050,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String SALES_TAX_BLOCK = "salesTaxInformation";
     }
     
-
-    // contracts grants module document type codes
-    public static final class ContractsGrantsModuleDocumentTypeCodes {
-        // contracts grants invoice
-        public static final String CONTRACTS_GRANTS_INVOICE = "CGIN";
-
-    }
-
-
     public static final class TaxRegionConstants {
         public static final String TAX_REGION_RATES = "taxRegionRates";
         public static final String TAX_REGION_COUNTIES = "taxRegionCounties";
@@ -1107,8 +1086,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         }
     }
 
-    @Deprecated
-    // Move to AR
+    @Deprecated // Move to AR
     public static final class CustomerOpenItemReport {
         public static final String CUSTOMER_NUMBER = "customerNumber";
         public static final String CUSTOMER_NAME = "customerName";
@@ -1134,8 +1112,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
     }
     
-    @Deprecated
-    // Move to AR
+    @Deprecated // Move to AR
     public static final class CustomerAgingReport {
         public static final String CUSTOMER_NAME = "customerName";
         public static final String UNPAID_BALANCE_0_TO_30 = "unpaidBalance0to30";
@@ -1145,8 +1122,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String UNPAID_BALANCE_SYSPR_PLUS_1_OR_MORE = "unpaidBalanceSYSPRplus1orMore";
     }
     
-    @Deprecated
-    // move to PDP
+    @Deprecated // move to PDP
     public static final class PdpConstants {
         public static final String PAYMENT_OPEN_STATUS_CODE = "OPEN";
     }
@@ -1174,7 +1150,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static class SysKimConstants{
         public static final String ACCOUNT_SUPERVISOR_KIM_ROLE_NAME = "Account Supervisor";
         public static final String CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR = "Contracts & Grants Project Director";
-        public static final String CONTRACTS_AND_GRANTS_FUND_MANAGER = "Contracts & Grants Fund Manager";
         public static final String FISCAL_OFFICER_KIM_ROLE_NAME = "Fiscal Officer";
         public static final String FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME = "Fiscal Officer Primary Delegate";
         public static final String FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME = "Fiscal Officer Secondary Delegate";
@@ -1200,7 +1175,10 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public enum PermissionTemplate {
-        DEFAULT("Default"), ERROR_CORRECT_DOCUMENT("Error Correct Document"), MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment"), MODIFY_BATCH_JOB("Modify Batch Job"), EDIT_BANK_CODE("Edit Bank Code"), ADMINISTER_ROUTING_FOR_DOCUMENT("Administer Routing for Document"), VIEW_BATCH_FILES("Administer Batch File"), UPLOAD_BATCH_INPUT_FILES("Upload Batch Input File(s)");
+        DEFAULT("Default"), ERROR_CORRECT_DOCUMENT("Error Correct Document"),
+        MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment"),
+        MODIFY_BATCH_JOB("Modify Batch Job"), EDIT_BANK_CODE("Edit Bank Code"), ADMINISTER_ROUTING_FOR_DOCUMENT("Administer Routing for Document"),
+        VIEW_BATCH_FILES("Administer Batch File"), UPLOAD_BATCH_INPUT_FILES("Upload Batch Input File(s)");
 
         public final String name;
         private PermissionTemplate(String name) {
@@ -1215,17 +1193,15 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String SERVE_AS_FISCAL_OFFICER = "Serve As Fiscal Officer";
         public static final String SERVE_AS_FISCAL_OFFICER_DELEGATE = "Serve As Fiscal Officer Delegate";
         public static final String FULL_UNMASK_FIELD = "Full Unmask Field";
-        public static final String PAY_AR_CUSTOMERS = "Pay AR Customers";
     }
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";
     public static final String KFS_ACTION_CAN_EDIT_BANK = "canEditBank";
     
-    public final static String REPORT_TITLE = "reportTitle";
+
     public static final String AMOUNT_TOTALING_EDITING_MODE = "amountTotaling";
     public static final String BANK_ENTRY_VIEWABLE_EDITING_MODE = "bankEntryViewable";
     public static final String BANK_ENTRY_EDITABLE_EDITING_MODE = "bankEntry";
-    public static final String ERROR_CORRECTION_EDITING_MODE = "errorCorrection";
     
     public class RouteLevelNames {
         public static final String ACCOUNT = "Account";

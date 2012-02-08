@@ -17,87 +17,55 @@
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialDisbursementVoucher"
-	documentTypeName="DisbursementVoucherDocument" renderMultipart="true"
-	showTabButtons="true">
-
+	documentTypeName="DisbursementVoucherDocument"
+	renderMultipart="true" showTabButtons="true">
+	
 	<fp:dvPrintCoverSheet />
 	<fp:dvMessages />
+	
+	<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
+	<c:set var="fullEntryMode" value="${canEdit && KualiForm.editingMode['fullEntry']}" scope="request" />
 
-	<c:set var="canEdit"
-		value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"
-		scope="request" />
-	<c:set var="fullEntryMode"
-		value="${canEdit && KualiForm.editingMode['fullEntry']}"
-		scope="request" />
-
-	<c:set var="frnEntryMode"
-		value="${canEdit && KualiForm.editingMode['frnEntry']}"
-		scope="request" />
-	<c:set var="travelEntryMode"
-		value="${canEdit && KualiForm.editingMode['travelEntry']}"
-		scope="request" />
-
-	<c:set var="wireEntryMode"
-		value="${canEdit && KualiForm.editingMode['wireEntry']}"
-		scope="request" />
-	<c:set var="taxEntryMode"
-		value="${canEdit && KualiForm.editingMode['taxEntry']}"
-		scope="request" />
-
-	<c:set var="payeeEntryMode"
-		value="${canEdit && KualiForm.editingMode['payeeEntry']}"
-		scope="request" />
-
-	<c:set var="paymentHandlingEntryMode"
-		value="${canEdit && KualiForm.editingMode['paymentHandlingEntry']}"
-		scope="request" />
-	<c:set var="voucherDeadlineEntryMode"
-		value="${canEdit && KualiForm.editingMode['voucherDeadlineEntry']}"
-		scope="request" />
-	<c:set var="specialHandlingChangingEntryMode"
-		value="${canEdit && KualiForm.editingMode['specialHandlingChangingEntry']}"
-		scope="request" />
-	<c:set var="refundEntryMode"
-		value="${canEdit && KualiForm.editingMode['refundEntry']}"
-		scope="request" />
-
-	<sys:documentOverview editingMode="${KualiForm.editingMode}"
-		includeBankCode="true" bankProperty="document.disbVchrBankCode"
-		bankObjectProperty="document.bank" disbursementOnly="true" />
-
+	<c:set var="frnEntryMode" value="${canEdit && KualiForm.editingMode['frnEntry']}" scope="request" />
+	<c:set var="travelEntryMode" value="${canEdit && KualiForm.editingMode['travelEntry']}" scope="request" />
+	
+	<c:set var="wireEntryMode" value="${canEdit && KualiForm.editingMode['wireEntry']}" scope="request" />
+	<c:set var="taxEntryMode" value="${canEdit && KualiForm.editingMode['taxEntry']}" scope="request" />
+	
+	<c:set var="payeeEntryMode" value="${canEdit && KualiForm.editingMode['payeeEntry']}" scope="request" />
+	
+	<c:set var="paymentHandlingEntryMode" value="${canEdit && KualiForm.editingMode['paymentHandlingEntry']}" scope="request" />
+	<c:set var="voucherDeadlineEntryMode" value="${canEdit && KualiForm.editingMode['voucherDeadlineEntry']}" scope="request" />
+	<c:set var="specialHandlingChangingEntryMode" value="${canEdit && KualiForm.editingMode['specialHandlingChangingEntry']}" scope="request" />
+	
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
+	  bankProperty="document.disbVchrBankCode" 
+	  bankObjectProperty="document.bank"
+	  disbursementOnly="true" />
+	  
 	<fp:dvPayment />
 
-	<kul:tab tabTitle="Accounting Lines" defaultOpen="true"
-		tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
 		<sys-java:accountingLines>
-			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine"
-				collectionPropertyName="document.sourceAccountingLines"
-				collectionItemPropertyName="document.sourceAccountingLine"
-				attributeGroupName="source" />
+			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
 		</sys-java:accountingLines>
 	</kul:tab>
-
+	
 	<fp:dvContact />
-	<fp:dvSpecialHandling />
+    <fp:dvSpecialHandling />
 	<fp:dvNRATax />
 	<fp:dvWireTransfer />
 	<fp:dvForeignDraft />
-
-	<c:if test="${!KualiForm.document.refundIndicator}">
-		<fp:dvNonEmployeeTravel />
-		<fp:dvPrePaidTravel />
-	</c:if>
-
-	<fp:dvPDPStatus />
+	<fp:dvNonEmployeeTravel />
+	<fp:dvPrePaidTravel />
+    <fp:dvPDPStatus />
 	<gl:generalLedgerPendingEntries />
-	<kul:notes
-		attachmentTypesValuesFinderClass="${documentEntry.attachmentTypesValuesFinderClass}" />
+	<kul:notes attachmentTypesValuesFinderClass="${documentEntry.attachmentTypesValuesFinderClass}" />
 	<kul:adHocRecipients />
 
 	<kul:routeLog />
 
 	<kul:panelFooter />
-
-	<sys:documentControls
-		transactionalDocument="${documentEntry.transactionalDocument}" />
+	
+	<sys:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

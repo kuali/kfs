@@ -440,7 +440,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         KimPermissionTemplateInfo templateInfo = permissionService.getPermissionTemplate(templateId);
         String templateName = templateInfo.getName();
 
-        //if the business object is of class ReportBusinessObject interface, use refreshNonUpdateableForReport();
+        //if the business object is of ReportBusinessObject interface, use refreshNonUpdateableForReport();
         if (ReportBusinessObject.class.isAssignableFrom(businessObject.getClass())) {
             ((ReportBusinessObject) businessObject).refreshNonUpdateableForReport();
         }

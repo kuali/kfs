@@ -17,14 +17,13 @@
 package org.kuali.kfs.integration.cg.businessobject;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of a college or university
  * financial system.
  */
-public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAgency {
+public class Agency implements ContractsAndGrantsAgency {
 
     private String agencyNumber;
     private String reportingName;
@@ -34,9 +33,6 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     private KualiDecimal indirectAmount;
     private boolean inStateIndicator;
     private Agency reportsToAgency;
-    private String customerNumber;
-    private String customerTypeCode;
-    private String dunsPlusFourNumber;
     private boolean active;
 
     /**
@@ -204,8 +200,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     }
 
     /**
-     * Gets the active attribute.
-     * 
+     * Gets the active attribute. 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -213,72 +208,15 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     }
 
     /**
-     * Gets the customerNumber attribute.
-     * 
-     * @return Returns the customerNumber.
-     */
-    public String getCustomerNumber() {
-        return customerNumber;
-    }
-
-    /**
-     * Sets the customerNumber attribute value.
-     * 
-     * @param customerNumber The customerNumber to set.
-     */
-    public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber;
-    }
-
-    /**
-     * Sets the customerTypeCode attribute value.
-     * 
-     * @param customerTypeCode The customerTypeCode to set.
-     */
-    public void setCustomerTypeCode(String customerTypeCode) {
-        this.customerTypeCode = customerTypeCode;
-    }
-
-    /**
-     * Gets the customerTypeCode attribute.
-     * 
-     * @return Returns the customerTypeCode.
-     */
-    public String getCustomerTypeCode() {
-        return customerTypeCode;
-    }
-
-    /**
-     * Gets the dunsPlusFourNumber attribute.
-     * 
-     * @return Returns the dunsPlusFourNumber.
-     */
-    public String getDunsPlusFourNumber() {
-        return dunsPlusFourNumber;
-    }
-
-    /**
-     * Sets the dunsPlusFourNumber attribute value.
-     * 
-     * @param dunsPlusFourNumber The dunsPlusFourNumber to set.
-     */
-    public void setDunsPlusFourNumber(String dunsPlusFourNumber) {
-        this.dunsPlusFourNumber = dunsPlusFourNumber;
-    }
-
-    /**
      * Sets the active attribute value.
-     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
     }
 
-    public void prepareForWorkflow() {
-    }
+    public void prepareForWorkflow() {}
 
-    public void refresh() {
-    }
+    public void refresh() {}
 
 }

@@ -34,7 +34,6 @@
 				<ref bean="TravelExpenseTypeCode-prepaidExpense" />
 				<ref bean="TravelExpenseTypeCode-name" />
 				<ref bean="TravelExpenseTypeCode-active" />
-        		<ref bean="TravelExpenseTypeCode-financialObjectCode"/>
 			</list>
 		</property>
 	</bean>
@@ -89,8 +88,6 @@
 		<property name="name" value="active" />
 	</bean>
 
-  <bean id="TravelExpenseTypeCode-financialObjectCode" parent="TravelExpenseTypeCode-financialObjectCode-parentBean"/>
-  <bean id="TravelExpenseTypeCode-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -147,7 +144,6 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="code" />
-        		<bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
 				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="prepaidExpense" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
@@ -156,7 +152,6 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="code" />
-        		<bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
 				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="prepaidExpense" />
 				<bean parent="FieldDefinition" p:attributeName="active" />

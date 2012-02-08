@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -25,7 +24,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class CustomerType extends PersistableBusinessObjectBase implements Inactivateable, AccountsReceivableCustomerType {
+public class CustomerType extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private String customerTypeCode;
 	private String customerTypeDescription;

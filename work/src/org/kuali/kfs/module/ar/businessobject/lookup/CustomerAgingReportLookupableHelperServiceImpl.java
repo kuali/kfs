@@ -56,7 +56,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.format.BooleanFormatter;
 import org.kuali.rice.kns.web.format.CollectionFormatter;
@@ -443,61 +442,43 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     private String getCustomerOpenItemReportUrl(BusinessObject bo, String columnTitle) {
 
-        Properties parameters = new Properties();
-                
         CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
-        
-        parameters.put("businessObjectClassName", "org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail");
-        parameters.put("returnLocation", "");
-        parameters.put("lookupableImplementaionServiceName", "arCustomerOpenItemReportLookupable");
-        parameters.put("methodToCall", "search");
-        parameters.put("reportName", KFSConstants.CustomerOpenItemReport.OPEN_ITEM_REPORT_NAME);
-        parameters.put("docFormKey", "88888888");
+        String href = "arCustomerOpenItemReportLookup.do" + "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" + "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" + "&methodToCall=search&reportName=" + KFSConstants.CustomerOpenItemReport.OPEN_ITEM_REPORT_NAME + "&docFormKey=88888888&customerNumber=" +
         // Customer Name, Customer Number
-        parameters.put("customerNumber", detail.getCustomerNumber());
-        parameters.put("customerName", detail.getCustomerName());
+                detail.getCustomerNumber() + "&customerName=" + detail.getCustomerName();
         // Report Option
-        parameters.put("reportOption", reportOption);
-                
+        href += "&reportOption=" + reportOption;
         if (reportOption.equals(ArConstants.CustomerAgingReportFields.ACCT)) {
             // Account Number
-            parameters.put("accountChartOfAccountsCode", accountChartCode);
-            parameters.put("accountNumber", accountNumber);
-       
+            href += "&accountChartOfAccountsCode=" + accountChartCode + "&accountNumber=" + accountNumber;
         } else {
             // Chart Code, Organization Code
-            parameters.put("processingOrBillingChartCode", processingOrBillingChartCode);
-            parameters.put("orgCode", orgCode);
+            href += "&processingOrBillingChartCode=" + processingOrBillingChartCode + "&orgCode=" + orgCode;
         }
         // Report Run Date
         DateFormatter dateFormatter = new DateFormatter();
-        parameters.put("reportRunDate", dateFormatter.format(reportRunDate).toString());
-        
+        href += "&reportRunDate=" + dateFormatter.format(reportRunDate).toString();
+
         if (StringUtils.equals(columnTitle, customerNumberLabel)) {
-            parameters.put("columnTitle", KFSConstants.CustomerOpenItemReport.ALL_DAYS);
+            href += "&columnTitle=" + KFSConstants.CustomerOpenItemReport.ALL_DAYS;
         }
         else {
             if (StringUtils.equals(columnTitle, cutoffdate30Label)) {
-                parameters.put("startDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -30)).toString());
-                parameters.put("endDate", dateFormatter.format(reportRunDate).toString());
+                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -30)).toString() + "&endDate=" + dateFormatter.format(reportRunDate).toString();
             } else if (StringUtils.equals(columnTitle, cutoffdate60Label)) {
-                parameters.put("startDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -60)).toString());
-                parameters.put("endDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -31)).toString());
+                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -60)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -31)).toString();
             } else if (StringUtils.equals(columnTitle, cutoffdate90Label)) {
-                parameters.put("startDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -90)).toString());
-                parameters.put("endDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -61)));
+                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -90)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -61)).toString();
             } else if (StringUtils.equals(columnTitle, cutoffdate91toSYSPRlabel)) {
-                parameters.put("startDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -120)).toString());
-                parameters.put("endDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -91)).toString());
+                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -120)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -91)).toString();
             } else if (StringUtils.equals(columnTitle, cutoffdateSYSPRplus1orMorelabel)) {
-                parameters.put("startDate", "");
-                parameters.put("endDate", dateFormatter.format(DateUtils.addDays(reportRunDate, -121)).toString());
+                href += "&startDate=" + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -121)).toString();
                 columnTitle = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + " days and older";
             }
-            parameters.put("columnTitle", columnTitle);
+            href += "&columnTitle=" + columnTitle;
         }
-       
-        return UrlFactory.parameterizeUrl("arCustomerOpenItemReportLookup.do", parameters);
+
+        return href;
     }
 
     /**

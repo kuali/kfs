@@ -42,15 +42,14 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
 import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationLocationValuesFinder;
 import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -150,7 +149,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected Date cancelDate;
     protected String disbVchrBankCode;
     protected String disbVchrPdpBankCode;
-    protected boolean refundIndicator;
 
     protected boolean payeeAssigned = false;
     protected boolean editW9W8BENbox = false;
@@ -180,7 +178,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         dvWireTransfer = new DisbursementVoucherWireTransfer();
         disbVchrCheckTotalAmount = KualiDecimal.ZERO;
         bank = new Bank();
-        refundIndicator = false;
     }
 
 
@@ -1027,44 +1024,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.disbVchrPayeeW9CompleteCode = true;
     }
     
-    /* Start TEM REFUND Merge */
-    /**
-     * Convenience method to set dv payee detail fields based on a given customer
-     * 
-     * @param customer - customer to use as payee
-     * @param customerAddress - customer address to use for payee address
-     */
-    public void templateCustomer(AccountsReceivableCustomer customer, AccountsReceivableCustomerAddress customerAddress) {
-        if (customer == null) {
-            return;
-        }
-
-        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
-        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(customer.getCustomerNumber());
-        this.getDvPayeeDetail().setDisbVchrPayeePersonName(customer.getCustomerName());
-        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
-
-        if (ObjectUtils.isNotNull(customerAddress) && ObjectUtils.isNotNull(customerAddress.getCustomerAddressIdentifier())) {
-            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber(customerAddress.getCustomerAddressIdentifier().toString());
-            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(customerAddress.getCustomerLine1StreetAddress());
-            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(customerAddress.getCustomerLine2StreetAddress());
-            this.getDvPayeeDetail().setDisbVchrPayeeCityName(customerAddress.getCustomerCityName());
-            this.getDvPayeeDetail().setDisbVchrPayeeStateCode(customerAddress.getCustomerStateCode());
-            this.getDvPayeeDetail().setDisbVchrPayeeZipCode(customerAddress.getCustomerZipCode());
-            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(customerAddress.getCustomerCountryCode());
-        }
-        else {
-            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber("");
-            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr("");
-            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
-            this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
-            this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
-            this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
-            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
-        }
-    }
-    /* End TEM REFUND Merge */
-    
     /**
      * Finds the address for the given employee, matching the type in the KFS-FP / Disbursement Voucher/ DEFAULT_EMPLOYEE_ADDRESS_TYPE parameter,
      * to use as the address for the employee
@@ -1694,16 +1653,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.disbVchrPdpBankCode = disbVchrPdpBankCode;
     }   
 
-    /* Start TEM REFUND Merge */
-    public boolean isRefundIndicator() {
-        return refundIndicator;
-    }
-
-    public void setRefundIndicator(boolean refundIndicator) {
-        this.refundIndicator = refundIndicator;
-    }
-    /* End TEM REFUND Merge */
-    
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
      */

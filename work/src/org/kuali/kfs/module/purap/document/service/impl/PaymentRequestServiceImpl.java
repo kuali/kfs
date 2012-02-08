@@ -61,7 +61,6 @@ import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationServi
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
-import org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemPreCalculateEvent;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
@@ -91,7 +90,6 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1074,8 +1072,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
        
         String accountDistributionMethod = paymentRequestDocument.getAccountDistributionMethod();
         
-        KualiRuleService kualiRuleService = (KualiRuleService) SpringContext.getBean(KualiRuleService.class);
-        
         for (PaymentRequestItem item : (List<PaymentRequestItem>) paymentRequestDocument.getItems()) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             List<PurApAccountingLine> distributedAccounts = null;
@@ -1114,14 +1110,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         purapAccountingService.updatePreqAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
                         
                     } else {
-                        
-                        boolean rulePassed = true;
-                        // check any business rules
-                        rulePassed &= kualiRuleService.applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(paymentRequestDocument, item));
-
-                        if (rulePassed) {
-                            purapAccountingService.updatePreqProporationalAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
-                        }
+                        purapAccountingService.updatePreqProporationalAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
                     }
                 }
                 else {

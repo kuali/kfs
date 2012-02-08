@@ -21,13 +21,9 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingAccountsPayablesItemPreCalculateValidations extends GenericValidation {
     
@@ -37,79 +33,25 @@ public class PurchasingAccountsPayablesItemPreCalculateValidations extends Gener
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        
-        PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase) event.getDocument();
-        String accountDistributionMethod = purApDocument.getAccountDistributionMethod();
-
-        if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
-            return this.checkTotalPercentAndTotalAmountsEqual(item);
-        }
-        
-        return this.checkTotalPercentOrTotalAmountsEqual(item);
+        return this.checkPercentOrTotalAmountsEqual(item);
     }
     
-    /**
-     * checks for both percent = 100% and item total = account amount total
-     * 
-     * @param item
-     * @return true when percent = 100% AND total amount = item total
-     */
-    public boolean checkTotalPercentAndTotalAmountsEqual(PurApItem item) {
+    public boolean checkPercentOrTotalAmountsEqual(PurApItem item) {
         boolean valid = true;
         
-        valid &= validateTotalPercent(item, true);
+        valid &= validatePercent(item);
         
         if (valid) {
-            valid &= validateTotalAmount(item, true);
+            valid &= validateTotalAmount(item);
         }
         
         return valid;
     }
     
-    /**
-     * checks for only either percent = 100% or item total = account amount total
-     * 
-     * @param item
-     * @return true when either percent = 100% OR total amount = item total
+    /** 
+     * Verifies account percent. If the total percent does not equal 100, the validation fails. 
      */
-    public boolean checkTotalPercentOrTotalAmountsEqual(PurApItem item) {
-        boolean valid = false;
-        
-        boolean validPercent = validateTotalPercent(item, false);
-        if (validPercent) {
-            return true;
-        }
-        
-        boolean validAmount = validateTotalAmount(item, false);
-        if (validAmount) {
-            return true;
-        }
-        
-        KualiDecimal desiredAmount = (item.getTotalAmount() == null) ? new KualiDecimal(0) : item.getTotalAmount();
-        
-        if (!validPercent && !validAmount) {
-            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_PERCENT_OR_AMOUNT_INVALID, item.getItemIdentifierString(),desiredAmount.toString());
-        } else {
-            if (!validPercent) {
-                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, item.getItemIdentifierString());
-            } else {
-                if (!validAmount) {
-                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL_AMOUNT, item.getItemIdentifierString(),desiredAmount.toString());
-                }        
-            }
-        }
-        
-        return valid;
-    }
-    
-    /**
-     * Verifies account percent. If the total percent does not equal 100, 
-     * the validation fails.
-     * @param item
-     * @param writeErrorMessage true if error message to be added to global error variables, else false
-     * @return true if percent sum = 100%
-     */
-    public boolean validateTotalPercent(PurApItem item, boolean writeErrorMessage) {
+    public boolean validatePercent(PurApItem item) {
         boolean valid = true;
         
         if (item.getSourceAccountingLines().size() == 0) {
@@ -128,47 +70,34 @@ public class PurchasingAccountsPayablesItemPreCalculateValidations extends Gener
             }
         }
         if (desiredPercent.compareTo(totalPercent) != 0) {
-            if (writeErrorMessage) {
-                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, item.getItemIdentifierString());
-            }
-            
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, item.getItemIdentifierString());
             valid = false;
         }
 
         return valid;
     }
     
-    /**
-     * Verifies account amounts = item total. If does not equal then validation fails. 
-     * @param item
-     * @param writeErrorMessage true if error message to be added to global error variables, else false
-     * @return true if account amounts sum = item total
+    /** 
+     * Verifies account total. If the total does not equal item total,
+     *  the validation fails. 
      */
-    public boolean validateTotalAmount(PurApItem item, boolean writeErrorMessage) {
+    public boolean validateTotalAmount(PurApItem item) {
         boolean valid = true;
         
-        if (item.getItemQuantity() == null || item.getItemUnitPrice() == null || item.getTotalAmount().compareTo(KualiDecimal.ZERO) == 0) {
-            //extended cost is not available yet so do not run validations....
-            return valid;
-        }
-        
      // validate that the amount total 
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-        
-        KualiDecimal desiredAmount = (item.getTotalAmount() == null) ? new KualiDecimal(0) : item.getTotalAmount();
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        BigDecimal desiredAmount = 
+            (item.getTotalAmount() == null) ? new BigDecimal(0) : item.getTotalAmount().bigDecimalValue();
         for (PurApAccountingLine account : item.getSourceAccountingLines()) {
             if (account.getAmount() != null) {
-                totalAmount = totalAmount.add(account.getAmount());
+                totalAmount = totalAmount.add(account.getAmount().bigDecimalValue());
             }
             else {
-                totalAmount = totalAmount.add(KualiDecimal.ZERO);
+                totalAmount = totalAmount.add(BigDecimal.ZERO);
             }
         }
-        
         if (desiredAmount.compareTo(totalAmount) != 0) {
-            if (writeErrorMessage) {
-                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL_AMOUNT, item.getItemIdentifierString(),desiredAmount.toString());
-            }
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL_AMOUNT, item.getItemIdentifierString(),desiredAmount.toString());
             valid = false;
         }
 

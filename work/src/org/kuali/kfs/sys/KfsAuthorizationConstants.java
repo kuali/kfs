@@ -33,13 +33,12 @@ public class KfsAuthorizationConstants extends JSTLConstants {
         public static final String PAYMENT_HANDLING_ENTRY = "paymentHandlingEntry";
         public static final String VOUCHER_DEADLINE_ENTRY = "voucherDeadlineEntry";
         public static final String SPECIAL_HANDLING_CHANGING_ENTRY = "specialHandlingChangingEntry";
-        public static final String REFUND_ENTRY = "refundEntry";
     }
 
     public static class DistributionOfIncomeAndExpenseEditMode {
         public static final String SOURCE_LINE_READ_ONLY_MODE = "sourceLinesReadOnlyMode";
     }
-
+    
     public static class CashReceiptEditMode {
         public static final String CASH_MANAGER_CONFIRM_MODE = "cmConfirm";
         public static final String CHANGE_REQUEST_MODE = "changeRequestOn";

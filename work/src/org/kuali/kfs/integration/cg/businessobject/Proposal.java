@@ -25,7 +25,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * Integration class for Milestone - See functional documentation.
+ * See functional documentation.
  */
 public class Proposal implements ContractAndGrantsProposal {
 
@@ -53,7 +53,7 @@ public class Proposal implements ContractAndGrantsProposal {
     private String proposalPurposeCode;
     private String proposalProjectTitle;
     private boolean active;
-
+    
     /**
      * Gets the proposalNumber attribute.
      * 
@@ -479,13 +479,12 @@ public class Proposal implements ContractAndGrantsProposal {
         this.active = active;
     }
 
-    public void prepareForWorkflow() {
-    }
+    public void prepareForWorkflow() {}
 
-    public void refresh() {
-    }
+    public void refresh() {}
 
     public ContractsAndGrantsAward getAward() {
         return null;
     }
 }
+

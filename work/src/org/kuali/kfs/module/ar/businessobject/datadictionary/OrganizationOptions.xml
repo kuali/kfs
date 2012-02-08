@@ -51,7 +51,6 @@
 				<ref bean="OrganizationOptions-organizationRemitToStateCode" />
 				<ref bean="OrganizationOptions-organizationRemitToZipCode" />
 				<ref bean="OrganizationOptions-printInvoiceIndicator" />
-        <ref bean="OrganizationOptions-cgBiller"/>
 				<ref bean="OrganizationOptions-universityName" />
 				<ref bean="OrganizationOptions-organizationPostalZipCode" />
 				<ref bean="OrganizationOptions-organizationPostalCountryCode" />
@@ -370,21 +369,6 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
-  
-  <bean id="OrganizationOptions-cgBiller" parent="OrganizationOptions-cgBiller-parentBean"/>
-
-  <bean id="OrganizationOptions-cgBiller-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cgBiller"/>
-    <property name="label" value="Contract and Grant Biller?"/>
-    <property name="shortLabel" value="Contract and Grant Biller?"/>
-    <property name="maxLength" value="1"/>
-  	<property name="control">
-		<bean parent="CheckboxControlDefinition" />
-	</property>
-	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
-	</bean>
-
-  
 	<bean id="OrganizationOptions-universityName" parent="OrganizationOptions-universityName-parentBean" />
 
 	<bean id="OrganizationOptions-universityName-parentBean" abstract="true"
@@ -481,7 +465,6 @@
 				<bean parent="FieldDefinition" p:attributeName="organizationPaymentTermsText" />
 				<bean parent="FieldDefinition" p:attributeName="organizationMessageText" />
 				<bean parent="FieldDefinition" p:attributeName="printInvoiceIndicator" />
-							<bean parent="FieldDefinition" p:attributeName="cgBiller"/>
 			</list>
 		</property>
 	</bean>

@@ -23,11 +23,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.cg.KfsCgModuleService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.service.AgencyService;
-import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -37,13 +36,9 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 
-/**
- * This Class provides implementation to the services required for inter module communication.
- */
 @NonTransactional
-public class ContractsAndGrantsModuleServiceImpl implements KfsCgModuleService {
-    private BusinessObjectService businessObjectService;
-
+public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,
@@ -159,6 +154,14 @@ public class ContractsAndGrantsModuleServiceImpl implements KfsCgModuleService {
         return Integer.valueOf(maxResponsibilityId);
     }
 
+    /**
+     * Returns an implementation of the parameterService
+     * 
+     * @return an implementation of the parameterService
+     */
+    public ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
+    }
 
     /**
      * Returns the default implementation of the C&G AgencyService
@@ -186,21 +189,14 @@ public class ContractsAndGrantsModuleServiceImpl implements KfsCgModuleService {
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
-
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getParentUnits(java.lang.String)
-     */
+    
     public List<String> getParentUnits(String unitNumber) {
         return null;
     }
 
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProposalNumberForAccountAndProjectDirector(java.lang.String,
-     *      java.lang.String, java.lang.String)
-     */
     public String getProposalNumberForAccountAndProjectDirector(String chartOfAccountsCode, String accountNumber, String projectDirectorId) {
         String proposalNumber = null;
-
+        
         Map<String, Object> awardAccountMap = new HashMap<String, Object>();
         awardAccountMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         awardAccountMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
@@ -209,31 +205,12 @@ public class ContractsAndGrantsModuleServiceImpl implements KfsCgModuleService {
         if (proposals != null && !proposals.isEmpty()) {
             AwardAccount proposalWithMaxProposalNumber = proposals.iterator().next();
 
-            if (StringUtils.equalsIgnoreCase(proposalWithMaxProposalNumber.getProjectDirector().getPrincipalId(), projectDirectorId)) {
+            if( StringUtils.equalsIgnoreCase(proposalWithMaxProposalNumber.getProjectDirector().getPrincipalId(), projectDirectorId) ){
                 proposalNumber = proposalWithMaxProposalNumber.getProposalNumber().toString();
             }
         }
-
+        
         return proposalNumber;
     }
-
-    /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
-    }
-
-    /**
-     * Gets the awardService attribute.
-     * 
-     * @return Returns the awardService.
-     */
-    public AwardService getAwardService() {
-        return SpringContext.getBean(AwardService.class);
-    }
-
-
 }
+

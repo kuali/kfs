@@ -233,7 +233,6 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_ACCOUNTING_INCOMPLETE = "errors.item.accounting.incomplete";    
     public static final String ERROR_ITEM_ACCOUNTING_AMOUNT_INVALID = "errors.item.accounting.amount.invalid";
     public static final String ERROR_ITEM_ACCOUNTING_TOTAL = "errors.item.accounting.total";
-    public static final String ERROR_ITEM_ACCOUNTING_PERCENT_OR_AMOUNT_INVALID = "errors.item.accounting.percent.or.total.invalid";
     public static final String ERROR_ITEM_ACCOUNTING_TOTAL_AMOUNT = "errors.item.accounting.total.amount";
     public static final String ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING = "errors.item.accounting.atleast.one.percent.missing";
     public static final String ERROR_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT = "errors.purchaseorder.exceedingTotalLimit";

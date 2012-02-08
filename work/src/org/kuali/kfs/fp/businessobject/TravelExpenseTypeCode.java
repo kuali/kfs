@@ -25,8 +25,6 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 public class TravelExpenseTypeCode extends KualiCodeBase implements Inactivateable {
     boolean prepaidExpense;
 
-    private String financialObjectCode;
-    
     /**
      * Default no-arg constructor.
      */
@@ -47,13 +45,4 @@ public class TravelExpenseTypeCode extends KualiCodeBase implements Inactivateab
     public void setPrepaidExpense(boolean prepaidExpense) {
         this.prepaidExpense = prepaidExpense;
     }
-
-    public String getFinancialObjectCode() {
-        return financialObjectCode;
-    }
-
-    public void setFinancialObjectCode(String financialObjectCode) {
-        this.financialObjectCode = financialObjectCode;
-    }
-    
 }

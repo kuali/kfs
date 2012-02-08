@@ -150,11 +150,7 @@
 		<entry>
 			<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingCapitalAssetLocationEvent</value></key>
 			<value>PurchaseOrderAmendment-addPurchasingCapitalAssetLocationValidation</value>				
-		</entry>
-		<entry>
-			<key><value>org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemPreCalculateEvent</value></key>
-			<value>PurchaseOrderAmendment-purchasingAccountsPayablesItemPreCalculateValidations</value>
-		</entry>
+		</entry>									       	    				    	   
       </map>
     </property>	  
   </bean>

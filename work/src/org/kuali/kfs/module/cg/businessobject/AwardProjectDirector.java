@@ -18,10 +18,10 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * This class represents an association between an award and a project director. It's like a reference to the project director from
  * the award. This way an award can maintain a collection of these references instead of owning project directors directly.
  */
-public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable, ContractsAndGrantsProjectDirector {
+public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable {
 
     private String principalId;
     private Long proposalNumber;
@@ -38,7 +38,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     private boolean active = true;
 
     private Person projectDirector;
-
+    
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
@@ -151,38 +151,18 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    /**
-     * 
-     * 
-     * @return
-     */
+    
     public String getUserLookupRoleNamespaceCode() {
         return userLookupRoleNamespaceCode;
     }
 
-    /**
-     * 
-     * 
-     * @param userLookupRoleNamespaceCode
-     */
     public void setUserLookupRoleNamespaceCode(String userLookupRoleNamespaceCode) {
     }
 
-    /**
-     * 
-     * 
-     * @return
-     */
     public String getUserLookupRoleName() {
         return userLookupRoleName;
     }
 
-    /**s
-     * 
-     * 
-     * @param userLookupRoleName
-     */
     public void setUserLookupRoleName(String userLookupRoleName) {
     }
 
@@ -201,3 +181,4 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
 }
+

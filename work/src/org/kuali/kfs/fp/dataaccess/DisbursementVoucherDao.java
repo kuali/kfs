@@ -18,6 +18,8 @@ package org.kuali.kfs.fp.dataaccess;
 import java.util.Collection;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public interface DisbursementVoucherDao {
 
@@ -36,25 +38,5 @@ public interface DisbursementVoucherDao {
      * @return list of doc headers
      */
     public Collection getDocumentsByHeaderStatus(String statusCode);
-    
-    /* Start TEM REFUND Merge */
-    /**
-     * Returns a list of disbursement voucher documents with a specific doc header status that
-     * are not AR refunds
-     * 
-     * @param statusCode
-     * @return list of doc headers
-     */
-    public Collection getNonARDocumentsByHeaderStatus(String statusCode);
-    
-    /**
-     * Returns a list of disbursement voucher documents with a specific doc header status and
-     * are AR refunds
-     * 
-     * @param statusCode
-     * @return list of doc headers
-     */
-    public Collection getARDocumentsByHeaderStatus(String statusCode);
-    /* End TEM REFUND Merge */
 }
 

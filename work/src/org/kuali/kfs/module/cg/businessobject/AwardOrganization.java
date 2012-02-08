@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -28,7 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * This class represents an association between an award and an organization. It's like a reference to the organization from the
  * award. This way an award can maintain a collection of these references instead of owning organizations directly.
  */
-public class AwardOrganization extends PersistableBusinessObjectBase implements Primaryable, Inactivateable, ContractsAndGrantsOrganization {
+public class AwardOrganization extends PersistableBusinessObjectBase implements Primaryable, Inactivateable {
 
     private String chartOfAccountsCode;
     private String organizationCode;

@@ -32,7 +32,7 @@
 		</addColumn>
 		<dropForeignKeyConstraint baseTableName='LD_LBR_OBJ_BENE_T'
 			constraintName='LD_LBR_OBJ_BENE_TR1' />
-
+		<dropPrimaryKey tableName='LD_BENEFITS_CALC_T' />
 		<addColumn tableName='LD_LBR_OBJ_BENE_T'>
 			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)' />
 		</addColumn>
@@ -67,6 +67,8 @@
 				<constraints nullable='true' />
 			</column>
 		</createTable>
+
+
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
 			<replace replace='NUMBER' with='DECIMAL' />

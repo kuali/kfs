@@ -171,54 +171,25 @@ public interface CustomerInvoiceDocumentService {
      */
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String invoiceDocumentNumber);
 
-    /**
-     * @param initiatorPrincipalName
-     * @return
-     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(String initiatorPrincipalName);
 
-    /**
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
-     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
-    /**
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
-     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
     
-    /**
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
-     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
-    /**
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
-     */
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
-    /**
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
-     */
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
-    /**
-     * @param accountNumber
-     * @return
-     */
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByAccountNumber(String accountNumber);
 
-
+    /**
+     * @param documentNumber
+     * @return
+     */
+    // public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber);
     /**
      * @param documentNumber
      * @return
@@ -273,16 +244,8 @@ public interface CustomerInvoiceDocumentService {
      */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
-    /**
-     * @param customerInvoiceDocument
-     * @return
-     */
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
-    /**
-     * @param invDocumentNumber
-     * @return
-     */
     public boolean checkIfInvoiceNumberIsFinal(String invDocumentNumber);
     
     /**
@@ -298,11 +261,4 @@ public interface CustomerInvoiceDocumentService {
      * @param data
      */
     public void updateReportedInvoiceInfo(CustomerStatementResultHolder data);
-        
-    /**
-     * @param paymentApplicationNumberCorrecting
-     * @return
-     */
-    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentAppliedByPaymentApplicationNumber(String paymentApplicationNumberCorrecting);
-    
 }

@@ -18,14 +18,13 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
- * Letter Of Credit Fund Group.
+ * 
  */
-public class LetterOfCreditFundGroup extends PersistableBusinessObjectBase implements Inactivateable, ContractsAndGrantsLetterOfCreditFundGroup {
+public class LetterOfCreditFundGroup extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String letterOfCreditFundGroupCode;
     private String letterOfCreditFundGroupDescription;
@@ -98,8 +97,6 @@ public class LetterOfCreditFundGroup extends PersistableBusinessObjectBase imple
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("letterOfCreditFundGroupCode", this.letterOfCreditFundGroupCode);
-        m.put("letterOfCreditFundGroupDescription", letterOfCreditFundGroupDescription);
-        m.put("active", active);
         return m;
     }
 }

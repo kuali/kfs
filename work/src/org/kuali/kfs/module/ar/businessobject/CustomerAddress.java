@@ -20,17 +20,16 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerAddress extends PersistableBusinessObjectBase implements Comparable<CustomerAddress>, AccountsReceivableCustomerAddress {
+public class CustomerAddress extends PersistableBusinessObjectBase implements Comparable<CustomerAddress> {
 
     private String customerNumber;
     private Integer customerAddressIdentifier;

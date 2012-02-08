@@ -15,20 +15,12 @@
  */
 package org.kuali.kfs.module.cg;
 
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.rice.core.util.JSTLConstants;
 
-/**
- * Property Constants for CG module
- */
 public class CGPropertyConstants extends JSTLConstants {
 
     // Common document values
     public static final String DOCUMENT = "document";
-    public static final String DOCUMENT_NUMBER = "documentNumber";
     public static final String NEW_MAINTAINABLE_OBJECT = "newMaintainableObject";
 
     // Research Risk Type
@@ -41,69 +33,5 @@ public class CGPropertyConstants extends JSTLConstants {
     public static final String PROPOSAL_AWARD_CLOSE_DOC_AWARD_CLOSED_COUNT = "awardClosedCount";
     public static final String PROPOSAL_AWARD_CLOSE_DOC_PROPOSAL_CLOSED_COUNT = "proposalClosedCount";
     public static final String PPROPOSAL_AWARD_CLOSE_DOC_RINCIPAL_NAME = "principalName";
-
-    // Award
-    public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
-    public static final String PREDETERMINED_BILLING_SCHEDULE_CODE = "PDBS";
-    public static final String MILESTONE_BILLING_SCHEDULE_CODE = "MS";
-    public static final String WEEKLY_BILLING_SCHEDULE_CODE = "WEEKLY";
-    public static final String MONTHLY_BILLING_SCHEDULE_CODE = "MON";
-    public static final String QUATERLY_BILLING_SCHEDULE_CODE = "QUAR";
-    public static final String SEMI_ANNUALLY_BILLING_SCHEDULE_CODE = "SEMI-ANN";
-    public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNUALLY";
-    public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
-    public static final String BILLED_AT_TERM = "AT_TERM";
-    public static final String BILLING_SCHEDULE_SECTION = "Predetermined Schedule";
-    public static final String INVOICE_ACCOUNT_SECTION = "Invoice Accounts";
-
-    public static final String AWARD_MAINTENANCE_SECTION = "Award Maintenance";
-    public static final String AWARD_INVOICING_SECTION = "Invoicing";
-    
-
-    public static final String INCOME_ACCOUNT = "Income";
-    public static final String AR_ACCOUNT = "Accounts Receivable";
-    public static final String INV_AWARD = "Invoice by Award";
-    public static final String INV_ACCOUNT = "Invoice by Account";
-    public static final String INV_CONTRACT_CONTROL_ACCOUNT = "Invoice by Contract Control Account";
-    public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
-    public static final String AWARD_CONTRACT_GRANT_TYPE = "contractGrantType";
-    public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
-    public static final String LOC_CRTN_TYPE = "locCreationType";
-    public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
-    public static final String PROPOSAL_NUMBER = "proposalNumber";
-    public static final String LOC_FUND_GROUP = "letterOfCreditFundGroupCode";
-    public static final String LOC_FUND = "letterOfCreditFundCode";
-    public static final String MONTHLY_BILLING = "MON";
-
-    // Agency
-    public static class AgencyFields {
-        public static final String AGENCY_TAB_GENERAL_INFORMATION = "agencyGeneralInformation";
-        public static final String AGENCY_TAB_ADDRESSES = "agencyAddresses";
-        public static final String AGENCY_TAB_ADDRESSES_ADD_NEW_ADDRESS = "add.agencyAddresses";
-        public static final String AGENCY_ADDRESS_TYPE_CODE = "agencyAddressTypeCode";
-        public static final String AGENCY_ADDRESS_IDENTIFIER = "agencyAddressIdentifier";
-        public static final String AGENCY_NUMBER = "agencyNumber";
-        public static final String AGENCY_NAME = "agencyName";
-        public static final String AGENCY_ADDRESS_STATE_CODE = "agencyStateCode";
-        public static final String AGENCY_ADDRESS_ZIP_CODE = "agencyZipCode";
-        public static final String AGENCY_ADDRESS_INTERNATIONAL_PROVINCE_NAME = "agencyAddressInternationalProvinceName";
-        public static final String AGENCY_ADDRESS_INTERNATIONAL_MAIL_CODE = "agencyInternationalMailCode";
-        public static final String AGENCY_ADDRESS_END_DATE = "agencyAddressEndDate";
-    }
-
-    // Award Invoicing Option
-    public static class AwardInvoicingOption {
-        public static final Map<String, String> invoicingCode = new HashMap<String, String>();
-        static {
-            invoicingCode.put("1", CGPropertyConstants.INV_AWARD);
-            invoicingCode.put("2", CGPropertyConstants.INV_ACCOUNT);
-            invoicingCode.put("3", CGPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT);
-        }
-    }
-
-    // AR related constants
-    public static final String CUSTOMER = "customer";
-    public static final String CUSTOMER_NUMBER = "customerNumber";
-    public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
 
 }

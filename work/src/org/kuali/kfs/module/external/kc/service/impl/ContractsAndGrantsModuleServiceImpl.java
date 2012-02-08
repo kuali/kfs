@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.cg.KcModuleService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AwardAccount;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitService;
@@ -39,7 +39,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 @NonTransactional
-public class ContractsAndGrantsModuleServiceImpl implements KcModuleService {
+public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
     private BusinessObjectService businessObjectService;
     

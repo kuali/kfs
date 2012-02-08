@@ -53,24 +53,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         // Struts needs this instance to populate the secondary key, principalName.
         try {
            // projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
-        } 
-        catch (Exception e) {
-        }
+        } catch (Exception e) {}
     }
 
-    /**
-     * @param awardAccountDTO
-     * @param accountNumber
-     * @param chartOfAccountsCode
-     * @param cfdaNumber
-     */
     public AwardAccount(ContractsAndGrantsAwardAccount awardAccountDTO, String accountNumber, String chartOfAccountsCode, String cfdaNumber){
         // Struts needs this instance to populate the secondary key, principalName.
         try {
             projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
-        }
-        catch (Exception e) {
-        }
+        } catch (Exception e) {}
         
 
         //setup this class from DTO        
@@ -108,7 +98,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         this.getAward().setPrimeAgency(primeAgency);
     }
     
-    /**
+    /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
      */
     public Long getProposalNumber() {
@@ -239,11 +229,6 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         }
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
-        m.put("principalId", this.principalId);
-        m.put("active", this.active);
-        m.put("federalSponsor", this.federalSponsor);
-        m.put("newCollectionRecord", this.newCollectionRecord);
-
         return m;
     }
 
@@ -279,16 +264,12 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         return null;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObject#prepareForWorkflow()
-     */
+  //  @Override
     public void prepareForWorkflow() {
         
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObject#refresh()
-     */
+  //  @Override
     public void refresh() {
     }
 

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.service.EntryService;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -39,7 +40,6 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
@@ -130,27 +130,21 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @return true is amount is valid, false otherwise
      */
     public boolean checkLineAmount(CashControlDocument document, CashControlDetail detail) {
-        try {
-            boolean isValid = true;
 
-            // line amount cannot be zero
-            if (detail.getFinancialDocumentLineAmount().isZero()) {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_ZERO);
-                isValid = false;
-            }
+        boolean isValid = true;
 
-            // line amount cannot be negative, unless its a correction detail
-            if (!detail.isCashControlDetailErrorCorrection() && detail.getFinancialDocumentLineAmount().isNegative()) {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE);
-                isValid = false;
-            }
-
-            return isValid;
+        // line amount cannot be zero
+        if (detail.getFinancialDocumentLineAmount().isZero()) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_ZERO);
+            isValid = false;
         }
-        catch (WorkflowException ex) {
-            LOG.error("Error determining cash control detail correction status: " + ex);
-            return false;
+        // line amount cannot be negative
+        if (detail.getFinancialDocumentLineAmount().isNegative()) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE);
+            isValid = false;
         }
+        return isValid;
+
     }
 
     /**
@@ -249,13 +243,13 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         boolean isValid = true;
         List<GeneralLedgerPendingEntry> glpes = cashControlDocument.getGeneralLedgerPendingEntries();
-
+        
         Integer totalGLRecordsCreated = 0;
-
+        
         if (glpes == null || glpes.isEmpty()) {
             totalGLRecordsCreated = cashControlDocument.getGeneralLedgerEntriesPostedCount();
         }
-
+        
         // if payment medium is not Cash the general ledger pending entries must not be empty; if payment medium is Cash then a Cash
         // Receipt Document must be created prior to creating the Cash Control document and it's number should be set in Reference
         // Document number
@@ -453,12 +447,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     }
 
-    /**
-     * validate bankCode
-     * 
-     * @param document
-     * @return
-     */
+    // validate bankCode
     public boolean validateBankCode(CashControlDocument document) {
         boolean isValid = true;
 

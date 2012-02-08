@@ -21,7 +21,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
@@ -59,11 +61,6 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     protected String tempVendorAddressGeneratedIdentifier;
     protected String oldPayeeType = StringUtils.EMPTY;
     
-    /* Start TEM REFUND Merge */
-    protected String tempCustomerNumber;
-    protected String tempCustomerAddressIdentifier;
-	/* End TEM REFUND Merge */
-        
     protected boolean hasMultipleAddresses = false;
 
     protected DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
@@ -397,16 +394,6 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
         return disbursementVoucherDocument.getDvPayeeDetail().isVendor();
     }
-    
-    /* Start TEM REFUND Merge */
-    /**
-     * determine whether the selected payee is a customer
-     */
-    public boolean isCustomer() {
-        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
-        return disbursementVoucherDocument.getDvPayeeDetail().isCustomer();
-    }
-    /* End TEM REFUND Merge */
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String,
@@ -448,22 +435,4 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     public void setCanExport(boolean canExport) {
         this.canExport = canExport;
     }
-
-	/* Start TEM REFUND Merge */
-    public String getTempCustomerNumber() {
-        return tempCustomerNumber;
-    }
-
-    public void setTempCustomerNumber(String tempCustomerNumber) {
-        this.tempCustomerNumber = tempCustomerNumber;
-    }
-
-    public String getTempCustomerAddressIdentifier() {
-        return tempCustomerAddressIdentifier;
-    }
-
-    public void setTempCustomerAddressIdentifier(String tempCustomerAddressIdentifier) {
-        this.tempCustomerAddressIdentifier = tempCustomerAddressIdentifier;
-    }
-    /* End TEM REFUND Merge */
 }

@@ -27,7 +27,6 @@ import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -65,10 +64,8 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         if(ObjectUtils.isNotNull(externalizableBusinessObjectServices) && ObjectUtils.isNotNull(clazz)){
             serviceName = (String)externalizableBusinessObjectServices.get(clazz);
             eboService = (ExternalizableBusinessObjectService)SpringContext.getService(serviceName);            
-        }else{
-            //used when EBO is not handled by a web service
-            eboService = (ExternalizableBusinessObjectService) getBusinessObjectService();
         }
+        
         return eboService;
     }
 
@@ -78,26 +75,12 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
      * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#listPrimaryKeyFieldNames(java.lang.Class)
      */
     public List listPrimaryKeyFieldNames(Class businessObjectInterfaceClass) {
-        List primaryKeys = null;
         Class clazz = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);
-
-        //try to find a DD entry for this object
         final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(clazz.getName());        
-        if (ObjectUtils.isNotNull(boEntry)) {            
-            //try to pull primary keys off the DD
-            primaryKeys = boEntry.getPrimaryKeys();
-                    
-            if(ObjectUtils.isNull(primaryKeys)){
-                //if not found, try to find in persistence structure
-                try{
-                    primaryKeys = KNSServiceLocator.getPersistenceStructureService().listPrimaryKeyFieldNames(clazz);
-                }catch(Exception e){
-                    primaryKeys = null;
-                }                
-            }
+        if (boEntry == null) {
+            return null;
         }
-
-        return primaryKeys;
+        return boEntry.getPrimaryKeys();
     }
     
     /**

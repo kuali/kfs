@@ -50,7 +50,7 @@
              <map>
 	            <entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="institutionalUnitService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" value="budgetCategoryService"/>
-       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Cfda" value="kcCfdaService"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Cfda" value="cfdaService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.AwardAccount" value="awardAccountService"/>       			
              </map>
         </property>
@@ -190,7 +190,7 @@
 	
 	<bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl"/>
 		 	
-  	<bean id="kcCfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
+  	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
   	  	
   	<bean id="awardAccountService" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl"/>  	
   	

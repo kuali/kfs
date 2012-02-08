@@ -45,15 +45,10 @@ public class KFSParameterKeyConstants implements ParameterKeyConstants {
     
     public static class LdParameterConstants {
         public static final String DEMERGE_DOCUMENT_TYPES = "DEMERGE_DOCUMENT_TYPES";
-        public static final String AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT = "AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
     }
     
     public static class CamParameterConstants {
         public static final String OBJECT_SUB_TYPE_GROUPS = "OBJECT_SUB_TYPE_GROUPS";
     }
  
-    public static class ARRefundDVParameterConstants {
-        public static final String AR_PRE_DISBURSEMENT_EXTRACT_ORGANIZATION = "AR_PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
-        public static final String AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT = "AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
-    }
 }

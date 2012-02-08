@@ -17,11 +17,14 @@ package org.kuali.kfs.module.purap.document.workflow;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.framework.document.attribute.SearchableAttribute;
 import org.kuali.rice.krad.workflow.attribute.DataDictionaryDocumentSearchCustomizer;
 import org.kuali.rice.krad.util.MessageMap;
 public class PurchaseOrderWarningSearchGenerator extends DataDictionaryDocumentSearchCustomizer {
 
-
+    // RICE20 : this class can be removed.  This type of logic will need to be moved into a custom SearchableAttribute
+    // subclass of FinancialSystemSearchableAttribute
+    
     public MessageMap getMessageMap(DocumentSearchCriteria searchCriteria) {
         //RICE20 no replacement for getMessageMap. can this be removed?
         MessageMap messageMap = super.getMessageMap(searchCriteria);

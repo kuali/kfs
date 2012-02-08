@@ -24,7 +24,7 @@ public class PurapPropertyConstants {
 
     public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
     public static final String VENDOR_DETAIL_ASSIGNED_ID = "vendorDetailAssignedIdentifier";
-
+    public static final String DOCUMENT_NUMBER = "documentNumber";
     // ITEM
     public static final String ITEM_IDENTIFIER = "itemIdentifier";
     public static final String ACCOUNTS = "sourceAccountingLines";

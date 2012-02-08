@@ -137,7 +137,7 @@
    			<ref bean="businessObjectService" />
    		</property>
    		<property name="workflowDocumentService">
-   			<ref bean="workflowDocumentService" />
+   			<ref bean="rice.kew.workflowDocumentService" />
    		</property>
    	</bean> 
    	<bean id="CustomerCreditMemo-noDataToSubmitValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoNoDataToSubmitValidation" abstract="true" >
@@ -162,7 +162,7 @@
    			<ref bean="businessObjectService" />
    		</property>
    		<property name="workflowDocumentService">
-   			<ref bean="workflowDocumentService" />
+   			<ref bean="rice.kew.workflowDocumentService" />
    		</property>
    	</bean> 
    	<bean id="CustomerInvoiceWriteoff-noOtherWriteoffInRouteForTheInvoiceValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffNoOtherWriteoffInRouteForTheInvoiceValidation" abstract="true" >
@@ -170,7 +170,7 @@
    			<ref bean="businessObjectService" />
    		</property>
    		<property name="workflowDocumentService">
-   			<ref bean="workflowDocumentService" />
+   			<ref bean="rice.kew.workflowDocumentService" />
    		</property>
    	</bean> 
 

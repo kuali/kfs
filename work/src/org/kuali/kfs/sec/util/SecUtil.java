@@ -33,22 +33,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class SecUtil {
 
     /**
-     * Compares the size of the given list against the given previous size and if different adds an info message
-     * 
-     * @param previousListSize int giving previous size of list to compare to
-     * @param results List to get size for and compare
-     * @param messageKey String key of message that should be added
-     */
-    @SuppressWarnings("rawtypes")
-    public static void compareListSizeAndAddMessageIfChanged(int previousListSize, List results, String messageKey) {
-        int currentListSize = results.size();
-
-        if (previousListSize != currentListSize) {
-            GlobalVariables.getMessageMap().putInfo(KFSConstants.GLOBAL_MESSAGES, messageKey, (String) null);
-        }
-    }
-
-    /**
      * Calls access security service to check view access on given GLPE for current user. Access to view the GLPE on the document should be related to the view permissions for an
      * accounting line with the same account attributes. Called from generalLedgerPendingEntries.tag
      * 

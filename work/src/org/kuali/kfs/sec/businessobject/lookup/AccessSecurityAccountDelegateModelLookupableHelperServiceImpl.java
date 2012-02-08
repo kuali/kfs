@@ -39,7 +39,7 @@ public class AccessSecurityAccountDelegateModelLookupableHelperServiceImpl exten
         int resultSizeBeforeRestrictions = results.size();
         accessSecurityService.applySecurityRestrictionsForLookup(results, GlobalVariables.getUserSession().getPerson());
 
-        SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
+        accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
 
         return results;
     }
@@ -55,7 +55,7 @@ public class AccessSecurityAccountDelegateModelLookupableHelperServiceImpl exten
         int resultSizeBeforeRestrictions = results.size();
         accessSecurityService.applySecurityRestrictionsForLookup(results, GlobalVariables.getUserSession().getPerson());
 
-        SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
+        accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
 
         return results;
     }

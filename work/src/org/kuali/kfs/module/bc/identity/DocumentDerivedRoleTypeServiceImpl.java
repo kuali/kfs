@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.identity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +40,12 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.PassThruRoleTypeServiceBase;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.MessageMap;
 
 public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase implements BudgetConstructionNoAccessMessageSetting {
-    private BudgetConstructionProcessorService budgetConstructionProcessorService;
-    private RoleService roleManagementService;
-    private BudgetDocumentService budgetDocumentService;
+    protected BudgetConstructionProcessorService budgetConstructionProcessorService;
+    protected BudgetDocumentService budgetDocumentService;
     
     @Override
     public Map<String,String> convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, Map<String,String> qualification) {
@@ -102,15 +103,16 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
      *      org.kuali.rice.kim.api.identity.Person, org.kuali.rice.krad.util.MessageMap)
      */
     public void setNoAccessMessage(BudgetConstructionDocument document, Person user, MessageMap messageMap) {
-        Map<String,String> qualification = new HashMap<String,String>();
+        Map<String,String> qualification = new HashMap<String,String>(3);
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, document.getChartOfAccountsCode());
         qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, document.getAccountNumber());
         qualification.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
 
-        List<String> roleId = new ArrayList<String>();
-        roleId.add(roleManagementService.getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
-        boolean isFiscalOfficerOrDelegate = roleManagementService.principalHasRole(user.getPrincipalId(), roleId, qualification);
+        boolean isFiscalOfficerOrDelegate = roleService.principalHasRole(user.getPrincipalId()
+                , Collections.singletonList(roleService.getRoleIdByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME))
+                , qualification);
         boolean isBCProcessor = false;
         boolean isProcessorInAccountHierarchy = false;
 
@@ -142,69 +144,31 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         }
     }
 
-    /**
-     * @return Returns the budgetConstructionProcessorService.
-     */
-    protected BudgetConstructionProcessorService getBudgetConstructionProcessorService() {
-        return budgetConstructionProcessorService;
-    }
-
-    /**
-     * @param budgetConstructionProcessorService The budgetConstructionProcessorService to set.
-     */
     public void setBudgetConstructionProcessorService(BudgetConstructionProcessorService budgetConstructionProcessorService) {
         this.budgetConstructionProcessorService = budgetConstructionProcessorService;
     }
 
-    /**
-     * @return Returns the roleManagementService.
-     */
-    protected RoleService getRoleService() {
-        return roleManagementService;
-    }
-
-    /**
-     * @param roleManagementService The roleManagementService to set.
-     */
-    public void setRoleService(RoleService roleManagementService) {
-        this.roleManagementService = roleManagementService;
-    }
-
-    /**
-     * @return Returns the budgetDocumentService.
-     */
-    protected BudgetDocumentService getBudgetDocumentService() {
-        return budgetDocumentService;
-    }
-
-    /**
-     * @param budgetDocumentService The budgetDocumentService to set.
-     */
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
         this.budgetDocumentService = budgetDocumentService;
     }
 
     public List<KeyValue> getAttributeValidValues(String kimTypeId, String attributeName) {
-        // TODO Auto-generated method stub
         return new ArrayList<KeyValue>(0);
     }
 
     public List<String> getQualifiersForExactMatch() {
-        return new ArrayList<String>(); 
+        return new ArrayList<String>(0); 
     }
 
     public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String, String> qualification) throws RiceIllegalArgumentException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String, String> qualification) throws RiceIllegalArgumentException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public List<RoleMembership> sortRoleMembers(List<RoleMembership> roleMembers) throws RiceIllegalArgumentException {
-        // TODO Auto-generated method stub
         return null;
     }
 }

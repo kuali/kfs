@@ -221,7 +221,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
         }
 
 
-        SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_BALANCE_INQUIRY_RESULTS_RESTRICTED);
+        accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_BALANCE_INQUIRY_RESULTS_RESTRICTED);
 
         return results;
     }
@@ -243,7 +243,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
             accessSecurityService.applySecurityRestrictionsForLaborInquiry(results, GlobalVariables.getUserSession().getPerson());
         }
 
-        SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_BALANCE_INQUIRY_RESULTS_RESTRICTED);
+        accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_BALANCE_INQUIRY_RESULTS_RESTRICTED);
 
         return results;
     }

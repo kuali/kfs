@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sec.businessobject.AccessSecurityRestrictionInfo;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -26,6 +27,7 @@ import org.kuali.rice.kim.api.common.template.Template;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
@@ -186,4 +188,12 @@ public interface AccessSecurityService {
      */
     public boolean canViewGLPE(Document document, GeneralLedgerPendingEntry pendingEntry, Person person);
 
+    /**
+     * Compares the size of the given list against the given previous size and if different adds an info message
+     * 
+     * @param previousListSize int giving previous size of list to compare to
+     * @param results List to get size for and compare
+     * @param messageKey String key of message that should be added
+     */
+    public void compareListSizeAndAddMessageIfChanged(int previousListSize, List<?> results, String messageKey);
 }

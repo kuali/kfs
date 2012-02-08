@@ -67,7 +67,7 @@ public class AccessSecurityAccountBalanceByConsolidationLookupableHelperServiceI
             int resultSizeBeforeRestrictions = details.size();
             accessSecurityService.applySecurityRestrictionsForGLInquiry(details, GlobalVariables.getUserSession().getPerson());
 
-            SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, details, SecKeyConstants.MESSAGE_BALANCE_INQUIRY_RESULTS_RESTRICTED);
+            accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, details, SecKeyConstants.MESSAGE_BALANCE_INQUIRY_RESULTS_RESTRICTED);
 
             // if details have changed we need to update totals
             if (resultSizeBeforeRestrictions != details.size()) {

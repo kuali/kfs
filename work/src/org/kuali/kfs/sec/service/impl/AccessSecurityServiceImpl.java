@@ -763,4 +763,20 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
         return canView;
     }
+    
+    /**
+     * Compares the size of the given list against the given previous size and if different adds an info message
+     * 
+     * @param previousListSize int giving previous size of list to compare to
+     * @param results List to get size for and compare
+     * @param messageKey String key of message that should be added
+     */
+    @Override
+    public void compareListSizeAndAddMessageIfChanged(int previousListSize, List<?> results, String messageKey) {
+        int currentListSize = results.size();
+
+        if (previousListSize != currentListSize) {
+            GlobalVariables.getMessageMap().putInfo(KFSConstants.GLOBAL_MESSAGES, messageKey, Integer.toString(previousListSize - currentListSize));
+        }
+    }
 }

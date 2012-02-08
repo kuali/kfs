@@ -34,12 +34,10 @@ import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupQueryResults;
-import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleQueryResults;
-import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -55,9 +53,6 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
  * Lookupable for ModelMember business object. Needs to change the lookup to search Person, Role, or Group based on the member type passed in
  */
 public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    protected RoleService roleService;
-    protected GroupService groupSevice;
-    protected PersonService personService;
 
     protected List<Row> rows;
 
@@ -84,7 +79,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
                 }
             }
 
-            RoleQueryResults resultRoles = roleService.findRoles(toQuery(searchValues));
+            RoleQueryResults resultRoles = KimApiServiceLocator.getRoleService().findRoles(toQuery(searchValues));
             for (Role kimRoleInfo : resultRoles.getResults()) {
                 ModelMember member = new ModelMember();
                 member.setMemberId(kimRoleInfo.getId());
@@ -104,7 +99,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
                 }
             }
 
-            GroupQueryResults resultGroups = groupSevice.findGroups(toQuery(searchValues));
+            GroupQueryResults resultGroups = KimApiServiceLocator.getGroupService().findGroups(toQuery(searchValues));
             for (Group group : resultGroups.getResults()) {
                 ModelMember member = new ModelMember();
                 member.setMemberId(group.getId());
@@ -124,7 +119,7 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
                 }
             }
 
-            List<? extends Person> resultPersons = personService.findPeople(searchValues);
+            List<? extends Person> resultPersons = KimApiServiceLocator.getPersonService().findPeople(searchValues);
             for (Person person : resultPersons) {
                 ModelMember member = new ModelMember();
                 member.setMemberId(person.getPrincipalId());
@@ -250,33 +245,6 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
         lookupFields.add(SecPropertyConstants.MEMBER_TYPE_CODE);
 
         return lookupFields;
-    }
-
-    /**
-     * Sets the roleService attribute value.
-     *
-     * @param roleService The roleService to set.
-     */
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
-    }
-
-    /**
-     * Sets the groupSevice attribute value.
-     *
-     * @param groupSevice The groupSevice to set.
-     */
-    public void setGroupSevice(GroupService groupSevice) {
-        this.groupSevice = groupSevice;
-    }
-
-    /**
-     * Sets the personService attribute value.
-     *
-     * @param personService The personService to set.
-     */
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
     }
 
     private QueryByCriteria toQuery(Map<String,?> fieldValues) {

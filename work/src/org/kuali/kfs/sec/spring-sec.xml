@@ -135,11 +135,8 @@
 	</bean>
     <bean id="modelMemberLookupableHelperService" parent="modelMemberLookupableHelperService-parentBean" scope="prototype"/>
 	
-	<bean id="modelMemberLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.sec.businessobject.lookup.ModelMemberLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
-		<property name="roleService" ref="kimRoleService" />
-		<property name="groupSevice" ref="kimGroupService" />
-		<property name="personService" ref="personService" />
-	</bean>
+	<bean id="modelMemberLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.sec.businessobject.lookup.ModelMemberLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+
     <bean id="modelMemberLookupable" parent="modelMemberLookupable-parentBean" scope="prototype"/>
 
 	<bean id="modelMemberLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">

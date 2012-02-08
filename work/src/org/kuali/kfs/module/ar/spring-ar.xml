@@ -486,7 +486,6 @@
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
-		<property name="workflowInfoService" ref="workflowInfoService" />
 	</bean>
 	
 	<bean id="customerLoadJob" parent="scheduledJobDescriptor">
@@ -938,7 +937,7 @@
 			<ref bean="accountsReceivableDocumentHeaderDao" />
 		</property>
 		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
+			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />

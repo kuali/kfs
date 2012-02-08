@@ -309,12 +309,11 @@
         <property name="purapService" ref="purapService" />
         <property name="noteService" ref="noteService" />
         <property name="purchaseOrderDao" ref="purchaseOrderDao" />
-        <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="workflowDocumentService" ref="rice.kew.workflowDocumentService" />
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="kualiRuleService" ref="kualiRuleService" />
         <property name="vendorService" ref="vendorService" />
         <property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
-        <property name="workflowInfoService" ref="workflowInfoService" />
         <property name="maintenanceDocumentService" ref="maintenanceDocumentService" />
         <property name="parameterService" ref="parameterService" />
         <property name="mailService" ref="mailService" />

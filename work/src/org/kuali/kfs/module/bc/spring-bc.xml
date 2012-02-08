@@ -88,7 +88,7 @@
 			<ref bean="documentService" />
 		</property>	
 		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
+			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 		<property name="benefitsCalculationService">
 			<ref bean="benefitsCalculationService" />
@@ -173,9 +173,6 @@
     <bean id="budgetConstructionProcessorService-parentBean" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionProcessorServiceImpl" abstract="true">
 		<property name="organizationService">
 			<ref bean="organizationService" />
-		</property>
-		<property name="roleManagementService">
-			<ref bean="kimRoleService" />
 		</property>
 	</bean>
 
@@ -758,7 +755,7 @@
             <ref bean="kualiModuleService" />
         </property>
         <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService" />
+            <ref bean="rice.kew.workflowDocumentService" />
         </property>
         <property name="budgetConstructionHumanResourcesPayrollInterfaceDao">
             <ref bean="budgetConstructionHumanResourcesPayrollInterfaceDao" />
@@ -1080,11 +1077,8 @@
 		</property>
 	</bean>
 
-	<bean name="budgetConstructionDocumentDerivedRoleTypeService"
-		class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl" >
-		<property name="roleManagementService">
-			<ref bean="kimRoleService" />
-		</property>
+	<bean name="budgetConstructionDocumentDerivedRoleTypeService" parent="budgetConstructionDocumentDerivedRoleTypeService-parentBean" />
+	<bean name="budgetConstructionDocumentDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl" abstract="true">
 		<property name="budgetConstructionProcessorService">
 			<ref bean="budgetConstructionProcessorService" />
 		</property>

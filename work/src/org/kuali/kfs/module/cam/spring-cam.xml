@@ -336,7 +336,7 @@
 			<ref bean="documentService" />
 		</property>
 		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
+			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 	  	<property name="parameterService" ref="parameterService" />							
 	  	<property name="dateTimeService" ref="dateTimeService" />

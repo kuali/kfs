@@ -41,7 +41,7 @@ public class AccountSecurityOrgReviewRoleLookupableHelperServiceImpl extends Org
         int resultSizeBeforeRestrictions = results.size();
         accessSecurityService.applySecurityRestrictionsForLookup(results, GlobalVariables.getUserSession().getPerson());
 
-        SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
+        accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
 
         return results;
     }
@@ -57,7 +57,7 @@ public class AccountSecurityOrgReviewRoleLookupableHelperServiceImpl extends Org
         int resultSizeBeforeRestrictions = results.size();
         accessSecurityService.applySecurityRestrictionsForLookup(results, GlobalVariables.getUserSession().getPerson());
         
-        SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
+        accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
 
         return results;
     }

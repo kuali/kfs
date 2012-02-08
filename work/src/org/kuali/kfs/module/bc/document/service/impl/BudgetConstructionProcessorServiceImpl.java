@@ -30,17 +30,18 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorServi
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.ksb.api.KsbApiServiceLocator;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService
  */
-@Transactional
+@Transactional(readOnly=true)
 public class BudgetConstructionProcessorServiceImpl implements BudgetConstructionProcessorService {
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionProcessorServiceImpl.class);
+    private static final Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionProcessorServiceImpl.class);
 
-    private RoleService roleManagementService;
-    private OrganizationService organizationService;
+    protected OrganizationService organizationService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService#getProcessorOrgs(org.kuali.rice.kim.api.identity.Person)
@@ -48,7 +49,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
     public List<Organization> getProcessorOrgs(Person person) {
         List<Organization> processorOrgs = new ArrayList<Organization>();
 
-        List<Map<String,String>> allQualifications = roleManagementService.getNestedRoleQualifersForPrincipalByNamespaceAndRolename(person.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, null);
+        List<Map<String,String>> allQualifications = getRoleService().getNestedRoleQualifersForPrincipalByNamespaceAndRolename(person.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, null);
         for (Map<String,String> attributeSet : allQualifications) {
             String chartOfAccountsCode = attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             String organizationCode = attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE);
@@ -73,7 +74,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
 
-        return roleManagementService.principalHasRole(person.getPrincipalId(), getBudgetProcessorRoleIds(), qualification);
+        return getRoleService().principalHasRole(person.getPrincipalId(), getBudgetProcessorRoleIds(), qualification);
     }
 
     /**
@@ -86,7 +87,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
         }
         catch (Exception e) {
             String errorMessage = String.format("Fail to determine if %s is an approver for %s. ", person, organization);
-            LOG.info(errorMessage + e);
+            LOG.info(errorMessage, e);
         }
 
         return false;
@@ -96,42 +97,13 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
      * @return role id for the budget processor role
      */
     protected List<String> getBudgetProcessorRoleIds() {
-        List<String> roleId = new ArrayList<String>();
-        roleId.add(roleManagementService.getRoleIdByNameAndNamespaceCode(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME));
-
-        return roleId;
+        return Collections.singletonList( getRoleService().getRoleIdByNameAndNamespaceCode(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME));
     }
 
-    /**
-     * Gets the roleManagementService attribute. 
-     * @return Returns the roleManagementService.
-     */
-    public RoleService getRoleService() {
-        return roleManagementService;
+    protected RoleService getRoleService() {
+        return KimApiServiceLocator.getRoleService();
     }
 
-    /**
-     * Sets the roleManagementService attribute value.
-     * @param roleManagementService The roleManagementService to set.
-     */
-    public void setRoleService(RoleService roleManagementService) {
-        this.roleManagementService = roleManagementService;
-    }
-
-    /**
-     * Gets the organizationService attribute.
-     * 
-     * @return Returns the organizationService.
-     */
-    protected OrganizationService getOrganizationService() {
-        return organizationService;
-    }
-
-    /**
-     * Sets the organizationService attribute value.
-     * 
-     * @param organizationService The organizationService to set.
-     */
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }

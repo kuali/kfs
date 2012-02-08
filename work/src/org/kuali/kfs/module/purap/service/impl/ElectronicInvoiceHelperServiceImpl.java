@@ -795,11 +795,11 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
                                                File attachmentFile,
                                                String noteText){
         
-        Note note;
+        Note note = null;
         try {
             note = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eInvoiceRejectDocument, noteText);
         }catch (Exception e1) {
-            throw new RuntimeException(e1);
+            throw new RuntimeException("Unable to create note from document: ", e1);
         }
         
         String attachmentType = null;
@@ -807,41 +807,27 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         try {
             fileStream = new BufferedInputStream(new FileInputStream(attachmentFile));
         }catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.error( "Exception opening attachment file", e);
         }
         
         Attachment attachment = null;
         try {
             attachment = SpringContext.getBean(AttachmentService.class).createAttachment(eInvoiceRejectDocument, attachmentFile.getName(),INVOICE_FILE_MIME_TYPE , (int)attachmentFile.length(), fileStream, attachmentType);
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to create attachment", e);
         }finally{
             if (fileStream != null){
                 try {
                     fileStream.close();
                 }catch (IOException e) {
-                    e.printStackTrace();
+                    LOG.error( "Exception closing file", e);
                 }
             }
         }
         
         note.setAttachment(attachment);
         attachment.setNote(note);
-        
-        PersistableBusinessObject noteParent = getNoteParent(eInvoiceRejectDocument, note);
-        //RICE20 addNote doesn't exist for PersistableBusinessObject
-        noteParent.addNote(note);
-        eInvoiceRejectDocument.getDocumentHeader().addNote(note);
-    }
-    
-    protected PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
-        //get the property name to set (this assumes this is a document type note)
-        //RICE20 extractNoteService method does not exist
-        String propertyName = SpringContext.getBean(NoteService.class).extractNoteProperty(newNote);
-        //get BO to set
-        PersistableBusinessObject noteParent = (PersistableBusinessObject)ObjectUtils.getPropertyValue(document, propertyName);
-        return noteParent;
+        SpringContext.getBean(NoteService.class).save(note);
     }
     
     public ElectronicInvoiceRejectDocument createRejectDocument(ElectronicInvoice eInvoice,
@@ -898,9 +884,8 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
         try {
             Note note = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eInvoiceRejectDocument, rejectReasons);
-            PersistableBusinessObject noteParent = getNoteParent(eInvoiceRejectDocument, note);
-            //RICE20 addNote doesn't exist for PersistableBusinessObject
-            noteParent.addNote(note);
+            PersistableBusinessObject noteParent = eInvoiceRejectDocument.getNoteTarget();
+            SpringContext.getBean(NoteService.class).save(note);
         }catch (Exception e) {
             LOG.error("Error creating reject reason note - " + e.getMessage());
         }

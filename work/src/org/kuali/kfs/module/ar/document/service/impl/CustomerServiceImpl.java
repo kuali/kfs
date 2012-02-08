@@ -32,18 +32,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
 
-    private CustomerDao customerDao;
-    private SequenceAccessorService sequenceAccessorService;
-    private BusinessObjectService businessObjectService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    private NoteService noteService;
+    protected CustomerDao customerDao;
+    protected SequenceAccessorService sequenceAccessorService;
+    protected BusinessObjectService businessObjectService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected NoteService noteService;
     protected static final String CUSTOMER_NUMBER_SEQUENCE = "CUST_NBR_SEQ";
     
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerService#getByPrimaryKey(java.lang.String)
      */
     public Customer getByPrimaryKey(String customerNumber) {
-       return (Customer)businessObjectService.findBySinglePrimaryKey(Customer.class, customerNumber);
+       return businessObjectService.findBySinglePrimaryKey(Customer.class, customerNumber);
     }
 
     public Customer getByTaxNumber(String taxNumber) {
@@ -133,7 +133,6 @@ public class CustomerServiceImpl implements CustomerService {
         Note note = new Note();
         note.setNoteText(customerNote);
         try {
-            //RICE20 createNote(Note noteToCopy, PersistableBusinessObject bo, String authorPrincipalId) needs the author, is it current user?
             note = noteService.createNote(note, customer, GlobalVariables.getUserSession().getPrincipalId());
             noteService.save(note);
         } catch (Exception e){

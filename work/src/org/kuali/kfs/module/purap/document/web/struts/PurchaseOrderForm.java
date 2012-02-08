@@ -366,19 +366,15 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     @Override
     public void populate(HttpServletRequest request) {
-        PurchaseOrderDocument po = (PurchaseOrderDocument) this.getDocument();
-
-        // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
-        // RICE20 undefined method
-        po.getDocumentBusinessObject();
-        
         super.populate(request);
+
+        PurchaseOrderDocument po = (PurchaseOrderDocument)getDocument();
         
         if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
             po.refreshDocumentBusinessObject();
         }
         NoteService noteService = SpringContext.getBean(NoteService.class);
-        for (Note note :  noteService.getByRemoteObjectId(po.getObjectId())) {         
+        for (Note note : noteService.getByRemoteObjectId(po.getObjectId())) {         
             note.refreshReferenceObject("attachment");
         }        
     }

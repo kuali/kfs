@@ -58,8 +58,8 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-
         super.loadDocument(kualiDocumentFormBase);
+        
         CashControlDocumentForm ccForm = (CashControlDocumentForm) kualiDocumentFormBase;
         CashControlDocument cashControlDocument = ccForm.getCashControlDocument();
 
@@ -69,22 +69,21 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             ccForm.setCashPaymentMediumSelected(ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode()));
         }
 
-        // get the PaymentApplicationDocuments by reference number
-        for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
-            String docId = cashControlDetail.getReferenceFinancialDocumentNumber();
-            PaymentApplicationDocument doc = null;
-            doc = (PaymentApplicationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-            if (doc == null) {
-                throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
+        if ( cashControlDocument != null ) {
+            // get the PaymentApplicationDocuments by reference number
+            for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
+                String docId = cashControlDetail.getReferenceFinancialDocumentNumber();
+                PaymentApplicationDocument doc = (PaymentApplicationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+                if (doc == null) {
+                    throw new UnknownDocumentIdException("Document " + docId + " no longer exists.  It may have been cancelled before being saved.");
+                }
+    
+                cashControlDetail.setReferenceFinancialDocument(doc);
+                WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+                // KualiDocumentFormBase.populate() needs this updated in the session
+                SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
             }
-
-            cashControlDetail.setReferenceFinancialDocument(doc);
-            WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
-            // KualiDocumentFormBase.populate() needs this updated in the session
-            //RICE20 workflowDocument doesn't exist in UserSession anymore; use SessionDocumentService.addDocumentToUserSession(UserSession userSession, KualiWorkflowDocument document) 
-            SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
         }
-
     }
 
     /**

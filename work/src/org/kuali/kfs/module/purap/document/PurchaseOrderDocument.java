@@ -1149,7 +1149,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             detAssgndId = this.alternateVendorDetailAssignedIdentifier.toString();
         }
         if (!StringUtils.isEmpty(hdrGenId) && !StringUtils.isEmpty(detAssgndId)) {
-            vendorNumber = hdrGenId + "-" + detAssgndId;
+            vendorNumber = hdrGenId + VendorConstants.DASH + detAssgndId;
         }
         return vendorNumber;
     }
@@ -1161,7 +1161,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      */
     public void setAlternateVendorNumber(String vendorNumber) {
         if (!StringUtils.isEmpty(vendorNumber)) {
-            int dashInd = vendorNumber.indexOf("-");
+            int dashInd = vendorNumber.indexOf(VendorConstants.DASH);
             if (vendorNumber.length() >= dashInd) {
                 String vndrHdrGenId = vendorNumber.substring(0, dashInd);
                 String vndrDetailAssgnedId = vendorNumber.substring(dashInd + 1);
@@ -1190,15 +1190,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
 
-    public void refreshDocumentBusinessObject() {
-      //RICE20 documentBusinessObject removed from super class - unresolvable error
-        documentBusinessObject = SpringContext.getBean(PurchaseOrderService.class).getOldestPurchaseOrder(this, (PurchaseOrderDocument) this.documentBusinessObject);
-    }
-
-    public void setDocumentBusinessObject(PurchaseOrderDocument po) {
-        //RICE20 documentBusinessObject removed from super class - unresolvable error
-        documentBusinessObject = po;
-    }
+//    public void refreshDocumentBusinessObject() {
+//        // RICE20 documentBusinessObject removed from super class - functionality no longer supported
+//        SpringContext.getBean(PurchaseOrderService.class).getOldestPurchaseOrder(this, (PurchaseOrderDocument) this.documentBusinessObject);
+//    }
+//
+//    public void setDocumentBusinessObject(PurchaseOrderDocument po) {
+//        documentBusinessObject = po;
+//    }
 
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()

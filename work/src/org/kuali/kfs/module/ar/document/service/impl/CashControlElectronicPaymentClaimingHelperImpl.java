@@ -24,6 +24,7 @@ import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -42,16 +43,15 @@ import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CashControlElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
-    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlElectronicPaymentClaimingHelperImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlElectronicPaymentClaimingHelperImpl.class);
 
-    private DataDictionaryService dataDictionaryService;
-    private DocumentService documentService;
-    private ElectronicPaymentClaimingService electronicPaymentClaimingService;
-    private CashControlDocumentService cashControlDocumentService;
-    private ConfigurationService kualiConfigurationService;
+    protected DataDictionaryService dataDictionaryService;
+    protected DocumentService documentService;
+    protected ElectronicPaymentClaimingService electronicPaymentClaimingService;
+    protected CashControlDocumentService cashControlDocumentService;
+    protected ConfigurationService kualiConfigurationService;
     protected DocumentTypeService documentTypeService;
 
-    protected final static String CC_WORKFLOW_DOCUMENT_TYPE = "CTRL";
     protected final static String URL_PREFIX = "ar";
     protected final static String URL_MIDDLE = "Document.do?methodToCall=docHandler&command=";
     protected final static String URL_SUFFIX = "&docId=";
@@ -106,13 +106,10 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     protected void addNotesToDocument(CashControlDocument claimingDoc, List<ElectronicPaymentClaim> claims, Person user) {
         for (String noteText : electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
             try {
-                //RICE20 BO doesn't have note anymore, how/where do we add note to document, NoteService.class).save?
                 Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
                 SpringContext.getBean(NoteService.class).save(note);
-                //documentService.addNoteToDocument(claimingDoc, note);
-            }
-            catch (Exception e) {
-                LOG.error("Exception while attempting to create or add note: " + e);
+            } catch (Exception e) {
+                LOG.error("Exception while attempting to create or add note: ", e);
             }
         }
     }
@@ -159,7 +156,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @return the name CashControlDocument workflow document type
      */
     public String getClaimingDocumentWorkflowDocumentType() {
-        return CashControlElectronicPaymentClaimingHelperImpl.CC_WORKFLOW_DOCUMENT_TYPE;
+        return KFSConstants.FinancialDocumentTypeCodes.CASH_CONTROL;
     }
 
     /**

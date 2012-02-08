@@ -61,9 +61,11 @@ import org.kuali.rice.krad.service.DocumentService;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming, GeneralLedgerPostingDocument {
-    protected static final String NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT = "AssociatedWithElectronicPayment";
-    protected static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);
+    private static final Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);
 
+    protected final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
+    protected static final String NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT = "AssociatedWithElectronicPayment";
+    
     protected String referenceFinancialDocumentNumber;
     protected Integer universityFiscalYear;
     protected String universityFiscalPeriodCode;
@@ -78,9 +80,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
     protected List<CashControlDetail> cashControlDetails;
-
     protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
-    protected final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
     protected List<ElectronicPaymentClaim> electronicPaymentClaims;
 
     /**
@@ -102,7 +102,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         // retrieve value from param table and set to default
         try {
             DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
-            org.kuali.rice.krad.datadictionary.DocumentEntry docEntry = ddService.getDataDictionary().getDocumentEntry(ddService.getValidDocumentClassByTypeName("CTRL").getCanonicalName());
+            org.kuali.rice.krad.datadictionary.DocumentEntry docEntry = ddService.getDataDictionary().getDocumentEntry(ddService.getValidDocumentClassByTypeName(KFSConstants.FinancialDocumentTypeCodes.CASH_CONTROL).getCanonicalName());
             String documentTypeCode = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
             if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
                 bankCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
@@ -310,16 +310,6 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      */
     protected void prepareCashControlDetail(CashControlDetail cashControlDetail) {
         cashControlDetail.setDocumentNumber(this.getDocumentNumber());
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("documentNumber", this.documentNumber);
-        return m;
     }
 
     /**
@@ -592,7 +582,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
             document = documentService.getByDocumentHeaderId(getReferenceFinancialDocumentNumber());
         }
         catch (WorkflowException we) {
-
+            LOG.warn( "Unable to retreive reference financial document: " + getReferenceFinancialDocumentNumber(), we);
         }
         return document;
     }
@@ -631,7 +621,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
                 return false;
             }
         }
-        throw new UnsupportedOperationException("answerSplitNodeQuestion('" + nodeName + "') called, but no handler setup to deal with this nodeName.");
+        return super.answerSplitNodeQuestion(nodeName);
     }
 
     /**

@@ -53,6 +53,7 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -512,13 +513,13 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     public void populateCustomerNote() {
         customerNote = "";
-        //RICE20 BoNotes doesn't exist in PersistableBusinessObjectBase anymore; use NoteService.getByRemoteObjectId, which is the objectId of the BO
         String remoteObjectId = getCustomerInvoiceDocument().getCustomer().getObjectId();
-        ArrayList boNotes = (ArrayList)SpringContext.getBean(NoteService.class).getByRemoteObjectId(remoteObjectId);        
-        if (boNotes.size() > 0) {
-            for (int i = 0; i < boNotes.size(); i++)
-                customerNote += ((Note) boNotes.get(i)).getNoteText() + " ";
-            customerNote.trim();
+        List<Note> boNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(remoteObjectId);        
+        if ( !boNotes.isEmpty() ) {
+            for ( Note note : boNotes ) {
+                customerNote = customerNote + note.getNoteText() + " ";
+            }
+            customerNote = customerNote.trim();
         }
     }
 

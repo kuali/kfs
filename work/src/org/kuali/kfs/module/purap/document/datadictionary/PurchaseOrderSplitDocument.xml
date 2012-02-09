@@ -167,7 +167,7 @@
               <property name="objectAttributeName" value="deliveryCampus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deliveryCampusCode" p:targetName="code"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deliveryCampusCode" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>

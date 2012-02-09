@@ -196,7 +196,7 @@
               <property name="objectAttributeName" value="deliveryCampus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deliveryCampusCode" p:targetName="code"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deliveryCampusCode" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>
@@ -220,7 +220,7 @@
               <property name="objectAttributeName" value="deliveryCampus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deliveryCampusCodeForSearch" p:targetName="code"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deliveryCampusCodeForSearch" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>
@@ -390,7 +390,7 @@
     <property name="label" value="Receiving Required"/>
     <property name="shortLabel" value="Receiving Required"/>
     <property name="control">
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator" parent="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean"/>
@@ -407,7 +407,7 @@
     <property name="label" value="Payment Request Positive Approval Required"/>
     <property name="shortLabel" value="Payment Request Positive Approval Required"/>
     <property name="control">
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="PurchaseOrderDocument-contractManagerCode" parent="PurchaseOrderDocument-contractManagerCode-parentBean"/>
@@ -841,7 +841,7 @@
   	<property name="name" value="purchaseOrderCurrentIndicatorForSearching"/>
     <property name="label" value="Return Current Documents Only"/>
     <property name="control">
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>  
   

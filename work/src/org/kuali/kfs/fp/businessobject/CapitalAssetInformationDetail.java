@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,6 @@
 package org.kuali.kfs.fp.businessobject;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,52 +24,36 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase {
 
-    private String documentNumber;
-    private Integer itemLineNumber;
-    private String campusCode;
-    private String buildingCode;
-    private String buildingRoomNumber;
-    private String buildingSubRoomNumber;
-    private String capitalAssetTagNumber;
-    private String capitalAssetSerialNumber;
+    protected String documentNumber;
+    protected Integer itemLineNumber;
+    protected String campusCode;
+    protected String buildingCode;
+    protected String buildingRoomNumber;
+    protected String buildingSubRoomNumber;
+    protected String capitalAssetTagNumber;
+    protected String capitalAssetSerialNumber;
 
     //new properties...
-    private Integer sequenceNumber; // relative to the grouping of accounting lines
-    private String financialDocumentLineTypeCode;
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String financialObjectCode;
-    private Integer capitalAssetLineNumber;
-    
-    private Campus campus;
-    private Building building;
-    private Room room;
-    private CapitalAssetInformation capitalAssetInformation;
+    protected Integer sequenceNumber; // relative to the grouping of accounting lines
+    protected String financialDocumentLineTypeCode;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String financialObjectCode;
+    protected Integer capitalAssetLineNumber;
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        m.put(KFSPropertyConstants.ITEM_LINE_NUMBER, this.itemLineNumber);
-        m.put(KFSPropertyConstants.SEQUENCE_NUMBER, this.getSequenceNumber());
-        m.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, this.getFinancialDocumentLineTypeCode());
-        m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
-        m.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.getAccountNumber());
-        m.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.getFinancialObjectCode());
-        
-        return m;
-    }
+    protected CampusEbo campus;
+    protected Building building;
+    protected Room room;
+    protected CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -79,7 +62,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -88,7 +71,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the itemLineNumber attribute.
-     * 
+     *
      * @return Returns the itemLineNumber.
      */
     public Integer getItemLineNumber() {
@@ -97,7 +80,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the itemLineNumber attribute value.
-     * 
+     *
      * @param itemLineNumber The itemLineNumber to set.
      */
     public void setItemLineNumber(Integer itemLineNumber) {
@@ -106,7 +89,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the campusCode attribute.
-     * 
+     *
      * @return Returns the campusCode.
      */
     public String getCampusCode() {
@@ -115,7 +98,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the campusCode attribute value.
-     * 
+     *
      * @param campusCode The campusCode to set.
      */
     public void setCampusCode(String campusCode) {
@@ -124,7 +107,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the buildingCode attribute.
-     * 
+     *
      * @return Returns the buildingCode.
      */
     public String getBuildingCode() {
@@ -133,7 +116,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the buildingCode attribute value.
-     * 
+     *
      * @param buildingCode The buildingCode to set.
      */
     public void setBuildingCode(String buildingCode) {
@@ -142,7 +125,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the buildingRoomNumber attribute.
-     * 
+     *
      * @return Returns the buildingRoomNumber.
      */
     public String getBuildingRoomNumber() {
@@ -151,7 +134,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the buildingRoomNumber attribute value.
-     * 
+     *
      * @param buildingRoomNumber The buildingRoomNumber to set.
      */
     public void setBuildingRoomNumber(String buildingRoomNumber) {
@@ -160,7 +143,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the capitalAssetTagNumber attribute.
-     * 
+     *
      * @return Returns the capitalAssetTagNumber.
      */
     public String getCapitalAssetTagNumber() {
@@ -169,7 +152,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the capitalAssetTagNumber attribute value.
-     * 
+     *
      * @param capitalAssetTagNumber The capitalAssetTagNumber to set.
      */
     public void setCapitalAssetTagNumber(String capitalAssetTagNumber) {
@@ -178,7 +161,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the capitalAssetSerialNumber attribute.
-     * 
+     *
      * @return Returns the capitalAssetSerialNumber.
      */
     public String getCapitalAssetSerialNumber() {
@@ -187,7 +170,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the capitalAssetSerialNumber attribute value.
-     * 
+     *
      * @param capitalAssetSerialNumber The capitalAssetSerialNumber to set.
      */
     public void setCapitalAssetSerialNumber(String capitalAssetSerialNumber) {
@@ -196,25 +179,25 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the campus attribute.
-     * 
+     *
      * @return Returns the campus.
      */
-    public Campus getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus: CampusEbo.from( SpringContext.getBean(CampusService.class).getCampus( campusCode)) );
     }
 
     /**
      * Sets the campus attribute value.
-     * 
+     *
      * @param campus The campus to set.
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
     /**
      * Gets the building attribute.
-     * 
+     *
      * @return Returns the building.
      */
     public Building getBuilding() {
@@ -223,7 +206,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the building attribute value.
-     * 
+     *
      * @param building The building to set.
      */
     public void setBuilding(Building building) {
@@ -232,7 +215,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the room attribute.
-     * 
+     *
      * @return Returns the room.
      */
     public Room getRoom() {
@@ -241,7 +224,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the room attribute value.
-     * 
+     *
      * @param room The room to set.
      */
     public void setRoom(Room room) {
@@ -250,7 +233,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the capitalAssetInformation attribute.
-     * 
+     *
      * @return Returns the capitalAssetInformation.
      */
     public CapitalAssetInformation getCapitalAssetInformation() {
@@ -259,7 +242,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Sets the capitalAssetInformation attribute value.
-     * 
+     *
      * @param capitalAssetInformation The capitalAssetInformation to set.
      */
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
@@ -267,7 +250,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the buildingSubRoomNumber attribute. 
+     * Gets the buildingSubRoomNumber attribute.
      * @return Returns the buildingSubRoomNumber.
      */
     public String getBuildingSubRoomNumber() {
@@ -281,20 +264,20 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
     public void setBuildingSubRoomNumber(String buildingSubRoomNumber) {
         this.buildingSubRoomNumber = buildingSubRoomNumber;
     }
-    
+
     /**
      * Gets the sequenceNumber attribute.
-     * 
+     *
      * @return Returns the sequenceNumber
      */
-    
+
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
-    /** 
+    /**
      * Sets the sequenceNumber attribute.
-     * 
+     *
      * @param sequenceNumber The sequenceNumber to set.
      */
     public void setSequenceNumber(Integer sequenceNumber) {
@@ -303,17 +286,17 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the financialDocumentLineTypeCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentLineTypeCode
      */
-    
+
     public String getFinancialDocumentLineTypeCode() {
         return financialDocumentLineTypeCode;
     }
 
-    /** 
+    /**
      * Sets the financialDocumentLineTypeCode attribute.
-     * 
+     *
      * @param financialDocumentLineTypeCode The financialDocumentLineTypeCode to set.
      */
     public void setFinancialDocumentLineTypeCode(String financialDocumentLineTypeCode) {
@@ -322,17 +305,17 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
-    
+
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
-    /** 
+    /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -341,17 +324,17 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber
      */
-    
+
     public String getAccountNumber() {
         return accountNumber;
     }
 
-    /** 
+    /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -360,25 +343,25 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
 
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode
      */
-    
+
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
 
-    /** 
+    /**
      * Sets the financialObjectCode attribute.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
     }
-    
+
     /**
-     * Gets the capitalAssetLineNumber attribute. 
+     * Gets the capitalAssetLineNumber attribute.
      * @return Returns the capitalAssetLineNumber.
      */
     public Integer getCapitalAssetLineNumber() {
@@ -392,10 +375,10 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
     public void setCapitalAssetLineNumber(Integer capitalAssetLineNumber) {
         this.capitalAssetLineNumber = capitalAssetLineNumber;
     }
-    
+
     /**
      * Returns a map with the primitive field names as the key and the primitive values as the map value.
-     * 
+     *
      * @return Map a map with the primitive field names as the key and the primitive values as the map value.
      */
     public Map<String, Object> getValuesMap() {

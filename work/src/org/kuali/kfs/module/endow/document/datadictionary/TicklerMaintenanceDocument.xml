@@ -174,7 +174,7 @@
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" 
-                    p:name="assignedToGroup.groupName" 
+                    p:name="assignedToGroup.name" 
                     p:required="true" 
                     />
   			  <bean parent="MaintainableFieldDefinition" 

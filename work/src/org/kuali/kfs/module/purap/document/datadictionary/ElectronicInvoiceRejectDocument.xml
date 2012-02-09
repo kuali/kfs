@@ -295,7 +295,7 @@
     <property name="name" value="invoiceResearchIndicatorForSearching"/>
     <property name="label" value="Research Indicator"/>
     <property name="control">
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>     
   </bean>
   

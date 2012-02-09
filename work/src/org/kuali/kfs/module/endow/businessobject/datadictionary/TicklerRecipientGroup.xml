@@ -39,14 +39,12 @@
 					<property name="objectAttributeName" value="assignedToGroup" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupId"
-								p:targetName="groupId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupId" p:targetName="id" />
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
-							<bean parent="SupportAttributeDefinition" p:sourceName="assignedToGroup.groupName"
-								p:targetName="groupName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="assignedToGroup.name" p:targetName="name" />
 						</list>
 					</property>
 				</bean>
@@ -65,20 +63,7 @@
 		</property>
 	</bean>
 
-
-	<bean id="TicklerRecipientGroup-assignedToGroup.groupId" parent="TicklerRecipientGroup-assignedToGroup.groupId-parentBean" />
-	<bean id="TicklerRecipientGroup-assignedToGroup.groupId-parentBean"
-		parent="Group-id" abstract="true" p:name="assignedToGroup.groupId"
-		p:required="false">
-	</bean>
-
 	<!--  Group Name -->
-
-	<bean id="TicklerRecipientGroup-assignedToGroup.groupName" parent="TicklerRecipientGroup-assignedToGroup.groupName-parentBean" />
-	<bean id="TicklerRecipientGroup-assignedToGroup.groupName-parentBean"
-		abstract="true" parent="TicklerRecipientGroup-assignedToGroupNameForLookup">
-		<property name="name" value="assignedToGroup.groupName" />
-	</bean>
 
 	<bean id="TicklerRecipientGroup-assignedToGroupNamespaceForLookup" parent="TicklerRecipientGroup-assignedToGroupNamespaceForLookup-parentBean" />
 	<bean id="TicklerRecipientGroup-assignedToGroupNamespaceForLookup-parentBean"
@@ -87,7 +72,7 @@
 
 	<bean id="TicklerRecipientGroup-assignedToGroupNameForLookup" parent="TicklerRecipientGroup-assignedToGroupNameForLookup-parentBean" />
 	<bean id="TicklerRecipientGroup-assignedToGroupNameForLookup-parentBean"
-		parent="Group-name" abstract="true" p:name="assignedToGroup.groupName"
+		parent="Group-name" abstract="true" p:name="assignedToGroup.name"
 		p:required="false" />
 
 
@@ -133,7 +118,7 @@
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.groupName" />
+				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.name" />
 				<bean parent="FieldDefinition" p:attributeName="number" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
@@ -154,7 +139,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="groupId" />
 				<bean parent="FieldDefinition" p:attributeName="assignedToGroupNamespaceForLookup" />
-				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.groupName"
+				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.name"
 					p:forceLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="number" />
 				<bean parent="FieldDefinition" p:attributeName="active" />

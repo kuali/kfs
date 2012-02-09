@@ -31,7 +31,7 @@ import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -327,7 +327,7 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     }
 
     @Override
-    public Country getVendorCountry() {
+    public CountryEbo getVendorCountry() {
         return getLineItemReceivingDocument().getVendorCountry();
     }
 

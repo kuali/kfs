@@ -37,9 +37,9 @@
 				<ref bean="Tickler-recipientPrincipals.principalId" />
 				<ref bean="Tickler-recipientPrincipals.contact.principalName" />
 				<ref bean="Tickler-recipientGroups.groupId" />
-				<ref bean="Tickler-recipientGroups.assignedToGroup.groupName" />
+				<ref bean="Tickler-recipientGroups.assignedToGroup.name" />
 				<ref bean="Tickler-groupId" />
-				<ref bean="Tickler-groupLookup.groupName" />
+				<ref bean="Tickler-groupLookup.name" />
 			</list>
 		</property>
 		<property name="collections">
@@ -61,14 +61,12 @@
 					<property name="objectAttributeName" value="groupLookup" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupId"
-								p:targetName="groupId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupId" p:targetName="id" />
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
-							<bean parent="SupportAttributeDefinition" p:sourceName="groupLookup.groupName"
-								p:targetName="groupName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="groupLookup.name" p:targetName="name" />
 						</list>
 					</property>
 				</bean>
@@ -262,12 +260,12 @@
 	</bean>
 
 	<!--  Group Name -->
-	<bean id="Tickler-recipientGroups.assignedToGroup.groupName"
-		parent="Tickler-recipientGroups.assignedToGroup.groupName-parentBean" />
+	<bean id="Tickler-recipientGroups.assignedToGroup.name"
+		parent="Tickler-recipientGroups.assignedToGroup.name-parentBean" />
 
-	<bean id="Tickler-recipientGroups.assignedToGroup.groupName-parentBean"
+	<bean id="Tickler-recipientGroups.assignedToGroup.name-parentBean"
 		abstract="true" parent="TicklerRecipientGroup-assignedToGroupNameForLookup">
-		<property name="name" value="recipientGroups.assignedToGroup.groupName" />
+		<property name="name" value="recipientGroups.assignedToGroup.name" />
 	</bean>
 
 	<bean id="Tickler-groupId" parent="Tickler-groupId-parentBean" />
@@ -280,11 +278,11 @@
 		</property>
 	</bean>
 
-	<bean id="Tickler-groupLookup.groupName" parent="Tickler-groupLookup.groupName-parentBean" />
+	<bean id="Tickler-groupLookup.name" parent="Tickler-groupLookup.name-parentBean" />
 
-	<bean id="Tickler-groupLookup.groupName-parentBean" abstract="true"
+	<bean id="Tickler-groupLookup.name-parentBean" abstract="true"
 		parent="TicklerRecipientGroup-assignedToGroupNameForLookup">
-		<property name="name" value="groupLookup.groupName" />
+		<property name="name" value="groupLookup.name" />
 		<property name="label" value="Group" />
 	</bean>
 
@@ -431,7 +429,7 @@
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.groupName"
+				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.name"
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="groupId" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
@@ -470,7 +468,7 @@
 					p:attributeName="recipientGroups.groupId"/>
 				-->
 				<bean parent="FieldDefinition" p:attributeName="groupId" />
-				<bean parent="FieldDefinition" p:attributeName="groupLookup.groupName"
+				<bean parent="FieldDefinition" p:attributeName="groupLookup.name"
 					p:forceLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

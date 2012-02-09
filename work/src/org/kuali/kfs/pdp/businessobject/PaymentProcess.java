@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,31 +20,29 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 
 /**
  * This class represents a Payment Process.
  */
 public class PaymentProcess extends TimestampedBusinessObjectBase {
-    private KualiInteger id;
-    private Timestamp processTimestamp;
-    private String campusCode;
-    private String processUserId;
-    private Person processUser;
-    private boolean extractedInd;
-    private boolean formattedIndicator;
+    protected KualiInteger id;
+    protected Timestamp processTimestamp;
+    protected String campusCode;
+    protected String processUserId;
+    protected Person processUser;
+    protected boolean extractedInd;
+    protected boolean formattedIndicator;
 
-    private Campus campus;
+    protected CampusEbo campus;
 
     /**
      * Constructs a PaymentProcess.
@@ -57,7 +55,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method updates the user based on processUserId.
-     * 
+     *
      * @param userService
      */
     public void updateUser(org.kuali.rice.kim.api.identity.PersonService userService) {
@@ -67,7 +65,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method gets the campusCode.
-     * 
+     *
      * @return campusCode
      */
     public String getCampusCode() {
@@ -76,7 +74,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method sets the campusCode.
-     * 
+     *
      * @param campusCode
      */
     public void setCampusCode(String campusCode) {
@@ -85,7 +83,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method gets the Id.
-     * 
+     *
      * @return id
      */
     public KualiInteger getId() {
@@ -94,7 +92,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method sets the id.
-     * 
+     *
      * @param id
      */
     public void setId(KualiInteger id) {
@@ -103,7 +101,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method gets the processTimestamp
-     * 
+     *
      * @return processTimestamp
      */
     public Timestamp getProcessTimestamp() {
@@ -112,7 +110,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method sets the processTimestamp.
-     * 
+     *
      * @param processTimestamp
      */
     public void setProcessTimestamp(Timestamp processTimestamp) {
@@ -121,7 +119,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method gets the processUser.
-     * 
+     *
      * @return processUser
      */
     public Person getProcessUser() {
@@ -131,7 +129,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method sets the processUser.
-     * 
+     *
      * @param processUser
      */
     public void setProcessUser(Person processUser) {
@@ -143,7 +141,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method gets the processUserId.
-     * 
+     *
      * @return processUserId
      */
     public String getProcessUserId() {
@@ -152,7 +150,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method sets the processUserId.
-     * 
+     *
      * @param processUserId
      */
     public void setProcessUserId(String processUserId) {
@@ -162,7 +160,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method gets the extractedInd.
-     * 
+     *
      * @return extractedInd
      */
     public boolean isExtractedInd() {
@@ -172,7 +170,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method sets the extractedInd.
-     * 
+     *
      * @param extractedInd
      */
     public void setExtractedInd(boolean extractedInd) {
@@ -181,7 +179,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method gets the formattedIndicator.
-     * 
+     *
      * @return formattedIndicator
      */
     public boolean isFormattedIndicator() {
@@ -190,7 +188,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     /**
      * This method sets the formattedIndicator.
-     * 
+     *
      * @param formattedIndicator
      */
     public void setFormattedIndicator(boolean formattedIndicator) {
@@ -198,32 +196,20 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put(KFSPropertyConstants.ID, this.id);
-
-        return m;
-    }
-
-    /**
      * This method gets the campus.
-     * 
+     *
      * @return campus
      */
-    public Campus getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
     /**
      * This method sets the campus.
-     * 
+     *
      * @param campus
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 

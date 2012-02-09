@@ -549,7 +549,7 @@
                     p:name="roleId"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition" 
-                    p:name="role.roleName"
+                    p:name="role.name"
                     p:unconditionallyReadOnly="true" />                    
               <dd:maintField attributeName="rolePrincipalId" unconditionallyReadOnly="true" required="true"/>
               <dd:maintField attributeName="rolePrincipal.principalName" required="true"/>                    

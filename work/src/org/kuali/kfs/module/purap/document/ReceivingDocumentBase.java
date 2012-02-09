@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -36,18 +35,17 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 public abstract class ReceivingDocumentBase extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument {
 
@@ -88,7 +86,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     protected Integer alternateVendorHeaderGeneratedIdentifier;
     protected Integer alternateVendorDetailAssignedIdentifier;
     protected String alternateVendorName;
-    
+
     //not persisted in db
     protected String vendorNumber;
     protected Integer vendorAddressGeneratedIdentifier;
@@ -96,7 +94,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     protected boolean sensitive;
 
     protected CampusParameter deliveryCampus;
-    protected Country vendorCountry;
+    protected CountryEbo vendorCountry;
     protected Carrier carrier;
     protected VendorDetail vendorDetail;
     protected DeliveryRequiredDateReason deliveryRequiredDateReason;
@@ -108,9 +106,9 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     protected transient PurApRelatedViews relatedViews;
 
     public ReceivingDocumentBase(){
-        super();           
+        super();
     }
-        
+
     public boolean isSensitive() {
         List<SensitiveData> sensitiveData = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByRelatedDocId(getAccountsPayablePurchasingDocumentLinkIdentifier());
         if (ObjectUtils.isNotNull(sensitiveData) && !sensitiveData.isEmpty()) {
@@ -119,252 +117,314 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         return false;
     }
 
-    public String getCarrierCode() { 
+    @Override
+    public String getCarrierCode() {
         return carrierCode;
     }
+    @Override
     public void setCarrierCode(String carrierCode) {
         this.carrierCode = carrierCode;
     }
 
-    public String getShipmentPackingSlipNumber() { 
+    @Override
+    public String getShipmentPackingSlipNumber() {
         return shipmentPackingSlipNumber;
     }
 
+    @Override
     public void setShipmentPackingSlipNumber(String shipmentPackingSlipNumber) {
         this.shipmentPackingSlipNumber = shipmentPackingSlipNumber;
     }
 
-    public String getShipmentReferenceNumber() { 
+    @Override
+    public String getShipmentReferenceNumber() {
         return shipmentReferenceNumber;
     }
 
+    @Override
     public void setShipmentReferenceNumber(String shipmentReferenceNumber) {
         this.shipmentReferenceNumber = shipmentReferenceNumber;
     }
 
-    public String getShipmentBillOfLadingNumber() { 
+    @Override
+    public String getShipmentBillOfLadingNumber() {
         return shipmentBillOfLadingNumber;
     }
 
+    @Override
     public void setShipmentBillOfLadingNumber(String shipmentBillOfLadingNumber) {
         this.shipmentBillOfLadingNumber = shipmentBillOfLadingNumber;
     }
 
-    public Date getShipmentReceivedDate() { 
+    @Override
+    public Date getShipmentReceivedDate() {
         return shipmentReceivedDate;
     }
 
+    @Override
     public void setShipmentReceivedDate(Date shipmentReceivedDate) {
         this.shipmentReceivedDate = shipmentReceivedDate;
     }
 
-    public Integer getVendorHeaderGeneratedIdentifier() { 
+    @Override
+    public Integer getVendorHeaderGeneratedIdentifier() {
         return vendorHeaderGeneratedIdentifier;
     }
 
+    @Override
     public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
     }
 
-    public Integer getVendorDetailAssignedIdentifier() { 
+    @Override
+    public Integer getVendorDetailAssignedIdentifier() {
         return vendorDetailAssignedIdentifier;
     }
 
+    @Override
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
         this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
     }
 
-    public String getVendorName() { 
+    @Override
+    public String getVendorName() {
         return vendorName;
     }
 
+    @Override
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
 
-    public String getVendorLine1Address() { 
+    @Override
+    public String getVendorLine1Address() {
         return vendorLine1Address;
     }
 
+    @Override
     public void setVendorLine1Address(String vendorLine1Address) {
         this.vendorLine1Address = vendorLine1Address;
     }
 
-    public String getVendorLine2Address() { 
+    @Override
+    public String getVendorLine2Address() {
         return vendorLine2Address;
     }
 
+    @Override
     public void setVendorLine2Address(String vendorLine2Address) {
         this.vendorLine2Address = vendorLine2Address;
     }
 
-    public String getVendorCityName() { 
+    @Override
+    public String getVendorCityName() {
         return vendorCityName;
     }
 
+    @Override
     public void setVendorCityName(String vendorCityName) {
         this.vendorCityName = vendorCityName;
     }
 
-    public String getVendorStateCode() { 
+    @Override
+    public String getVendorStateCode() {
         return vendorStateCode;
     }
 
+    @Override
     public void setVendorStateCode(String vendorStateCode) {
         this.vendorStateCode = vendorStateCode;
     }
 
-    public String getVendorPostalCode() { 
+    @Override
+    public String getVendorPostalCode() {
         return vendorPostalCode;
     }
 
+    @Override
     public void setVendorPostalCode(String vendorPostalCode) {
         this.vendorPostalCode = vendorPostalCode;
     }
 
-    public String getVendorCountryCode() { 
+    @Override
+    public String getVendorCountryCode() {
         return vendorCountryCode;
     }
 
+    @Override
     public void setVendorCountryCode(String vendorCountryCode) {
         this.vendorCountryCode = vendorCountryCode;
     }
 
-    public String getDeliveryCampusCode() { 
+    @Override
+    public String getDeliveryCampusCode() {
         return deliveryCampusCode;
     }
 
+    @Override
     public void setDeliveryCampusCode(String deliveryCampusCode) {
         this.deliveryCampusCode = deliveryCampusCode;
     }
 
-    public String getDeliveryBuildingCode() { 
+    @Override
+    public String getDeliveryBuildingCode() {
         return deliveryBuildingCode;
     }
 
+    @Override
     public void setDeliveryBuildingCode(String deliveryBuildingCode) {
         this.deliveryBuildingCode = deliveryBuildingCode;
     }
 
-    public String getDeliveryBuildingName() { 
+    @Override
+    public String getDeliveryBuildingName() {
         return deliveryBuildingName;
     }
 
+    @Override
     public void setDeliveryBuildingName(String deliveryBuildingName) {
         this.deliveryBuildingName = deliveryBuildingName;
     }
 
-    public String getDeliveryBuildingRoomNumber() { 
+    @Override
+    public String getDeliveryBuildingRoomNumber() {
         return deliveryBuildingRoomNumber;
     }
 
+    @Override
     public void setDeliveryBuildingRoomNumber(String deliveryBuildingRoomNumber) {
         this.deliveryBuildingRoomNumber = deliveryBuildingRoomNumber;
     }
 
-    public String getDeliveryBuildingLine1Address() { 
+    @Override
+    public String getDeliveryBuildingLine1Address() {
         return deliveryBuildingLine1Address;
     }
 
+    @Override
     public void setDeliveryBuildingLine1Address(String deliveryBuildingLine1Address) {
         this.deliveryBuildingLine1Address = deliveryBuildingLine1Address;
     }
 
-    public String getDeliveryBuildingLine2Address() { 
+    @Override
+    public String getDeliveryBuildingLine2Address() {
         return deliveryBuildingLine2Address;
     }
 
+    @Override
     public void setDeliveryBuildingLine2Address(String deliveryBuildingLine2Address) {
         this.deliveryBuildingLine2Address = deliveryBuildingLine2Address;
     }
 
-    public String getDeliveryCityName() { 
+    @Override
+    public String getDeliveryCityName() {
         return deliveryCityName;
     }
 
+    @Override
     public void setDeliveryCityName(String deliveryCityName) {
         this.deliveryCityName = deliveryCityName;
     }
 
-    public String getDeliveryStateCode() { 
+    @Override
+    public String getDeliveryStateCode() {
         return deliveryStateCode;
     }
 
+    @Override
     public void setDeliveryStateCode(String deliveryStateCode) {
         this.deliveryStateCode = deliveryStateCode;
     }
 
-    public String getDeliveryPostalCode() { 
+    @Override
+    public String getDeliveryPostalCode() {
         return deliveryPostalCode;
     }
 
+    @Override
     public void setDeliveryPostalCode(String deliveryPostalCode) {
         this.deliveryPostalCode = deliveryPostalCode;
     }
 
-    public String getDeliveryCountryCode() { 
+    @Override
+    public String getDeliveryCountryCode() {
         return deliveryCountryCode;
     }
 
+    @Override
     public void setDeliveryCountryCode(String deliveryCountryCode) {
         this.deliveryCountryCode = deliveryCountryCode;
     }
 
+    @Override
     public String getDeliveryCountryName() {
         Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
         if (country != null)
             return country.getName();
         return null;
     }
-       
-    public String getDeliveryToName() { 
+
+    @Override
+    public String getDeliveryToName() {
         return deliveryToName;
     }
 
+    @Override
     public void setDeliveryToName(String deliveryToName) {
         this.deliveryToName = deliveryToName;
     }
 
-    public String getDeliveryToEmailAddress() { 
+    @Override
+    public String getDeliveryToEmailAddress() {
         return deliveryToEmailAddress;
     }
 
+    @Override
     public void setDeliveryToEmailAddress(String deliveryToEmailAddress) {
         this.deliveryToEmailAddress = deliveryToEmailAddress;
     }
 
-    public String getDeliveryToPhoneNumber() { 
+    @Override
+    public String getDeliveryToPhoneNumber() {
         return deliveryToPhoneNumber;
     }
 
+    @Override
     public void setDeliveryToPhoneNumber(String deliveryToPhoneNumber) {
         this.deliveryToPhoneNumber = deliveryToPhoneNumber;
     }
 
-    public Date getDeliveryRequiredDate() { 
+    @Override
+    public Date getDeliveryRequiredDate() {
         return deliveryRequiredDate;
     }
 
+    @Override
     public void setDeliveryRequiredDate(Date deliveryRequiredDate) {
         this.deliveryRequiredDate = deliveryRequiredDate;
     }
 
-    public String getDeliveryInstructionText() { 
+    @Override
+    public String getDeliveryInstructionText() {
         return deliveryInstructionText;
     }
 
+    @Override
     public void setDeliveryInstructionText(String deliveryInstructionText) {
         this.deliveryInstructionText = deliveryInstructionText;
     }
 
-    public String getDeliveryRequiredDateReasonCode() { 
+    @Override
+    public String getDeliveryRequiredDateReasonCode() {
         return deliveryRequiredDateReasonCode;
     }
 
+    @Override
     public void setDeliveryRequiredDateReasonCode(String deliveryRequiredDateReasonCode) {
         this.deliveryRequiredDateReasonCode = deliveryRequiredDateReasonCode;
     }
 
+    @Override
     public CampusParameter getDeliveryCampus() {
         return deliveryCampus;
     }
@@ -376,6 +436,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.deliveryCampus = deliveryCampus;
     }
 
+    @Override
     public Carrier getCarrier() {
         return carrier;
     }
@@ -387,6 +448,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.carrier = carrier;
     }
 
+    @Override
     public DeliveryRequiredDateReason getDeliveryRequiredDateReason() {
         return deliveryRequiredDateReason;
     }
@@ -398,18 +460,20 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.deliveryRequiredDateReason = deliveryRequiredDateReason;
     }
 
-    public Country getVendorCountry() {
-        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode): vendorCountry;
+    @Override
+    public CountryEbo getVendorCountry() {
+        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))? CountryEbo.from( SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode)): vendorCountry;
         return vendorCountry;
     }
 
     /**
      * @deprecated
      */
-    public void setVendorCountry(Country vendorCountry) {
+    public void setVendorCountry(CountryEbo vendorCountry) {
         this.vendorCountry = vendorCountry;
     }
 
+    @Override
     public VendorDetail getVendorDetail() {
         return vendorDetail;
     }
@@ -421,6 +485,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.vendorDetail = vendorDetail;
     }
 
+    @Override
     public String getVendorNumber() {
         if (StringUtils.isNotEmpty(vendorNumber)) {
             return vendorNumber;
@@ -432,54 +497,67 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
             return "";
     }
 
+    @Override
     public void setVendorNumber(String vendorNumber) {
         this.vendorNumber = vendorNumber;
     }
 
+    @Override
     public Integer getVendorAddressGeneratedIdentifier() {
         return vendorAddressGeneratedIdentifier;
     }
 
+    @Override
     public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
         this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
     }
 
+    @Override
     public Integer getAlternateVendorDetailAssignedIdentifier() {
         return alternateVendorDetailAssignedIdentifier;
     }
 
+    @Override
     public void setAlternateVendorDetailAssignedIdentifier(Integer alternateVendorDetailAssignedIdentifier) {
         this.alternateVendorDetailAssignedIdentifier = alternateVendorDetailAssignedIdentifier;
     }
 
+    @Override
     public Integer getAlternateVendorHeaderGeneratedIdentifier() {
         return alternateVendorHeaderGeneratedIdentifier;
     }
 
+    @Override
     public void setAlternateVendorHeaderGeneratedIdentifier(Integer alternateVendorHeaderGeneratedIdentifier) {
         this.alternateVendorHeaderGeneratedIdentifier = alternateVendorHeaderGeneratedIdentifier;
     }
 
+    @Override
     public String getAlternateVendorName() {
         return alternateVendorName;
     }
 
+    @Override
     public void setAlternateVendorName(String alternateVendorName) {
         this.alternateVendorName = alternateVendorName;
     }
 
+    @Override
     public String getAlternateVendorNumber() {
         return alternateVendorNumber;
     }
 
+    @Override
     public void setAlternateVendorNumber(String alternateVendorNumber) {
         this.alternateVendorNumber = alternateVendorNumber;
     }
 
+    @Override
     public boolean isDeliveryBuildingOtherIndicator() {
         return deliveryBuildingOtherIndicator;
     }
 
+    @Override
     public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator) {
         this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
     }
@@ -494,10 +572,11 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
             }
         }
     }
-    
+
+    @Override
     public abstract Class getItemClass();
 
-    public Integer getPurchaseOrderIdentifier() { 
+    public Integer getPurchaseOrderIdentifier() {
         return purchaseOrderIdentifier;
     }
 
@@ -505,14 +584,17 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
+    @Override
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
         return accountsPayablePurchasingDocumentLinkIdentifier;
     }
 
+    @Override
     public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
     }
 
+    @Override
     public PurchaseOrderDocument getPurchaseOrderDocument() {
         if ((ObjectUtils.isNull(this.purchaseOrderDocument) || ObjectUtils.isNull(this.purchaseOrderDocument.getPurapDocumentIdentifier())) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier()))) {
             setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
@@ -520,6 +602,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         return this.purchaseOrderDocument;
     }
 
+    @Override
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
             this.purchaseOrderDocument = null;
@@ -550,13 +633,14 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     /**
      * FIXME: this is same as PurchaseOrderDoc please move somewhere appropriate
      * Sends FYI workflow request to the given user on this document.
-     * 
+     *
      * @param workflowDocument the associated workflow document.
      * @param userNetworkId the network ID of the user to be sent to.
      * @param annotation the annotation notes contained in this document.
      * @param responsibility the responsibility specified in the request.
      * @throws WorkflowException
      */
+    @Override
     public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
         if (ObjectUtils.isNotNull(workflowDocument)) {
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
@@ -569,7 +653,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     /**
      * FIXME: this is same as PurchaseOrderDoc please move somewhere appropriate
      * Returns the name of the current route node.
-     * 
+     *
      * @param wd the current workflow document.
      * @return the name of the current route node.
      * @throws WorkflowException
@@ -583,7 +667,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
             return (String)nodeNames.toArray()[0];
         }
     }
-    
+
     public boolean isBoNotesSupport() {
         return true;
     }
@@ -614,61 +698,66 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     public void setLineItemReceivingStatusDescription(String lineItemReceivingStatusDescription) {
         this.lineItemReceivingStatusDescription = lineItemReceivingStatusDescription;
     }
-    
+
     /**
-     * Always returns true. 
+     * Always returns true.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
+    @Override
     public boolean getIsATypeOfPurAPRecDoc() {
         return true;
     }
 
     /**
-     * Always returns false. 
+     * Always returns false.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
+    @Override
     public boolean getIsATypeOfPurDoc() {
         return false;
     }
-    
+
     /**
-     * Always returns false. 
+     * Always returns false.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
+    @Override
     public boolean getIsATypeOfPODoc() {
         return false;
     }
-    
+
     /**
-     * Always returns false. 
+     * Always returns false.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
+    @Override
     public boolean getIsPODoc() {
         return false;
     }
-    
+
     /**
-     * Always returns false. 
+     * Always returns false.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
+    @Override
     public boolean getIsReqsDoc() {
         return false;
-    }       
-    
+    }
+
     public String getWorkflowStatusForResult(){
         return PurapSearchUtils.getWorkFlowStatusString(getDocumentHeader());
     }
-    
+
     public java.util.Date getCreateDateForResult() {
         return new java.util.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
     }
-    
+
     public String getDocumentTitleForResult() throws WorkflowException{
        return KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()).getLabel();
     }
-    
+
     /**
-     * Checks whether the related purchase order views need a warning to be displayed, 
+     * Checks whether the related purchase order views need a warning to be displayed,
      * i.e. if at least one of the purchase orders has never been opened.
      * @return true if at least one related purchase order needs a warning; false otherwise
      */
@@ -680,5 +769,5 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         }
         return false;
     }
-    
+
 }

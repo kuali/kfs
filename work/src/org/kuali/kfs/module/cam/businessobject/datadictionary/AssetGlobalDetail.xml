@@ -71,15 +71,15 @@
           </property>
         </bean>
         <dd:relationship objectAttribute="postalZipCode">
-        	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode"/> 
-            <dd:primitiveAttribute source="offCampusZipCode" target="postalCode"/>
+        	<dd:primitiveAttribute source="offCampusCountryCode" target="countryCode"/> 
+            <dd:primitiveAttribute source="offCampusZipCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusState">
-        	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="offCampusStateCode" target="stateCode"/>            
+        	<dd:primitiveAttribute source="offCampusCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="offCampusStateCode" target="code"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusCountry">
-            <dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="offCampusCountryCode" target="code"/>
         </dd:relationship>
 		<dd:relationship objectAttribute="campus">
             <dd:primitiveAttribute source="campusCode" target="code"/>

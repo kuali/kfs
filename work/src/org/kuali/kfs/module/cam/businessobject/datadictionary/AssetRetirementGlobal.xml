@@ -65,15 +65,15 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="postalZipCode">
-            <dd:primitiveAttribute source="retirementZipCode" target="postalCode"/>
-            <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="retirementZipCode" target="code"/>
+            <dd:primitiveAttribute source="retirementCountryCode" target="countryCode"/>
         </dd:relationship>
         <dd:relationship objectAttribute="retirementState">
-            <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="retirementStateCode" target="stateCode"/>            
+            <dd:primitiveAttribute source="retirementCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="retirementStateCode" target="code"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="retirementCountry">
-            <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="retirementCountryCode" target="code"/>
         </dd:relationship>
       </list>
     </property>

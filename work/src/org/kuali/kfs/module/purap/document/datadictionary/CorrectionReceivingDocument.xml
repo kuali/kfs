@@ -73,7 +73,7 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="vendorCountry">
-            <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="vendorCountryCode" target="code"/>
         </dd:relationship>
         <bean parent="RelationshipDefinition">
              <property name="objectAttributeName" value="vendorDetail"/>

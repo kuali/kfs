@@ -50,7 +50,7 @@
 			<list>
 				<dd:relationship objectAttribute="customerCountry">
 					<dd:primitiveAttribute source="customerCountryCode"
-						target="postalCountryCode" />
+						target="code" />
 				</dd:relationship>
 			</list>
 		</property>

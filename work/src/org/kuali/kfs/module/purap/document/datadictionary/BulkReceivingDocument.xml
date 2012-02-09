@@ -105,7 +105,7 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="vendorCountry">
-            <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="vendorCountryCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="deliveryCampus">
             <dd:primitiveAttribute source="deliveryCampusCode" target="code"/>

@@ -44,15 +44,15 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="postalZipCode">
-        	<dd:primitiveAttribute source="assetLocationCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="assetLocationZipCode" target="postalCode"/>
+        	<dd:primitiveAttribute source="assetLocationCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="assetLocationZipCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="assetLocationState">
-        	<dd:primitiveAttribute source="assetLocationCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="assetLocationStateCode" target="stateCode"/>            
+        	<dd:primitiveAttribute source="assetLocationCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="assetLocationStateCode" target="code"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="assetLocationCountry">
-            <dd:primitiveAttribute source="assetLocationCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="assetLocationCountryCode" target="code"/>
         </dd:relationship>
       </list>
     </property>    

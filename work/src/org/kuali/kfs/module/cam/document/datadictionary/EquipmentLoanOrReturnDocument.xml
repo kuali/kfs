@@ -64,26 +64,26 @@
           </property>
         </bean>
         <dd:relationship objectAttribute="borrowerPostalZipCode">
-        	<dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="borrowerZipCode" target="postalCode"/>
+        	<dd:primitiveAttribute source="borrowerCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="borrowerZipCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerState">
-        	<dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="borrowerStateCode" target="stateCode"/>            
+        	<dd:primitiveAttribute source="borrowerCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="borrowerStateCode" target="code"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerCountry">
-            <dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="borrowerCountryCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStoragePostalZipCode">
-        	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="borrowerStorageZipCode" target="postalCode"/>
+        	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="borrowerStorageZipCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStorageState">
-        	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="borrowerStorageStateCode" target="stateCode"/>            
+        	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="borrowerStorageStateCode" target="code"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStorageCountry">
-            <dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="borrowerStorageCountryCode" target="code"/>
         </dd:relationship>        
       </list>
     </property>

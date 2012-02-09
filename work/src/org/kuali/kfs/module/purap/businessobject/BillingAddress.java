@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,6 @@
  */
 
 package org.kuali.kfs.module.purap.businessobject;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -27,18 +25,18 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 public class BillingAddress extends PersistableBusinessObjectBase implements MutableInactivatable{
 
-    private String billingCampusCode;
-    private String billingName;
-    private String billingLine1Address;
-    private String billingLine2Address;
-    private String billingCityName;
-    private String billingStateCode;
-    private String billingPostalCode;
-    private String billingCountryCode;
-    private String billingPhoneNumber;
-    private boolean active;
+    protected String billingCampusCode;
+    protected String billingName;
+    protected String billingLine1Address;
+    protected String billingLine2Address;
+    protected String billingCityName;
+    protected String billingStateCode;
+    protected String billingPostalCode;
+    protected String billingCountryCode;
+    protected String billingPhoneNumber;
+    protected boolean active;
 
-    private CampusParameter billingCampus;
+    protected CampusParameter billingCampus;
 
     /**
      * Default constructor.
@@ -130,20 +128,14 @@ public class BillingAddress extends PersistableBusinessObjectBase implements Mut
         this.billingCampus = billingCampus;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("billingCampusCode", this.billingCampusCode);
-        return m;
-    }
 }

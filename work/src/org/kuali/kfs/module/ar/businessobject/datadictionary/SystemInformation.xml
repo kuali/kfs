@@ -87,11 +87,11 @@
 				</bean>
 				<dd:relationship objectAttribute="organizationRemitToState">
 					<dd:primitiveAttribute source="organizationRemitToStateCode"
-						target="stateCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="orgRemitToZipCode">
 					<dd:primitiveAttribute source="organizationRemitToZipCode"
-						target="postalCode" />
+						target="code" />
 				</dd:relationship>
 			</list>
 		</property>

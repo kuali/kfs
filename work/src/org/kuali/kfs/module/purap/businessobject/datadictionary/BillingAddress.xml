@@ -47,7 +47,7 @@
               <property name="objectAttributeName" value="billingCampus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="billingCampusCode" p:targetName="code"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="billingCampusCode" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>

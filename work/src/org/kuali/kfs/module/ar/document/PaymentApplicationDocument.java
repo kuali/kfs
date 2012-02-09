@@ -60,6 +60,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -70,8 +71,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
-
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 
     protected static final String LAUNCHED_FROM_BATCH = "LaunchedBySystemUser";
 
@@ -314,9 +314,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
         //  attempt to retrieve all the invoices paid applied against
         try {
-            invoices.addAll((Collection<? extends CustomerInvoiceDocument>) getDocService().getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, invoiceDocNumbers));
-        }
-        catch (WorkflowException e) {
+            for ( Document doc : getDocService().getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, invoiceDocNumbers) ) {
+                invoices.add( (CustomerInvoiceDocument) doc );
+            }
+        } catch (WorkflowException e) {
             throw new RuntimeException("A WorkflowException was thrown while trying to retrieve documents.", e);
         }
         return invoices;
@@ -363,9 +364,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
         //  attempt to retrieve all the invoices paid applied against
         try {
-            payApps.addAll((Collection<? extends PaymentApplicationDocument>) getDocService().getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, payAppDocNumbers));
-        }
-        catch (WorkflowException e) {
+            for ( Document doc : getDocService().getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, payAppDocNumbers) ) {
+                payApps.add( (PaymentApplicationDocument) doc );
+            }
+        } catch (WorkflowException e) {
             throw new RuntimeException("A WorkflowException was thrown while trying to retrieve documents.", e);
         }
         return payApps;

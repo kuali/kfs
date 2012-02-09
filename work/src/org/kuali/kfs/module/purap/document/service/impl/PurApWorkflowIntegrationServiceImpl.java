@@ -111,7 +111,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             else {
                 // if a user was given... take the action as that user
                 if (ObjectUtils.isNotNull(userToCheck)) {
-                    WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(documentNumber.toString(), userToCheck);
+                    WorkflowDocument workflowDocument = workflowDocumentService.loadWorkflowDocument(documentNumber, userToCheck);
                     boolean containsFyiRequest = false;
                     boolean containsAckRequest = false;
                     boolean containsApproveRequest = false;

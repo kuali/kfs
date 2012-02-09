@@ -1699,7 +1699,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         for (String docNumber : docNumbers) {
             try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
+                workflowDocument = workflowDocumentService.loadWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
             }
             catch (WorkflowException we) {
                 throw new RuntimeException(we);

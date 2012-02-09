@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
@@ -47,7 +46,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     /**
      * This field is for write-only to the database via OJB, not the corresponding property of this BO. OJB uses reflection to read
      * it, so the compiler warns because it doesn't know.
-     * 
+     *
      * @see #getAwardTotalAmount
      * @see #setAwardTotalAmount
      */
@@ -98,11 +97,11 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private AwardOrganization primaryAwardOrganization;
     private String routingOrg;
     private String routingChart;
-    
+
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
     private transient Person lookupPerson;
-    
+
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
@@ -121,22 +120,23 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * Creates a collection of lists within this award object that should be aware of when the deletion of one of their elements
      * occurs. This collection is used to refresh the display upon deletion of an element to ensure that the deleted element is not
      * longer visible on the interface.
-     * 
+     *
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    
+
+    @Override
     public List buildListOfDeletionAwareLists() {
         List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAwardAccounts());
-        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAwardOrganizations());
-        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAwardProjectDirectors());
-        managedLists.addAll((Collection<? extends Collection<PersistableBusinessObject>>) getAwardSubcontractors());
+        managedLists.add((List) getAwardAccounts());
+        managedLists.add((List) getAwardOrganizations());
+        managedLists.add((List) getAwardProjectDirectors());
+        managedLists.add((List) getAwardSubcontractors());
         return managedLists;
     }
 
     /**
      * Constructs an Award.
-     * 
+     *
      * @param proposal The associated proposal that the award will be linked to.
      */
     public Award(Proposal proposal) {
@@ -147,7 +147,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     /**
      * This method takes all the applicable attributes from the associated proposal object and sets those attributes into their
      * corresponding award attributes.
-     * 
+     *
      * @param proposal The associated proposal that the award will be linked to.
      */
     public void populateFromProposal(Proposal proposal) {
@@ -209,16 +209,17 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -227,7 +228,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardBeginningDate attribute.
-     * 
+     *
      * @return Returns the awardBeginningDate
      */
     public Date getAwardBeginningDate() {
@@ -236,7 +237,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardBeginningDate attribute.
-     * 
+     *
      * @param awardBeginningDate The awardBeginningDate to set.
      */
     public void setAwardBeginningDate(Date awardBeginningDate) {
@@ -245,7 +246,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardEndingDate attribute.
-     * 
+     *
      * @return Returns the awardEndingDate
      */
     public Date getAwardEndingDate() {
@@ -254,7 +255,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardEndingDate attribute.
-     * 
+     *
      * @param awardEndingDate The awardEndingDate to set.
      */
     public void setAwardEndingDate(Date awardEndingDate) {
@@ -263,7 +264,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardTotalAmount attribute.
-     * 
+     *
      * @return Returns the awardTotalAmount
      */
     public KualiDecimal getAwardTotalAmount() {
@@ -275,7 +276,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     /**
      * Does nothing. This property is determined by the direct and indirect cost amounts. This setter is here only because without
      * it, the maintenance framework won't display this attribute.
-     * 
+     *
      * @param awardTotalAmount The awardTotalAmount to set.
      * @deprecated Should not be used. See method description above.
      */
@@ -288,7 +289,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * OJB calls this method as the first operation before this BO is inserted into the database. The database contains
      * CGAWD_TOT_AMT, a denormalized column that Kuali does not use but needs to maintain with this method because OJB bypasses the
      * getter.
-     * 
+     *
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.prePersist();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
@@ -301,7 +302,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     /**
      * OJB calls this method as the first operation before this BO is updated to the database. The database contains CGAWD_TOT_AMT,
      * a denormalized column that Kuali does not use but needs to maintain with this method because OJB bypasses the getter.
-     * 
+     *
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
@@ -313,7 +314,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardAddendumNumber attribute.
-     * 
+     *
      * @return Returns the awardAddendumNumber
      */
     public String getAwardAddendumNumber() {
@@ -322,7 +323,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardAddendumNumber attribute.
-     * 
+     *
      * @param awardAddendumNumber The awardAddendumNumber to set.
      */
     public void setAwardAddendumNumber(String awardAddendumNumber) {
@@ -331,7 +332,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardAllocatedUniversityComputingServicesAmount attribute.
-     * 
+     *
      * @return Returns the awardAllocatedUniversityComputingServicesAmount
      */
     public KualiDecimal getAwardAllocatedUniversityComputingServicesAmount() {
@@ -340,7 +341,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardAllocatedUniversityComputingServicesAmount attribute.
-     * 
+     *
      * @param awardAllocatedUniversityComputingServicesAmount The awardAllocatedUniversityComputingServicesAmount to set.
      */
     public void setAwardAllocatedUniversityComputingServicesAmount(KualiDecimal awardAllocatedUniversityComputingServicesAmount) {
@@ -349,7 +350,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the federalPassThroughFundedAmount attribute.
-     * 
+     *
      * @return Returns the federalPassThroughFundedAmount
      */
     public KualiDecimal getFederalPassThroughFundedAmount() {
@@ -358,7 +359,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the federalPassThroughFundedAmount attribute.
-     * 
+     *
      * @param federalPassThroughFundedAmount The federalPassThroughFundedAmount to set.
      */
     public void setFederalPassThroughFundedAmount(KualiDecimal federalPassThroughFundedAmount) {
@@ -367,7 +368,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardEntryDate attribute.
-     * 
+     *
      * @return Returns the awardEntryDate
      */
     public Date getAwardEntryDate() {
@@ -376,7 +377,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardEntryDate attribute.
-     * 
+     *
      * @param awardEntryDate The awardEntryDate to set.
      */
     public void setAwardEntryDate(Date awardEntryDate) {
@@ -385,7 +386,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the agencyFuture1Amount attribute.
-     * 
+     *
      * @return Returns the agencyFuture1Amount
      */
     public KualiDecimal getAgencyFuture1Amount() {
@@ -394,7 +395,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the agencyFuture1Amount attribute.
-     * 
+     *
      * @param agencyFuture1Amount The agencyFuture1Amount to set.
      */
     public void setAgencyFuture1Amount(KualiDecimal agencyFuture1Amount) {
@@ -404,7 +405,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the agencyFuture2Amount attribute.
-     * 
+     *
      * @return Returns the agencyFuture2Amount
      */
     public KualiDecimal getAgencyFuture2Amount() {
@@ -413,7 +414,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the agencyFuture2Amount attribute.
-     * 
+     *
      * @param agencyFuture2Amount The agencyFuture2Amount to set.
      */
     public void setAgencyFuture2Amount(KualiDecimal agencyFuture2Amount) {
@@ -422,7 +423,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the agencyFuture3Amount attribute.
-     * 
+     *
      * @return Returns the agencyFuture3Amount
      */
     public KualiDecimal getAgencyFuture3Amount() {
@@ -431,7 +432,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the agencyFuture3Amount attribute.
-     * 
+     *
      * @param agencyFuture3Amount The agencyFuture3Amount to set.
      */
     public void setAgencyFuture3Amount(KualiDecimal agencyFuture3Amount) {
@@ -440,7 +441,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardDocumentNumber attribute.
-     * 
+     *
      * @return Returns the awardDocumentNumber
      */
     public String getAwardDocumentNumber() {
@@ -449,7 +450,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardDocumentNumber attribute.
-     * 
+     *
      * @param awardDocumentNumber The awardDocumentNumber to set.
      */
     public void setAwardDocumentNumber(String awardDocumentNumber) {
@@ -458,7 +459,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardLastUpdateDate attribute.
-     * 
+     *
      * @return Returns the awardLastUpdateDate
      */
     public Timestamp getAwardLastUpdateDate() {
@@ -467,7 +468,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardLastUpdateDate attribute.
-     * 
+     *
      * @param awardLastUpdateDate The awardLastUpdateDate to set.
      */
     public void setAwardLastUpdateDate(Timestamp awardLastUpdateDate) {
@@ -476,7 +477,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the federalPassThroughIndicator attribute.
-     * 
+     *
      * @return Returns the federalPassThroughIndicator
      */
     public boolean getFederalPassThroughIndicator() {
@@ -485,7 +486,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the federalPassThroughIndicator attribute.
-     * 
+     *
      * @param federalPassThroughIndicator The federalPassThroughIndicator to set.
      */
     public void setFederalPassThroughIndicator(boolean federalPassThroughIndicator) {
@@ -494,7 +495,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the oldProposalNumber attribute.
-     * 
+     *
      * @return Returns the oldProposalNumber
      */
     public String getOldProposalNumber() {
@@ -503,7 +504,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the oldProposalNumber attribute.
-     * 
+     *
      * @param oldProposalNumber The oldProposalNumber to set.
      */
     public void setOldProposalNumber(String oldProposalNumber) {
@@ -512,7 +513,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardDirectCostAmount attribute.
-     * 
+     *
      * @return Returns the awardDirectCostAmount
      */
     public KualiDecimal getAwardDirectCostAmount() {
@@ -521,7 +522,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardDirectCostAmount attribute.
-     * 
+     *
      * @param awardDirectCostAmount The awardDirectCostAmount to set.
      */
     public void setAwardDirectCostAmount(KualiDecimal awardDirectCostAmount) {
@@ -530,7 +531,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardIndirectCostAmount attribute.
-     * 
+     *
      * @return Returns the awardIndirectCostAmount
      */
     public KualiDecimal getAwardIndirectCostAmount() {
@@ -539,7 +540,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardIndirectCostAmount attribute.
-     * 
+     *
      * @param awardIndirectCostAmount The awardIndirectCostAmount to set.
      */
     public void setAwardIndirectCostAmount(KualiDecimal awardIndirectCostAmount) {
@@ -548,7 +549,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the federalFundedAmount attribute.
-     * 
+     *
      * @return Returns the federalFundedAmount
      */
     public KualiDecimal getFederalFundedAmount() {
@@ -557,7 +558,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the federalFundedAmount attribute.
-     * 
+     *
      * @param federalFundedAmount The federalFundedAmount to set.
      */
     public void setFederalFundedAmount(KualiDecimal federalFundedAmount) {
@@ -566,7 +567,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardCreateTimestamp attribute.
-     * 
+     *
      * @return Returns the awardCreateTimestamp
      */
     public Timestamp getAwardCreateTimestamp() {
@@ -575,7 +576,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardCreateTimestamp attribute.
-     * 
+     *
      * @param awardCreateTimestamp The awardCreateTimestamp to set.
      */
     public void setAwardCreateTimestamp(Timestamp awardCreateTimestamp) {
@@ -584,7 +585,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardClosingDate attribute.
-     * 
+     *
      * @return Returns the awardClosingDate
      */
     public Date getAwardClosingDate() {
@@ -593,7 +594,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardClosingDate attribute.
-     * 
+     *
      * @param awardClosingDate The awardClosingDate to set.
      */
     public void setAwardClosingDate(Date awardClosingDate) {
@@ -602,7 +603,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the proposalAwardTypeCode attribute.
-     * 
+     *
      * @return Returns the proposalAwardTypeCode
      */
     public String getProposalAwardTypeCode() {
@@ -611,7 +612,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the proposalAwardTypeCode attribute.
-     * 
+     *
      * @param proposalAwardTypeCode The proposalAwardTypeCode to set.
      */
     public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
@@ -620,7 +621,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardStatusCode attribute.
-     * 
+     *
      * @return Returns the awardStatusCode
      */
     public String getAwardStatusCode() {
@@ -629,7 +630,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardStatusCode attribute.
-     * 
+     *
      * @param awardStatusCode The awardStatusCode to set.
      */
     public void setAwardStatusCode(String awardStatusCode) {
@@ -638,7 +639,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the letterOfCreditFundGroupCode attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundGroupCode
      */
     public String getLetterOfCreditFundGroupCode() {
@@ -647,7 +648,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the letterOfCreditFundGroupCode attribute.
-     * 
+     *
      * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
      */
     public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
@@ -656,7 +657,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the grantDescriptionCode attribute.
-     * 
+     *
      * @return Returns the grantDescriptionCode
      */
     public String getGrantDescriptionCode() {
@@ -665,7 +666,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the grantDescriptionCode attribute.
-     * 
+     *
      * @param grantDescriptionCode The grantDescriptionCode to set.
      */
     public void setGrantDescriptionCode(String grantDescriptionCode) {
@@ -674,7 +675,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber
      */
     public String getAgencyNumber() {
@@ -683,7 +684,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -692,7 +693,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the federalPassThroughAgencyNumber attribute.
-     * 
+     *
      * @return Returns the federalPassThroughAgencyNumber
      */
     public String getFederalPassThroughAgencyNumber() {
@@ -701,7 +702,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the federalPassThroughAgencyNumber attribute.
-     * 
+     *
      * @param federalPassThroughAgencyNumber The federalPassThroughAgencyNumber to set.
      */
     public void setFederalPassThroughAgencyNumber(String federalPassThroughAgencyNumber) {
@@ -710,7 +711,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the agencyAnalystName attribute.
-     * 
+     *
      * @return Returns the agencyAnalystName
      */
     public String getAgencyAnalystName() {
@@ -719,7 +720,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the agencyAnalystName attribute.
-     * 
+     *
      * @param agencyAnalystName The agencyAnalystName to set.
      */
     public void setAgencyAnalystName(String agencyAnalystName) {
@@ -728,7 +729,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the analystTelephoneNumber attribute.
-     * 
+     *
      * @return Returns the analystTelephoneNumber
      */
     public String getAnalystTelephoneNumber() {
@@ -737,7 +738,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the analystTelephoneNumber attribute.
-     * 
+     *
      * @param analystTelephoneNumber The analystTelephoneNumber to set.
      */
     public void setAnalystTelephoneNumber(String analystTelephoneNumber) {
@@ -746,7 +747,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardProjectTitle attribute.
-     * 
+     *
      * @return Returns the awardProjectTitle
      */
     public String getAwardProjectTitle() {
@@ -755,7 +756,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardProjectTitle attribute.
-     * 
+     *
      * @param awardProjectTitle The awardProjectTitle to set.
      */
     public void setAwardProjectTitle(String awardProjectTitle) {
@@ -764,7 +765,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardCommentText attribute.
-     * 
+     *
      * @return Returns the awardCommentText
      */
     public String getAwardCommentText() {
@@ -773,7 +774,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardCommentText attribute.
-     * 
+     *
      * @param awardCommentText The awardCommentText to set.
      */
     public void setAwardCommentText(String awardCommentText) {
@@ -782,7 +783,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardPurposeCode attribute.
-     * 
+     *
      * @return Returns the awardPurposeCode
      */
     public String getAwardPurposeCode() {
@@ -791,7 +792,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardPurposeCode attribute.
-     * 
+     *
      * @param awardPurposeCode The awardPurposeCode to set.
      */
     public void setAwardPurposeCode(String awardPurposeCode) {
@@ -800,34 +801,37 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
      * Gets the proposal attribute.
-     * 
+     *
      * @return Returns the proposal
      */
+    @Override
     public Proposal getProposal() {
         return proposal;
     }
 
     /**
      * Sets the proposal attribute.
-     * 
+     *
      * @param proposal The proposal to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -839,7 +843,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the proposalAwardType attribute.
-     * 
+     *
      * @return Returns the proposalAwardType
      */
     public ProposalAwardType getProposalAwardType() {
@@ -848,7 +852,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the proposalAwardType attribute.
-     * 
+     *
      * @param proposalAwardType The proposalAwardType to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -860,7 +864,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardStatus attribute.
-     * 
+     *
      * @return Returns the awardStatus
      */
     public AwardStatus getAwardStatus() {
@@ -869,7 +873,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardStatus attribute.
-     * 
+     *
      * @param awardStatus The awardStatus to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -881,7 +885,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the letterOfCreditFundGroup attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundGroup
      */
     public LetterOfCreditFundGroup getLetterOfCreditFundGroup() {
@@ -890,7 +894,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the letterOfCreditFundGroup attribute.
-     * 
+     *
      * @param letterOfCreditFundGroup The letterOfCreditFundGroup to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -902,7 +906,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the grantDescription attribute.
-     * 
+     *
      * @return Returns the grantDescription
      */
     public GrantDescription getGrantDescription() {
@@ -911,7 +915,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the grantDescription attribute.
-     * 
+     *
      * @param grantDescription The grantDescription to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -923,7 +927,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the agency attribute.
-     * 
+     *
      * @return Returns the agency
      */
     public Agency getAgency() {
@@ -932,7 +936,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the agency attribute.
-     * 
+     *
      * @param agency The agency to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -944,7 +948,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the federalPassThroughAgency attribute.
-     * 
+     *
      * @return Returns the federalPassThroughAgency
      */
     public Agency getFederalPassThroughAgency() {
@@ -953,7 +957,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the federalPassThroughAgency attribute.
-     * 
+     *
      * @param federalPassThroughAgency The federalPassThroughAgency to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -965,7 +969,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardPurpose attribute.
-     * 
+     *
      * @return Returns the awardPurpose
      */
     public ProposalPurpose getAwardPurpose() {
@@ -974,7 +978,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardPurpose attribute.
-     * 
+     *
      * @param awardPurpose The awardPurpose to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -986,7 +990,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardProjectDirectors list.
-     * 
+     *
      * @return Returns the awardProjectDirectors list
      */
     public List<AwardProjectDirector> getAwardProjectDirectors() {
@@ -995,7 +999,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardProjectDirectors list.
-     * 
+     *
      * @param awardProjectDirectors The awardProjectDirectors list to set.
      */
     public void setAwardProjectDirectors(List<AwardProjectDirector> awardProjectDirectors) {
@@ -1004,7 +1008,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardAccounts list.
-     * 
+     *
      * @return Returns the awardAccounts.
      */
     public List<AwardAccount> getAwardAccounts() {
@@ -1013,7 +1017,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardAccounts list.
-     * 
+     *
      * @param awardAccounts The awardAccounts to set.
      */
     public void setAwardAccounts(List<AwardAccount> awardAccounts) {
@@ -1022,7 +1026,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardOrganizations list.
-     * 
+     *
      * @return Returns the awardOrganizations.
      */
     public List<AwardOrganization> getAwardOrganizations() {
@@ -1031,7 +1035,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardOrganizations list.
-     * 
+     *
      * @param awardOrganizations The awardOrganizations to set.
      */
     public void setAwardOrganizations(List<AwardOrganization> awardOrganizations) {
@@ -1040,7 +1044,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the awardSubcontractors list.
-     * 
+     *
      * @return Returns the awardSubcontractors.
      */
     public List<AwardSubcontractor> getAwardSubcontractors() {
@@ -1049,7 +1053,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the awardSubcontractors list.
-     * 
+     *
      * @param awardSubcontractors The awardSubcontractors to set.
      */
     public void setAwardSubcontractors(List<AwardSubcontractor> awardSubcontractors) {
@@ -1058,7 +1062,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * This method gets the primary award organization.
-     * 
+     *
      * @return The award organization object marked as primary in the award organizations collection.
      */
     public AwardOrganization getPrimaryAwardOrganization() {
@@ -1074,7 +1078,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * This method sets the primary award organization.
-     * 
+     *
      * @param primaryAwardOrganization
      */
     public void setPrimaryAwardOrganization(AwardOrganization primaryAwardOrganization) {
@@ -1085,7 +1089,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sums the total for all award subcontractors
-     * 
+     *
      * @return Returns the total of all the award subcontractor's amounts
      */
     public KualiDecimal getAwardSubcontractorsTotalAmount() {
@@ -1126,10 +1130,10 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     public void setRoutingOrg(String routingOrg) {
         this.routingOrg = routingOrg;
     }
-    
+
     /**
      * Gets the lookup {@link Person}.
-     * 
+     *
      * @return the lookup {@link Person}
      */
     public Person getLookupPerson() {
@@ -1138,7 +1142,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the lookup {@link Person}
-     * 
+     *
      * @param lookupPerson
      */
     public void setLookupPerson(Person lookupPerson) {
@@ -1147,7 +1151,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Gets the universal user id of the lookup person.
-     * 
+     *
      * @return the id of the lookup person
      */
     public String getLookupPersonUniversalIdentifier() {
@@ -1157,13 +1161,13 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /**
      * Sets the universal user id of the lookup person
-     * 
+     *
      * @param lookupPersonId the id of the lookup person
      */
     public void setLookupPersonUniversalIdentifier(String lookupPersonId) {
         this.lookupPersonUniversalIdentifier = lookupPersonId;
     }
-    
+
     public String getUserLookupRoleNamespaceCode() {
         return userLookupRoleNamespaceCode;
     }
@@ -1177,14 +1181,15 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     public void setUserLookupRoleName(String userLookupRoleName) {
     }
-    
+
     /**
      * @return a String to represent this field on the inquiry
      */
+    @Override
     public String getAwardInquiryTitle() {
         return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(AWARD_INQUIRY_TITLE_PROPERTY);
     }
-    
+
     /**
      * Pretends to set the inquiry title
      */

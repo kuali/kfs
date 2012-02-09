@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.document.workflow;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,14 +25,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeString;
-import org.kuali.rice.kew.api.document.attribute.DocumentAttributeString.Builder;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizerBase;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultSetConfiguration;
+import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValue;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -56,47 +57,47 @@ public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
         if (!PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equalsIgnoreCase(documentSearchCriteria.getDocumentTypeName()) && !PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equalsIgnoreCase(documentSearchCriteria.getDocumentTypeName())) {
             return null;
         }
+        org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues.Builder customResultsBuilder = DocumentSearchResultValues.Builder.create();
 
-        DocumentAttribute purapDocIdAttr = null;
+        List<DocumentSearchResultValue.Builder> customResultValueBuilders = new ArrayList<DocumentSearchResultValue.Builder>();
+
+        boolean isAuthorized = isAuthorizedToViewPurapDocId();
         for (DocumentSearchResult result : defaultResults) {
-            List<DocumentAttribute> docAttrs = result.getDocumentAttributes();
-            for (DocumentAttribute documentAttribute : docAttrs) {
+            List<DocumentAttribute.AbstractBuilder<?>> custAttrBuilders = new ArrayList<DocumentAttribute.AbstractBuilder<?>>();
+            Document document = result.getDocument();
+            for (DocumentAttribute documentAttribute : result.getDocumentAttributes()) {
                 if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
-                    purapDocIdAttr = documentAttribute;
-                    break;
-                }
-            }
-
-            if (purapDocIdAttr != null) {
-                // KFSMI-4576 masking PO number...
-                List<DocumentStatus> documentStatuses = documentSearchCriteria.getDocumentStatuses();
-                if (!documentStatuses.contains(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
-                    // if document status is not FINAL then check for permission to see
-                    // the value needs to be masked....
-                    String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-                    String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
-                    String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
-
-                    Map<String, String> roleQualifiers = new HashMap<String, String>();
-
-                    Map<String, String> permissionDetails = new HashMap<String, String>();
-                    permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
-                    permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
-
-                    IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-                    Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-                    // the principalId is not authorized to view the value in purapDocumentIdentifier field...so mask the value...
-                    if (!isAuthorized) {
-                        Builder builder = DocumentAttributeString.Builder.create(KFSPropertyConstants.PURAP_DOC_ID);
+                    if (!isAuthorized && !KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(document.getStatus().getCode())) {
+                        DocumentAttributeString.Builder builder = DocumentAttributeString.Builder.create(KFSPropertyConstants.PURAP_DOC_ID);
                         builder.setValue("********");
-                        // not authorized to see... create a string
-                        purapDocIdAttr = builder.build();
+                        custAttrBuilders.add(builder);
+                        break;
                     }
                 }
             }
+            DocumentSearchResultValue.Builder builder = DocumentSearchResultValue.Builder.create(document.getDocumentId());
+            builder.setDocumentAttributes(custAttrBuilders);
+            customResultValueBuilders.add(builder);
         }
+        customResultsBuilder.setResultValues(customResultValueBuilders);
 
-        return null;
+        return customResultsBuilder.build();
+    }
+
+    private boolean isAuthorizedToViewPurapDocId() {
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
+        String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
+
+        Map<String, String> roleQualifiers = new HashMap<String, String>();
+
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
+        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
+
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
+        return isAuthorized;
     }
 
     @Override

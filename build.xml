@@ -718,17 +718,22 @@
 
 	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
 		<delete file="${test.directory}/cobertura.ser" quiet="true" />
-        <cobertura-instrument maxmemory="1g" datafile="${test.directory}/cobertura.ser">
-        	<includeClasses regex=".*org\.kuali\..*" />
-        	<excludeClasses regex=".*org\.kuali\.rice\..*" />
-    		<excludeClasses regex=".*Test.*" />
-    		<excludeClasses regex=".*Suite.*" />
-    		<excludeClasses regex=".*Fixture.*" />
-            <ignore regex="org.apache.log4j.*" />
-        	<ignore regex=".*LOG\..*"/>
-        	<ignore regex=".*System\.out.*"/>
-        	<instrumentationclasspath refid="run.tests.classpath" />
-        </cobertura-instrument>	
+		<if>
+			<not><isset property="no.cobertura" /></not>
+			<then>
+		        <cobertura-instrument maxmemory="1g" datafile="${test.directory}/cobertura.ser">
+		        	<includeClasses regex=".*org\.kuali\..*" />
+		        	<excludeClasses regex=".*org\.kuali\.rice\..*" />
+		    		<excludeClasses regex=".*Test.*" />
+		    		<excludeClasses regex=".*Suite.*" />
+		    		<excludeClasses regex=".*Fixture.*" />
+		            <ignore regex="org.apache.log4j.*" />
+		        	<ignore regex=".*LOG\..*"/>
+		        	<ignore regex=".*System\.out.*"/>
+		        	<instrumentationclasspath refid="run.tests.classpath" />
+		        </cobertura-instrument>
+			</then>
+		</if>
 	</target>
 
 	<target name="make-foundation-tests" depends="init-make-references,filter-project">
@@ -835,15 +840,20 @@ Excludes: ${tests.compile.excludes}
 		</junitreport>
 		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 
-        <cobertura-report format="xml" maxmemory="1g" datafile="${test.directory}/cobertura.ser" destdir="${test.directory}/cobertura" >
-            <fileset dir="${source.directory}">
-                <include name="**/*.java" />
-            </fileset><!--
-            <fileset dir="${src.dir.main}">
-                <include name="**/*.java" />
-            </fileset>
-            -->
-        </cobertura-report>
+		<if>
+			<not><isset property="no.cobertura" /></not>
+			<then>
+		        <cobertura-report format="xml" maxmemory="1g" datafile="${test.directory}/cobertura.ser" destdir="${test.directory}/cobertura" >
+		            <fileset dir="${source.directory}">
+		                <include name="**/*.java" />
+		            </fileset><!--
+		            <fileset dir="${src.dir.main}">
+		                <include name="**/*.java" />
+		            </fileset>
+		            -->
+		        </cobertura-report>
+			</then>
+		</if>
 		<delete dir="${all.temp.directory}" failonerror="false" />
 	</target>
 

@@ -33,5 +33,5 @@ public interface KEMIDCurrentAvailableBalanceService {
      * @param currentAvailableBalance representing the record to be added to the table
      * @return true if currentAvailableBalance record is added else false
      */
-    public abstract void InsertAvailableCash(KEMIDCurrentAvailableBalance kEMIDCurrentAvailableBalance);
+    public abstract void InsertAvailableCash(KEMIDCurrentAvailableBalance kemidCurrentAvailableBalance);
 }

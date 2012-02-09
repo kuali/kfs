@@ -20,11 +20,11 @@
   <bean id="GLInterfaceBatchStatisticsReportDetailTableRow-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow"/>
     
-    <property name="objectLabel" value="GL Interface Batcht Statistics Table Row"/>
+    <property name="objectLabel" value="GL Interface Batch Statistics Table Row"/>
     <property name="attributes">
       <list>
       	<ref bean="GLInterfaceBatchStatisticsReportDetailTableRow-documentType"/>
-        <ref bean="GLInterfaceBatchStatisticsReportDetailTableRow-gLEntriesGenerated"/>
+        <ref bean="GLInterfaceBatchStatisticsReportDetailTableRow-glEntriesGenerated"/>
         <ref bean="GLInterfaceBatchStatisticsReportDetailTableRow-numberOfExceptions"/>
       </list>
     </property>
@@ -36,10 +36,10 @@
 	<property name="name" value="documentType"></property>	
 	<property name="maxLength" value="10"></property>
   </bean>
-  <bean id="GLInterfaceBatchStatisticsReportDetailTableRow-gLEntriesGenerated" parent="GLInterfaceBatchStatisticsReportDetailTableRow-gLEntriesGenerated-parentBean"/>
+  <bean id="GLInterfaceBatchStatisticsReportDetailTableRow-glEntriesGenerated" parent="GLInterfaceBatchStatisticsReportDetailTableRow-glEntriesGenerated-parentBean"/>
 
-  <bean id="GLInterfaceBatchStatisticsReportDetailTableRow-gLEntriesGenerated-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
-    <property name="name" value="gLEntriesGenerated"/>
+  <bean id="GLInterfaceBatchStatisticsReportDetailTableRow-glEntriesGenerated-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
+    <property name="name" value="glEntriesGenerated"/>
     <property name="maxLength" value="20"/>
   </bean> 
   <bean id="GLInterfaceBatchStatisticsReportDetailTableRow-numberOfExceptions" parent="GLInterfaceBatchStatisticsReportDetailTableRow-numberOfExceptions-parentBean"/>

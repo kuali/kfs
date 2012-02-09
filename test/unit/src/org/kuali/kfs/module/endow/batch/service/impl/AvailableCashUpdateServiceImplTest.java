@@ -103,7 +103,7 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
         LOG.info("testClearAllAvailableCash() method entered");
         
       //Step 1: remove all the records from END_AVAIL_CSH_T table        
-        availableCashUpdateService.kEMIDCurrentAvailableBalanceService.clearAllAvailableCash();
+        availableCashUpdateService.kemidCurrentAvailableBalanceService.clearAllAvailableCash();
 
         Collection availableCashRecords = businessObjectService.findAll(KEMIDCurrentAvailableBalance.class);
         assertTrue("Records in END_AVAIL_CSH_T table were not deleted by clearAllAvailableCash() method.", availableCashRecords.size() == 0);
@@ -137,7 +137,7 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
         Collection<KEMID> kemidRecordsInTable = businessObjectService.findMatching(KEMID.class, fieldValues);
         
         //Step 2: Retrieve all KEMID records where CLOSED_IND set to N
-        Collection<KEMID> kemIdRecords = availableCashUpdateService.kEMIDService.getAllKemIdWithClosedIndicatorNo();
+        Collection<KEMID> kemIdRecords = availableCashUpdateService.kemidService.getAllKemIdWithClosedIndicatorNo();
         assertTrue("KEMID record total retrived from getAllKemIdWithClosedIndicatorNo() does not match with records in the table END_KEMID_T with closed indicator = 'N'", kemidRecordsInTable.size() == kemIdRecords.size());
         
         updateKemIdClosedIndicator(EndowConstants.YES);
@@ -145,7 +145,7 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
         fieldValues.put(EndowPropertyConstants.KEMID_CLOSED, EndowConstants.YES);
         kemidRecordsInTable = businessObjectService.findMatching(KEMID.class, fieldValues);
         
-        kemIdRecords = availableCashUpdateService.kEMIDService.getAllKemIdWithClosedIndicatorNo();
+        kemIdRecords = availableCashUpdateService.kemidService.getAllKemIdWithClosedIndicatorNo();
         assertFalse("getAllKemIdWithClosedIndicatorNo() method should not have retrieved any records. ", kemidRecordsInTable.size() == kemIdRecords.size());
 
         LOG.info("testGetAllKemidWithClosedIndicatorNo() method finished.");

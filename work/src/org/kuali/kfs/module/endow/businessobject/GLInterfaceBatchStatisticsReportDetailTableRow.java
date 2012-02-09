@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,31 +15,29 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class GLInterfaceBatchStatisticsReportDetailTableRow extends TransientBusinessObjectBase {
-    private String documentType;
-    private long gLEntriesGenerated;
-    private long numberOfExceptions;
+    protected String documentType;
+    protected long glEntriesGenerated;
+    protected long numberOfExceptions;
 
     public GLInterfaceBatchStatisticsReportDetailTableRow() {
         documentType = "";
-        gLEntriesGenerated = 0;
+        glEntriesGenerated = 0;
         numberOfExceptions = 0;
     }
-    
+
     /**
-     * Gets the documentType attribute. 
+     * Gets the documentType attribute.
      * @return Returns the documentType.
-     */   
+     */
     public String getDocumentType() {
         return documentType;
     }
 
     /**
-     * Sets the documentType attribute. 
+     * Sets the documentType attribute.
      * @return Returns the documentType.
      */
     public void setDocumentType(String documentType) {
@@ -47,33 +45,33 @@ public class GLInterfaceBatchStatisticsReportDetailTableRow extends TransientBus
     }
 
     /**
-     * Gets the gLEntriesGenerated attribute. 
+     * Gets the gLEntriesGenerated attribute.
      * @return Returns the gLEntriesGenerated.
-     */    
-    public long getGLEntriesGenerated() {
-        return gLEntriesGenerated;
+     */
+    public long getGlEntriesGenerated() {
+        return glEntriesGenerated;
     }
 
     /**
-     * Sets the gLEntriesGenerated attribute. 
+     * Sets the gLEntriesGenerated attribute.
      * @return Returns the gLEntriesGenerated.
-     */    
-    public void setGLEntriesGenerated(long gLEntriesGenerated) {
-        this.gLEntriesGenerated = gLEntriesGenerated;
+     */
+    public void setGlEntriesGenerated(long glEntriesGenerated) {
+        this.glEntriesGenerated = glEntriesGenerated;
     }
 
     /**
-     * Gets the numberOfExceptions attribute. 
+     * Gets the numberOfExceptions attribute.
      * @return Returns the numberOfExceptions.
-     */    
+     */
     public long getNumberOfExceptions() {
         return numberOfExceptions;
     }
 
     /**
-     * Sets the numberOfExceptions attribute. 
+     * Sets the numberOfExceptions attribute.
      * @return Returns the numberOfExceptions.
-     */    
+     */
     public void setNumberOfExceptions(long numberOfExceptions) {
         this.numberOfExceptions = numberOfExceptions;
     }
@@ -82,7 +80,7 @@ public class GLInterfaceBatchStatisticsReportDetailTableRow extends TransientBus
      * method to increase the count of number of GL entries
      */
     public void increaseGLEntriesGeneratedCount() {
-        this.gLEntriesGenerated++;
+        this.glEntriesGenerated++;
     }
 
     /**
@@ -90,19 +88,5 @@ public class GLInterfaceBatchStatisticsReportDetailTableRow extends TransientBus
      */
     public void increaseNumberOfExceptionsCount() {
         this.numberOfExceptions++;
-    }
-    
-    /**
-     * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap pks = new LinkedHashMap<String, Object>();
-        pks.put("documentType",this.getDocumentType());
-        pks.put("gLEntriesGenerated",this.getGLEntriesGenerated());
-        pks.put("numberOfExceptions",this.getNumberOfExceptions());
-        
-        return pks;
     }
 }

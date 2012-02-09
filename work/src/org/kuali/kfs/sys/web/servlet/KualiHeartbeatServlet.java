@@ -3,7 +3,7 @@ package org.kuali.kfs.sys.web.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,24 +16,26 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class KualiHeartbeatServlet extends HttpServlet {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiHeartbeatServlet.class);
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4901222949286730892L;
 
-	public void doGet(HttpServletRequest req, HttpServletResponse resp){
+	@Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp){
 		this.doPost(req, resp);
 	}
-	public void doPost(HttpServletRequest req, HttpServletResponse resp){
+	@Override
+    public void doPost(HttpServletRequest req, HttpServletResponse resp){
         StringBuilder sb = new StringBuilder(200);
         sb.append("<html><head><title>heartbeat</title></head><body>");
 		try {
-	        ArrayList<Chart> hbResult = (ArrayList<Chart>) SpringContext.getBean(BusinessObjectService.class).findAll(Chart.class);
+	        Collection<Chart> hbResult = SpringContext.getBean(BusinessObjectService.class).findAll(Chart.class);
 		    // force a call to KIM
 	        if ( hbResult.isEmpty() ) {
 	            sb.append( "NO CHARTS RETRIEVED");
 	        } else {
 	            // we don't care what it returns, only that the call to KIM does not bomb out
-	            hbResult.get(0).getFinCoaManager();
+	            hbResult.iterator().next().getFinCoaManager();
 	            sb.append( "LUB-DUB,LUB-DUB");
 	        }
 		} catch ( Exception ex ){

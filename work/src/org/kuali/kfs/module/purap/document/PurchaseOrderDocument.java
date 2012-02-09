@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -109,7 +108,6 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -1641,26 +1639,26 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
     @Override
     public DocumentSearchCriteria convertSelections(DocumentSearchCriteria searchCriteria) {
-        for ( Entry<String, List<String>> comp : searchCriteria.getDocumentAttributeValues().entrySet()) {
-            //RICE20  - cannot figure out this
-            if (comp.getLookupableFieldType().equals(Field.MULTISELECT)) {
-                List<String> values = comp.getValue();
-                List<String> newVals = new ArrayList<String>();
-                if (values.contains("INCOMPLETE")) {
-                    for (String str : PurchaseOrderStatuses.INCOMPLETE_STATUSES)
-                        newVals.add(str);
-                } if (values.contains("COMPLETE")) {
-                    for (String str : PurchaseOrderStatuses.COMPLETE_STATUSES)
-                        newVals.add(str);
-                }
-
-                for (String str : values) {
-                    newVals.add(str);
-                }
-
-                comp.setValue(newVals);
-            }
-        }
+//        for ( Entry<String, List<String>> comp : searchCriteria.getDocumentAttributeValues().entrySet()) {
+//            //RICE20  - cannot figure out this
+//            if (comp.getLookupableFieldType().equals(Field.MULTISELECT)) {
+//                List<String> values = comp.getValue();
+//                List<String> newVals = new ArrayList<String>();
+//                if (values.contains("INCOMPLETE")) {
+//                    for (String str : PurchaseOrderStatuses.INCOMPLETE_STATUSES)
+//                        newVals.add(str);
+//                } if (values.contains("COMPLETE")) {
+//                    for (String str : PurchaseOrderStatuses.COMPLETE_STATUSES)
+//                        newVals.add(str);
+//                }
+//
+//                for (String str : values) {
+//                    newVals.add(str);
+//                }
+//
+//                comp.setValue(newVals);
+//            }
+//        }
         return searchCriteria;
     }
 

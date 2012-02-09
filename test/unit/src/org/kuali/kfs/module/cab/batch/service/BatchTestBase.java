@@ -87,8 +87,8 @@ public abstract class BatchTestBase extends KualiTestBase {
     }
 
     protected Parameter findCabExtractTimeParam() {
-        /* RICE_20_DELETE */Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).retrieveParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_DATE);
-        // RICE_20_INSERT Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_DATE);
+        /* RICE_20_DELETE */Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).retrieveParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
+        // RICE_20_INSERT Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
         return lastExtractTime;
     }
 

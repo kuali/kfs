@@ -140,12 +140,15 @@
     
   </bean>
   
-  <bean id="RequestBenefits-laborBenefitRateCategory-code" parent="LaborBenefitRateCategory-code"/>
-  <bean id="ReqeustBenefits-laborBenefitRateCategory-codeDesc" parent="LaborBenefitRateCategory-codeDesc" >
+  <bean id="RequestBenefits-laborBenefitRateCategory-code" parent="RequestBenefits-laborBenefitRateCategory-code-parentBean"/>
+  <bean id="RequestBenefits-laborBenefitRateCategory-code-parentBean" parent="LaborBenefitRateCategory-code" abstract="true"/>
+  <bean id="ReqeustBenefits-laborBenefitRateCategory-codeDesc" parent="ReqeustBenefits-laborBenefitRateCategory-codeDesc-parentBean" />
+  <bean id="ReqeustBenefits-laborBenefitRateCategory-codeDesc-parentBean" parent="LaborBenefitRateCategory-codeDesc" abstract="true">
   	<property name="name" value="laborBenefitRateCategoryCodeDesc"/>
   </bean>
   
-  <bean id="ReqeustBenefits-accountNumber" parent="Account-accountNumber" />
+  <bean id="ReqeustBenefits-accountNumber" parent="ReqeustBenefits-accountNumber-parentBean" />
+  <bean id="ReqeustBenefits-accountNumber-parentBean" parent="Account-accountNumber" abstract="true"/>
 
 <!-- Business Object Lookup Definition -->
 

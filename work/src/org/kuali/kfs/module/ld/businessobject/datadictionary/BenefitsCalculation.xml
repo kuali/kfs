@@ -188,12 +188,14 @@
 		</property>
 	</bean>
 
-	<bean id="BenefitsCalculation-accountCodeOffset"
+	<bean id="BenefitsCalculation-accountCodeOffset" parent="BenefitsCalculation-accountCodeOffset-parentBean"/>
+	<bean id="BenefitsCalculation-accountCodeOffset-parentBean" abstract="true"
 		parent="BenefitsCalculationExtension-accountCodeOffset-parentBean">
 		<property name="name" value="extension.accountCodeOffset" />
 	</bean>
 
-	<bean id="BenefitsCalculation-objectCodeOffset"
+	<bean id="BenefitsCalculation-objectCodeOffset" parent="BenefitsCalculation-objectCodeOffset-parentBean"/>
+	<bean id="BenefitsCalculation-objectCodeOffset-parentBean" abstract="true"
 		parent="BenefitsCalculationExtension-objectCodeOffset-parentBean">
 		<property name="name" value="extension.objectCodeOffset" />
 	</bean>

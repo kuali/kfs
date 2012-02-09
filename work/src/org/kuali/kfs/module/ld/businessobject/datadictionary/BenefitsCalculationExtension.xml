@@ -35,13 +35,17 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="BenefitsCalculationExtension-positionBenefitTypeCode" parent="BenefitsCalculation-positionBenefitTypeCode-parentBean" />
+  <bean id="BenefitsCalculationExtension-positionBenefitTypeCode" parent="BenefitsCalculationExtension-positionBenefitTypeCode-parentBean"/>
+  <bean id="BenefitsCalculationExtension-positionBenefitTypeCode-parentBean" parent="BenefitsCalculation-positionBenefitTypeCode-parentBean" abstract="true"/>
 
-  <bean id="BenefitsCalculationExtension-universityFiscalYear" parent="BenefitsCalculation-universityFiscalYear-parentBean" />
+  <bean id="BenefitsCalculationExtension-universityFiscalYear" parent="BenefitsCalculationExtension-universityFiscalYear-parentBean"/>
+  <bean id="BenefitsCalculationExtension-universityFiscalYear-parentBean" parent="BenefitsCalculation-universityFiscalYear-parentBean" abstract="true"/>
 
-  <bean id="BenefitsCalculationExtension-chartOfAccountsCode" parent="BenefitsCalculation-chartOfAccountsCode-parentBean" />
+  <bean id="BenefitsCalculationExtension-chartOfAccountsCode" parent="BenefitsCalculationExtension-chartOfAccountsCode-parentBean"/>
+  <bean id="BenefitsCalculationExtension-chartOfAccountsCode-parentBean" parent="BenefitsCalculation-chartOfAccountsCode-parentBean" abstract="true"/>
   
-  <bean id="BenefitsCalculationExtension-laborBenefitRateCategoryCode" parent="BenefitsCalculation-laborBenefitRateCategoryCode-parentBean" />
+  <bean id="BenefitsCalculationExtension-laborBenefitRateCategoryCode" parent="BenefitsCalculationExtension-laborBenefitRateCategoryCode-parentBean" />
+  <bean id="BenefitsCalculationExtension-laborBenefitRateCategoryCode-parentBean" parent="BenefitsCalculation-laborBenefitRateCategoryCode-parentBean" abstract="true"/>
 
   <bean id="BenefitsCalculationExtension-accountCodeOffset" parent="BenefitsCalculationExtension-accountCodeOffset-parentBean"/>
 

@@ -45,13 +45,13 @@
 			<list>
 				<dd:relationship objectAttribute="subcontractorState">
 					<dd:primitiveAttribute source="subcontractorCountryCode"
-						target="postalCountryCode" />
+						target="countryCode" />
 					<dd:primitiveAttribute source="subcontractorStateCode"
-						target="stateCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="subcontractorCountry">
 					<dd:primitiveAttribute source="subcontractorCountryCode"
-						target="postalCountryCode" />
+						target="code" />
 				</dd:relationship>
 			</list>
 		</property>

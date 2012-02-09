@@ -121,7 +121,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
  * Purchase Order Document
  */
 public class PurchaseOrderDocument extends PurchasingDocumentBase implements MultiselectableDocSearchConversion {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
 
     protected Timestamp purchaseOrderCreateTimestamp;
     protected Integer requisitionIdentifier;
@@ -181,13 +181,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     protected ShippingPaymentTerms vendorShippingPaymentTerms;
     protected RecurringPaymentFrequency recurringPaymentFrequency;
     protected ContractManager contractManager;
-    //protected Person assignedUser;
-
-    public static final String FIN_COA_CD_KEY = "fin_coa_cd";
-    protected static final String UNIVERSITY_FISCAL_YEAR_KEY = "univ_fiscal_year";
-    protected static final String VENDOR_IS_EMPLOYEE = "Employee Vendor";
-    protected static final String VENDOR_IS_FOREIGN = "Foreign Vendor";
-    protected static final String VENDOR_IS_FOREIGN_EMPLOYEE = "Foreign and Employee Vendor";
 
     /**
      * Default constructor.
@@ -341,28 +334,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             assignedUserPrincipalId = null;
     }
 
-    /*
-    public Person getAssignedUser() {
-        return assignedUser;
-    }
-
-    public void setAssignedUser(Person assignedUser) {
-        this.assignedUser = assignedUser;
-    }
-    */
-
-    /*
-    public String getAssignedUserName() {
-        // assignedUserPrincipalId is either null or returned from lookup (thus valid)
-        if (StringUtils.isEmpty(assignedUserPrincipalId))
-            return null;
-        Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(assignedUserPrincipalId);
-        if (person == null)
-            return null;
-        return person.getName();
-    }
-    */
-
     public boolean getAssigningSensitiveData() {
         return assigningSensitiveData;
     }
@@ -374,7 +345,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public List<PurchaseOrderSensitiveData> getPurchaseOrderSensitiveData() {
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.PURAP_DOC_ID, getPurapDocumentIdentifier());
-        return new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatching(PurchaseOrderSensitiveData.class, fieldValues));
+        return new ArrayList<PurchaseOrderSensitiveData>(SpringContext.getBean(BusinessObjectService.class).findMatching(PurchaseOrderSensitiveData.class, fieldValues));
     }
 
     public void setPurchaseOrderSensitiveData(List<PurchaseOrderSensitiveData> purchaseOrderSensitiveData) {

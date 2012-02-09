@@ -114,7 +114,7 @@
   <bean id="AssetRetirementGlobal-retirementReasonCode" parent="AssetRetirementGlobal-retirementReasonCode-parentBean"/>
   <bean id="AssetRetirementGlobal-retirementReasonCode-parentBean" abstract="true" parent="AssetRetirementReason-retirementReasonCode">
     <property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="retirementReasonCode" p:labelAttribute="retirementReasonName"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" p:valuesFinderClass=" org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="retirementReasonCode" p:labelAttribute="retirementReasonName"/>
     </property>
   </bean>
 

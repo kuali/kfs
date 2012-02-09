@@ -67,7 +67,7 @@
     <property name="label" value="Component Condition Code"/>
     <property name="shortLabel" value="Code"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetCondition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="true" p:keyAttribute="assetConditionCode" p:labelAttribute="assetConditionName"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetCondition" p:valuesFinderClass=" org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="true" p:keyAttribute="assetConditionCode" p:labelAttribute="assetConditionName"/>
     </property>
   </bean>
   

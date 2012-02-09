@@ -16,8 +16,6 @@
 
 package org.kuali.kfs.module.cg.businessobject;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -27,24 +25,26 @@ import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * Subcontractors are vendors involved with an awarded {@link Proposal}.
  */
 public class SubContractor extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String subcontractorNumber;
-    private String subcontractorName;
-    private String subcontractorAddressLine1;
-    private String subcontractorAddressLine2;
-    private String subcontractorCity;
-    private String subcontractorStateCode;
-    private String subcontractorZipCode;
-    private String subcontractorCountryCode;
-    private boolean active;
+    protected String subcontractorNumber;
+    protected String subcontractorName;
+    protected String subcontractorAddressLine1;
+    protected String subcontractorAddressLine2;
+    protected String subcontractorCity;
+    protected String subcontractorStateCode;
+    protected String subcontractorZipCode;
+    protected String subcontractorCountryCode;
+    protected boolean active;
 
-    private State subcontractorState;
-    private Country subcontractorCountry;
+    protected StateEbo subcontractorState;
+    protected CountryEbo subcontractorCountry;
     
     public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "SubContractor";
     
@@ -217,21 +217,12 @@ public class SubContractor extends PersistableBusinessObjectBase implements Muta
     }
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("subcontractorNumber", this.getSubcontractorNumber());
-        return m;
-    }
-
-    /**
      * Gets the {@link Country} in which the subcontractor is located.
      * 
      * @return the {@link Country} in which the subcontractor is located.
      */
-    public Country getSubcontractorCountry() {
-        subcontractorCountry = (subcontractorCountryCode == null)?null:( subcontractorCountry == null || !StringUtils.equals( subcontractorCountry.getCode(),subcontractorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(subcontractorCountryCode): subcontractorCountry;
+    public CountryEbo getSubcontractorCountry() {
+        subcontractorCountry = (subcontractorCountryCode == null)?null:( subcontractorCountry == null || !StringUtils.equals( subcontractorCountry.getCode(),subcontractorCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(subcontractorCountryCode)): subcontractorCountry;
         return subcontractorCountry;
     }
 
@@ -240,7 +231,7 @@ public class SubContractor extends PersistableBusinessObjectBase implements Muta
      * 
      * @param country the {@link Country} in which the subcontractor is located.
      */
-    public void setSubcontractorCountry(Country country) {
+    public void setSubcontractorCountry(CountryEbo country) {
         this.subcontractorCountry = country;
     }
 
@@ -249,8 +240,8 @@ public class SubContractor extends PersistableBusinessObjectBase implements Muta
      * 
      * @return the {@link State} in which the subcontractor is located.
      */
-    public State getSubcontractorState() {
-        subcontractorState = (StringUtils.isBlank(subcontractorCountryCode) || StringUtils.isBlank( subcontractorStateCode))?null:( subcontractorState == null || !StringUtils.equals( subcontractorState.getCountryCode(),subcontractorCountryCode)|| !StringUtils.equals( subcontractorState.getCode(), subcontractorStateCode))?SpringContext.getBean(StateService.class).getState(subcontractorCountryCode, subcontractorStateCode): subcontractorState;
+    public StateEbo getSubcontractorState() {
+        subcontractorState = (StringUtils.isBlank(subcontractorCountryCode) || StringUtils.isBlank( subcontractorStateCode))?null:( subcontractorState == null || !StringUtils.equals( subcontractorState.getCountryCode(),subcontractorCountryCode)|| !StringUtils.equals( subcontractorState.getCode(), subcontractorStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(subcontractorCountryCode, subcontractorStateCode)): subcontractorState;
         return subcontractorState;
     }
 
@@ -259,7 +250,7 @@ public class SubContractor extends PersistableBusinessObjectBase implements Muta
      * 
      * @param state the {@link State} in which the subcontractor is located.
      */
-    public void setSubcontractorState(State state) {
+    public void setSubcontractorState(StateEbo state) {
         this.subcontractorState = state;
     }
 

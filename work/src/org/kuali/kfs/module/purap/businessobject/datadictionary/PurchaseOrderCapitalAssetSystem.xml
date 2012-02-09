@@ -67,7 +67,7 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetSystemDescription" parent="PurchaseOrderCapitalAssetSystem-capitalAssetSystemDescription-parentBean"/>

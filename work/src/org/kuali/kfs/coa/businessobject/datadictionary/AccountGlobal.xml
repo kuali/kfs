@@ -107,15 +107,7 @@
 
 
   <bean id="AccountGlobal-documentNumber" parent="AccountGlobal-documentNumber-parentBean"/>
-  <bean id="AccountGlobal-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Document Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="14"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
+  <bean id="AccountGlobal-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="control">
       <ref bean="HiddenControl" />
     </property>

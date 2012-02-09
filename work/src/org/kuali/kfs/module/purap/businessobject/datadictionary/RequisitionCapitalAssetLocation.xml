@@ -91,15 +91,11 @@
   </bean>
   <bean id="RequisitionCapitalAssetLocation-campusCode" parent="RequisitionCapitalAssetLocation-campusCode-parentBean"/>
 
-  <bean id="RequisitionCapitalAssetLocation-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="RequisitionCapitalAssetLocation-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="campusCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Campus"/>
     <property name="shortLabel" value="Campus"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
     <property name="control">
       <ref bean="FourCharacterTextControl" />
     </property>
@@ -165,6 +161,7 @@
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean"/>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-code">
+    <property name="name" value="capitalAssetPostalCode"/>
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode" parent="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean"/>

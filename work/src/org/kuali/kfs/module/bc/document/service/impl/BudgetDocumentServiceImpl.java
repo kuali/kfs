@@ -1268,6 +1268,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * Gets the defaultLaborBenefitRateCategoryCode attribute. 
      * @return Returns the defaultLaborBenefitRateCategoryCode.
      */
+    @Transactional
     public String getDefaultLaborBenefitRateCategoryCode() {
         if(ObjectUtils.isNull(defaultLaborBenefitRateCategoryCode)){
          // make sure the parameter exists
@@ -1285,6 +1286,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * Sets the defaultLaborBenefitRateCategoryCode attribute value.
      * @param defaultLaborBenefitRateCategoryCode The defaultLaborBenefitRateCategoryCode to set.
      */
+    @Transactional
     public void setDefaultLaborBenefitRateCategoryCode(String defaultLaborBenefitRateCategoryCode) {
         this.defaultLaborBenefitRateCategoryCode = defaultLaborBenefitRateCategoryCode;
     }

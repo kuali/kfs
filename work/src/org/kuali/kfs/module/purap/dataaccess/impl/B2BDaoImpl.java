@@ -27,8 +27,9 @@ import java.net.URL;
 
 import org.kuali.kfs.module.purap.dataaccess.B2BDao;
 import org.kuali.kfs.module.purap.exception.B2BConnectionException;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
-public class B2BDaoImpl implements B2BDao {
+public class B2BDaoImpl  extends PlatformAwareDaoBaseOjb  implements B2BDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(B2BDaoImpl.class);
 
     /**

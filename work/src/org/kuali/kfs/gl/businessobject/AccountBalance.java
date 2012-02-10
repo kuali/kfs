@@ -131,7 +131,7 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
             throw new RuntimeException("Unknown type: " + type);
         }
     }
-    
+              
     /**
      * Perform the refresh non-updateable method but do an additional check on the following  objects
      * within financialObject if either the object is null or the primary key returned null.  If that is true,
@@ -165,7 +165,7 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
             }
         }
     }
-       
+
     /**
      * Retrieve from parameter the Accounting Category Expense Code 
      * 

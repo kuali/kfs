@@ -16,8 +16,8 @@
 package org.kuali.kfs.sys.businessobject;
 
 /**
- * Interface to identify business objects which are used as reporting data objects which only
- * set the necessary codes without the full object.  There codes could potentially be dropped
+ * Interface to identify business objects which are used as reporting data objects and sets
+ * the necessary codes without the full object.  There codes could potentially be dropped
  * when the Business Object was refresh (ex: Access Security)
  */
 public interface ReportBusinessObject  {
@@ -26,7 +26,6 @@ public interface ReportBusinessObject  {
      * Refresh the non updatebale for the business object; but additionally perform 
      * logic to ensure if specific attributes were not removed due to it stored as non-persistable
      * object (but yet used in the BO as POJO without the primary keys)
-     * 
      */
     void refreshNonUpdateableForReport();
 }

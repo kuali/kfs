@@ -444,5 +444,25 @@
 			</list>
 		</property>
 	</bean>
+
+      <!-- accounts percents and accounts amounts validations  -->
+	<bean id="PurchaseOrder-purchasingAccountsPayablesItemPreCalculateValidations" parent="PurchaseOrder-purchasingAccountsPayablesItemPreCalculateValidations-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrder-purchasingAccountsPayablesItemPreCalculateValidations-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="PurchasingAccountsPayables-itemPreCalculateValidations" scope="prototype">
+        			<property name="parameterProperties">
+           				<list>
+             				<bean parent="validationFieldConversion">
+                               <property name="sourceEventProperty" value="item" />
+                               <property name="targetValidationProperty" value="item" />
+                           </bean>
+           				</list> 
+                   </property>
+       			</bean>
+  			</list>
+  		</property>
+	</bean>
 		
 </beans>

@@ -67,8 +67,6 @@
 				<constraints nullable='true' />
 			</column>
 		</createTable>
-
-
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
 			<replace replace='NUMBER' with='DECIMAL' />

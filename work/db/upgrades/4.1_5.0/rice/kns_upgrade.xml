@@ -38,7 +38,7 @@
 			<column name="OBJ_ID" value="KFS684" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="TXT" value="6/30" />
+			<column name="TXT" value="7/01" />
 			<column name="PARM_DESC_TXT"
 				value="New in service asset depreciation start date (mm/dd) used for calculating the half year depreciation convention. The half year convention will calculate the depreciation date exactly six months from this parameter date." />
 			<column name="CONS_CD" value="A" />
@@ -310,7 +310,7 @@
 			<column name='PARM_TYP_CD' value='CONFG' />
 			<column name='TXT' value='--' />
 			<column name='PARM_DESC_TXT'
-				value='Defines the default benefit rate category code on the account maintenance document for all accounts. This default code is used when the  DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE does not apply to an account. ÒÑÒ (two dashes) implies the category code is not applicable. The default cannot be null.' />
+				value='Defines the default benefit rate category code on the account maintenance document for all accounts. This default code is used when the  DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE does not apply to an account. (two dashes) implies the category code is not applicable. The default cannot be null.' />
 			<column name='CONS_CD' value='A' />
 			<column name='APPL_NMSPC_CD' value='KFS' />
 		</insert>

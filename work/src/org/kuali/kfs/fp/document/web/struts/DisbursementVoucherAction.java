@@ -417,6 +417,21 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     }
 
     /**
+     * Calls service to clear tax info.
+     */
+    public ActionForward clearNonResidentAlienTaxInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        DisbursementVoucherTaxService taxService = SpringContext.getBean(DisbursementVoucherTaxService.class);
+
+        /* call service to clear previous lines */
+        taxService.clearNRATaxInfo(document);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
      * Builds the wire charge message for the current fiscal year.
      * 
      * @return the wire charge message for the current fiscal year

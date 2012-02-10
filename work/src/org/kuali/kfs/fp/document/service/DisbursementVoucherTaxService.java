@@ -55,6 +55,13 @@ public interface DisbursementVoucherTaxService {
     public void clearNRATaxLines(DisbursementVoucherDocument document);
 
     /**
+     * Clears non-resident alien tax info.
+     * 
+     * @param document The disbursement voucher document being modified.
+     */
+    public void clearNRATaxInfo(DisbursementVoucherDocument document);
+    
+    /**
      * Generates new tax lines based on associated non-resident alien information, and debits the check total
      * 
      * @param document The disbursement voucher document being modified.

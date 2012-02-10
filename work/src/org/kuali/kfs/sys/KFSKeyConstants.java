@@ -359,6 +359,17 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_GENERATE_TAX_BOTH_0 = "error.dv.generateLinesBoth0";
     public static final String ERROR_DV_GENERATE_TAX_NO_SOURCE = "error.dv.generateLinesNoSource";
     public static final String ERROR_DV_GENERATE_TAX_NOT_NRA = "error.dv.generateNotNRA";
+    public static final String ERROR_DV_STATE_TAX_SHOULD_BE_ZERO = "error.dv.nraTaxStateTaxShouldBeZero";
+    public static final String ERROR_DV_STATE_INCOME_TAX_PERCENT_SHOULD_BE_GREATER_THAN_ZERO = "error.dv.nraTaxStateTaxShouldBeGreaterThanZero";
+    public static final String ERROR_DV_ONLY_ONE_SELECTION_ALLOWED = "error.dv.nraTaxOnlyOneSelectionAllowed";
+    public static final String ERROR_DV_FED_AND_STATE_TAXES_SHOULD_BE_ZERO = "error.dv.nraTaxFedAndStateTaxesShouldBeZero";
+    public static final String ERROR_DV_NON_REPORTABLE_ONLY = "error.dv.nraTaxNonReportableOnly";
+    public static final String ERROR_DV_WHEN_CHECKED_CANNOT_HAVE_VALUE = "error.dv.nraTaxWhenCheckedCannotHaveValue";
+    public static final String ERROR_DV_TAXES_CANNOT_BE_ZERO = "error.dv.nraTaxTaxesCannotBeZero";
+    public static final String ERROR_DV_SHOULD_BE_SELECTED_AND_EUOC_CHECKED = "error.dv.nraTaxShouldBeSelectedAndEuocChecked";
+    public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED = "error.dv.nraTaxWhenCheckedShouldBeChecked";
+    public static final String ERROR_DV_NRA_TAX_CANNOT_SELECT_FS_TE_GUP_USAID = "error.dv.nraTaxCannotSelectFsTeGupUsaid";
+    
     public static final String ERROR_DV_GENERATE_TAX_DOC_REFERENCE = "error.dv.generateDocReference";
     public static final String ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON = "error.dv.addLineMissingPaymentReason";
     public static final String ERROR_DV_ADD_LINE_MISSING_PAYEE = "error.dv.addLineMissingPayee";

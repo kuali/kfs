@@ -262,7 +262,15 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
             if (preq.getTaxSpecialW4Amount() != null && preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) != 0) { 
                 valid = false;
                 errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
-            }               
+            }
+            if (preq.getTaxFederalPercent() != null && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0) {
+                valid = false;
+                errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_FEDERAL_PERCENT);
+            }
+            if (preq.getTaxStatePercent() != null && preq.getTaxStatePercent().compareTo(new BigDecimal(0)) != 0) {
+                valid = false;
+                errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_STATE_PERCENT);
+            }
         }
 
         // if choose gross up, cannot choose any other above, and fed tax rate cannot be zero

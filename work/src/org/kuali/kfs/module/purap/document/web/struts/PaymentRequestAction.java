@@ -504,5 +504,19 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    /**
+     * Calls service to clear tax info.
+     */
+    public ActionForward clearTaxInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestForm prForm = (PaymentRequestForm) form;
+        PaymentRequestDocument document = (PaymentRequestDocument) prForm.getDocument();
 
+        PaymentRequestService taxService = SpringContext.getBean(PaymentRequestService.class);
+
+        /* call service to clear previous lines */
+        taxService.clearTax(document);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

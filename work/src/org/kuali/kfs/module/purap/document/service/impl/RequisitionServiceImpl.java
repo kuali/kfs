@@ -55,6 +55,7 @@ import org.kuali.rice.kew.dto.RouteHeaderDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.util.KEWPropertyConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
@@ -78,7 +79,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RequisitionServiceImpl implements RequisitionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionServiceImpl.class);
-    public static final String WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY = "routeHeaderId";
 
     private BusinessObjectService businessObjectService;
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
@@ -367,16 +367,16 @@ public class RequisitionServiceImpl implements RequisitionService {
     }
 
     /**
-     * gets a list of strings of document numbers from workflow documents
-     * where document status = 'P' and document type = 'REQS'.  If the routeHeader
-     * for each document number has a status of 'Awaiting Contract Manager Assignment'
-     * then the document number is added to the list
+     * Gets a list of strings of document numbers from workflow documents where  
+     * document status = 'P' and document type = 'REQS'.  If appDocStatus status 
+     * of 'Awaiting Contract Manager Assignment' then the document number is added to the list
+     * 
+     * NOTE: simplify using DocSearch lookup with AppDocStatus
      * 
      * @return list of documentNumbers to retrieve requisitions.
      */
     protected List<String> getDocumentsNumbersAwaitingContractManagerAssignment() {
         List<String> requisitionDocumentNumbers = new ArrayList<String>();
-        
         WorkflowInfo workflowInfo = new WorkflowInfo();
         
         DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
@@ -385,22 +385,28 @@ public class RequisitionServiceImpl implements RequisitionService {
         documentSearchCriteriaDTO.setSaveSearchForUser(false);
         
         try {
-            DocumentSearchResultDTO documentSearchResultDTO = workflowInfo.performDocumentSearch(documentSearchCriteriaDTO);
-            List<DocumentSearchResultRowDTO> reqDocumentsList = documentSearchResultDTO.getSearchResults();
+            List<DocumentSearchResultRowDTO> reqDocumentsList = workflowInfo.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults();
+            
+            //do a second search with route status - F
+            documentSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_FINAL_CD);
+            reqDocumentsList.addAll(workflowInfo.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults());
 
+            Map<String, KeyValueDTO> searchResultDTOMap = new HashMap<String, KeyValueDTO>();
             for (DocumentSearchResultRowDTO reqDocument : reqDocumentsList) {
+                
+                searchResultDTOMap.clear();
+                //flatten the KeyValueDTO list into a Map
                 for (KeyValueDTO keyValueDTO : reqDocument.getFieldValues()) {
-                    if (keyValueDTO.getKey().equals(WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY)) {
-                        String documentHeaderId = keyValueDTO.getUserDisplayValue();
-                        
-                        RouteHeaderDTO routeHeader = workflowInfo.getRouteHeader(new Long(documentHeaderId));
-
-                        if (PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equalsIgnoreCase(routeHeader.getAppDocStatus())) {
-                            requisitionDocumentNumbers.add(documentHeaderId);
-                        }
-                        break;
-                    }
+                    searchResultDTOMap.put(keyValueDTO.getKey(), keyValueDTO);
                 }
+                
+                ///use the appDocStatus from the KeyValueDTO result to look up custom status
+                if (PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equalsIgnoreCase(
+                        searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_DOC_STATUS).getUserDisplayValue())){
+                    //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
+                    requisitionDocumentNumbers.add(searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID).getUserDisplayValue());
+                }
+                
             }
         } 
         catch (WorkflowException ex) {

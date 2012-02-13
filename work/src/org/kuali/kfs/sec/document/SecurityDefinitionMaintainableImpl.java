@@ -318,8 +318,7 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
             if ( perm.isActive() ) {
                 KimApiServiceLocator.getRoleService().assignPermissionToRole(perm.getId(), roleId );
             } else {
-                throw new UnsupportedOperationException( "Unable to proceed: revokePermissionFromRole not implemented on KIM Permission Service" );
-                // RICE20: KimApiServiceLocator.getRoleService().revokePermissionFromRole(perm.getId(), roleId );
+                KimApiServiceLocator.getRoleService().revokePermissionFromRole(perm.getId(), roleId );
             }
         }
     }

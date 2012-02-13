@@ -16,9 +16,13 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -330,21 +334,8 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements Mu
      */
     @Override
     public int hashCode() {
-        return toStringBuilder(toStringMapper()).hashCode();
+        return ObjectUtil.generateHashCode(this, Arrays.asList(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER,"financialDocumentTypeCode", "accountDelegateSystemId" ));
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("chartCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-        m.put("documentTypeCode", this.financialDocumentTypeCode);
-        m.put("accountDelegateSystemId", this.accountDelegateSystemId);
-
-        return m;
-    }
 }
 

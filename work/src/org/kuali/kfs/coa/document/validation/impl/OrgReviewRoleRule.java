@@ -105,7 +105,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             }
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            memberId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
+            memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
             if(memberId == null){
                 GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.ROLE_NAME_FIELD_NAME, 
                         KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_ROLE);
@@ -113,7 +113,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             }
         }
         if(StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-            Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNameAndNamespaceCode(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
+            Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
             if(groupInfo == null || StringUtils.isEmpty(groupInfo.getId())){
                 GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.GROUP_NAME_FIELD_NAME, 
                         KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_GROUP);
@@ -129,7 +129,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         String roleId;
         if(!isEdit && orr.getRoleNamesToConsider()!=null){
             for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(
+                roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
                         KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 Map<String, String> criteria = new HashMap<String, String>();
                 criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
@@ -212,7 +212,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         valid = validateAmounts(orr);
         if(!isEdit && orr.getRoleNamesToConsider()!=null){
             for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(
+                roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
                         KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 //validate if the newly entered role members are already assigned to the role
                 Map<String, Object> criteria = new HashMap<String, Object>();
@@ -250,13 +250,13 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             }
 
        } else if(MemberType.GROUP.equals(memberType)){
-            Group groupInfo = getGroupService().getGroupByNameAndNamespaceCode(memberNamespaceCode, memberName);
+            Group groupInfo = getGroupService().getGroupByNamespaceCodeAndName(memberNamespaceCode, memberName);
             if (groupInfo!=null) {
                 memberId = groupInfo.getId();
             }
 
         } else if(MemberType.ROLE.equals(memberType)){
-            memberId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(memberNamespaceCode, memberName);
+            memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(memberNamespaceCode, memberName);
         }
         return memberId;
     }

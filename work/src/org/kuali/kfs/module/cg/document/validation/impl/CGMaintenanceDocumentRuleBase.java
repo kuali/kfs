@@ -134,7 +134,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         RoleService roleService = SpringContext.getBean(RoleService.class);
         
         List<String> roleId = new ArrayList<String>();
-        roleId.add(roleService.getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));
+        roleId.add(roleService.getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));
         
         int i = 0;
         for (T pd : projectDirectors) {

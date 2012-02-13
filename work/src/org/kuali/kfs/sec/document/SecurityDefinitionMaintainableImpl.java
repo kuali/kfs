@@ -100,7 +100,7 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
             newRole.setActive(newSecurityDefinition.isActive());
             newRole.setKimTypeId(getDefaultRoleTypeId());
             KimApiServiceLocator.getRoleService().createRole(newRole.build());
-            Role createdRole = KimApiServiceLocator.getRoleService().getRoleByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityDefinition.getName());
+            Role createdRole = KimApiServiceLocator.getRoleService().getRoleByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityDefinition.getName());
             newSecurityDefinition.setRoleId(createdRole.getId());
         } else {
             // update role active indicator if it has been updated on the definition

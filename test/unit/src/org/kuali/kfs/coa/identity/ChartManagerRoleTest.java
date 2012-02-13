@@ -49,7 +49,7 @@ public class ChartManagerRoleTest extends KualiTestBase {
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
             
 //            System.out.println( chart );
-            roleIds.add(rms.getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, "Chart Manager"));
+            roleIds.add(rms.getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, "Chart Manager"));
             Collection<RoleMembership> chartManagers = rms.getRoleMembers(roleIds, qualification);
 //            System.out.println( chartManagers );
 

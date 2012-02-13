@@ -350,7 +350,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             StringBuilder rolesQueryString = new StringBuilder();
             boolean firstItem = true;
             for( String roleName : roleNamesToSearchInto ) {
-                String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+                String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 if ( roleId != null ) {
                     for ( DelegationType type : DelegationType.values() ) {
                         String delegationId = getDelegationIdByRoleAndDelegationType(roleId, type);
@@ -377,7 +377,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             StringBuilder rolesQueryString = new StringBuilder();
             boolean firstItem = true;
             for ( String roleName : roleNamesToSearchInto ) {
-                String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+                String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 if ( roleId != null ) {
                     if ( !firstItem ) {
                         rolesQueryString.append( KimConstants.KimUIConstants.OR_OPERATOR );

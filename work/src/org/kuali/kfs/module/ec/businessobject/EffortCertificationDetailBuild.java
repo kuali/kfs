@@ -77,18 +77,6 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
     }
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = super.toStringMapper();
-        if (this.effortCertificationBuildNumber != null) {
-            m.put("effortCertificationBuildNumber", this.effortCertificationBuildNumber.toString());
-        }
-        return m;
-    }
-
-    /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

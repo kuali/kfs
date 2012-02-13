@@ -77,7 +77,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
 
     protected String getUserRoleId() {
         if (userRoleId == null) {
-            userRoleId = getRoleService().getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME);
+            userRoleId = getRoleService().getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME);
         }
         return userRoleId;
     }

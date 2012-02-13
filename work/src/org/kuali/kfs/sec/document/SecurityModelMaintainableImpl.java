@@ -95,7 +95,7 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
         RoleService roleService = KimApiServiceLocator.getRoleService();
 
         // the roles are created in the KFS-SEC namespace with the same name as the model
-        Role modelRole = roleService.getRoleByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityModel.getName());
+        Role modelRole = roleService.getRoleByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityModel.getName());
 
         if ( modelRole != null ) {
             // always set the role as active so we can add members and definitions, after processing the indicator will be updated to

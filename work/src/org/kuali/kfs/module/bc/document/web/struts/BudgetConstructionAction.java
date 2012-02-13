@@ -283,7 +283,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm form containing budget document
      */
     protected void setBudgetDocumentNoAccessMessage(BudgetConstructionForm budgetConstructionForm) {
-        Role roleInfo = SpringContext.getBean(RoleService.class).getRoleByNameAndNamespaceCode(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME);
+        Role roleInfo = SpringContext.getBean(RoleService.class).getRoleByNamespaceCodeAndName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME);
         KimType typeInfo = SpringContext.getBean(KimTypeInfoService.class).getKimType(roleInfo.getKimTypeId());
 
         if (StringUtils.isNotBlank(typeInfo.getServiceName())) {

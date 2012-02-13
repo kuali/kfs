@@ -188,7 +188,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     @Transactional
     public void updateDelegationRole() {
         final RoleService roleManagementService = SpringContext.getBean(RoleService.class);
-        final String roleId = roleManagementService.getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
+        final String roleId = roleManagementService.getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
         if (!StringUtils.isBlank(roleId)) {
             List<RoleResponsibility> newRoleResp = roleManagementService.getRoleResponsibilities(roleId);
             KEWServiceLocator.getActionRequestService().updateActionRequestsForResponsibilityChange(getChangedRoleResponsibilityIds(newRoleResp));

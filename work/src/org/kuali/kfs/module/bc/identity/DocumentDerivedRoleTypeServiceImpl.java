@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -111,7 +112,7 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         RoleService roleService = KimApiServiceLocator.getRoleService();
 
         boolean isFiscalOfficerOrDelegate = roleService.principalHasRole(user.getPrincipalId()
-                , Collections.singletonList(roleService.getRoleIdByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME))
+                , Collections.singletonList(roleService.getRoleIdByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME))
                 , qualification);
         boolean isBCProcessor = false;
         boolean isProcessorInAccountHierarchy = false;
@@ -153,22 +154,32 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
     }
 
     public List<KeyValue> getAttributeValidValues(String kimTypeId, String attributeName) {
-        return new ArrayList<KeyValue>(0);
+        return Collections.emptyList();
     }
 
     public List<String> getQualifiersForExactMatch() {
-        return new ArrayList<String>(0); 
+        return Collections.emptyList();
     }
 
     public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String, String> qualification) throws RiceIllegalArgumentException {
-        return null;
+        return Collections.emptyList();
     }
 
     public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String, String> qualification) throws RiceIllegalArgumentException {
-        return null;
+        return Collections.emptyList();
     }
 
     public List<RoleMembership> sortRoleMembers(List<RoleMembership> roleMembers) throws RiceIllegalArgumentException {
-        return null;
+        return Collections.emptyList();
+    }
+    
+    @Override
+    public List<RemotableAttributeError> validateUniqueAttributes(String kimTypeId, Map<String, String> newAttributes, Map<String, String> oldAttributes) throws RiceIllegalArgumentException {
+        return Collections.emptyList();
+    }
+    
+    @Override
+    public List<RemotableAttributeError> validateUnmodifiableAttributes(String kimTypeId, Map<String, String> originalAttributes, Map<String, String> newAttributes) throws RiceIllegalArgumentException {
+        return Collections.emptyList();
     }
 }

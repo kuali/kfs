@@ -97,7 +97,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
      * @return role id for the budget processor role
      */
     protected List<String> getBudgetProcessorRoleIds() {
-        return Collections.singletonList( getRoleService().getRoleIdByNameAndNamespaceCode(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME));
+        return Collections.singletonList( getRoleService().getRoleIdByNamespaceCodeAndName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME));
     }
 
     protected RoleService getRoleService() {

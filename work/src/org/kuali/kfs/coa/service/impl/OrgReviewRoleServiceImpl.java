@@ -275,9 +275,9 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         //if still has no qualifying nodes, check current nodes children
         if(hasZeroQualifyingNodes){
             DocumentType currentDocType = documentTypeService.getDocumentTypeByName(currentDocumentTypeName);
-            List<DocumentType> docTypes = KEWServiceLocator.getDocumentTypeService().getChildDocumentTypes(currentDocType.getId());
+            List<org.kuali.rice.kew.doctype.bo.DocumentType> docTypes = KEWServiceLocator.getDocumentTypeService().getChildDocumentTypes(currentDocType.getId());
 
-            for(DocumentType docType : docTypes){
+            for(org.kuali.rice.kew.doctype.bo.DocumentType docType : docTypes){
                 hasZeroQualifyingNodes &= currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(docType.getName());
                 if(hasZeroQualifyingNodes == false) break;
             }

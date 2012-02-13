@@ -438,7 +438,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
                 permissionDetails.putAll(additionalPermissionDetails);
             }
 
-            List<Permission> permissions = getPermissionService().getAuthorizedPermissionsByTemplateName(person.getPrincipalId(), permissionTemplate.getNamespaceCode(), permissionTemplate.getName(), permissionDetails, new HashMap<String, String>(0));
+            List<Permission> permissions = getPermissionService().getAuthorizedPermissionsByTemplate(person.getPrincipalId(), permissionTemplate.getNamespaceCode(), permissionTemplate.getName(), permissionDetails, new HashMap<String, String>(0));
             if (permissions == null || permissions.isEmpty()) {
                 continue;
             }
@@ -502,7 +502,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         List<Map<String,String>> qualficationsToEvaluate = new ArrayList<Map<String,String>>();
         for (Permission permission : permissions) {
             // find all roles that have been granted this permission
-            List<String> roleIds = getPermissionService().getRoleIdsForPermission(permission.getNamespaceCode(), permission.getName(), permission.getAttributes() );
+            List<String> roleIds = getPermissionService().getRoleIdsForPermission(permission.getNamespaceCode(), permission.getName() );
 
             // for all the roles that have this permission, find the users qualification in those roles (if any)
             List<Map<String,String>> qualfications = getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(person.getPrincipalId(), roleIds, null);

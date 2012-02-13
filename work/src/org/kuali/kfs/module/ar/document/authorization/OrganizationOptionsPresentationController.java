@@ -86,7 +86,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
             String principalId = user.getPrincipalId();
             
             List<String> roleIds = new ArrayList<String>();
-            roleIds.add(rms.getRoleIdByNameAndNamespaceCode(KFSConstants.CoreModuleNamespaces.KFS, ACCOUNTS_RECEIVABLE_MANAGER_ROLE_NAME));
+            roleIds.add(rms.getRoleIdByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.KFS, ACCOUNTS_RECEIVABLE_MANAGER_ROLE_NAME));
             
             // editable only for the AR Manager role
             if (!rms.principalHasRole(principalId, roleIds, null)) {

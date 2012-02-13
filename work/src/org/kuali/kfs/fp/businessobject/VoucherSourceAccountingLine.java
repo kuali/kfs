@@ -97,14 +97,4 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
         }
     }
 
-    /**
-     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap<String, Object> map = super.toStringMapper();
-        map.put(KFSPropertyConstants.OBJECT_TYPE_CODE, this.getObjectTypeCode());
-
-        return map;
-    }
 }

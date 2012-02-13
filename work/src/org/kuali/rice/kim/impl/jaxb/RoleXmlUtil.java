@@ -202,7 +202,7 @@ public final class RoleXmlUtil {
         }
         
         // Attempt to find an existing matching role, and assign its ID to the validated role if it exists.
-        String matchingId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(
+        String matchingId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
                 newRole.getNamespaceCode(), newRole.getRoleName());
         if (StringUtils.isNotBlank(matchingId)) {
             newRole.setRoleId(matchingId);
@@ -218,7 +218,7 @@ public final class RoleXmlUtil {
             RoleMemberXmlDTO.OutsideOfRole standaloneMember = (RoleMemberXmlDTO.OutsideOfRole) newRoleMember;
             if (standaloneMember.getRoleNameAndNamespace() != null) {
                 // If a name + namespace combo is given, verify that the combo maps to an existing role.
-                String existingId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(
+                String existingId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
                         standaloneMember.getRoleNamespaceCode(), standaloneMember.getRoleName());
                 if (StringUtils.isBlank(existingId)) {
                     throw new UnmarshalException("Cannot create role member for role with name \"" + standaloneMember.getRoleName() + "\" and namespace \"" +
@@ -300,7 +300,7 @@ public final class RoleXmlUtil {
             } else if (MemberType.GROUP.equals(memberType)) {
                 // If the member is a group, ensure that the group exists and does not conflict with any existing group ID information.
                 NameAndNamespacePair groupNameAndNamespace = newRoleMember.getGroupName();
-                GroupContract tempGroup = KimApiServiceLocator.getGroupService().getGroupByNameAndNamespaceCode(
+                GroupContract tempGroup = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(
                         groupNameAndNamespace.getNamespaceCode(), groupNameAndNamespace.getName());
                 if (tempGroup == null) {
                     throw new UnmarshalException("Cannot create group role member with namespace \"" + groupNameAndNamespace.getNamespaceCode() +
@@ -316,7 +316,7 @@ public final class RoleXmlUtil {
             } else if (MemberType.ROLE.equals(memberType)) {
                 // If the member is another role, ensure that the role exists, does not conflict with any existing role ID information, and is not the member's role.
                 NameAndNamespacePair roleNameAndNamespace = newRoleMember.getRoleNameAsMember();
-                RoleContract tempRole = KimApiServiceLocator.getRoleService().getRoleByNameAndNamespaceCode(
+                RoleContract tempRole = KimApiServiceLocator.getRoleService().getRoleByNamespaceCodeAndName(
                         roleNameAndNamespace.getNamespaceCode(), roleNameAndNamespace.getName());
                 if (tempRole == null) {
                     throw new UnmarshalException("Cannot use role with namespace \"" + roleNameAndNamespace.getNamespaceCode() +
@@ -353,7 +353,7 @@ public final class RoleXmlUtil {
             RolePermissionXmlDTO.OutsideOfRole standaloneRolePerm = (RolePermissionXmlDTO.OutsideOfRole) newRolePermission;
             if (standaloneRolePerm.getRoleNameAndNamespace() != null) {
                 // If a role name + namespace is given, assign or validate the role ID accordingly.
-                String tempRoleId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(
+                String tempRoleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
                         standaloneRolePerm.getRoleNamespaceCode(), standaloneRolePerm.getRoleName());
                 if (StringUtils.isBlank(tempRoleId)) {
                     throw new UnmarshalException("Cannot assign permission to role with namespace \"" + standaloneRolePerm.getRoleNamespaceCode() +

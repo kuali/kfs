@@ -29,7 +29,7 @@ import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
 
-public class DocumentHelperServiceImpl extends org.kuali.rice.krad.service.impl.DocumentHelperServiceImpl {
+public class DocumentHelperServiceImpl extends org.kuali.rice.kns.service.impl.DocumentHelperServiceImpl {
 
     @Override
     public DocumentAuthorizer getDocumentAuthorizer(String documentType) {

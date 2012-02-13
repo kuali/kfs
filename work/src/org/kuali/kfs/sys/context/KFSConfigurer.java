@@ -29,14 +29,7 @@ public class KFSConfigurer extends ModuleConfigurer {
     
     protected boolean testMode = false;
     
-    @Override
-    protected void doAdditionalContextStartedLogic() {
-        LOG.info( "*********************************************************" );
-        LOG.info( "KFS Starting Context" );
-        LOG.info( "*********************************************************" );
-        super.doAdditionalContextStartedLogic();
-    }
-    
+   
     @Override
     protected void doAdditionalModuleStartLogic() throws Exception {
         LOG.info( "*********************************************************" );
@@ -45,14 +38,6 @@ public class KFSConfigurer extends ModuleConfigurer {
         super.doAdditionalModuleStartLogic();
     }
     
-    @Override
-    protected void doAdditionalContextStoppedLogic() {
-        LOG.info( "*********************************************************" );
-        LOG.info( "KFS Stopping Context" );
-        LOG.info( "*********************************************************" );
-        super.doAdditionalContextStoppedLogic();
-    }
-
     @Override
     protected void doAdditionalModuleStopLogic() throws Exception {
         LOG.info( "*********************************************************" );

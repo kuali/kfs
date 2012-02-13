@@ -352,7 +352,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         }
         Role role = ROLE_CACHE.get(roleName);
         if ( role == null ) {
-            role = KimApiServiceLocator.getRoleService().getRoleByNameAndNamespaceCode( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+            role = KimApiServiceLocator.getRoleService().getRoleByNamespaceCodeAndName( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
             synchronized ( ROLE_CACHE ) {
                 ROLE_CACHE.put(roleName, role);
             }
@@ -370,11 +370,11 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(delegationMember==null){
             delegationMember = new KfsKimDocDelegateMember();
             if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-                String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());                
+                String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());                
                 delegationMember.setMemberId(roleId);
                 delegationMember.setType(MemberType.ROLE);
             } else if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-                Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNameAndNamespaceCode(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
+                Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
                 delegationMember.setMemberId(groupInfo.getId());
                 delegationMember.setType(MemberType.GROUP);
             } else if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
@@ -394,12 +394,12 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     private List<KfsKimDocRoleMember> getRoleMembersToSave(Role roleInfo, OrgReviewRole orr){
         KfsKimDocRoleMember roleMember = null;
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            String memberId = KimApiServiceLocator.getRoleService().getRoleIdByNameAndNamespaceCode(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
+            String memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
             roleMember = new KfsKimDocRoleMember(roleInfo.getId(), MemberType.ROLE, memberId);
         }
         if(roleMember==null){
             if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-                Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNameAndNamespaceCode(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
+                Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
                 roleMember = new KfsKimDocRoleMember(roleInfo.getId(), MemberType.GROUP, groupInfo.getId() );
             }
         }

@@ -43,6 +43,7 @@ import org.directwebremoting.util.LogErrorHandler;
 import org.hibernate.util.DTDEntityResolver;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
+import org.kuali.rice.kns.datadictionary.KNSDocumentEntry;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableItemDefinition;
@@ -512,7 +513,7 @@ public class CheckModularization {
             if ( (de instanceof org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode)
                     || doesPackagePrefixMatch( ((org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)de).getDataObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode )) ))
                     || (de instanceof org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( de.getDocumentClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ))) ) ) {
-                org.kuali.rice.kns.datadictionary.DocumentEntry knsDocEntry = (org.kuali.rice.kns.datadictionary.DocumentEntry)de;
+                KNSDocumentEntry knsDocEntry = (KNSDocumentEntry)de;
                 try {
                     if ( de instanceof org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry ) {
                         org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry mde = (org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)de;

@@ -138,7 +138,8 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
         		<arg line="@{options} @{goals}"/>
         		<sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
         		<sysproperty key="maven.home" value="${maven.home.directory}"/>
-        		<sysproperty key="maven.test.skip" value="true"/>
+        		<sysproperty key="skipTests" value="true"/>
+        		<sysproperty key="maven.surefire.skip" value="true"/>
         		<classpath>
           			<fileset dir="${maven.home.directory}/boot">
             			<include name="plexus-classworlds-*.jar"/>

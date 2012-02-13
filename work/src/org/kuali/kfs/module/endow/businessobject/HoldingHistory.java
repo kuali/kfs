@@ -33,19 +33,6 @@ public class HoldingHistory extends HoldingTaxLot {
 
     private MonthEndDate monthEndDate;
 
-
-    /**
-     * @see org.kuali.kfs.module.endow.businessobject.HoldingTaxLot#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m = super.toStringMapper();
-        m.put(EndowPropertyConstants.HOLDING_HISTORY_MONTH_END_DATE_ID, this.monthEndDateId);
-        return m;
-    }
-
-
     /**
      * Gets the estimatedIncome.
      * 

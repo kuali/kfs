@@ -31,7 +31,7 @@ public abstract class RoleTestBase extends KualiTestBase {
     
     protected Collection<RoleMembership> getRoleMembers(String roleNamespace, String roleName, Map<String,String> roleQualifications) {
         final RoleService roleManagementService = SpringContext.getBean(RoleService.class);
-        final Role roleInfo = roleManagementService.getRoleByNameAndNamespaceCode(roleNamespace, roleName);
+        final Role roleInfo = roleManagementService.getRoleByNamespaceCodeAndName(roleNamespace, roleName);
         return roleManagementService.getRoleMembers(Arrays.asList(new String[] { roleInfo.getId() }), roleQualifications);
     }
     

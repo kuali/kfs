@@ -35,7 +35,6 @@
         <bean parent="ReferenceDefinition" p:attributeName="incomeStreamAccount" p:attributeToHighlightOnFail="incomeStreamAccountNumber"/>
         <bean parent="ReferenceDefinition" p:attributeName="sufficientFundsCode" p:attributeToHighlightOnFail="accountSufficientFundsCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="laborBenefitRateCategory" p:attributeToHighlightOnFail="laborBenefitRateCategoryCode" />
       </list>
     </property>
     <property name="lockingKeys">
@@ -102,7 +101,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="financialHigherEdFunctionCd"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountSufficientFundsCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="pendingAcctSufficientFundsIndicator"/>
-        <bean parent="MaintainableFieldDefinition" p:name="laborBenefitRateCategoryCode"/>
       </list>
     </property>
   </bean>

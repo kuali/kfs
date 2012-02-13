@@ -50,7 +50,6 @@
 	      	<bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="budgetRecordingLevel" p:attributeToHighlightOnFail="budgetRecordingLevelCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="acctIndirectCostRcvyType" p:attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" /> 
-	      	<bean parent="ReferenceDefinition" p:attributeName="laborBenefitRateCategory" p:attributeToHighlightOnFail="laborBenefitRateCategoryCode" />
   	    </list>   
     </property>
     <property name="lockingKeys">
@@ -103,7 +102,7 @@
         <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
         <dd:maintField attributeName="reportsToChartOfAccountsCode"/>
-        <dd:maintField attributeName="laborBenefitRateCategoryCode" required="false" />
+        
         <bean parent="MaintainableFieldDefinition" p:name="reportsToAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
 			<property name="webUILeaveFieldFunctionParameters">
 				<list>

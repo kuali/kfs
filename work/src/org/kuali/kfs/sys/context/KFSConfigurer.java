@@ -23,12 +23,16 @@ import java.util.List;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.core.framework.config.module.WebModuleConfiguration;
+import org.springframework.beans.factory.InitializingBean;
 
-public class KFSConfigurer extends ModuleConfigurer {
+public class KFSConfigurer extends ModuleConfigurer implements InitializingBean {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSConfigurer.class);
     
     protected boolean testMode = false;
-    
+   
+    public KFSConfigurer() {
+        LOG.info( "KFSConfigurer instantiated" );
+    }
    
     @Override
     protected void doAdditionalModuleStartLogic() throws Exception {
@@ -52,6 +56,9 @@ public class KFSConfigurer extends ModuleConfigurer {
         if ( testMode ) {
             files = files + "," + ConfigContext.getCurrentContextConfig().getProperty("spring.test.files");
         }
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info( "KFS Spring Files Requested.  Returning: " + files );
+        }
         return files == null ? Collections.<String>emptyList() : parseFileList(files);
     }
 
@@ -70,8 +77,8 @@ public class KFSConfigurer extends ModuleConfigurer {
     @Override
     protected WebModuleConfiguration loadWebModule() {
         return new KfsWebModuleConfiguration();
-    }
-
+    }    
+    
     @Override
     public boolean hasWebInterface() {
         return true;

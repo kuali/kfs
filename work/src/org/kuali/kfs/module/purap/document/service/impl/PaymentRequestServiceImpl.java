@@ -1707,18 +1707,40 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             catch (WorkflowException we) {
                 throw new RuntimeException(we);
             }
-
-            // if the document is not in a non-active status then return true and stop evaluation
-            if (!(workflowDocument.stateIsCanceled() || workflowDocument.stateIsException())) {
-                hasActivePreqs = true;
-                break;
+            //if app document status is in the list of potentially active statuses then...
+            if (documentStatusInPotentiallyActive(workflowDocument)) {
+                // if the document is not in a non-active status then return true and stop evaluation
+                if (!(workflowDocument.stateIsCanceled() || workflowDocument.stateIsException())) {
+                    hasActivePreqs = true;
+                    break;
+                }
             }
-
         }
 
         return hasActivePreqs;
     }
 
+    /**
+     * checks the appDocStatus on the workflow document with the potentially active
+     * statuses.
+     * 
+     * @param workflowDocument
+     * @return true if appDocStatus is in STATUSES_POTENTIALLY_ACTIVE else false
+     */
+    protected boolean documentStatusInPotentiallyActive(KualiWorkflowDocument workflowDocument) {
+        boolean valid = false;
+        
+        String[] preqActiveStatuses = PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE;
+        
+        for (int i = 0; i < preqActiveStatuses.length; i++) {
+            if (preqActiveStatuses[i].equalsIgnoreCase(workflowDocument.getRouteHeader().getAppDocStatus())) {
+                return true;
+            }
+        }
+        
+        return valid;
+    }
+    
     public void processPaymentRequestInReceivingStatus() {
         List<String> docNumbers = paymentRequestDao.getPaymentRequestInReceivingStatus();
         List<PaymentRequestDocument> preqsAwaitingReceiving = new ArrayList<PaymentRequestDocument>();

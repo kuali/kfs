@@ -34,7 +34,6 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
-import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.impl.PurapServiceImpl;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -52,6 +51,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
@@ -59,10 +59,12 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * Base class for Purchasing-Accounts Payable Documents.
@@ -826,11 +828,31 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public String getAppDocStatus(){
-        return getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
+            KualiWorkflowDocument workflowDocument = getWorkflowDocument();
+            
+            return workflowDocument.getRouteHeader().getAppDocStatus();
+    }
+    
+    /**
+     * method to retrieve the workflow document for the given documentHeader.
+     * 
+     * @return workflowDocument
+     */
+    public KualiWorkflowDocument getWorkflowDocument() {
+        KualiWorkflowDocument workflowDocument = null;
+        try {
+            workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
         }
-
+        catch (WorkflowException we) {
+            throw new RuntimeException(we);
+        }
+        return workflowDocument;
+    }
+    
     public void setAppDocStatus(String appDocStatus){
-        getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(appDocStatus);        
+            KualiWorkflowDocument workflowDocument = getWorkflowDocument();
+            
+            workflowDocument.getRouteHeader().setAppDocStatus(appDocStatus);
     }
 
     public VendorDetail getVendorDetail() {

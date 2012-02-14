@@ -115,7 +115,7 @@ public class SecurityPrincipalMaintainableImpl extends AbstractSecurityModuleMai
             // create of update role if membership should be active
             if (membershipActive) {
                 if ( principalMembershipInfo == null ) {
-                    roleService.assignPrincipalToRole( principalId, definitionRoleInfo.getNamespaceCode(), definitionRoleInfo.getName(), getRoleQualifiersFromSecurityModelDefinition(securityPrincipalDefinition));
+                    principalMembershipInfo = roleService.assignPrincipalToRole( principalId, definitionRoleInfo.getNamespaceCode(), definitionRoleInfo.getName(), getRoleQualifiersFromSecurityModelDefinition(securityPrincipalDefinition));
                 } else {
                     RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(principalMembershipInfo);
                     updatedRoleMember.setAttributes(getRoleQualifiersFromSecurityModelDefinition(securityPrincipalDefinition));
@@ -131,7 +131,7 @@ public class SecurityPrincipalMaintainableImpl extends AbstractSecurityModuleMai
      *
      * @param securityPrincipal SecurityPrincipal which contains the model list and principal
      */
-    protected void assignOrUpdatePrincipalModelRoles(SecurityPrincipal securityPrincipal) {        
+    protected void assignOrUpdatePrincipalModelRoles(SecurityPrincipal securityPrincipal) {
         RoleService roleService = KimApiServiceLocator.getRoleService();
         String principalId = securityPrincipal.getPrincipalId();
 

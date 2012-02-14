@@ -149,7 +149,7 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
             LOG.error( "Model Role does not exist for SecurityModel: " + newSecurityModel );
             throw new RuntimeException("Model Role does not exist for SecurityModel: " + newSecurityModel );
         }
-        
+
         for (SecurityModelDefinition securityModelDefinition : newSecurityModel.getModelDefinitions()) {
             SecurityDefinition securityDefinition = securityModelDefinition.getSecurityDefinition();
 
@@ -159,7 +159,7 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
                 LOG.error( "Definition Role does not exist for SecurityModelDefinition: " + securityDefinition );
                 throw new RuntimeException("Definition Role does not exist for SecurityModelDefinition: " + securityDefinition );
             }
-            
+
             RoleMember modelRoleMembership = null;
             if (!newMaintenanceAction) {
                 SecurityModelDefinition oldSecurityModelDefinition = null;
@@ -171,8 +171,8 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
                 }
 
                 if (oldSecurityModelDefinition != null) {
-                    modelRoleMembership = getRoleMembershipForMemberType(definitionRole.getId(), 
-                            modelRole.getId(), MemberType.ROLE.getCode(), 
+                    modelRoleMembership = getRoleMembershipForMemberType(definitionRole.getId(),
+                            modelRole.getId(), MemberType.ROLE.getCode(),
                             getRoleQualifiersFromSecurityModelDefinition(oldSecurityModelDefinition));
                 }
             }
@@ -191,12 +191,12 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
             // create of update role if membership should be active
             if (membershipActive) {
                 if ( modelRoleMembership == null ) {
-                    roleService.assignRoleToRole(modelRole.getId(), definitionRole.getNamespaceCode(), definitionRole.getName(), getRoleQualifiersFromSecurityModelDefinition(securityModelDefinition));
+                    modelRoleMembership = roleService.assignRoleToRole(modelRole.getId(), definitionRole.getNamespaceCode(), definitionRole.getName(), getRoleQualifiersFromSecurityModelDefinition(securityModelDefinition));
                 } else {
                     RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(modelRoleMembership);
                     updatedRoleMember.setActiveToDate(null);
                     updatedRoleMember.setAttributes(getRoleQualifiersFromSecurityModelDefinition(securityModelDefinition));
-                    roleService.updateRoleMember(updatedRoleMember.build());
+                    modelRoleMembership = roleService.updateRoleMember(updatedRoleMember.build());
                 }
             }
         }

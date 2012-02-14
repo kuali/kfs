@@ -32,7 +32,6 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -99,8 +98,7 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
             newRole.setDescription(newSecurityDefinition.getDescription());
             newRole.setActive(newSecurityDefinition.isActive());
             newRole.setKimTypeId(getDefaultRoleTypeId());
-            KimApiServiceLocator.getRoleService().createRole(newRole.build());
-            Role createdRole = KimApiServiceLocator.getRoleService().getRoleByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, newSecurityDefinition.getName());
+            Role createdRole = KimApiServiceLocator.getRoleService().createRole(newRole.build());
             newSecurityDefinition.setRoleId(createdRole.getId());
         } else {
             // update role active indicator if it has been updated on the definition
@@ -298,15 +296,13 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
                 if ( LOG.isDebugEnabled() ) {
                     LOG.debug( "About to save new permission: " + newPerm);
                 }
-                KimApiServiceLocator.getPermissionService().createPermission(newPerm.build());
-                // now, reload to get the permission ID
-                perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY, permissionName);
+                perm = KimApiServiceLocator.getPermissionService().createPermission(newPerm.build());
             }
         } else {
             if ( perm.isActive() != active ) {
                 Permission.Builder updatedPerm = Permission.Builder.create(perm);
                 updatedPerm.setActive(active);
-                KimApiServiceLocator.getPermissionService().updatePermission(updatedPerm.build());
+                perm = KimApiServiceLocator.getPermissionService().updatePermission(updatedPerm.build());
             }
         }
 

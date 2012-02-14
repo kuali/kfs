@@ -1497,16 +1497,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
     /**
      * Used for routing only.
-     * 
-     * @deprecated
      */
     public String getStatusDescription() {
-        return "";
+        return getAppDocStatus();        
     }
 
     /**
      * Used for routing only.
-     * 
      * @deprecated
      */
     public void setStatusDescription(String statusDescription) {

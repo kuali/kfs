@@ -97,5 +97,10 @@
 			<replace replace='NUMBER' with='DECIMAL' />
 		</modifySql>
 	</changeSet>
-
+     <changeSet author="KFS50" id="KFSMI7256">
+       <comment>Status Code column from REQ, PO, PREQ tables need to be made to accept nulls.</comment>
+        <dropNotNullConstraint tableName="PUR_REQS_T" columnName="REQS_STAT_CD"  columnDataType="VARCHAR(4)"/>
+        <dropNotNullConstraint tableName="PUR_PO_T" columnName="PO_STAT_CD" columnDataType="VARCHAR(4)"/>
+        <dropNotNullConstraint tableName="AP_PMT_RQST_T" columnName="PMT_RQST_STAT_CD" columnDataType="VARCHAR(4)"/>
+      </changeSet>
 </databaseChangeLog>

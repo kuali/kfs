@@ -187,8 +187,8 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         }
 
 
-        Row resultType = createSearchResultReturnRow();
-        docSearchRows.add(resultType);
+//        Row resultType = createSearchResultReturnRow();
+//        docSearchRows.add(resultType);
         return docSearchRows;
     }
 

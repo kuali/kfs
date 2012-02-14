@@ -90,6 +90,7 @@
  	<bean id="rice.kew.documentTypeService" p:serviceName="rice.kew.documentTypeService" parent="grlBeanImporter" />
  	<alias name="rice.kew.documentTypeService" alias="documentTypeService" />
 	<!-- KSB -->
+	<bean id="rice.ksb.serviceBus" p:serviceName="rice.ksb.serviceBus" parent="grlBeanImporter" />
 
 
 	<!-- beans below here are extended by KFS beans, and so the "parent" relationship does not work and they must be redefined -->

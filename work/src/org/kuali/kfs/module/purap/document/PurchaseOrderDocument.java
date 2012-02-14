@@ -679,6 +679,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 // DOCUMENT PROCESSED
                 if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                     SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrder(this);
+                    SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                 }
                 // DOCUMENT DISAPPROVED
                 else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
@@ -686,24 +687,32 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                     String disapprovalStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
                     
                     if (ObjectUtils.isNotNull(disapprovalStatus)) {                        
-                        setAppDocStatus(disapprovalStatus);                            
-                            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-                            RequisitionDocument req = getPurApSourceDocumentIfPossible();
-                            appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
-                            return;
-                        }
+                        updateAndSaveAppDocStatus(disapprovalStatus);                            
+                        RequisitionDocument req = getPurApSourceDocumentIfPossible();
+                        appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+                        return;
+                    }
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
                 }
                 // DOCUMENT CANCELED
                 else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                     setAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);                                                 
-                    SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+                     updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);                                                 
                 }
             }
             catch (WorkflowException e) {
                 logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
             }
         }
+    }
+    
+    /**
+     * Updates status of this document and saves it.
+     * 
+     * @param appDocStatus is the current status of the document.
+     */
+   protected void updateAndSaveAppDocStatus(String appDocStatus) {
+       setAppDocStatus(appDocStatus);
+       SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
     }
 
     /**

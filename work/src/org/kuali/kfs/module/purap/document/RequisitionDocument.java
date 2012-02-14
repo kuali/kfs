@@ -396,11 +396,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * Updates status of this document and saves it.
      * 
-     * @param disApprovedAppDocStatus is the current status of the document.
+     * @param appDocStatus is the current status of the document.
      */
-   protected void updateAndSaveAppDocStatus(String disApprovedAppDocStatus) {
-       setAppDocStatus(disApprovedAppDocStatus);
-        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+   protected void updateAndSaveAppDocStatus(String appDocStatus) {
+       setAppDocStatus(appDocStatus);
+       SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
     }
 
     @Override

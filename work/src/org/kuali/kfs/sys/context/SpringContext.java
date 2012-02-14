@@ -64,7 +64,7 @@ public class SpringContext {
     public static Object getService(String serviceName) {
         return GlobalResourceLoader.getService(serviceName);
     }
-    
+
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
      * NOT the service implementation. 1. there is only one bean of the specified type in our spring context 2. there is only one
@@ -96,7 +96,7 @@ public class SpringContext {
                     bean = beansOfType.iterator().next();
                 }
             } else {
-                try { 
+                try {
                     bean = getBean(type, StringUtils.uncapitalize(type.getSimpleName()) );
                 } catch ( Exception ex ) {
                     // do nothing, let fall through
@@ -151,7 +151,7 @@ public class SpringContext {
             for ( String key : beansOfType.keySet() ) {
                 if ( !applicationContext.isSingleton(key) ) {
                     allOfTypeAreSingleton = false;
-                }                
+                }
             }
             if ( allOfTypeAreSingleton ) {
                 synchronized( SINGLETON_TYPES ) {
@@ -181,7 +181,7 @@ public class SpringContext {
                     LOG.debug("Bean with name and type not found in local context: " + name + "/" + type.getName() + " - calling GRL");
                 }
                 Object remoteServiceBean = getService( name );
-                if ( remoteServiceBean != null ) {                    
+                if ( remoteServiceBean != null ) {
                     if ( type.isAssignableFrom( AopUtils.getTargetClass(remoteServiceBean) ) ) {
                         bean = (T)remoteServiceBean;
                         // assume remote beans are services and thus singletons
@@ -222,11 +222,13 @@ public class SpringContext {
             }
             processWatchThread = null;
         }
-        
+
         try {
             if ( isInitialized() && getBean(Scheduler.class) != null ) {
-                LOG.info( "Shutting Down scheduler" );
-                getBean(Scheduler.class).shutdown();
+                if ( getBean(Scheduler.class).isStarted() ) {
+                    LOG.info( "Shutting Down scheduler" );
+                    getBean(Scheduler.class).shutdown();
+                }
             }
         } catch (SchedulerException ex) {
             LOG.error( "Exception while shutting down the scheduler", ex );
@@ -240,7 +242,7 @@ public class SpringContext {
     public static boolean isInitialized() {
         return applicationContext != null;
     }
-    
+
     private static void verifyProperInitialization() {
         if (!isInitialized()) {
             LOG.fatal( "*****************************************************************" );
@@ -259,14 +261,15 @@ public class SpringContext {
     }
     static MemoryMonitor memoryMonitor;
     static void initMemoryMonitor() {
-        if ( NumberUtils.isNumber(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY))) {        
+        if ( NumberUtils.isNumber(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY))) {
             if (Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
                 LOG.info( "Starting up MemoryMonitor thread" );
                 MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
                 memoryMonitor = new MemoryMonitor("kfs");
                 memoryMonitor.addListener(new MemoryMonitor.Listener() {
                     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
-    
+
+                    @Override
                     public void memoryUsageLow(String springContextId, Map<String, String> memoryUsageStatistics, String deadlockedThreadIds) {
                         StringBuilder logStatement = new StringBuilder(springContextId).append("\n\tMemory Usage");
                         for (String memoryType : memoryUsageStatistics.keySet()) {
@@ -288,7 +291,7 @@ public class SpringContext {
             LOG.warn( MEMORY_MONITOR_THRESHOLD_KEY + " is not a number: " + KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY) );
         }
     }
-    
+
     static void initMonitoringThread() {
         if ( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean( "periodic.thread.dump" ) ) {
             final long sleepPeriod = Long.parseLong( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
@@ -304,7 +307,8 @@ public class SpringContext {
             final DateFormat df = new SimpleDateFormat( "yyyyMMdd" );
             final DateFormat tf = new SimpleDateFormat( "HH-mm-ss" );
             Runnable processWatch = new Runnable() {
-                public void run() {                    
+                @Override
+                public void run() {
                     while ( true ) {
                         Date now = new Date();
                         File todaysLogDir = new File( monitoringLogDir, df.format(now) );
@@ -319,6 +323,7 @@ public class SpringContext {
                             Map<Thread,StackTraceElement[]> threads = Thread.getAllStackTraces();
                             List<Thread> sortedThreads = new ArrayList<Thread>( threads.keySet() );
                             Collections.sort( sortedThreads, new Comparator<Thread>() {
+                                @Override
                                 public int compare(Thread o1, Thread o2) {
                                     return o1.getName().compareTo( o2.getName() );
                                 }
@@ -350,9 +355,9 @@ public class SpringContext {
             processWatchThread = new Thread( processWatch, "ProcessWatch thread" );
             processWatchThread.setDaemon(true);
             processWatchThread.start();
-        }        
+        }
     }
-    
+
     static void initScheduler() {
         if (KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
             try {
@@ -367,19 +372,19 @@ public class SpringContext {
             }
         }
     }
-    
+
 //    private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {
 //        LOG.info( "Starting Spring context initialization" );
 //        // use the base config file to bootstrap the real application context started by Rice
 //        applicationContext = new ClassPathXmlApplicationContext(riceInitializationSpringFile);
 //        LOG.info( "Completed Spring context initialization" );
-//        
+//
 //        SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
-//        
+//
 //        initMemoryMonitor();
 //        if ( initializeSchedule ) {
 //            initScheduler();
 //        }
-//        initMonitoringThread();        
+//        initMonitoringThread();
 //    }
 }

@@ -368,7 +368,7 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     /**
      * Gets a list of strings of document numbers from workflow documents where  
-     * document status = 'P' and document type = 'REQS'.  If appDocStatus status 
+     * document status = 'P', 'F'  and document type = 'REQS'.  If appDocStatus status 
      * of 'Awaiting Contract Manager Assignment' then the document number is added to the list
      * 
      * NOTE: simplify using DocSearch lookup with AppDocStatus
@@ -380,15 +380,13 @@ public class RequisitionServiceImpl implements RequisitionService {
         WorkflowInfo workflowInfo = new WorkflowInfo();
         
         DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
-        documentSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_PROCESSED_CD);
+        //Search for status of P and F
+        documentSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_PROCESSED_CD + "," + KEWConstants.ROUTE_HEADER_FINAL_CD);
         documentSearchCriteriaDTO.setDocTypeFullName(PurapConstants.REQUISITION_DOCUMENT_TYPE);
         documentSearchCriteriaDTO.setSaveSearchForUser(false);
         
         try {
             List<DocumentSearchResultRowDTO> reqDocumentsList = workflowInfo.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults();
-            
-            //do a second search with route status - F
-            documentSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_FINAL_CD);
             reqDocumentsList.addAll(workflowInfo.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults());
 
             Map<String, KeyValueDTO> searchResultDTOMap = new HashMap<String, KeyValueDTO>();

@@ -36,7 +36,7 @@ public class BenefitsCalculationMaintenanceDocumentPresentationController extend
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
         Set<String> fields = super.getConditionallyHiddenPropertyNames(businessObject);
         
-        String offsetParmValue = getParameterService().getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET);
+        String offsetParmValue = getParameterService().getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET_IND);
         
         if(offsetParmValue.equalsIgnoreCase("n")) {
             fields.add(LaborConstants.BenefitCalculation.ACCOUNT_CODE_OFFSET_PROPERTY_NAME);

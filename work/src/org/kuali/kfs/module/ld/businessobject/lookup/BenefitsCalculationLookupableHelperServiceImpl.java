@@ -74,7 +74,7 @@ public class BenefitsCalculationLookupableHelperServiceImpl extends AbstractLook
     public List<Column> getColumns() {
         List<Column> columns =  super.getColumns();
         
-        String offsetParmValue = parameterService.getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET);
+        String offsetParmValue = parameterService.getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET_IND);
         
         if(offsetParmValue.equalsIgnoreCase("n")) {
             for(Iterator<Column> it = columns.iterator(); it.hasNext(); ) {
@@ -95,7 +95,7 @@ public class BenefitsCalculationLookupableHelperServiceImpl extends AbstractLook
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();
         
-        String offsetParmValue = parameterService.getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET);
+        String offsetParmValue = parameterService.getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET_IND);
         
         if(offsetParmValue.equalsIgnoreCase("n")) {
             for(Iterator<Row> it = rows.iterator(); it.hasNext(); ) {

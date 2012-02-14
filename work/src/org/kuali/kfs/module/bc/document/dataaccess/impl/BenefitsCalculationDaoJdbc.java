@@ -214,7 +214,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
 
         /********************************************
          * Added new statements to check labor benefit rate category code. Used only when
-         * ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY system parameter is set to "Y"
+         * ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND system parameter is set to "Y"
          ********************************************/
         /**
          * set the request to 0 for fringe benefits objects with base
@@ -428,7 +428,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
 
         /********************************************
          * Added new statements to check labor benefit rate category code. Used only when
-         * ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY system parameter is set to "Y"
+         * ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND system parameter is set to "Y"
          ********************************************/
         sqlBuilder.delete(0, sqlBuilder.length());
         insertionPoints.clear();

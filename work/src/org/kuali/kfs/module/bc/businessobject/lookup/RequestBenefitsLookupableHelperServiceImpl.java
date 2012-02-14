@@ -80,10 +80,10 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
 
 
             // make sure the system parameter exists
-            if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")) {
+            if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
                 String laborBenefitRateCategoryCode = "";
                 // check the system param to see if the labor benefit rate category should be filled in
-                String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+                String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
                 LOG.debug("sysParam: " + sysParam);
                 // if sysParam == Y then Labor Benefit Rate Category Code must be filled in
                 if (sysParam.equalsIgnoreCase("Y")) {

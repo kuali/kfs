@@ -171,7 +171,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                 // create an entry to temporarily parse each line as it comes in
                 Map<String, List<LaborOriginEntry>> salaryBenefitOffsets = new HashMap<String, List<LaborOriginEntry>>();
                 List<LaborOriginEntry> entries = new ArrayList<LaborOriginEntry>();
-                String offsetParmValue = getParameterService().getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET);
+                String offsetParmValue = getParameterService().getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET_IND);
                 String offsetDocTypes = null;
                 if(StringUtils.isNotEmpty(getParameterService().getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_OFFSET_DOCTYPE))) {
                     offsetDocTypes = "," + getParameterService().getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_OFFSET_DOCTYPE).replace(";", ",").replace("|", ",") + ",";
@@ -198,7 +198,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                             feederReportData.incrementNumberOfRecordsWritten();
                             feederReportData.addToTotalAmountWritten(benefitEntry.getTransactionLedgerEntryAmount());
                             
-                            //If the LABOR_BENEFIT_CALCULATION_OFFSET system parameter is set to 'Y'
+                            //If the LABOR_BENEFIT_CALCULATION_OFFSET_IND system parameter is set to 'Y'
                             //and the LABOR_BENEFIT_OFFSET_DOCTYPE system parameter is not empty
                             //and the document type is in the LABOR_BENEFIT_OFFSET_DOCTYPE system parameter then
                             //group together the benefit entries for the salary benefit offset calculation
@@ -226,7 +226,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                     count++;
                 }
                 
-                //If the LABOR_BENEFIT_CALCULATION_OFFSET system parameter is set to 'Y'
+                //If the LABOR_BENEFIT_CALCULATION_OFFSET_IND system parameter is set to 'Y'
                 //and the LABOR_BENEFIT_OFFSET_DOCTYPE system parameter is not empty
                 //then create the salary benefit offset entries
                 if(!offsetParmValue.equalsIgnoreCase("n") && offsetDocTypes != null) {
@@ -428,9 +428,9 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 		boolean useBenefitRateCategoryCode = false;
 
 		//make sure the system parameter exists
-        if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")) {
+        if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
             //parameter exists, get the benefit rate based off of the university fiscal year, chart of account code, labor benefit type code and labor benefit rate category code 
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("sysParam: " + sysParam);
             //if sysParam == Y then use the Labor Benefit Rate Category Code to help determine the fringe benefit rate
             if (sysParam.equalsIgnoreCase("Y")) {

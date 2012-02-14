@@ -267,7 +267,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         bcDoc.setBenefitsCalcNeeded(false);
         if (!bcDoc.isSalarySettingOnly()) {
             
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("sysParam: " + sysParam);
             // if sysParam == Y then Labor Benefit Rate Category Code must be used
             if (sysParam.equalsIgnoreCase("Y")) {
@@ -292,7 +292,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         bcDoc.setMonthlyBenefitsCalcNeeded(false);
         if (!bcDoc.isSalarySettingOnly()) {
             
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("sysParam: " + sysParam);
             // if sysParam == Y then Labor Benefit Rate Category Code must be used
             if (sysParam.equalsIgnoreCase("Y")) {

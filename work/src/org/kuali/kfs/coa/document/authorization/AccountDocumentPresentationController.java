@@ -59,9 +59,9 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
         ParameterService service = SpringContext.getBean(ParameterService.class);
         
         //make sure the parameter exists
-        if(service.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")){
+        if(service.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")){
           //check the system param to see if the labor benefit rate category should be editable
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("sysParam: " + sysParam);
             //if sysParam != Y then Labor Benefit Rate Category Code is not editable
             if (!sysParam.equalsIgnoreCase("Y")) {
@@ -76,7 +76,7 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
     
     /**
      * 
-     * Hides the Labor Benefit Rate Category Code depending on the system parameter ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY
+     * Hides the Labor Benefit Rate Category Code depending on the system parameter ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND
      * 
      * @param hiddenPropetyNames
      */
@@ -84,9 +84,9 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
         ParameterService service = SpringContext.getBean(ParameterService.class);
         
         //make sure the parameter exists
-        if(service.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")){
+        if(service.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")){
           //check the system param to see if the labor benefit rate category should be hidden
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("sysParam: " + sysParam);
             //if sysParam != Y then Labor Benefit Rate Category Code is hidden
             if (!sysParam.equalsIgnoreCase("Y")) {

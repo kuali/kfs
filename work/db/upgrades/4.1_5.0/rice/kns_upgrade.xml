@@ -199,7 +199,7 @@
 			<column name='NMSPC_CD' value='KFS-SYS' />
 			<column name='PARM_DTL_TYP_CD' value='All' />
 			<column name='PARM_NM'
-				value='ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY' />
+				value='ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND' />
 			<column name='OBJ_ID' value='KFSLD6987a' />
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='PARM_TYP_CD' value='CONFG' />
@@ -212,7 +212,7 @@
 		<insert tableName='KRNS_PARM_T'>
 			<column name='NMSPC_CD' value='KFS-SYS' />
 			<column name='PARM_DTL_TYP_CD' value='All' />
-			<column name='PARM_NM' value='USE_COST_SHARE_SOURCE_ACCOUNT_BENEFIT_RATE' />
+			<column name='PARM_NM' value='USE_COST_SHARE_SOURCE_ACCOUNT_BENEFIT_RATE_IND' />
 			<column name='OBJ_ID' value='KFSLD6987b' />
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='PARM_TYP_CD' value='CONFG' />
@@ -238,7 +238,7 @@
 		<insert tableName='KRNS_PARM_T'>
 			<column name='NMSPC_CD' value='KFS-LD' />
 			<column name='PARM_DTL_TYP_CD' value='LaborEnterpriseFeedStep' />
-			<column name='PARM_NM' value='GENERATE_FRINGE_BENEFIT' />
+			<column name='PARM_NM' value='GENERATE_FRINGE_BENEFIT_IND' />
 			<column name='OBJ_ID' value='KFSLD6987d' />
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='PARM_TYP_CD' value='CONFG' />
@@ -251,7 +251,7 @@
 		<insert tableName='KRNS_PARM_T'>
 			<column name='NMSPC_CD' value='KFS-LD' />
 			<column name='PARM_DTL_TYP_CD' value='LaborEnterpriseFeedStep' />
-			<column name='PARM_NM' value='GENERATE_FRINGE_BENEFIT_ENCUMBRANCE' />
+			<column name='PARM_NM' value='GENERATE_FRINGE_BENEFIT_ENCUMBRANCE_IND' />
 			<column name='OBJ_ID' value='KFSLD6987e' />
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='PARM_TYP_CD' value='CONFG' />
@@ -264,7 +264,7 @@
 		<insert tableName='KRNS_PARM_T'>
 			<column name='NMSPC_CD' value='KFS-LD' />
 			<column name='PARM_DTL_TYP_CD' value='LaborEnterpriseFeedStep' />
-			<column name='PARM_NM' value='LABOR_BENEFIT_CALCULATION_OFFSET' />
+			<column name='PARM_NM' value='LABOR_BENEFIT_CALCULATION_OFFSET_IND' />
 			<column name='OBJ_ID' value='KFSLD7128a' />
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='PARM_TYP_CD' value='CONFG' />

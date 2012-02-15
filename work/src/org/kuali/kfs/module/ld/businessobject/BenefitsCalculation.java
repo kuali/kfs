@@ -50,6 +50,9 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase implement
     private Account laborAccountOffset;
     private ObjectCode laborObjectCodeOffset;
     
+    private String accountCodeOffset;
+    private String objectCodeOffset;
+   
     /**
      * Default constructor.
      */
@@ -356,5 +359,38 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase implement
     public void setLaborObjectCodeOffset(ObjectCode laborObjectCodeOffset) {
         this.laborObjectCodeOffset = laborObjectCodeOffset;
     }
-    
+ 
+
+    /**
+     * Gets the accountCodeOffset attribute. 
+     * @return Returns the accountCodeOffset.
+     */
+    public String getAccountCodeOffset() {
+        return accountCodeOffset;
+    }
+
+    /**
+     * Sets the accountCodeOffset attribute value.
+     * @param accountCodeOffset The accountCodeOffset to set.
+     */
+    public void setAccountCodeOffset(String accountCodeOffset) {
+        this.accountCodeOffset = accountCodeOffset;
+    }
+
+    /**
+     * Gets the objectCodeOffset attribute. 
+     * @return Returns the objectCodeOffset.
+     */
+    public String getObjectCodeOffset() {
+        return objectCodeOffset;
+    }
+
+    /**
+     * Sets the objectCodeOffset attribute value.
+     * @param objectCodeOffset The objectCodeOffset to set.
+     */
+    public void setObjectCodeOffset(String objectCodeOffset) {
+        this.objectCodeOffset = objectCodeOffset;
+    }
+
 }

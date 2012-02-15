@@ -1788,7 +1788,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the laborBenefitRateCategory.
      */
     public LaborBenefitRateCategory getLaborBenefitRateCategory() {
-        laborBenefitRateCategory = (LaborBenefitRateCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborBenefitRateCategory.class).retrieveExternalizableBusinessObjectsList(this, "LaborBenefitRateCategory", LaborBenefitRateCategory.class);
+        laborBenefitRateCategory = (LaborBenefitRateCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborBenefitRateCategory.class).retrieveExternalizableBusinessObjectIfNecessary(this, laborBenefitRateCategory, "LaborBenefitRateCategory");
         return laborBenefitRateCategory;
     }
 

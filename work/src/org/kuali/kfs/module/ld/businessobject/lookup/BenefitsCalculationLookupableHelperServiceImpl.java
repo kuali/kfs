@@ -120,8 +120,8 @@ public class BenefitsCalculationLookupableHelperServiceImpl extends AbstractLook
         
         HashMap<String, String> fieldsMap = new HashMap<String, String>();
         
-        String accountNumber = (String) fieldValues.get("extension.accountCodeOffset");
-        String objectCode = (String) fieldValues.get("extension.objectCodeOffset");
+        String accountNumber = (String) fieldValues.get("accountCodeOffset");
+        String objectCode = (String) fieldValues.get("objectCodeOffset");
         
         // Validate the Account Number field is a valid Account Number in the DB
         if (StringUtils.isNotEmpty(accountNumber)) {

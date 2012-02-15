@@ -302,8 +302,8 @@ public class LaborConstants {
         // Constants for the Salary Benefit Offset
         public static final String LABOR_BENEFIT_CALCULATION_OFFSET_IND = "LABOR_BENEFIT_CALCULATION_OFFSET_IND";
         public static final String LABOR_BENEFIT_OFFSET_DOCTYPE = "LABOR_BENEFIT_OFFSET_DOCTYPE";
-        public static final String ACCOUNT_CODE_OFFSET_PROPERTY_NAME = "extension.accountCodeOffset";
-        public static final String OBJECT_CODE_OFFSET_PROPERTY_NAME = "extension.objectCodeOffset";
+        public static final String ACCOUNT_CODE_OFFSET_PROPERTY_NAME = "accountCodeOffset";
+        public static final String OBJECT_CODE_OFFSET_PROPERTY_NAME = "objectCodeOffset";
  
     }
 }

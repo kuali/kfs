@@ -13,7 +13,7 @@ import org.kuali.rice.kns.util.KualiInteger;
  * 
  * @author Allan Sonkin
  */
-public class LaborBenefitRateCategory extends PersistableBusinessObjectBase implements Inactivateable {
+public class LaborBenefitRateCategory extends PersistableBusinessObjectBase implements org.kuali.kfs.integration.ld.LaborBenefitRateCategory, Inactivateable {
 
     private String laborBenefitRateCategoryCode;//the BO code
     

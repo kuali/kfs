@@ -70,8 +70,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="laborBenefitRateCategoryCode" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="positionFringeBenefitObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="positionFringeBenefitPercent" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="extension.accountCodeOffset" p:required="false"/>
-        <bean parent="MaintainableFieldDefinition" p:name="extension.objectCodeOffset" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountCodeOffset" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="objectCodeOffset" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
       </list>
     </property>

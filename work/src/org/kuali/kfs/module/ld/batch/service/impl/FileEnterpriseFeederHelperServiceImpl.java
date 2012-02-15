@@ -46,7 +46,6 @@ import org.kuali.kfs.module.ld.batch.LaborEnterpriseFeedStep;
 import org.kuali.kfs.module.ld.batch.service.FileEnterpriseFeederHelperService;
 import org.kuali.kfs.module.ld.batch.service.ReconciliationService;
 import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
-import org.kuali.kfs.module.ld.businessobject.BenefitsCalculationExtension;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.module.ld.report.EnterpriseFeederReportData;
@@ -262,12 +261,10 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                                         fieldValues.put(LaborPropertyConstants.POSITION_BENEFIT_TYPE_CODE, positionObjectBenefit.getFinancialObjectBenefitsTypeCode());
     
                                         //Lookup the benefit calculation to get the offset account number and object code
-                                        BenefitsCalculation benefitsCalculation = (BenefitsCalculation) getBusinessObjectService().findByPrimaryKey(BenefitsCalculation.class, fieldValues);
-                                        
-                                        BenefitsCalculationExtension extension = (BenefitsCalculationExtension) benefitsCalculation.getExtension();
-                                        
-                                        offsetEntry.setAccountNumber(extension.getAccountCodeOffset());
-                                        offsetEntry.setFinancialObjectCode(extension.getObjectCodeOffset());
+                                        BenefitsCalculation benefitsCalculation = (BenefitsCalculation) getBusinessObjectService().findByPrimaryKey(BenefitsCalculation.class, fieldValues);                   
+                                                             
+                                        offsetEntry.setAccountNumber(benefitsCalculation.getAccountCodeOffset());
+                                        offsetEntry.setFinancialObjectCode(benefitsCalculation.getObjectCodeOffset());
                                     }
                                 }
                                 

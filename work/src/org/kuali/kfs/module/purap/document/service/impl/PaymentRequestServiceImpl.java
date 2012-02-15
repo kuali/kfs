@@ -1520,10 +1520,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             cancelledStatus = PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(currentNodeName);
         }
 
-        if (StringUtils.isNotBlank(cancelledStatus)) {            
-            preqDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(cancelledStatus);
+        if (StringUtils.isNotBlank(cancelledStatus)) {
+            preqDoc.setAppDocStatus(cancelledStatus);
             purapService.saveDocumentNoValidation(preqDoc);
-            return cancelledStatus;
         }
         else {
             logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + currentNodeName + "'");

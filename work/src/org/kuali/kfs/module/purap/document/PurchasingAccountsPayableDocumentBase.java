@@ -52,6 +52,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
@@ -63,6 +64,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * Base class for Purchasing-Accounts Payable Documents.
@@ -1223,12 +1225,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     /**
-     * Updates status of this document and saves it.
+     * Updates status of this document and saves the workflow data
      * 
-     * @param appDocStatus is the current status of the document.
+     * @param appDocStatus is the app doc status to save
+     * @throws WorkflowException
      */
-   protected void updateAndSaveAppDocStatus(String appDocStatus) {
+    protected void updateAndSaveAppDocStatus(String appDocStatus) throws WorkflowException {
        setAppDocStatus(appDocStatus);
-       SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+       //SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+       SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());
     }
 }

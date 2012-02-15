@@ -206,10 +206,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-                setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE);
-                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-
-                return;
+                updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE);
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
@@ -222,9 +219,9 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
                 }
                 if (StringUtils.isNotBlank(disapprovalStatus)) {
                     SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
-                    return;
-                }else                
+                }else{                
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                }
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {

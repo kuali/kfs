@@ -179,7 +179,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         LOG.debug("handleRouteLevelChange() started");
         super.doRouteLevelChange(levelChangeEvent);
         saveDocumentFromPostProcessing();
-        
+
+        //process node change for documents
+        String newNodeName = levelChangeEvent.getNewNodeName();
+        processNodeChange(newNodeName, levelChangeEvent.getOldNodeName());
         /*
          * FIXME: Should be handled by XML now
         String newNodeName = levelChangeEvent.getNewNodeName();

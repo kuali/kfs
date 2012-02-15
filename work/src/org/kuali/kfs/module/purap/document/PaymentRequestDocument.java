@@ -701,10 +701,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 if (!PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getAppDocStatus())) {                    
-                    setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
                     populateDocumentForRouting();
-                    SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-                    return;
+                    updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
                 }
             }
             // DOCUMENT DISAPPROVED
@@ -718,10 +716,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                     }
                     if (StringUtils.isNotBlank(disapprovalStatus)) {
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
-                        return;
                     }
                 }
-                logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                else {
+                    logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                }
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
@@ -729,13 +728,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 String cancelledStatus = PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(currentNodeName); 
                 
                 if (ObjectUtils.isNotNull(cancelledStatus)) {                    				
-                    setAppDocStatus(cancelledStatus);
-                        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-                        return;
-                    }
-                logAndThrowRuntimeException("No status found to set for document being canceled in node '" + currentNodeName + "'");
+                    updateAndSaveAppDocStatus(cancelledStatus);
+                }
+                else {
+                    logAndThrowRuntimeException("No status found to set for document being canceled in node '" + currentNodeName + "'");
                 }
             }
+        }
         catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
@@ -763,7 +762,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#processNodeChange(java.lang.String, java.lang.String)
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
         if (PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getAppDocStatus())) {
@@ -775,13 +774,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         return true;
     }
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#getNodeDetailEnum(java.lang.String)
-     */
-    //public NodeDetails getNodeDetailEnum(String nodeName) {
-    //    return NodeDetailEnum.getNodeDetailEnumByName(nodeName);
-    //}
 
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()

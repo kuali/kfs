@@ -66,34 +66,39 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        // DOCUMENT PROCESSED
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
+        try {
+            // DOCUMENT PROCESSED
+            if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
-            // for app doc status
-            setAppDocStatus(PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD);
-        }
-        // DOCUMENT DISAPPROVED
-        else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
-
-            // for app doc status
-            try {
-                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
-                getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));   
-            } catch (WorkflowException e) {
-                logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
+                // for app doc status
+                getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD);
+                SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());            
             }
+            // DOCUMENT DISAPPROVED
+            else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
 
+                // for app doc status
+                try {
+                    String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                    String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
+                    getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));
+                    SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());
+                } catch (WorkflowException e) {
+                    logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
+                }
+            }
+            // DOCUMENT CANCELED
+            else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
+                // for app doc status
+                getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);
+                SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());
+            }
         }
-        // DOCUMENT CANCELED
-        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
-            // for app doc status
-            getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);
-
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
     }
-
 }

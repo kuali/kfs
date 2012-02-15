@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.workflow;
 
 import java.util.List;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -24,18 +25,12 @@ import org.kuali.kfs.sys.document.workflow.KFSDocumentSearchResultProcessor;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.KEWPropertyConstants;
 import org.kuali.rice.kew.web.KeyValueSort;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Column;
 
 public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultProcessor {
@@ -57,8 +52,8 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
         updateAppDocStatusForLookupResults(docSearchResult.getResultContainers(), docCriteriaDTO);
         
         //Mask the purapDocumentIdentifier field if the document is PO or POSP..
-        if (KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER.equalsIgnoreCase(docCriteriaDTO.getDocTypeName()) ||
-                KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_SPLIT.equalsIgnoreCase(docCriteriaDTO.getDocTypeName())) {
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equalsIgnoreCase(docCriteriaDTO.getDocTypeName()) ||
+                PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equalsIgnoreCase(docCriteriaDTO.getDocTypeName())) {
             //mask the PO Number if needed....
             maskPONumberForLookupResults(docSearchResult.getResultContainers(), docCriteriaDTO);
         }
@@ -125,49 +120,4 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
             }
         } 
     }
-//    
-//    /**
-//     * with the document id the document is retrieved using document service and
-//     * the appDocStatus is returned from the routeHeader.
-//     * 
-//     * @param keyValues
-//     * @return appDocStatus from the routeHeader
-//     */
-//    protected String retrieveAppDocStatus(List<KeyValueSort> keyValues) {
-//        String appDocStatus = "Not Available";
-//        
-//        for (KeyValueSort keyValueSort : keyValues) {
-//            if (KEWPropertyConstants.ROUTE_HEADER_ID.equalsIgnoreCase(keyValueSort.getkey())) {
-//                Document poDocument = findDocument(keyValueSort.getUserDisplayValue());
-//                if (ObjectUtils.isNotNull(poDocument)) {
-//                    return poDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
-//                } else {
-//                    return appDocStatus;
-//                }
-//            }
-//        }
-//        
-//        return appDocStatus;
-//    }
-//    
-//    /**
-//     * This method finds the document for the given document header id
-//     * @param documentHeaderId
-//     * @return document The document in the workflow that matches the document header id.
-//     */
-//    protected Document findDocument(String documentHeaderId) {
-//        Document document = null;
-//        
-//        try {
-//            document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
-//        }
-//        catch (WorkflowException ex) {
-//            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
-//        } catch ( UnknownDocumentTypeException ex ) {
-//            // don't blow up just because a document type is not installed (but don't return it either)
-//            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
-//        }
-//        
-//        return document;
-//    }
 }

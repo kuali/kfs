@@ -69,6 +69,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -93,6 +94,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private RequisitionDao requisitionDao;
     private UniversityDateService universityDateService;
     private VendorService vendorService;
+    private KualiWorkflowInfo workflowInfoService;
 
     public PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
         PurchasingCapitalAssetItem camsItem = new RequisitionCapitalAssetItem();
@@ -377,17 +379,14 @@ public class RequisitionServiceImpl implements RequisitionService {
      */
     protected List<String> getDocumentsNumbersAwaitingContractManagerAssignment() {
         List<String> requisitionDocumentNumbers = new ArrayList<String>();
-        WorkflowInfo workflowInfo = new WorkflowInfo();
         
         DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
         //Search for status of P and F
         documentSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_PROCESSED_CD + "," + KEWConstants.ROUTE_HEADER_FINAL_CD);
         documentSearchCriteriaDTO.setDocTypeFullName(PurapConstants.REQUISITION_DOCUMENT_TYPE);
-        documentSearchCriteriaDTO.setSaveSearchForUser(false);
         
         try {
-            List<DocumentSearchResultRowDTO> reqDocumentsList = workflowInfo.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults();
-            reqDocumentsList.addAll(workflowInfo.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults());
+            List<DocumentSearchResultRowDTO> reqDocumentsList = workflowInfoService.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults();
 
             Map<String, KeyValueDTO> searchResultDTOMap = new HashMap<String, KeyValueDTO>();
             for (DocumentSearchResultRowDTO reqDocument : reqDocumentsList) {
@@ -398,7 +397,7 @@ public class RequisitionServiceImpl implements RequisitionService {
                     searchResultDTOMap.put(keyValueDTO.getKey(), keyValueDTO);
                 }
                 
-                ///use the appDocStatus from the KeyValueDTO result to look up custom status
+                ///use the appDocStatus from the KeyValueDTO result to look up contract manager assignment status
                 if (PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equalsIgnoreCase(
                         searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_DOC_STATUS).getUserDisplayValue())){
                     //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
@@ -507,6 +506,15 @@ public class RequisitionServiceImpl implements RequisitionService {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
+    }
+
+    /**	
+     * Sets the workflowInfoService attribute.
+     * 
+     * @param workflowInfoService The workflowInfoService to set.
+     */
+    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
+        this.workflowInfoService = workflowInfoService;
     }
 
 }

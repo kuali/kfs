@@ -61,7 +61,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         if (chartCode != null) {
             criteria.addEqualTo("processingCampusCode", chartCode);
         }
-        criteria.addIn("statusCode", Arrays.asList(PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
+        //criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
         criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
@@ -115,7 +115,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             criteria.addEqualTo("processingCampusCode", chartCode);
         }
 
-        criteria.addIn("statusCode", Arrays.asList(PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
+        //criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
         criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
 
@@ -126,16 +126,17 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtract(java.lang.String,
      *      java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer)
      */
+    @Deprecated
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, Date currentSqlDateMidnight) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
-        List statuses = new ArrayList();
-        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
-        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+//        List statuses = new ArrayList();
+//        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
+//        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", campusCode);
-        criteria.addIn("statusCode", statuses);
+        //criteria.addIn(PurapPropertyConstants.STATUS_CODE, statuses);
         criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
@@ -167,13 +168,13 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
-        List statuses = new ArrayList();
-        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
-        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+//        List statuses = new ArrayList();
+//        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
+//        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", campusCode);
-        criteria.addIn("statusCode", statuses);
+        //criteria.addIn(PurapPropertyConstants.STATUS_CODE, statuses);
         criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
@@ -203,7 +204,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addLessOrEqualThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
-        criteria.addIn("status", Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
+        //criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
      
         Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);       
 
@@ -355,7 +356,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         Criteria criteria = new Criteria();
 
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
-    //    criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE));
+        //criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE));
         Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
         while (iter.hasNext()) {
             Object[] cols = (Object[]) iter.next();
@@ -367,7 +368,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         Criteria criteria = new Criteria();
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
-        criteria.addEqualTo("statusCode", PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
+        //criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
         
         Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);       
 

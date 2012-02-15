@@ -31,6 +31,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
@@ -80,7 +81,13 @@ import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.dto.DocumentSearchCriteriaDTO;
+import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
+import org.kuali.rice.kew.dto.KeyValueDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.util.KEWPropertyConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
@@ -99,6 +106,7 @@ import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,6 +133,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private VendorService vendorService;
     private DataDictionaryService dataDictionaryService;
     private UniversityDateService universityDateService;
+    private KualiWorkflowInfo workflowInfoService;
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
@@ -190,13 +199,29 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         this.universityDateService = universityDateService;
     }
 
+    /**	
+     * Sets the workflowInfoService attribute.
+     * 
+     * @param workflowInfoService The workflowInfoService to set.
+     */
+    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
+        this.workflowInfoService = workflowInfoService;
+    }
+
     /**
+     * NOTE: unused
+     * 
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsToExtractByCM(java.lang.String, org.kuali.kfs.module.purap.document.VendorCreditMemoDocument)
      */
+    @Deprecated
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, VendorCreditMemoDocument cmd) {
         LOG.debug("getPaymentRequestsByCM() started");
         Date currentSqlDateMidnight = dateTimeService.getCurrentSqlDateMidnight();
-        return paymentRequestDao.getPaymentRequestsToExtract(campusCode, null, null, cmd.getVendorHeaderGeneratedIdentifier(), cmd.getVendorDetailAssignedIdentifier(), currentSqlDateMidnight);
+        Iterator<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getPaymentRequestsToExtract(campusCode, null, null, cmd.getVendorHeaderGeneratedIdentifier(), cmd.getVendorDetailAssignedIdentifier(), currentSqlDateMidnight);
+
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator, 
+                PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED, 
+                PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
     }
 
 
@@ -206,8 +231,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsByVendor() started");
+        Collection<PaymentRequestDocument> paymentRequestDocuments = paymentRequestDao.getPaymentRequestsToExtractForVendor(campusCode, vendor, onOrBeforePaymentRequestPayDate); 
 
-        return paymentRequestDao.getPaymentRequestsToExtractForVendor(campusCode, vendor, onOrBeforePaymentRequestPayDate);
+        return filterPaymentRequestByAppDocStatus(paymentRequestDocuments, 
+                PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED, 
+                PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
     }
 
     /**
@@ -216,7 +244,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(false, null, onOrBeforePaymentRequestPayDate);
+        Iterator<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getPaymentRequestsToExtract(false, null, onOrBeforePaymentRequestPayDate); 
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
+                PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
 
     /**
@@ -226,7 +256,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtractSpecialPayments() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(true, chartCode, onOrBeforePaymentRequestPayDate);
+        Iterator<PaymentRequestDocument> paymentRequestIterator =  paymentRequestDao.getPaymentRequestsToExtract(true, chartCode, onOrBeforePaymentRequestPayDate);
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
+                PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
 
     /**
@@ -235,7 +267,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 
-        return paymentRequestDao.getImmediatePaymentRequestsToExtract(chartCode);
+        Iterator<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getImmediatePaymentRequestsToExtract(chartCode);
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
+                PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
 
     /**
@@ -245,7 +279,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestToExtractByChart() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(false, chartCode, onOrBeforePaymentRequestPayDate);
+        Iterator<PaymentRequestDocument> paymentRequestIterator =  paymentRequestDao.getPaymentRequestsToExtract(false, chartCode, onOrBeforePaymentRequestPayDate);
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
+                PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
 
     /**
@@ -255,8 +291,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         boolean hadErrorAtLeastOneError = true;
         // should objects from existing user session be copied over
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
-        //List<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
+
         List<String> docNumbers = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
+        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE);
+        
         List<PaymentRequestDocument> docs = new ArrayList<PaymentRequestDocument>();
         for (String docNumber : docNumbers) {
             PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
@@ -623,7 +661,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
      *      org.kuali.rice.kns.util.KualiDecimal, java.sql.Date)
      */
-    public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate) {
+    public List<PaymentRequestDocument> getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate) {
         LOG.debug("getPaymentRequestsByPOIdInvoiceAmountInvoiceDate() started");
         return paymentRequestDao.getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(poId, invoiceAmount, invoiceDate);
     }
@@ -1695,11 +1733,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean hasActivePaymentRequestsForPurchaseOrder(Integer purchaseOrderIdentifier) {
 
         boolean hasActivePreqs = false;
-        List<String> docNumbers = null;
         KualiWorkflowDocument workflowDocument = null;
 
-        docNumbers = paymentRequestDao.getActivePaymentRequestDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
-
+        List<String> docNumbers = paymentRequestDao.getActivePaymentRequestDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
+        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE);
+        
         for (String docNumber : docNumbers) {
             try {
                 workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
@@ -1707,19 +1745,114 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             catch (WorkflowException we) {
                 throw new RuntimeException(we);
             }
-            //if app document status is in the list of potentially active statuses then...
-            if (documentStatusInPotentiallyActive(workflowDocument)) {
-                // if the document is not in a non-active status then return true and stop evaluation
-                if (!(workflowDocument.stateIsCanceled() || workflowDocument.stateIsException())) {
-                    hasActivePreqs = true;
-                    break;
-                }
+            // if the document is not in a non-active status then return true and stop evaluation
+            if (!(workflowDocument.stateIsCanceled() || workflowDocument.stateIsException())) {
+                hasActivePreqs = true;
+                break;
             }
         }
-
         return hasActivePreqs;
     }
 
+    /**
+     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
+     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus 
+     *  from workflow document and filter against the provided status
+     *  
+     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
+     * 
+     * @param lookupDocNumbers
+     * @param appDocStatus
+     * @return
+     */
+    private List<String> filterPaymentRequestByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
+        boolean valid = false;
+
+        final String DOC_NUM_DELIM = "|"; 
+        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
+
+        List<String> paymentRequestDocNumbers = new ArrayList<String>();
+        
+        DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
+        documentSearchCriteriaDTO.setRouteHeaderId(routerHeaderIdBuilder.toString());
+        documentSearchCriteriaDTO.setDocTypeFullName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
+        
+        try {
+            List<DocumentSearchResultRowDTO> reqDocumentsList = workflowInfoService.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults();
+
+            Map<String, KeyValueDTO> searchResultDTOMap = new HashMap<String, KeyValueDTO>();
+            for (DocumentSearchResultRowDTO reqDocument : reqDocumentsList) {
+                
+                searchResultDTOMap.clear();
+                //flatten the KeyValueDTO list into a Map
+                for (KeyValueDTO keyValueDTO : reqDocument.getFieldValues()) {
+                    searchResultDTOMap.put(keyValueDTO.getKey(), keyValueDTO);
+                }
+                
+                ///use the appDocStatus from the KeyValueDTO result to look up custom status
+                if (Arrays.asList(appDocStatus).contains(searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_DOC_STATUS).getUserDisplayValue())){
+                    //found the matching status, retrieve the routeHeaderId and add to the list
+                    paymentRequestDocNumbers.add(searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID).getUserDisplayValue());
+                }
+                
+            }
+        } 
+        catch (WorkflowException ex) {
+            LOG.error("Exception encountered on finding the documents with criteria " + documentSearchCriteriaDTO);            
+        }
+        
+        return paymentRequestDocNumbers;
+    }
+    
+    /**
+     * Wrapper class to the filterPaymentRequestByAppDocStatus
+     * 
+     * This class first extract the payment request document numbers from the Payment Request Collections,
+     * then perform the filterPaymentRequestByAppDocStatus function.  Base on the filtered payment request
+     * doc number, reconstruct the filtered Payment Request Collection
+     * 
+     * @param paymentRequestDocuments
+     * @param appDocStatus
+     * @return
+     */
+    private Collection<PaymentRequestDocument> filterPaymentRequestByAppDocStatus(Collection<PaymentRequestDocument> paymentRequestDocuments, String... appDocStatus) {
+        List<String> paymentRequestDocNumbers = new ArrayList<String>();
+        for (PaymentRequestDocument paymentRequest : paymentRequestDocuments){
+            paymentRequestDocNumbers.add(paymentRequest.getDocumentNumber());
+        }
+        
+        List<String> filteredPaymentRequestDocNumbers = filterPaymentRequestByAppDocStatus(paymentRequestDocNumbers, appDocStatus);
+
+        Collection<PaymentRequestDocument> filteredPaymentRequestDocuments = new ArrayList<PaymentRequestDocument>(); 
+        //add to filtered collection if it is in the filtered payment request doc number list
+        for (PaymentRequestDocument paymentRequest : paymentRequestDocuments){
+            if (filteredPaymentRequestDocNumbers.contains(paymentRequest.getDocumentNumber())){
+                filteredPaymentRequestDocuments.add(paymentRequest);
+            }
+        }
+        return filteredPaymentRequestDocuments;
+    }
+    
+
+    /**
+     * Wrapper class to the filterPaymentRequestByAppDocStatus (Collection<PaymentRequestDocument>)
+     * 
+     * This class first construct the Payment Request Collection from the iterator, and then process through
+     * filterPaymentRequestByAppDocStatus
+     * 
+     * @param paymentRequestDocuments
+     * @param appDocStatus
+     * @return
+     */
+    private Iterator<PaymentRequestDocument> filterPaymentRequestByAppDocStatus(Iterator<PaymentRequestDocument> paymentRequestIterator, String... appDocStatus) {
+        Collection<PaymentRequestDocument> paymentRequestDocuments = new ArrayList<PaymentRequestDocument>(); 
+        for (;paymentRequestIterator.hasNext();){
+            paymentRequestDocuments.add(paymentRequestIterator.next());
+        }
+
+        return filterPaymentRequestByAppDocStatus(paymentRequestDocuments, appDocStatus).iterator();
+    }
+    
     /**
      * checks the appDocStatus on the workflow document with the potentially active
      * statuses.
@@ -1727,6 +1860,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param workflowDocument
      * @return true if appDocStatus is in STATUSES_POTENTIALLY_ACTIVE else false
      */
+    @Deprecated
     protected boolean documentStatusInPotentiallyActive(KualiWorkflowDocument workflowDocument) {
         boolean valid = false;
         
@@ -1741,8 +1875,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return valid;
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#processPaymentRequestInReceivingStatus()
+     */
     public void processPaymentRequestInReceivingStatus() {
         List<String> docNumbers = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
+        
         List<PaymentRequestDocument> preqsAwaitingReceiving = new ArrayList<PaymentRequestDocument>();
         for (String docNumber : docNumbers) {
             PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);

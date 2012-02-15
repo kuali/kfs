@@ -53,17 +53,15 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
     public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
         DocumentSearchResult docSearchResult = super.generateSearchResult(docCriteriaDTO, columns);
         
-        //do not mask the purapDocumentIdentifier field if the document is not PO or POSP..
-        if (!KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER.equalsIgnoreCase(docCriteriaDTO.getDocTypeName()) &&
-                !KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_SPLIT.equalsIgnoreCase(docCriteriaDTO.getDocTypeName())) {
-            return docSearchResult;
+        //need to update appDocStatus from docCriteriaDTO
+        updateAppDocStatusForLookupResults(docSearchResult.getResultContainers(), docCriteriaDTO);
+        
+        //Mask the purapDocumentIdentifier field if the document is PO or POSP..
+        if (KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER.equalsIgnoreCase(docCriteriaDTO.getDocTypeName()) ||
+                KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_SPLIT.equalsIgnoreCase(docCriteriaDTO.getDocTypeName())) {
+            //mask the PO Number if needed....
+            maskPONumberForLookupResults(docSearchResult.getResultContainers(), docCriteriaDTO);
         }
-        
-        //need to retrieve the appDocStatus from the routeHeader...
-        setupAppDocStatusForLookupResults(docSearchResult.getResultContainers());
-        
-        //mask the PO Number if needed....
-        maskPONumberForLookupResults(docSearchResult.getResultContainers(), docCriteriaDTO);
         
         return docSearchResult;
     }
@@ -117,60 +115,59 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
      * 
      * @param keyValues
      */
-    protected void setupAppDocStatusForLookupResults(List<KeyValueSort> keyValues) {
+    protected void updateAppDocStatusForLookupResults(List<KeyValueSort> keyValues, DocSearchDTO docCriteriaDTO) {
         for (KeyValueSort keyValueSort : keyValues) {
             if ("statusDescription".equalsIgnoreCase(keyValueSort.getkey())) {
                 //need to get the appDocStatus set on routeHeaderid
-                String appDocStatus = retrieveAppDocStatus(keyValues);
-                keyValueSort.setvalue(appDocStatus);
-                keyValueSort.setSortValue(appDocStatus);
+                keyValueSort.setvalue(docCriteriaDTO.getAppDocStatus());
+                keyValueSort.setSortValue(docCriteriaDTO.getAppDocStatus());
                 return;
             }
         } 
     }
-    
-    /**
-     * with the document id the document is retrieved using document service and
-     * the appDocStatus is returned from the routeHeader.
-     * 
-     * @param keyValues
-     * @return appDocStatus from the routeHeader
-     */
-    protected String retrieveAppDocStatus(List<KeyValueSort> keyValues) {
-        String appDocStatus = "Not Available";
-        
-        for (KeyValueSort keyValueSort : keyValues) {
-            if (KEWPropertyConstants.ROUTE_HEADER_ID.equalsIgnoreCase(keyValueSort.getkey())) {
-                Document poDocument = findDocument(keyValueSort.getUserDisplayValue());
-                if (ObjectUtils.isNotNull(poDocument)) {
-                    return poDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
-                } else {
-                    return appDocStatus;
-                }
-            }
-        }
-        
-        return appDocStatus;
-    }
-    
-    /**
-     * This method finds the document for the given document header id
-     * @param documentHeaderId
-     * @return document The document in the workflow that matches the document header id.
-     */
-    protected Document findDocument(String documentHeaderId) {
-        Document document = null;
-        
-        try {
-            document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
-        }
-        catch (WorkflowException ex) {
-            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
-        } catch ( UnknownDocumentTypeException ex ) {
-            // don't blow up just because a document type is not installed (but don't return it either)
-            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
-        }
-        
-        return document;
-    }
+//    
+//    /**
+//     * with the document id the document is retrieved using document service and
+//     * the appDocStatus is returned from the routeHeader.
+//     * 
+//     * @param keyValues
+//     * @return appDocStatus from the routeHeader
+//     */
+//    protected String retrieveAppDocStatus(List<KeyValueSort> keyValues) {
+//        String appDocStatus = "Not Available";
+//        
+//        for (KeyValueSort keyValueSort : keyValues) {
+//            if (KEWPropertyConstants.ROUTE_HEADER_ID.equalsIgnoreCase(keyValueSort.getkey())) {
+//                Document poDocument = findDocument(keyValueSort.getUserDisplayValue());
+//                if (ObjectUtils.isNotNull(poDocument)) {
+//                    return poDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
+//                } else {
+//                    return appDocStatus;
+//                }
+//            }
+//        }
+//        
+//        return appDocStatus;
+//    }
+//    
+//    /**
+//     * This method finds the document for the given document header id
+//     * @param documentHeaderId
+//     * @return document The document in the workflow that matches the document header id.
+//     */
+//    protected Document findDocument(String documentHeaderId) {
+//        Document document = null;
+//        
+//        try {
+//            document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
+//        }
+//        catch (WorkflowException ex) {
+//            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
+//        } catch ( UnknownDocumentTypeException ex ) {
+//            // don't blow up just because a document type is not installed (but don't return it either)
+//            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
+//        }
+//        
+//        return document;
+//    }
 }

@@ -87,13 +87,10 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesVoidPurchaseOrder(this);
-           
-            
             // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
-            
             // set purap status
-            setAppDocStatus(PurchaseOrderStatuses.APPDOC_VOID); 
+            updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_VOID); 
 
         }
         // DOCUMENT DISAPPROVED
@@ -103,7 +100,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
             try {
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
-                getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));   
+                updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));   
             } catch (WorkflowException e) {
                 logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
             }
@@ -112,7 +109,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
             // for app doc status
-            getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);
+            updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);
         } 
     }
 

@@ -706,16 +706,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
     
     /**
-     * Updates status of this document and saves it.
-     * 
-     * @param appDocStatus is the current status of the document.
-     */
-   protected void updateAndSaveAppDocStatus(String appDocStatus) {
-       setAppDocStatus(appDocStatus);
-       SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-    }
-
-    /**
      * Returns the name of the current route node.
      * 
      * @param wd the current workflow document.

@@ -1221,4 +1221,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return currentSourceLines;
     }
+    
+    /**
+     * Updates status of this document and saves it.
+     * 
+     * @param appDocStatus is the current status of the document.
+     */
+   protected void updateAndSaveAppDocStatus(String appDocStatus) {
+       setAppDocStatus(appDocStatus);
+       SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+    }
 }

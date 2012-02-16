@@ -224,10 +224,8 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if (StringUtils.isNotEmpty(customerInvoiceNumber)) {
             customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
             CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(customerInvoiceNumber);
-            if (customerInvoiceDocument.isOpenInvoiceIndicator())
+            if (ObjectUtils.isNotNull(customerInvoiceDocument) && customerInvoiceDocument.isOpenInvoiceIndicator())
                 customerInvoiceDocuments.add(customerInvoiceDocument);
-            else
-                customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         }
         else if (StringUtils.isNotEmpty(customerNumber)) {
             customerInvoiceDocuments = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);

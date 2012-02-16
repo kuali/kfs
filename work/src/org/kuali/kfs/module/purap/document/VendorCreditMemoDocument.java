@@ -23,12 +23,12 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
-import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
+import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItemUseTax;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
@@ -116,8 +116,15 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
-        setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
-        this.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+   //     setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+  //      this.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+        try {
+            updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
+        }
+ 
         Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
         setAccountsPayableProcessorIdentifier(currentUser.getPrincipalId());
         setProcessingCampusCode(currentUser.getCampusCode());
@@ -216,6 +223,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
                                 
                 if (((StringUtils.isBlank(disapprovalStatus)) && ((CreditMemoStatuses.APPDOC_INITIATE.equals(getAppDocStatus())) || (CreditMemoStatuses.APPDOC_IN_PROCESS.equals(getAppDocStatus()))))) {
                     disapprovalStatus = CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS;
+                    updateAndSaveAppDocStatus(disapprovalStatus);                    
                 }
                 if (StringUtils.isNotBlank(disapprovalStatus)) {
                     SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
@@ -275,12 +283,6 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
             String poNumber = getPurchaseOrderIdentifier().toString();
             popreq = new StringBuffer("PO: ").append(poNumber).toString();
         }
-        /*
-        else if (this.isSourceDocumentPaymentRequest()) {
-            String preqNumber = this.getPaymentRequestIdentifier().toString();
-            popreq = new StringBuffer("PREQ: ").append(preqNumber).toString();
-        }
-        */
 
         String vendorName = StringUtils.trimToEmpty(getVendorName());
         String cmAmount = getGrandTotal().toString();

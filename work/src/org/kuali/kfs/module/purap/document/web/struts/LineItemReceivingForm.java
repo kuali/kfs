@@ -100,11 +100,11 @@ public class LineItemReceivingForm extends ReceivingFormBase {
             
             String appDocStatus = workflowDocument.getRouteHeader().getAppDocStatus();
          
-            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", appDocStatus));
+            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.appDocStatus", appDocStatus));
         }
         
         else {
-            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", "Not Available"));
+            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.appDocStatus", "Not Available"));
         }
     }
 

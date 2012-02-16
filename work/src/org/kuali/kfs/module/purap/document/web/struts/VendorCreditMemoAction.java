@@ -87,6 +87,7 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
         VendorCreditMemoForm cmForm = (VendorCreditMemoForm) form;
         VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) cmForm.getDocument();
         
+     //   String poDocumentId = request.getParameter("paymentRequestIdentifier");        
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedContinuePurapEvent(creditMemoDocument));
         if (!rulePassed){
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -117,7 +118,6 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
         else {
             //do nothing for credit memos against a vendor; no link to PO means no need to hide doc based on sensitive data
         }
-
 
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicateCreditMemoCheck(mapping, form, request, response, creditMemoDocument);

@@ -32,6 +32,7 @@
     </property>
     <property name="attributes">
       <list>
+        <ref bean="LineItemReceivingDocument-appDocStatus"/>
         <ref bean="LineItemReceivingDocument-documentNumber"/>
         <ref bean="LineItemReceivingDocument-purchaseOrderIdentifier"/>
         <ref bean="LineItemReceivingDocument-carrierCode"/>
@@ -113,6 +114,22 @@
       <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
+  <bean id="LineItemReceivingDocument-appDocStatus" parent="LineItemReceivingDocument-appDocStatus-parentBean"/>
+
+  <bean id="LineItemReceivingDocument-appDocStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appDocStatus"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Line Item Receiving Status"/>
+    <property name="shortLabel" value="Line Item Receiving Status"/>
+    <property name="maxLength" value="64"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
+    </property>
+    <property name="control">
+      <bean parent="HiddenControlDefinition" />
+    </property>    
+  </bean>
+  
   <bean id="LineItemReceivingDocument-purchaseOrderIdentifier" parent="LineItemReceivingDocument-purchaseOrderIdentifier-parentBean"/>
 
   <bean id="LineItemReceivingDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">

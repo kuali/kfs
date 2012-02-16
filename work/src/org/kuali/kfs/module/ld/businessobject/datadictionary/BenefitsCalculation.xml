@@ -47,35 +47,6 @@
 					p:blockedReferencePropertyName="positionFringeBenefitObject" />
 			</list>
 		</property>
-
-		<property name="relationships">
-			<list merge="true">
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="laborAccountOffset" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountCodeOffset"
-								p:targetName="accountNumber" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="chartOfAccountsCode"
-								p:targetName="chartOfAccountsCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="laborObjectCodeOffset" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="objectCodeOffset"
-								p:targetName="financialObjectCode" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="chartOfAccountsCode"
-								p:targetName="chartOfAccountsCode" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="universityFiscalYear"
-								p:targetName="universityFiscalYear" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->

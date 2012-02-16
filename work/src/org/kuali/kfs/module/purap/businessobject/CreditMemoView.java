@@ -161,13 +161,4 @@ public class CreditMemoView extends AbstractRelatedView {
     public String getDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO;
     }
-    
-	public String getAppDocStatus(){
-        return documentHeader.getWorkflowDocument().getRouteHeader().getAppDocStatus();
-    }
-    
-    public void setAppDocStatus(String appDocStatus){
-        documentHeader.getWorkflowDocument().getRouteHeader().setAppDocStatus(appDocStatus);        
-    }
-    
 }

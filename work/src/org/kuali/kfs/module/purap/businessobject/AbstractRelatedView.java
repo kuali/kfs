@@ -24,9 +24,13 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
@@ -34,6 +38,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
  * Base class for Related View Business Objects.
  */
 public abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractRelatedView.class);
 
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private Integer purapDocumentIdentifier;
@@ -149,5 +154,41 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
      */
     public void setPoNumberMasked(String poNumberMasked) {
         this.poNumberMasked = poNumberMasked;
+    }
+    
+    public String getAppDocStatus() {
+        Document document = findDocument(this.getDocumentNumber());
+        if (ObjectUtils.isNotNull(document)) {
+            return document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
+        }
+        return "";
+    }
+    
+    /**
+     * This method finds the document for the given document header id
+     * @param documentHeaderId
+     * @return document The document in the workflow that matches the document header id.
+     */
+    protected Document findDocument(String documentHeaderId) {
+        Document document = null;
+        
+        try {
+            document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
+        }
+        catch (WorkflowException ex) {
+            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
+        } catch ( UnknownDocumentTypeException ex ) {
+            // don't blow up just because a document type is not installed (but don't return it either)
+            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
+        }
+        
+        return document;
+    }
+    
+    public void setAppDocStatus(String appDocStatus){
+        Document document = findDocument(this.getDocumentNumber());
+        if (ObjectUtils.isNotNull(document)) {
+            document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(appDocStatus);
+        }
     }
 }

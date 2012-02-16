@@ -315,7 +315,7 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${purchaseOrderStatusAttributes.statusDescription}" useShortLabel="true" /></div>
 	                </th>
 	                <td align="left" valign="middle" class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${purchaseOrderStatusAttributes.statusDescription}" property="document.currentPurchaseOrderDocument.status.statusDescription" readOnly="true" />
+	                    <kul:htmlControlAttribute attributeEntry="${purchaseOrderStatusAttributes.statusDescription}" property="document.currentPurchaseOrderDocument.appDocStatus" readOnly="true" />
 	                </td>
 	            </tr>
 

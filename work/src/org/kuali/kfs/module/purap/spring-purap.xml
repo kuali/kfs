@@ -697,53 +697,22 @@
 	<bean id="relatedDocumentDerivedRoleTypeService" parent="relatedDocumentDerivedRoleTypeService-parentBean"/>
 
     <bean id="relatedDocumentDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.RelatedDocumentDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="relatedDocumentDerivedRoleTypeService"
-	      p:localServiceName="relatedDocumentDerivedRoleTypeService" />
-	  </property>
-	</bean>
+    
 	<bean id="accountsPayableDocumentDerivedRoleTypeService" parent="accountsPayableDocumentDerivedRoleTypeService-parentBean"/>
 
     <bean id="accountsPayableDocumentDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.AccountsPayableDocumentDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-      <property name="serviceDefinition">
-        <bean parent="kfsService"
-          p:service-ref="accountsPayableDocumentDerivedRoleTypeService"
-          p:localServiceName="accountsPayableDocumentDerivedRoleTypeService" />
-      </property>
-    </bean>
+		
 	<bean id="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" parent="paymentRequestHoldCancelInitiatorDerivedRoleTypeService-parentBean"/>
 
     <bean id="paymentRequestHoldCancelInitiatorDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="paymentRequestHoldCancelInitiatorDerivedRoleTypeService"
-	      p:localServiceName="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" />
-	  </property>
-	</bean>
+		
 	<bean id="potentiallySensitiveDocumentRoleTypeService" parent="potentiallySensitiveDocumentRoleTypeService-parentBean"/>
 
     <bean id="potentiallySensitiveDocumentRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.PotentiallySensitiveDocumentRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="potentiallySensitiveDocumentRoleTypeService"
-	      p:localServiceName="potentiallySensitiveDocumentRoleTypeService" />
-	  </property>
-	</bean>
+		
 	<bean id="sensitiveDataRoleTypeService" parent="sensitiveDataRoleTypeService-parentBean"/>
 
     <bean id="sensitiveDataRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.SensitiveDataRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="sensitiveDataRoleTypeService"
-	      p:localServiceName="sensitiveDataRoleTypeService" />
-	  </property>
-	</bean>
 		
 	<bean id="purchaseOrderParameters" parent="PurchaseOrderParameters-parentBean" scope="prototype"/>	
 	<bean id="PurchaseOrderParameters-parentBean" class="org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters" scope="prototype" abstract="true" />
@@ -756,6 +725,6 @@
 	<import resource="document/validation/configuration/PaymentRequestValidation.xml" />
 	<import resource="document/validation/configuration/VendorCreditMemoValidation.xml" />
 	<import resource="document/validation/configuration/BulkReceivingValidation.xml" />
-	
+	<import resource="spring-purap-bus-exports.xml"/>
 </beans>
 

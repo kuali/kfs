@@ -65,44 +65,18 @@
 
     <bean id="securityAttributePermissionTypeService" parent="securityAttributePermissionTypeService-parentBean"/>	
 	<bean id="securityAttributePermissionTypeService-parentBean" class="org.kuali.kfs.sec.identity.SecurityAttributePermissionTypeServiceImpl" abstract="true" />
-	
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="securityAttributePermissionTypeService"
-	      p:localServiceName="securityAttributePermissionTypeService" />
-	  </property>
-	</bean>
+		
     <bean id="securityAttributeDocTypePermissionTypeService" parent="securityAttributeDocTypePermissionTypeService-parentBean"/>
 	
 	<bean id="securityAttributeDocTypePermissionTypeService-parentBean" class="org.kuali.kfs.sec.identity.SecurityAttributeDocTypePermissionTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="securityAttributeDocTypePermissionTypeService"
-	      p:localServiceName="securityAttributeDocTypePermissionTypeService" />
-	  </property>
-	</bean>
+		
     <bean id="securityAttributeNamespacePermissionTypeService" parent="securityAttributeNamespacePermissionTypeService-parentBean"/>
 	
 	<bean id="securityAttributeNamespacePermissionTypeService-parentBean" class="org.kuali.kfs.sec.identity.SecurityAttributeNamespacePermissionTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="securityAttributeNamespacePermissionTypeService"
-	      p:localServiceName="securityAttributeNamespacePermissionTypeService" />
-	  </property>
-	</bean>	
+		
     <bean id="securityAttributeRoleTypeService" parent="securityAttributeRoleTypeService-parentBean"/>
 	
 	<bean id="securityAttributeRoleTypeService-parentBean" class="org.kuali.kfs.sec.identity.SecurityAttributeRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="securityAttributeRoleTypeService"
-	      p:localServiceName="securityAttributeRoleTypeService" />
-	  </property>
-	</bean>	
 	
 	<!-- security lookupables -->
     <bean id="securityAccountLookupableHelperService" parent="securityAccountLookupableHelperService-parentBean" scope="prototype"/>
@@ -188,5 +162,7 @@
         <property name="lookupableHelperService">
             <ref bean="securityOrgReviewRoleLookupableHelperService" />
         </property>
-    </bean>    
+    </bean>
+    
+    <import resource="spring-sec-bus-exports.xml"/>    
 </beans>	

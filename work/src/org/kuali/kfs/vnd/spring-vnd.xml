@@ -277,32 +277,16 @@
     <bean id="commodityReviewRoleTypeService" parent="commodityReviewRoleTypeService-parentBean"/>
     
     <bean id="commodityReviewRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.CommodityReviewRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="commodityReviewRoleTypeService"
-	      p:localServiceName="commodityReviewRoleTypeService" />
-	  </property>
-	</bean>
+		
     <bean id="contractManagerRoleTypeService" parent="contractManagerRoleTypeService-parentBean"/>
 
     <bean id="contractManagerRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="contractManagerRoleTypeService"
-	      p:localServiceName="contractManagerRoleTypeService" />
-	  </property>
-	</bean>
+		
     <bean id="vendorTypeRoleTypeService" parent="vendorTypeRoleTypeService-parentBean"/>
 
     <bean id="vendorTypeRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.VendorTypeRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="vendorTypeRoleTypeService"
-	      p:localServiceName="vendorTypeRoleTypeService" />
-	  </property>
-	</bean>    
+    
+    <import resource="spring-vnd-bus-exports.xml"/>
+		
     
 </beans>

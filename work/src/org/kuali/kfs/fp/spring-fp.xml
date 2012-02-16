@@ -461,23 +461,9 @@
 	
 	<bean id="paymentMethodRoleTypeService"  parent="paymentMethodRoleTypeService-parentBean"/>
 	<bean id="paymentMethodRoleTypeService-parentBean" class="org.kuali.kfs.fp.identity.PaymentMethodRoleTypeServiceImpl" abstract="true"/>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="paymentMethodRoleTypeService"
-	      p:localServiceName="paymentMethodRoleTypeService" />
-	  </property>
-	</bean>
 	
 	<bean id="cashReceiptInitiatorDerivedRoleTypeService"  parent="cashReceiptInitiatorDerivedRoleTypeService-parentBean"/>
 	<bean id="cashReceiptInitiatorDerivedRoleTypeService-parentBean" class="org.kuali.kfs.fp.identity.CashReceiptInitiatorDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="cashReceiptInitiatorDerivedRoleTypeService"
-	      p:localServiceName="cashReceiptInitiatorDerivedRoleTypeService" />
-	  </property>
-	</bean>
 	
 	<bean id="yearEndPendingEntryService" parent="yearEndPendingEntryService-parentBean" />
     
@@ -509,6 +495,7 @@
 	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
 	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
+	<import resource="spring-fp-bus-exports.xml"/>
 
 </beans>
 

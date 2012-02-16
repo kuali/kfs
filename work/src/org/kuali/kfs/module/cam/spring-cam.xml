@@ -376,13 +376,6 @@
 	
 	<bean id="assetDerivedRoleTypeService" parent="assetDerivedRoleTypeService-parentBean"/> 
 	<bean id="assetDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.cam.identity.AssetDerivedRoleTypeServiceImpl" abstract="true"/>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="assetDerivedRoleTypeService"
-	      p:localServiceName="assetDerivedRoleTypeService" />
-	  </property>
-	</bean>
 	
 	<bean id="assetObjectCodeFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetObjectCode" /> 
@@ -395,4 +388,5 @@
     	<property name="capitalAssetLockDao" ref="capitalAssetLockDao" />
     </bean>
     <!-- End Asset Lock beans -->
+    <import resource="spring-cam-bus-exports.xml"/>
 </beans>

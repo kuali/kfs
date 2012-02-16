@@ -589,14 +589,7 @@
     <bean id="customerRoleTypeService" parent="customerRoleTypeService-parentBean"/>
 
     <bean id="customerRoleTypeService-parentBean" class="org.kuali.kfs.pdp.identity.CustomerRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="customerRoleTypeService"
-	      p:localServiceName="customerRoleTypeService" />
-	  </property>
-	</bean>
-	
+		
     <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean" />
     <bean id="pdpAuthorizationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl" abstract="true" />
 
@@ -613,5 +606,6 @@
         	</map>
         </property>
 	</bean>
+	<import resource="spring-pdp-bus-exports.xml"/>
 </beans>
 

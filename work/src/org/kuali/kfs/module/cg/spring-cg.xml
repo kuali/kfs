@@ -211,16 +211,8 @@
 	</bean>
    
     <bean id="researchRiskReviewRoleTypeService" parent="researchRiskReviewRoleTypeService-parentBean"/>
-    <bean id="researchRiskReviewRoleTypeService-parentBean" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl" abstract="true"/>    
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="researchRiskReviewRoleTypeService"
-	      p:localServiceName="researchRiskReviewRoleTypeService" />
-	  </property>
-	</bean>
+    <bean id="researchRiskReviewRoleTypeService-parentBean" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl" abstract="true"/>   
 
-   
-
+	<import resource="spring-cg-bus-exports.xml"/>
 </beans>
 

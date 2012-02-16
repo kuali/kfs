@@ -1068,14 +1068,6 @@
 	<bean id="budgetConstructionAccountOrganizationHierarchyRoleTypeService-parentBean"
 		class="org.kuali.kfs.module.bc.identity.AccountOrganizationHierarchyRoleTypeServiceImpl" abstract="true"
 		p:budgetDocumentService-ref="budgetDocumentService" />
-		
-	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService"
-				p:service-ref="budgetConstructionAccountOrganizationHierarchyRoleTypeService"
-				p:localServiceName="budgetConstructionAccountOrganizationHierarchyRoleTypeService" />
-		</property>
-	</bean>
 
 	<bean name="budgetConstructionDocumentDerivedRoleTypeService" parent="budgetConstructionDocumentDerivedRoleTypeService-parentBean" />
 	<bean name="budgetConstructionDocumentDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl" abstract="true">
@@ -1086,12 +1078,6 @@
 			<ref bean="budgetDocumentService" />
 		</property>		
 	</bean>
-				
-	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="budgetConstructionDocumentDerivedRoleTypeService"
-				p:localServiceName="budgetConstructionDocumentDerivedRoleTypeService" />
-		</property>
-	</bean>
+	<import resource="spring-bc-bus-exports.xml"/>
 </beans>
 

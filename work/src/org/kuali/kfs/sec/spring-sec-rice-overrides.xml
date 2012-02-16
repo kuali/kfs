@@ -27,21 +27,11 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
  
 	<bean id="documentHelperService" parent="documentHelperService-parentBean"/>
- 
- 	<bean id="documentHelperService-parentBean" class="org.kuali.kfs.sec.service.impl.SecDocumentHelperServiceImpl">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-	</bean>	             
-	<bean id="transactionalDocumentDictionaryService" parent="transactionalDocumentDictionaryService-parentBean"/>
-	
-	<bean id="transactionalDocumentDictionaryService-parentBean" class="org.kuali.kfs.sec.service.impl.SecTransactionalDocumentDictionaryServiceImpl" abstract="true">
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>		
+ 	<bean id="documentHelperService-parentBean" class="org.kuali.kfs.sec.service.impl.SecDocumentHelperServiceImpl" abstract="true" />
+
+	<bean id="documentDictionaryService" parent="documentDictionaryService-parentBean"/>	
+	<bean id="documentDictionaryService-parentBean" class="org.kuali.kfs.sec.service.impl.SecDocumentDictionaryServiceImpl" abstract="true">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>	             
 
 </beans>                           

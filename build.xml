@@ -269,7 +269,7 @@
 				<istrue value="${module.purchasing.enabled}"/>
 			</and>
 		</condition>
-		<condition property="internal.access.security.rice.spring.files" value="${access.security.rice.spring.files}" else="">
+		<condition property="internal.access.security.krad.override.spring.files" value="${access.security.krad.override.spring.files}" else="">
 			<istrue value="${module.access.security.enabled}"/>
 		</condition>
 		
@@ -287,8 +287,10 @@
 				  value="${core.spring.source.files}${internal.access.security.core.spring.files}${integration.spring.files}${optional.module.spring.source.files}${institution.spring.source.files}" />
 		<property name="spring.test.files" 
 			      value="${core.spring.test.files}${optional.module.spring.test.files}${institution.spring.test.files}" />	
+        <property name="krad.override.spring.files" 
+        		  value="${kfs.krad.override.spring.files}${internal.access.security.krad.override.spring.files}" />
         <property name="kfs.rice.override.spring.files" 
-        		  value="${base.kfs.rice.override.spring.files}${internal.access.security.rice.spring.files}${internal.batch.spring.files}" />
+        		  value="${base.kfs.rice.override.spring.files}${internal.batch.spring.files}" />
 	</target>
 	
 	<target name="init-rice-properties" depends="init-property-files">

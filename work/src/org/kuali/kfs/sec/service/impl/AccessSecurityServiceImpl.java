@@ -16,6 +16,7 @@
 package org.kuali.kfs.sec.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -763,10 +764,10 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
 
         return canView;
     }
-    
+
     /**
      * Compares the size of the given list against the given previous size and if different adds an info message
-     * 
+     *
      * @param previousListSize int giving previous size of list to compare to
      * @param results List to get size for and compare
      * @param messageKey String key of message that should be added
@@ -778,5 +779,15 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         if (previousListSize != currentListSize) {
             GlobalVariables.getMessageMap().putInfo(KFSConstants.GLOBAL_MESSAGES, messageKey, Integer.toString(previousListSize - currentListSize));
         }
+    }
+
+    @Override
+    public Collection<String> getAccessSecurityControlledDocumentTypeNames() {
+        return parameterService.getParameterValuesAsString(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ACCESS_SECURITY_DOCUMENT_TYPES);
+    }
+
+    @Override
+    public boolean isAccessSecurityControlledDocumentType(String documentTypeName) {
+        return getAccessSecurityControlledDocumentTypeNames().contains(documentTypeName);
     }
 }

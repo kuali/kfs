@@ -45,6 +45,9 @@ import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -72,8 +75,11 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.dto.ActionTakenDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.KimEntityAddress;
 import org.kuali.rice.kim.bo.entity.KimEntityEntityType;
@@ -86,6 +92,7 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
@@ -149,6 +156,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected Date cancelDate;
     protected String disbVchrBankCode;
     protected String disbVchrPdpBankCode;
+    protected boolean refundIndicator;
 
     protected boolean payeeAssigned = false;
     protected boolean editW9W8BENbox = false;
@@ -178,6 +186,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         dvWireTransfer = new DisbursementVoucherWireTransfer();
         disbVchrCheckTotalAmount = KualiDecimal.ZERO;
         bank = new Bank();
+        refundIndicator = false;
     }
 
 
@@ -1025,6 +1034,42 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
     
     /**
+     * Convenience method to set dv payee detail fields based on a given customer
+     * 
+     * @param customer - customer to use as payee
+     * @param customerAddress - customer address to use for payee address
+     */
+    public void templateCustomer(AccountsReceivableCustomer customer, AccountsReceivableCustomerAddress customerAddress) {
+        if (customer == null) {
+            return;
+        }
+
+        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
+        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(customer.getCustomerNumber());
+        this.getDvPayeeDetail().setDisbVchrPayeePersonName(customer.getCustomerName());
+        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
+
+        if (ObjectUtils.isNotNull(customerAddress) && ObjectUtils.isNotNull(customerAddress.getCustomerAddressIdentifier())) {
+            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber(customerAddress.getCustomerAddressIdentifier().toString());
+            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(customerAddress.getCustomerLine1StreetAddress());
+            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(customerAddress.getCustomerLine2StreetAddress());
+            this.getDvPayeeDetail().setDisbVchrPayeeCityName(customerAddress.getCustomerCityName());
+            this.getDvPayeeDetail().setDisbVchrPayeeStateCode(customerAddress.getCustomerStateCode());
+            this.getDvPayeeDetail().setDisbVchrPayeeZipCode(customerAddress.getCustomerZipCode());
+            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(customerAddress.getCustomerCountryCode());
+        }
+        else {
+            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber("");
+            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr("");
+            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
+            this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
+            this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
+            this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
+            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
+        }
+    }
+    
+    /**
      * Finds the address for the given employee, matching the type in the KFS-FP / Disbursement Voucher/ DEFAULT_EMPLOYEE_ADDRESS_TYPE parameter,
      * to use as the address for the employee
      * @param employee the employee to find a non-default address for
@@ -1653,6 +1698,14 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.disbVchrPdpBankCode = disbVchrPdpBankCode;
     }   
 
+    public boolean isRefundIndicator() {
+        return refundIndicator;
+    }
+
+    public void setRefundIndicator(boolean refundIndicator) {
+        this.refundIndicator = refundIndicator;
+    }
+    
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
      */
@@ -1917,5 +1970,38 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     public void setDisbExcptAttachedIndicator(boolean disbExcptAttachedIndicator) {
         this.disbExcptAttachedIndicator = disbExcptAttachedIndicator;
+    }
+
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+
+        // if dv is a refund, generate a note for the disapprove on payment app document
+        if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            if (this.isRefundIndicator()) {
+                String noteText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.MESSAGE_REFUND_DV_DISAPPROVE_NOTE);
+
+                // get disapproval note
+                String disapprovalReason = "";
+                try {
+                    ActionTakenDTO[] actionsTaken = KNSServiceLocator.getWorkflowInfoService().getActionsTaken(Long.valueOf(getDocumentNumber()));
+                    for (int i = 0; i < actionsTaken.length; i++) {
+                        ActionTakenDTO actionTaken = actionsTaken[i];
+                        if (KEWConstants.ACTION_TAKEN_DENIED_CD.equals(actionTaken.getActionTaken()) || KEWConstants.ACTION_TAKEN_SU_DISAPPROVED_CD.equals(actionTaken.getActionTaken())) {
+                            disapprovalReason = actionTaken.getAnnotation();
+                            break;
+                        }
+                    }
+                }
+                catch (Exception ex) {
+                    // swallow exception and set reason to unknown
+                    disapprovalReason = "unknown";
+                }
+
+                noteText = MessageFormat.format(noteText, this.getDocumentNumber(), disapprovalReason);
+
+                SpringContext.getBean(AccountsReceivableModuleService.class).addNoteToRelatedPaymentRequestDocument(this.getDocumentNumber(), noteText);
+            }
+        }
     }
 }

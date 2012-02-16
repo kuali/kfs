@@ -994,6 +994,7 @@ public class KFSKeyConstants {
     
     public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT = "error.collector.emailSend.notification.subject";
     public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY = "error.collector.emailSend.notification.body";
+    public static final String MESSAGE_REFUND_DV_DISAPPROVE_NOTE = "message.document.refundDV.disapproveNote";
     
     /**
      * This class stores message keys for the SemaphoreInputFileType upload page

@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class OrganizationOptions extends PersistableBusinessObjectBase {
+public class OrganizationOptions extends PersistableBusinessObjectBase implements AccountsReceivableOrganizationOptions {
 
 	private String chartOfAccountsCode;
 	private String organizationCode;

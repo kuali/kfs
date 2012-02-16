@@ -43,6 +43,7 @@ public class ArPropertyConstants {
 
         public static final String CUSTOMER = "customer";
         public static final String CUSTOMER_NUMBER = "accountsReceivableDocumentHeader.customerNumber";
+        public static final String CUSTOMER_TYPE_CODE = "accountsReceivableDocumentHeader.customer.customerTypeCode";
 
         public static final String INVOICE_DUE_DATE = "invoiceDueDate";
         public static final String BILLING_DATE = "billingDate";
@@ -61,10 +62,13 @@ public class ArPropertyConstants {
         public static final String INVOICE_ITEM_TAXABLE_INDICATOR = "taxableIndicator";
 
         public static final String PROCESSING_CHART_OF_ACCOUNT_CODE = "accountsReceivableDocumentHeader.processingChartOfAccountCode";
+        public static final String PROCESSING_ORGANIZATION_CODE = "accountsReceivableDocumentHeader.processingOrganizationCode";
 
         public static final String SHIP_TO_ADDRESS_IDENTIFIER = "customerShipToAddressIdentifier";
         public static final String BILL_TO_ADDRESS_IDENTIFIER = "customerBillToAddressIdentifier";
         public static final String OPEN_AMOUNT = "openAmount";
+        
+        public static final String OPEN_INVOICE_INDICATOR = "openInvoiceIndicator";
 
         public static final String INVOICE_DOCUMENT_RECURRENCE_BEGIN_DATE = "customerInvoiceRecurrenceDetails.documentRecurrenceBeginDate";
         public static final String INVOICE_DOCUMENT_RECURRENCE_END_DATE = "customerInvoiceRecurrenceDetails.documentRecurrenceEndDate";
@@ -118,6 +122,7 @@ public class ArPropertyConstants {
         public static final String CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE = "customerInternationalMailCode";
         public static final String CUSTOMER_SOCIAL_SECURITY_NUMBER = "customerSocialSecurityNumberIdentifier";
         public static final String CUSTOMER_ADDRESS_END_DATE = "customerAddressEndDate";
+        public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
     }
 
     // CustomerCreditMemoDocument
@@ -216,6 +221,10 @@ public class ArPropertyConstants {
         public static final String DELETE_NON_INVOICED_LINE_PREFIX = "methodToCall.deleteNonArLine.line";
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER = "selectedCustomerNumber";
         public static final String ENTERED_INVOICE_NUMBER = "enteredInvoiceDocumentNumber";
+        public static final String REFUND_DOCUMENT_NUMBER = "refundDocumentNumber";
     }
-
+    
+    public static final String CUSTOMER_INVOICE_DOCUMENT = "customerInvoiceDocument";
+    public static final String ORGANIZATION_OPTIONS = "organizationOptions";
+    public static final String AGING_REPORT_SENT_TIME = "agingReportSentTime";
 }

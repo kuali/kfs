@@ -1,0 +1,128 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="TravelerType" parent="TravelerType-parentBean" />
+	<bean id="TravelerType-parentBean" abstract="true" parent="BusinessObjectEntry" >
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TravelerType" />
+		<property name="lookupDefinition" ref="TravelerType-lookupDefinition" />
+		<property name="inquiryDefinition" ref="TravelerType-inquiryDefinition" />
+		<property name="titleAttribute" value="code" />
+		<property name="objectLabel" value="TravelerType" />
+		<property name="attributes">
+		<list>
+			<ref bean="TravelerType-code" />
+			<ref bean="TravelerType-sourceCode" />
+			<ref bean="TravelerType-name" />
+			<ref bean="TravelerType-advances" />
+			<ref bean="TravelerType-active" />
+			<ref bean="TravelerType-versionNumber" />
+		</list>
+		</property>
+	</bean>
+	<bean id="TravelerType-code" parent="TravelerType-code-parentBean" />
+	<bean id="TravelerType-code-parentBean" parent="AttributeDefinition">
+		<property name="name" value="code" />
+		<property name="label" value="Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="3" />
+		<property name="required" value="true" />
+		<property name="summary" value="Code" />
+		<property name="description" value="Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
+	</bean>
+	<bean id="TravelerType-sourceCode" parent="TravelerType-sourceCode-parentBean" />
+	<bean id="TravelerType-sourceCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="sourceCode" />
+		<property name="label" value="Source Code" />
+		<property name="shortLabel" value="Source Code" />
+		<property name="maxLength" value="10" />
+		<property name="summary" value="Source Code" />
+		<property name="description" value="Source Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
+	</bean>
+	<bean id="TravelerType-name" parent="TravelerType-name-parentBean" />
+	<bean id="TravelerType-name-parentBean" parent="AttributeDefinition">
+		<property name="name" value="name" />
+		<property name="label" value="Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="40" />
+		<property name="required" value="true" />
+		<property name="summary" value="Name" />
+		<property name="description" value="Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="TravelerType-advances" parent="TravelerType-advances-parentBean" />
+	<bean id="TravelerType-advances-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="advances" />
+		<property name="label" value="Advances" />
+		<property name="shortLabel" value="Advances" />
+		<property name="required" value="true" />
+		<property name="summary" value="Advances" />
+		<property name="description" value="Advances" />
+	</bean>
+	<bean id="TravelerType-active" parent="TravelerType-active-parentBean" />
+	<bean id="TravelerType-active-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="required" value="true" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+	</bean>
+	<bean id="TravelerType-versionNumber" parent="TravelerType-versionNumber-parentBean" />
+	<bean id="TravelerType-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	<bean id="TravelerType-inquiryDefinition" parent="TravelerType-inquiryDefinition-parentBean" />
+	<bean id="TravelerType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Traveler Type Inquiry"/>
+		<property name="inquirySections">
+		<list>
+			<bean parent="InquirySectionDefinition">
+				<property name="title" value="Traveler Type Inquiry"/>
+				<property name="numberOfColumns" value="1"/>
+				<property name="inquiryFields">
+				<list>
+					<bean parent="FieldDefinition" p:attributeName="code" />
+					<bean parent="FieldDefinition" p:attributeName="sourceCode" />
+					<bean parent="FieldDefinition" p:attributeName="name" />
+					<bean parent="FieldDefinition" p:attributeName="advances" />
+					<bean parent="FieldDefinition" p:attributeName="active" />
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="TravelerType-lookupDefinition" parent="TravelerType-lookupDefinition-parentBean" />
+	<bean id="TravelerType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Traveler Type Lookup" />
+		<property name="defaultSort">
+		<bean parent="SortDefinition">
+			<property name="attributeNames"><list>
+			</list></property>
+		</bean>
+		</property>
+		<property name="lookupFields"><list>
+			<bean parent="FieldDefinition" p:attributeName="code" />
+			<bean parent="FieldDefinition" p:attributeName="name" />
+			<bean parent="FieldDefinition" p:attributeName="advances" />
+			<bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+		<property name="resultFields">
+		<list>
+			<bean parent="FieldDefinition" p:attributeName="code" />
+			<bean parent="FieldDefinition" p:attributeName="sourceCode" />
+			<bean parent="FieldDefinition" p:attributeName="name" />
+			<bean parent="FieldDefinition" p:attributeName="advances" />
+			<bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+	</bean>
+</beans>

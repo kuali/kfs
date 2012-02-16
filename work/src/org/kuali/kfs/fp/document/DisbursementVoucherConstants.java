@@ -44,6 +44,7 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     // payee types
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
     public static final String DV_PAYEE_TYPE_VENDOR = "V";
+    public static final String DV_PAYEE_TYPE_CUSTOMER = "C";
     public static final String DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR = "VSP";
     public static final String DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR = "VRF";
     
@@ -61,6 +62,11 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
         public static final String EXTRACTED = "E";
     }
 
+    public static class PaymentReasonCodes {
+        public static final String ROYALTIES = "R";
+        public static final String RENTAL_PAYMENT = "T";
+        public static final String TRAVEL_HONORARIUM = "X";
+    }
   
      public static class DvPdpExtractGroup {
         public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";

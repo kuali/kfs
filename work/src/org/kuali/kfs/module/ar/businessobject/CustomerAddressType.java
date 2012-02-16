@@ -17,13 +17,14 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerAddressType extends PersistableBusinessObjectBase implements Inactivateable {
+public class CustomerAddressType extends PersistableBusinessObjectBase implements Inactivateable, AccountsReceivableCustomerAddressType {
 
 	private String customerAddressTypeCode;
 	private String customerAddressTypeDescription;

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+ Copyright 2007 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+<pattern value="creditCardData">
+        <object-create-rule classname="org.kuali.kfs.module.tem.businessobject.CreditCardImportData"  />		
+        <call-method-rule  pattern="importBy" methodname="setImportBy" paramcount="0" />
+        
+        <pattern value="record">  
+			<object-create-rule classname="org.kuali.kfs.module.tem.businessobject.CreditCardStagingData" />
+			<call-method-rule pattern="airNumber" methodname="setAirNumber" paramcount="0" />
+			<call-method-rule pattern="billingCycleDate" methodname="setBillingCycleDate" paramcount="0"  paramtypes="java.sql.Date" />
+			<call-method-rule pattern="creditCardOrAgencyCode" methodname="setCreditCardOrAgencyCode" paramcount="0" />
+			<call-method-rule pattern="creationDate" methodname="setCreationDate" paramcount="0"  paramtypes="java.sql.Date" />
+			<call-method-rule pattern="creationTimestamp" methodname="setCreationTimestamp" paramcount="0" />
+			<call-method-rule pattern="creditCardNumber" methodname="setCreditCardNumber" paramcount="0" />
+			<call-method-rule pattern="departureDate" methodname="setDepartureDate" paramcount="0"  paramtypes="java.sql.Date" />
+			<call-method-rule pattern="identifier" methodname="setIdentifier" paramcount="0" />
+			<call-method-rule pattern="reconciliationDate" methodname="setReconciliationDate" paramcount="0"  paramtypes="java.sql.Date" />
+			<call-method-rule pattern="referenceNumber" methodname="setReferenceNumber" paramcount="0" />
+			<call-method-rule pattern="sequenceNumber" methodname="setSequenceNumber" paramcount="0" />
+			<call-method-rule pattern="ticketNumber" methodname="setTicketNumber" paramcount="0" />
+			<call-method-rule pattern="transactionAmount" methodname="setTransactionAmount" paramcount="0" />
+			<call-method-rule pattern="transactionCode" methodname="setTransactionCode" paramcount="0" />
+			<call-method-rule pattern="transactionDate" methodname="setTransactionDate" paramcount="0"  paramtypes="java.sql.Date" />
+			<call-method-rule pattern="travelerName" methodname="setTravelerName" paramcount="0" />
+			<call-method-rule pattern="typeCode" methodname="setTypeCode" paramcount="0" />
+			<call-method-rule pattern="expenseTypeCode" methodname="setExpenseTypeCode" paramcount="0" />
+			<call-method-rule pattern="merchantName" methodname="setMerchantName" paramcount="0" />
+			<call-method-rule pattern="bankPostDate" methodname="setBankPostDate" paramcount="0"  paramtypes="java.sql.Date" />
+			<call-method-rule pattern="serviceFeeNumber" methodname="setServiceFeeNumber" paramcount="0" />
+			<call-method-rule pattern="itineraryNumber" methodname="setItineraryNumber" paramcount="0" />
+			<call-method-rule pattern="location" methodname="setLocation" paramcount="0" />
+		    <set-next-rule methodname="addCreditCard" />
+       	</pattern>
+
+	</pattern>
+</digester-rules>

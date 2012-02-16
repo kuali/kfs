@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="ExpenseSummaryReport"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="612"
+		 pageHeight="792"
+		 columnWidth="555"
+		 columnSpacing="0"
+		 leftMargin="12"
+		 rightMargin="12"
+		 topMargin="12"
+		 bottomMargin="12"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<reportFont name="Arial_Italic" isDefault="false" fontName="Arial" size="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<reportFont name="Comic_Normal" isDefault="false" fontName="Comic Sans MS" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<reportFont name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+
+	<style 
+		name="hfield_normal"
+		isDefault="false"
+		hAlign="Right"
+		fontName="Arial_Normal"
+		isBold="false"
+	>
+	</style>
+
+	<parameter name="report" isForPrompting="true" class="org.kuali.kfs.module.tem.report.ExpenseSummaryReport"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="40"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="5"
+						y="2"
+						width="457"
+						height="26"
+						forecolor="#AAAAAA"
+						key="textField"/>
+					<box>					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font reportFont="Arial_Normal" fontName="Helvetica" size="16" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{report}.getReportTitle()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="500"
+						y="5"
+						width="40"
+						height="10"
+						forecolor="#000000"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Status:]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="700"  isSplitAllowed="true" >
+				<rectangle>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="10"
+						width="270"
+						height="25"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle"/>
+					<graphicElement stretchType="NoStretch" fill="Solid" />
+				</rectangle>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="2"
+						y="12"
+						width="270"
+						height="25"
+						forecolor="#000000"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Summary for Trip #]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="5"
+						y="40"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[Traveler:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="140"
+						y="40"
+						width="130"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{report}.getTraveler()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="5"
+						y="51"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[Initiator:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="140"
+						y="51"
+						width="130"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{report}.getInitiator()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="5"
+						y="62"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[Auth Initiator:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="5"
+						y="73"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[Travel Date:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="140"
+						y="73"
+						width="50"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$P{report}.getBeginDate()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="175"
+						y="73"
+						width="10"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[ - ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="188"
+						y="73"
+						width="50"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$P{report}.getEndDate()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="5"
+						y="84"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[Locations:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="140"
+						y="84"
+						width="130"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{report}.getLocations()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="5"
+						y="95"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[Purpose:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="140"
+						y="95"
+						width="130"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{report}.getPurpose()]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="10"
+						width="270"
+						height="25"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle"/>
+					<graphicElement stretchType="NoStretch" fill="Solid" />
+				</rectangle>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="2"
+						y="12"
+						width="270"
+						height="25"
+						forecolor="#000000"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Summary for Trip #]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						mode="Opaque"
+						x="285"
+						y="240"
+						width="270"
+						height="15"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle"/>
+					<graphicElement stretchType="NoStretch" fill="Solid" />
+				</rectangle>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="287"
+						y="242"
+						width="270"
+						height="15"
+						forecolor="#000000"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Meals]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						mode="Opaque"
+						x="285"
+						y="470"
+						width="270"
+						height="15"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle"/>
+					<graphicElement stretchType="NoStretch" fill="Solid" />
+				</rectangle>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="287"
+						y="472"
+						width="270"
+						height="15"
+						forecolor="#000000"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Summary of Totals]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="2"
+						y="10"
+						width="270"
+						height="102"
+						key="rectangle"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</graphicElement>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="285"
+						y="240"
+						width="270"
+						height="100"
+						key="rectangle"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</graphicElement>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="285"
+						y="470"
+						width="270"
+						height="60"
+						key="rectangle"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</graphicElement>
+				</rectangle>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="273"
+						y="93"
+						width="280"
+						height="11"
+						key="subreport"/>
+					<dataSourceExpression><![CDATA[$P{report}.getLodging()]]></dataSourceExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA["org/kuali/kfs/module/tem/report/ExpenseSummaryLodgingDetails.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="280"
+						y="93"
+						width="280"
+						height="49"
+						key="subreport"/>
+					<dataSourceExpression><![CDATA[$P{report}.getTransportation()]]></dataSourceExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA["org/kuali/kfs/module/tem/report/ExpenseSummaryTransportationDetails.jasper"]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="285"
+						y="240"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[Personal Meals (Per Diem):]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="240"
+						width="112"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{report}.getPersonalMeals()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="285"
+						y="251"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[Personal Meals (Per Diem):]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="251"
+						width="112"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{report}.getHostedMeals()]]></textFieldExpression>
+				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="285"
+						y="347"
+						width="265"
+						height="72"
+						key="subreport"/>
+					<dataSourceExpression><![CDATA[$P{report}.getOtherExpenses()]]></dataSourceExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA["org/kuali/kfs/module/tem/report/ExpenseSummaryOtherExpenseDetails.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="5"
+						y="122"
+						width="263"
+						height="100"
+						key="subreport"/>
+					<dataSourceExpression><![CDATA[$P{report}.getNonreimbursable()]]></dataSourceExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA["org/kuali/kfs/module/tem/report/ExpenseSummaryNonreimbursableDetails.jasper"]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="337"
+						y="485"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Total Expenses:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="485"
+						width="80"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{report}.getTotal()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="337"
+						y="496"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[Expense Limit:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="496"
+						width="112"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{report}.getExpenseLimit()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="337"
+						y="507"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Normal"/>
+					</textElement>
+				<text><![CDATA[less Travel Advance:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="507"
+						width="80"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{report}.getLessAdvances()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="hfield_normal"
+						x="337"
+						y="518"
+						width="130"
+						height="11"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Amount Due:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="507"
+						width="80"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font reportFont="Arial_Bold" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{report}.getTotal()]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="470"
+						y="518"
+						width="80"
+						height="1"
+						key="line"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

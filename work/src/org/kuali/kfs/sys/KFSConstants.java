@@ -23,6 +23,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -331,6 +332,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String LOOKUPABLE_IMPL_ATTRIBUTE_NAME = "lookupableImplServiceName";
     public static final String LOOKUPABLE_SUFFIX = "Lookupable";
     public static final String KUALI_LOOKUPABLE_IMPL = "kualiLookupable";
+    public static final String KUALI_CUSTOMER_LOOKUPABLE_IMPL = "customerLookupable";
     public static final String KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL = "disbursementPayeeLookupable";
     public static final String KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String DOC_HANDLER_ACTION = "DocHandler.do";
@@ -837,6 +839,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static class PENDING_ENTRY_APPROVED_STATUS_CODE {
         public static final String APPROVED = "A";
         public static final String PROCESSED = "X";
+        public static final String HOLD = "H";
     }
 
     public static class TableRenderConstants {
@@ -1273,13 +1276,22 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final Integer PERCENT_SCALE = new Integer(2);
         public static final Integer CAPITAL_ACCOUNT_LINE_PERCENT_SCALE = new Integer(20);
     }
- 
-    public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_PERMISSION = "Edit Accounting Period";
+
+	public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_PERMISSION = "Edit Accounting Period";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_PERMISSION = "View Accounting Period";
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
-    // CSU 6702 END
+    // CSU 6702 END    
     
+    public static final String NOTIFICATION_TEXT_KEY = "notificationText";
+    public static final int NOTIFICATION_TEXT_LINE_LENGTH = 80;
     
+    private static Integer MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = null;
+    public static Integer getMaxLengthOfDocumentDescription() {
+        if (MAX_LENGTH_OF_DOCUMENT_DESCRIPTION == null) {
+            MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.DOCUMENT_DESCRIPTION);
+        }
+        return MAX_LENGTH_OF_DOCUMENT_DESCRIPTION;
+    }         
 }
 

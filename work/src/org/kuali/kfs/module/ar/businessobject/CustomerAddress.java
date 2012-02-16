@@ -20,16 +20,20 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.CountryService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerAddress extends PersistableBusinessObjectBase implements Comparable<CustomerAddress> {
+public class CustomerAddress extends PersistableBusinessObjectBase implements Comparable<CustomerAddress>, AccountsReceivableCustomerAddress {
 
     private String customerNumber;
     private Integer customerAddressIdentifier;
@@ -299,7 +303,6 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         this.customerAddressTypeCode = customerAddressTypeCode;
     }
 
-
     /**
      * Gets the customerAddressEndDate attribute.
      * 
@@ -448,4 +451,28 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         this.setCustomerAddressIdentifier(customerAddressIdentifier);
     }
 
+    @Override
+    public AccountsReceivableCustomerAddressType getAccountsReceivableCustomerAddressType() {
+        return customerAddressType;
+    }
+
+    @Override
+    public void setCustomerAddressTypeCodeAsPrimary() {
+        setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
+    }
+    
+    @Override
+    public void setCustomerAddressTypeCodeAsAlternate() {
+        setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
+    }    
+    
+    @Override
+    public AccountsReceivableCustomer getAccountsReceivableCustomer() {
+        return customer;
+    }
+    
+    @Override
+    public void refresh() {
+        super.refresh();
+    }
 }

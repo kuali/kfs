@@ -18,12 +18,9 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Set;
 
-import javax.jws.WebResult;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,7 +28,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.mortbay.log.Log;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
@@ -65,7 +61,7 @@ public class WebServicesImplTest extends KualiTestBase {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(location.openStream());
             doc.getDocumentElement().normalize();
-            Log.debug("Root Element " + doc.getDocumentElement().getNodeName());
+            LOG.debug("Root Element " + doc.getDocumentElement().getNodeName());
             return true;
         }
         catch (ParserConfigurationException ex) {

@@ -21,12 +21,11 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoicePaidApplied;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
-import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -38,7 +37,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class InvoicePaidApplied extends PersistableBusinessObjectBase {
+public class InvoicePaidApplied extends PersistableBusinessObjectBase implements AccountsReceivableInvoicePaidApplied {
 
     private String documentNumber; // document the payment is being applied FROM
     private Integer paidAppliedItemNumber;
@@ -397,4 +396,8 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
         this.customerInvoiceDocument = customerInvoiceDocument;
     }
 
+    @Override
+    public void refreshReferenceObject(String string) {
+        super.refreshReferenceObject(string);
+    }
 }

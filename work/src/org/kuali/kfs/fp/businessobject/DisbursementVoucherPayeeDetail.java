@@ -19,6 +19,7 @@ package org.kuali.kfs.fp.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -829,6 +830,13 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         return SpringContext.getBean(DisbursementVoucherPayeeService.class).isEmployee(this);
     }
 
+    /**
+     * Checks the payee type code for customer type
+     */
+    public boolean isCustomer() {
+        return DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER.equals(getDisbursementVoucherPayeeTypeCode());
+    }
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

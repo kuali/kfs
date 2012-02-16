@@ -25,6 +25,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,6 +46,7 @@ import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
@@ -54,6 +57,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     private Lookupable vendorLookupable;
     private DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService;
     protected PersonService personService;
+    private AccountsReceivableModuleService accountsReceivableModuleService;
     
     private static final int NAME_REQUIRED_FILLED_WITH_WILDCARD = 4;
 
@@ -330,6 +334,40 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         return personFieldValues;
     }
 
+    // perform customer search
+    protected List<DisbursementPayee> getCustomersAsPayees(Map<String, String> fieldValues) {
+        List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
+
+        Map<String, String> fieldsForLookup = this.getCustomerFieldValues(fieldValues);
+
+        List<AccountsReceivableCustomer> customerList = (List<AccountsReceivableCustomer>) accountsReceivableModuleService.searchForCustomers(fieldsForLookup);
+        for (AccountsReceivableCustomer customer : customerList) {
+            DisbursementPayee payee = getPayeeFromCustomer(customer, fieldValues);
+            payeeList.add(payee);
+        }
+        
+        return payeeList;
+    }
+    
+    // get the search criteria valid for customer lookup
+    private Map<String, String> getCustomerFieldValues(Map<String, String> fieldValues) {
+        Map<String, String> customerFieldValues = new HashMap<String, String>();
+
+        customerFieldValues.put(KFSPropertyConstants.CUSTOMER_NUMBER, fieldValues.get(KFSPropertyConstants.CUSTOMER_NUMBER));
+        customerFieldValues.put(KFSPropertyConstants.CUSTOMER_NAME, fieldValues.get(KFSPropertyConstants.CUSTOMER_NAME));
+        customerFieldValues.put(KFSPropertyConstants.CUSTOMER_TAX_NUMBER, fieldValues.get(KFSPropertyConstants.TAX_NUMBER));
+        customerFieldValues.put(KNSPropertyConstants.ACTIVE, fieldValues.get(KNSPropertyConstants.ACTIVE));
+
+        return customerFieldValues;
+    }
+    
+    protected DisbursementPayee getPayeeFromCustomer(AccountsReceivableCustomer customer, Map<String, String> fieldValues) {
+        DisbursementPayee payee = DisbursementPayee.getPayeeFromCustomer(customer);
+        payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
+        
+        return payee;
+    }
+    
     // replace the keys in fieldValues with the corresponding values defined in fieldConversionMap
     private void replaceFieldKeys(Map<String, String> fieldValues, Map<String, String> fieldConversionMap) {
         for (String key : fieldConversionMap.keySet()) {
@@ -387,5 +425,12 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         this.personService = personService;
     }
     
+    protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        return accountsReceivableModuleService;
+    }
+
+    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
+        this.accountsReceivableModuleService = accountsReceivableModuleService;
+    }
     
 }

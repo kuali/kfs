@@ -16,9 +16,14 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -27,7 +32,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Customer extends PersistableBusinessObjectBase implements Inactivateable {
+public class Customer extends PersistableBusinessObjectBase implements Inactivateable, AccountsReceivableCustomer {
 
     private String customerNumber;
     private String customerName;
@@ -100,7 +105,6 @@ public class Customer extends PersistableBusinessObjectBase implements Inactivat
         this.customerName = customerName;
     }
 
-
     /**
      * Gets the customerParentCompanyNumber attribute.
      * 
@@ -119,7 +123,6 @@ public class Customer extends PersistableBusinessObjectBase implements Inactivat
         this.customerParentCompanyNumber = customerParentCompanyNumber;
     }
 
-
     /**
      * Gets the customerTypeCode attribute.
      * 
@@ -137,7 +140,6 @@ public class Customer extends PersistableBusinessObjectBase implements Inactivat
     public void setCustomerTypeCode(String customerTypeCode) {
         this.customerTypeCode = customerTypeCode;
     }
-
 
     /**
      * Gets the customerTypeDescription attribute. 
@@ -344,7 +346,6 @@ public class Customer extends PersistableBusinessObjectBase implements Inactivat
         this.customerBirthDate = customerBirthDate;
     }
 
-
     /**
      * Gets the customerCreditLimitAmount attribute.
      * 
@@ -486,9 +487,34 @@ public class Customer extends PersistableBusinessObjectBase implements Inactivat
     public String getCustomerTaxTypeCode() {
         return customerTaxTypeCode;
     }
-
+    
     public void setCustomerTaxTypeCode(String customerTaxTypeCode) {
         this.customerTaxTypeCode = customerTaxTypeCode;
+    }
+
+    public AccountsReceivableCustomerAddress getPrimaryAddress() {
+        return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(getCustomerNumber());
+    }
+
+    @Override
+    public List<AccountsReceivableCustomerAddress> getAccountsReceivableCustomerAddresses() {
+        List<AccountsReceivableCustomerAddress> accountsReceivableCustomerAddresses = new ArrayList<AccountsReceivableCustomerAddress>();
+        if (this.customerAddresses != null && !this.customerAddresses.isEmpty()){
+            accountsReceivableCustomerAddresses.addAll(customerAddresses);
+        }
+        
+        return accountsReceivableCustomerAddresses;
+    }
+
+    @Override
+    public void setAccountsReceivableCustomerAddresses(List<AccountsReceivableCustomerAddress> customerAddresses) {
+        if (this.customerAddresses != null && customerAddresses != null){
+            this.customerAddresses.clear();
+            
+            for (AccountsReceivableCustomerAddress arca : customerAddresses){
+                this.customerAddresses.add((CustomerAddress)arca);
+            }
+        }
     }
     
 }

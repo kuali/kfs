@@ -16,17 +16,19 @@
 package org.kuali.kfs.fp.batch.service.impl;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
@@ -37,6 +39,7 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistran
 import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
@@ -50,6 +53,7 @@ import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -74,7 +78,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This is the default implementation of the DisbursementVoucherExtractService interface.
+ * Default implementation of the DisbursementVoucherExtractService interface.
  */
 @Transactional
 public class DisbursementVoucherExtractServiceImpl implements DisbursementVoucherExtractService {
@@ -89,6 +93,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private PaymentGroupService paymentGroupService;
     private BusinessObjectService businessObjectService;
     private PdpEmailService paymentFileEmailService;
+    private AccountsReceivableModuleService accountsReceivableModuleService;
+    
     private int maxNoteLines;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
@@ -96,7 +102,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     boolean testMode = false;
 
     /**
-     * This method extracts all payments from a disbursement voucher with a status code of "A" and uploads them as a batch for
+     * Extracts all payments from a disbursement voucher with a status code of "A" and uploads them as a batch for
      * processing.
      * 
      * @return Always returns true if the method completes.
@@ -125,18 +131,39 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
-        Set<String> campusList = getCampusListByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
+        Set<String> campusList = getCampusListByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, false);
 
         // Process each campus one at a time
         for (String campusCode : campusList) {
             extractPaymentsForCampus(campusCode, uuser, processRunDate);
         }
+        
+        extractARRefunds(processRunDate, noteLines, uuser);
 
+        return true;
+    }
+    
+    /**
+     * Extracts DVs that are marked as AR refunds
+     * 
+     * @return boolean indicating whether extract completed successfully
+     */
+    protected boolean extractARRefunds(Date processRunDate, String notesLines, Person user) {
+        LOG.debug("extractARRefunds() started");
+        
+        // Get a list of campuses that have documents with an 'A' (approved) status and are AR refunds
+        Set<String> campusList = getCampusListByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, true);
+        
+        // Process each campus one at a time
+        for (String campusCode : campusList) {
+            extractARPaymentsForCampus(campusCode, user, processRunDate);
+        }
+        
         return true;
     }
 
     /**
-     * This method extracts all outstanding payments from all the disbursement vouchers in approved status for a given campus and
+     * Extracts all outstanding payments from all the disbursement vouchers in approved status for a given campus and
      * adds these payments to a batch file that is uploaded for processing.
      * 
      * @param campusCode The id code of the campus the payments will be retrieved for.
@@ -148,11 +175,15 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
         }
         
-        Batch batch = createBatch(campusCode, user, processRunDate);
+        String orgCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
+        String subUnitCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
+        
+        Batch batch = createBatch(campusCode, orgCode, subUnitCode, user, processRunDate);
+        
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
-        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode);
+        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, false);
         for (DisbursementVoucherDocument document : dvd) {
             addPayment(document, batch, processRunDate);
             count++;
@@ -164,6 +195,107 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         businessObjectService.save(batch);
         paymentFileEmailService.sendLoadEmail(batch);
+    }
+    
+    /**
+     * Extracts all outstanding payments from all AR refund disbursement vouchers in approved status for a given campus and
+     * adds these payments to a batch file that is uploaded for processing.
+     * 
+     * @param campusCode The id code of the campus the payments will be retrieved for.
+     * @param user The user object used when creating the batch file to upload with outstanding payments.
+     * @param processRunDate This is the date that the batch file is created, often this value will be today's date.
+     */
+    protected void extractARPaymentsForCampus(String campusCode, Person user, Date processRunDate) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("extractARPaymentsForCampus() started for campus: " + campusCode);
+        }
+        
+        Collection<DisbursementVoucherDocument> documents = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, true);
+        
+        Map<Batch, Collection<DisbursementVoucherDocument>> batches = createARRefundDVBatches(campusCode, user, processRunDate, documents);
+        for(Batch batch : batches.keySet()) {
+            Collection<DisbursementVoucherDocument> batchDocuments = batches.get(batch);
+            
+            Integer count = 0;
+            KualiDecimal totalAmount = KualiDecimal.ZERO;
+       
+            for (DisbursementVoucherDocument document : batchDocuments) {
+                addPayment(document, batch, processRunDate);
+                count++;
+                totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount());
+            }
+
+            batch.setPaymentCount(new KualiInteger(count));
+            batch.setPaymentTotalAmount(totalAmount);
+
+            businessObjectService.save(batch);
+            paymentFileEmailService.sendLoadEmail(batch);
+        }
+    }
+    
+    /**
+     * Creates the necessary batches for the given documents. If both the ar extract organization and ar extract subunit parameters
+     * have been given, then only one batch is created for all documents. If the ar extract subunit parameter is empty, then one
+     * batch for each processing org is created.
+     * 
+     * @param campusCode - campus code for the batches
+     * @param user - user running process
+     * @param processRunDate - run date of process
+     * @param documents - collection of documents the batches should be created for
+     * @return Map containing the created batches as keys and the documents that go with the created batch as the value
+     */
+    protected Map<Batch, Collection<DisbursementVoucherDocument>> createARRefundDVBatches(String campusCode, Person user, Date processRunDate, Collection<DisbursementVoucherDocument> documents) {
+        Map<Batch, Collection<DisbursementVoucherDocument>> batches = new HashMap<Batch, Collection<DisbursementVoucherDocument>>();
+
+        // retrieve configured unit, sub-unit
+        String arExtractOrganization = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSParameterKeyConstants.ARRefundDVParameterConstants.AR_PRE_DISBURSEMENT_EXTRACT_ORGNIZATION);
+        String arExtractSubUnit = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSParameterKeyConstants.ARRefundDVParameterConstants.AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT);
+
+        // if given, generate one batch for campus
+        if (StringUtils.isNotBlank(arExtractOrganization) && StringUtils.isNotBlank(arExtractSubUnit)) {
+            Batch batch = createBatch(campusCode, arExtractOrganization, arExtractSubUnit, user, processRunDate);
+            batches.put(batch, documents);
+
+            return batches;
+        }
+
+        // generate a batch for each processing organization
+        for (DisbursementVoucherDocument dvDocument : documents) {
+            Organization processingOrganization = accountsReceivableModuleService.getProcessingOrganizationForRelatedPaymentRequestDocument(dvDocument.getDocumentNumber());
+
+            Collection<DisbursementVoucherDocument> batchDocuments = null;
+            Batch orgBatch = findBatchForUnit(batches, arExtractOrganization, processingOrganization.getOrganizationCode());
+            if (orgBatch != null) {
+                batchDocuments = batches.get(orgBatch);
+            }
+            else {
+                orgBatch = createBatch(campusCode, arExtractOrganization, processingOrganization.getOrganizationCode(), user, processRunDate);
+                batchDocuments = new ArrayList<DisbursementVoucherDocument>();
+            }
+
+            batchDocuments.add(dvDocument);
+            batches.put(orgBatch, batchDocuments);
+        }
+
+        return batches;
+    }
+
+    /**
+     * Determines if there exists a batch in the given map for the given unit and subunit
+     * 
+     * @param batches - Map containing batches (as Map keys) to search
+     * @param unit - unit for batch to find
+     * @param subUnit - subunit for batch to find
+     * @return Batch that matches unit and subunit (if found), or null if no batch matches
+     */
+    protected Batch findBatchForUnit(Map<Batch, Collection<DisbursementVoucherDocument>> batches, String unit, String subUnit) {
+        for (Batch batch : batches.keySet()) {
+            if (batch.getCustomerProfile().getUnitCode().equals(unit) && batch.getCustomerProfile().getSubUnitCode().equals(subUnit)) {
+                return batch;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -217,14 +349,20 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         DisbursementVoucherPayeeDetail pd = document.getDvPayeeDetail();
         String rc = pd.getDisbVchrPaymentReasonCode();
 
+        if (DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode())) {
+            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.CUSTOMER);
+            pg.setTaxablePayment(Boolean.FALSE);
+        }
         // If the payee is an employee, set these flags accordingly
-        if ((document.getDvPayeeDetail().isVendor() && SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || document.getDvPayeeDetail().isEmployee()) {
+        else if ((document.getDvPayeeDetail().isVendor() && SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || document.getDvPayeeDetail().isEmployee()) {
             pg.setEmployeeIndicator(Boolean.TRUE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE);
+
+            // All payments are taxable except research participant, rental & royalties
             pg.setTaxablePayment(
                     !parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, rc).evaluationSucceeds()
-                        && !parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PAYMENT_REASON_CODE_RENTAL_PAYMENT_PARM_NM).equals(rc)
-                        && !parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PAYMENT_REASON_CODE_ROYALTIES_PARM_NM).equals(rc));
+                        && !DisbursementVoucherConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)
+                        && !DisbursementVoucherConstants.PaymentReasonCodes.ROYALTIES.equals(rc));
         }
         // Payee is not an employee
         else {
@@ -583,16 +721,16 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * This method creates a Batch instance and populates it with the information provided.
+     * Creates a Batch instance and populates it with the information provided.
      * 
      * @param campusCode The campus code used to retrieve a customer profile to be set on the batch.
+     * @param orgCode - Unit code for the customer profile the batch should be created under
+     * @param subUnitCode - Sub-Unit code for the customer profile the batch should be created under
      * @param user The user who submitted the batch.
      * @param processRunDate The date the batch was submitted and the date the customer profile was generated.
      * @return A fully populated batch instance.
      */
-    protected Batch createBatch(String campusCode, Person user, Date processRunDate) {
-        String orgCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
-        String subUnitCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
+    protected Batch createBatch(String campusCode, String orgCode, String subUnitCode, Person user, Date processRunDate) {
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
         if (customer == null) {
             throw new IllegalArgumentException("Unable to find customer profile for " + campusCode + "/" + orgCode + "/" + subUnitCode);
@@ -616,18 +754,25 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * This method retrieves a collection of campus instances representing all the campuses which currently have disbursement
-     * vouchers with the status code provided.
+     * Retrieves a collection of campus instances representing all the campuses which currently have disbursement vouchers with the
+     * status code provided.
      * 
      * @param statusCode The status code to retrieve disbursement vouchers by.
+     * @param arRefunds - Indicates whether DVs for AR refunds should be retrieved (true), or non AR DVs (false)
      * @return A collection of campus codes of all the campuses with disbursement vouchers in the status given.
      */
-    protected Set<String> getCampusListByDocumentStatusCode(String statusCode) {
+    protected Set<String> getCampusListByDocumentStatusCode(String statusCode, boolean arRefunds) {
         LOG.debug("getCampusListByDocumentStatusCode() started");
 
-        Set<String> campusSet = new HashSet<String>();
+        Collection<DisbursementVoucherDocument> docs = new ArrayList<DisbursementVoucherDocument>();
+        if (arRefunds) {
+            docs = disbursementVoucherDao.getARDocumentsByHeaderStatus(statusCode);
+        }
+        else {
+            docs = disbursementVoucherDao.getNonARDocumentsByHeaderStatus(statusCode);
+        }
 
-        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
+        Set<String> campusSet = new HashSet<String>();
         for (DisbursementVoucherDocument element : docs) {
             String dvdCampusCode = element.getCampusCode();
             campusSet.add(dvdCampusCode);
@@ -635,15 +780,16 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         return campusSet;
     }
-
+    
     /**
      * This method retrieves a list of disbursement voucher documents that are in the status provided for the campus code given.
      * 
      * @param statusCode The status of the disbursement vouchers to be retrieved.
      * @param campusCode The campus code that the disbursement vouchers will be associated with.
+     * @param arRefunds - Indicates whether DVs for AR refunds should be retrieved (true), or non AR DVs (false)
      * @return A collection of disbursement voucher objects that meet the search criteria given.
      */
-    protected Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode) {
+    protected Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode, boolean arRefunds) {
         LOG.debug("getListByDocumentStatusCodeCampus() started");
 
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
@@ -653,7 +799,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             for (DisbursementVoucherDocument element : docs) {
                 String dvdCampusCode = element.getCampusCode();
 
-                if (dvdCampusCode.equals(campusCode) && DisbursementVoucherConstants.PAYMENT_METHOD_CHECK.equals(element.getDisbVchrPaymentMethodCode())) {
+                if (dvdCampusCode.equals(campusCode) && DisbursementVoucherConstants.PAYMENT_METHOD_CHECK.equals(element.getDisbVchrPaymentMethodCode()) 
+                        && ((arRefunds && element.isRefundIndicator()) || (!arRefunds && !element.isRefundIndicator()))) {
                     list.add(element);
                 }
             }
@@ -875,6 +1022,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
+    }
+
+    protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        return accountsReceivableModuleService;
+    }
+
+    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
+        this.accountsReceivableModuleService = accountsReceivableModuleService;
     }
 
 }

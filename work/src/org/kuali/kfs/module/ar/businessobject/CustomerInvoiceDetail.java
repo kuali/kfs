@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -45,7 +46,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceDetail extends SourceAccountingLine implements AppliedPayment {
+public class CustomerInvoiceDetail extends SourceAccountingLine implements AppliedPayment, AccountsReceivableCustomerInvoiceDetail {
     private static Logger LOG = Logger.getLogger(CustomerInvoiceDetail.class);
 
     // private Integer invoiceItemNumber; using SourceAccountingLine.sequenceNumber
@@ -829,4 +830,13 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         this.updateAmountBasedOnQuantityAndUnitPrice();
     }
     
+    @Override
+    public void refreshNonUpdateableReferences() {
+        super.refreshNonUpdateableReferences();
+    }
+    
+    @Override
+    public void setDocumentNumber(String documentNumber) {
+        super.setDocumentNumber(documentNumber);
+    }
 }

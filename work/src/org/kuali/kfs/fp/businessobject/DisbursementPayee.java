@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -52,6 +53,8 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
     private String vendorName;
     private String vendorNumber;
     private String address;
+    private String customerNumber;
+    private String customerName;
     private boolean active;
     
     private String principalId;
@@ -164,6 +167,30 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
 
         String personAddress = MessageFormat.format(addressPattern, person.getAddressLine1(), person.getAddressCityName(), person.getAddressStateCode(), person.getAddressCountryCode());
         disbursementPayee.setAddress(personAddress);
+
+        return disbursementPayee;
+    }
+    
+    /**
+     * build a payee object from the given customer object
+     * 
+     * @param customer the given customer object
+     * @return a payee object built from the given customer object
+     */
+    public static DisbursementPayee getPayeeFromCustomer(AccountsReceivableCustomer customer) {
+        DisbursementPayee disbursementPayee = new DisbursementPayee();
+
+        disbursementPayee.setActive(customer.isActive());
+
+        disbursementPayee.setPayeeIdNumber(customer.getCustomerNumber());
+        disbursementPayee.setPayeeName(customer.getCustomerName());
+        disbursementPayee.setTaxNumber(customer.getCustomerTaxNbr());
+
+        disbursementPayee.setPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
+
+        String vendorAddress = MessageFormat.format(addressPattern, customer.getPrimaryAddress().getCustomerLine1StreetAddress(), 
+                customer.getPrimaryAddress().getCustomerCityName(), customer.getPrimaryAddress().getCustomerStateCode(), customer.getPrimaryAddress().getCustomerCountryCode());
+        disbursementPayee.setAddress(vendorAddress);
 
         return disbursementPayee;
     }
@@ -418,6 +445,22 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
      */
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
+    }
+    
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     // do mapping between vendor type code and payee type code 

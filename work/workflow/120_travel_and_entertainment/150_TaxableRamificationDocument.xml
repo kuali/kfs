@@ -1,0 +1,36 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>
+        TXRF
+      </name>
+      <parent>
+        KFST
+      </parent>
+      <label>Taxable Ramification</label>
+      <docHandler>
+        ${application.url}/temTaxableRamification.do?methodToCall=docHandler
+      </docHandler>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        1
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="DoNothing"/>
+          <simple name="DoNothing"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <simple name="DoNothing">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

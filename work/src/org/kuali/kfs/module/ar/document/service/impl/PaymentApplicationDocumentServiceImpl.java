@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,28 +26,56 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService;
+import org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
+import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
+import org.kuali.kfs.module.ar.document.service.SystemInformationService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -59,6 +88,11 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     private InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
     private UniversityDateService universityDateService;
     private CashControlDetailDao cashControlDetailDao;
+    private KualiConfigurationService kualiConfigurationService;
+    private SystemInformationService systemInformationService;
+    private CustomerAddressService customerAddressService;
+    private ParameterService parameterService;
+    private TravelEntertainmentMovingModuleService travelEntertainmentMovingModuleService;
     
     /**
      * 
@@ -298,7 +332,288 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         pairs &= customerInvoiceDetail.getDocumentNumber().equals(invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber());
         return pairs;
     }
+    
+    /**
+     * Creates a new disbursement voucher document populated from the given payment application document. The DV is initiated as the
+     * initiator of the payment application document. The DV is then saved to inbox, routed, or blanket approved based on parameter
+     * configuration
+     * 
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createDisbursementVoucherDocumentForRefund(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
+     */
+    public void createDisbursementVoucherDocumentForRefund(PaymentApplicationDocument paymentApplicationDocument) {
+        // changed session to initiator of payment application so DV will save to their inbox
+        UserSession userSession = GlobalVariables.getUserSession();
+        
+        Person initiator = KIMServiceLocator.getPersonService().getPerson(paymentApplicationDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
 
+        //Check if the APP doc was generated from a TEM doc
+        String orgDocNum = paymentApplicationDocument.getDocumentHeader().getOrganizationDocumentNumber();
+        boolean fromTEMDoc = travelEntertainmentMovingModuleService.isTEMDocument(orgDocNum);
+        if(fromTEMDoc) {
+            TravelEntertainmentMovingTravelDocument doc = null;
+            doc = travelEntertainmentMovingModuleService.getTEMDocument(orgDocNum);
+            
+            if(doc != null) {
+                //Use initiator from TEM doc instead of APP doc
+                initiator = KIMServiceLocator.getPersonService().getPerson(doc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+            }
+        }
+        
+        GlobalVariables.setUserSession(new UserSession(initiator.getPrincipalName()));
+        
+        DisbursementVoucherDocument disbursementVoucherDocument = null;
+        try {
+            disbursementVoucherDocument = (DisbursementVoucherDocument) documentService.getNewDocument(DisbursementVoucherDocument.class);
+        }
+        catch (Exception e) {
+            LOG.error("Error creating new disbursement voucher document: " + e.getMessage());
+            throw new RuntimeException("Error creating new disbursement voucher document: " + e.getMessage(), e);
+        }
+
+        populateDisbursementVoucherFields(disbursementVoucherDocument, paymentApplicationDocument, fromTEMDoc);
+
+        // save, route, or blanketapprove based on parameter
+        boolean routeDV = false;
+        boolean blanketApproveDV = false;
+
+        String dvRouteConfig = parameterService.getParameterValue(PaymentApplicationDocument.class, ArConstants.ArRefundingParameters.DV_ROUTE_PARAMETER_NAME);
+        if (StringUtils.isNotBlank(dvRouteConfig)) {
+            if (ArConstants.ArRefunding.DV_ROUTE_ROUTE.equals(dvRouteConfig)) {
+                routeDV = true;
+            }
+            else if (ArConstants.ArRefunding.DV_ROUTE_BLANKETAPPROVE.equals(dvRouteConfig)) {
+                blanketApproveDV = true;
+            }
+        }
+        
+        // always save DV
+        try {
+            disbursementVoucherDocument.prepareForSave();
+            
+            businessObjectService.save(disbursementVoucherDocument);
+            KNSServiceLocator.getWorkflowDocumentService().save(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), null);
+        }
+        catch (Exception ex1) {
+            // if we can't save DV, need to stop processing
+            LOG.error("cannot save DV " + disbursementVoucherDocument.getDocumentNumber(), ex1);
+            throw new RuntimeException("cannot save DV " + disbursementVoucherDocument.getDocumentNumber(), ex1);
+        }
+
+        KualiWorkflowDocument originalWorkflowDocument = disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument();
+        
+        try {
+            if (blanketApproveDV) {
+
+                //Change initiator to KFS system user for blanket approval if TEM doc
+                if(fromTEMDoc) {
+                    //Original initiator may not have permission to blanket approve the DV
+                    GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+                        
+                    KualiWorkflowDocument newWorkflowDocument;
+                    try {
+                        newWorkflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(disbursementVoucherDocument.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+                        newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
+                        
+                        disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
+                    } catch (NumberFormatException ex) {
+                        ex.printStackTrace();
+                    } catch (WorkflowException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            	
+                boolean isValid = KNSServiceLocator.getKualiRuleService().applyRules(new BlanketApproveDocumentEvent(disbursementVoucherDocument));
+                if (isValid) {
+                    documentService.blanketApproveDocument(disbursementVoucherDocument, "blanket approved for payment application refund", new ArrayList());
+                }
+                else {
+                    LOG.info("Cannot route DV. Validation failed.");
+                    LOG.info(GlobalVariables.getErrorMap());
+                }
+            }
+            else if (routeDV) {
+                boolean isValid = KNSServiceLocator.getKualiRuleService().applyRules(new RouteDocumentEvent(disbursementVoucherDocument));
+                if (isValid) {
+                    documentService.routeDocument(disbursementVoucherDocument, "routed for payment application refund", new ArrayList());
+                }
+            }
+        }
+        catch (Exception ex) {
+            // if we can't submit DV, let go so save will hold
+            LOG.warn("cannot submit DV " + disbursementVoucherDocument.getDocumentNumber(), ex);
+        }
+        finally {
+            //Replace the original workflow if TEM doc
+            if(fromTEMDoc) {
+                disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
+            }
+        }
+        
+        // update payment app with dv info
+        paymentApplicationDocument.setRefundDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
+        businessObjectService.save(paymentApplicationDocument);
+        
+        // set user session back
+        GlobalVariables.setUserSession(userSession);
+    }
+    
+    /**
+     * Populates the given disbursement voucher document from the given payment application document based on predetermined rules
+     * 
+     * @param disbursementVoucherDocument - disbursement voucher document instance to populate
+     * @param paymentApplicationDocument - payment application document instance to pull values from
+     */
+    protected void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, PaymentApplicationDocument paymentApplicationDocument, boolean fromTEMDoc) {
+
+        //Get TEM doc if there is one
+        TravelEntertainmentMovingTravelDocument temDoc = null;
+        if(fromTEMDoc) {
+            temDoc = travelEntertainmentMovingModuleService.getTEMDocument(paymentApplicationDocument.getDocumentHeader().getOrganizationDocumentNumber());
+            //Set the payee employee code
+            if(ObjectUtils.isNotNull(temDoc)) {
+                disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(travelEntertainmentMovingModuleService.isTEMProfileEmployee(temDoc));
+            }
+        }
+        
+        disbursementVoucherDocument.setRefundIndicator(true);
+        
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(kualiConfigurationService.getPropertyString(ArKeyConstants.MESSAGE_REFUND_DV_DOCUMENT_DESCRIPTION));
+        
+        //If TEM doc exists set organization doc number to TEM doc number not APP doc number
+        if(fromTEMDoc && temDoc != null) {
+            disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(temDoc.getTravelDocumentIdentifier());
+        } else {
+            disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(paymentApplicationDocument.getDocumentNumber());
+        }
+        
+        disbursementVoucherDocument.getDvPayeeDetail().setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
+
+        // init document
+        disbursementVoucherDocument.initiateDocument();
+
+        // get customer primary address to populate address dv fields
+        CustomerAddress customerAddress = customerAddressService.getPrimaryAddress(paymentApplicationDocument.getAccountsReceivableDocumentHeader().getCustomerNumber());
+        if (customerAddress != null) {
+            disbursementVoucherDocument.templateCustomer(paymentApplicationDocument.getAccountsReceivableDocumentHeader().getCustomer(), customerAddress);
+        }
+
+        // set defaults
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode("P");
+
+        // get system information for processing org
+        SystemInformation systemInformation = systemInformationService.getByProcessingChartOrgAndFiscalYear(paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode(), paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode(), paymentApplicationDocument.getPostingYear());
+        if (StringUtils.isNotBlank(systemInformation.getRefundPaymentReasonCode())) {
+            disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(systemInformation.getRefundPaymentReasonCode());
+        }
+        else {
+            String defaultPaymentReason = parameterService.getParameterValue(PaymentApplicationDocument.class, ArConstants.ArRefundingParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE_PARAMETER_NAME);
+            disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(defaultPaymentReason);
+        }
+//        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(systemInformation.getRefundDocumentationLocationCode());
+
+        // build check stub text
+        String appliedInvoices = "";
+        for (InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
+            if (StringUtils.isNotBlank(appliedInvoices)) {
+                appliedInvoices += ", ";
+            }
+            appliedInvoices += invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber();
+        }
+
+        String checkStubText = kualiConfigurationService.getPropertyString(ArKeyConstants.MESSAGE_REFUND_DV_CHECK_STUB_TEXT);
+        String documentDescription = kualiConfigurationService.getPropertyString(ArKeyConstants.MESSAGE_REFUND_DV_DOCUMENT_DESCRIPTION);
+        checkStubText = MessageFormat.format(checkStubText, paymentApplicationDocument.getDocumentNumber(), appliedInvoices);
+
+        //If TEM doc exists add the trip information to check sub text
+        if(fromTEMDoc && temDoc != null) {
+            checkStubText += " for " + temDoc.getTravelDocumentIdentifier() + " " + temDoc.getTraveler().getLastName() + " - " + temDoc.getPrimaryDestinationName() + " - " + temDoc.getTripBegin();
+        }
+        
+        disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(documentDescription + " - " + paymentApplicationDocument.getDocumentNumber());
+
+        // set accounting
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        for (NonInvoiced nonInvoiced : paymentApplicationDocument.getNonInvoiceds()) {
+            if (nonInvoiced.isRefundIndicator()) {
+                SourceAccountingLine accountingLine = new SourceAccountingLine();
+
+                accountingLine.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
+                accountingLine.setAccountNumber(nonInvoiced.getAccountNumber());
+
+                if (StringUtils.isNotBlank(nonInvoiced.getSubAccountNumber())) {
+                    accountingLine.setSubAccountNumber(nonInvoiced.getSubAccountNumber());
+                }
+
+                if (StringUtils.isNotBlank(systemInformation.getRefundFinancialObjectCode())) {
+                    accountingLine.setFinancialObjectCode(systemInformation.getRefundFinancialObjectCode());
+                }
+                else {
+                    accountingLine.setFinancialObjectCode(nonInvoiced.getFinancialObjectCode());
+                }
+
+                if (StringUtils.isNotBlank(nonInvoiced.getFinancialSubObjectCode())) {
+                    accountingLine.setFinancialSubObjectCode(nonInvoiced.getFinancialSubObjectCode());
+                }
+
+                if (StringUtils.isNotBlank(nonInvoiced.getProjectCode())) {
+                    accountingLine.setProjectCode(nonInvoiced.getProjectCode());
+                }
+                
+                accountingLine.setAmount(nonInvoiced.getFinancialDocumentLineAmount());
+                accountingLine.setPostingYear(paymentApplicationDocument.getPostingYear());
+                accountingLine.setDocumentNumber(paymentApplicationDocument.getDocumentNumber());
+
+                disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
+
+                totalAmount = totalAmount.add(nonInvoiced.getFinancialDocumentLineAmount());
+            }
+        }
+
+        disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#addNoteToPaymentRequestDocument(java.lang.String,
+     *      java.lang.String)
+     */
+    public void addNoteToRelatedPaymentRequestDocument(String relatedDocumentNumber, String noteText) {
+        // retrieve payment request
+        Map<String, String> searchParameters = new HashMap<String, String>();
+        searchParameters.put(ArPropertyConstants.PaymentApplicationDocumentFields.REFUND_DOCUMENT_NUMBER, relatedDocumentNumber);
+
+        List<PaymentApplicationDocument> documents = (List<PaymentApplicationDocument>) businessObjectService.findMatching(PaymentApplicationDocument.class, searchParameters);
+        if (documents != null && !documents.isEmpty()) {
+            PaymentApplicationDocument document = documents.get(0);
+            
+            Note note = new Note();
+            note.setNoteText(noteText);
+            note.setRemoteObjectIdentifier(document.getObjectId());
+            note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPrincipalId());
+            note.setNoteTypeCode(KNSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+
+            document.getDocumentHeader().addNote(note);
+            
+            businessObjectService.save(document);
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getProcessingOrganizationForRelatedPaymentRequestDocument(java.lang.String)
+     */
+    public Organization getProcessingOrganizationForRelatedPaymentRequestDocument(String relatedDocumentNumber) {
+        // retrieve payment request
+        Map<String, String> searchParameters = new HashMap<String, String>();
+        searchParameters.put(ArPropertyConstants.PaymentApplicationDocumentFields.REFUND_DOCUMENT_NUMBER, relatedDocumentNumber);
+
+        PaymentApplicationDocument document = (PaymentApplicationDocument) businessObjectService.findMatching(PaymentApplicationDocument.class, searchParameters);
+        if (document != null) {
+            return document.getAccountsReceivableDocumentHeader().getProcessingOrganization();
+        }
+
+        return null;
+    }
+    
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentByInvoiceDocument(String invoiceNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
@@ -396,4 +711,52 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         this.cashControlDetailDao = cashControlDetailDao;
     }
     
+    protected KualiConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    protected SystemInformationService getSystemInformationService() {
+        return systemInformationService;
+    }
+
+    public void setSystemInformationService(SystemInformationService systemInformationService) {
+        this.systemInformationService = systemInformationService;
+    }
+
+    protected CustomerAddressService getCustomerAddressService() {
+        return customerAddressService;
+    }
+
+    public void setCustomerAddressService(CustomerAddressService customerAddressService) {
+        this.customerAddressService = customerAddressService;
+    }
+
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the travelEntertainmentMovingModuleService attribute. 
+     * @return Returns the travelEntertainmentMovingModuleService.
+     */
+    public TravelEntertainmentMovingModuleService getTravelEntertainmentMovingModuleService() {
+        return travelEntertainmentMovingModuleService;
+    }
+
+    /**
+     * Sets the travelEntertainmentMovingModuleService attribute value.
+     * @param travelEntertainmentMovingModuleService The travelEntertainmentMovingModuleService to set.
+     */
+    public void setTravelEntertainmentMovingModuleService(
+            TravelEntertainmentMovingModuleService travelEntertainmentMovingModuleService) {
+        this.travelEntertainmentMovingModuleService = travelEntertainmentMovingModuleService;
+    }
 }

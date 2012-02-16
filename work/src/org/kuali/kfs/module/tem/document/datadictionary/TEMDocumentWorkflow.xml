@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2008 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="TEMDocument-workflowAttributes" parent="TEMDocument-workflowAttributes-parentBean" />
+
+	<bean id="TEMDocument-workflowAttributes-parentBean" abstract="true"
+		parent="Tem-WorkflowAttributes">
+		<property name="searchingTypeDefinitions">
+			<list>
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+							<property name="attributeName" value="travelDocumentIdentifier" />
+							<property name="showAttributeInSearchCriteria" value="true" />
+							<property name="showAttributeInResultSet" value="true" />
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>travelDocumentIdentifier</value>
+						</list>
+					</property>
+				</bean>
+
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+							<property name="attributeName" value="tripBegin" />
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>tripBegin</value>
+						</list>
+					</property>
+				</bean>
+
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+							<property name="attributeName" value="tripEnd" />
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>tripEnd</value>
+						</list>
+					</property>
+				</bean>
+
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                            <property name="attributeName" value="primaryDestinationName" />
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>primaryDestinationName</value>
+                        </list>
+                    </property>
+                </bean>
+
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+							<property name="attributeName" value="tripTypeCode" />
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>tripTypeCode</value>
+						</list>
+					</property>
+				</bean>
+
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName"
+								value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
+							<property name="attributeName" value="travelerTypeCode" />
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>traveler.travelerTypeCode</value>
+						</list>
+					</property>
+				</bean>
+
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName"
+								value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
+							<property name="attributeName" value="firstName" />
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>traveler.firstName</value>
+						</list>
+					</property>
+				</bean>
+
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName"
+								value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
+							<property name="attributeName" value="lastName" />
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>traveler.lastName</value>
+						</list>
+					</property>
+				</bean>
+
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                            <property name="attributeName" value="primaryDestinationCountryState" />
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>primaryDestinationCountryState</value>
+                        </list>
+                    </property>
+                </bean>
+
+				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName"
+								value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+							<property name="attributeName" value="financialObjectCode" />
+							<property name="showAttributeInResultSet" value="true" />
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>sourceAccountingLines.financialObjectCode</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="routingTypeDefinitions">
+			<map>
+				<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
+				<entry key="OrganizationHierarchy"
+					value-ref="RoutingType-TravelAuthorizationDocument-OrganizationHierarchy" />
+				<entry key="AccountingOrganizationHierarchy"
+					value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
+				<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+				<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="RoutingType-TravelAuthorizationDocument-OrganizationHierarchy"
+		class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+			<list>
+				<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+				<ref bean="RoutingAttribute-chartOfAccountsCode" />
+				<ref bean="RoutingAttribute-organizationCode" />
+				<ref bean="RoutingAttribute-overrideCode" />
+			</list>
+		</property>
+		<property name="documentValuePathGroups">
+			<list>
+				<ref
+					bean="DocumentValuePathGroup-TravelAuthorizationDocument-OrganizationHierarchy-accountingLines" />
+			</list>
+		</property>
+	</bean>
+	<bean
+		id="DocumentValuePathGroup-TravelAuthorizationDocument-OrganizationHierarchy-accountingLines"
+		parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+		<property name="documentCollectionPath">
+			<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+				<property name="collectionPath" value="sourceAccountingLines" />
+				<property name="documentValues">
+					<list>
+						<value>chartOfAccountsCode</value>
+						<value>account.organizationCode</value>
+						<value>overrideCode</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>    

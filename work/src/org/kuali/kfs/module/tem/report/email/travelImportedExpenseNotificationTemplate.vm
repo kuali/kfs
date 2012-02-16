@@ -1,0 +1,17 @@
+Dear $!{travelerProfile.firstName} $!{travelerProfile.lastName}:
+
+$!{notificationText}
+
+#foreach( ${expense} in ${travelExpenses} )
+
+IMPORT DATE:        $!{expense.importDate}
+DESCRIPTION:        $!{expense.description}
+TRIP ID:            $!{expense.tripId}
+CREDIT CARD AGENCY: $!{expense.creditCardAgency.creditCardOrAgencyName}
+TRAVEL COMPANY:     $!{expense.travelCompany}
+EXPENSE TYPE:       $!{expense.travelExpenseType}
+AMOUNT:             $!{expense.amount}
+
+#end
+
+           *** PLEASE DO NOT RESPOND TO THIS EMAIL ***

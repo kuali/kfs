@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsRecievableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectBase implements Inactivateable {
+public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectBase implements Inactivateable, AccountsRecievableCustomerInvoiceRecurrenceDetails {
 
     private String invoiceNumber;
     private String customerNumber;
@@ -66,7 +66,6 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
     public String getInvoiceNumber() {
         return invoiceNumber;
     }
-
 
     /**
      * Sets the invoiceNumber attribute.

@@ -24,6 +24,8 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
  */
 public class TravelCompanyCode extends KualiCodeBase implements Inactivateable {
     private TravelExpenseTypeCode travelExpenseTypeCode;
+    
+    private boolean foreignCompany = false;
 
     /**
      * Default no-arg constructor.
@@ -48,6 +50,14 @@ public class TravelCompanyCode extends KualiCodeBase implements Inactivateable {
      */
     public void setTravelExpenseTypeCode(TravelExpenseTypeCode travelExpenseTypeCode) {
         this.travelExpenseTypeCode = travelExpenseTypeCode;
+    }
+
+    public boolean isForeignCompany() {
+        return foreignCompany;
+    }
+
+    public void setForeignCompany(boolean foreignCompany) {
+        this.foreignCompany = foreignCompany;
     }
 
 }

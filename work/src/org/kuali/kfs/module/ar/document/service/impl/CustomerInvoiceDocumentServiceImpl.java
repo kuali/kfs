@@ -61,6 +61,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -706,7 +707,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         customerInvoiceDocument.setClosedDate(dateTimeService.getCurrentSqlDate());
         businessObjectService.save(customerInvoiceDocument);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#updateReportedDate(String)
      */
@@ -740,7 +741,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         }
         businessObjectService.save(customerBillingStatement);
     }
-    
+
     public CustomerInvoiceDocumentDao getCustomerInvoiceDocumentDao() {
         return customerInvoiceDocumentDao;
     }
@@ -857,4 +858,57 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return success;
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByBilling(java.util.List, java.util.List, java.lang.Integer)
+     */
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByBilling(List<String> charts, List<String> organizations, Integer invoiceAge) {
+        Date invoiceBillingDateFrom = null; 
+        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
+        
+        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByBilling(charts, organizations, invoiceBillingDateFrom, invoiceBillingDateTo);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByAccounts(java.util.List, java.util.List, java.lang.Integer)
+     */
+    @Override
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByAccounts(List<String> charts, List<String> accounts, Integer invoiceAge) {
+        Date invoiceBillingDateFrom = null; 
+        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
+        
+        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByAccounts(charts, accounts, invoiceBillingDateFrom, invoiceBillingDateTo);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByProcessing(java.util.List, java.util.List, java.lang.Integer)
+     */
+    @Override
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByProcessing(List<String> charts, List<String> organizations, Integer invoiceAge) {
+        Date invoiceBillingDateFrom = null; 
+        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
+        
+        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByProcessing(charts, organizations, invoiceBillingDateFrom, invoiceBillingDateTo);
+    }
+ 
+    /**
+     * get the date before the given amount of days
+     */
+    protected Date getPastDate(Integer amount){
+        Integer pastDateAmount = -1 * amount;
+        
+        java.util.Date today = this.getDateTimeService().getCurrentDate();
+        java.util.Date pastDate = DateUtils.addDays(today, pastDateAmount); 
+
+        return DateUtils.convertToSqlDate(pastDate);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByCustomerTypes(java.util.List, java.lang.Integer, java.sql.Date)
+     */
+    @Override
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Integer invoiceAge, Date invoiceBillingDateFrom) {
+        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
+        
+        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypes, invoiceBillingDateFrom, invoiceBillingDateTo);
+    }
 }

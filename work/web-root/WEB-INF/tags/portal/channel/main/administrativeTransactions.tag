@@ -73,5 +73,11 @@
 	        <li><portal:portalLink displayTitle="true" title="Unit/Share Adjustment" url="endowEndowmentUnitShareAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EUSA" /></li> 
 	    </ul>
     </c:if>
+	<c:if test="${ConfigProperties.module.travel.enabled == 'true'}">	   
+        <strong>Travel</strong>
+        <ul class="chan">
+            <li><portal:portalLink displayTitle="true" title="TEM Correction Process" url="temCorrectionDocument.do?methodToCall=docHandler&command=initiate&docTypeName=TMCP" /></li>
+        </ul>
+    </c:if>
 </div>
 <channel:portalChannelBottom />

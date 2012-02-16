@@ -33,7 +33,11 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.integration.ar.AccountReceivableCustomerInvoice;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.integration.ar.AccountsRecievableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -64,7 +68,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -77,7 +80,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable, Comparable<CustomerInvoiceDocument> {
+public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable, Comparable<CustomerInvoiceDocument>, AccountReceivableCustomerInvoice {
 
     protected static final String HAS_RECCURENCE_NODE = "HasReccurence";
     protected static final String BATCH_GENERATED_NODE = "BatchGenerated";
@@ -407,7 +410,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         this.billByChartOfAccountCode = billByChartOfAccountCode;
     }
 
-
     /**
      * Gets the billedByOrganizationCode attribute.
      * 
@@ -425,7 +427,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     public void setBilledByOrganizationCode(String billedByOrganizationCode) {
         this.billedByOrganizationCode = billedByOrganizationCode;
     }
-
 
     /**
      * Gets the customerShipToAddressIdentifier attribute.
@@ -1837,7 +1838,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     public void setReportedDate(Date reportedDate) {
         this.reportedDate = reportedDate;
     }
-
+    
     /**
      * Get a string representation for billing chart/organization
      * 
@@ -1975,4 +1976,41 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().isActive());
     }
 
+    @Override
+    public void setCustomerBillToAddress(AccountsReceivableCustomerAddress customerBillToAddress) {
+        this.customerBillToAddress = (CustomerAddress) customerBillToAddress;       
+    }
+
+    @Override
+    public void setBillingAddressTypeCodeAsPrimary() {
+        setBillingAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
+    }
+    
+    @Override
+    public void setCustomerInvoiceRecurrenceDetails(AccountsRecievableCustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails) {
+        this.customerInvoiceRecurrenceDetails = (CustomerInvoiceRecurrenceDetails) customerInvoiceRecurrenceDetails;
+    }
+
+    @Override
+    public void setAccountsReceivableDocumentHeader(org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader accountsReceivableDocumentHeader) {
+        this.accountsReceivableDocumentHeader = (org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader) accountsReceivableDocumentHeader;        
+    }
+
+    private Timestamp agingReportSentTime;
+
+    /**
+     * Gets the agingReportSentTime attribute. 
+     * @return Returns the agingReportSentTime.
+     */
+    public Timestamp getAgingReportSentTime() {
+        return agingReportSentTime;
+    }
+
+    /**
+     * Sets the agingReportSentTime attribute value.
+     * @param agingReportSentTime The agingReportSentTime to set.
+     */
+    public void setAgingReportSentTime(Timestamp agingReportSentTime) {
+        this.agingReportSentTime = agingReportSentTime;
+    }
 }

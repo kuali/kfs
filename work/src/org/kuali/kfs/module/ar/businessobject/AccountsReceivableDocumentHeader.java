@@ -23,6 +23,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -31,7 +32,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectBase {
+public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectBase implements AccountsRecievableDocumentHeader{
 
 	private String documentNumber;
 	private String customerNumber;
@@ -71,7 +72,6 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	public void setDocumentNumber(String documentNumber) {
 		this.documentNumber = documentNumber;
 	}
-
 
 	/**
 	 * Gets the customerNumber attribute.

@@ -57,7 +57,7 @@
       	  </html:form>
     </c:when>
     <c:otherwise> 
-      <c:if test="${backboorEnabled}">
+      <c:if test="${backdoorEnabled}">
         <html:form action="/backdoorlogin.do" method="post" style="margin:0; display:inline">
           <input name="backdoorId" type="text" class="searchbox" size="10" title="Enter your backdoor ID here.">
           <input name="imageField" type="submit" value="Login" class="go" title="Click to login.">

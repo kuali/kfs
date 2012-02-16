@@ -8,20 +8,6 @@
       <type>SearchableAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
-      <name>FinancialSystemDocumentSearchResultProcessorAttribute</name>
-      <className>org.kuali.kfs.sys.document.workflow.DataDictionaryDocumentSearchCustomizer</className>
-      <label>Financial System Document Search Result Processor Attribute</label>
-      <description>Financial System Document Search Result Processor Attribute</description>
-      <type>DocumentSearchResultProcessorAttribute</type>
-    </ruleAttribute>
-    <ruleAttribute>
-      <name>FinancialSystemDocumentSearchGeneratorAttribute</name>
-      <className>org.kuali.kfs.sys.document.workflow.DataDictionaryDocumentSearchCustomizer</className>
-      <label>Financial System Document Search Generator Attribute</label>
-      <description>Financial System Document Search Generator Attribute</description>
-      <type>DocumentSearchGeneratorAttribute</type>
-    </ruleAttribute>
-    <ruleAttribute>
       <name>NoFyiActionListAttribute</name>
       <className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>
       <label>No FYI</label>
@@ -56,16 +42,6 @@
         <attribute>
           <name>
             FinancialSystemSearchableAttribute
-          </name>
-        </attribute>
-        <attribute>
-          <name>
-            FinancialSystemDocumentSearchResultProcessorAttribute
-          </name>
-        </attribute>
-        <attribute>
-          <name>
-            FinancialSystemDocumentSearchGeneratorAttribute
           </name>
         </attribute>
       </attributes>

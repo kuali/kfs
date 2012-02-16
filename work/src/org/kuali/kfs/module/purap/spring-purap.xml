@@ -282,6 +282,7 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="vendorService" ref="vendorService" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="workflowInfoService" ref="workflowInfoService" />
     </bean>
     <bean id="printService" parent="printService-parentBean"/>
     

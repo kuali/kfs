@@ -102,5 +102,6 @@
         <dropNotNullConstraint tableName="PUR_REQS_T" columnName="REQS_STAT_CD"  columnDataType="VARCHAR(4)"/>
         <dropNotNullConstraint tableName="PUR_PO_T" columnName="PO_STAT_CD" columnDataType="VARCHAR(4)"/>
         <dropNotNullConstraint tableName="AP_PMT_RQST_T" columnName="PMT_RQST_STAT_CD" columnDataType="VARCHAR(4)"/>
+        <dropNotNullConstraint tableName="AP_CRDT_MEMO_T" columnName="CRDT_MEMO_STAT_CD" columnDataType="VARCHAR(4)"/>
       </changeSet>
 </databaseChangeLog>

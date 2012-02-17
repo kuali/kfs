@@ -741,7 +741,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         for (Iterator i = reqStatusList.iterator(); i.hasNext();) {
                 ConcreteKeyValue pair = (ConcreteKeyValue) i.next();
                 if (StringUtils.equals((String) pair.getKey(), statusCode)) {
-                    return pair.getLabel();
+                    return pair.getValue();
                 }
             }
             return "";

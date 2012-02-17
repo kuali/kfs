@@ -59,7 +59,7 @@ public class JournalVoucherAccountingLineEncumbranceReferenceValidation extends 
         
         boolean valid = true;
         if (isEncumbranceBalanceType(getAccountingLineForValidation().getBalanceTypeCode())) {
-            BusinessObjectEntry boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());
+            BusinessObjectEntry boe = (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());
             
             if (StringUtils.isEmpty(getAccountingLineForValidation().getEncumbranceUpdateCode())) {
                 putRequiredPropertyError(boe, ENCUMBRANCE_UPDATE_CODE);

@@ -408,7 +408,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
                     // being tied to AwaitingFiscal (in case full entry is moved)
                     // look for a doc that is currently routing, that will probably be the one that called this close if called from
                     // preq (with close po box)
-                    if (StringUtils.equalsIgnoreCase(pReq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames(), PurapConstants.PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
+                    if (StringUtils.equalsIgnoreCase(pReq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toString(), PurapConstants.PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
                         // terminate the search since this close doc is probably being called by this doc, a doc should never be In
                         // Process and enroute in any other case
                         checkInProcess = false;

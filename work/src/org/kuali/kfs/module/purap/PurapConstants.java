@@ -1012,8 +1012,10 @@ public class PurapConstants {
     
     public static final Map<String, Class<?>> UNCOPYABLE_FIELDS_FOR_SPLIT_PO = uncopyableFieldsForSplitPurchaseOrder();
 
+    @Deprecated // this should be removed - use the central definition in KFSConstants  
     public static final String PURAP_ORIGIN_CODE = "01";
 
+    @Deprecated // this is mostly a duplication of an earlier subclass
     public static final class PurapDocTypeCodes {
         public static final String PAYMENT_REQUEST_DOCUMENT = "PREQ";
         public static final String CREDIT_MEMO_DOCUMENT = "CM";
@@ -1027,7 +1029,7 @@ public class PurapConstants {
     public static final Integer PRORATION_SCALE = new Integer(6);
     public static final Integer CREDITMEMO_PRORATION_SCALE = new Integer(20);
 
-    
+    @Deprecated // This information needs to be looked up from the DD
     private static HashMap<String, String> getPurapParameterDetailTypeCodes() {
         HashMap<String, String> map;
         map = new HashMap<String, String>();

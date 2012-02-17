@@ -322,7 +322,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canHold(PaymentRequestDocument paymentRequestDocument) {
         boolean can = !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
-            can = paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
+            can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());            
             can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getAppDocStatus());
         }
         

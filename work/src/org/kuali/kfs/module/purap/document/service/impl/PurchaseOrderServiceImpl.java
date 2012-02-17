@@ -1434,9 +1434,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // Set the Pending indicator for the oldPO to N
         oldPO.setPendingActionIndicator(false);        
         oldPO.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(oldPOStatus);        
-        newPO.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(newPOStatus);
-        saveDocumentNoValidationUsingClearErrorMap(oldPO);
-        saveDocumentNoValidationUsingClearErrorMap(newPO);
+        newPO.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(newPOStatus);        
+        saveDocumentNoValidationUsingClearMessageMap(oldPO);
+        saveDocumentNoValidationUsingClearMessageMap(newPO);
     }
 
     @Override

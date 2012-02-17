@@ -54,6 +54,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
@@ -116,8 +117,6 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
-   //     setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
-  //      this.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
         try {
             updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
         }

@@ -32,10 +32,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -243,7 +242,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
                     //found the matching status, retrieve the routeHeaderId and add to the list
                     creditMemoDocNumbers.add(searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID).getUserDisplayValue());
                 }
-                
             }
         } 
         catch (WorkflowException ex) {
@@ -447,8 +445,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void populateAndSaveCreditMemo(VendorCreditMemoDocument document) {
         try {
-            document.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
             document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
+            SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(document.getDocumentHeader().getWorkflowDocument());
+            
             if (document.isSourceDocumentPaymentRequest()) {
                 document.setBankCode(document.getPaymentRequestDocument().getBankCode());
                 document.setBank(document.getPaymentRequestDocument().getBank());

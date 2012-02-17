@@ -494,11 +494,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     public void cancelAccountsPayableDocumentByCheckingDocumentStatus(AccountsPayableDocument document, String noteText) throws Exception {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
-        if (AccountsPayableSharedStatuses.IN_PROCESS.equals(document.getAppDocStatus())) {
+        if (PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS.equals(document.getAppDocStatus())) {
             //prior to submit, just call regular cancel logic
             documentService.cancelDocument(document, noteText);
         }
-        else if (AccountsPayableSharedStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getAppDocStatus())) {
+        else if (PurapConstants.CreditMemoStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getAppDocStatus())) {
             //while awaiting AP approval, just call regular disapprove logic as user will have action request
             documentService.disapproveDocument(document, noteText);
         }
@@ -520,7 +520,6 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     if (ObjectUtils.isNotNull(userRequestedCancel)) {
                         annotation.concat(" per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
                     }
-                  //  documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
                     documentService.superUserDisapproveDocument(document, annotation);
                 }
                 finally {

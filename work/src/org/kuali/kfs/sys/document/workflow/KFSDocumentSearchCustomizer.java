@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.kfs.sys.document.workflow;
-
+//RICE20 Hook to document type is not working right now but needs to be changed to support pre-rice2.0 release
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -54,6 +54,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.workflow.service.WorkflowAttributePropertyResolutionService;
 
+//RICE20 This class is a temporary fix to support KNS attribute definitions. Should be deleted when rice2.0 adds support.
 public class DataDictionaryRemoteFieldBuilder {
 
 
@@ -110,34 +111,37 @@ public class DataDictionaryRemoteFieldBuilder {
             if (control instanceof CheckboxControlDefinition) {
                 return RemotableCheckbox.Builder.create();
             }
-//            else if (control instanceof CheckboxGroupControl) {
-//                return RemotableCheckboxGroup.Builder.create(getValues(attr));
-//            } 
+            // else if (control instanceof CheckboxGroupControl) {
+            // return RemotableCheckboxGroup.Builder.create(getValues(attr));
+            // }
             else if (control instanceof HiddenControlDefinition) {
                 return RemotableHiddenInput.Builder.create();
-            } else if (control instanceof SelectControlDefinition) {
+            }
+            else if (control instanceof SelectControlDefinition) {
                 RemotableSelect.Builder b = RemotableSelect.Builder.create(getValues(attr));
                 b.setMultiple(((SelectControlDefinition) control).isMultiselect());
                 b.setSize(((SelectControlDefinition) control).getSize());
-            } else if (control instanceof RadioControlDefinition) {
+            }
+            else if (control instanceof RadioControlDefinition) {
                 return RemotableRadioButtonGroup.Builder.create(getValues(attr));
-            } else if (control instanceof TextControlDefinition) {
+            }
+            else if (control instanceof TextControlDefinition) {
                 final RemotableTextInput.Builder b = RemotableTextInput.Builder.create();
                 b.setSize(((TextControlDefinition) control).getSize());
                 return b;
-            } 
-            
-//            else if (control instanceof UserControl) {
-//                final RemotableTextInput.Builder b = RemotableTextInput.Builder.create();
-//                b.setSize(((UserControl) control).getSize());
-//                return b;
-//            }             
-//            else if (control instanceof GroupControl) {
-//                final RemotableTextInput.Builder b = RemotableTextInput.Builder.create();
-//                b.setSize(((GroupControl) control).getSize());
-//                return b;
-//            } 
-            
+            }
+
+            // else if (control instanceof UserControl) {
+            // final RemotableTextInput.Builder b = RemotableTextInput.Builder.create();
+            // b.setSize(((UserControl) control).getSize());
+            // return b;
+            // }
+            // else if (control instanceof GroupControl) {
+            // final RemotableTextInput.Builder b = RemotableTextInput.Builder.create();
+            // b.setSize(((GroupControl) control).getSize());
+            // return b;
+            // }
+
             else if (control instanceof TextareaControlDefinition) {
                 final RemotableTextarea.Builder b = RemotableTextarea.Builder.create();
                 b.setCols(((TextareaControlDefinition) control).getCols());
@@ -227,6 +231,7 @@ public class DataDictionaryRemoteFieldBuilder {
             }
         }
         else {
+            Map foreignKeysForReference = KRADServiceLocator.getPersistenceStructureService().getForeignKeysForReference(componentClass, attributeName);
             // check for title attribute and if match build lookup to component class using pk fields
             String titleAttribute = getDataObjectMetaDataService().getTitleAttribute(componentClass);
             if (StringUtils.equals(titleAttribute, attributeName)) {

@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,8 +30,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
@@ -39,9 +44,6 @@ import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
@@ -88,10 +90,14 @@ import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorPhoneNumber;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.dto.DocumentSearchCriteriaDTO;
+import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
+import org.kuali.rice.kew.dto.KeyValueDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.WorkflowDocumentActions;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.util.KEWPropertyConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
@@ -2029,9 +2035,90 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
     
     public List getPendingPurchaseOrderFaxes() {
-        return purchaseOrderDao.getPendingPurchaseOrdersForFaxing();
+        List<PurchaseOrderDocument> purchaseOrderList = purchaseOrderDao.getPendingPurchaseOrdersForFaxing();
+        return filterPurchaseOrderDocumentByAppDocStatus(purchaseOrderList,
+                PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_FAX);
     }
 
+    /**
+     * Wrapper class to the filterPaymentRequestByAppDocStatus
+     * 
+     * This class first extract the payment request document numbers from the Payment Request Collections,
+     * then perform the filterPaymentRequestByAppDocStatus function.  Base on the filtered payment request
+     * doc number, reconstruct the filtered Payment Request Collection
+     * 
+     * @param paymentRequestDocuments
+     * @param appDocStatus
+     * @return
+     */
+    private List<PurchaseOrderDocument> filterPurchaseOrderDocumentByAppDocStatus(Collection<PurchaseOrderDocument> purchaseOrderDocuments, String... appDocStatus) {
+        List<String> purchaseOrderDocNumbers = new ArrayList<String>();
+        for (PurchaseOrderDocument purchaseOrder : purchaseOrderDocuments){
+            purchaseOrderDocNumbers.add(purchaseOrder.getDocumentNumber());
+        }
+        
+        List<String> filteredPurchaseOrderDocNumbers = filterPurchaseOrderDocumentNumbersByAppDocStatus(purchaseOrderDocNumbers, appDocStatus);
+
+        List<PurchaseOrderDocument> filteredPaymentRequestDocuments = new ArrayList<PurchaseOrderDocument>(); 
+        //add to filtered collection if it is in the filtered payment request doc number list
+        for (PurchaseOrderDocument po : purchaseOrderDocuments){
+            if (filteredPurchaseOrderDocNumbers.contains(po.getDocumentNumber())){
+                filteredPaymentRequestDocuments.add(po);
+            }
+        }
+        return filteredPaymentRequestDocuments;
+    }
+    
+    /**
+     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
+     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus 
+     *  from workflow document and filter against the provided status
+     *  
+     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
+     * 
+     * @param lookupDocNumbers
+     * @param appDocStatus
+     * @return List<String> purchaseOrderDocumentNumbers
+     */
+    private List<String> filterPurchaseOrderDocumentNumbersByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
+        boolean valid = false;
+
+        final String DOC_NUM_DELIM = "|"; 
+        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
+
+        List<String> purchaseOrderDocNumbers = new ArrayList<String>();
+        
+        DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
+        documentSearchCriteriaDTO.setRouteHeaderId(routerHeaderIdBuilder.toString());
+        documentSearchCriteriaDTO.setDocTypeFullName(PurapConstants.PurapDocTypeCodes.PO_DOCUMENT);
+        
+        try {
+            List<DocumentSearchResultRowDTO> poDocumentsList = workflowInfoService.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults();
+
+            Map<String, KeyValueDTO> searchResultDTOMap = new HashMap<String, KeyValueDTO>();
+            for (DocumentSearchResultRowDTO poDocument : poDocumentsList) {
+                
+                searchResultDTOMap.clear();
+                //flatten the KeyValueDTO list into a Map
+                for (KeyValueDTO keyValueDTO : poDocument.getFieldValues()) {
+                    searchResultDTOMap.put(keyValueDTO.getKey(), keyValueDTO);
+                }
+                
+                ///use the appDocStatus from the KeyValueDTO result to look up custom status
+                if (Arrays.asList(appDocStatus).contains(searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_DOC_STATUS).getUserDisplayValue())){
+                    //found the matching status, retrieve the routeHeaderId and add to the list
+                    purchaseOrderDocNumbers.add(searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID).getUserDisplayValue());
+                }
+                
+            }
+        } 
+        catch (WorkflowException ex) {
+            LOG.error("Exception encountered on finding the documents with criteria " + documentSearchCriteriaDTO);            
+        }
+        
+        return purchaseOrderDocNumbers;
+    }
+    
     public String getPurchaseOrderAppDocStatus(Integer poId){
         //TODO: This could be kind of expensive for one field
         PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);

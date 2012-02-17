@@ -515,7 +515,13 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     WorkflowDocumentService workflowDocumentService =  SpringContext.getBean(WorkflowDocumentService.class);
                     KualiWorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
                     document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
-                    documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
+                    
+                    String annotation = "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")";
+                    if (ObjectUtils.isNotNull(userRequestedCancel)) {
+                        annotation.concat(" per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
+                    }
+                  //  documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
+                    documentService.superUserDisapproveDocument(document, annotation);
                 }
                 finally {
                     GlobalVariables.setUserSession(originalUserSession);

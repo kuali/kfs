@@ -639,7 +639,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                     if (ObjectUtils.isNotNull(disapprovalStatus)) {                        
                         updateAndSaveAppDocStatus(disapprovalStatus);                            
                         RequisitionDocument req = getPurApSourceDocumentIfPossible();
-                        appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+                        appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                         return;
                     }
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");

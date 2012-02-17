@@ -50,7 +50,7 @@ public class KFSDocumentSearchResultProcessor {
      java.util.List)
      */o
      @Override
-     public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
+/*     public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
      DocumentSearchResult docSearchResult = super.generateSearchResult(docCriteriaDTO, columns);
     
      //do not mask the purapDocumentIdentifier field if the document is not PO or POSP..
@@ -92,7 +92,7 @@ public class KFSDocumentSearchResultProcessor {
     
      return docSearchResult;
      }
-    
+*/    
      @Override
      public List<Column> constructColumnList(DocSearchCriteriaDTO criteria,List<DocSearchDTO> docSearchResultRows) {
      List<Column> tempColumns = new ArrayList<Column>();

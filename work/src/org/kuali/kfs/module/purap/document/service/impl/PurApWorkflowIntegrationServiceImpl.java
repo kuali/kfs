@@ -31,10 +31,10 @@ import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
-import org.kuali.rice.kew.api.doctype.RouteNode;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.engine.node.service.RouteNodeService;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.engine.CompatUtils;
+import org.kuali.rice.kew.engine.node.RouteNode;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
@@ -261,8 +261,8 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
         //grab doctype, and get node list
         String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-        DocumentType docType = SpringContext.getBean(DocumentTypeService.class).findByName(docTypeName);        
-        List<RouteNode>nodes = SpringContext.getBean(RouteNodeService.class).getFlattenedNodes(docType, false);
+        DocumentType docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(docTypeName);        
+        List<RouteNode>nodes = CompatUtils.getRouteLevelCompatibleNodeList(KEWServiceLocator.getRouteHeaderService().getRouteHeader(document.getDocumentNumber()).getDocumentType()); 
         
         int currentNodeIndex = 0;
         int givenNodeIndex = 0;
@@ -272,10 +272,10 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         for(int i=0; i < nodes.size(); i++){
             node = nodes.get(i);
 
-            if(node.getRouteNodeName().equals(currentNodeName)){
+            if(node.getName().equals(currentNodeName)){
                 currentNodeIndex = i;                
             }
-            if(node.getRouteNodeName().equals(givenNodeName)){
+            if(node.getName().equals(givenNodeName)){
                 givenNodeIndex = i;                
             }
         }

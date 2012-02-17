@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.workflow;
 
+import java.util.HashMap;
 import java.util.List;
-
-import javax.print.attribute.AttributeSet;
+import java.util.Map;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KFSDocumentSearchResultProcessor;
 import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.web.KeyValueSort;
@@ -49,12 +50,12 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
      * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#generateSearchResult(org.kuali.rice.kew.docsearch.DocSearchDTO, java.util.List)
      */
     @Override
-    public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
+    public DocumentSearchResult generateSearchResult(DocumentSearchCriteria docCriteriaDTO, List<Column> columns) {
         DocumentSearchResult docSearchResult = super.generateSearchResult(docCriteriaDTO, columns);
         
         //do not mask the purapDocumentIdentifier field if the document is not PO or POSP..
-        if (!KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER.equalsIgnoreCase(docCriteriaDTO.getDocTypeName()) &&
-                !KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_SPLIT.equalsIgnoreCase(docCriteriaDTO.getDocTypeName())) {
+        if (!KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER.equalsIgnoreCase(docCriteriaDTO.getDocumentTypeName())) &&
+                !KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_SPLIT.equalsIgnoreCase(docCriteriaDTO.getDocumentTypeName())) {
             return docSearchResult;
         }
         
@@ -73,13 +74,13 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
      * @param keyValues
      * @param docCriteriaDTO
      */
-    protected boolean maskPONumberForLookupResults(List<KeyValueSort> keyValues, DocumentSearch docCriteriaDTO) {
+    protected boolean maskPONumberForLookupResults(List<KeyValueSort> keyValues, DocumentSearchCriteria docCriteriaDTO) {
         boolean masked = false;
         
         IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
         
         for (KeyValueSort keyValueSort : keyValues) {
-            if (keyValueSort.getkey().equalsIgnoreCase(KFSPropertyConstants.PURAP_DOC_ID)) {
+            if (keyValueSort.getKey().equalsIgnoreCase(KFSPropertyConstants.PURAP_DOC_ID)) {
                 //KFSMI-4576 masking PO number...
                 String docStatus = docCriteriaDTO.getDocRouteStatusCode();
                 if (!docStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
@@ -89,9 +90,9 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
                     String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
                     String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
                     
-                    AttributeSet roleQualifiers = new AttributeSet();
+                    Map<String,String> roleQualifiers = new HashMap<String,String>();
                     
-                    AttributeSet permissionDetails = new AttributeSet();
+                    Map<String,String> permissionDetails = new HashMap<String,String>();
                     permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
                     permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
                     
@@ -99,7 +100,7 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
                     //the principalId is not authorized to view the value in purapDocumentIdentifier field...so mask the value...
                     if (!isAuthorized) {
                         //not authorized to see... create a string 
-                        keyValueSort.setvalue("********");
+                        keyValueSort.setValue("********");
                         keyValueSort.setSortValue("********");
                         return true;
                     }
@@ -118,10 +119,10 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
      */
     protected void setupAppDocStatusForLookupResults(List<KeyValueSort> keyValues) {
         for (KeyValueSort keyValueSort : keyValues) {
-            if ("statusDescription".equalsIgnoreCase(keyValueSort.getkey())) {
+            if ("statusDescription".equalsIgnoreCase(keyValueSort.getKey())) {
                 //need to get the appDocStatus set on routeHeaderid
                 String appDocStatus = retrieveAppDocStatus(keyValues);
-                keyValueSort.setvalue(appDocStatus);
+                keyValueSort.setValue(appDocStatus);
                 keyValueSort.setSortValue(appDocStatus);
                 return;
             }
@@ -139,7 +140,7 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
         String appDocStatus = "Not Available";
         
         for (KeyValueSort keyValueSort : keyValues) {
-            if (KEWPropertyConstants.ROUTE_HEADER_ID.equalsIgnoreCase(keyValueSort.getkey())) {
+            if (KEWPropertyConstants.ROUTE_HEADER_ID.equalsIgnoreCase(keyValueSort.getKey())) {
                 Document poDocument = findDocument(keyValueSort.getUserDisplayValue());
                 if (ObjectUtils.isNotNull(poDocument)) {
                     return poDocument.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();

@@ -126,7 +126,7 @@
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.CheckingSavingsValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.AchTransactionCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   

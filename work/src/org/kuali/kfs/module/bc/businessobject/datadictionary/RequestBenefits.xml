@@ -36,10 +36,13 @@
         <ref bean="RequestBenefits-positionFringeBenefitObjectCodeName"/>
         <ref bean="RequestBenefits-fringeDetailAmount"/>
         <ref bean="RequestBenefits-accountLineAnnualBalanceAmount"/>
+        <ref bean="RequestBenefits-laborBenefitRateCategory-code"/>
+        <ref bean="ReqeustBenefits-laborBenefitRateCategory-codeDesc"/>
+        <ref bean="ReqeustBenefits-accountNumber"/>
       </list>
     </property>
   </bean>
-
+  
 <!-- Attribute Definitions -->
 
   <bean id="RequestBenefits-accountLineAnnualBalanceAmount" parent="RequestBenefits-accountLineAnnualBalanceAmount-parentBean"/>
@@ -136,6 +139,16 @@
     
     
   </bean>
+  
+  <bean id="RequestBenefits-laborBenefitRateCategory-code" parent="RequestBenefits-laborBenefitRateCategory-code-parentBean"/>
+  <bean id="RequestBenefits-laborBenefitRateCategory-code-parentBean" parent="LaborBenefitRateCategory-code" abstract="true"/>
+  <bean id="ReqeustBenefits-laborBenefitRateCategory-codeDesc" parent="ReqeustBenefits-laborBenefitRateCategory-codeDesc-parentBean" />
+  <bean id="ReqeustBenefits-laborBenefitRateCategory-codeDesc-parentBean" parent="LaborBenefitRateCategory-codeDesc" abstract="true">
+  	<property name="name" value="laborBenefitRateCategoryCodeDesc"/>
+  </bean>
+  
+  <bean id="ReqeustBenefits-accountNumber" parent="ReqeustBenefits-accountNumber-parentBean" />
+  <bean id="ReqeustBenefits-accountNumber-parentBean" parent="Account-accountNumber" abstract="true"/>
 
 <!-- Business Object Lookup Definition -->
 
@@ -156,12 +169,15 @@
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
         <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
         <bean parent="FieldDefinition" p:attributeName="accountLineAnnualBalanceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber" p:hidden="true"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="financialObjectBenefitsTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="financialObjectBenefitsTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCodeDesc"/>
         <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent"/>
         <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode"/>
         <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCodeName"/>

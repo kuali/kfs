@@ -123,4 +123,9 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
     public Set<Long> getLockedAssets() {
         return impl.getLockedAssets();
     }
+
+    @Override
+    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfoYearEnd(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includeRetired) {
+        return impl.getListOfDepreciableAssetPaymentInfoYearEnd(fiscalYear, fiscalMonth, depreciationDate, includeRetired);
+    }
 }

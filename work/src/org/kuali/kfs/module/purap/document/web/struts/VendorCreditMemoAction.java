@@ -45,11 +45,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -136,7 +136,7 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
 
         //if source is (PREQ or PO) and the PO status is CLOSED, automatically reopen the PO
         PurchaseOrderDocument po = creditMemoDocument.getPurchaseOrderDocument();
-        if ((creditMemoDocument.isSourceDocumentPaymentRequest() || creditMemoDocument.isSourceDocumentPurchaseOrder()) && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode())) {
+        if ((creditMemoDocument.isSourceDocumentPaymentRequest() || creditMemoDocument.isSourceDocumentPurchaseOrder()) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getAppDocStatus())) {
             initiateReopenPurchaseOrder(po, cmForm.getAnnotation());
         }
         

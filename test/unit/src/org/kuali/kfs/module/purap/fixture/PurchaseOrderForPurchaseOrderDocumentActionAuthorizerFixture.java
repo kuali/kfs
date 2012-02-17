@@ -22,7 +22,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
     PO_VALID_RETRANSMIT(
-        PurapConstants.PurchaseOrderStatuses.OPEN,  //statusCode
+        PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN,  //statusCode
         new Timestamp(System.currentTimeMillis()), //purchaseOrderLastTransmitTimestamp
         true, //purchaseOrderCurrentIndicator
         false, //pendingActionIndicator
@@ -30,7 +30,7 @@ public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
         PurapConstants.POTransmissionMethods.PRINT //transmissionMethodCode
     ),
     PO_VALID_FIRST_TRANSMIT_PRINT(
-        PurapConstants.PurchaseOrderStatuses.IN_PROCESS,  //statusCode
+        PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS,  //statusCode
         null, //purchaseOrderLastTransmitTimestamp
         true, //purchaseOrderCurrentIndicator
         false, //pendingActionIndicator
@@ -38,7 +38,7 @@ public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
         PurapConstants.POTransmissionMethods.PRINT //transmissionMethodCode
     ),
     PO_VALID_REOPEN(
-        PurapConstants.PurchaseOrderStatuses.CLOSED,  //statusCode
+        PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED,  //statusCode
         new Timestamp(System.currentTimeMillis()), //purchaseOrderLastTransmitTimestamp
         true, //purchaseOrderCurrentIndicator
         false, //pendingActionIndicator
@@ -46,7 +46,7 @@ public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
         PurapConstants.POTransmissionMethods.PRINT //transmissionMethodCode
     ),
     PO_VALID_CLOSE(
-        PurapConstants.PurchaseOrderStatuses.OPEN,  //statusCode
+        PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN,  //statusCode
         new Timestamp(System.currentTimeMillis()), //purchaseOrderLastTransmitTimestamp
         true, //purchaseOrderCurrentIndicator
         false, //pendingActionIndicator
@@ -54,7 +54,7 @@ public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
         PurapConstants.POTransmissionMethods.NOPRINT //transmissionMethodCode
     ),    
     PO_VALID_VOID_PENDING_PRINT (
-        PurapConstants.PurchaseOrderStatuses.PENDING_PRINT, //statusCode
+        PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_PRINT, //statusCode
         new Timestamp(System.currentTimeMillis()), //purchaseOrderLastTransmitTimestamp
         true, //purchaseOrderCurrentIndicator
         false, //pendingActionIndicator
@@ -62,7 +62,7 @@ public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
         PurapConstants.POTransmissionMethods.NOPRINT //transmissionMethodCode
     ),
     PO_VALID_VOID_OPEN_NO_PREQ (
-        PurapConstants.PurchaseOrderStatuses.OPEN, //statusCode
+        PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN, //statusCode
         new Timestamp(System.currentTimeMillis()), //purchaseOrderLastTransmitTimestamp
         true, //purchaseOrderCurrentIndicator
         false, //pendingActionIndicator
@@ -70,7 +70,7 @@ public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
         PurapConstants.POTransmissionMethods.NOPRINT //transmissionMethodCode
     ),
     PO_VALID_REMOVE_HOLD (
-        PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD, //statusCode
+        PurapConstants.PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD, //statusCode
         new Timestamp(System.currentTimeMillis()), //purchaseOrderLastTransmitTimestamp
         true, //purchaseOrderCurrentIndicator
         false, //pendingActionIndicator
@@ -103,7 +103,7 @@ public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
     
     public PurchaseOrderDocument createPurchaseOrderDocument() {
         PurchaseOrderDocument doc = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
-        doc.setStatusCode(this.statusCode);
+        doc.setAppDocStatus(this.statusCode);
         doc.setPurchaseOrderLastTransmitTimestamp(this.purchaseOrderLastTransmitTimestamp);
         doc.setPurchaseOrderCurrentIndicator(this.purchaseOrderCurrentIndicator);
         doc.setPendingActionIndicator(this.pendingActionIndicator);

@@ -302,7 +302,8 @@
 		</property>
 	</bean>
 
-	<bean id="Award-userLookupRoleNamespaceCode" parent="AttributeDefinition">
+	<bean id="Award-userLookupRoleNamespaceCode" parent="Award-userLookupRoleNamespaceCode-parentBean"/>
+	<bean id="Award-userLookupRoleNamespaceCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleNamespaceCode" />
 		<property name="label" value="Role Namespace Code" />
 		<property name="required" value="false" />
@@ -311,7 +312,8 @@
 		</property>
 	</bean>
 
-	<bean id="Award-userLookupRoleName" parent="AttributeDefinition">
+	<bean id="Award-userLookupRoleName" parent="Award-userLookupRoleName-parentBean"/>
+	<bean id="Award-userLookupRoleName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleName" />
 		<property name="label" value="Role Name" />
 		<property name="required" value="false" />

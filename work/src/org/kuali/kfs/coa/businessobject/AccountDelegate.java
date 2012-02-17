@@ -17,10 +17,8 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;

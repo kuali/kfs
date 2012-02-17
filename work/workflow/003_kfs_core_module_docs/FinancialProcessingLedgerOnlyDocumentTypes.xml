@@ -110,6 +110,24 @@
     </documentType>
     <documentType>
       <name>
+        PDP
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Pre-Disbursement Processing
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        1
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>
         AVAD
       </name>
       <parent>

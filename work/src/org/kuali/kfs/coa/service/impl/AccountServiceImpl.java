@@ -55,6 +55,7 @@ import org.springframework.cache.annotation.Cacheable;
 public class AccountServiceImpl implements AccountService {
     private static final Logger LOG = Logger.getLogger(AccountServiceImpl.class);
 
+    private ParameterService parameterService;
     private AccountDao accountDao;
     protected DateTimeService dateTimeService;
     protected DocumentTypeService documentTypeService;
@@ -280,6 +281,56 @@ public class AccountServiceImpl implements AccountService {
      */
     public Collection<Account> getAccountsForAccountNumber(String accountNumber) {
         return accountDao.getAccountsForAccountNumber(accountNumber);
+    }
+    
+    
+    public String getDefaultLaborBenefitRateCategoryCodeForAccountType(String accountTypeCode) {
+        String value = "";
+        
+        // make sure the parameter exists
+        if (parameterService.parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE")) {
+            // retrieve the value(s) for the parameter
+            String paramValues = parameterService.getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE");
+
+            // split the values of the parameter on the semi colon
+            String[] paramValuesArray = paramValues.split(";");
+
+            // load the array into a HashMap
+            HashMap<String, String> paramValuesMap = new HashMap<String, String>();
+            for (int i = 0; i < paramValuesArray.length; i++) {
+                // create a new array to split on equals sign
+                String[] tempArray = paramValuesArray[i].split("=");
+                paramValuesMap.put(tempArray[0], tempArray[1]);
+            }
+
+            // check to see if the map has the account type code in it
+            if (paramValuesMap.containsKey(accountTypeCode)) {
+                value = paramValuesMap.get(accountTypeCode);
+            }
+            else {
+                // make sure the system parameter exists
+                if (parameterService.parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
+                    value = parameterService.getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+                }
+            }
+        }
+        return value;
+    }
+
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     /**

@@ -24,6 +24,7 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
@@ -48,7 +49,7 @@ public class CustomerProfileMaintenanceDocumentMaintainableImpl extends Financia
         customerProfile.setChartCode(null);
         customerProfile.setUnitCode(null); 
         customerProfile.setSubUnitCode(null);
-    }
+     }
     
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
@@ -94,6 +95,15 @@ public class CustomerProfileMaintenanceDocumentMaintainableImpl extends Financia
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#processAfterPost(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
+     */
+    @Override
+    public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
+        CustomerProfile  customerProfile = (CustomerProfile)document.getNewMaintainableObject().getBusinessObject();
 
-  
+       if (ObjectUtils.isNull(customerProfile.getDefaultSubAccountNumber())) customerProfile.setDefaultSubAccountNumber(PdpPropertyConstants.CustomerProfile.CUSTOMER_DEFAULT_SUB_ACCOUNT_NUMBER);
+       if (ObjectUtils.isNull(customerProfile.getDefaultSubObjectCode())) customerProfile.setDefaultSubObjectCode(PdpPropertyConstants.CustomerProfile.CUSTOMER_DEFAULT_SUB_OBJECT_CODE);  
+        super.processAfterPost(document, parameters);
+    }
 }

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,12 +50,23 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KEWPropertyConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.docsearch.service.DocumentSearchService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -337,12 +349,96 @@ public class RequisitionServiceImpl implements RequisitionService {
      * @see org.kuali.kfs.module.purap.document.service.RequisitionService#getRequisitionsAwaitingContractManagerAssignment()
      */
     public List<RequisitionDocument> getRequisitionsAwaitingContractManagerAssignment() {
-        Map fieldValues = new HashMap();
-        fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
-        List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(RequisitionDocument.class, fieldValues, PurapPropertyConstants.PURAP_DOC_ID, true));
-        return unassignedRequisitions;
+        List<RequisitionDocument> unassignedRequisitions = new ArrayList<RequisitionDocument>();
+        List<RequisitionDocument> requisitions = new ArrayList<RequisitionDocument>();
+
+        List<String> documentsNumbersAwaitingContractManagerAssignment = getDocumentsNumbersAwaitingContractManagerAssignment();
+        
+        for (String documentNumber : documentsNumbersAwaitingContractManagerAssignment) {
+            Map fieldValues = new HashMap();
+            fieldValues.put(PurapPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+
+            requisitions = (List<RequisitionDocument>) businessObjectService.findMatching(RequisitionDocument.class, fieldValues);
+
+            for (RequisitionDocument req : requisitions) {
+                unassignedRequisitions.add(req);
+            }
+        }
+        
+        return unassignedRequisitions;   
     }
 
+    /**
+     * Gets a list of strings of document numbers from workflow documents where  
+     * document status = 'P', 'F'  and document type = 'REQS'.  If appDocStatus status 
+     * of 'Awaiting Contract Manager Assignment' then the document number is added to the list
+     * 
+     * NOTE: simplify using DocSearch lookup with AppDocStatus
+     * 
+     * @return list of documentNumbers to retrieve requisitions.
+     */
+    protected List<String> getDocumentsNumbersAwaitingContractManagerAssignment() {
+        List<String> requisitionDocumentNumbers = new ArrayList<String>();
+        WorkflowInfo workflowInfo = new WorkflowInfo();
+             
+        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+        //Search for status of P and F        
+        documentSearchCriteriaDTO.setDocumentStatuses(Arrays.asList(DocumentStatus.PROCESSED, DocumentStatus.FINAL));
+        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.REQUISITION_DOCUMENT_TYPE);
+        documentSearchCriteriaDTO.setSaveName(null);
+        
+        try {
+            DocumentSearchService documentSearch = KEWServiceLocator.getDocumentSearchService();
+            DocumentSearchResults results = documentSearch.lookupDocuments(null, documentSearchCriteriaDTO.build());
+
+            String documentHeaderId = null;
+
+            for (DocumentSearchResult result : results.getSearchResults()) {
+                documentHeaderId = result.getDocument().getDocumentId();
+                Document document = findDocument(documentHeaderId);
+                
+                if (document != null) {
+                    
+                    
+                    ///use the appDocStatus from the KeyValueDTO result to look up custom status
+                    if (PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equalsIgnoreCase(
+                            document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
+                        //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
+                        requisitionDocumentNumbers.add(document.getDocumentNumber());
+                    }
+                }else{
+                    LOG.error("Document is NULL.  It should never have been null");                
+                }
+            }
+        } 
+        catch (WorkflowException ex) {
+            LOG.error("Exception encountered on finding the documents");            
+        }
+        
+        return requisitionDocumentNumbers;
+    }
+    
+    /**
+     * This method finds the document for the given document header id
+     * @param documentHeaderId
+     * @return document The document in the workflow that matches the document header id.
+     */
+    protected Document findDocument(String documentHeaderId) {
+        Document document = null;
+        
+        try {
+            document = documentService.getByDocumentHeaderId(documentHeaderId);
+        }
+        catch (WorkflowException ex) {
+            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
+        } catch ( UnknownDocumentTypeException ex ) {
+            // don't blow up just because a document type is not installed (but don't return it either)
+            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
+        }
+        
+        return document;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.service.RequisitionService#getCountOfRequisitionsAwaitingContractManagerAssignment()
      */

@@ -27,6 +27,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAllocationType;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentManuallyAddAccountingLineEvent;
 import org.kuali.kfs.module.cam.util.distribution.AssetDistribution;
@@ -60,9 +61,11 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	protected boolean capitalAssetBuilderOriginIndicator;
 	protected AssetPaymentAllocationType assetPaymentAllocationType; 
 	protected String assetPaymentAllocationTypeCode;
-
-	public AssetPaymentDocument() {
+	protected boolean allocationFromFPDocuments;
+	
+    public AssetPaymentDocument() {
 		super();
+		this.setAllocationFromFPDocuments(false);
 		assetPaymentAllocationTypeCode = CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE;
 		this.setAssetPaymentAssetDetail(new ArrayList<AssetPaymentAssetDetail>());		
 	}
@@ -218,14 +221,23 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	public void prepareForSave(KualiDocumentEvent event) {
 		// This method  prevents kuali from generating a
 		// gl pending entry record.
+	    
         for (AssetPaymentAssetDetail assetDetail : this.getAssetPaymentAssetDetail()) {
             assetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
             if (ObjectUtils.isNotNull(assetDetail.getAsset()) && assetDetail.getAsset().getTotalCostAmount() != null) {
                 assetDetail.setPreviousTotalCostAmount(assetDetail.getAsset().getTotalCostAmount());
             }
+            // CSU 6702 BEGIN Inferred change 
+            List<AssetPaymentDetail> apdList = assetDetail.getAssetPaymentDetails();
+            for (AssetPaymentDetail apd : apdList) {                
+                String accountingPeriodCompositeString = getAccountingPeriodCompositeString();                
+                apd.setPostingYear(new Integer(StringUtils.right(accountingPeriodCompositeString, 4)));
+                apd.setPostingPeriodCode(StringUtils.left(accountingPeriodCompositeString, 2));
+            }
+            // CSU 6702 END Inferred change            
         }
-
 	}
+
 
 	public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetail() {
 		return assetPaymentAssetDetail;
@@ -307,4 +319,23 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	public AssetPaymentAllocationType getAssetPaymentAllocationType() {
 		return assetPaymentAllocationType;
 	}
+	
+    /**
+     * Gets the allocationFromFPDocuments attribute.
+     * 
+     * @return Returns the allocationFromFPDocuments
+     */
+    
+    public boolean isAllocationFromFPDocuments() {
+        return allocationFromFPDocuments;
+    }
+
+    /** 
+     * Sets the allocationFromFPDocuments attribute.
+     * 
+     * @param allocationFromFPDocuments The allocationFromFPDocuments to set.
+     */
+    public void setAllocationFromFPDocuments(boolean allocationFromFPDocuments) {
+        this.allocationFromFPDocuments = allocationFromFPDocuments;
+    }
 }

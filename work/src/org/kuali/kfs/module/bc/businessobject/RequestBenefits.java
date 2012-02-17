@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
-
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.core.api.util.type.KualiPercent;
@@ -36,6 +35,9 @@ public class RequestBenefits extends TransientBusinessObjectBase {
     private String positionFringeBenefitObjectCodeName;
     private KualiInteger fringeDetailAmount;
     private KualiInteger accountLineAnnualBalanceAmount;
+    private String laborBenefitRateCategoryCode;
+    private String laborBenefitRateCategoryCodeDesc;
+    private String accountNumber;
 
     /**
      * Constructs a RequestBenefits.java.
@@ -202,6 +204,54 @@ public class RequestBenefits extends TransientBusinessObjectBase {
      */
     public void setAccountLineAnnualBalanceAmount(KualiInteger accountLineAnnualBalanceAmount) {
         this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
+    }
+
+    /**
+     * Gets the laborBenefitRateCategoryCode attribute. 
+     * @return Returns the laborBenefitRateCategoryCode.
+     */
+    public String getLaborBenefitRateCategoryCode() {
+        return laborBenefitRateCategoryCode;
+    }
+
+    /**
+     * Sets the laborBenefitRateCategoryCode attribute value.
+     * @param laborBenefitRateCategoryCode The laborBenefitRateCategoryCode to set.
+     */
+    public void setLaborBenefitRateCategoryCode(String laborBenefitRateCategoryCode) {
+        this.laborBenefitRateCategoryCode = laborBenefitRateCategoryCode;
+    }
+
+    /**
+     * Gets the laborBenefitRateCategoryCodeDesc attribute. 
+     * @return Returns the laborBenefitRateCategoryCodeDesc.
+     */
+    public String getLaborBenefitRateCategoryCodeDesc() {
+        return laborBenefitRateCategoryCodeDesc;
+    }
+
+    /**
+     * Sets the laborBenefitRateCategoryCodeDesc attribute value.
+     * @param laborBenefitRateCategoryCodeDesc The laborBenefitRateCategoryCodeDesc to set.
+     */
+    public void setLaborBenefitRateCategoryCodeDesc(String laborBenefitRateCategoryCodeDesc) {
+        this.laborBenefitRateCategoryCodeDesc = laborBenefitRateCategoryCodeDesc;
+    }
+
+    /**
+     * Gets the accountNumber attribute. 
+     * @return Returns the accountNumber.
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * Sets the accountNumber attribute value.
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
 }

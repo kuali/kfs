@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.math.BigDecimal;
+
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -35,26 +37,27 @@ public class PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation 
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        boolean accountLinePercentNull = false;
+        
+        boolean percentExists = false;
+        
         PurchasingAccountsPayableDocumentBase purapDoc = (PurchasingAccountsPayableDocumentBase) event.getDocument();
-     //   PurchasingDocumentBase purapDoc = (PurchasingDocumentBase) event.getDocument();
 
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(purapDoc.getAccountDistributionMethod())) {
             for (PurApAccountingLine account : itemForValidation.getSourceAccountingLines()) {
-                if (ObjectUtils.isNull(account.getAccountLinePercent())) {
-                    accountLinePercentNull = true;
-                    break;
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                    //there should be atleast one accounting line where percent should be > 0.00
+                    if (account.getAccountLinePercent().compareTo(BigDecimal.ZERO) == 1) {
+                        percentExists = true;
+                    }
                 }
+            }
+            
+            if (!percentExists) {
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
+                return false;
             }
         }
         
-        //account percent field is null on all accounting lines so throw an error message...
-        if (accountLinePercentNull) {
-            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING);
-            valid = false;
-        }
-
-
         return valid;
     }
 
@@ -65,5 +68,4 @@ public class PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation 
     public void setItemForValidation(PurApItem itemForValidation) {
         this.itemForValidation = itemForValidation;
     }
-
 }

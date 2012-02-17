@@ -55,7 +55,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
             null, // purchaseOrderFirstTransmissionTimestamp
-            PurchaseOrderStatuses.AMENDMENT,
+            PurchaseOrderStatuses.APPDOC_AMENDMENT,
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
@@ -88,7 +88,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
             null, // purchaseOrderFirstTransmissionTimestamp
-            PurchaseOrderStatuses.OPEN,
+            PurchaseOrderStatuses.APPDOC_OPEN,
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
@@ -189,7 +189,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
         doc.setPurchaseOrderCurrentIndicator(this.purchaseOrderCurrentIndicator);
         doc.setPendingActionIndicator(this.pendingActionIndicator);
         doc.setPurchaseOrderFirstTransmissionTimestamp(this.purchaseOrderFirstTransmissionTimestamp);
-        doc.setStatusCode(status);
+        doc.setAppDocStatus(status);
         
         for (PurchaseOrderItemFixture purchaseOrderItemFixture : purchaseOrderItemFixtures) {
             purchaseOrderItemFixture.addTo(doc);

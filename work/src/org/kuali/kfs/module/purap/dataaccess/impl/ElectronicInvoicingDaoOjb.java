@@ -40,7 +40,7 @@ public class ElectronicInvoicingDaoOjb extends PlatformAwareDaoBaseOjb implement
         LOG.debug("getPendingElectronicInvoices() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("status.code", PurapConstants.PaymentRequestStatuses.PENDING_E_INVOICE);
+        criteria.addEqualTo("status.code", PurapConstants.PaymentRequestStatuses.APPDOC_PENDING_E_INVOICE);
         criteria.addEqualTo("isElectronicInvoice", Boolean.TRUE);
         List invoices = (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
         for (Iterator iter = invoices.iterator(); iter.hasNext();) {

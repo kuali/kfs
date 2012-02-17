@@ -17,7 +17,6 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;

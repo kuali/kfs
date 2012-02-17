@@ -48,7 +48,7 @@
    <!-- Validations -->  
   <bean id="YearEndGeneralErrorCorrectionDocument-validations" parent="YearEndGeneralErrorCorrectionDocument-validations-parentBean"/>
   
-  <bean id="YearEndGeneralErrorCorrectionDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="YearEndGeneralErrorCorrectionDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

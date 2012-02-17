@@ -162,7 +162,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         LOG.debug("getAllOpenPurchaseOrders() started");
         Criteria criteria = new Criteria();
         criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
-        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_STATUS_CODE, PurapConstants.PurchaseOrderStatuses.OPEN);
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_STATUS_CODE, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
         criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, true);
         for (String excludeCode : excludedVendorChoiceCodes) {
@@ -184,7 +184,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         LOG.debug("getAutoCloseRecurringPurchaseOrders() started.");
         Criteria criteria = new Criteria();
         criteria.addNotNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
-        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_STATUS_CODE, PurapConstants.PurchaseOrderStatuses.OPEN);
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_STATUS_CODE, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
         for (String excludeCode : excludedVendorChoiceCodes) {
             criteria.addNotEqualTo(PurapPropertyConstants.VENDOR_CHOICE_CODE, excludeCode);
         }
@@ -200,7 +200,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     public List<PurchaseOrderDocument> getPendingPurchaseOrdersForFaxing() {
         LOG.debug("Getting pending purchase orders for faxing");
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.PENDING_FAX);
+        criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_FAX);
         QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderDocument.class,criteria);
         List l = (List)getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         return l;

@@ -38,6 +38,8 @@ import org.kuali.rice.krad.bo.Note;
  */
 public interface PurchaseOrderService extends PurchasingDocumentSpecificService {
 
+    public boolean isCommodityCodeRequiredOnPurchaseOrder();
+    
     public boolean isPurchaseOrderOpenForProcessing(Integer poId);
     
     public boolean isPurchaseOrderOpenForProcessing(PurchaseOrderDocument purchaseOrderDocument);
@@ -439,5 +441,12 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      */
     public boolean canHoldPayment(PurchaseOrderDocument purchaseOrder);
     
-    
+
+    /**
+     * Retrieves the purchase orders current status
+     * 
+     * @param poId
+     * @return
+     */
+    public String getPurchaseOrderAppDocStatus(Integer poId);
 }

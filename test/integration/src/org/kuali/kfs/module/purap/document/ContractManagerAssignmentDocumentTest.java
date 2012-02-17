@@ -220,7 +220,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        assertTrue("Document should now be Awaiting Contract Manager Assignment.", requisitionDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN));   
+        assertTrue("Document should now be Awaiting Contract Manager Assignment.", requisitionDocument.getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN));   
         changeCurrentUser(parke);
         return requisitionDocument;
     }

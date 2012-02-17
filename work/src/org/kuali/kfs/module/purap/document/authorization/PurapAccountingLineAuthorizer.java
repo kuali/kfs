@@ -41,8 +41,8 @@ import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.DocumentPresentationController;
 import org.kuali.rice.krad.util.GlobalVariables;
 

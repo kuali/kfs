@@ -52,19 +52,9 @@
 						//-->
 						</SCRIPT>
 						<html:select property="selectedAccountingPeriod" onchange="submitForChangedAccountingPeriod()">
-							<c:forEach items="${KualiForm.accountingPeriods}"
-								var="accountingPeriod">
-								<c:set var="accountingPeriodCompositeValue"
-									value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />
-								<c:choose>
-									<c:when
-										test="${KualiForm.selectedAccountingPeriod==accountingPeriodCompositeValue}">
-										<html:option value="${accountingPeriodCompositeValue}">${accountingPeriod.universityFiscalPeriodName}</html:option>
-									</c:when>
-									<c:otherwise>
-										<html:option value="${accountingPeriodCompositeValue}" >${accountingPeriod.universityFiscalPeriodName}</html:option>
-									</c:otherwise>
-								</c:choose>
+							<c:forEach items="${KualiForm.accountingPeriods}" var="accountingPeriod">
+								<c:set var="accountingPeriodCompositeValue"	value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />
+								<html:option value="${accountingPeriodCompositeValue}">${accountingPeriod.universityFiscalPeriodName}</html:option>
 							</c:forEach>
 						</html:select>
 						
@@ -93,16 +83,10 @@
 						//-->
 						</SCRIPT>
 						<html:select property="selectedBalanceType.code" onchange="submitForChangedBalanceType()">
-						<c:forEach items="${KualiForm.balanceTypes}" var="balanceType">
-								<c:choose>
-									<c:when
-										test="${KualiForm.selectedBalanceType.code==balanceType.code}">
-										<html:option value="${balanceType.code}">${balanceType.code} - ${balanceType.name}</html:option>
-									</c:when>
-									<c:otherwise>
-										<html:option value="${balanceType.code}" >${balanceType.code} - ${balanceType.name}</html:option>
-									</c:otherwise>
-								</c:choose>
+							<c:forEach items="${KualiForm.balanceTypes}" var="balanceType">
+								<html:option value="${balanceType.code}" >
+									<c:out value="${balanceType.codeAndDescription}" /> 
+								</html:option>
 							</c:forEach>
 						</html:select>
 						<NOSCRIPT>
@@ -131,25 +115,25 @@
 		</div>
 	</kul:tab>
 	
-	<c:set var="isExtEncumbrance" value="${KualiForm.selectedBalanceType.code==KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}" />
+	<c:set var="isEncumbrance" value="${KualiForm.isEncumbranceBalanceType}" />
 	<c:set var="isDebitCreditAmount" value="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}" />
 
 	<c:choose>
-		<c:when test="${isExtEncumbrance && isDebitCreditAmount}">
-			<c:set var="attributeGroupName" value="source-withDebitCreditExtEncumbrance"/>
+		<c:when test="${isEncumbrance && isDebitCreditAmount}">
+			<c:set var="attributeGroupName" value="source-withDebitCreditEncumbrance"/>
 		</c:when>
-		<c:when test="${!isExtEncumbrance && isDebitCreditAmount}">
+		<c:when test="${!isEncumbrance && isDebitCreditAmount}">
 			<c:set var="attributeGroupName" value="source-withDebitCredit"/>
 		</c:when>		
-		<c:when test="${isExtEncumbrance && !isDebitCreditAmount}">
-			<c:set var="attributeGroupName" value="source-withExtEncumbrance"/>
+		<c:when test="${isEncumbrance && !isDebitCreditAmount}">
+			<c:set var="attributeGroupName" value="source-withEncumbrance"/>
 		</c:when>
 		<c:otherwise>
 			<c:set var="attributeGroupName" value="source"/>
 		</c:otherwise>
 	</c:choose>
 
-	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.NEW_SOURCE_LINE_ERRORS}">
 		<sys-java:accountingLines>
 			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="${attributeGroupName}" />
 		</sys-java:accountingLines>

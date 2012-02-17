@@ -72,17 +72,17 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.BlankFormFile;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -283,28 +283,28 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 else {
                     String newStatus = null;
                     if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                        newStatus = PurchaseOrderStatuses.AMENDMENT;
+                        newStatus = PurchaseOrderStatuses.APPDOC_AMENDMENT;
                         po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, newStatus);
                         returnActionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
                     }
                     else {
                         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT)) {
-                            newStatus = PurchaseOrderStatuses.PENDING_CLOSE;
+                            newStatus = PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
                         }
                         else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT)) {
-                            newStatus = PurchaseOrderStatuses.PENDING_REOPEN;
+                            newStatus = PurchaseOrderStatuses.APPDOC_PENDING_REOPEN;
                         }
                         else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT)) {
-                            newStatus = PurchaseOrderStatuses.PENDING_VOID;
+                            newStatus = PurchaseOrderStatuses.APPDOC_PENDING_VOID;
                         }
                         else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT)) {
-                            newStatus = PurchaseOrderStatuses.PENDING_PAYMENT_HOLD;
+                            newStatus = PurchaseOrderStatuses.APPDOC_PENDING_PAYMENT_HOLD;
                         }
                         else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT)) {
-                            newStatus = PurchaseOrderStatuses.PENDING_REMOVE_HOLD;
+                            newStatus = PurchaseOrderStatuses.APPDOC_PENDING_REMOVE_HOLD;
                         }
                         else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
-                            newStatus = PurchaseOrderStatuses.PENDING_RETRANSMIT;
+                            newStatus = PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT;
                         }
                         po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
                     }
@@ -1131,7 +1131,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
         }
         else {
-            po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), PurchaseOrderStatuses.PENDING_RETRANSMIT);
+            po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT);
             ((PurchaseOrderRetransmitDocument)po).setShouldDisplayRetransmitTab(true);
         }
 
@@ -1437,16 +1437,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
-        if (!PurchaseOrderStatuses.IN_PROCESS.equals(document.getStatusCode())) {
+        if (!PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(document.getAppDocStatus())) {
             // PO must be "in process" in order to initiate a quote
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_IN_PROCESS);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         Calendar currentCalendar = dateTimeService.getCurrentCalendar();
         Date currentSqlDate = new java.sql.Date(currentCalendar.getTimeInMillis());
-        document.setPurchaseOrderQuoteInitializationDate(currentSqlDate);
-        document.setStatusCode(PurchaseOrderStatuses.QUOTE);
-        document.setStatusChange(PurchaseOrderStatuses.QUOTE);
+        document.setPurchaseOrderQuoteInitializationDate(currentSqlDate);        
+        document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_QUOTE);
+        
+        document.setStatusChange(PurchaseOrderStatuses.APPDOC_QUOTE);
         document.refreshReferenceObject(PurapPropertyConstants.STATUS);
         
         //TODO this needs to be done better, and probably make it a parameter
@@ -1670,9 +1671,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorPostalCode(pova.getVendorZipCode());
                 document.setVendorCountryCode(pova.getVendorCountryCode());
                 document.setVendorFaxNumber(pova.getVendorFaxNumber());
-
-                document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
-                document.setStatusChange(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+                
+                document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                
+                document.setStatusChange(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             }
         }
@@ -1727,7 +1729,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 String reasonPrefix = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT);
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
-                document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+                
+                document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                
                 //being required to add notes about changing po status even though i'm not changing status
                 document.setStatusChange(null);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
@@ -1778,7 +1782,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument po = poForm.getPurchaseOrderDocument();
 
-        if (StringUtils.isNotBlank(po.getStatusCode()) && StringUtils.isNotBlank(po.getStatusChange()) && (!StringUtils.equals(po.getStatusCode(), po.getStatusChange()))) {
+        if (StringUtils.isNotBlank(po.getAppDocStatus()) && StringUtils.isNotBlank(po.getStatusChange()) && (!StringUtils.equals(po.getAppDocStatus(), po.getStatusChange()))) {
 
             WorkflowDocument workflowDocument = po.getDocumentHeader().getWorkflowDocument();
             if (ObjectUtils.isNull(workflowDocument) || workflowDocument.isInitiated() || workflowDocument.isSaved()) {
@@ -1830,12 +1834,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             // Build out full message.
             if (StringUtils.equals(questionType, PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
                 Map<String, String> manuallyChangeableStatuses = new HashMap<String, String>();
-                manuallyChangeableStatuses.put(PurchaseOrderStatuses.IN_PROCESS, "In Process");
-                manuallyChangeableStatuses.put(PurchaseOrderStatuses.WAITING_FOR_VENDOR, "Waiting for Vendor");
-                manuallyChangeableStatuses.put(PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT, "Waiting for Department");
+                manuallyChangeableStatuses.put(PurchaseOrderStatuses.APPDOC_IN_PROCESS, "In Process");
+                manuallyChangeableStatuses.put(PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR, "Waiting for Vendor");
+                manuallyChangeableStatuses.put(PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT, "Waiting for Department");
 
                 String key = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX);
-                String oldStatus = manuallyChangeableStatuses.get(po.getStatusCode());
+                String oldStatus = manuallyChangeableStatuses.get(po.getAppDocStatus());
                 String newStatus = manuallyChangeableStatuses.get(po.getStatusChange());
                 key = StringUtils.replace(key, "{0}", (StringUtils.isBlank(oldStatus) ? " " : oldStatus));
                 notePrefix = StringUtils.replace(key, "{1}", (StringUtils.isBlank(newStatus) ? " " : newStatus));
@@ -1895,8 +1899,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param po A PurchaseOrderDocument
      */
     protected void executeManualStatusChange(PurchaseOrderDocument po) {
-        try {
-            SpringContext.getBean(PurapService.class).updateStatus(po, po.getStatusChange());
+        try {            
+            po.setAppDocStatus(po.getStatusChange());
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         }
         catch (Exception e) {
             throw new RuntimeException(e);

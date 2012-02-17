@@ -94,6 +94,7 @@
 				<value>scheduleJob</value>
 				<value>purgeJob</value>
 				<value>fiscalYearMakerJob</value>
+                <value>clearCacheJob</value>
 				<value>purgeReportsAndStagingJob</value>
 				<value>autoDisapproveJob</value>
 		                <value>dailyEmailJob</value>
@@ -419,6 +420,21 @@
         <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
 	
+    <bean id="clearCacheStep" class="org.kuali.kfs.sys.batch.ClearCacheStep" parent="step">
+		<property name="cacheService">
+			<ref bean="cacheService" />
+		</property>
+	</bean>
+	
+	<bean id="clearCacheJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="clearCacheStep" />
+			</list>
+		</property>
+	</bean>
+	
+	
 	<!-- end core batch jobs -->
     <bean id="FilePurgeCustomAge" parent="FilePurgeCustomAge-parentBean"/>
 	
@@ -564,7 +580,7 @@
 			<ref bean="postalCodeService" />
 		</property>		
 	</bean>	
-	<bean id="taxRegionTypeLookupableHelperService" parent="taxRegionTypeLookupableHelperService-parentBean"/>
+	<bean id="taxRegionTypeLookupableHelperService" parent="taxRegionTypeLookupableHelperService-parentBean" scope="prototype"/>
 	
 	<bean id="taxRegionTypeLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.TaxRegionTypeLookupableServiceImpl" parent="lookupableHelperService" abstract="true" />
 	
@@ -697,7 +713,7 @@
     </bean>
     
     <bean id="electronicFundTransferCancelAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferCancelActionHelper" />
-	<bean id="electronicPaymentClaimLookupableHelperService" parent="electronicPaymentClaimLookupableHelperService-parentBean"/>
+	<bean id="electronicPaymentClaimLookupableHelperService" parent="electronicPaymentClaimLookupableHelperService-parentBean"  scope="prototype"/>
     
     <bean id="electronicPaymentClaimLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" abstract="true">
     	<property name="lookupDao"><ref bean="lookupDao" /></property>

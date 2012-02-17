@@ -32,6 +32,7 @@
                        attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}"
                        property="document.financialDocumentReferenceInvoiceNumber"
                        readOnly="false" />
+                   <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceLookup"  fieldConversions="invoiceNumber:document.financialDocumentReferenceInvoiceNumber" />    
                 </td>
             </tr>
 		</table> 

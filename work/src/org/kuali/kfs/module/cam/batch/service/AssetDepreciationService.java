@@ -26,6 +26,14 @@ public interface AssetDepreciationService {
      */
     public void runDepreciation();
 
+
+    // CSU 6702 BEGIN
+    /**
+     * This method runs depreciation process
+     */
+    public void runYearEndDepreciation(Integer fiscalYearToDepreciate);
+    // CSU 6702 END
+    
     /**
      * Sets depreciation batch dao implementation
      * 

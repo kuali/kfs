@@ -19,14 +19,11 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Payment Request View Business Object.
@@ -35,7 +32,6 @@ public class PaymentRequestView extends AbstractRelatedView {
 
     private String invoiceNumber;
     private Integer purchaseOrderIdentifier;
-    private String statusCode;
     private boolean paymentHoldIndicator;
     private boolean paymentRequestedCancelIndicator;
     private String vendorName;
@@ -45,7 +41,6 @@ public class PaymentRequestView extends AbstractRelatedView {
     private Timestamp paymentPaidTimestamp;
     
     // REFERENCE OBJECTS
-    private Status status;
     private FinancialSystemDocumentHeader documentHeader;
 
 
@@ -110,25 +105,6 @@ public class PaymentRequestView extends AbstractRelatedView {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
-    }
-    
-    public Status getStatus() {
-        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode())) {
-            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
-        }
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public String getVendorCustomerNumber() {
         return vendorCustomerNumber;
     }
@@ -189,4 +165,13 @@ public class PaymentRequestView extends AbstractRelatedView {
     public String getDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST;
     }
+
+    public String getAppDocStatus(){
+        return documentHeader.getWorkflowDocument().getApplicationDocumentStatus();
+    }
+    
+    public void setAppDocStatus(String appDocStatus){
+        documentHeader.getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);        
+    }
+        
 }

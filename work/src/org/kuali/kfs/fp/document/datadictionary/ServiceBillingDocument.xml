@@ -49,7 +49,7 @@
   <!-- validations -->
   <bean id="ServiceBillingDocument-validations" parent="ServiceBillingDocument-validations-parentBean"/>
   
-  <bean id="ServiceBillingDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="ServiceBillingDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

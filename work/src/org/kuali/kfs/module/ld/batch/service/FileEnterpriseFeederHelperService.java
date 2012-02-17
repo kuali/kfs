@@ -20,29 +20,51 @@ import java.io.PrintStream;
 
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
-
+import org.kuali.kfs.module.ld.report.EnterpriseFeederReportData;
+import org.kuali.kfs.sys.service.ReportWriterService;
 
 /**
- * Implementations of this interface are responsible for reconciliation of origin entry data in a file and loading them into the
- * origin entry table. Note that implementations of this class may have special useful transactional properties. See implementation
- * description for more details.
+ * Implementations of this interface are responsible for reconciliation of
+ * origin entry data in a file and loading them into the origin entry table.
+ * Note that implementations of this class may have special useful transactional
+ * properties. See implementation description for more details.
  */
 public interface FileEnterpriseFeederHelperService {
 
-    /**
-     * Reconciles and loads a file of origin entries into the origin entry table. This method DOES NOT handle the deletion of the
-     * done file
-     * 
-     * @param doneFile the done file. Must exist and be non-empty
-     * @param dataFile the data file. A connection to this file may be opened multiple times by this method.
-     * @param reconFile the reconciliation file. See implementations of
-     *        {@link org.kuali.kfs.gl.batch.service.ReconciliationParserService} to determine the format of the data in a file.
-     * @param originEntryGroup the group in which to place the origin entries
-     * @param feederProcessName the name of the process that's invoking this method.
-     * @param reconciliationTableId the name of the reconciliation block to use within the reconciliation file
-     * @param statusAndErrors a class with references to a {@link org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus} object and a list
-     *        of error messages. Implementations of this method may need to throw an exception to force a transaction rollback,
-     *        which means that it can't return a value. This parameter allows the method to output status/error information
-     */
-    public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs, String feederProcessName, String reconciliationTableId, EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors, LedgerSummaryReport ledgerSummaryReport);
+	/**
+	 * Reconciles and loads a file of origin entries into the origin entry
+	 * table. This method DOES NOT handle the deletion of the done file
+	 * 
+	 * @param doneFile
+	 *            the done file. Must exist and be non-empty
+	 * @param dataFile
+	 *            the data file. A connection to this file may be opened
+	 *            multiple times by this method.
+	 * @param reconFile
+	 *            the reconciliation file. See implementations of
+	 *            {@link org.kuali.kfs.gl.batch.service.ReconciliationParserService}
+	 *            to determine the format of the data in a file.
+	 * @param originEntryGroup
+	 *            the group in which to place the origin entries
+	 * @param feederProcessName
+	 *            the name of the process that's invoking this method.
+	 * @param reconciliationTableId
+	 *            the name of the reconciliation block to use within the
+	 *            reconciliation file
+	 * @param statusAndErrors
+	 *            a class with references to a
+	 *            {@link org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus}
+	 *            object and a list of error messages. Implementations of this
+	 *            method may need to throw an exception to force a transaction
+	 *            rollback, which means that it can't return a value. This
+	 *            parameter allows the method to output status/error information
+	 *   @param errorStatisticsReport
+	 *           holds information about errors encountered while generating benefit entries
+	 *   @param feederReportData
+	 *           keeps track of statistic counts
+	 */
+	public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs,
+			String feederProcessName, String reconciliationTableId,
+			EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors, LedgerSummaryReport ledgerSummaryReport,
+			ReportWriterService errorStatisticsReport, EnterpriseFeederReportData feederReportData);
 }

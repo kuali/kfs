@@ -150,7 +150,8 @@
 		<property name="name" value="award.proposal.grantNumber" />
 	</bean>
 
-	<bean id="AwardAccount-newCollectionRecord" parent="GenericAttributes-newCollectionRecord" />
+	<bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean" />
+	<bean id="AwardAccount-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord" />
 
 	<bean id="AwardAccount-active" parent="AwardAccount-active-parentBean" />
 	<bean id="AwardAccount-active-parentBean" abstract="true"

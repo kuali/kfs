@@ -48,7 +48,7 @@
         <ref bean="PaymentDetail-organizationDocNbr"/>
         <ref bean="PaymentDetail-paymentGroup.disbursementNbr"/>
         <ref bean="PaymentDetail-paymentGroup.pymtSpecialHandling"/>
-        <ref bean="PaymentDetail-paymentGroup.customerInstitutionNumber"/>
+        <ref bean="PaymentDetail-customerInstitutionNumber"/>
         <ref bean="PaymentDetail-paymentGroup.disbursementDate"/>
         <ref bean="PaymentDetail-paymentGroup.pymtAttachment"/>
         <ref bean="PaymentDetail-paymentGroup.processId"/>
@@ -243,11 +243,21 @@
   <bean id="PaymentDetail-paymentGroup.pymtSpecialHandling-parentBean" abstract="true" parent="PaymentGroup-pymtSpecialHandling">
     <property name="name" value="paymentGroup.pymtSpecialHandling"/>
   </bean>
-  <bean id="PaymentDetail-paymentGroup.customerInstitutionNumber" parent="PaymentDetail-paymentGroup.customerInstitutionNumber-parentBean"/>
+  <bean id="PaymentDetail-customerInstitutionNumber" parent="PaymentDetail-customerInstitutionNumber-parentBean"/>
 
-  <bean id="PaymentDetail-paymentGroup.customerInstitutionNumber-parentBean" abstract="true" parent="PaymentGroup-customerInstitutionNumber">
-    <property name="name" value="paymentGroup.customerInstitutionNumber"/>
+  <bean id="PaymentDetail-customerInstitutionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerInstitutionNumber"/>
+    <property name="label" value="Customer Number for Institution"/>
+    <property name="shortLabel" value="Customer Nbr for Institution"/>
+    <property name="maxLength" value="32"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
+    </property>
   </bean>
+  
   <bean id="PaymentDetail-paymentGroup.disbursementDate" parent="PaymentDetail-paymentGroup.disbursementDate-parentBean"/>
 
   <bean id="PaymentDetail-paymentGroup.disbursementDate-parentBean" abstract="true" parent="PaymentGroup-disbursementDate">
@@ -585,7 +595,7 @@
         <bean parent="FieldDefinition" p:attributeName="invoiceNbr"/>                         
         <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentStatusCodeWithHistory"/>   
         <bean parent="FieldDefinition" p:attributeName="requisitionNbr"/>                                      
-        <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>              
+        <bean parent="FieldDefinition" p:attributeName="customerInstitutionNumber"/>              
         <bean parent="FieldDefinition" p:attributeName="financialSystemOriginCode"/>
         <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
       </list>
@@ -813,7 +823,7 @@
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementDate"/>              
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentDate"/>                                                                                 
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.processImmediate"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>                                   
+              <bean parent="FieldDefinition" p:attributeName="customerInstitutionNumber"/>                                   
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtSpecialHandling"/>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.processId"/>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtAttachment"/>

@@ -49,9 +49,9 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -246,8 +246,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                 }
             }
             // If the user replies 'No' to either of the questions, redirect to the PREQ initiate page.
-            else if ((PurapConstants.PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION.equals(question) || PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
+            else if ((PurapConstants.PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION.equals(question) || PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {			                    
+                paymentRequestDocument.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
                 forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
 
@@ -391,7 +391,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         // calculation just for the tax area, only at tax review stage
         // by now, the general calculation shall have been done.
-        if (preqDoc.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+        if (preqDoc.getAppDocStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
             SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
             return;
         }
@@ -487,7 +487,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     protected boolean requiresCalculateTax(PaymentRequestForm preqForm) {
         PaymentRequestDocument preq = (PaymentRequestDocument) preqForm.getDocument();
-        boolean requiresCalculateTax = StringUtils.equals(preq.getStatusCode(), PaymentRequestStatuses.AWAITING_TAX_REVIEW) && !preqForm.isCalculatedTax(); 
+        boolean requiresCalculateTax = StringUtils.equals(preq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW) && !preqForm.isCalculatedTax(); 
         return requiresCalculateTax;
     }
 
@@ -502,5 +502,19 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    /**
+     * Calls service to clear tax info.
+     */
+    public ActionForward clearTaxInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestForm prForm = (PaymentRequestForm) form;
+        PaymentRequestDocument document = (PaymentRequestDocument) prForm.getDocument();
 
+        PaymentRequestService taxService = SpringContext.getBean(PaymentRequestService.class);
+
+        /* call service to clear previous lines */
+        taxService.clearTax(document);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

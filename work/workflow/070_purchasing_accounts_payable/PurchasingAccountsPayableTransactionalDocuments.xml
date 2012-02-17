@@ -1,4 +1,35 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>FinancialSystemSearchableAttribute</name>
+      <className>org.kuali.kfs.sys.document.workflow.FinancialSystemSearchableAttribute</className>
+      <label>Financial System Searchable Attribute</label>
+      <description>Financial System Searchable Attribute</description>
+      <type>SearchableAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>FinancialSystemDocumentSearchResultProcessorAttribute</name>
+      <className>org.kuali.kfs.module.purap.document.workflow.PurAPDataDictionaryDocumentSearchCustomizer</className>
+      <label>PurAP Document Search Result Processor Attribute</label>
+      <description>PurAP Document Search Result Processor Attribute</description>
+      <type>DocumentSearchResultProcessorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>FinancialSystemDocumentSearchGeneratorAttribute</name>
+      <className>org.kuali.kfs.module.purap.document.workflow.PurAPDataDictionaryDocumentSearchCustomizer</className>
+      <label>Financial System Document Search Generator Attribute</label>
+      <description>Financial System Document Search Generator Attribute</description>
+      <type>DocumentSearchGeneratorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>NoFyiActionListAttribute</name>
+      <className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>
+      <label>No FYI</label>
+      <description>No FYI Action List Attribute</description>
+      <type>ActionListAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+  
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>
@@ -110,23 +141,49 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+            	<status>Awaiting Content Approval</status>
+            	<status>Disapproved - Content</status>
+            	<status>Awaiting Accounting Lines</status>
+            	<status>Disapproved - Accounting Lines</status>
+            	<status>Awaiting Sub Account</status>
+            	<status>Disapproved - Sub Account</status>
+            	<status>Awaiting Fiscal Officer</status>
+            	<status>Disapproved - Fiscal</status>
+            	<status>Awaiting Base Org Review</status>
+            	<status>Disapproved - Base Org Review</status>
+                <status>Awaiting Commodity Code</status>
+                <status>Disapproved - Commodity Code</status>
+            	<status>Awaiting Separation of Duties</status>
+            	<status>Disapproved - Separation of Duties</status>
+            	<status>Awaiting Contract Manager Assignment</status>
+            	<status>Closed</status>
+            	<status>Cancelled</status>
+            	<status>In Process</status>            	   
+     </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Organization"/>
-          <role name="Organization" nextNode="HasAccountingLines"/>
+          <start name="AdHoc" nextNode="Organization" nextAppDocStatus = "Awaiting Content Approval"/>
+          <role name="Organization" nextNode="HasAccountingLines" nextAppDocStatus = "Awaiting Accounting Lines"/>
           <split name="HasAccountingLines" nextNode="SubAccount">
             <branch name="True">
-              <simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines"/>
+              <simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines" nextAppDocStatus = "Awaiting Sub Account" />
             </branch>
             <branch name="False">
-              <role name="Initiator" nextNode="JoinHasAccountingLines"/>
+              <role name="Initiator" nextNode="JoinHasAccountingLines" nextAppDocStatus = "Awaiting Sub Account" />
             </branch>
-            <join name="JoinHasAccountingLines"/>
+            <join name="JoinHasAccountingLines" />
           </split>
-          <role name="SubAccount" nextNode="Account"/>
-          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
-          <role name="AccountingOrganizationHierarchy" nextNode="Commodity"/>
-          <role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview"/>
+          <role name="SubAccount" nextNode="Account"    nextAppDocStatus = "Awaiting Fiscal Officer"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Base Org Review" />
+          <role name="AccountingOrganizationHierarchy" nextNode="Commodity" nextAppDocStatus="Awaiting Commodity Code"/>
+          <role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview" nextAppDocStatus ="Awaiting Separation of Duties"/>
           <split name="AmountRequiresSeparationOfDutiesReview">
             <branch name="True">
               <role name="SeparationOfDuties" nextNode="Join"/>
@@ -249,10 +306,65 @@
       <routingVersion>
         2
       </routingVersion>
+	  <validApplicationStatuses>
+	  	<!--  Incomplete status start -->
+	  	<status>In Process</status>
+		<status>Awaiting Fiscal Officer Review</status>
+		<status>Awaiting New Unordered Item Review</status>
+		<status>Disapproved - New Unordered Item Review</status>
+		<status>Awaiting Purchasing Approval</status>
+		<status>Disapproved - Purchasing</status>
+		<status>Awaiting Commodity Code Approval</status>
+		<status>Disapproved - Commodity Code</status>
+		<status>Awaiting C and G Approval</status>
+		<status>Disapproved - C and G</status>
+		<status>Awaiting Budget Approval</status>
+		<status>Disapproved - Budget</status>
+		<status>Awaiting Tax Approval</status>
+		<status>Disapproved - Tax</status>
+		<status>Error occurred sending cxml</status>
+		<status>Error occurred sending fax</status>
+		<status>Out for Quote</status>
+		<status>Payment Hold</status>
+		<status>Pending Fax</status>
+		<status>Pending Print</status>
+		<status>Pending cxml</status>
+		<status>Waiting for Department</status>
+		<status>Waiting for Vendor</status>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+		<status>Cancelled</status>
+		<status>Cancelled Change</status>
+		<status>Change in Process</status>
+		<status>Closed</status>
+		<status>Disapproved Budget</status>
+		<status>Disapproved C and G</status>
+		<status>Disapproved Change</status>
+		<status>Disapproved Commodity Code</status>
+		<status>Disapproved Purchasing</status>
+		<status>Disapproved Tax</status>
+		<status>Open</status>
+		<status>Pending Amendment</status>
+		<status>Pending Close</status>
+		<status>Pending Payment Hold</status>
+		<status>Pending Remove Hold</status>
+		<status>Pending Reopen</status>
+		<status>Pending Retransmit</status>
+		<status>Pending Void</status>
+		<status>Retired Version</status>
+		<status>Void</status>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>      
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="RequiresContractManagementReview"/>
-          <split name="RequiresContractManagementReview" nextNode="Commodity">
+          <start name="AdHoc" nextNode="RequiresContractManagementReview" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+          <split name="RequiresContractManagementReview" nextNode="Commodity" nextAppDocStatus="Awaiting Commodity Code Approval" >
             <branch name="True">
               <role name="ContractManagement" nextNode="JoinRequiresContractManagementReview"/>
             </branch>
@@ -261,8 +373,8 @@
             </branch>
             <join name="JoinRequiresContractManagementReview"/>
           </split>
-          <role name="Commodity" nextNode="RequiresAwardReview"/>
-          <split name="RequiresAwardReview" nextNode="RequiresBudgetReview">
+          <role name="Commodity" nextNode="RequiresAwardReview" nextAppDocStatus="Awaiting C and G Approval" />
+          <split name="RequiresAwardReview" nextNode="RequiresBudgetReview" nextAppDocStatus="Awaiting Budget Approval">
             <branch name="True">
               <role name="Award" nextNode="JoinRequiresAwardReview"/>
             </branch>
@@ -271,7 +383,7 @@
             </branch>
             <join name="JoinRequiresAwardReview"/>
           </split>
-          <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
+          <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval" >
             <branch name="True">
               <role name="Budget" nextNode="JoinRequiresBudgetReview"/>
             </branch>
@@ -379,7 +491,8 @@
         </simple>
       </routeNodes>
     </documentType>
-    <documentType>
+	
+	<documentType>
       <name>
         POA
       </name>
@@ -401,9 +514,59 @@
       <routingVersion>
         2
       </routingVersion>
+        <validApplicationStatuses>	  
+	  	<!--  Incomplete status start -->
+	  	<status>In Process</status>
+		<status>Awaiting Fiscal Officer Review</status>
+		<status>Awaiting New Unordered Item Review</status>
+		<status>Disapproved - New Unordered Item Review</status>
+		<status>Awaiting Purchasing Approval</status>
+		<status>Awaiting Commodity Code Approval</status>
+		<status>Awaiting C and G Approval</status>
+		<status>Awaiting Budget Approval</status>
+		<status>Awaiting Tax Approval</status>
+		<status>Error occurred sending cxml</status>
+		<status>Error occurred sending fax</status>
+		<status>Out for Quote</status>
+		<status>Payment Hold</status>
+		<status>Pending Fax</status>
+		<status>Pending Print</status>
+		<status>Pending cxml</status>
+		<status>Waiting for Department</status>
+		<status>Waiting for Vendor</status>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+		<status>Cancelled</status>
+		<status>Cancelled Change</status>
+		<status>Change in Process</status>
+		<status>Closed</status>
+		<status>Disapproved Budget</status>
+		<status>Disapproved C and G</status>
+		<status>Disapproved Change</status>
+		<status>Disapproved Commodity Code</status>
+		<status>Disapproved Purchasing</status>
+		<status>Disapproved Tax</status>
+		<status>Open</status>
+		<status>Pending Amendment</status>
+		<status>Pending Close</status>
+		<status>Pending Payment Hold</status>
+		<status>Pending Remove Hold</status>
+		<status>Pending Reopen</status>
+		<status>Pending Retransmit</status>
+		<status>Pending Void</status>
+		<status>Retired Version</status>
+		<status>Void</status>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>	  
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="HasNewUnorderedItems"/>
+          <start name="AdHoc" nextNode="HasNewUnorderedItems" nextAppDocStatus="Awaiting New Unordered Item Review"/>
           <split name="HasNewUnorderedItems" nextNode="Account">
             <branch name="True">
               <role name="NewUnorderedItems" nextNode="Join"/>
@@ -441,7 +604,8 @@
         </role>
       </routeNodes>
     </documentType>
-    <documentType>
+	
+	 <documentType>
       <name>
         POC
       </name>
@@ -463,6 +627,55 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+	  	<!--  Incomplete status start -->
+	  	<status>In Process</status>
+		<status>Awaiting Fiscal Officer Review</status>
+		<status>Awaiting New Unordered Item Review</status>
+		<status>Awaiting Purchasing Approval</status>
+		<status>Awaiting Commodity Code Approval</status>
+		<status>Awaiting C and G Approval</status>
+		<status>Awaiting Budget Approval</status>
+		<status>Awaiting Tax Approval</status>
+		<status>Error occurred sending cxml</status>
+		<status>Error occurred sending fax</status>
+		<status>Out for Quote</status>
+		<status>Payment Hold</status>
+		<status>Pending Fax</status>
+		<status>Pending Print</status>
+		<status>Pending cxml</status>
+		<status>Waiting for Department</status>
+		<status>Waiting for Vendor</status>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+		<status>Cancelled</status>
+		<status>Cancelled Change</status>
+		<status>Change in Process</status>
+		<status>Closed</status>
+		<status>Disapproved Budget</status>
+		<status>Disapproved C and G</status>
+		<status>Disapproved Change</status>
+		<status>Disapproved Commodity Code</status>
+		<status>Disapproved Purchasing</status>
+		<status>Disapproved Tax</status>
+		<status>Open</status>
+		<status>Pending Amendment</status>
+		<status>Pending Close</status>
+		<status>Pending Payment Hold</status>
+		<status>Pending Remove Hold</status>
+		<status>Pending Reopen</status>
+		<status>Pending Retransmit</status>
+		<status>Pending Void</status>
+		<status>Retired Version</status>
+		<status>Void</status>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>	  
       <routePaths>
         <routePath>
           <start name="AdHoc"/>
@@ -471,8 +684,8 @@
       <routeNodes>
         <start name="AdHoc"/>
       </routeNodes>
-    </documentType>
-    <documentType>
+    </documentType>		
+	<documentType>
       <name>
         POPH
       </name>
@@ -494,6 +707,55 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+	  	<!--  Incomplete status start -->
+	  	<status>In Process</status>
+		<status>Awaiting Fiscal Officer Review</status>
+		<status>Awaiting New Unordered Item Review</status>
+		<status>Awaiting Purchasing Approval</status>
+		<status>Awaiting Commodity Code Approval</status>
+		<status>Awaiting C and G Approval</status>
+		<status>Awaiting Budget Approval</status>
+		<status>Awaiting Tax Approval</status>
+		<status>Error occurred sending cxml</status>
+		<status>Error occurred sending fax</status>
+		<status>Out for Quote</status>
+		<status>Payment Hold</status>
+		<status>Pending Fax</status>
+		<status>Pending Print</status>
+		<status>Pending cxml</status>
+		<status>Waiting for Department</status>
+		<status>Waiting for Vendor</status>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+		<status>Cancelled</status>
+		<status>Cancelled Change</status>
+		<status>Change in Process</status>
+		<status>Closed</status>
+		<status>Disapproved Budget</status>
+		<status>Disapproved C and G</status>
+		<status>Disapproved Change</status>
+		<status>Disapproved Commodity Code</status>
+		<status>Disapproved Purchasing</status>
+		<status>Disapproved Tax</status>
+		<status>Open</status>
+		<status>Pending Amendment</status>
+		<status>Pending Close</status>
+		<status>Pending Payment Hold</status>
+		<status>Pending Remove Hold</status>
+		<status>Pending Reopen</status>
+		<status>Pending Retransmit</status>
+		<status>Pending Void</status>
+		<status>Retired Version</status>
+		<status>Void</status>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>	  
       <routePaths>
         <routePath>
           <start name="AdHoc"/>
@@ -503,7 +765,8 @@
         <start name="AdHoc"/>
       </routeNodes>
     </documentType>
-    <documentType>
+
+	<documentType>
       <name>
         PORH
       </name>
@@ -525,6 +788,55 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+	  	<!--  Incomplete status start -->
+	  	<status>In Process</status>
+		<status>Awaiting Fiscal Officer Review</status>
+		<status>Awaiting New Unordered Item Review</status>
+		<status>Awaiting Purchasing Approval</status>
+		<status>Awaiting Commodity Code Approval</status>
+		<status>Awaiting C and G Approval</status>
+		<status>Awaiting Budget Approval</status>
+		<status>Awaiting Tax Approval</status>
+		<status>Error occurred sending cxml</status>
+		<status>Error occurred sending fax</status>
+		<status>Out for Quote</status>
+		<status>Payment Hold</status>
+		<status>Pending Fax</status>
+		<status>Pending Print</status>
+		<status>Pending cxml</status>
+		<status>Waiting for Department</status>
+		<status>Waiting for Vendor</status>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+		<status>Cancelled</status>
+		<status>Cancelled Change</status>
+		<status>Change in Process</status>
+		<status>Closed</status>
+		<status>Disapproved Budget</status>
+		<status>Disapproved C and G</status>
+		<status>Disapproved Change</status>
+		<status>Disapproved Commodity Code</status>
+		<status>Disapproved Purchasing</status>
+		<status>Disapproved Tax</status>
+		<status>Open</status>
+		<status>Pending Amendment</status>
+		<status>Pending Close</status>
+		<status>Pending Payment Hold</status>
+		<status>Pending Remove Hold</status>
+		<status>Pending Reopen</status>
+		<status>Pending Retransmit</status>
+		<status>Pending Void</status>
+		<status>Retired Version</status>
+		<status>Void</status>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>	  
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="AccountsPayable"/>
@@ -540,7 +852,7 @@
         </role>
       </routeNodes>
     </documentType>
-    <documentType>
+		<documentType>
       <name>
         POR
       </name>
@@ -562,6 +874,55 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+	  	<!--  Incomplete status start -->
+	  	<status>In Process</status>
+		<status>Awaiting Fiscal Officer Review</status>
+		<status>Awaiting New Unordered Item Review</status>
+		<status>Awaiting Purchasing Approval</status>
+		<status>Awaiting Commodity Code Approval</status>
+		<status>Awaiting C and G Approval</status>
+		<status>Awaiting Budget Approval</status>
+		<status>Awaiting Tax Approval</status>
+		<status>Error occurred sending cxml</status>
+		<status>Error occurred sending fax</status>
+		<status>Out for Quote</status>
+		<status>Payment Hold</status>
+		<status>Pending Fax</status>
+		<status>Pending Print</status>
+		<status>Pending cxml</status>
+		<status>Waiting for Department</status>
+		<status>Waiting for Vendor</status>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+		<status>Cancelled</status>
+		<status>Cancelled Change</status>
+		<status>Change in Process</status>
+		<status>Closed</status>
+		<status>Disapproved Budget</status>
+		<status>Disapproved C and G</status>
+		<status>Disapproved Change</status>
+		<status>Disapproved Commodity Code</status>
+		<status>Disapproved Purchasing</status>
+		<status>Disapproved Tax</status>
+		<status>Open</status>
+		<status>Pending Amendment</status>
+		<status>Pending Close</status>
+		<status>Pending Payment Hold</status>
+		<status>Pending Remove Hold</status>
+		<status>Pending Reopen</status>
+		<status>Pending Retransmit</status>
+		<status>Pending Void</status>
+		<status>Retired Version</status>
+		<status>Void</status>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>	  
       <routePaths>
         <routePath>
           <start name="AdHoc"/>
@@ -571,7 +932,7 @@
         <start name="AdHoc"/>
       </routeNodes>
     </documentType>
-    <documentType>
+	    <documentType>
       <name>
         PORT
       </name>
@@ -593,6 +954,55 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+	  	<!--  Incomplete status start -->
+	  	<status>In Process</status>
+		<status>Awaiting Fiscal Officer Review</status>
+		<status>Awaiting New Unordered Item Review</status>
+		<status>Awaiting Purchasing Approval</status>
+		<status>Awaiting Commodity Code Approval</status>
+		<status>Awaiting C and G Approval</status>
+		<status>Awaiting Budget Approval</status>
+		<status>Awaiting Tax Approval</status>
+		<status>Error occurred sending cxml</status>
+		<status>Error occurred sending fax</status>
+		<status>Out for Quote</status>
+		<status>Payment Hold</status>
+		<status>Pending Fax</status>
+		<status>Pending Print</status>
+		<status>Pending cxml</status>
+		<status>Waiting for Department</status>
+		<status>Waiting for Vendor</status>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+		<status>Cancelled</status>
+		<status>Cancelled Change</status>
+		<status>Change in Process</status>
+		<status>Closed</status>
+		<status>Disapproved Budget</status>
+		<status>Disapproved C and G</status>
+		<status>Disapproved Change</status>
+		<status>Disapproved Commodity Code</status>
+		<status>Disapproved Purchasing</status>
+		<status>Disapproved Tax</status>
+		<status>Open</status>
+		<status>Pending Amendment</status>
+		<status>Pending Close</status>
+		<status>Pending Payment Hold</status>
+		<status>Pending Remove Hold</status>
+		<status>Pending Reopen</status>
+		<status>Pending Retransmit</status>
+		<status>Pending Void</status>
+		<status>Retired Version</status>
+		<status>Void</status>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>	  
       <routePaths>
         <routePath>
           <start name="AdHoc"/>
@@ -624,8 +1034,57 @@
       <routingVersion>
         2
       </routingVersion>
+	  <validApplicationStatuses>
+	  	<!--  Incomplete status start -->
+	  	<status>In Process</status>
+		<status>Awaiting Fiscal Officer Review</status>
+		<status>Awaiting New Unordered Item Review</status>
+		<status>Awaiting Purchasing Approval</status>
+		<status>Awaiting Commodity Code Approval</status>
+		<status>Awaiting C and G Approval</status>
+		<status>Awaiting Budget Approval</status>
+		<status>Awaiting Tax Approval</status>
+		<status>Error occurred sending cxml</status>
+		<status>Error occurred sending fax</status>
+		<status>Out for Quote</status>
+		<status>Payment Hold</status>
+		<status>Pending Fax</status>
+		<status>Pending Print</status>
+		<status>Pending cxml</status>
+		<status>Waiting for Department</status>
+		<status>Waiting for Vendor</status>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+		<status>Cancelled</status>
+		<status>Cancelled Change</status>
+		<status>Change in Process</status>
+		<status>Closed</status>
+		<status>Disapproved Budget</status>
+		<status>Disapproved C and G</status>
+		<status>Disapproved Change</status>
+		<status>Disapproved Commodity Code</status>
+		<status>Disapproved Purchasing</status>
+		<status>Disapproved Tax</status>
+		<status>Open</status>
+		<status>Pending Amendment</status>
+		<status>Pending Close</status>
+		<status>Pending Payment Hold</status>
+		<status>Pending Remove Hold</status>
+		<status>Pending Reopen</status>
+		<status>Pending Retransmit</status>
+		<status>Pending Void</status>
+		<status>Retired Version</status>
+		<status>Void</status>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>	  
     </documentType>
-    <documentType>
+  <documentType>
       <name>
         POV
       </name>
@@ -647,6 +1106,55 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+	  	<!--  Incomplete status start -->
+	  	<status>In Process</status>
+		<status>Awaiting Fiscal Officer Review</status>
+		<status>Awaiting New Unordered Item Review</status>
+		<status>Awaiting Purchasing Approval</status>
+		<status>Awaiting Commodity Code Approval</status>
+		<status>Awaiting C and G Approval</status>
+		<status>Awaiting Budget Approval</status>
+		<status>Awaiting Tax Approval</status>
+		<status>Error occurred sending cxml</status>
+		<status>Error occurred sending fax</status>
+		<status>Out for Quote</status>
+		<status>Payment Hold</status>
+		<status>Pending Fax</status>
+		<status>Pending Print</status>
+		<status>Pending cxml</status>
+		<status>Waiting for Department</status>
+		<status>Waiting for Vendor</status>
+		<!--  Incomplete status end -->
+		<!--  complete status start -->
+		<status>Cancelled</status>
+		<status>Cancelled Change</status>
+		<status>Change in Process</status>
+		<status>Closed</status>
+		<status>Disapproved Budget</status>
+		<status>Disapproved C and G</status>
+		<status>Disapproved Change</status>
+		<status>Disapproved Commodity Code</status>
+		<status>Disapproved Purchasing</status>
+		<status>Disapproved Tax</status>
+		<status>Open</status>
+		<status>Pending Amendment</status>
+		<status>Pending Close</status>
+		<status>Pending Payment Hold</status>
+		<status>Pending Remove Hold</status>
+		<status>Pending Reopen</status>
+		<status>Pending Retransmit</status>
+		<status>Pending Void</status>
+		<status>Retired Version</status>
+		<status>Void</status>
+		<!--  complete status end -->
+	  </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>	  
       <routePaths>
         <routePath>
           <start name="AdHoc"/>
@@ -655,7 +1163,7 @@
       <routeNodes>
         <start name="AdHoc"/>
       </routeNodes>
-    </documentType>
+    </documentType> 
     <documentType>
       <name>
         EIRT
@@ -718,9 +1226,24 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+      	<status>Initiated</status>
+      	<status>In Process</status>
+      	<status>Cancelled - In Process</status>
+      	<status>Void</status>
+      	<status>Cancelled</status>
+      	<status>Complete</status>
+      	<status>Awaiting AP Review</status>      	
+      </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>      
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="RequiresImageAttachment"/>
+          <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
           <split name="RequiresImageAttachment" nextNode="Account">
             <branch name="True">
               <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment"/>
@@ -783,19 +1306,40 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+      	<status>Initiated</status>
+      	<status>In Process</status>
+      	<status>Cancelled - In Process</status>
+      	<status>Cancelled</status>
+      	<status>Department-Approved</status>
+      	<status>Auto-Approved</status>
+      	<status>Awaiting AP Review</status>
+      	<status>Awaiting Receiving</status>
+      	<status>Awaiting Sub-Account Manager Approval</status>
+      	<status>Awaiting Fiscal Officer Approval</status>
+      	<status>Awaiting Chart Approval</status>
+      	<status>Awaiting Tax Approval</status>
+      	<status>Pending Route Electronic Invoice</status>
+      </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>      
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="RequiresImageAttachment"/>
-          <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
+          <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
+          <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived" nextAppDocStatus="Awaiting Receiving">
             <branch name="True">
-              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment"/>
+              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
             </branch>
             <branch name="False">
-              <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment"/>
+              <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
             </branch>
             <join name="JoinRequiresImageAttachment"/>
           </split>
-          <split name="PurchaseWasReceived" nextNode="SubAccount">
+          <split name="PurchaseWasReceived" nextNode="SubAccount" nextAppDocStatus="Awaiting Sub-Account Manager Approval">
             <branch name="True">
               <role name="Receiving" nextNode="JoinReceiving"/>
             </branch>
@@ -804,9 +1348,9 @@
             </branch>
             <join name="JoinReceiving"/>
           </split>
-          <role name="SubAccount" nextNode="Account"/>
-          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
-          <role name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien"/>
+          <role name="SubAccount" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Approval"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Chart Approval"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval"/>
           <split name="VendorIsEmployeeOrNonResidentAlien">
             <branch name="True">
               <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
@@ -956,9 +1500,21 @@
       <routingVersion>
         2
       </routingVersion>
+      <validApplicationStatuses>
+      	<status>In Process</status>
+      	<status>Cancelled</status>
+      	<status>Awaiting Purchase Order Open Status</status>
+      	<status>Complete</status>
+      </validApplicationStatuses>
+      <policies>
+        <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+        </policy>
+      </policies>      
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="RelatesToOutstandingTransactions"/>
+          <start name="AdHoc" nextNode="RelatesToOutstandingTransactions" nextAppDocStatus="Awaiting Purchase Order Open Status"/>
           <split name="RelatesToOutstandingTransactions">
             <branch name="True">
               <role name="OutstandingTransactions" nextNode="Join"/>

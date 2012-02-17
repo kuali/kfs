@@ -878,7 +878,7 @@
         </xsd:restriction>
     </xsd:simpleType>
  
-    <xsd:simpleType name="PaymentGroup.customerInstitutionNumber">
+    <xsd:simpleType name="PaymentDetail.customerInstitutionNumber">
         <xsd:restriction base="xsd:normalizedString">
             <xsd:maxLength value="32"/>
             <xsd:whiteSpace value="replace"/>

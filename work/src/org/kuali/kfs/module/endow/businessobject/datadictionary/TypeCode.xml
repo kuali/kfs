@@ -224,7 +224,8 @@
 		<property name="label" value="Default Income ACI Model" />
 	</bean>
 
-	<bean id="TypeCode-codeForReport" parent="TypeCode-code-parentBean">
+	<bean id="TypeCode-codeForReport" parent="TypeCode-codeForReport-parentBean"/>
+	<bean id="TypeCode-codeForReport-parentBean" abstract="true" parent="TypeCode-code-parentBean">
 		<property name="name" value="codeForReport" />
 		<property name="maxLength" value="150" />
 		<property name="control">

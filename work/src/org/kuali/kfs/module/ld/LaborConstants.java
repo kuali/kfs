@@ -293,4 +293,17 @@ public class LaborConstants {
     public static class PermissionNames {
         public static final String OVERRIDE_TRANSFER_IMPACTING_EFFORT_CERTIFICATION = "Override Transfer Impacting Open Effort Certification";
     }
+    
+    public static class BenefitCalculation {
+        public static final String ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_PARAMETER = "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND";
+        public static final String MAX_NUMBER_OF_ERRORS_ALLOWED_PARAMETER = "MAX_NUMBER_OF_ERRORS_ALLOWED";
+        public static final String GENERATE_FRINGE_BENEFIT_PARAMETER = "GENERATE_FRINGE_BENEFIT_IND";
+        public static final String GENERATE_FRINGE_BENEFIT_ENCUMBRANCE_PARAMETER = "GENERATE_FRINGE_BENEFIT_ENCUMBRANCE_IND";
+        // Constants for the Salary Benefit Offset
+        public static final String LABOR_BENEFIT_CALCULATION_OFFSET_IND = "LABOR_BENEFIT_CALCULATION_OFFSET_IND";
+        public static final String LABOR_BENEFIT_OFFSET_DOCTYPE = "LABOR_BENEFIT_OFFSET_DOCTYPE";
+        public static final String ACCOUNT_CODE_OFFSET_PROPERTY_NAME = "extension.accountCodeOffset";
+        public static final String OBJECT_CODE_OFFSET_PROPERTY_NAME = "extension.objectCodeOffset";
+ 
+    }
 }

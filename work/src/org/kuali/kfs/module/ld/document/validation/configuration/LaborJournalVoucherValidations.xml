@@ -130,9 +130,10 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="JournalVoucher-accountingLineExternalEncumbranceReferenceValidation" scope="prototype">
+				<bean parent="JournalVoucher-accountingLineEncumbranceReferenceValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
+              <bean parent="validationFieldConversion" p:sourceEventProperty="document" p:targetValidationProperty="journalVoucherForValidation" />
 							<bean parent="validationFieldConversion" p:sourceEventProperty="accountingLine" p:targetValidationProperty="accountingLineForValidation" />
 						</list>
 					</property>
@@ -194,9 +195,10 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="JournalVoucher-accountingLineExternalEncumbranceReferenceValidation" scope="prototype">
+				<bean parent="JournalVoucher-accountingLineEncumbranceReferenceValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
+              <bean parent="validationFieldConversion" p:sourceEventProperty="document" p:targetValidationProperty="journalVoucherForValidation" />
 							<bean parent="validationFieldConversion" p:sourceEventProperty="updatedAccountingLine" p:targetValidationProperty="accountingLineForValidation" />
 						</list>
 					</property>

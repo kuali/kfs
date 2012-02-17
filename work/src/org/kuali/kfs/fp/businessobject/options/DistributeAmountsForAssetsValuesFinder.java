@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
@@ -31,8 +32,8 @@ public class DistributeAmountsForAssetsValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new ConcreteKeyValue("1", "Distribute cost equally"));
-        keyValues.add(new ConcreteKeyValue("2", "Distribute cost by individual asset amount"));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE, KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_DESCRIPTION));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE, KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION));
 
         return keyValues;
     }

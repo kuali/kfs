@@ -25,7 +25,6 @@ import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEdit
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -47,8 +46,8 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     @Override
     public boolean canSave(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-
-        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
+        
+        if (StringUtils.equals(paymentRequestDocument.getAppDocStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
             return false;
         }
 
@@ -63,7 +62,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     public boolean canReload(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
 
-        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
+        if (StringUtils.equals(paymentRequestDocument.getAppDocStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
             return false;
         }
 
@@ -108,7 +107,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
         //  fiscal officer review gets the doc editable once its enroute, but no one else does
         if (fullDocEntryCompleted) {
-            if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
+            if (paymentRequestDocument.isDocumentStoppedInRouteNode(PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
                 return true;
             }
             return false;
@@ -160,7 +159,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             editModes.add(PaymentRequestEditMode.REMOVE_REQUEST_CANCEL);
         }
 
-        if (paymentRequestDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.INITIATE)) {
+        if (paymentRequestDocument.getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE)) {
             editModes.add(PaymentRequestEditMode.DISPLAY_INIT_TAB);
         }
 
@@ -171,7 +170,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
         }
-        else if (ObjectUtils.isNotNull(paymentRequestDocument.getPurchaseOrderDocument()) && PurapConstants.PurchaseOrderStatuses.OPEN.equals(paymentRequestDocument.getPurchaseOrderDocument().getStatusCode())) {
+        else if (ObjectUtils.isNotNull(paymentRequestDocument.getPurchaseOrderDocument()) && PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(paymentRequestDocument.getPurchaseOrderDocument().getAppDocStatus())) {
             editModes.add(PaymentRequestEditMode.ALLOW_CLOSE_PURCHASE_ORDER);
         }
 
@@ -197,23 +196,23 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         }
 
         // tax area tab is editable while waiting for tax review
-        if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.VENDOR_TAX_REVIEW)) {
+        if (paymentRequestDocument.isDocumentStoppedInRouteNode(PaymentRequestStatuses.NODE_VENDOR_TAX_REVIEW)) {
             editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
         /*
-        if (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
+        if (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(paymentRequestDocument.getAppDocStatus())) {
             editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
         */
 
         // the tax tab is viewable to everyone after tax is approved
-        if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(paymentRequestDocument.getStatusCode()) &&
+        if (PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED.equals(paymentRequestDocument.getAppDocStatus()) &&
                 // if and only if the preq has gone through tax review would TaxClassificationCode be non-empty
                 !StringUtils.isEmpty(paymentRequestDocument.getTaxClassificationCode())) {
             editModes.add(PaymentRequestEditMode.TAX_INFO_VIEWABLE);
         }
 
-        if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
+        if (paymentRequestDocument.isDocumentStoppedInRouteNode(PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
             // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
             editModes.add(PaymentRequestEditMode.RESTRICT_FISCAL_ENTRY);
 
@@ -242,27 +241,27 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
     protected boolean canProcessorCancel(PaymentRequestDocument paymentRequestDocument) {
         // if Payment Request is in INITIATE status, user cannot cancel doc
-        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
+        if (StringUtils.equals(paymentRequestDocument.getAppDocStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
             return false;
         }
-
-        String docStatus = paymentRequestDocument.getStatusCode();
+        
+        String docStatus = paymentRequestDocument.getAppDocStatus();
         boolean requestCancelIndicator = paymentRequestDocument.getPaymentRequestedCancelIndicator();
         boolean holdIndicator = paymentRequestDocument.isHoldIndicator();
         boolean extracted = paymentRequestDocument.isExtracted();
-
-        boolean preroute =
-            PaymentRequestStatuses.IN_PROCESS.equals(docStatus) ||
-            PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(docStatus);
-        boolean enroute =
-            PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(docStatus) ||
-            PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(docStatus) ||
-            PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(docStatus) ||
-            PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(docStatus);
-        boolean postroute =
-            PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(docStatus) ||
-            PaymentRequestStatuses.AUTO_APPROVED.equals(docStatus);
-
+        
+        boolean preroute = 
+            PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(docStatus) || 
+            PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(docStatus);
+        boolean enroute = 
+            PaymentRequestStatuses.APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW.equals(docStatus) ||
+            PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(docStatus) || 
+            PaymentRequestStatuses.APPDOC_AWAITING_ORG_REVIEW.equals(docStatus) || 
+            PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW.equals(docStatus);
+        boolean postroute = 
+            PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED.equals(docStatus) || 
+            PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(docStatus);
+        
         boolean can = false;
         if (preroute) {
             can = true;
@@ -279,27 +278,27 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
     protected boolean canManagerCancel(PaymentRequestDocument paymentRequestDocument) {
         // if Payment Request is in INITIATE status, user cannot cancel doc
-        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
+        if (StringUtils.equals(paymentRequestDocument.getAppDocStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
             return false;
         }
-
-        String docStatus = paymentRequestDocument.getStatusCode();
+        
+        String docStatus = paymentRequestDocument.getAppDocStatus();
         boolean requestCancelIndicator = paymentRequestDocument.getPaymentRequestedCancelIndicator();
         boolean holdIndicator = paymentRequestDocument.isHoldIndicator();
         boolean extracted = paymentRequestDocument.isExtracted();
-
-        boolean preroute =
-            PaymentRequestStatuses.IN_PROCESS.equals(docStatus) ||
-            PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(docStatus);
-        boolean enroute =
-            PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(docStatus) ||
-            PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(docStatus) ||
-            PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(docStatus) ||
-            PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(docStatus);
-        boolean postroute =
-            PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(docStatus) ||
-            PaymentRequestStatuses.AUTO_APPROVED.equals(docStatus);
-
+        
+        boolean preroute = 
+            PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(docStatus) || 
+            PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(docStatus);
+        boolean enroute = 
+            PaymentRequestStatuses.APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW.equals(docStatus) ||
+            PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(docStatus) || 
+            PaymentRequestStatuses.APPDOC_AWAITING_ORG_REVIEW.equals(docStatus) || 
+            PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW.equals(docStatus);
+        boolean postroute = 
+            PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED.equals(docStatus) || 
+            PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(docStatus);
+        
         boolean can = false;
         if (preroute || enroute) {
             can = true;
@@ -321,17 +320,13 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      * @return True if the document state allows placing the Payment Request on hold.
      */
     protected boolean canHold(PaymentRequestDocument paymentRequestDocument) {
-        boolean canHold = !paymentRequestDocument.isHoldIndicator()
-                && !paymentRequestDocument.isPaymentRequestedCancelIndicator()
-                && !paymentRequestDocument.isExtracted();
-        if (!canHold) {
-            return false;
+        boolean can = !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isExtracted();
+        if (can) {
+            can = paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
+            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getAppDocStatus());
         }
-        // we always allow it if the document is being adhoc routed, regardless of status
-        if ( SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) ) {
-            return true;
-        }
-        return PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getStatusCode());
+        
+        return can;
     }
 
     /**
@@ -347,7 +342,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         boolean can = !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
             can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());
-            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(paymentRequestDocument.getStatusCode());
+            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(paymentRequestDocument.getAppDocStatus());
         }
 
         return can;
@@ -384,7 +379,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canEditPreExtraction(PaymentRequestDocument paymentRequestDocument) {
         return (!paymentRequestDocument.isExtracted() &&
                 !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) &&
-                !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getStatusCode()));
+                !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getAppDocStatus()));
     }
 
 }

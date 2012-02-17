@@ -30,10 +30,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -92,9 +92,13 @@ public class LineItemReceivingForm extends ReceivingFormBase {
         //leave the first field blank to match the other PURAP docs
         getDocInfo().add(new HeaderField());
         
-        if (ObjectUtils.isNotNull(this.getLineItemReceivingDocument().getLineItemReceivingStatus())) {
-            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", this.getLineItemReceivingDocument().getLineItemReceivingStatus().getLineItemReceivingStatusDescription()));
+        if (ObjectUtils.isNotNull(this.getLineItemReceivingDocument().getAppDocStatus())) {
+            
+            String appDocStatus = workflowDocument.getApplicationDocumentStatus();
+         
+            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", appDocStatus));
         }
+        
         else {
             getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", "Not Available"));
         }

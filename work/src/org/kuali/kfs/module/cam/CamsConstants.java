@@ -119,6 +119,7 @@ public class CamsConstants {
         public static final String DEPRECIATION_RUN_DATE_PARAMETER = "DEPRECIATION_RUN_DATE";
         public static final String DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES = "DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPE";
         public static final String DEPRECIATION_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES = "DEPRECIATION_ORGANIZATON_PLANT_FUND_OBJECT_SUB_TYPE";
+        public static final String NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE = "NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE";
         public static final String NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES = "NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES";
         public static final String NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES = "NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES";
         public static final String FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES = "FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES";
@@ -143,6 +144,7 @@ public class CamsConstants {
         public static final String CAPITAL_OBJECT_SUB_TYPES = "CAPITAL_OBJECT_SUB_TYPES";
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS = "IGNORES_LOCKS_IND";
         public static final String MAX_NUMBER_OF_RECORDS_PER_DOCUMENT = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
+        public static final String FISCAL_YEAR_END_DAY_AND_MONTH = "FISCAL_YEAR_END_MONTH_AND_DAY";
     }
 
     public static class Report {
@@ -203,7 +205,11 @@ public class CamsConstants {
         public static final String BORROWER_STORAGE = "BS";
         public static final String RETIREMENT = "R";
     }
-
+    
+    public static class AssetLocationGlobal {
+        public static final String SECTION_ID_EDIT_LIST_OF_ASSETS = "Edit List of Assets";
+    }
+    
     public static class AssetRetirementGlobal {
         public static final String ASSET_LOOKUPABLE_ID = "assetLookupable";
         public static final String DOCUMENT_HEADER = "documentHeader";

@@ -26,18 +26,21 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.ReportBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Just as Balance is a summarization of Entry, so AccountBalance is a summarization of Balance.
  * Specifically, it stores the current budget, actual, and encumbrance totals in one record.
  */
-public class AccountBalance extends PersistableBusinessObjectBase {
+public class AccountBalance extends PersistableBusinessObjectBase implements ReportBusinessObject{
     static final long serialVersionUID = 6873573726961704771L;
 
     private Integer universityFiscalYear;
@@ -102,6 +105,8 @@ public class AccountBalance extends PersistableBusinessObjectBase {
         if (TYPE_CONSOLIDATION.equals(type)) {
             financialObject.getFinancialObjectType().setFinancialReportingSortCode((String) data.get(GeneralLedgerConstants.ColumnNames.REPORT_SORT_CODE));
             financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinancialReportingSortCode((String) data.get(GeneralLedgerConstants.ColumnNames.CONSOLIDATION_REPORT_SORT_CODE));
+            
+            financialObject.getFinancialObjectType().setBasicAccountingCategoryCode((String) data.get(GeneralLedgerConstants.ColumnNames.ACCTG_CTGRY_CD));
             fixVariance();
         }
         else if (TYPE_LEVEL.equals(type)) {
@@ -110,7 +115,7 @@ public class AccountBalance extends PersistableBusinessObjectBase {
             financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GeneralLedgerConstants.ColumnNames.OBJECT_LEVEL_CODE2));
 
             // tricking it so getVariance() works
-            financialObject.getFinancialObjectType().setFinancialReportingSortCode(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B);
+            financialObject.getFinancialObjectType().setBasicAccountingCategoryCode(getAccountingCategoryExpenseCode());
             fixVariance();
         }
         else if (TYPE_OBJECT.equals(type)) {
@@ -119,12 +124,57 @@ public class AccountBalance extends PersistableBusinessObjectBase {
             financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GeneralLedgerConstants.ColumnNames.OBJECT_LEVEL_CODE));
 
             // tricking it so getVariance() works
-            financialObject.getFinancialObjectType().setFinancialReportingSortCode(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B);
+            financialObject.getFinancialObjectType().setBasicAccountingCategoryCode(getAccountingCategoryExpenseCode());
             fixVariance();
         }
         else {
             throw new RuntimeException("Unknown type: " + type);
         }
+    }
+              
+    /**
+     * Perform the refresh non-updateable method but do an additional check on the following  objects
+     * within financialObject if either the object is null or the primary key returned null.  If that is true,
+     * re-use the original object/values.
+     * 
+     * 1. FinancialObjectLevel
+     * 2. FinancialObjectType
+     *
+     * @see org.kuali.kfs.gl.businessobject.ReportBusinessObject#refreshNonUpdateableForReport()
+     */
+    @Override
+    public void refreshNonUpdateableForReport() {
+        //store the orignal financial object
+        ObjectCode origfinancialObject = getFinancialObject();
+        super.refreshNonUpdateableReferences();
+        
+        if (ObjectUtils.isNull(financialObject)){
+            //entire financial object is  null, simply replace with the original
+            setFinancialObject(origfinancialObject);
+        }else{
+            //check individual subobjects
+            
+            //check financial object level - if the object is null or primary key value is null, this object needs to be updated
+            if (ObjectUtils.isNull(financialObject.getFinancialObjectLevel()) || ObjectUtils.isNull(financialObject.getFinancialObjectLevel().getFinancialObjectLevelCode())){
+                financialObject.setFinancialObjectLevel(origfinancialObject.getFinancialObjectLevel());
+                financialObject.setFinancialObjectLevelCode(origfinancialObject.getFinancialObjectCode());
+            }
+            //check financial object type - if the object is null or primary key value is null, this object needs to be updated
+            if (ObjectUtils.isNull(financialObject.getFinancialObjectType().getCode()) || ObjectUtils.isNull(financialObject.getFinancialObjectType())){
+                financialObject.setFinancialObjectType(origfinancialObject.getFinancialObjectType());
+            }
+        }
+    }
+
+    /**
+     * Retrieve from parameter the Accounting Category Expense Code 
+     * 
+     * @return
+     */
+    public String getAccountingCategoryExpenseCode(){
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String accountingCategoryExpenseCode = parameterService.getParameterValueAsString(AccountBalanceByConsolidation.class, GeneralLedgerConstants.BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES);
+        return accountingCategoryExpenseCode;
     }
 
     public AccountBalance(String title) {
@@ -157,11 +207,8 @@ public class AccountBalance extends PersistableBusinessObjectBase {
 
         KualiDecimal variance = KualiDecimal.ZERO;
 
-        // get the reporting sort code
-        String reportingSortCode = financialObject.getFinancialObjectType().getFinancialReportingSortCode();
-
-        // calculate the variance based on the starting character of reporting sort code
-        if (reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B)) {
+        // calculate the variance based on the basic accounting category code
+        if (getAccountingCategoryExpenseCode().equals(financialObject.getFinancialObjectType().getBasicAccountingCategoryCode())) {
             variance = currentBudgetLineBalanceAmount.subtract(accountLineActualsBalanceAmount);
             variance = variance.subtract(accountLineEncumbranceBalanceAmount);
         }

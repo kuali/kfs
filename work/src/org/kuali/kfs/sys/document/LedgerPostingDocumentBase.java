@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -66,8 +67,17 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * @return the current accounting period
      */
     public AccountingPeriod retrieveCurrentAccountingPeriod() {
-        Date date = getDateTimeService().getCurrentSqlDate();
-        return getAccountingPeriodService().getByDate(date);
+    	// CSU 6702 BEGIN
+        try {
+        // CSU 6702 END    	
+            Date date = getDateTimeService().getCurrentSqlDate();
+            return getAccountingPeriodService().getByDate(date);
+       	// CSU 6702 BEGIN
+        } catch ( RuntimeException ex ) {
+            // catch and ignore - prevent blowup when called before services initialized
+            return null;
+        }
+        // CSU 6702 END
     }
 
     /**
@@ -158,4 +168,29 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
         }
         return accountingPeriodService;
     }
+    
+    // CSU 6702 BEGIN
+    // rSmart-jkneal-KFSCSU-199-begin mod for selected accounting period
+    /**
+     * Composite of postingPeriodCode and postingYear
+     * @return Return a composite of postingPeriodCode and postingYear
+     */
+    public String getAccountingPeriodCompositeString() {
+        return postingPeriodCode + postingYear;
+    }
+
+    /**
+     * Set accountingPeriod based on incoming paramater.
+     * @param accountingPeriodString in the form of [period][year]
+     */
+    public void setAccountingPeriodCompositeString(String accountingPeriodString) {
+        if (StringUtils.isNotBlank(accountingPeriodString)) {
+            String period = StringUtils.left(accountingPeriodString, 2);
+            Integer year = new Integer(StringUtils.right(accountingPeriodString, 4));
+            AccountingPeriod accountingPeriod = getAccountingPeriodService().getByPeriod(period, year);
+            setAccountingPeriod(accountingPeriod);
+        }
+    }
+    // rSmart-jkneal-KFSCSU-199-end mod for selected accounting period
+    // CSU 6702 END    
 }

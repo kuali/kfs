@@ -36,6 +36,7 @@
         <ref bean="CapitalAccountingLines-selectLine"/>
         <ref bean="CapitalAccountingLines-distributionAmountCode"/>
         <ref bean="CapitalAccountingLines-amountDistributed"/>
+        <ref bean="CapitalAccountingLines-accountLinePercent"/>
       </list>
     </property>
   </bean>
@@ -134,4 +135,22 @@
     <property name="shortLabel" value="Distributed"/>
     <property name="required" value="false"/>
   </bean>
+  <bean id="CapitalAccountingLines-accountLinePercent" parent="CapitalAccountingLines-accountLinePercent-parentBean"/>
+
+  <bean id="CapitalAccountingLines-accountLinePercent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountLinePercent"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Account Line Percent"/>
+    <property name="shortLabel" value="Percent"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointValidation" />
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BigDecimalFormatter"/>
+  </bean>
+  
 </beans>

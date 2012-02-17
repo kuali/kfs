@@ -26,11 +26,16 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Presentation Controller for Asset Global Maintenance Documents
@@ -249,4 +254,26 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
 
         return fields;
     }
+
+    // CSU 6702 BEGIN
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document) {
+        Set<String> documentActions = super.getDocumentActions(document);
+        
+        if (document instanceof LedgerPostingDocument) {
+            // check accounting period is enabled for doc type in system parameter
+            String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.ParameterNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
+            if (evaluator.evaluationSucceeds()) {
+                documentActions.add(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
+            }
+        }
+        
+        return documentActions;
+    }
+    // CSU 6702 END    
+    
 }

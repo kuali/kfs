@@ -25,6 +25,14 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
  * that are necessary for transaction processing in the application. It also defines methods to retrieve specific object type codes
  */
 public interface ObjectTypeService {
+    
+    /**
+     * Retrieve all ObjecType
+     * 
+     * @return
+     */
+    public List<ObjectType> getAllObjectType();
+    
     /**
      * Retrieve an ObjectType by code/id.
      * 

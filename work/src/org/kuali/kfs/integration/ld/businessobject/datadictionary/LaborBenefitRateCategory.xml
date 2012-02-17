@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="LaborBenefitRateCategory" parent="LaborBenefitRateCategory-parentBean" />
+	<bean id="LaborBenefitRateCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.integration.ld.businessobject.BenefitRateCategory" />
+		<property name="objectLabel" value="Labor Benefit Rate Category" />
+		<property name="attributes">
+			<list>
+				<ref bean="LaborBenefitRateCategory-code" />
+				<ref bean="LaborBenefitRateCategory-activeIndicator" />
+				<ref bean="LaborBenefitRateCategory-codeDesc" />
+			</list>
+		</property>
+	</bean>
+	<bean id="LaborBenefitRateCategory-code" parent="LaborBenefitRateCategory-code-parentBean" />
+	<bean id="LaborBenefitRateCategory-code-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="laborBenefitRateCategoryCode" />
+		<property name="label" value="Labor Benefit Rate Category Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="2" />
+		<property name="required" value="true" />
+		<property name="summary" value="Code" />
+		<property name="description" value="Code" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+	</bean>
+	<bean id="LaborBenefitRateCategory-activeIndicator" parent="LaborBenefitRateCategory-activeIndicator-parentBean" />
+	<bean id="LaborBenefitRateCategory-activeIndicator-parentBean"  abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="activeIndicator" />
+		<property name="label" value="Active Indicator" />
+		<property name="shortLabel" value="Active Indicator" />
+	</bean>
+	<bean id="LaborBenefitRateCategory-codeDesc" parent="LaborBenefitRateCategory-codeDesc-parentBean" />
+	<bean id="LaborBenefitRateCategory-codeDesc-parentBean"  abstract="true" parent="AttributeDefinition">
+		<property name="name" value="codeDesc" />
+		<property name="label" value="Labor Benefit Rate Category Description" />
+		<property name="shortLabel" value="Code Desc" />
+		<property name="maxLength" value="40" />
+		<property name="required" value="true" />
+		<property name="summary" value="Code Desc" />
+		<property name="description" value="Code Desc" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+</beans>

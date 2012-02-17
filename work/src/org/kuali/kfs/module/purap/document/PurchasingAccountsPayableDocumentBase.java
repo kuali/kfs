@@ -27,14 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
-import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.impl.PurapServiceImpl;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -55,7 +53,6 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
@@ -72,7 +69,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // SHARED FIELDS BETWEEN REQUISITION, PURCHASE ORDER, PAYMENT REQUEST, AND CREDIT MEMO
     protected Integer purapDocumentIdentifier;
-    protected String statusCode;
     protected Integer vendorHeaderGeneratedIdentifier;
     protected Integer vendorDetailAssignedIdentifier;
     protected String vendorCustomerNumber;
@@ -101,7 +97,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
     
     // REFERENCE OBJECTS
-    protected Status status;
     protected VendorDetail vendorDetail;
     protected Country vendorCountry;
 
@@ -250,16 +245,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return false;
     }
 
-    /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isDocumentStoppedInRouteNode(NodeDetails
-     *      nodeDetails)
-     */
-    public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails) {
+    // for app doc status
+    public boolean isDocumentStoppedInRouteNode(String nodeName) {
 
         WorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
         Set<String> names = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
         List<String> currentRouteLevels = new ArrayList<String>(names);
-        if (currentRouteLevels.contains(nodeDetails.getName()) && workflowDoc.isApprovalRequested()) {
+            if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
             return true;
         }
         return false;
@@ -817,26 +809,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.purapDocumentIdentifier = identifier;
     }
 
-    public Status getStatus() {
-        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode()))  {
-            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
+    public String getAppDocStatus(){
+        return getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
         }
-        else if (ObjectUtils.isNotNull(status) && StringUtils.isNotEmpty(getStatusCode()) && !status.getStatusCode().equals(getStatusCode())) {
-            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
-        }
-        return status;
-    }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
+    public void setAppDocStatus(String appDocStatus){
+        getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);        
     }
 
     public VendorDetail getVendorDetail() {
@@ -1009,10 +987,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.relatedViews = relatedViews;
     }
     
-    public String getStatusCodeForMultiboxSearching() {
-        return statusCode;
-    }
-        
     @Override
     public void refreshNonUpdateableReferences() {
 

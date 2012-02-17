@@ -236,7 +236,8 @@
 		abstract="true" parent="ResponsibilityCenter-responsibilityCenterCode" />
 
 	<bean id="Organization-organizationPhysicalCampusCode" parent="Organization-organizationPhysicalCampusCode-parentBean" />
-	<bean id="Organization-organizationPhysicalCampusCodeForReport"
+	<bean id="Organization-organizationPhysicalCampusCodeForReport" parent="Organization-organizationPhysicalCampusCodeForReport-parentBean"/>
+	<bean id="Organization-organizationPhysicalCampusCodeForReport-parentBean" abstract="true"
 		parent="Organization-organizationPhysicalCampusCode-parentBean">
 		<property name="name" value="organizationPhysicalCampusCodeForReport" />
 		<property name="maxLength" value="150" />
@@ -667,7 +668,8 @@
 		<property name="shortLabel" value="Last Update Date" />
 	</bean>
 
-	<bean id="Organization-organizationCodeForReport" parent="Organization-organizationCode-parentBean">
+	<bean id="Organization-organizationCodeForReport" parent="Organization-organizationCodeForReport-parentBean"/>
+	<bean id="Organization-organizationCodeForReport-parentBean" abstract="true" parent="Organization-organizationCode-parentBean">
 		<property name="name" value="organizationCodeForReport" />
 		<property name="maxLength" value="150" />
 		<property name="control">

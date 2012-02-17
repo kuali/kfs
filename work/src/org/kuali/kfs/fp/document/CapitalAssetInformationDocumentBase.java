@@ -18,7 +18,9 @@ package org.kuali.kfs.fp.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -34,7 +36,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  public class CapitalAssetInformationDocumentBase extends AccountingDocumentBase implements CapitalAssetEditable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CapitalAssetInformationDocumentBase.class);
     protected Integer nextCapitalAssetLineNumber;
-    
+
     // capital asset
     protected List<CapitalAssetInformation> capitalAssetInformation;
     
@@ -67,9 +69,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
     public List buildListOfDeletionAwareLists() {
         List<List> managedLists = super.buildListOfDeletionAwareLists();
         
-        List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
+        List<CapitalAssetInformation> capitalAssets = new ArrayList<CapitalAssetInformation>();
+        capitalAssets.addAll(this.getCapitalAssetInformation());
+
         managedLists.add(capitalAssets); 
-       
+        
         return managedLists;
     }
 

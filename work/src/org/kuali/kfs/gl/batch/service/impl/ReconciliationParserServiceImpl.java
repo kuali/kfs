@@ -96,6 +96,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
         while (line != null && reconciliationBlock == null) {
             line = stripCommentsAndTrim(line);
             if (StringUtils.isBlank(line)) {
+                line = bufReader.readLine();
                 continue;
             }
 

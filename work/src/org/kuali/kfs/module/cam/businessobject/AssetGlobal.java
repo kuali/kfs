@@ -21,8 +21,11 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -38,6 +41,7 @@ import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -71,6 +75,12 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Asset separateSourceCapitalAsset;
     private Integer separateSourcePaymentSequenceNumber;
     private boolean capitalAssetBuilderOriginIndicator;
+    
+    // CSU 6702 BEGIN
+    private Integer postingYear;
+    private String postingPeriodCode;
+    private AccountingPeriod accountingPeriod;
+    // CSU 6702 END
 
     // Not Persisted
     private Date lastInventoryDate;
@@ -106,6 +116,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private KualiDecimal minAssetTotalAmount;
     private KualiDecimal maxAssetTotalAmount;
 
+    // CSU 6702 BEGIN
+    static protected transient AccountingPeriodService accountingPeriodService;
+    // CSU 6702 END    
+    
     /**
      * Default constructor.
      */
@@ -1037,4 +1051,96 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.maxAssetTotalAmount = maxAssetTotalAmount;
     }
 
+    
+    // CSU 6702 BEGIN
+    /**
+     * Get Posting Year
+     * @return postingYear
+     */
+    public Integer getPostingYear() {
+        return postingYear;
+    }
+
+    /**
+     * Set Posting year
+     * @param postingYear
+     */
+    public void setPostingYear(Integer postingYear) {
+        this.postingYear = postingYear;
+    }
+
+    /**
+     * Get the {@link AccountingPeriodService}
+     * @return {@link AccountingPeriodService}
+     */
+    public static AccountingPeriodService getAccountingPeriodService() {
+        if ( accountingPeriodService == null ) {
+            accountingPeriodService = SpringContext.getBean(AccountingPeriodService.class);
+        }
+        return accountingPeriodService;
+    }
+    
+    
+    /**
+     * Creates a composite of postingPeriodCode and postingyear. 
+     * @return composite or an empty string if either postingPeriodCode or postingYear is null
+     */
+    public String getAccountingPeriodCompositeString() {
+        if (postingPeriodCode== null || postingYear == null ) {
+            return "";
+        }        
+        return postingPeriodCode + postingYear;
+    }
+
+    /**
+     * Sets the accountingPeriod if in period 13
+     * @param accountingPeriodString
+     * TODO remove hardcoding
+     */
+    public void setAccountingPeriodCompositeString(String accountingPeriodString) {
+        String THIRTEEN = "13";
+        if (StringUtils.isNotBlank(accountingPeriodString) && StringUtils.left(accountingPeriodString, 2).equals(THIRTEEN)) {
+            String period = StringUtils.left(accountingPeriodString, 2);
+            Integer year = new Integer(StringUtils.right(accountingPeriodString, 4));
+            AccountingPeriod accountingPeriod = getAccountingPeriodService().getByPeriod(period, year);
+            setAccountingPeriod(accountingPeriod);
+        }
+    }
+
+    /**
+     * Get the posting period code
+     * @return postingPeriodCode
+     */
+    public String getPostingPeriodCode() {
+        return postingPeriodCode;
+    }
+
+    /**
+     * Set the posting period code
+     * @param postingPeriodCode
+     */
+    public void setPostingPeriodCode(String postingPeriodCode) {
+        this.postingPeriodCode = postingPeriodCode;
+    }
+    
+    /**
+     * Set postingYear and postingPeriodCode 
+     * @param accountingPeriod
+     */
+    public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
+        this.accountingPeriod = accountingPeriod;        
+        if(ObjectUtils.isNotNull(accountingPeriod)) {
+            setPostingYear(accountingPeriod.getUniversityFiscalYear());
+            setPostingPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
+        }
+    }
+    
+    /**
+     * get the accountingPeriod
+     * @return accountingPeriod
+     */
+    public AccountingPeriod getAccountingPeriod() {
+        return accountingPeriod;
+    }
+    // CSU 6702 END    
 }

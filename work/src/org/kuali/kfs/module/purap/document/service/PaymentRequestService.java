@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
@@ -367,5 +366,12 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     public void removeIneligibleAdditionalCharges(PaymentRequestDocument document);
     
     public boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document);
+
+    /**
+     * Clears tax info.
+     * 
+     * @param document The disbursement voucher document being modified.
+     */
+    public void clearTax(PaymentRequestDocument document);
 }
 

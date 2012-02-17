@@ -46,17 +46,17 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
         boolean hasOverrides = true;
         
         Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(line.getChartOfAccountsCode(), line.getAccountNumber());
-        String docStatus = getDocument().getStatusCode();
+        String docStatus = getDocument().getAppDocStatus();
                 
         //if account exists
         if(ObjectUtils.isNotNull(account)){
             //after AP approval
-            if(PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(docStatus) ||
-                PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(docStatus) || 
-                PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(docStatus) || 
-                PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(docStatus) ||
-                PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(docStatus) || 
-                PaymentRequestStatuses.AUTO_APPROVED.equals(docStatus) ){
+            if(PaymentRequestStatuses.APPDOC_AWAITING_SUB_ACCT_MGR_REVIEW.equals(docStatus) ||
+                PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(docStatus) || 
+                PaymentRequestStatuses.APPDOC_AWAITING_ORG_REVIEW.equals(docStatus) || 
+                PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW.equals(docStatus) ||
+                PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED.equals(docStatus) || 
+                PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(docStatus) ){
 
                 String expirationExtensionDays = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                 int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)

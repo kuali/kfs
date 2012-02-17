@@ -68,63 +68,35 @@
 	   	</c:if>
 	</tr>
 	<c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
+		<c:set var="distributionAmountCode" value="${detailLine.distributionAmountCode}" />
+		<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE}">
+			<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_DESCRIPTION}" />
+		</c:if>
+		<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE}">
+			<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION}" />
+		</c:if>
+
 		<c:if test="${detailLine.capitalAssetActionIndicator == KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR}">
-			<tr><td colspan="7">
+			<tr><td colspan="8">
 	     	<div align="center" valign="middle">
 	     		<h3>Capital Asset for Accounting Line</h3>
-		     	<table datatable style="border-top: 1px solid rgb(153, 153, 153); width: 98%;" cellpadding="0" cellspacing="0" summary="Asset for Accounting Lines">
-					<tr>
-						<kul:htmlAttributeHeaderCell
-							attributeEntry="${attributes.sequenceNumber}"
-							useShortLabel="true"
-						/>
-						<kul:htmlAttributeHeaderCell
-							attributeEntry="${attributes.financialDocumentLineTypeCode}"
-							useShortLabel="true"
-							/>
-						<kul:htmlAttributeHeaderCell
-							attributeEntry="${attributes.chartOfAccountsCode}"
-							useShortLabel="true"
-							hideRequiredAsterisk="true"
-						/>
-						<kul:htmlAttributeHeaderCell
-							attributeEntry="${attributes.accountNumber}"
-							useShortLabel="false"
-						/>
-						<kul:htmlAttributeHeaderCell
-							attributeEntry="${attributes.financialObjectCode}"
-							useShortLabel="true"
-						/>
-					</tr>
-				    <tr>
-				    	<td class="datacell center">
-							<div align="center" valign="middle">
-								<kul:htmlControlAttribute attributeEntry="${attributes.sequenceNumber}" property="${capitalAssetInfoName}[${status.index}].sequenceNumber" readOnly="true"/>					
-							</div>		            
-				        </td>
-				        <td class="datacell center"><div>
-				        	<c:set var="lineType" value="${detailLine.financialDocumentLineTypeCode}" />
-				            <c:if test="${lineType eq KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE}">
-					        	<c:out value="${KFSConstants.SOURCE}" />
-					        </c:if>
-				            <c:if test="${lineType eq KFSConstants.TARGET_ACCT_LINE_TYPE_CODE}">
-					            	<c:out value="${KFSConstants.TARGET}" />
-					        </c:if>
-				            </div></td>
-				            <td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.chartOfAccountsCode}" property="${capitalAssetInfoName}[${status.index}].chartOfAccountsCode" readOnly="true"/></td>
-				            <td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.accountNumber}" property="${capitalAssetInfoName}[${status.index}].accountNumber" readOnly="true"/></td>
-				            <td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.financialObjectCode}" property="${capitalAssetInfoName}[${status.index}].financialObjectCode" readOnly="true"/></td>
-				    </tr>
-				</table></div></td>	
+				<c:if test="${not empty detailLine.capitalAssetAccountsGroupDetails}" >
+					<tr><td colSpan="8"><center><br/>
+					<fp:capitalAssetAccountsGroupDetails capitalAssetAccountsGroupDetails="${detailLine.capitalAssetAccountsGroupDetails}" 
+						capitalAssetAccountsGroupDetailsName="${capitalAssetInfoName}[${status.index}].capitalAssetAccountsGroupDetails" readOnly="${readOnly}"
+						capitalAssetAccountsGroupDetailsIndex="${status.index}"/>
+					<br/></center></td></tr>
+			    </c:if>
 		   </tr>
 			<tr>
-				<td colspan="7">
+				<td colspan="8">
 		     		<div align="center" valign="middle">
 			     		<table datatable style="border-top: 1px solid rgb(153, 153, 153); width: 60%;" cellpadding="0" cellspacing="0" summary="Asset for Accounting Lines">
 						   <tr>
 								<kul:htmlAttributeHeaderCell literalLabel=""/>	   
 						   	    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetNumber}" labelFor="${capitalAssetInfoName}.capitalAssetNumber"/> 
-								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.amount}" labelFor="${capitalAssetInfoName}.amount"/>
+								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.distributionAmountCode}" labelFor="${capitalAssetInfoName}.distributionAmountCode"/>
+								<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetLineAmount}" labelFor="${capitalAssetInfoName}.capitalAssetLineAmount"/>
 								<c:if test="${!readOnly}">
 									<kul:htmlAttributeHeaderCell literalLabel="Action"/>
 								</c:if>
@@ -139,11 +111,14 @@
 									lookupUnkeyedFieldConversions="capitalAssetNumber:${capitalAssetInfoName}.capitalAssetTagNumber,"
 									lookupOrInquiryKeys="capitalAssetNumber"
 									businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/></td>
-									
+
+								<td>	
+									<div><c:out value="${distributionAmountDescription}"/></div>
+								</td>	
 									
 								<fp:dataCell dataCellCssClass="${dataCellCssClass}" dataFieldCssClass="amount"
 									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${amountReadOnly}"
-									field="amount" lookup="false" inquiry="false" /></td>
+									field="capitalAssetLineAmount" lookup="false" inquiry="false" /></td>
 									
 								<c:if test="${!readOnly}">
 									<td class="infoline"> 

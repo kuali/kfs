@@ -746,8 +746,8 @@
     <property name="required" value="false"/>
   </bean>
   
-  <bean id="Asset-retirementChartOfAccountsCode" parent="Asset-retirementChartOfAccountCode-parentBean"/>
-  <bean id="Asset-retirementChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="Asset-retirementChartOfAccountsCode" parent="Asset-retirementChartOfAccountsCode-parentBean"/>
+  <bean id="Asset-retirementChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="retirementChartOfAccountsCode"/>
     <property name="label" value="Retirement Chart"/>
     <property name="required" value="false"/>

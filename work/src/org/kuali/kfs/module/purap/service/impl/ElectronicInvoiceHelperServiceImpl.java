@@ -89,9 +89,9 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -100,7 +100,6 @@ import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -1203,8 +1202,8 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             throw new RuntimeException("Purchase Order document (POId=" + poDoc.getPurapDocumentIdentifier() + ") does not exist in the system");
         }
         
-        preqDoc.getDocumentHeader().setDocumentDescription(generatePREQDocumentDescription(poDoc));        
-        preqDoc.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
+        preqDoc.getDocumentHeader().setDocumentDescription(generatePREQDocumentDescription(poDoc));         
+        preqDoc.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
         preqDoc.setInvoiceDate(orderHolder.getInvoiceDate());
         preqDoc.setInvoiceNumber(orderHolder.getInvoiceNumber());
         preqDoc.setVendorInvoiceAmount(new KualiDecimal(orderHolder.getInvoiceNetAmount()));
@@ -1796,7 +1795,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             throw new RuntimeException("PurchaseOrder not available");
         }
             
-        if (!poDoc.getStatusCode().equals(PurchaseOrderStatuses.OPEN)) {
+        if (!poDoc.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_OPEN)) {
             orderHolder.addInvoiceOrderRejectReason(matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PO_NOT_OPEN,null,orderHolder.getFileName()));
             return;
         }

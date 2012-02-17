@@ -29,7 +29,6 @@ import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableSharedStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -56,7 +55,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -67,6 +65,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -449,7 +448,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     protected boolean isFiscalUser(AccountsPayableDocument document, Person user) {
         boolean isFiscalUser = false;
 
-        if (PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(document.getStatusCode()) && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+        if (PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getAppDocStatus()) && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
             isFiscalUser = true;
         }
 
@@ -466,9 +465,9 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     protected boolean isAPUser(AccountsPayableDocument document, Person user) {
         boolean isFiscalUser = false;
 
-        if ((PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode()) && 
+        if ((PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getAppDocStatus()) && 
              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) ||
-             PaymentRequestStatuses.IN_PROCESS.equals(document.getStatusCode())) {
+             PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(document.getAppDocStatus())) {
                 isFiscalUser = true;
         }
 
@@ -483,8 +482,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             purapGeneralLedgerService.generateEntriesCancelAccountsPayableDocument(apDocument);
         }
         AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
-        accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDocument);
-        apDocument.refreshReferenceObject(PurapPropertyConstants.STATUS);
+        accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDocument);        
 
         // close/reopen purchase order.
         accountsPayableDocumentSpecificService.takePurchaseOrderCancelAction(apDocument);
@@ -496,11 +494,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     public void cancelAccountsPayableDocumentByCheckingDocumentStatus(AccountsPayableDocument document, String noteText) throws Exception {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
-        if (AccountsPayableSharedStatuses.IN_PROCESS.equals(document.getStatusCode())) {
+        if (AccountsPayableSharedStatuses.IN_PROCESS.equals(document.getAppDocStatus())) {
             //prior to submit, just call regular cancel logic
             documentService.cancelDocument(document, noteText);
         }
-        else if (AccountsPayableSharedStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode())) {
+        else if (AccountsPayableSharedStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getAppDocStatus())) {
             //while awaiting AP approval, just call regular disapprove logic as user will have action request
             documentService.disapproveDocument(document, noteText);
         }

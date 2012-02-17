@@ -56,6 +56,76 @@ function checkRestrictedStatusCode_Callback( data ) {
 	}
 }
 
+function update_laborBenefitRateCategoryCode ( codeField ) {
+	var acctTypeCd = codeField.value;
+	
+	var dwrReply = {
+		    callback:function(data) {
+		    	if(kualiElements["document.newMaintainableObject.laborBenefitRateCategoryCode"].value == ''){
+		    		setElementValue ( "document.newMaintainableObject.laborBenefitRateCategoryCode",data);
+		    		alert("Setting the Labor Benefit Rate Category Code to the default described in the system parameter DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE");
+		    	}
+		    },
+		    errorHandler:function( errorMessage ) {
+		    	window.status = errorMessage;
+		    }
+		};
+	AccountService.getDefaultLaborBenefitRateCategoryCodeForAccountType(acctTypeCd, dwrReply);
+}
+
+
+
+function update_laborBenefitRateCategoryCode ( codeField ) {
+	var acctTypeCd = codeField.value;
+	
+	var dwrReply = {
+		    callback:function(data) {
+		    	if(kualiElements["document.newMaintainableObject.laborBenefitRateCategoryCode"].value == ''){
+		    		setElementValue ( "document.newMaintainableObject.laborBenefitRateCategoryCode",data);
+		    		alert("Setting the Labor Benefit Rate Category Code to the default described in the system parameter DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE");
+		    	}
+		    },
+		    errorHandler:function( errorMessage ) {
+		    	window.status = errorMessage;
+		    }
+		};
+	AccountService.getDefaultLaborBenefitRateCategoryCodeForAccountType(acctTypeCd, dwrReply);
+}
+
+function update_laborBenefitRateCategoryCode ( codeField ) {
+	var acctTypeCd = codeField.value;
+	
+	var dwrReply = {
+		    callback:function(data) {
+		    	if(kualiElements["document.newMaintainableObject.laborBenefitRateCategoryCode"].value == ''){
+		    		setElementValue ( "document.newMaintainableObject.laborBenefitRateCategoryCode",data);
+		    		alert("Setting the Labor Benefit Rate Category Code to the default described in the system parameter DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE");
+		    	}
+		    },
+		    errorHandler:function( errorMessage ) {
+		    	window.status = errorMessage;
+		    }
+		};
+	AccountService.getDefaultLaborBenefitRateCategoryCodeForAccountType(acctTypeCd, dwrReply);
+}
+
+function update_laborBenefitRateCategoryCode ( codeField ) {
+	var acctTypeCd = codeField.value;
+	
+	var dwrReply = {
+		    callback:function(data) {
+		    	if(kualiElements["document.newMaintainableObject.laborBenefitRateCategoryCode"].value == ''){
+		    		setElementValue ( "document.newMaintainableObject.laborBenefitRateCategoryCode",data);
+		    		alert("Setting the Labor Benefit Rate Category Code to the default described in the system parameter DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE");
+		    	}
+		    },
+		    errorHandler:function( errorMessage ) {
+		    	window.status = errorMessage;
+		    }
+		};
+	AccountService.getDefaultLaborBenefitRateCategoryCodeForAccountType(acctTypeCd, dwrReply);
+}
+
 function onblur_accountNumber( accountNumberField, coaCodePropertyName ) {
     //var coaCodeFieldName = findCoaFieldName( accountNumberField.name );
 	var accountNumberFieldName = accountNumberField.name;

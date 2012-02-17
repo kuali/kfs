@@ -33,6 +33,7 @@ public class PdpPropertyConstants {
     public static final String CUSTOMER_ID = "customerId";
     public static final String CUSTOMER_FILE_CREATE_TIMESTAMP = "customerFileCreateTimestamp";
     public static final String DISBURSEMENT_TYPE_CODE = "disbursementTypeCode";
+    public static final String CUSTOMER_BANK = "bank";
     public static final String DETAIL_COUNT = "detailCount";
     public static final String PAYMENT_COUNT = "paymentCount";
     public static final String PAYMENT_TOTAL_AMOUNT = "paymentTotalAmount";
@@ -102,7 +103,7 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_PROCESS_IMEDIATE = "paymentGroup.processImmediate";
             public static final String PAYMENT_REQUISITION_NUMBER = "requisitionNbr";
             public static final String PAYMENT_SPECIAL_HANDLING = "paymentGroup.pymtSpecialHandling";
-            public static final String PAYMENT_CUSTOMER_INSTITUTION_NUMBER = "paymentGroup.customerInstitutionNumber";
+            public static final String PAYMENT_CUSTOMER_INSTITUTION_NUMBER = "customerInstitutionNumber";
             public static final String PAYMENT_DISBURSEMENT_DATE = "paymentGroup.disbursementDate"; 
             public static final String PAYMENT_ATTACHMENT = "paymentGroup.pymtAttachment";
             public static final String PAYMENT_PROCESS_ID = "paymentGroup.processId";
@@ -130,7 +131,6 @@ public class PdpPropertyConstants {
         }
     
     public static class PaymentGroupHistory {
-            public static final String PAYMENT_GROUP_CUSTOMER_INSTITUTION_NUMBER = "paymentGroup.customerInstitutionNumber";
             public static final String PAYMENT_GROUP_PAYEE_NAME = "paymentGroup.payeeName";
             public static final String PAYMENT_GROUP_PAYEE_ID = "paymentGroup.payeeId";
             public static final String PAYMENT_GROUP_PAYEE_ID_TYPE_CODE = "paymentGroup.payeeIdTypeCd";
@@ -189,6 +189,8 @@ public class PdpPropertyConstants {
         public static final String CUSTOMER_PROFILE_UNIT_CODE = "unitCode";
         public static final String CUSTOMER_PROFILE_SUB_UNIT_CODE = "subUnitCode";
         public static final String CUSTOMER_PROFILE_BANKS = "customerBanks";
+        public static final String CUSTOMER_DEFAULT_SUB_OBJECT_CODE = "---";
+        public static final String CUSTOMER_DEFAULT_SUB_ACCOUNT_NUMBER = "-----";
     }
     
     public static class DisbursementNumberRange {

@@ -29,7 +29,21 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
-
+		<comment>KFSMI-7158 Create CAM parameter NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CAM" />
+			<column name="PARM_DTL_TYP_CD" value="Asset Global" />
+			<column name="PARM_NM"
+				value="NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE" />
+			<column name="OBJ_ID" value="KFS684" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="7/01" />
+			<column name="PARM_DESC_TXT"
+				value="New in service asset depreciation start date (mm/dd) used for calculating the half year depreciation convention. The half year convention will calculate the depreciation date exactly six months from this parameter date." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-FP" />
 			<column name="PARM_DTL_TYP_CD" value="DisbursementVoucher" />
@@ -154,7 +168,8 @@
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PURAP" />
 			<column name="PARM_DTL_TYP_CD" value="Document" />
-			<column name="PARM_NM" value="COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND" />
+			<column name="PARM_NM"
+				value="COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND" />
 			<column name="OBJ_ID" value="KFSPURAP7033" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
@@ -164,19 +179,252 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
-	<insert tableName="KRNS_PARM_T">
+		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PURAP" />
 			<column name="PARM_DTL_TYP_CD" value="Document" />
-			<column name="PARM_NM" value="APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND" />
+			<column name="PARM_NM"
+				value="APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND" />
 			<column name="OBJ_ID" value="KFSPURAP7033b" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="TXT" value="Y" />
-			<column name="PARM_DESC_TXT"
-				value=''Indicates if Fiscal Officer can approve an accounting line that has zero dollar amount.' />
+			<column name="PARM_DESC_TXT" value='' Indicates if Fiscal
+				Officer can approve an accounting line that has zero dollar amount. ' />
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
+
+		<comment>KFSMI-KFSMI-6987 Employee Benefit Expense Calculation</comment>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-SYS' />
+			<column name='PARM_DTL_TYP_CD' value='All' />
+			<column name='PARM_NM'
+				value='ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND' />
+			<column name='OBJ_ID' value='KFSLD6987a' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='TXT' value='Y' />
+			<column name='PARM_DESC_TXT'
+				value='When this parameter is enabled, the fringe benefit rate calculation will be performed using the benefit category code assigned to the account and labor benefit calculation type. When the parameter is not enabled, the fringe benefit will be calculated solely based on the fringe benefit type.' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-SYS' />
+			<column name='PARM_DTL_TYP_CD' value='All' />
+			<column name='PARM_NM' value='USE_COST_SHARE_SOURCE_ACCOUNT_BENEFIT_RATE_IND' />
+			<column name='OBJ_ID' value='KFSLD6987b' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='TXT' value='Y' />
+			<column name='PARM_DESC_TXT'
+				value='When this parameter is enabled, the fringe benefit rate calculation will be performed using the benefit category code assigned to the cost share source account and labor benefit calculation type for the cost share sub-account.  When the parameter is not enabled, the fringe benefit will be calculated solely based on benefit category code assigned to the grant account associated with the sub-account.' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-LD' />
+			<column name='PARM_DTL_TYP_CD' value='LaborEnterpriseFeedStep' />
+			<column name='PARM_NM' value='MAX_NUMBER_OF_ERRORS_ALLOWED' />
+			<column name='OBJ_ID' value='KFSLD6987c' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='TXT' value='0' />
+			<column name='PARM_DESC_TXT'
+				value='The number of errors allowed in the fringe and encumbrance generation process.  When the file contains beyond this number, the output file will not be created in the origin entry directory.' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-LD' />
+			<column name='PARM_DTL_TYP_CD' value='LaborEnterpriseFeedStep' />
+			<column name='PARM_NM' value='GENERATE_FRINGE_BENEFIT_IND' />
+			<column name='OBJ_ID' value='KFSLD6987d' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='TXT' value='Y' />
+			<column name='PARM_DESC_TXT'
+				value='When this parameter is Y, the fringe benefit will be generated by the Enterprise Feeder Step for the corresponding salary actual amount.' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-LD' />
+			<column name='PARM_DTL_TYP_CD' value='LaborEnterpriseFeedStep' />
+			<column name='PARM_NM' value='GENERATE_FRINGE_BENEFIT_ENCUMBRANCE_IND' />
+			<column name='OBJ_ID' value='KFSLD6987e' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='TXT' value='Y' />
+			<column name='PARM_DESC_TXT'
+				value='When this parameter is Y, the fringe benefit encumbrance will be generated by the Enterprise Feeder Step for the corresponding salary encumbrance amount.' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-LD' />
+			<column name='PARM_DTL_TYP_CD' value='LaborEnterpriseFeedStep' />
+			<column name='PARM_NM' value='LABOR_BENEFIT_CALCULATION_OFFSET_IND' />
+			<column name='OBJ_ID' value='KFSLD7128a' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='TXT' value='N' />
+			<column name='PARM_DESC_TXT'
+				value='If yes (Y), the labor benefit calculations will use an offset account to post offset entries to GL.' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-LD' />
+			<column name='PARM_DTL_TYP_CD' value='LaborEnterpriseFeedStep' />
+			<column name='PARM_NM' value='LABOR_BENEFIT_OFFSET_DOCTYPE' />
+			<column name='OBJ_ID' value='KFSLD7128b' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='TXT' value='PAYR' />
+			<column name='PARM_DESC_TXT'
+				value='A list of doc types that will be used for labor benefit offset calculation.' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-COA' />
+			<column name='PARM_DTL_TYP_CD' value='Account' />
+			<column name='PARM_NM'
+				value='DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE' />
+			<column name='OBJ_ID' value='KFSLD6987f' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='TXT' value='EN=AA;CG=BB' />
+			<column name='PARM_DESC_TXT'
+				value='Defines the default benefit rate category code on the account maintenance document by account type. The format is Account Type=Benefit Rate Category Code (eg. DT=AA;A1=BB, etc).' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-COA' />
+			<column name='PARM_DTL_TYP_CD' value='Account' />
+			<column name='PARM_NM' value='DEFAULT_BENEFIT_RATE_CATEGORY_CODE' />
+			<column name='OBJ_ID' value='KFSLD6987g' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='TXT' value='--' />
+			<column name='PARM_DESC_TXT'
+				value='Defines the default benefit rate category code on the account maintenance document for all accounts. This default code is used when the  DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE does not apply to an account. (two dashes) implies the category code is not applicable. The default cannot be null.' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+
+		<comment>Add fields, create parameters, permissions, and roles for KSMI-6702 Contribution</comment>
+
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="PARM_DTL_TYP_CD" value="Document" />
+			<column name="PARM_NM" value="ENABLE_FISCAL_PERIOD_SELECTION_IND" />
+			<column name="OBJ_ID" value="KFSSYS7145-01" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="Y" />
+			<column name="PARM_DESC_TXT"
+				value="Enables fiscal period field on financial documents for posting back to a previous period (year end processing)." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="PARM_DTL_TYP_CD" value="Document" />
+			<column name="PARM_NM" value="DECIMAL_OF_POSTBACK_PERIODS" />
+			<column name="OBJ_ID" value="KFSSYS7145-02" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="1" />
+			<column name="PARM_DESC_TXT"
+				value="Number of periods previous to the current period to allow for year end posting." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="PARM_DTL_TYP_CD" value="Document" />
+			<column name="PARM_NM" value="FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES" />
+			<column name="OBJ_ID" value="KFSSYS7145-03" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT"
+				value="AD;AV;AVAD;AVAE;DI;DVCA;DVWF;GEC;IB;ICA;ND;SB;TF;PE;ARG;AA;AT;MPAY" />
+			<column name="PARM_DESC_TXT"
+				value="Document types for which the accounting period will be rendered for posting back to previous periods (year end processing). Use in conjunction with ENABLE_FISCAL_PERIOD_SELECTION_IND." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CAM" />
+			<column name="PARM_DTL_TYP_CD" value="Batch" />
+			<column name="PARM_NM" value="INCLUDE_RETIRED_ASSETS_IND" />
+			<column name="OBJ_ID" value="KFSSYS7145-04" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="Y" />
+			<column name="PARM_DESC_TXT"
+				value="Controls whether the Year End Depreciation Job will process Retired Assets" />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CAM" />
+			<column name="PARM_DTL_TYP_CD" value="Document" />
+			<column name="PARM_NM" value="FISCAL_YEAR_END_MONTH_AND_DAY" />
+			<column name="OBJ_ID" value="KFSSYS7145-05" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="0630" />
+			<column name="PARM_DESC_TXT"
+				value="The month and day marking the last date of the fiscal year (0630 means June 30th)." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		<comment>KFSMI-7172 New Parameter UNORDERED_ITEM_DEFAULT_COMMODITY_CODE and new Commodity code 99200000 </comment>
+		<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD="KFS-COA" AND PARM_DTL_TYP_CD="Account" AND PARM_NM="ACCOUNT_ADDRESS_TYPE"</where>
+		</delete>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-COA" />
+			<column name="PARM_DTL_TYP_CD" value="Account" />
+			<column name="PARM_NM" value="RESEARCH_ADMIN_ACCOUNT_ADDRESS_TYPE" />
+			<column name="OBJ_ID" value="KFS606" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="ADMIN;PI" />
+			<column name="PARM_DESC_TXT"
+				value="If KFS is integrated with a Research Admin System with multiple award address types (such as Kuali Coeus) and accounts are being automatically created based on awards in that system, this parameter defines the address type that should be populated as the account address. The first address type listed will be used if a value exists. If not the second will be used and if no address of the second type exists the address of the third type will be used, etc." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		
+		<comment>KFSMI- 7146 Update value for Parameter VALID_PAYEE_TYPES_BY_PAYMENT_REASON </comment>
+		<update tableName="KRNS_PARM_T">
+			<column name="TXT"
+				value="A=V;B=V,E;C=V,E,VSP;D=V;E=V;F=V,E;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=V;W=V;X=V;Z=E" />
+			<where>NMSPC_CD="KFS_FP" AND PARM_DTL_TYP_CD="DisbursementVoucher" AND PARM_NM="VALID_PAYEE_TYPES_BY_PAYMENT_REASON"</where>
+		</update>
+		
+		<comment>KFSMI-7165 correct ACCOUNT_ADDRESS_TYPE name and description</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="PARM_DTL_TYP_CD" value="Purchase Order Amendment" />
+			<column name="PARM_NM" value="UNORDERED_ITEM_DEFAULT_COMMODITY_CODE" />
+			<column name="OBJ_ID" value="KFSPURAP7172" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="99200000" />
+			<column name="PARM_DESC_TXT"
+				value="The default commodity code for unordered items. If commodity code is enabled and required on purchase order items, this value will be populated as the default commodity code for all unordered items when a Purchase Order Amendment Document is created from a Line Item Receiving Document." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD="KFS-COA" AND PARM_DTL_TYP_CD="ObjectCode" AND PARM_NM="ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND"</where>
+		</delete>
 	</changeSet>
 </databaseChangeLog>   
       

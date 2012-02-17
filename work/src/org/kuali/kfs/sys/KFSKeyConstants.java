@@ -71,6 +71,10 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL = "error.document.pc.transactionTotal.accountingLineTotal.notEqual";
     public static final String ERROR_DOCUMENT_TARGET_SECTION_NO_ACCOUNTING_LINES = "error.document.targetSectionNoAccountingLines";
     public static final String ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES = "error.document.singleSectionNoAccountingLines";
+    public static final String ERROR_DOCUMENT_SOURCE_ACCOUNTING_LINE_NOT_DISTRIBUTED = "error.document.sourceAccountLines.notDistributed";
+    public static final String ERROR_DOCUMENT_TARGET_ACCOUNTING_LINE_NOT_DISTRIBUTED = "error.document.targetAccountLines.notDistributed";
+    public static final String ERROR_DOCUMENT_SOURCE_ACCOUNTING_LINE_AMOUNT_NOT_DISTRIBUTED = "error.document.sourceAccountLines.amount.notDistributed";
+    public static final String ERROR_DOCUMENT_TARGET_ACCOUNTING_LINE_AMOUNT_NOT_DISTRIBUTED = "error.document.targetAccountLines.amount.notDistributed";
     public static final String ERROR_DOCUMENT_NO_DESCRIPTION = "error.document.noDescription";
     public static final String ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE = "error.document.subAccountInactive";
     public static final String ERROR_DOCUMENT_NULL_ACCOUNTING_LINE = "error.document.nullAccountingLine";
@@ -355,6 +359,17 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_GENERATE_TAX_BOTH_0 = "error.dv.generateLinesBoth0";
     public static final String ERROR_DV_GENERATE_TAX_NO_SOURCE = "error.dv.generateLinesNoSource";
     public static final String ERROR_DV_GENERATE_TAX_NOT_NRA = "error.dv.generateNotNRA";
+    public static final String ERROR_DV_STATE_TAX_SHOULD_BE_ZERO = "error.dv.nraTaxStateTaxShouldBeZero";
+    public static final String ERROR_DV_STATE_INCOME_TAX_PERCENT_SHOULD_BE_GREATER_THAN_ZERO = "error.dv.nraTaxStateTaxShouldBeGreaterThanZero";
+    public static final String ERROR_DV_ONLY_ONE_SELECTION_ALLOWED = "error.dv.nraTaxOnlyOneSelectionAllowed";
+    public static final String ERROR_DV_FED_AND_STATE_TAXES_SHOULD_BE_ZERO = "error.dv.nraTaxFedAndStateTaxesShouldBeZero";
+    public static final String ERROR_DV_NON_REPORTABLE_ONLY = "error.dv.nraTaxNonReportableOnly";
+    public static final String ERROR_DV_WHEN_CHECKED_CANNOT_HAVE_VALUE = "error.dv.nraTaxWhenCheckedCannotHaveValue";
+    public static final String ERROR_DV_TAXES_CANNOT_BE_ZERO = "error.dv.nraTaxTaxesCannotBeZero";
+    public static final String ERROR_DV_SHOULD_BE_SELECTED_AND_EUOC_CHECKED = "error.dv.nraTaxShouldBeSelectedAndEuocChecked";
+    public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED = "error.dv.nraTaxWhenCheckedShouldBeChecked";
+    public static final String ERROR_DV_NRA_TAX_CANNOT_SELECT_FS_TE_GUP_USAID = "error.dv.nraTaxCannotSelectFsTeGupUsaid";
+    
     public static final String ERROR_DV_GENERATE_TAX_DOC_REFERENCE = "error.dv.generateDocReference";
     public static final String ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON = "error.dv.addLineMissingPaymentReason";
     public static final String ERROR_DV_ADD_LINE_MISSING_PAYEE = "error.dv.addLineMissingPayee";
@@ -495,6 +510,7 @@ public class KFSKeyConstants {
     public static final String ERROR_ENCUMBRANCE_UPDATE_CODE_CANNOT_BE_BLANK_FOR_BALANCE_TYPE = "error.gl.EncumbranceUpdateCodeCannotBeBlankForBalanceType";
     public static final String ERROR_PAYROLL_END_DATE_FISCAL_PERIOD = "error.labor.PayrollEndDateFiscalPeriodCodeNotFound";
     public static final String ERROR_PAYROLL_END_DATE_FISCAL_YEAR = "error.labor.PayrollEndDateFiscalYearNotFound";
+    public static final String ERROR_EMPTY_LABOR_BENEFIT_CATEGORY_CODE = "error.labor.laborBenefitRateCategoryEmpty";
     
     public static final String WARNING_ICR_GENERATION_PROBLEM_WITH_A21SUBACCOUNT_FIELD_BLANK_INVALID = "warning.gl.IndirectCostRecoveryGeneration.A21SubAccount.icrField.blankInvalid";
     
@@ -987,4 +1003,8 @@ public class KFSKeyConstants {
         public static final String ERROR_BATCH_UPLOAD_INVALID_STEP = "error.sys.batch.semaphore.upload.invalidStep";
         public static final String ERROR_BATCH_UPLOAD_DELETE_DONE_FILE = "error.sys.batch.semaphore.upload.deleteDoneFile";
     }
+    
+    //capital asset information specific errors...
+    public static final String ERROR_ASSET_ACCOUNT_NUMBER_LINE_NOT_IN_SOURCE_OR_TARGET_ACCOUNTING_LINES = "error.asset.accounting.lines.not.in.source.or.target.accountLines";
+    public static final String ERROR_ASSET_LINE_AMOUNT_NOT_EQUAL_TO_DISTRIBUTED_ACCOUNTING_LINES = "error.asset.amount.not.equalDistributedAccountingLines";
 }

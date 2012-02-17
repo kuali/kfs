@@ -41,7 +41,9 @@ import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemPreCalculateEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
@@ -49,10 +51,12 @@ import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.module.purap.util.UseTaxContainer;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -721,7 +725,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
         
-        String accountDistributionMethodString;
+        PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase) document;
+        String accountDistributionMethod = purApDocument.getAccountDistributionMethod();
+        
+        KualiRuleService kualiRuleService = (KualiRuleService) SpringContext.getBean(KualiRuleService.class);
         
         // the percent at fiscal approve
         // don't update if past the AP review level
@@ -731,8 +738,55 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             return;
         }
         document.fixItemReferences();
-        for (PurApItem item : document.getItems()) {
-            updateItemAccountAmounts(item);
+        
+      //if distribution method is sequential and document is PREQ then...        
+        if ((document instanceof PaymentRequestDocument) && PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+            // update the accounts amounts for PREQ and distribution method = sequential
+            for (PurApItem item : document.getItems()) {
+                updatePreqItemAccountAmounts(item);
+            }
+            
+            return;
+        }
+        
+        //if distribution method is proportional and document is PREQ then...
+        if ((document instanceof PaymentRequestDocument) && PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+            // update the accounts amounts for PREQ and distribution method = sequential
+            for (PurApItem item : document.getItems()) {
+                boolean rulePassed = true;
+                // check any business rules
+                rulePassed &= kualiRuleService.applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
+
+                if (rulePassed) {
+                    updatePreqProportionalItemAccountAmounts(item);
+                }
+            }
+            
+            return;
+        }
+        
+        //do recalculate only if the account distribution method code is not equal to "S" sequential ON REQ or POs..
+        if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+            for (PurApItem item : document.getItems()) {
+                boolean rulePassed = true;
+                // check any business rules
+                rulePassed &= kualiRuleService.applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
+
+                return;
+            }
+        }
+        
+        //do recalculate only if the account distribution method code is not equal to "P" proportional. 
+        if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+            for (PurApItem item : document.getItems()) {
+                boolean rulePassed = true;
+                // check any business rules
+                rulePassed &= kualiRuleService.applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
+
+                if (rulePassed) {
+                    updateItemAccountAmounts(item);
+                }
+            }
         }
     }
 
@@ -742,7 +796,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public void updateItemAccountAmounts(PurApItem item) {
         List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
         KualiDecimal totalAmount = item.getTotalAmount();
-
         updateAccountAmountsWithTotal(sourceAccountingLines, totalAmount);
     }
 
@@ -763,8 +816,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
                     if (ObjectUtils.isNotNull(account.getAmount()) && account.getAmount().isGreaterThan(KualiDecimal.ZERO)) {
                         KualiDecimal amt = account.getAmount();
-                        KualiDecimal calculatedPercent = new KualiDecimal(amt.divide(totalAmount).toString());
-                        calculatedPercent = calculatedPercent.multiply(new KualiDecimal(100));
+                        KualiDecimal calculatedPercent = new KualiDecimal(amt.multiply(new KualiDecimal(100)).divide(totalAmount).toString());
+                     //   calculatedPercent = calculatedPercent.multiply(new KualiDecimal(100));
                         account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(BIG_DECIMAL_SCALE));
                     }
 
@@ -792,6 +845,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 if (ObjectUtils.isNotNull(lastAccount.getAmount())) {
                     lastAccount.setAmount(lastAccount.getAmount().add(difference));
                 }
+                
                 BigDecimal percentDifference = new BigDecimal(100).subtract(accountTotalPercent).setScale(BIG_DECIMAL_SCALE);
                 if (ObjectUtils.isNotNull(lastAccount.getAccountLinePercent())) {
                     lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
@@ -801,9 +855,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         else {
             // zero out if extended price is zero
             for (T account : sourceAccountingLines) {
-             //   if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-             //       account.setAccountLinePercent(BigDecimal.ZERO);
-             //   }
                 if (ObjectUtils.isNotNull(account.getAmount())) {
                     account.setAmount(KualiDecimal.ZERO);
                 }
@@ -811,6 +862,119 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updatePreqProportionalItemAccountAmounts(org.kuali.kfs.module.purap.businessobject.PurApItem)
+     */
+    public void updatePreqProportionalItemAccountAmounts(PurApItem item) {
+        List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+        KualiDecimal totalAmount = item.getTotalAmount();
+
+        updatePreqProporationalAccountAmountsWithTotal(sourceAccountingLines, totalAmount);
+    }
+    
+    /**
+     * calculates values for a list of accounting lines based on an amount for proportional method
+     * 
+     * @param sourceAccountingLines
+     * @param totalAmount
+     */
+    public <T extends PurApAccountingLine> void updatePreqProporationalAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount) {
+        if ((totalAmount != null) && KualiDecimal.ZERO.compareTo(totalAmount) != 0) {
+            KualiDecimal accountTotal = KualiDecimal.ZERO;
+            BigDecimal accountTotalPercent = BigDecimal.ZERO;
+            T lastAccount = null;
+
+            for (T account : sourceAccountingLines) {
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
+                    if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                        BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
+                        account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
+                    }
+                }
+                
+                if (ObjectUtils.isNotNull(account.getAmount())) {
+                    accountTotal = accountTotal.add(account.getAmount());
+                }
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                    accountTotalPercent = accountTotalPercent.add(account.getAccountLinePercent());
+                }
+                
+                lastAccount = account;
+            }
+
+            // put excess on last account
+            if (lastAccount != null) {
+                KualiDecimal difference = totalAmount.subtract(accountTotal);
+                if (ObjectUtils.isNotNull(lastAccount.getAmount())) {
+                    lastAccount.setAmount(lastAccount.getAmount().add(difference));
+                }
+                
+                BigDecimal percentDifference = new BigDecimal(100).subtract(accountTotalPercent).setScale(BIG_DECIMAL_SCALE);
+                if (ObjectUtils.isNotNull(lastAccount.getAccountLinePercent())) {
+                    lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
+                }
+            }
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updatePreqItemAccountAmounts(org.kuali.kfs.module.purap.businessobject.PurApItem)
+     */
+    public void updatePreqItemAccountAmounts(PurApItem item) {
+        List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+        KualiDecimal totalAmount = item.getTotalAmount();
+
+        updatePreqAccountAmountsWithTotal(sourceAccountingLines, totalAmount);
+    }
+    
+    /**
+     * calculates values for a list of accounting lines based on an amount.  Preq item's extended
+     * cost is distributed to the accounting lines.
+     * 
+     * @param sourceAccountingLines
+     * @param totalAmount
+     */
+    public <T extends PurApAccountingLine> void updatePreqAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount) {
+        if ((totalAmount != null) && KualiDecimal.ZERO.compareTo(totalAmount) != 0) {
+            KualiDecimal accountTotal = KualiDecimal.ZERO;
+            BigDecimal accountTotalPercent = BigDecimal.ZERO;
+            T lastAccount = null;
+
+            for (T account : sourceAccountingLines) {
+                //look at lines where amount is non-zero..
+                if (account.getAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                    if (totalAmount.isZero()) {
+                        account.setAmount(KualiDecimal.ZERO);
+                    } else {
+                        if (account.getAmount().isGreaterThan(totalAmount)) {
+                            account.setAmount(totalAmount);
+                        }
+                    }
+                }
+                
+                totalAmount = totalAmount.subtract(account.getAmount());
+            }   
+           
+            if (totalAmount.isGreaterThan(KualiDecimal.ZERO)) {
+                for (T account : sourceAccountingLines) {
+                    if (account.getAmount().isZero() || account.getAccountLinePercent().compareTo(BigDecimal.ZERO) == 1) {
+                        KualiDecimal priorAmount = account.getAmount();
+                        account.setAmount(account.getAmount().add(new KualiDecimal(account.getAccountLinePercent()).multiply(totalAmount).divide(new KualiDecimal(100))));
+                        accountTotal = accountTotal.add(account.getAmount().subtract(priorAmount));
+                        lastAccount = account;
+                    }    
+                }
+            }    
+            
+            accountTotal = totalAmount.subtract(accountTotal);
+            
+            if (accountTotal.isGreaterThan(KualiDecimal.ZERO) && ObjectUtils.isNotNull(lastAccount)) {
+                //add the difference to the last overage account....
+                lastAccount.setAmount(lastAccount.getAmount().add(accountTotal));
+            }
+        }
+    } 
+    
     public List<PurApAccountingLine> generatePercentSummary(PurchasingAccountsPayableDocument purapDoc) {
         List<PurApAccountingLine> accounts = new ArrayList<PurApAccountingLine>();
         for (PurApItem currentItem : purapDoc.getItems()) {
@@ -819,8 +983,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     boolean thisAccountAlreadyInSet = false;
                     for (Iterator iter = accounts.iterator(); iter.hasNext();) {
                         PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
-                        
-                        
                         if (alreadyAddedAccount.accountStringsAreEqual(account)) {
                             BigDecimal alreadyAddedAccountLinePercent = BigDecimal.ZERO;
                             if (ObjectUtils.isNotNull(alreadyAddedAccount.getAccountLinePercent())) {

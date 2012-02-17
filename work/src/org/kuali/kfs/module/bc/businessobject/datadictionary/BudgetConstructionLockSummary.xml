@@ -82,18 +82,29 @@
 
 	</bean>
 
-	<bean id="BudgetConstructionLockSummary-universityFiscalYear"
-		parent="BudgetConstructionHeader-universityFiscalYear-parentBean" />
-	<bean id="BudgetConstructionLockSummary-documentNumber" parent="BudgetConstructionHeader-documentNumber-parentBean" />
-	<bean id="BudgetConstructionLockSummary-chartOfAccountsCode"
-		parent="BudgetConstructionHeader-chartOfAccountsCode-parentBean" />
-	<bean id="BudgetConstructionLockSummary-accountNumber" parent="BudgetConstructionHeader-accountNumber-parentBean" />
-	<bean id="BudgetConstructionLockSummary-subAccountNumber" parent="BudgetConstructionHeader-subAccountNumber-parentBean" />
-	<bean id="BudgetConstructionLockSummary-positionNumber" parent="BudgetConstructionPosition-positionNumber-parentBean" />
-	<bean id="BudgetConstructionLockSummary-positionDescription"
-		parent="BudgetConstructionPosition-positionDescription-parentBean" />
+	<bean id="BudgetConstructionLockSummary-universityFiscalYear" parent="BudgetConstructionLockSummary-universityFiscalYear-parentBean" />
+	<bean id="BudgetConstructionLockSummary-universityFiscalYear-parentBean" abstract="true" parent="BudgetConstructionHeader-universityFiscalYear-parentBean" />
+	
+	<bean id="BudgetConstructionLockSummary-documentNumber" parent="BudgetConstructionLockSummary-documentNumber-parentBean" />
+	<bean id="BudgetConstructionLockSummary-documentNumber-parentBean" abstract="true" parent="BudgetConstructionHeader-documentNumber-parentBean" />
+	
+	<bean id="BudgetConstructionLockSummary-chartOfAccountsCode" parent="BudgetConstructionLockSummary-chartOfAccountsCode-parentBean" />
+	<bean id="BudgetConstructionLockSummary-chartOfAccountsCode-parentBean" abstract="true" parent="BudgetConstructionHeader-chartOfAccountsCode-parentBean" />
+	
+	<bean id="BudgetConstructionLockSummary-accountNumber" parent="BudgetConstructionLockSummary-accountNumber-parentBean" />
+	<bean id="BudgetConstructionLockSummary-accountNumber-parentBean" abstract="true" parent="BudgetConstructionHeader-accountNumber-parentBean" />
+	
+	<bean id="BudgetConstructionLockSummary-subAccountNumber" parent="BudgetConstructionLockSummary-subAccountNumber-parentBean" />
+	<bean id="BudgetConstructionLockSummary-subAccountNumber-parentBean" abstract="true" parent="BudgetConstructionHeader-subAccountNumber-parentBean" />
+	
+	<bean id="BudgetConstructionLockSummary-positionNumber" parent="BudgetConstructionLockSummary-positionNumber-parentBean" />
+	<bean id="BudgetConstructionLockSummary-positionNumber-parentBean" abstract="true" parent="BudgetConstructionPosition-positionNumber-parentBean" />
+	
+	<bean id="BudgetConstructionLockSummary-positionDescription" parent="BudgetConstructionLockSummary-positionDescription-parentBean" />
+	<bean id="BudgetConstructionLockSummary-positionDescription-parentBean" abstract="true" parent="BudgetConstructionPosition-positionDescription-parentBean" />
 
-	<bean id="BudgetConstructionLockSummary-lockUser.principalName"
+	<bean id="BudgetConstructionLockSummary-lockUser.principalName" parent="BudgetConstructionLockSummary-lockUser.principalName-parentBean"/>
+	<bean id="BudgetConstructionLockSummary-lockUser.principalName-parentBean" abstract="true"
 		parent="PersonImpl-principalName">
 		<property name="name" value="lockUser.principalName" />
 		<property name="label" value="Lock Principal Name" />

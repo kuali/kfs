@@ -64,7 +64,7 @@
   
   <bean id="CreditCardReceiptDocument-validations" parent="CreditCardReceiptDocument-validations-parentBean"/>
   
-  <bean id="CreditCardReceiptDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="CreditCardReceiptDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

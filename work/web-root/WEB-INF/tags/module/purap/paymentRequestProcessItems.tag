@@ -24,7 +24,7 @@
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 <c:set var="tabindexOverrideBase" value="50" />
 
-<c:set var="mainColumnCount" value="12"/>
+<c:set var="mainColumnCount" value="13"/>
 <c:set var="colSpanItemType" value="6"/>
 <c:set var="colSpanExtendedPrice" value="1"/>
 <c:if test="${purapTaxEnabled}">

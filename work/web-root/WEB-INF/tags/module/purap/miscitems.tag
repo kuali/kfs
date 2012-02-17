@@ -80,11 +80,11 @@
 		<span class="subhead-left"><c:out value="${overrideTitle}" /> &nbsp;</span>
 		<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
-				onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+				onclick="javascript: return true; " />
 		</c:if>
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
-				onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+				onclick="javascript: return true; " />
 		</c:if>
 	</td>
 </tr>
@@ -273,7 +273,7 @@
 		</c:if>
 				
 		<c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && !empty itemLine.itemUnitPrice || empty KualiForm.editingMode['allowItemEntry']}">
-		    <c:if test="${!amendmentEntry && KualiForm.document.statusCode!='AFOA' || KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice}">
+		    <c:if test="${!amendmentEntry && KualiForm.document.appDocStatus!='Awaiting Fiscal Officer Approval' || KualiForm.document.appDocStatus =='Awaiting Fiscal Officer Approval' && !empty KualiForm.document.items[ctr].itemUnitPrice}">
 			    <purap:purapGeneralAccounting 
 				    accountPrefix="document.item[${ctr}]."
 				    itemColSpan="${mainColumnCount}" />

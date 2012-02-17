@@ -291,8 +291,8 @@
         <property name="purchaseOrderParameters" ref="purchaseOrderParameters"/>
 	</bean>
 	
-	<bean id="faxService" parent="FaxService-parentBean"/>		
-	<bean id="FaxService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.FaxServiceImpl" abstract="true">
+	<bean id="faxService" parent="faxService-parentBean"/>		
+	<bean id="faxService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.FaxServiceImpl" abstract="true">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
         <property name="vendorService" ref="vendorService" />
@@ -300,8 +300,8 @@
 		<property name="countryService" ref="countryService" />
 	</bean>
 			
-	<bean id="purchaseOrderService" parent="PurchaseOrderService-parentBean" />		
-	<bean id="PurchaseOrderService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PurchaseOrderServiceImpl" abstract="true">
+	<bean id="purchaseOrderService" parent="purchaseOrderService-parentBean" />		
+	<bean id="purchaseOrderService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PurchaseOrderServiceImpl" abstract="true">
         <property name="b2bPurchaseOrderService" ref="b2bPurchaseOrderService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
@@ -332,7 +332,7 @@
 	</bean>
 	
 	<bean id="thresholdDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.ThresholdDaoOjb" />
-    <bean id="thresholdLookupableHelperService" parent="thresholdLookupableHelperService-parentBean"/>
+    <bean id="thresholdLookupableHelperService" parent="thresholdLookupableHelperService-parentBean" scope="prototype" />
 	
 	<bean id="thresholdLookupableHelperService-parentBean" class="org.kuali.kfs.module.purap.businessobject.lookup.ThresholdLookupableHelperService" parent="lookupableHelperService" scope="prototype" abstract="true" />
 	
@@ -411,6 +411,7 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="receivingDao" ref="receivingDao" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="parameterService" ref="parameterService" />        
 	</bean>
 	<bean id="bulkReceivingService" parent="bulkReceivingService-parentBean"/>
 	
@@ -424,7 +425,7 @@
 	</bean>
 	<bean id="imageService" parent="imageService-parentBean"/>
     
-    <bean id="imageService-parentBean" class="org.kuali.kfs.module.purap.service.impl.ImageServiceImpl">
+    <bean id="imageService-parentBean" abstract="true" class="org.kuali.kfs.module.purap.service.impl.ImageServiceImpl">
 		<property name="parameterService" ref="parameterService" />
 		<property name="configurationService" ref="kualiConfigurationService" />
     </bean>
@@ -450,7 +451,7 @@
 	<bean id="sensitiveDataDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.SensitiveDataDaoOjb"/>
 	<bean id="sensitiveDataService" parent="sensitiveDataService-parentBean"/>
     
-    <bean id="sensitiveDataService-parentBean" class="org.kuali.kfs.module.purap.service.impl.SensitiveDataServiceImpl">
+    <bean id="sensitiveDataService-parentBean" abstract="true"  class="org.kuali.kfs.module.purap.service.impl.SensitiveDataServiceImpl">
         <property name="sensitiveDataDao" ref="sensitiveDataDao" />
         <property name="purchaseOrderDao" ref="purchaseOrderDao" />
     </bean>

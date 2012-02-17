@@ -526,6 +526,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 paymentDetail.setOrganizationDocNbr(creditMemoDocument.getDocumentHeader().getOrganizationDocumentNumber());
             }
         }
+        
+        paymentDetail.setCustomerInstitutionNumber(StringUtils.defaultString(creditMemoDocument.getVendorCustomerNumber()));
 
         final String creditMemoDocType = getDataDictionaryService().getDocumentTypeNameByClass(creditMemoDocument.getClass());
         paymentDetail.setFinancialDocumentTypeCode(creditMemoDocType);
@@ -611,6 +613,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         if (paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber() != null) {
             paymentDetail.setOrganizationDocNbr(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
         }
+        
+        paymentDetail.setCustomerInstitutionNumber(StringUtils.defaultString(paymentRequestDocument.getVendorCustomerNumber()));
 
         final String paymentRequestDocType = getDataDictionaryService().getDocumentTypeNameByClass(paymentRequestDocument.getClass());
         paymentDetail.setFinancialDocumentTypeCode(paymentRequestDocType);
@@ -796,9 +800,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentGroup.setPayeeOwnerCd(paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
         }
 
-        if (paymentRequestDocument.getVendorCustomerNumber() != null) {
-            paymentGroup.setCustomerInstitutionNumber(paymentRequestDocument.getVendorCustomerNumber());
-        }
+//        if (paymentRequestDocument.getVendorCustomerNumber() != null) {
+//            paymentGroup.setCustomerInstitutionNumber(paymentRequestDocument.getVendorCustomerNumber());
+//        }
 
         paymentGroup.setLine1Address(paymentRequestDocument.getVendorLine1Address());
         paymentGroup.setLine2Address(paymentRequestDocument.getVendorLine2Address());
@@ -858,9 +862,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentGroup.setPayeeOwnerCd(creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
         }
 
-        if (creditMemoDocument.getVendorCustomerNumber() != null) {
-            paymentGroup.setCustomerInstitutionNumber(creditMemoDocument.getVendorCustomerNumber());
-        }
+//        if (creditMemoDocument.getVendorCustomerNumber() != null) {
+//            paymentGroup.setCustomerInstitutionNumber(creditMemoDocument.getVendorCustomerNumber());
+//        }
 
         paymentGroup.setLine1Address(creditMemoDocument.getVendorLine1Address());
         paymentGroup.setLine2Address(creditMemoDocument.getVendorLine2Address());

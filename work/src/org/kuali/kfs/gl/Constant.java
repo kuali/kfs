@@ -68,7 +68,6 @@ public final class Constant {
     public static final String GL_LOOKUPABLE_PENDING_ENTRY = "glPendingEntryLookupable";
 
     public static final String RETURN_LOCATION_VALUE = "portal.do";
-    public static final String START_CHAR_OF_REPORTING_SORT_CODE_B = "B";
     public static final String LOOKUP_BUTTON_VALUE = "Drill Down";
 
     public static final String TOTAL_ACCOUNT_BALANCE_INCOME = "Income";

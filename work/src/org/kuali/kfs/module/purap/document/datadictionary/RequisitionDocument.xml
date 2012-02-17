@@ -49,6 +49,7 @@
   
     <property name="attributes">
       <list>
+        <ref bean="RequisitionDocument-appDocStatus"/>
         <ref bean="RequisitionDocument-statusDescription"/>
         <ref bean="RequisitionDocument-versionNumber"/>
         <ref bean="RequisitionDocument-postingYear"/>
@@ -64,7 +65,6 @@
         <ref bean="RequisitionDocument-totalPreTaxDollarAmount"/>        
         <ref bean="RequisitionDocument-totalTaxAmount"/>
         <ref bean="RequisitionDocument-purapDocumentIdentifier"/>
-        <ref bean="RequisitionDocument-statusCode"/>
         <ref bean="RequisitionDocument-chartOfAccountsCode"/>
         <ref bean="RequisitionDocument-organizationCode"/>
         <ref bean="RequisitionDocument-vendorAddressGeneratedIdentifier"/>
@@ -150,7 +150,6 @@
         <ref bean="RequisitionDocument-capitalAssetSystemStateCode"/>
         <ref bean="RequisitionDocument-capitalAssetSystemTypeCode"/>  
         <ref bean="RequisitionDocument-useTaxIndicator"/>
-        <ref bean="RequisitionDocument-statusCodeForMultiboxSearching"/>
         <ref bean="RequisitionDocument-documentChartOfAccountsCodeForSearching"/>
         <ref bean="RequisitionDocument-documentOrganizationCodeForSearching"/> 
         <ref bean="RequisitionDocument-chartAndOrgCodeForResult"/>
@@ -210,6 +209,11 @@
 <!-- Attribute Definitions -->
 
 
+  <bean id="RequisitionDocument-appDocStatus" parent="RequisitionDocument-appDocStatus-parentBean"/>
+
+  <bean id="RequisitionDocument-appDocStatus-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionStatus">
+    <property name="name" value="appDocStatus"/>
+  </bean>
   <bean id="RequisitionDocument-statusDescription" parent="RequisitionDocument-statusDescription-parentBean"/>
 
   <bean id="RequisitionDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionStatus">
@@ -298,11 +302,7 @@
   <bean id="RequisitionDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionIdentifier">
     <property name="name" value="purapDocumentIdentifier"/>
   </bean>
-  <bean id="RequisitionDocument-statusCode" parent="RequisitionDocument-statusCode-parentBean"/>
 
-  <bean id="RequisitionDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionStatus">
-    <property name="name" value="statusCode"/>
-  </bean>
   <bean id="RequisitionDocument-chartOfAccountsCode" parent="RequisitionDocument-chartOfAccountsCode-parentBean"/>
 
   <bean id="RequisitionDocument-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
@@ -800,7 +800,7 @@
   </bean>
   <bean id="RequisitionDocument-vendorFaxNumber" parent="RequisitionDocument-vendorFaxNumber-parentBean"/>
 
-  <bean id="RequisitionDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
+  <bean id="RequisitionDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="vendorFaxNumber"/>
     <property name="label" value="Fax Number"/>
     <property name="shortLabel" value="Number"/>
@@ -1106,7 +1106,7 @@
 
   <bean id="RequisitionDocument-validations" parent="RequisitionDocument-validations-parentBean"/>
   
-  <bean id="RequisitionDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="RequisitionDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>			
 			<entry>
@@ -1160,7 +1160,11 @@
 			<entry>
 				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCommodityCodesForDistributionEvent</value></key>
 				<value>Requisition-commodityCodesForDistributionValidation</value>
-			</entry>																	
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemPreCalculateEvent</value></key>
+				<value>Requisition-purchasingAccountsPayablesItemPreCalculateValidations</value>
+			</entry>
     	</map>
     </property>
   </bean> 
@@ -1209,7 +1213,7 @@
     			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">       		
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.RequisitionStatus"/>
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
     						<property name="attributeName" value="statusDescription"/>
     						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>
@@ -1217,7 +1221,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>status.statusDescription</value>
+    						<value>statusDescription</value>
     					</list>
     				</property>
     			</bean>
@@ -1372,19 +1376,6 @@
     				</property>
     			</bean>
           		<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
-    						<property name="attributeName" value="statusCodeForMultiboxSearching"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>statusCode</value>
-    					</list>
-    				</property>
-    			</bean>   		
-    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>

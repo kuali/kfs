@@ -552,9 +552,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             body.append(StringUtils.rightPad(custPaymentDocNbrLabel, labelPad) + paymentDetail.getCustPaymentDocNbr() + "\n");
         }
 
-        if (StringUtils.isNotBlank(paymentGroup.getCustomerInstitutionNumber())) {
+        if (StringUtils.isNotBlank(paymentDetail.getCustomerInstitutionNumber())) {
             String customerInstituitionNbrLabel = dataDictionaryService.getAttributeLabel(PaymentGroup.class, PdpPropertyConstants.CUSTOMER_INSTITUTION_NUMBER);
-            body.append(StringUtils.rightPad(customerInstituitionNbrLabel, labelPad) + paymentGroup.getCustomerInstitutionNumber() + "\n");
+            body.append(StringUtils.rightPad(customerInstituitionNbrLabel, labelPad) + paymentDetail.getCustomerInstitutionNumber() + "\n");
         }
 
         body.append("\n");

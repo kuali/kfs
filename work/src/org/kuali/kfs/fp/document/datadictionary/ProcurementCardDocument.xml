@@ -43,7 +43,7 @@
   
   <!-- Validations -->
   <bean id="ProcurementCardDocument-validations" parent="ProcurementCardDocument-validations-parentBean"/>
-  <bean id="ProcurementCardDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="ProcurementCardDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>
@@ -105,6 +105,14 @@
 					<property name="lines">
 						<list>
 							<ref bean="accountingInformation"/>
+							<bean parent="AccountingLineView-line">
+								<property name="elementName" value="lineDescription"/>
+								<property name="fields">
+									<list>
+										<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
+									</list>
+								</property>
+							</bean>
 							<ref bean="salesTaxInformation"/>
 						</list>
 					</property>

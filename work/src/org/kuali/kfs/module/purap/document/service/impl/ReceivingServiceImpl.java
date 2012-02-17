@@ -28,6 +28,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
@@ -50,6 +51,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
@@ -205,11 +207,11 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     protected boolean isPurchaseOrderValidForLineItemReceivingDocumentCreation(PurchaseOrderDocument po){
         return po != null &&
-               ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) &&
-               po.isPurchaseOrderCurrentIndicator() &&
-                   (PurchaseOrderStatuses.OPEN.equals(po.getStatusCode()) ||
-                    PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode()) ||
-                    PurchaseOrderStatuses.PAYMENT_HOLD.equals(po.getStatusCode()));
+               ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) && 
+               po.isPurchaseOrderCurrentIndicator() && 
+                   (PurchaseOrderStatuses.APPDOC_OPEN.equals(po.getAppDocStatus()) || 
+                    PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getAppDocStatus()) || 
+                    PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD.equals(po.getAppDocStatus()));
     }
 
     @Override
@@ -635,7 +637,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                             String poDocNumber = (String)objects[1];
 
                             //create a PO amendment
-                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
+                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
 
                             //add new lines to amendement
                             addUnorderedItemsToAmendment(amendmentPo, rlDoc);
@@ -704,6 +706,14 @@ public class ReceivingServiceImpl implements ReceivingService {
 
                 poi = createPoItemFromReceivingLine(rlItem);
                 poi.setDocumentNumber( amendment.getDocumentNumber() );
+                
+                // add default commodity code from parameter, if commodity code is required on PO and not specified in the unordered item
+                // Note: if we don't add logic to populate commodity code in LineItemReceivingItem, then at this point this field is always empty for unordered item
+                if (purchaseOrderService.isCommodityCodeRequiredOnPurchaseOrder() && StringUtils.isEmpty(poi.getPurchasingCommodityCode())) {
+                    String defaultCommodityCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurchaseOrderAmendmentDocument.class, PurapParameterConstants.UNORDERED_ITEM_DEFAULT_COMMODITY_CODE); 
+                    poi.setPurchasingCommodityCode(defaultCommodityCode);
+                }
+                
                 poi.refreshNonUpdateableReferences();
                 amendment.addItem(poi);
             }

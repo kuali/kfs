@@ -28,6 +28,7 @@
         <ref bean="AccountMaintenanceDocument-AccountResponsibility"/>
           <ref bean="AccountMaintenanceDocument-GuidelinesAndPurpose"/>
         <ref bean="AccountMaintenanceDocument-AccountDescription"/>
+        
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -49,6 +50,7 @@
 	      	<bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="budgetRecordingLevel" p:attributeToHighlightOnFail="budgetRecordingLevelCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="acctIndirectCostRcvyType" p:attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="laborBenefitRateCategory" p:attributeToHighlightOnFail="laborBenefitRateCategoryCode" />
   	    </list>   
     </property>
     <property name="lockingKeys">
@@ -62,6 +64,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.AccountPreRules"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.coa.document.authorization.AccountDocumentPresentationController"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/SubFundGroupService.js</value>
@@ -96,10 +99,11 @@
         <dd:maintField attributeName="accountStreetAddress" required="true"/>
         <dd:maintField attributeName="accountOffCampusIndicator"/>
         <dd:maintField attributeName="closed"/>
-        <dd:maintField attributeName="accountTypeCode" required="true"/>
+        <dd:maintField attributeName="accountTypeCode" required="true" javascriptLeaveFieldFunction="update_laborBenefitRateCategoryCode" />
         <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
         <dd:maintField attributeName="reportsToChartOfAccountsCode"/>
+        <dd:maintField attributeName="laborBenefitRateCategoryCode" required="false" />
         <bean parent="MaintainableFieldDefinition" p:name="reportsToAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
 			<property name="webUILeaveFieldFunctionParameters">
 				<list>

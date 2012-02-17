@@ -64,9 +64,12 @@
   <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
   <bean id="CustomerInvoiceDetail-accountNumber" parent="CustomerInvoiceDetail-accountNumber-parentBean"/>
 
-  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>  <bean id="SourceAccountingLine-accountExpiredOverride" parent="SourceAccountingLine-accountExpiredOverride-parentBean"/>
+  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>  
+  
+  <bean id="SourceAccountingLine-accountExpiredOverride" parent="SourceAccountingLine-accountExpiredOverride-parentBean"/>
 
-  <bean id="CustomerInvoiceDetail-accountExpiredOverride" parent="SourceAccountingLine-accountExpiredOverride-parentBean"/>
+  <bean id="CustomerInvoiceDetail-accountExpiredOverride" parent="CustomerInvoiceDetail-accountExpiredOverride-parentBean"/>
+  <bean id="CustomerInvoiceDetail-accountExpiredOverride-parentBean" abstract="true" parent="SourceAccountingLine-accountExpiredOverride-parentBean"/>
   
   <bean id="CustomerInvoiceDetail-organizationReferenceId" parent="CustomerInvoiceDetail-organizationReferenceId-parentBean"/>
 

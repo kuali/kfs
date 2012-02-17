@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cab.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -37,7 +38,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setPurapDocumentIdentifier(21);
             obj.setRequisitionIdentifier(11);
             obj.setRequisitionSourceCode("STAN");
-            obj.setStatusCode("OPEN");
+            obj.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setPurchaseOrderVendorChoiceCode("CONT");
             obj.setVendorHeaderGeneratedIdentifier(2013);
             obj.setVendorDetailAssignedIdentifier(0);
@@ -104,7 +105,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setPurapDocumentIdentifier(22);
             obj.setRequisitionIdentifier(12);
             obj.setRequisitionSourceCode("STAN");
-            obj.setStatusCode("OPEN");
+            obj.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setPurchaseOrderVendorChoiceCode("CONT");
             obj.setVendorHeaderGeneratedIdentifier(2013);
             obj.setVendorDetailAssignedIdentifier(0);
@@ -171,7 +172,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setPurapDocumentIdentifier(23);
             obj.setRequisitionIdentifier(13);
             obj.setRequisitionSourceCode("STAN");
-            obj.setStatusCode("OPEN");
+            obj.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setPurchaseOrderVendorChoiceCode("CONT");
             obj.setVendorHeaderGeneratedIdentifier(2013);
             obj.setVendorDetailAssignedIdentifier(0);

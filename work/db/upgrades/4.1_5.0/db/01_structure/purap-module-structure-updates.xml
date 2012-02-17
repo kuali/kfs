@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	<changeSet author="KFS50" id="pur_po_itm_tot_amt_v">
 		<comment>KFSMI-6745</comment>
-		<createView viewName="pur_po_itm_tot_amt_v"
-			replaceIfExists="true"><![CDATA[
-		select fdoc_nbr, sum(
+		<createView viewName="PUR_PO_ITM_TOT_AMT_V"
+			replaceIfExists="true">
+		(select fdoc_nbr, sum(
                      CASE
                      WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC
                      WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC
@@ -15,18 +15,18 @@
                      WHEN ITM_ACTV_IND ='N' THEN 0
                      ELSE 0
                        END) as TOTAL_AMOUNT
-       from pur_po_itm_t group by fdoc_nbr
-		]]></createView>
+       from PUR_PO_ITM_T group by fdoc_nbr)
+	</createView>
 	</changeSet>
 	<changeSet author='KFS50' id='KFS_50_AddColumn_DISPLAY_TO_USER_IND'>
 		<comment>KFSMI-KFSMI-6486 Add a new column to PUR_PO_TRNS_MTHD_T</comment>
-		<addColumn tableName='pur_po_trns_mthd_t'>
+		<addColumn tableName='PUR_PO_TRNS_MTHD_T'>
 			<column name='DISPLAY_TO_USER_IND' type='VARCHAR2(1)'
 				defaultValue='Y' />
 		</addColumn>
-		<update tableName="pur_po_trns_mthd_t">
+		<update tableName="PUR_PO_TRNS_MTHD_T">
 			<column name="DISPLAY_TO_USER_IND" value="N" />
-			<where>property='ELEC'</where>
+			<where>PO_TRNS_MTHD_CD='ELEC'</where>
 		</update>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
@@ -97,5 +97,10 @@
 			<replace replace='NUMBER' with='DECIMAL' />
 		</modifySql>
 	</changeSet>
-
+     <changeSet author="KFS50" id="KFSMI7256">
+       <comment>Status Code column from REQ, PO, PREQ tables need to be made to accept nulls.</comment>
+        <dropNotNullConstraint tableName="PUR_REQS_T" columnName="REQS_STAT_CD"  columnDataType="VARCHAR(4)"/>
+        <dropNotNullConstraint tableName="PUR_PO_T" columnName="PO_STAT_CD" columnDataType="VARCHAR(4)"/>
+        <dropNotNullConstraint tableName="AP_PMT_RQST_T" columnName="PMT_RQST_STAT_CD" columnDataType="VARCHAR(4)"/>
+      </changeSet>
 </databaseChangeLog>

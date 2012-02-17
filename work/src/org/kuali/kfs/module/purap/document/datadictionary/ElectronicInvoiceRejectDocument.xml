@@ -290,8 +290,9 @@
       <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-    
-  <bean id="ElectronicInvoiceRejectDocument-invoiceResearchIndicatorForSearching" parent="ElectronicInvoiceRejectDocument-invoiceResearchIndicator-parentBean">
+
+  <bean id="ElectronicInvoiceRejectDocument-invoiceResearchIndicatorForSearching" parent="ElectronicInvoiceRejectDocument-invoiceResearchIndicatorForSearching-parentBean"/>    
+  <bean id="ElectronicInvoiceRejectDocument-invoiceResearchIndicatorForSearching-parentBean" abstract="true" parent="ElectronicInvoiceRejectDocument-invoiceResearchIndicator-parentBean">
     <property name="name" value="invoiceResearchIndicatorForSearching"/>
     <property name="label" value="Research Indicator"/>
     <property name="control">

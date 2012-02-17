@@ -1,21 +1,20 @@
-
-<changeSet author='kfs50' id='KFS_50_ar_inv_doc_t'
-	failOnError='true'>
-	<comment>KFSMI-6861 </comment>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+<changeSet author='kfs50' id='KFS_50_ar_inv_doc_t'>
+	<comment>KFSMI-6861</comment>
 	<addColumn tableName='AR_INV_DOC_T'>
 		<column name='REPORTED_DT' type='DATETIME' />
 	</addColumn>
 
 	<createTable tableName="AR_CUST_BILLING_STMT_T">
-		<column name='cust_nbr' type='VARCHAR2(9)' />
-		<column name='cust_nbr' type='VARCHAR2(9)' />
-		<column name='prev_billed_amt' type='NUMBER(19,2)' />
-		<column name='reported' type='DATETIME' />
+		<column name='CUST_NBR' type='VARCHAR2(9)' />
+		<column name='PREV_BILLED_AMT' type='NUMBER(19,2)' />
+		<column name='REPORTED_DT' type='DATETIME' />
 	</createTable>
 
 
 	<modifySql dbms='mysql'>
-		<replace replace='varchar2' with='varchar' />
+		<replace replace='VARCHAR2' with='VARCHAR' />
 		<replace replace='NUMBER' with='DECIMAL' />
 	</modifySql>
 </changeSet>

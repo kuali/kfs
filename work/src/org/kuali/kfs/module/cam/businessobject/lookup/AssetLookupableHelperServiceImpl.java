@@ -283,11 +283,6 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return problemChildField.replace(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNTS_COA_CODE, CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
     }
 
-    
-    protected void checkAssetNumber() {
-            boolean success = true;
-  
-    }
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         // perform the lookup on the asset representative first
@@ -304,10 +299,8 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         }
 
         return super.getSearchResultsHelper(fieldValues, unbounded);
-     }
+    }
     
-
-
     /**
      * @return Returns the personService.
      */

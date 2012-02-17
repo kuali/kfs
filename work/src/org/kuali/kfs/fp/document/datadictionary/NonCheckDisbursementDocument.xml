@@ -50,7 +50,7 @@
   
   <bean id="NonCheckDisbursementDocument-validations" parent="NonCheckDisbursementDocument-validations-parentBean"/>
   
-  <bean id="NonCheckDisbursementDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="NonCheckDisbursementDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

@@ -125,7 +125,7 @@
   </bean> 
   
   <bean id="BankChangeHistory-originalBankCodeList" parent="BankChangeHistory-originalBankCodeList-parentBean"/>
-  <bean id="BankChangeHistory-originalBankCodeList-parentBean" parent="Bank-bankCode">
+  <bean id="BankChangeHistory-originalBankCodeList-parentBean" abstract="true" parent="Bank-bankCode">
     <property name="name" value="originalBankCodeList"/>
     <property name="label" value="Original Bank Code List"/>
     <property name="shortLabel" value="Orig Bnk Cd"/>

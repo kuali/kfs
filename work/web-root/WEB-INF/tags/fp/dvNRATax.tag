@@ -27,8 +27,8 @@
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.incomeClassCode}"/></div>
     </th>
     <td width="25%">
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeClassCode}" property="document.dvNonResidentAlienTax.incomeClassCode" extraReadOnlyProperty="document.dvNonResidentAlienTax.incomeClassName"readOnly="${!taxEntryMode}"/>
-        <c:if test="${taxEntryMode}">
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeClassCode}" property="document.dvNonResidentAlienTax.incomeClassCode" extraReadOnlyProperty="document.dvNonResidentAlienTax.incomeClassName"readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
+        <c:if test="${taxEntryMode and empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}">
           <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" fieldConversions="code:document.dvNonResidentAlienTax.incomeClassCode"/>
         </c:if>
     </td>
@@ -36,7 +36,7 @@
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.foreignSourceIncomeCode}"/></div>
     </th>
     <td width="25%">
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.foreignSourceIncomeCode}" property="document.dvNonResidentAlienTax.foreignSourceIncomeCode" readOnly="${!taxEntryMode}"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.foreignSourceIncomeCode}" property="document.dvNonResidentAlienTax.foreignSourceIncomeCode" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
     </td>
   </tr>
           
@@ -45,16 +45,16 @@
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.federalIncomeTaxPercent}"/></div>
     </th>
     <td>
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.federalIncomeTaxPercent}" property="document.dvNonResidentAlienTax.federalIncomeTaxPercent" readOnly="${!taxEntryMode}"/>
-        <c:if test="${taxEntryMode}">
-          <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" fieldConversions="incomeTaxPercent:document.dvNonResidentAlienTax.federalIncomeTaxPercent" lookupParameters="document.dvNonResidentAlienTax.incomeClassCode:incomeClassCode,'F':incomeTaxTypeCode"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.federalIncomeTaxPercent}" property="document.dvNonResidentAlienTax.federalIncomeTaxPercent" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
+        <c:if test="${taxEntryMode and empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}">
+          <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" fieldConversions="incomeTaxPercent:document.dvNonResidentAlienTax.federalIncomeTaxPercent" lookupParameters="document.dvNonResidentAlienTax.incomeClassCode:incomeClassCode,'F':incomeTaxTypeCode" />
         </c:if>
     </td>
     <th scope="row">
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.incomeTaxTreatyExemptCode}"/></div>
     </th>
     <td>
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeTaxTreatyExemptCode}" property="document.dvNonResidentAlienTax.incomeTaxTreatyExemptCode" readOnly="${!taxEntryMode}"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeTaxTreatyExemptCode}" property="document.dvNonResidentAlienTax.incomeTaxTreatyExemptCode" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
     </td>
   </tr>
           
@@ -63,8 +63,8 @@
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.stateIncomeTaxPercent}"/></div>
     </th>
     <td>
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.stateIncomeTaxPercent}" property="document.dvNonResidentAlienTax.stateIncomeTaxPercent" readOnly="${!taxEntryMode}"/>
-       <c:if test="${taxEntryMode}">
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.stateIncomeTaxPercent}" property="document.dvNonResidentAlienTax.stateIncomeTaxPercent" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
+       <c:if test="${taxEntryMode and empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}">
           <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" fieldConversions="incomeTaxPercent:document.dvNonResidentAlienTax.stateIncomeTaxPercent" lookupParameters="document.dvNonResidentAlienTax.incomeClassCode:incomeClassCode,'S':incomeTaxTypeCode"/>
        </c:if>
     </td>
@@ -72,7 +72,7 @@
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.taxOtherExemptIndicator}"/></div>
     </th>
     <td>
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.taxOtherExemptIndicator}" property="document.dvNonResidentAlienTax.taxOtherExemptIndicator" readOnly="${!taxEntryMode}"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.taxOtherExemptIndicator}" property="document.dvNonResidentAlienTax.taxOtherExemptIndicator" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
     </td>
   </tr>
           
@@ -83,13 +83,13 @@
     	</div>
     </th>
     <td>
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.postalCountryCode}" property="document.dvNonResidentAlienTax.postalCountryCode" readOnly="${!taxEntryMode}"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.postalCountryCode}" property="document.dvNonResidentAlienTax.postalCountryCode" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
     </td>
     <th scope="row">
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.incomeTaxGrossUpCode}"/></div>
     </th>
     <td>
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeTaxGrossUpCode}" property="document.dvNonResidentAlienTax.incomeTaxGrossUpCode" readOnly="${!taxEntryMode}"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeTaxGrossUpCode}" property="document.dvNonResidentAlienTax.incomeTaxGrossUpCode" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
     </td>
   </tr>
   
@@ -101,13 +101,13 @@
     <td>
       <kul:htmlControlAttribute 
         attributeEntry="${nraTaxAttributes.taxNQIId}" property="document.dvNonResidentAlienTax.taxNQIId" 
-        readOnly="${!taxEntryMode}"/>
+        readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
     </td>
     <th scope="row">
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.taxUSAIDPerDiemIndicator}"/></div>
     </th>
     <td>
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.taxUSAIDPerDiemIndicator}" property="document.dvNonResidentAlienTax.taxUSAIDPerDiemIndicator" readOnly="${!taxEntryMode}"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.taxUSAIDPerDiemIndicator}" property="document.dvNonResidentAlienTax.taxUSAIDPerDiemIndicator" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
     </td>
   </tr>
   
@@ -116,13 +116,13 @@
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.referenceFinancialDocumentNumber}"/></div>
     </th>
     <td>
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.referenceFinancialDocumentNumber}" property="document.dvNonResidentAlienTax.referenceFinancialDocumentNumber" readOnly="${!taxEntryMode}"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.referenceFinancialDocumentNumber}" property="document.dvNonResidentAlienTax.referenceFinancialDocumentNumber" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
     </td>
     <th scope="row">
       <div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.taxSpecialW4Amount}"/></div>
     </th>
     <td>
-      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.taxSpecialW4Amount}" property="document.dvNonResidentAlienTax.taxSpecialW4Amount" readOnly="${!taxEntryMode}"/>
+      <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.taxSpecialW4Amount}" property="document.dvNonResidentAlienTax.taxSpecialW4Amount" readOnly="${!taxEntryMode or not empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}"/>
     </td>
   </tr>
           
@@ -132,9 +132,11 @@
 	    <center>
 	    <c:if test="${empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}">
         <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-genlines.gif" styleClass="tinybutton" property="methodToCall.generateNonResidentAlienTaxLines" title="Generate Non-resident Alien Tax Lines" alt="Generate Non-resident Alien Tax Lines"/>
+        <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-clearall.gif" styleClass="tinybutton" property="methodToCall.clearNonResidentAlienTaxInfo" title="Clear All Info From NRA Tax Entries" alt="Clear All Info From NRA Tax Entries"/>
 	    </c:if>
       <c:if test="${!empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}">
         <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" styleClass="tinybutton" property="methodToCall.clearNonResidentAlienTaxLines"  title="Clear Non-resident Alien Tax Lines" alt="Clear Non-resident Alien Tax Lines" />
+        <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-clearall.gif" styleClass="tinybutton" property="methodToCall.clearNonResidentAlienTaxInfo" title="Clear All Info From NRA Tax Entries" alt="Clear All Info From NRA Tax Entries"/>
       </c:if>
 	    </center>
 	  </td>

@@ -60,16 +60,16 @@
 	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
-    			<key><value>source-withExtEncumbrance</value></key>
-	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="AccountingLineGroup"/>
+    			<key><value>source-withEncumbrance</value></key>
+	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup-withEncumbrance" parent="AccountingLineGroup"/>
 	    	</entry>
     		<entry>
     			<key><value>source-withDebitCredit</value></key>
 	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
-    			<key><value>source-withDebitCreditExtEncumbrance</value></key>
-	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="AccountingLineGroup"/>
+    			<key><value>source-withDebitCreditEncumbrance</value></key>
+	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditEncumbrance" parent="AccountingLineGroup"/>
 	    	</entry>	    	
     	</map>
     </property>
@@ -131,7 +131,7 @@
   <!-- Validations -->
   
   <bean id="LaborJournalVoucherDocument-validations" parent="LaborJournalVoucherDocument-validations-parentBean"/> 
-  <bean id="LaborJournalVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="LaborJournalVoucherDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>
@@ -182,9 +182,9 @@
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,journalLineHelper*"/> 
   </bean>  
   
-  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="LaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean"/>  
-  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="labor-LaborJournalVoucherDocument-accountingLineView-withExtEncumbrance"/>
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withEncumbrance" parent="LaborJournalVoucherDocument-sourceAccountingLineGroup-withEncumbrance-parentBean"/>  
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-LaborJournalVoucherDocument-accountingLineView-withEncumbrance"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
 	  <property name="groupLabel" value="Source"/>
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
@@ -204,9 +204,9 @@
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,journalLineHelper*"/> 
   </bean>  
   
-  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean"/>  
-  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance"/>
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditEncumbrance" parent="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditEncumbrance-parentBean"/>  
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditEncumbrance"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
 	  <property name="groupLabel" value="Source"/>
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>

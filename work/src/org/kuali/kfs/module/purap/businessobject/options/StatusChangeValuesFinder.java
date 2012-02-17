@@ -35,9 +35,9 @@ public class StatusChangeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new ConcreteKeyValue(PurapConstants.PurchaseOrderStatuses.IN_PROCESS, VendorConstants.NONE));
-        labels.add(new ConcreteKeyValue(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT, "Department"));
-        labels.add(new ConcreteKeyValue(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR, "Vendor"));
+        labels.add(new ConcreteKeyValue(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS, VendorConstants.NONE));
+        labels.add(new ConcreteKeyValue(PurapConstants.PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT, "Department"));
+        labels.add(new ConcreteKeyValue(PurapConstants.PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR, "Vendor"));
         return labels;
     }
 }

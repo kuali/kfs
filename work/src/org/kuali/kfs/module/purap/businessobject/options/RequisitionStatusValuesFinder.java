@@ -16,20 +16,19 @@
 package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-import org.kuali.kfs.module.purap.businessobject.RequisitionStatus;
-import org.kuali.kfs.module.purap.businessobject.Status;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Value Finder for Requisition Statuses.
  */
-public class RequisitionStatusValuesFinder extends PurApStatusKeyValuesBase {
+public class RequisitionStatusValuesFinder extends KeyValuesBase {
 
     /**
      * Overide this method to sort the Req statuses for proper display. 
@@ -37,31 +36,16 @@ public class RequisitionStatusValuesFinder extends PurApStatusKeyValuesBase {
      * @see org.kuali.kfs.module.purap.businessobject.options.PurApStatusKeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
-        // get all PO statuses
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection<Status> statuses = boService.findAll(getStatusClass());
-        
-        // sort the statuses according to their codes alphabetically
-        int ns = statuses.size();
-        Status[] sortStatuses = new Status[ns];
-        if ( ns > 0 ) {
-            sortStatuses = (Status[])statuses.toArray(sortStatuses);
-            Arrays.sort(sortStatuses, sortStatuses[0]);       
-        }        
-        
+        // get all REQ statuses
+        HashMap<String, String> keyValues = RequisitionStatuses.getAllAppDocStatuses();
+        SortedSet<String> sortedKeys= new TreeSet<String>(keyValues.keySet());
+                
         // generate output
         List labels = new ArrayList();
-        for (Status status : sortStatuses) {
-            labels.add(new ConcreteKeyValue(status.getStatusCode(), status.getStatusDescription()));
+        for (String sortedKey : sortedKeys) {
+            labels.add(new ConcreteKeyValue(sortedKey, sortedKey));
         }
         return labels;
     }
     
-    /**
-     * @see org.kuali.kfs.module.purap.businessobject.options.PurApStatusKeyValuesBase#getStatusClass()
-     */
-    @Override
-    public Class getStatusClass() {
-        return RequisitionStatus.class;
-    }
 }

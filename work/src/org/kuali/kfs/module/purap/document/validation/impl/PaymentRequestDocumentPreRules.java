@@ -33,8 +33,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KualiRuleService;
 
@@ -60,7 +60,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         boolean preRulesOK = true;
 
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
-        if ((!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) || (StringUtils.equals(preq.getStatusCode(), PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW))) {
+        if ((!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) || (StringUtils.equals(preq.getAppDocStatus(), PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW))) {
             if (!confirmPayDayNotOverThresholdDaysAway(preq)) {
                 return false;
             }
@@ -231,7 +231,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
     }
     @Override
     protected boolean checkCAMSWarningStatus(PurchasingAccountsPayableDocument purapDocument) {
-        return PurapConstants.CAMSWarningStatuses.PAYMENT_REQUEST_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getStatusCode());
+        return PurapConstants.CAMSWarningStatuses.PAYMENT_REQUEST_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getAppDocStatus());
     }
 
 }

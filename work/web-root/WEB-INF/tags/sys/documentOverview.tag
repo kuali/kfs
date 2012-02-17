@@ -26,20 +26,20 @@
 <%@ attribute name="bankObjectProperty" required="false" description="name of the property that holds the bank object in the form" %>
 <%@ attribute name="depositOnly" required="false" description="boolean indicating whether the bank lookup call should request only deposit banks" %>
 <%@ attribute name="disbursementOnly" required="false" description="boolean indicating whether the bank lookup call should request only disbursement banks" %>
+<%@ attribute name="viewYearEndAccountPeriod" required="false" description="boolean indicating whether year end accounting period should display" %>
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="financialDocHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
 <c:set var="includeTotalAmount" value="${not empty editingMode[KFSConstants.AMOUNT_TOTALING_EDITING_MODE]}" />
 
-<kul:documentOverview editingMode="${editingMode}">
-	<c:if test="${includePostingYear or includeTotalAmount or includeBankCode}">
+<kul:documentOverview editingMode="${editingMode}">	
+	<c:if test="${includePostingYear or includeTotalAmount or includeBankCode or viewYearEndAccountPeriod}">
 	  <h3><c:out value="Financial Document Detail"/></h3>
 	  
 	  <c:if test="${includeBankCode}">
 	      <div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${bankProperty}"/></div></div>
-	  </c:if>
-	  
-	  <table cellpadding="0" cellspacing="0" class="datatable" summary="KFS Detail Section">
+	  </c:if>	  
+	  <table cellpadding="0" cellspacing="0" class="datatable" summary="KFS Detail Section">	  
 	    <tr>
 	      <c:choose>
 	        <c:when test="${includePostingYear}">
@@ -101,6 +101,31 @@
 	      </tr>
 	    </c:if>
 	   
+	   	<!-- CSU 6702 BEGIN -->
+	   	<!-- rSmart-jkneal-KFSCSU-199-begin mod for displaying accounting period field -->	   	 
+	   	<c:if test="${!empty KualiForm.documentActions[KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION]}">	   
+	      	<c:set var="accountingPeriodAttribute" value="${DataDictionary.LedgerPostingDocumentBase.attributes.accountingPeriodCompositeString}" />
+	      	<tr>	      
+			  	<kul:htmlAttributeHeaderCell
+		         		labelFor="document.accountingPeriodCompositeString"
+		                attributeEntry="${accountingPeriodAttribute}"
+		                horizontal="true" useShortLabel="false" />
+		
+		       	<td class="datacell-nowrap">
+		          	<kul:htmlControlAttribute 
+		                attributeEntry="${accountingPeriodAttribute}" 
+		                property="document.accountingPeriodCompositeString" 
+		                readOnly="${readOnly || empty KualiForm.documentActions[KFSConstants.YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION]}"
+		                readOnlyBody="true" >
+		                	${KualiForm.document.accountingPeriod.universityFiscalPeriodName}
+		           	</kul:htmlControlAttribute>      
+		      	</td>
+		      	<th colspan="2">&nbsp;</th>       
+	      	</tr>
+	   	</c:if>
+	   	<!-- rSmart-jkneal-KFSCSU-199-end mod --> 
+	   	<!-- CSU 6702 END -->
+	   	   
 	  </table>
 	</c:if>
 	<jsp:doBody/>

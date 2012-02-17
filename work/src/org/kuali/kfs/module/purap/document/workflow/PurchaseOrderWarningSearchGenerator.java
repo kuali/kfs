@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.workflow;
 
-import org.kuali.rice.krad.workflow.attribute.DataDictionaryDocumentSearchCustomizer;
-public class PurchaseOrderWarningSearchGenerator extends DataDictionaryDocumentSearchCustomizer {
-
+public class PurchaseOrderWarningSearchGenerator extends PurAPDataDictionaryDocumentSearchCustomizer {
     // RICE20 : this class can be removed.  This type of logic will need to be moved into a custom SearchableAttribute
     // subclass of FinancialSystemSearchableAttribute
 

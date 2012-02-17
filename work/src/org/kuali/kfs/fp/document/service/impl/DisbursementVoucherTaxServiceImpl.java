@@ -30,6 +30,7 @@ import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonResidentAlienInformationValidation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -274,7 +275,6 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         return taxLine;
     }
 
-
     /**
      * This method validates the non-resident alien (NRA) tax information for the document and if the information validates, 
      * the NRA tax lines are generated. 
@@ -290,6 +290,30 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             generateNRATaxLines(document);
         }
     }
+    
+    /**
+     * Removes non-resident alien (NRA) check boxes and sets information to empty values.
+     * 
+     * @param document The disbursement voucher the NRA tax lines will be removed from.
+     */
+    public void clearNRATaxInfo(DisbursementVoucherDocument document) {
+        
+        document.getDvNonResidentAlienTax().setIncomeClassCode(null);
+        document.getDvNonResidentAlienTax().setFederalIncomeTaxPercent(null);
+        document.getDvNonResidentAlienTax().setStateIncomeTaxPercent(null);
+        document.getDvNonResidentAlienTax().setPostalCountryCode(null);
+        document.getDvNonResidentAlienTax().setTaxNQIId(null);
+        document.getDvNonResidentAlienTax().setReferenceFinancialDocumentNumber(null);
+        document.getDvNonResidentAlienTax().setForeignSourceIncomeCode(false);
+        document.getDvNonResidentAlienTax().setIncomeTaxTreatyExemptCode(false);
+        document.getDvNonResidentAlienTax().setTaxOtherExemptIndicator(false);
+        document.getDvNonResidentAlienTax().setIncomeTaxGrossUpCode(false);
+        document.getDvNonResidentAlienTax().setTaxUSAIDPerDiemIndicator(false);
+        document.getDvNonResidentAlienTax().setTaxSpecialW4Amount(null);
+
+        clearNRATaxLines(document);
+        
+    }    
 
     /**
      * Removes non-resident alien (NRA) tax lines from the document's accounting lines and updates the check total.
@@ -410,16 +434,13 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     protected boolean validateNRATaxInformation(DisbursementVoucherDocument document) {
         MessageMap errors = GlobalVariables.getMessageMap();
 
-        // set nulls to 0
-        if (document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() == null) {
-            document.getDvNonResidentAlienTax().setFederalIncomeTaxPercent(KualiDecimal.ZERO);
+        DisbursementVoucherNonResidentAlienInformationValidation dvNRA = new DisbursementVoucherNonResidentAlienInformationValidation();
+        dvNRA.setAccountingDocumentForValidation(document);
+        dvNRA.setValidationType("GENERATE");
+                    
+        if(!dvNRA.validate(null)) {
+            return false;
         }
-
-        if (document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() == null) {
-            document.getDvNonResidentAlienTax().setStateIncomeTaxPercent(KualiDecimal.ZERO);
-        }
-
-        validateNonResidentAlienInformation(document);
 
         if (!GlobalVariables.getMessageMap().hasErrors()) {
             return false;
@@ -449,7 +470,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_GENERATE_TAX_BOTH_0);
             return false;
         }
-
+        
         /* check total cannot be negative */
         if (KualiDecimal.ZERO.compareTo(document.getDisbVchrCheckTotalAmount()) == 1) {
             errors.putErrorWithoutFullErrorPath("document.disbVchrCheckTotalAmount", KFSKeyConstants.ERROR_NEGATIVE_OR_ZERO_CHECK_TOTAL);
@@ -467,7 +488,6 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_CHECK_ACCOUNTING_TOTAL);
             return false;
         }
-
         return true;
     }
 
@@ -528,82 +548,5 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     public void setMaintenanceDocumentService(MaintenanceDocumentService maintenanceDocumentService) {
         this.maintenanceDocumentService = maintenanceDocumentService;
     }
-
-    /**
-     * Validates fields for an alien payment.
-     * 
-     * @param document submitted disbursement voucher document
-     */
-    public void validateNonResidentAlienInformation(DisbursementVoucherDocument document) {
-        MessageMap errors = GlobalVariables.getMessageMap();
-
-        errors.addToErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
-
-        /* income class code required */
-        if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
-            errors.putError(KFSPropertyConstants.INCOME_CLASS_CODE, KFSKeyConstants.ERROR_REQUIRED, "Income class code ");
-        }
-        else {
-            /* for foreign source or treaty exempt, non reportable, tax percents must be 0 and gross indicator can not be checked */
-            if (document.getDvNonResidentAlienTax().isForeignSourceIncomeCode() || document.getDvNonResidentAlienTax().isIncomeTaxTreatyExemptCode() || NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
-
-                if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent())))) {
-                    errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_FEDERAL_TAX_NOT_ZERO);
-                }
-
-                if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent())))) {
-                    errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_STATE_TAX_NOT_ZERO);
-                }
-
-                if (document.getDvNonResidentAlienTax().isIncomeTaxGrossUpCode()) {
-                    errors.putError(KFSPropertyConstants.INCOME_TAX_GROSS_UP_CODE, KFSKeyConstants.ERROR_DV_GROSS_UP_INDICATOR);
-                }
-
-                if (NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode()) && StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getPostalCountryCode())) {
-                    errors.putError(KFSPropertyConstants.POSTAL_COUNTRY_CODE, KFSKeyConstants.ERROR_DV_POSTAL_COUNTRY_CODE);
-                }
-            }
-            else {
-                if (document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() == null) {
-                    errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_REQUIRED, "Federal tax percent ");
-                }
-                else {
-                    // check tax percent is in non-resident alien tax percent table for income class code
-                    NonResidentAlienTaxPercent taxPercent = new NonResidentAlienTaxPercent();
-                    taxPercent.setIncomeClassCode(document.getDvNonResidentAlienTax().getIncomeClassCode());
-                    taxPercent.setIncomeTaxTypeCode(FEDERAL_TAX_TYPE_CODE);
-                    taxPercent.setIncomeTaxPercent(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent());
-
-                    PersistableBusinessObject retrievedPercent = getBusinessObjectService().retrieve(taxPercent);
-                    if (retrievedPercent == null) {
-                        errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_FED_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
-                    }
-                }
-
-                if (document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() == null) {
-                    errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_REQUIRED, "State tax percent ");
-                }
-                else {
-                    NonResidentAlienTaxPercent taxPercent = new NonResidentAlienTaxPercent();
-                    taxPercent.setIncomeClassCode(document.getDvNonResidentAlienTax().getIncomeClassCode());
-                    taxPercent.setIncomeTaxTypeCode(STATE_TAX_TYPE_CODE);
-                    taxPercent.setIncomeTaxPercent(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent());
-
-                    PersistableBusinessObject retrievedPercent = getBusinessObjectService().retrieve(taxPercent);
-                    if (retrievedPercent == null) {
-                        errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_STATE_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getStateIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
-                    }
-                }
-            }
-        }
-
-        /* country code required, unless income type is nonreportable */
-        if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getPostalCountryCode()) && !NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
-            errors.putError(KFSPropertyConstants.POSTAL_COUNTRY_CODE, KFSKeyConstants.ERROR_REQUIRED, "Country code ");
-        }
-
-        errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
-    }
-    
 }
 

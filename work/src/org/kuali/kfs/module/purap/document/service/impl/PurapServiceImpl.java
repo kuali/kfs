@@ -78,13 +78,11 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.edl.impl.components.WorkflowDocumentActions;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -163,26 +161,6 @@ public class PurapServiceImpl implements PurapService {
         this.taxService = taxService;
     }
     
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PurapService#updateStatus(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
-     */
-  //TODO hjs: is this method really needed now that we don't have status history tables?
-    public boolean updateStatus(PurchasingAccountsPayableDocument document, String newStatus) {
-        LOG.debug("updateStatus() started");
-
-        if (ObjectUtils.isNotNull(document) || ObjectUtils.isNotNull(newStatus)) {
-            String oldStatus = document.getStatusCode();
-            document.setStatusCode(newStatus);
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug("Status of document #" + document.getDocumentNumber() + " has been changed from " + oldStatus + " to " + newStatus);
-            }
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     public void saveRoutingDataForRelatedDocuments(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         
         try {
@@ -567,10 +545,10 @@ public class PurapServiceImpl implements PurapService {
         // for now just return true if not in one of the first few states
         boolean value = false;
         if (purapDocument instanceof PaymentRequestDocument) {
-            value = PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getStatusCode());
+            value = PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getAppDocStatus());
         }
         else if (purapDocument instanceof VendorCreditMemoDocument) {
-            value = PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getStatusCode());
+            value = PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getAppDocStatus());
         }
         return value;
     }
@@ -587,7 +565,7 @@ public class PurapServiceImpl implements PurapService {
         if (purapDocument instanceof PaymentRequestDocument) {
             PaymentRequestDocument paymentRequest = (PaymentRequestDocument) purapDocument;
 
-            if (paymentRequest.isClosePurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.OPEN.equals(paymentRequest.getPurchaseOrderDocument().getStatusCode())) {
+            if (paymentRequest.isClosePurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(paymentRequest.getPurchaseOrderDocument().getAppDocStatus())) {
                 // get the po id and get the current po
                 // check the current po: if status is not closed and there is no pending action... route close po as system user
                 processCloseReopenPo((AccountsPayableDocumentBase) purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT);
@@ -597,7 +575,7 @@ public class PurapServiceImpl implements PurapService {
         else if (purapDocument instanceof VendorCreditMemoDocument) {
             VendorCreditMemoDocument creditMemo = (VendorCreditMemoDocument) purapDocument;
 
-            if (creditMemo.isReopenPurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {
+            if (creditMemo.isReopenPurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(creditMemo.getPurchaseOrderDocument().getAppDocStatus())) {
                 // get the po id and get the current PO
                 // route 'Re-Open PO Document' if PO criteria meets requirements from business rules
                 processCloseReopenPo((AccountsPayableDocumentBase) purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT);
@@ -643,11 +621,11 @@ public class PurapServiceImpl implements PurapService {
         // setup text for note that will be created, will either be closed or reopened
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
             action = "closed";
-            newStatus = PurchaseOrderStatuses.PENDING_CLOSE;
+            newStatus = PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
         }
         else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
             action = "reopened";
-            newStatus = PurchaseOrderStatuses.PENDING_REOPEN;
+            newStatus = PurchaseOrderStatuses.APPDOC_PENDING_REOPEN;
         }
         else {
             String errorMessage = "Method processCloseReopenPo called using ID + '" + apDocument.getPurapDocumentIdentifier() + "' and invalid doc type '" + docType + "'";

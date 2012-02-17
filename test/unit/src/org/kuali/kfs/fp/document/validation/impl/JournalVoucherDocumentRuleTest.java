@@ -76,12 +76,14 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
 
     public void testProcessAddAccountingLineBusinessRules_emptyReferenceOriginCode() throws Exception {
         AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine();
+        line.setEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
         line.setReferenceOriginCode("");
         testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_REQUIRED);
     }
 
     public void testProcessAddAccountingLineBusinessRules_emptyReferences() throws Exception {
         AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine();
+        line.setEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
         line.setReferenceOriginCode("");
         line.setReferenceNumber("");
         line.setReferenceTypeCode("");

@@ -85,7 +85,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
         List results = new ArrayList();
 
-        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         if (arDocumentHeaders.size() == 0)
             return results;
 
@@ -285,11 +285,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 detail.setDocumentDescription("");
 
             // populate Document Payment Amount - original document amount
-            //detail.setDocumentPaymentAmount(KualiDecimal.ZERO);
             detail.setDocumentPaymentAmount(paymentApplication.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
 
-            // populate Unpaid/Unapplied Amount if the customer number is not the same
-            detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
+            // populate Unpaid/Unapplied Amount             
+            detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated());
 
             results.add(detail);
         }
@@ -492,7 +491,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumberByProcessingOrgCodeAndChartCode(customerNumber, processingChartCode, processingOrganizationCode);
         } // reportOption is "Billing Organization" or "Account"
         else {
-            arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+            arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         }
         return arDocumentHeaders;
     }
@@ -617,7 +616,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
         Collection<String> documentNumbers = new ArrayList();
 
-        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         String userId = GlobalVariables.getUserSession().getPrincipalId();
 
         //List invoiceIds = new ArrayList();
@@ -686,7 +685,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
         List results = new ArrayList();
 
-        Collection<AccountsReceivableDocumentHeader> arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+        Collection<AccountsReceivableDocumentHeader> arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         String userId = GlobalVariables.getUserSession().getPrincipalId();
 
         Hashtable details = new Hashtable();

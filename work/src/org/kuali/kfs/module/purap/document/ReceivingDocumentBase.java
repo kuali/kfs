@@ -20,10 +20,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
-import org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -79,9 +77,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     protected String deliveryToPhoneNumber;
     protected Date deliveryRequiredDate;
     protected String deliveryInstructionText;
-    protected String deliveryRequiredDateReasonCode;
-    protected String lineItemReceivingStatusCode;
-    protected String lineItemReceivingStatusDescription;
+    protected String deliveryRequiredDateReasonCode;        
 
     protected Integer alternateVendorHeaderGeneratedIdentifier;
     protected Integer alternateVendorDetailAssignedIdentifier;
@@ -97,8 +93,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     protected CountryEbo vendorCountry;
     protected Carrier carrier;
     protected VendorDetail vendorDetail;
-    protected DeliveryRequiredDateReason deliveryRequiredDateReason;
-    protected LineItemReceivingStatus lineItemReceivingStatus;
+    protected DeliveryRequiredDateReason deliveryRequiredDateReason;    
     protected Integer purchaseOrderIdentifier;
     protected Integer accountsPayablePurchasingDocumentLinkIdentifier;
     protected transient PurchaseOrderDocument purchaseOrderDocument;
@@ -672,31 +667,12 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         return true;
     }
 
-    public LineItemReceivingStatus getLineItemReceivingStatus() {
-        if (ObjectUtils.isNull(this.lineItemReceivingStatus) && StringUtils.isNotEmpty(this.getLineItemReceivingStatusCode()))  {
-            this.refreshReferenceObject(PurapPropertyConstants.LINE_ITEM_RECEIVING_STATUS);
-        }
-        return lineItemReceivingStatus;
+    public String getAppDocStatus() {
+        return this.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
     }
 
-    public void setLineItemReceivingStatus(LineItemReceivingStatus receivingLineStatus) {
-        this.lineItemReceivingStatus = receivingLineStatus;
-    }
-
-    public String getLineItemReceivingStatusCode() {
-        return lineItemReceivingStatusCode;
-    }
-
-    public void setLineItemReceivingStatusCode(String lineItemReceivingStatusCode) {
-        this.lineItemReceivingStatusCode = lineItemReceivingStatusCode;
-    }
-
-    public String getLineItemReceivingStatusDescription() {
-        return lineItemReceivingStatusDescription;
-    }
-
-    public void setLineItemReceivingStatusDescription(String lineItemReceivingStatusDescription) {
-        this.lineItemReceivingStatusDescription = lineItemReceivingStatusDescription;
+    public void setAppDocStatus(String appDocStatus) {
+        this.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);
     }
 
     /**

@@ -51,7 +51,7 @@
 
   <bean id="FeeProcessingWaivedAndAccruedGrandTotalLine-totalWaivedFees" parent="FeeProcessingWaivedAndAccruedGrandTotalLine-totalWaivedFees-parentBean"/>    
 
-  <bean id="FeeProcessingWaivedAndAccruedGrandTotalLine-totalWaivedFees-parentBean" parent="GenericAttributes-genericAmount">
+  <bean id="FeeProcessingWaivedAndAccruedGrandTotalLine-totalWaivedFees-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalWaivedFees"/>
     <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>

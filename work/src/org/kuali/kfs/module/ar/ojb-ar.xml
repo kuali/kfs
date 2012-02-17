@@ -329,6 +329,17 @@
     </collection-descriptor>    
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceLookup" table="AR_INV_DOC_T">
+	<field-descriptor name="invoiceNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="invoiceDueDate" column="AR_INV_DUE_DT" jdbc-type="DATE"/>
+	<field-descriptor name="billingDate" column="AR_BILLING_DT" jdbc-type="DATE"/>
+	<field-descriptor name="billByChartOfAccountCode" column="AR_BILL_BY_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="billedByOrganizationCode" column="AR_BILL_BY_ORG_CD" jdbc-type="VARCHAR"/>		
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument" table="AR_WRITEOFF_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -582,6 +593,9 @@
 	</reference-descriptor>
 	<reference-descriptor name="defaultInvoiceProject" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="defaultInvoiceProjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="unitOfMeasure" class-ref="org.kuali.kfs.sys.businessobject.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="defaultUnitOfMeasureCode" />
 	</reference-descriptor>
 </class-descriptor>
 

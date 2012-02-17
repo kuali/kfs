@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
@@ -38,9 +37,9 @@ public interface PurApWorkflowIntegrationService {
      * Determine if the document will stop at the given node in the future routing process
      * 
      * @param document
-     * @param givenNodeDetail
+     * @param givenNodeName
      * @return boolean indicating if document is going to stop at the given node
      */
-    public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
+    public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, String givenNodeName);
 }
 

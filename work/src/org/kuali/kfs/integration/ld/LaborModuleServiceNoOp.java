@@ -23,10 +23,11 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
-public class LaborModuleServiceNoOp implements LaborModuleService {
+public class LaborModuleServiceNoOp extends UnimplementedKfsModuleServiceImpl implements LaborModuleService  {
 
     private Logger LOG = Logger.getLogger(getClass()); 
 
@@ -92,6 +93,18 @@ public class LaborModuleServiceNoOp implements LaborModuleService {
     public List<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return Collections.emptyList();
+    }
+
+    @Override
+    public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

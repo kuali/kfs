@@ -64,6 +64,9 @@
 	<bean id="PurchasingAccountsPayable-accountPercentValidation" parent="PurchasingAccountsPayable-accountPercentValidation-parentBean" scope="prototype"/>
 	<bean id="PurchasingAccountsPayable-accountPercentValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountPercentValidation" abstract="true"/>
 
+	<bean id="PurchasingAccountsPayable-accountTotalAmountValidation" parent="PurchasingAccountsPayable-accountTotalAmountValidation-parentBean" scope="prototype"/>
+	<bean id="PurchasingAccountsPayable-accountTotalAmountValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountTotalValidation" abstract="true"/>
+
 	<bean id="PurchasingAccountsPayable-accountTotalValidation" parent="PurchasingAccountsPayable-accountTotalValidation-parentBean" scope="prototype"/>
 	<bean id="PurchasingAccountsPayable-accountTotalValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountTotalValidation" abstract="true"/>
 
@@ -79,10 +82,16 @@
 	<bean id="PurchasingAccountsPayable-processAccountValidation" parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype" />
 	
 	<bean id="PurchasingAccountsPayable-processAccountValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessAccountValidation" abstract="true">
+        <property name="parameterProperties">
+         	<list>
+            	<bean parent="itemIterationSubjectFieldConversation" />
+         	</list>
+        </property>
 		<property name="hasAccountsValidation" ref="PurchasingAccountsPayable-hasAccountsValidation"/>
 		<property name="accountHasAtleastOnePercentValidation" ref="PurchasingAccountsPayable-accountHasAtleastOnePercentValidation"/>
 		<property name="accountLineAmountValidation" ref="PurchasingAccountsPayable-accountingLineAmountValidation"/>
 		<property name="accountPercentValidation" ref="PurchasingAccountsPayable-accountPercentValidation"/>
+		<property name="accountTotalValidation" ref="PurchasingAccountsPayable-accountTotalValidation"/>
 		<property name="accountingStringsValidation" ref="PurchasingAccountsPayable-uniqueAccountingStringsValidation"/>
 	</bean>
 
@@ -167,6 +176,7 @@
 	<bean id="Purchasing-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true">
 		<property name="vendorService" ref="vendorService" />
 		<property name="parameterService" ref="parameterService" />
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
 	</bean>
 
 	<bean id="Purchasing-capitalAssetValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetValidation" abstract="true">
@@ -643,7 +653,9 @@
 <!-- Payment Request Definitions -->
     <bean id="PaymentRequest-lineItemQuantityNotZero" class="org.kuali.kfs.module.purap.document.validation.impl.LineItemQuantityNotZero" abstract="true" />
 
-	<bean id="PaymentRequest-nonZeroAccountingLineAmountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestNonZeroAccountingLineAmountValidation" abstract="true"/>
+	<bean id="PaymentRequest-nonZeroAccountingLineAmountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestNonZeroAccountingLineAmountValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
 
 	<bean id="PaymentRequest-invoiceImageAttachmentValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestInvoiceImageAttachmentValidation" abstract="true"/>
 	
@@ -1063,6 +1075,7 @@
 		<property name="accountingStringsValidation" ref="PurchasingAccountsPayable-uniqueAccountingStringsValidation"/>
 		<property name="accountHasAtleastOnePercentValidation" ref="PurchasingAccountsPayable-accountHasAtleastOnePercentValidation"/>
 		<property name="accountLineAmountValidation" ref="PurchasingAccountsPayable-accountingLineAmountValidation"/>
+		<property name="accountPercentValidation" ref="PurchasingAccountsPayable-accountPercentValidation"/>
 	</bean>
 	
 	<bean id="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation-isOldLineBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
@@ -1132,5 +1145,7 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="PurchasingAccountsPayables-itemPreCalculateValidations" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayablesItemPreCalculateValidations" abstract="true" />		
 	
 </beans>

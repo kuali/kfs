@@ -42,6 +42,8 @@ public interface PurApAccountingLine extends AccountingLine {
 
     public abstract void setSequenceNumber(Integer sequenceNumber);
     
+    public abstract Integer getPurApSequenceNumber();
+    
     /**
      * Determines if the current purap accounting line is in an empty state.
      * 

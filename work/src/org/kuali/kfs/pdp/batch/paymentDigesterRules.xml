@@ -43,7 +43,6 @@
             <set-properties-rule pattern="payee_id" />
             
             <call-method-rule pattern="payee_own_cd" methodname="setPayeeOwnerCd" paramcount="0" />
-            <call-method-rule pattern="customer_institution_identifier" methodname="setCustomerInstitutionNumber" paramcount="0" />
             <call-method-rule pattern="address1" methodname="setLine1Address" paramcount="0" />
             <call-method-rule pattern="address2" methodname="setLine2Address" paramcount="0" />
             <call-method-rule pattern="address3" methodname="setLine3Address" paramcount="0" />
@@ -69,6 +68,7 @@
                 <call-method-rule pattern="po_nbr" methodname="setPurchaseOrderNbr" paramcount="0" />
                 <call-method-rule pattern="req_nbr" methodname="setRequisitionNbr" paramcount="0" />
                 <call-method-rule pattern="org_doc_nbr" methodname="setOrganizationDocNbr" paramcount="0" />
+                <call-method-rule pattern="customer_institution_identifier" methodname="setCustomerInstitutionNumber" paramcount="0" />
                 <call-method-rule pattern="invoice_date" methodname="setInvoiceDate" paramcount="0" />
                 <call-method-rule pattern="orig_invoice_amt" methodname="setOrigInvoiceAmount" paramcount="0" />
                 <call-method-rule pattern="net_payment_amt" methodname="setNetPaymentAmount" paramcount="0" />

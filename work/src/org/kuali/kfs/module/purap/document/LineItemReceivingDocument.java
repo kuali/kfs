@@ -56,7 +56,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     
     public void initiateDocument(){
         super.initiateDocument();
-        this.setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.IN_PROCESS);
+        this.setAppDocStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_IN_PROCESS);
     }
     
     public void populateReceivingLineFromPurchaseOrder(PurchaseOrderDocument po){
@@ -154,8 +154,9 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         // DOCUMENT CANCELED
         // If the document is canceled then set the line item receiving 
         // status code to CANC.
-        if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-            setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.CANCELLED);
+        if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {                      
+            setAppDocStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_CANCELLED);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
         }
     }
     
@@ -163,13 +164,15 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     public void doRouteLevelChange(DocumentRouteLevelChange change) {
         //If the new node is Outstanding Transactions then we want to set the line item
         //receiving status code to APOO.
-        if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS, change.getNewNodeName())){
-            setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.AWAITING_PO_OPEN_STATUS);
+        if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS, change.getNewNodeName())){            
+            setAppDocStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
         } 
         //If the new node is Join, this means we're done with the routing, so we'll set
         //the line item receiving status code to CMPT.
-        else if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.JOIN_NODE, change.getNewNodeName())) {
-            setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.COMPLETE);
+        else if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.JOIN_NODE, change.getNewNodeName())) {            
+            setAppDocStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_COMPLETE);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
         }
         SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
     }

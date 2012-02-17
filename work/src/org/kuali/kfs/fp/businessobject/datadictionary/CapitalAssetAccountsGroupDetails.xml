@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="CapitalAssetAccountsGroupDetails" parent="CapitalAssetAccountsGroupDetails-parentBean"/>
+
+  <bean id="CapitalAssetAccountsGroupDetails-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails"/>
+    <property name="objectLabel" value="Capital Asset Accounts Group Details"/>
+    <property name="attributes">
+      <list>
+        <ref bean="CapitalAssetAccountsGroupDetails-documentNumber"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-capitalAssetLineNumber"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-capitalAssetAccountLineNumber"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-sequenceNumber"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-financialDocumentLineTypeCode"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-chartOfAccountsCode"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-accountNumber"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-financialObjectCode"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-amount"/>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Attributes -->
+  
+  <bean id="CapitalAssetAccountsGroupDetails-documentNumber" parent="CapitalAssetAccountsGroupDetails-documentNumber-parentBean"/>
+  
+  <bean id="CapitalAssetAccountsGroupDetails-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-capitalAssetLineNumber" parent="CapitalAssetAccountsGroupDetails-capitalAssetLineNumber-parentBean"/>
+
+  <bean id="CapitalAssetAccountsGroupDetails-capitalAssetLineNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber">
+	<property name="name" value="capitalAssetLineNumber"/>
+    <property name="label" value="Capital Asset Sequence Number"/>
+    <property name="shortLabel" value="Asset Seq. Nbr"/>
+	<property name="maxLength" value="7"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-capitalAssetAccountLineNumber" parent="CapitalAssetAccountsGroupDetails-capitalAssetAccountLineNumber-parentBean"/>
+
+  <bean id="CapitalAssetAccountsGroupDetails-capitalAssetAccountLineNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber">
+	<property name="name" value="capitalAssetAccountLineNumber"/>
+    <property name="label" value="Capital Asset Acct Line Number"/>
+    <property name="shortLabel" value="Asset Acct Ln Nbr"/>
+	<property name="maxLength" value="7"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-sequenceNumber" parent="CapitalAssetAccountsGroupDetails-sequenceNumber-parentBean"/>
+
+  <bean id="CapitalAssetAccountsGroupDetails-sequenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber">
+	<property name="maxLength" value="7"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-financialDocumentLineTypeCode" parent="CapitalAssetAccountsGroupDetails-financialDocumentLineTypeCode-parentBean"/>
+
+  <bean id="CapitalAssetAccountsGroupDetails-financialDocumentLineTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="financialDocumentLineTypeCode"/>
+	<property name="maxLength" value="10"/>
+    <property name="label" value="Line Type"/>
+    <property name="shortLabel" value="Line Type"/>
+  	<property name="forceUppercase" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-chartOfAccountsCode" parent="CapitalAssetAccountsGroupDetails-chartOfAccountsCode-parentBean"/>
+
+  <bean id="CapitalAssetAccountsGroupDetails-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode">
+	<property name="maxLength" value="10"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-accountNumber" parent="CapitalAssetAccountsGroupDetails-accountNumber-parentBean"/>
+
+  <bean id="CapitalAssetAccountsGroupDetails-accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-accountNumber">
+	<property name="maxLength" value="10"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-financialObjectCode" parent="CapitalAssetAccountsGroupDetails-financialObjectCode-parentBean"/>
+
+  <bean id="CapitalAssetAccountsGroupDetails-financialObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialObjectCode">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-amount" parent="CapitalAssetAccountsGroupDetails-amount-parentBean"/>
+
+  <bean id="CapitalAssetAccountsGroupDetails-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="amount"/>
+    
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+  </bean>
+</beans>

@@ -25,6 +25,15 @@
         <ref bean="WireChargeMaintenanceDocument-EditWireCharge"/>
       </list>
     </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="fiscalYear" p:attributeToHighlightOnFail="universityFiscalYear" p:displayFieldName="Fiscal Year"/>
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode" p:displayFieldName="Chart Code"/>
+        <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber" p:displayFieldName="Account Number"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeFinancialObject" p:attributeToHighlightOnFail="incomeFinancialObjectCode" p:displayFieldName="Income Financial Object Code"/>        
+        <bean parent="ReferenceDefinition" p:attributeName="expenseFinancialObject" p:attributeToHighlightOnFail="expenseFinancialObjectCode" p:displayFieldName="Expense Financial Object Code"/>        
+      </list>
+    </property>    
     <property name="lockingKeys">
       <list>
         <value>universityFiscalYear</value>

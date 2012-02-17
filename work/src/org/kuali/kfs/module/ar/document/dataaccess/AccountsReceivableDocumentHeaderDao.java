@@ -17,6 +17,8 @@ package org.kuali.kfs.module.ar.document.dataaccess;
 
 import java.util.Collection;
 
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+
 public interface AccountsReceivableDocumentHeaderDao {
     
     /**
@@ -30,4 +32,12 @@ public interface AccountsReceivableDocumentHeaderDao {
      * @return AccountReceivableDocumentHeader objects
      */
     public Collection getARDocumentHeadersByCustomerNumberByProcessingOrgCodeAndChartCode(String customerNumber, String processingChartOfAccountCode, String processingOrganizationCode);
+    
+    /**
+     * 
+     * This method retrieves all AccountReceivableDocumentHeader objects for the customerNumber
+     * @param customerNumber
+     * @return
+     */
+    public Collection<AccountsReceivableDocumentHeader> getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(String customerNumber);
 }

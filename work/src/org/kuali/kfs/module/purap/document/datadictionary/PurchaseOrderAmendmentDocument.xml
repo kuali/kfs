@@ -92,7 +92,7 @@
 
   <bean id="PurchaseOrderAmendmentDocument-validations" parent="PurchaseOrderAmendmentDocument-validations-parentBean"/>
   
-  <bean id="PurchaseOrderAmendmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="PurchaseOrderAmendmentDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
     <property name="sourceMap">
 	  <map>			
 	    <entry>
@@ -150,7 +150,11 @@
 		<entry>
 			<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingCapitalAssetLocationEvent</value></key>
 			<value>PurchaseOrderAmendment-addPurchasingCapitalAssetLocationValidation</value>				
-		</entry>									       	    				    	   
+		</entry>
+		<entry>
+			<key><value>org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemPreCalculateEvent</value></key>
+			<value>PurchaseOrderAmendment-purchasingAccountsPayablesItemPreCalculateValidations</value>
+		</entry>
       </map>
     </property>	  
   </bean>

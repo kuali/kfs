@@ -19,9 +19,30 @@
 	<bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
 	<bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleServiceNoOp"  abstract="true"/>
 				
-	<bean id="laborModuleService"  parent="laborModuleService-parentBean"/>
-	<bean id="laborModuleService-parentBean" class="org.kuali.kfs.integration.ld.LaborModuleServiceNoOp"  abstract="true"/>
-	
+	<bean id="ldModuleConfiguration"  parent="ldModuleConfiguration-parentBean"/>
+	<bean id="ldModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+	      <property name="namespaceCode" value="KFS-LD" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.integration.ld</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/kfs/integration/ld/businessobject/datadictionary</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" value="org.kuali.kfs.integration.ld.businessobject.BenefitRateCategory" />             </map>
+        </property>
+    </bean>
+    <bean id="laborModuleService"  parent="laborModuleService-parentBean"/>
+    <bean id="laborModuleService-parentBean" class="org.kuali.kfs.integration.ld.LaborModuleServiceNoOp" abstract="true">
+        <property name="moduleConfiguration" ref="ldModuleConfiguration" />
+    </bean>
+    
 	<bean id="purchasingAccountsPayableModuleService"  parent="purchasingAccountsPayableModuleService-parentBean"/>
 	<bean id="purchasingAccountsPayableModuleService-parentBean" class="org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleServiceNoOp"  abstract="true"/>
 	

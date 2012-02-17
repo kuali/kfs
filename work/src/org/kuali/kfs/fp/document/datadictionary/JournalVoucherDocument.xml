@@ -42,16 +42,16 @@
 	    		<ref bean="JournalVoucherDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
-    			<key><value>source-withExtEncumbrance</value></key>
-	    		<ref bean="JournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="AccountingLineGroup"/>
+    			<key><value>source-withEncumbrance</value></key>
+	    		<ref bean="JournalVoucherDocument-sourceAccountingLineGroup-withEncumbrance" parent="AccountingLineGroup"/>
 	    	</entry>
     		<entry>
     			<key><value>source-withDebitCredit</value></key>
 	    		<ref bean="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
-    			<key><value>source-withDebitCreditExtEncumbrance</value></key>
-	    		<ref bean="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="AccountingLineGroup"/>
+    			<key><value>source-withDebitCreditEncumbrance</value></key>
+	    		<ref bean="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditEncumbrance" parent="AccountingLineGroup"/>
 	    	</entry>	    	
     	</map>
     </property>
@@ -103,7 +103,7 @@
   
   <bean id="JournalVoucherDocument-validations" parent="JournalVoucherDocument-validations-parentBean"/>
   
-  <bean id="JournalVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="JournalVoucherDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>
@@ -154,9 +154,9 @@
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,voucherLineHelpers*"/> 
   </bean>  
   
-  <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="JournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean"/>  
-  <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="Voucher-accountingLineView-withExtEncumbrance"/>
+  <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withEncumbrance" parent="JournalVoucherDocument-sourceAccountingLineGroup-withEncumbrance-parentBean"/>  
+  <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="Voucher-accountingLineView-withEncumbrance"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine"/>
 	  <property name="groupLabel" value="Source"/>
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
@@ -176,9 +176,9 @@
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,voucherLineHelpers*"/> 
   </bean>  
   
-  <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean"/>  
-  <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="Voucher-accountingLineView-withDebitCreditExtEncumbrance"/>
+  <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditEncumbrance" parent="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditEncumbrance-parentBean"/>  
+  <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="Voucher-accountingLineView-withDebitCreditEncumbrance"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine"/>
 	  <property name="groupLabel" value="Source"/>
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>

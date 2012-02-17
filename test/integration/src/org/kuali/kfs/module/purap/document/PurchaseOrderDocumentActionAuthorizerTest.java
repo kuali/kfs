@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.web.struts.PurchaseOrderForm;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture;
@@ -95,7 +96,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
         PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
-        poRetransmitDocument.setStatusCode("CGIN");
+        poRetransmitDocument.setAppDocStatus(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
         PurchaseOrderForm poForm = new PurchaseOrderForm();
         poForm.setDocument(poRetransmitDocument);
         poForm.setEditingMode(editMode);
@@ -130,8 +131,8 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
-        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
-        poRetransmitDocument.setStatusCode("CGIN");
+        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");        
+        poRetransmitDocument.setAppDocStatus(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
         poRetransmitDocument.setPurchaseOrderAutomaticIndicator(true);
         changeCurrentUser(rorenfro);
         PurchaseOrderForm poForm = new PurchaseOrderForm();

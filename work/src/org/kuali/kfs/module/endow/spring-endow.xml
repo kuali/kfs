@@ -196,7 +196,8 @@
 		</property>
 	</bean>
 	
-    <bean id="accrualTransactionsExceptionReportWriterService" parent="reportWriterService">
+	<bean id="accrualTransactionsExceptionReportWriterService" parent="accrualTransactionsExceptionReportWriterService-parentBean"/>
+    <bean id="accrualTransactionsExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="accrualTransactionsExceptionReport_"/>
         <property name="title" value="CREATE ACCRUAL TRANSACTIONS JOB EXCEPTION REPORT"/>
@@ -208,7 +209,8 @@
         <property name="aggregationModeOn" value="false"/>
     </bean>
     
-    <bean id="accrualTransactionsTotalReportWriterService" parent="reportWriterService">
+    <bean id="accrualTransactionsTotalReportWriterService" parent="accrualTransactionsTotalReportWriterService-parentBean"/>
+    <bean id="accrualTransactionsTotalReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="accrualTransactionsTotalReport_"/>
         <property name="title" value="CREATE ACCRUAL TRANSACTIONS JOB TOTALS PROCESSED REPORT"/>
@@ -258,7 +260,7 @@
 	
  	<bean id="typeRestrictionCodeService" parent="typeRestrictionCodeService-parentBean"/>
 
- 	<bean id="typeRestrictionCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.TypeRestrictionCodeServiceImpl">
+ 	<bean id="typeRestrictionCodeService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.document.service.impl.TypeRestrictionCodeServiceImpl">
  		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -379,7 +381,9 @@
             <ref bean="eDocPostingProcessedReportWriterService" />
         </property>
     </bean>
-    <bean id="eDocPostingExceptionReportWriterService" parent="reportWriterService">
+    
+    <bean id="eDocPostingExceptionReportWriterService" parent="eDocPostingExceptionReportWriterService-parentBean"/>
+    <bean id="eDocPostingExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
         <property name="fileNamePrefix" value="endowmenteDocPostingExceptionReport_"/>
         <property name="title" value="PROCESS eDOC POSTING JOB EXCEPTION REPORT"/>
@@ -390,7 +394,9 @@
         </property>
         <property name="aggregationModeOn" value="false"/>
     </bean>
-        <bean id="eDocPostingProcessedReportWriterService" parent="reportWriterService">
+    
+    <bean id="eDocPostingProcessedReportWriterService" parent="eDocPostingProcessedReportWriterService-parentBean"/>
+    <bean id="eDocPostingProcessedReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
         <property name="fileNamePrefix" value="endowmenteDocPostingProcessedReport_"/>
         <property name="title" value="PROCESS eDOC POSTING JOB PROCESSED REPORT"/>
@@ -446,7 +452,7 @@
 	</bean>
   	<bean id="currentTaxLotService" parent="currentTaxLotService-parentBean"/>
  
- 	<bean id="currentTaxLotService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.CurrentTaxLotServiceImpl">
+ 	<bean id="currentTaxLotService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.document.service.impl.CurrentTaxLotServiceImpl">
  		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -532,7 +538,8 @@
 		
 	</bean>
 	
-	<bean id="gainLossDistributionExceptionReportWriterService" parent="reportWriterService">
+	<bean id="gainLossDistributionExceptionReportWriterService" parent="gainLossDistributionExceptionReportWriterService-parentBean"/>
+	<bean id="gainLossDistributionExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="gainLossDistributionExceptionReport_"/>
         <property name="title" value="DISTRIBUTION OF GAINS AND LOSSES JOB EXCEPTION REPORT"/>
@@ -544,7 +551,8 @@
         <property name="aggregationModeOn" value="false"/>
     </bean>
     
-    <bean id="gainLossDistributionTotalsReportWriterService" parent="reportWriterService">
+    <bean id="gainLossDistributionTotalsReportWriterService" parent="gainLossDistributionTotalsReportWriterService-parentBean"/>
+    <bean id="gainLossDistributionTotalsReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="gainLossDistributionTotals_"/>
         <property name="title" value="DISTRIBUTION OF GAINS AND LOSSES JOB TOTALS REPORT"/>
@@ -738,13 +746,15 @@
 		</property>			
 	</bean>	
 	
-    <bean id="rollFrequencyDatesTotalReportWriterService" parent="reportWriterService">
+	<bean id="rollFrequencyDatesTotalReportWriterService" parent="rollFrequencyDatesTotalReportWriterService-parentBean"/>
+    <bean id="rollFrequencyDatesTotalReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="rollFrequencyDatesTotalReport-"/>
         <property name="title" value="ROLL FREQUENCY DATES BATCH TOTAL REPORT"/>
 	</bean>
 	
-	<bean id="rollFrequencyDatesExceptionReportWriterService" parent="reportWriterService">
+	<bean id="rollFrequencyDatesExceptionReportWriterService" parent="rollFrequencyDatesExceptionReportWriterService-parentBean"/>
+	<bean id="rollFrequencyDatesExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="rollFrequencyDatesExceptionReport-"/>
         <property name="title" value="ROLL FREQUENCY DATES BATCH EXCEPTION REPORT"/>
@@ -810,7 +820,8 @@
 		</property>	
 	</bean>		
 	
-	<bean id="accrualProcessingReportWriterService" parent="reportWriterService">
+	<bean id="accrualProcessingReportWriterService" parent="accrualProcessingReportWriterService-parentBean"/>
+	<bean id="accrualProcessingReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="accrualProcessingTotals_"/>
         <property name="title" value="ACCRUAL PROCESSING JOB TOTALS REPORT"/>
@@ -891,7 +902,8 @@
 		</property>			
 	</bean>
 
-	<bean id="pooledFundControlTransactionsTotalReportWriterService" parent="reportWriterService">
+	<bean id="pooledFundControlTransactionsTotalReportWriterService" parent="pooledFundControlTransactionsTotalReportWriterService-parentBean"/>
+	<bean id="pooledFundControlTransactionsTotalReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="pooledFundControlTransactionsTotalReport_"/>
         <property name="title" value="POOLED FUND CONTROL TRANSACTIONS BATCH REPORT"/>
@@ -902,7 +914,8 @@
         </property>
 	</bean>
 	
-	<bean id="pooledFundControlTransactionsExceptionReportWriterService" parent="reportWriterService">
+	<bean id="pooledFundControlTransactionsExceptionReportWriterService" parent="pooledFundControlTransactionsExceptionReportWriterService-parentBean"/>
+	<bean id="pooledFundControlTransactionsExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="pooledFundControlTransactionsExceptionReport_"/>
         <property name="title" value="POOLED FUND CONTROL TRANSACTIONS BATCH REPORT"/>
@@ -976,7 +989,8 @@
 		</property>			
 	</bean>
 
-	<bean id="incomeDistributionForPooledFundExceptionReportWriterService" parent="reportWriterService">
+	<bean id="incomeDistributionForPooledFundExceptionReportWriterService" parent="incomeDistributionForPooledFundExceptionReportWriterService-parentBean"/>
+	<bean id="incomeDistributionForPooledFundExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="incomeDistributionForPooledFundException-"/>
         <property name="title" value="Income Distribution"/>
@@ -987,7 +1001,8 @@
         </property>
 	</bean>
 
-	<bean id="incomeDistributionForPooledFundTotalReportWriterService" parent="reportWriterService">
+	<bean id="incomeDistributionForPooledFundTotalReportWriterService" parent="incomeDistributionForPooledFundTotalReportWriterService-parentBean"/>
+	<bean id="incomeDistributionForPooledFundTotalReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="incomeDistributionForPooledFundTotal-"/>
         <property name="title" value="Income Distribution"/>
@@ -1038,7 +1053,9 @@
             <ref bean="holdingHistoryMarketValuesExceptionReportWriterService" />
         </property>     
     </bean>
-    <bean id="holdingHistoryMarketValuesExceptionReportWriterService" parent="reportWriterService">
+    
+    <bean id="holdingHistoryMarketValuesExceptionReportWriterService" parent="holdingHistoryMarketValuesExceptionReportWriterService-parentBean"/>
+    <bean id="holdingHistoryMarketValuesExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
         <property name="fileNamePrefix" value="holdingHistoryMarketValuesUpdatesException_"/>
         <property name="title" value="HOLDING HISTORY MARKET VALUES UPDATE JOB EXCEPTION REPORT"/>
@@ -1118,7 +1135,9 @@
             <ref bean="dataDictionaryService" />
         </property>
     </bean>
-    <bean id="createCashSweepExceptionReportWriterService" parent="reportWriterService">
+    
+    <bean id="createCashSweepExceptionReportWriterService" parent="createCashSweepExceptionReportWriterService-parentBean"/>
+    <bean id="createCashSweepExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
         <property name="fileNamePrefix" value="createCashSweepExceptionReport_"/>
         <property name="title" value="CREATE CASH SWEEP JOB EXCEPTION REPORT"/>
@@ -1130,7 +1149,9 @@
         </property>
         <property name="aggregationModeOn" value="false"/>
     </bean>
-        <bean id="createCashSweepProcessedReportWriterService" parent="reportWriterService">
+    
+    <bean id="createCashSweepProcessedReportWriterService" parent="createCashSweepProcessedReportWriterService-parentBean"/>
+    <bean id="createCashSweepProcessedReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
         <property name="fileNamePrefix" value="createCashSweepProcessedReport_"/>
         <property name="title" value="CREATE CASH SWEEP JOB PROCESSED REPORT"/>
@@ -1213,7 +1234,9 @@
             <ref bean="dataDictionaryService" />
         </property>
 	</bean>
-    <bean id="createAutomatedCashInvestmentExceptionReportWriterService" parent="reportWriterService">
+	
+	<bean id="createAutomatedCashInvestmentExceptionReportWriterService" parent="createAutomatedCashInvestmentExceptionReportWriterService-parentBean"/>
+    <bean id="createAutomatedCashInvestmentExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
         <property name="fileNamePrefix" value="createAutomatedCashInvestmentExceptionReport_"/>
         <property name="title" value="CREATE AUTOMATED CASH INVESTMENT JOB EXCEPTION REPORT"/>
@@ -1225,7 +1248,9 @@
         </property>
         <property name="aggregationModeOn" value="false"/>
     </bean>
-        <bean id="createAutomatedCashInvestmentProcessedReportWriterService" parent="reportWriterService">
+    
+    <bean id="createAutomatedCashInvestmentProcessedReportWriterService" parent="createAutomatedCashInvestmentProcessedReportWriterService-parentBean"/>
+    <bean id="createAutomatedCashInvestmentProcessedReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
         <property name="fileNamePrefix" value="createAutomatedCashInvestmentProcessedReport_"/>
         <property name="title" value="CREATE AUTOMATED CASH INVESTMENT JOB PROCESSED REPORT"/>
@@ -1302,7 +1327,8 @@
 		
     </bean>
     
-    <bean id="recurringCashTransferTransactionsExceptionReportWriterService" parent="reportWriterService">
+    <bean id="recurringCashTransferTransactionsExceptionReportWriterService" parent="recurringCashTransferTransactionsExceptionReportWriterService-parentBean"/>    
+    <bean id="recurringCashTransferTransactionsExceptionReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
             <property name="filePath" value="${reports.directory}/endow"/>
             <property name="fileNamePrefix" value="recurringCashTransferExceptionReport_"/>
         <property name="title" value="CREATE RECURRING CASH TRANSFER TRANSACTIONS JOB EXCEPTION REPORT"/>
@@ -1314,7 +1340,8 @@
         <property name="aggregationModeOn" value="false"/>
     </bean>
     
-    <bean id="recurringCashTransferTransactionsTotalReportWriterService" parent="reportWriterService">
+    <bean id="recurringCashTransferTransactionsTotalReportWriterService" parent="recurringCashTransferTransactionsTotalReportWriterService-parentBean"/>
+    <bean id="recurringCashTransferTransactionsTotalReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
             <property name="filePath" value="${reports.directory}/endow"/>
             <property name="fileNamePrefix" value="recurringCashTransferTotalReport_"/>
         <property name="title" value="CREATE RECURRING CASH TRANSFER TRANSACTIONS JOB TOTALS PROCESSED REPORT"/>
@@ -1429,7 +1456,9 @@
 		</property>	
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
-	<bean id="gLInterfaceBatchStatisticsReportsWriterService" parent="reportWriterService">
+	
+	<bean id="gLInterfaceBatchStatisticsReportsWriterService" parent="gLInterfaceBatchStatisticsReportsWriterService-parentBean"/>
+	<bean id="gLInterfaceBatchStatisticsReportsWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="gLInterfaceBatchStatisticsReport"/>
         <property name="title" value="KEM TO KFS GENERAL LEDGER INTERFACE BATCH STATISTICS REPORT"/>
@@ -1440,7 +1469,9 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>	
-	<bean id="gLInterfaceBatchTotalProcessedReportsWriterService" parent="reportWriterService">
+    
+    <bean id="gLInterfaceBatchTotalProcessedReportsWriterService" parent="gLInterfaceBatchTotalProcessedReportsWriterService-parentBean"/>
+	<bean id="gLInterfaceBatchTotalProcessedReportsWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="gLInterfaceBatchTotalProcessedReport"/>
         <property name="title" value="KEM TO KFS GENERAL LEDGER INTERFACE BATCH TOTALS PROCESSED REPORT"/>
@@ -1452,7 +1483,9 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>    
-	<bean id="gLInterfaceBatchExceptionReportsWriterService" parent="reportWriterService">
+    
+    <bean id="gLInterfaceBatchExceptionReportsWriterService" parent="gLInterfaceBatchExceptionReportsWriterService-parentBean"/>
+	<bean id="gLInterfaceBatchExceptionReportsWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="gLInterfaceBatchExceptionReport"/>
         <property name="title" value="KEM TO KFS GENERAL LEDGER INTERFACE BATCH EXCEPTION REPORT"/>
@@ -1592,7 +1625,9 @@
 			<ref bean="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService" />
 		</property>		
 	</bean>
-	<bean id="processFeeTransactionsExceptionReportsWriterService" parent="reportWriterService">
+	
+	<bean id="processFeeTransactionsExceptionReportsWriterService" parent="processFeeTransactionsExceptionReportsWriterService-parentBean"/>
+	<bean id="processFeeTransactionsExceptionReportsWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="proceeFeeTransactionsUpdatesException_"/>
         <property name="title" value="BATCH PROCESS FEE TRANSACTIONS UPDATE JOB EXCEPTION REPORT"/>
@@ -1603,7 +1638,9 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>	
-	<bean id="processFeeTransactionsTotalProcessedReportsWriterService" parent="reportWriterService">
+    
+    <bean id="processFeeTransactionsTotalProcessedReportsWriterService" parent="processFeeTransactionsTotalProcessedReportsWriterService-parentBean"/>
+	<bean id="processFeeTransactionsTotalProcessedReportsWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="proceeFeeTransactionsTotalProcessed_"/>
         <property name="title" value="BATCH PROCESS FEE TRANSACTIONS TOTALS PROCESSED REPORT"/>
@@ -1617,7 +1654,9 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>    
-	<bean id="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService" parent="reportWriterService">
+    
+    <bean id="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService" parent="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService-parentBean"/>
+	<bean id="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="proceeFeeTransactionsWaivedAndAccruedProcessed_"/>
         <property name="title" value="BATCH PROCESS FEE WAIVED AND ACCRUED FEES REPORT"/>
@@ -1674,7 +1713,8 @@
 		</property>
     </bean>	
     
-    <bean id="ticklerDeliveryStatisticsReportsWriterService" parent="reportWriterService">
+    <bean id="ticklerDeliveryStatisticsReportsWriterService" parent="ticklerDeliveryStatisticsReportsWriterService-parentBean"/>
+    <bean id="ticklerDeliveryStatisticsReportsWriterService-parentBean" abstract="true"  parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="ticklerDeliveryStatisticsReport"/>
         <property name="title" value="TICKLER DELIVERY NOTIFICAION STATISTICS REPORT"/>
@@ -1822,7 +1862,8 @@
 		</property>				
 	</bean>
 	
-    <bean id="frequencyCodeLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.FrequencyCodeLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+    <bean id="frequencyCodeLookupableHelperService" parent="frequencyCodeLookupableHelperService-parentBean" scope="prototype"/>	
+    <bean id="frequencyCodeLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.businessobject.lookup.FrequencyCodeLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
 	</bean>
 	
 	<bean id="frequencyCodeLookupable"  parent="frequencyCodeLookupable-parentBean" scope="prototype"/>
@@ -1832,7 +1873,8 @@
 		</property>
 	</bean>	
 	
-	<bean id="pooledFundValueLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.PooledFundValueLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+	<bean id="pooledFundValueLookupableHelperService" parent="pooledFundValueLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="pooledFundValueLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.businessobject.lookup.PooledFundValueLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
 	</bean>
 	
 	<bean id="pooledFundValueLookupable"  parent="pooledFundValueLookupable-parentBean" scope="prototype"/>
@@ -1842,7 +1884,8 @@
 		</property>
 	</bean>	
 	
-	<bean id="feeTypeCodeLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.FeeTypeCodeLookupableHelperService"  parent="lookupableHelperService" scope="prototype" />
+	<bean id="feeTypeCodeLookupableHelperService" parent="feeTypeCodeLookupableHelperService-parentBean" scope="prototype" />
+	<bean id="feeTypeCodeLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.businessobject.lookup.FeeTypeCodeLookupableHelperService"  parent="lookupableHelperService" scope="prototype" />
 	
 	<bean id="feeTypeCodeLookupable"  parent="feeTypeCodeLookupable-parentBean" scope="prototype"/>
 	<bean id="feeTypeCodeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
@@ -1877,7 +1920,8 @@
 		</property>		
 	</bean>
 		
-	<bean id="holdingTaxLotLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.HoldingTaxLotLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+	<bean id="holdingTaxLotLookupableHelperService" parent="holdingTaxLotLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="holdingTaxLotLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.businessobject.lookup.HoldingTaxLotLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
 	</bean>
 
 	<bean id="holdingTaxLotLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -1885,7 +1929,9 @@
 			<ref bean="holdingTaxLotLookupableHelperService" />
 		</property>
 	</bean>
-    <bean id="currentTaxLotBalanceLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.CurrentTaxLotBalanceLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+	
+	<bean id="currentTaxLotBalanceLookupableHelperService" parent="currentTaxLotBalanceLookupableHelperService-parentBean" scope="prototype"/>
+    <bean id="currentTaxLotBalanceLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.businessobject.lookup.CurrentTaxLotBalanceLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
 	</bean>
 	
 	<bean id="currentTaxLotBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -1894,7 +1940,8 @@
 		</property>
 	</bean>	
 
-    <bean id="holdingTaxLotRebalanceLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.HoldingTaxLotRebalanceLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+	<bean id="holdingTaxLotRebalanceLookupableHelperService" parent="holdingTaxLotRebalanceLookupableHelperService-parentBean" scope="prototype"/>
+    <bean id="holdingTaxLotRebalanceLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.businessobject.lookup.HoldingTaxLotRebalanceLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
     </bean>
     
     <bean id="holdingTaxLotRebalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -1903,7 +1950,8 @@
         </property>
     </bean>
     
-    <bean id="kemidCurrentBalanceDetailLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.KEMIDCurrentBalanceDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+    <bean id="kemidCurrentBalanceDetailLookupableHelperService" parent="kemidCurrentBalanceDetailLookupableHelperService-parentBean" scope="prototype"/>
+    <bean id="kemidCurrentBalanceDetailLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.businessobject.lookup.KEMIDCurrentBalanceDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
 	</bean>
 
 	<bean id="kemidCurrentBalanceDetailLookupable"  parent="kemidCurrentBalanceDetailLookupable-parentBean" scope="prototype"/>
@@ -1989,10 +2037,13 @@
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
-	<bean id="validateDateBasedOnFrequencyCodeService" class="org.kuali.kfs.module.endow.document.service.impl.ValidateDateBasedOnFrequencyCodeServiceImpl" scope="prototype">
+	
+	<bean id="validateDateBasedOnFrequencyCodeService" scope="prototype" parent="validateDateBasedOnFrequencyCodeService-parentBean"/>
+	<bean id="validateDateBasedOnFrequencyCodeService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.document.service.impl.ValidateDateBasedOnFrequencyCodeServiceImpl" scope="prototype">
 	</bean>	
 	
-	<bean id="ticklerLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.TicklerLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+	<bean id="ticklerLookupableHelperService" scope="prototype" parent="ticklerLookupableHelperService-parentBean" />
+	<bean id="ticklerLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.businessobject.lookup.TicklerLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
 	</bean>
 
 	<bean id="ticklerLookupable"  parent="ticklerLookupable-parentBean" scope="prototype"/>
@@ -2183,7 +2234,9 @@
 		</property>	
 	</bean>
     
-    <bean id="transactionArchiveLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.TransactionArchiveLookupableHelperService"  parent="lookupableHelperService" scope="prototype" />
+    
+    <bean id="transactionArchiveLookupableHelperService" parent="transactionArchiveLookupableHelperService-parentBean" scope="prototype" />
+    <bean id="transactionArchiveLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.endow.businessobject.lookup.TransactionArchiveLookupableHelperService"  parent="lookupableHelperService" scope="prototype" />
     <bean id="transactionArchiveLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="transactionArchiveLookupableHelperService" />

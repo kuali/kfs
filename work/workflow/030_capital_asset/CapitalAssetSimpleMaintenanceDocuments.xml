@@ -180,5 +180,10 @@
         2
       </routingVersion>
     </documentType>
+     <documentType>
+      <name>YEARENDDEPR</name>
+      <label>Year End Depreciation Assets</label>
+      <parent>CMSM</parent>
+    </documentType>
   </documentTypes>
 </data>

@@ -63,7 +63,7 @@ public class MessageBuilder {
      * Build the error message with the message body, invalid value and error type
      */
     public static Message buildMessage(String errorMessageKey, String invalidValue, int errorType) {
-        String errorMessageBody = getPropertyString(errorMessageKey);
+        String errorMessageBody = getPropertyValueAsString(errorMessageKey);
         String errorMessage = formatMessageBody(errorMessageBody, invalidValue);
         return new Message(errorMessage, errorType);
     }
@@ -80,7 +80,7 @@ public class MessageBuilder {
      * Build the error message with the message body, invalid value and error type. The message body contains place holders.
      */
     public static Message buildMessageWithPlaceHolder(String errorMessageKey, int errorType, Object... invalidValues) {
-        String errorMessageBody = getPropertyString(errorMessageKey);
+        String errorMessageBody = getPropertyValueAsString(errorMessageKey);
         String errorMessage = MessageFormat.format(errorMessageBody, invalidValues);
         return new Message(errorMessage, errorType);
     }
@@ -98,7 +98,7 @@ public class MessageBuilder {
      * @param messageKey the given message key
      * @return the message from application resource properties with the given key
      */
-    public static String getPropertyString(String messageKey) {
+    public static String getPropertyValueAsString(String messageKey) {
         return kualiConfigurationService.getPropertyValueAsString(messageKey);
     }
 

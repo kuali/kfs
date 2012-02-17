@@ -36,8 +36,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.Guid;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -50,6 +52,10 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implements DepreciationBatchDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepreciationBatchDaoJdbc.class);
     private UniversityDateDao universityDateDao;
+    
+    // CSU 6702 BEGIN
+    private ParameterService parameterService;
+    // CSU 6702 END
 
     /**
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#resetPeriodValuesWhenFirstFiscalPeriod(java.lang.Integer)
@@ -412,4 +418,138 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
     }
+    
+    // CSU 6702 BEGIN
+    /**
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getListOfDepreciableAssetPaymentInfoYearEnd(java.lang.Integer, java.lang.Integer, java.util.Calendar, boolean)
+     */
+    @Override
+    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfoYearEnd(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includeRetired) {
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Starting to get the list of depreciable asset payment list.");
+            final List<AssetPaymentInfo> assetPaymentDetails = new ArrayList<AssetPaymentInfo>();
+            List<String> depreciationMethodList = new ArrayList<String>();
+            List<String> notAcceptedAssetStatus = new ArrayList<String>();
+            depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
+            depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+            List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
+            if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES)) {
+                notAcceptedAssetStatus = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES);
+            }
+            String sql = "SELECT A0.CPTLAST_NBR,A0.AST_PMT_SEQ_NBR,A1.CPTL_AST_DEPR_DT,A1.AST_DEPR_MTHD1_CD,A1.CPTLAST_SALVAG_AMT,";
+            sql = sql + "A2.CPTLAST_DEPRLF_LMT,A5.ORG_PLNT_COA_CD,A5.ORG_PLNT_ACCT_NBR,A5.CMP_PLNT_COA_CD,A5.CMP_PLNT_ACCT_NBR,A3.FIN_OBJ_TYP_CD, ";
+            sql = sql + "A3.FIN_OBJ_SUB_TYP_CD, A0.AST_DEPR1_BASE_AMT,A0.FIN_OBJECT_CD, A0.AST_ACUM_DEPR1_AMT,A0.SUB_ACCT_NBR,A0.FIN_SUB_OBJ_CD,A0.PROJECT_CD, A0.FIN_COA_CD, A0.AST_PRD12DEPR1_AMT";
+            sql = sql + buildCriteriaYearEnd(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, false, false, includeRetired);
+            sql = sql + "ORDER BY A0.CPTLAST_NBR, A0.FS_ORIGIN_CD, A0.ACCOUNT_NBR, A0.SUB_ACCT_NBR, A0.FIN_OBJECT_CD, A0.FIN_SUB_OBJ_CD, A3.FIN_OBJ_TYP_CD, A0.PROJECT_CD";
+            System.out.println("\n\nsql = " + sql+"\n\n");
+            getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
+                public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
+                    int counter = 0;
+                    while (rs != null && rs.next()) {
+                        counter++;
+                        if (counter % 10000 == 0) {
+                            LOG.info("Reading result row at " + new java.util.Date() + " -  " + counter);
+                        }
+                        AssetPaymentInfo assetPaymentInfo = new AssetPaymentInfo();
+                        assetPaymentInfo.setCapitalAssetNumber(rs.getLong(1));
+                        assetPaymentInfo.setPaymentSequenceNumber(rs.getInt(2));
+                        assetPaymentInfo.setDepreciationDate(rs.getDate(3));
+                        String deprMethod = rs.getString(4);
+                        assetPaymentInfo.setPrimaryDepreciationMethodCode(deprMethod == null ? CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE : deprMethod);
+                        BigDecimal salvage = rs.getBigDecimal(5);
+                        assetPaymentInfo.setSalvageAmount(salvage == null ? KualiDecimal.ZERO : new KualiDecimal(salvage));
+                        assetPaymentInfo.setDepreciableLifeLimit(rs.getInt(6));
+                        assetPaymentInfo.setOrganizationPlantChartCode(rs.getString(7));
+                        assetPaymentInfo.setOrganizationPlantAccountNumber(rs.getString(8));
+                        assetPaymentInfo.setCampusPlantChartCode(rs.getString(9));
+                        assetPaymentInfo.setCampusPlantAccountNumber(rs.getString(10));
+                        assetPaymentInfo.setFinancialObjectTypeCode(rs.getString(11));
+                        assetPaymentInfo.setFinancialObjectSubTypeCode(rs.getString(12));
+
+                        BigDecimal primaryDeprAmt = rs.getBigDecimal(13);
+                        assetPaymentInfo.setPrimaryDepreciationBaseAmount(primaryDeprAmt == null ? KualiDecimal.ZERO : new KualiDecimal(primaryDeprAmt));
+                        assetPaymentInfo.setFinancialObjectCode(rs.getString(14));
+                        BigDecimal accumDeprAmt = rs.getBigDecimal(15);
+                        assetPaymentInfo.setAccumulatedPrimaryDepreciationAmount(accumDeprAmt == null ? KualiDecimal.ZERO : new KualiDecimal(accumDeprAmt));
+                        assetPaymentInfo.setSubAccountNumber(rs.getString(16));
+                        assetPaymentInfo.setFinancialSubObjectCode(rs.getString(17));
+                        assetPaymentInfo.setProjectCode(rs.getString(18));
+                        assetPaymentInfo.setChartOfAccountsCode(rs.getString(19));
+
+                        assetPaymentDetails.add(assetPaymentInfo);
+                    }
+                    return assetPaymentDetails;
+                }
+
+            });
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting list of [" + assetPaymentDetails.size() + "] depreciable asset payment list.");
+            return assetPaymentDetails;
+        }
+
+    /**
+     * Gets the parameterService attribute.
+     * 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    /**
+     * This method the value of the system parameter NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
+     * 
+     * @return
+     */
+    protected List<String> getFederallyOwnedObjectSubTypes() {
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "getting the federally owned object subtype codes.");
+
+        List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
+        if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES)) {
+            federallyOwnedObjectSubTypes = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES);
+        }
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the federally owned object subtype codes which are:" + federallyOwnedObjectSubTypes.toString());
+        return federallyOwnedObjectSubTypes;
+    }
+    
+    
+    protected String buildCriteriaYearEnd(Integer fiscalYear, Integer fiscalMonth, List<String> depreciationMethodList, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes, boolean includeFederal, boolean includePending, boolean includeRetired) {
+        LOG.info("fiscalYear = " + fiscalYear);
+        
+        String sql = "  FROM CM_AST_PAYMENT_T A0 INNER JOIN CM_CPTLAST_T A1 ON A0.CPTLAST_NBR=A1.CPTLAST_NBR INNER JOIN ";
+        sql = sql + "CM_ASSET_TYPE_T A2 ON A1.CPTLAST_TYP_CD=A2.CPTLAST_TYP_CD INNER JOIN CA_OBJECT_CODE_T A3 ON " + fiscalYear + "=A3.UNIV_FISCAL_YR ";
+        sql = sql + "AND A0.FIN_COA_CD=A3.FIN_COA_CD AND A0.FIN_OBJECT_CD=A3.FIN_OBJECT_CD INNER JOIN CA_ACCOUNT_T A4 ON A0.FIN_COA_CD=A4.FIN_COA_CD ";
+        sql = sql + "AND A0.ACCOUNT_NBR=A4.ACCOUNT_NBR INNER JOIN CA_ORG_T A5 ON A4.FIN_COA_CD=A5.FIN_COA_CD AND A4.ORG_CD=A5.ORG_CD ";
+        sql = sql + "WHERE (A0.AST_DEPR1_BASE_AMT IS NOT NULL  AND  A0.AST_DEPR1_BASE_AMT <> 0) AND  (A0.AST_TRNFR_PMT_CD ";
+        sql = sql + "IN ('N','') OR  A0.AST_TRNFR_PMT_CD IS NULL ) AND ( A1.AST_DEPR_MTHD1_CD IS NULL OR A1.AST_DEPR_MTHD1_CD IN (" + buildINValues(depreciationMethodList) + ") ) ";
+        sql = sql + "AND (A1.CPTL_AST_DEPR_DT IS NOT NULL AND A1.CPTL_AST_DEPR_DT <= ? AND A1.CPTL_AST_DEPR_DT <> ?) ";
+        sql = sql + "AND nvl(AST_RETIRE_REAS_CD,'x') <> 'M'";
+        sql = sql + "AND nvl(AST_PRD12DEPR1_AMT,0) = 0 ";
+        if (!includeRetired) {
+            sql = sql + "AND  (A1.AST_RETIR_FSCL_YR IS NULL OR A1.AST_RETIR_PRD_CD IS NULL OR A1.AST_RETIR_FSCL_YR > " + fiscalYear + " OR (A1.AST_RETIR_FSCL_YR = " + fiscalYear + " AND A1.AST_RETIR_PRD_CD > " + fiscalMonth + ")) ";
+        }
+        sql = sql + "AND A1.AST_INVN_STAT_CD NOT IN (" + buildINValues(notAcceptedAssetStatus) + ")AND A2.CPTLAST_DEPRLF_LMT > 0 ";
+        if (includeFederal) {
+            sql = sql + "AND A3.FIN_OBJ_SUB_TYP_CD IN (" + buildINValues(federallyOwnedObjectSubTypes) + ")";
+        } else {
+            sql = sql + "AND A3.FIN_OBJ_SUB_TYP_CD NOT IN (" + buildINValues(federallyOwnedObjectSubTypes) + ")";
+        }
+        sql = sql + " AND EXISTS (SELECT 1 FROM CSUF_YEAR_END_DEPR_DTL FYT WHERE A0.CPTLAST_NBR = FYT.CPTLAST_NBR AND ";
+        sql = sql + " FYT.UNIV_FISCAL_YR = " + fiscalYear + " AND FYT.YEAR_END_DEPR_DTL_ACTV_IND IN ('Y')  AND YEAR_END_DEPR_DTL_PROC_IND IN ('N',''))";
+
+        if (!includePending) {
+            sql = sql + " AND NOT EXISTS (SELECT 1 FROM CM_AST_TRNFR_DOC_T TRFR, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = TRFR.FDOC_NBR AND ";
+            sql = sql + " HDR.FDOC_STATUS_CD = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' AND TRFR.CPTLAST_NBR = A0.CPTLAST_NBR) ";
+        }
+        return sql;
+    }
+    // CSU 6702 END
+    
 }

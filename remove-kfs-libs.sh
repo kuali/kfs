@@ -32,3 +32,4 @@ svn revert -R work
 pushd work
 svn remove --force `svn status | grep ? | awk '{ print $2; }'`
 popd
+ant extract-rice-libraries build-eclipse-classpath

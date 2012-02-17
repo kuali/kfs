@@ -34,6 +34,7 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
@@ -292,7 +293,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         int simpleInvoiceDetailApplicationCounter = 0;
 
         // calculate paid applieds for all invoices
-        List<InvoicePaidApplied> invoicePaidApplieds = paymentApplicationDocument.getInvoicePaidApplieds();
+        List<InvoicePaidApplied> invoicePaidApplieds = this.filterTempInvoicePaidApplieds(paymentApplicationDocumentForm);
         for (PaymentApplicationInvoiceApply invoiceApplication : paymentApplicationDocumentForm.getInvoiceApplications()) {
             for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
 
@@ -316,11 +317,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 if (KualiDecimal.ZERO.equals(detailApplication.getAmountApplied())) {
                     continue;
                 }
-
+                
+                if (containsIdentical(detailApplication.getInvoiceDetail(), invoicePaidApplieds)) continue;
+                
                 // generate and validate the paidApplied, and always add it to the list, even if
                 // it fails validation. Validation failures will stop routing.
-                GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument.getTotalFromControl());
+                GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
+                                  
                 GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 invoicePaidApplieds.add(invoicePaidApplied);
                 paidAppliedsGenerated++;
@@ -330,6 +334,87 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invoicePaidApplieds;
     }
 
+
+    /**
+     * Provides a list consisting only of the Invoice Paid Applieds which do not match the current customer number
+     * @param paymentApplicationDocumentForm
+     * @return
+     */
+    protected List<InvoicePaidApplied> filterTempInvoicePaidApplieds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
+        PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
+        List <InvoicePaidApplied> filteredInvoicePaidApplieds = new ArrayList <InvoicePaidApplied>();
+        
+        List<InvoicePaidApplied> invoicePaidApplieds = paymentApplicationDocument.getInvoicePaidApplieds(); // jira fix
+        // add only entries that do not have the loaded customer number
+        String currentCustomerNumber = findCustomerNumber(paymentApplicationDocumentForm);
+        for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
+            if (! currentCustomerNumber.equals( invoicePaidApplied.getCustomerInvoiceDocument().getCustomer().getCustomerNumber())) {
+                filteredInvoicePaidApplieds.add(invoicePaidApplied);
+            }
+        }
+        return filteredInvoicePaidApplieds;
+    }
+
+    /**
+     * figure out the current customer Number on the form
+     * @param paymentApplicationDocumentForm
+     * @return
+     */
+    protected String findCustomerNumber(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
+        boolean validInvoice = this.isValidInvoice(paymentApplicationDocumentForm);
+        String customerNumber = paymentApplicationDocumentForm.getSelectedCustomerNumber();
+        String currentInvoiceNumber = paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber(); 
+        // Invoice number entered, but no customer number entered
+        if (StringUtils.isBlank(customerNumber) && StringUtils.isNotBlank(currentInvoiceNumber) && validInvoice) {
+            Customer customer = customerInvoiceDocumentService.getCustomerByInvoiceDocumentNumber(currentInvoiceNumber);
+            customerNumber = customer.getCustomerNumber();
+        }
+        return customerNumber;
+    }
+    
+    /**
+     * checks if the invoice is valid
+     * @param paymentApplicationDocumentForm
+     * @return
+     */
+    protected boolean isValidInvoice(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
+        boolean validInvoice = true;
+        if (StringUtils.isNotBlank(paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
+            Map<String, String> pkMap = new HashMap<String, String>();
+            if (!SpringContext.getBean(CustomerInvoiceDocumentService.class).checkIfInvoiceNumberIsFinal(paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
+                validInvoice &= false;
+            }
+        }
+        return validInvoice;
+    }
+    
+    /* 
+     *  test if this is already been applied   
+     *     InvoicePaidApplied paidApplied = new InvoicePaidApplied(payAppDocNumber, invoiceDetail.getDocumentNumber(), 
+                invoiceDetail.getSequenceNumber(), amountApplied, DEFAULT_PAID_APPLIED_ITEM_NUMBER);
+                
+                String documentNumber, String refInvoiceDocNumber, Integer invoiceSequenceNumber, KualiDecimal appliedAmount, Integer paidAppliedItemNumber) {
+    */
+    protected boolean containsIdentical(CustomerInvoiceDetail customerInvoiceDetail,  List<InvoicePaidApplied> invoicePaidApplieds ) {
+        boolean identicalFlag = false;
+        String custRefInvoiceDocNumber = customerInvoiceDetail.getDocumentNumber();
+        Integer custInvoiceSequenceNumber = customerInvoiceDetail.getInvoiceItemNumber();
+        KualiDecimal custAppliedAmount = customerInvoiceDetail.getAmountApplied();
+        
+        for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
+            String payAppDocNumber = invoicePaidApplied.getDocumentNumber();
+            String refInvoiceDocNumber = invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber();
+            Integer invoiceSequenceNumber = invoicePaidApplied.getInvoiceItemNumber();
+            KualiDecimal appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
+            Integer paidAppliedItemNumber = invoicePaidApplied.getPaidAppliedItemNumber();        
+            if (custRefInvoiceDocNumber.equals(refInvoiceDocNumber) && custInvoiceSequenceNumber.equals(invoiceSequenceNumber) && custAppliedAmount.equals(appliedAmount)) {
+                identicalFlag = true;
+                break;
+            }
+        }
+        return identicalFlag;
+    }
+    
     protected List<InvoicePaidApplied> quickApplyToInvoices(PaymentApplicationDocumentForm paymentApplicationDocumentForm, List<InvoicePaidApplied> appliedToIndividualDetails) {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) paymentApplicationDocumentForm.getDocument();
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
@@ -509,14 +594,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB, ArPropertyConstants.PaymentApplicationDocumentFields.ENTERED_INVOICE_CUSTOMER_NUMBER, ArKeyConstants.PaymentApplicationDocumentErrors.ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID);
             }
         }
-        boolean validInvoice = true;
-        if (StringUtils.isNotBlank(payAppForm.getEnteredInvoiceDocumentNumber())) {
-            Map<String, String> pkMap = new HashMap<String, String>();
-            if (!SpringContext.getBean(CustomerInvoiceDocumentService.class).checkIfInvoiceNumberIsFinal(payAppForm.getEnteredInvoiceDocumentNumber())) {
-                validInvoice &= false;
-                addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB, ArPropertyConstants.PaymentApplicationDocumentFields.ENTERED_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_NOT_FINAL);
-            }
-        }
+        boolean validInvoice = this.isValidInvoice(payAppForm);
+        if (!validInvoice)  addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB, ArPropertyConstants.PaymentApplicationDocumentFields.ENTERED_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_NOT_FINAL);
 
         // This handles the priority of the payapp selected customer number and the
         // ar doc header customer number. The ar doc header customer number should always

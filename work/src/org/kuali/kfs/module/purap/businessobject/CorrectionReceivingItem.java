@@ -35,6 +35,7 @@ public class CorrectionReceivingItem extends ReceivingItemBase {
         
         this.setDocumentNumber( rcd.getDocumentNumber() );        
         this.setItemTypeCode( rli.getItemTypeCode() );
+        this.setPurchaseOrderIdentifier(rli.getPurchaseOrderIdentifier());
         
         this.setItemLineNumber( rli.getItemLineNumber() );
         this.setItemCatalogNumber( rli.getItemCatalogNumber() );

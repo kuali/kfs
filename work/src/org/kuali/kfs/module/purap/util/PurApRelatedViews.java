@@ -48,6 +48,7 @@ import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurApRelatedViews {
     private String documentNumber;
@@ -118,7 +119,11 @@ public class PurApRelatedViews {
     protected void maskPONumberIfUnapproved(AbstractRelatedView view) {
         Document document = findDocument(view.getDocumentNumber());
 
-        String poIDstr = view.getPurapDocumentIdentifier().toString();
+        String poIDstr = "";
+        
+        if (ObjectUtils.isNotNull(view.getPurapDocumentIdentifier())) {
+            poIDstr = view.getPurapDocumentIdentifier().toString();
+        }
         
         if (document != null) {
             if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.FINAL)) {

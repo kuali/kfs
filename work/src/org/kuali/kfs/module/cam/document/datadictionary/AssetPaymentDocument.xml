@@ -54,7 +54,7 @@
   <!-- Validations -->  
   <bean id="AssetPaymentDocument-validations" parent="AssetPaymentDocument-validations-parentBean"/>
   
-  <bean id="AssetPaymentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="AssetPaymentDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

@@ -54,8 +54,7 @@
         <value>../scripts/sys/objectInfo.js</value>
       </list>
     </property>
-
-	<property name="documentPresentationControllerClass" value="org.kuali.kfs.coa.document.authorization.ObjectCodeDocumentPresentationController"/>
+	<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase"/>
     <property name="workflowAttributes">
     	<ref bean="ObjectCodeMaintenanceDocument-workflowAttributes"/>
     </property>

@@ -689,7 +689,7 @@
   <!-- Validation -->
   <bean id="BulkReceivingDocument-validations" parent="BulkReceivingDocument-validations-parentBean"/>
  
-  <bean id="BulkReceivingDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="BulkReceivingDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
  		<property name="sourceMap">
 			<map>
 				<entry>

@@ -129,4 +129,15 @@ public interface DepreciationBatchDao {
      */
     public Set<Long> getLockedAssets();
 
+    // CSU 6702 BEGIN
+    /**
+     * No explanation provided
+     * @param fiscalYear
+     * @param fiscalMonth
+     * @param depreciationDate
+     * @param includeRetired
+     * @return
+     */
+    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfoYearEnd(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includeRetired);
+    // CSU 6702 END
 }

@@ -97,6 +97,7 @@
         <ref bean="Account-accountDescription.campusCode"/>
         <ref bean="Account-accountDescription.buildingCode"/>
         <ref bean="Account-contractsAndGrantsAccountResponsibilityId"/>
+	<ref bean="Account-laborBenefitRateCategoryCode" />
       </list>
     </property>
     <property name="accessRestrictedAttributes">
@@ -107,74 +108,74 @@
            <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="Account-accountNumber"/></bean>
            <bean parent="OrganizationRestriction"><property name="attribute" ref="Account-organizationCode"/></bean>
            <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Account-organizationCode"/></bean>
-       </list>
-    </property>
-    <property name="collections">
-      <list>
+			</list>
+		</property>
+		<property name="collections">
+			<list>
         <bean parent="CollectionDefinition" p:name="subAccounts" p:label="Sub-Accounts" p:shortLabel="Sub-Accounts"/>
         <bean parent="CollectionDefinition" p:name="awards" p:label="Awards" p:shortLabel="Awards"/>
         <bean parent="CollectionDefinition" p:name="indirectCostRecoveryAccounts" p:label="ICR Accounts" p:shortLabel="ICR Account" />
-      </list>
-    </property>
-    <property name="relationships">
-      <list>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountFiscalOfficerUser">
-        	<property name="primitiveAttributes">
-        		<list>
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountFiscalOfficerUser">
+					<property name="primitiveAttributes">
+						<list>
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountFiscalOfficerSystemIdentifier" p:targetName="principalId" />
-        		</list>
-        	</property>
-        	<property name="supportAttributes">
-        		<list>
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
         			<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="accountFiscalOfficerUser.principalName" p:targetName="principalName" />
         			<bean parent="SupportAttributeDefinition" p:sourceName="accountFiscalOfficerUser.name" p:targetName="name" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountSupervisoryUser">
-        	<property name="primitiveAttributes">
-        		<list>
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountSupervisoryUser">
+					<property name="primitiveAttributes">
+						<list>
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountsSupervisorySystemsIdentifier" p:targetName="principalId" />
-        		</list>
-        	</property>
-        	<property name="supportAttributes">
-        		<list>
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
         			<bean parent="SupportAttributeDefinition" p:sourceName="accountSupervisoryUser.principalName" p:targetName="principalName" p:identifier="true" />
         			<bean parent="SupportAttributeDefinition" p:sourceName="accountSupervisoryUser.name" p:targetName="name" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountManagerUser">
-        	<property name="primitiveAttributes">
-        		<list>
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountManagerUser">
+					<property name="primitiveAttributes">
+						<list>
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountManagerSystemIdentifier" p:targetName="principalId" />
-        		</list>
-        	</property>
-        	<property name="supportAttributes">
-        		<list>
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
         			<bean parent="SupportAttributeDefinition" p:sourceName="accountManagerUser.principalName" p:targetName="principalName" p:identifier="true" />
         			<bean parent="SupportAttributeDefinition" p:sourceName="accountManagerUser.name" p:targetName="name" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountGuideline">
-        	<property name="primitiveAttributes">
-        		<list>
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountGuideline">
+					<property name="primitiveAttributes">
+						<list>
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode" />
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="cfda">
-        	<property name="primitiveAttributes">
-        		<list>
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="cfda">
+					<property name="primitiveAttributes">
+						<list>
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountCfdaNumber" p:targetName="cfdaNumber" />
-        		</list>
-        	</property>
-        </bean>
+						</list>
+					</property>
+				</bean>
         <bean parent="RelationshipDefinition" p:objectAttributeName="awards" p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
-        	<property name="primitiveAttributes">
-        		<list>
+					<property name="primitiveAttributes">
+						<list>
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode" />
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber" />
         		</list>
@@ -201,6 +202,14 @@
         		</list>
         	</property>
         </bean>        
+	<bean parent="RelationshipDefinition" p:objectAttributeName="laborBenefitRateCategory">
+		<property name="primitiveAttributes">
+			<list>
+				<bean parent="PrimitiveAttributeDefinition" p:sourceName="laborBenefitRateCategoryCode"
+					p:targetName="laborBenefitRateCategoryCode" />
+			</list>
+		</property>
+	</bean>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -563,8 +572,8 @@
 			<bean parent="TextControlDefinition" p:size="3" />
 		</property>
 	</bean>
-	
-  <bean id="Account-accountInFinancialProcessingIndicator"
+
+	<bean id="Account-accountInFinancialProcessingIndicator"
 		parent="Account-accountInFinancialProcessingIndicator-parentBean" />
 
 	<bean id="Account-accountInFinancialProcessingIndicator-parentBean"
@@ -915,6 +924,15 @@
 
 	</bean>
 
+	<bean id="Account-laborBenefitRateCategoryCode" parent="Account-laborBenefitRateCategoryCode-parentBean" />
+
+	<bean id="Account-laborBenefitRateCategoryCode-parentBean"
+		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ld.LaborBenefitRateCategory"
+	 	p:sourceAttributeName="laborBenefitRateCategoryCode">	
+	 	<property name="name" value="laborBenefitRateCategoryCode"></property>	
+	</bean>
+
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -974,7 +992,10 @@
 	</bean>
 
 	<bean id="Account-inquirySectionDefinition-accountResponsibility"
-		parent="Account-InquirySection-accountResponsibility-parentBean" />
+		parent="Account-inquirySectionDefinition-accountResponsibility-parentBean" />
+	<bean
+		id="Account-inquirySectionDefinition-accountResponsibility-parentBean"
+		abstract="true" parent="Account-InquirySection-accountResponsibility-parentBean" />
 	<bean id="Account-InquirySection-accountResponsibility-parentBean"
 		parent="InquirySectionDefinition" abstract="true" p:title="Account Responsibility">
 		<property name="inquiryFields">
@@ -1031,8 +1052,10 @@
 
 
 	<bean id="Account-lookupDefinition" parent="Account-lookupDefinition-parentBean" />
-	<bean id="Account-lookupDefinition-parentBean" abstract="true" parent="Account-lookupDefinition-base-parentBean" />
-	<bean id="Account-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition">
+	<bean id="Account-lookupDefinition-parentBean" abstract="true"
+		parent="Account-lookupDefinition-base-parentBean" />
+	<bean id="Account-lookupDefinition-base-parentBean" abstract="true"
+		parent="LookupDefinition">
 		<property name="title" value="Account Lookup" />
 		<property name="lookupableID" value="accountLookupable" />
 

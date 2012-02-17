@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -29,18 +27,20 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.NumberUtils;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Base class for all FinancialSystemDocumentPresentationControllers.
@@ -116,6 +116,23 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
             }
         }
 
+        // CSU 6702 BEGIN
+        // rSmart-jkneal-KFSCSU-199-begin mod for adding accounting period view action
+        if (document instanceof LedgerPostingDocument) {
+            // check account period selection is enabled
+            boolean accountingPeriodEnabled = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_SELECTION_IND);
+            if (accountingPeriodEnabled) {
+                // check accounting period is enabled for doc type in system parameter
+                String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+                ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
+                if (evaluator.evaluationSucceeds()) {
+                    documentActions.add(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
+                }
+            }
+        }
+        // rSmart-jkneal-KFSCSU-199-end mod
+        // CSU 6702 END
+        
         return documentActions;
     }
 

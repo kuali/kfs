@@ -72,9 +72,10 @@ public interface LaborModuleService {
      * 
      * @param laborLedgerObject the given labor object
      * @param salaryAmount the given salary amount
+     * @param account
      * @return the fringe benefit amount for the given labor object and salary amount
      */
-    public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount);
+    public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber);
 
     /**
      * calculate the fringe benefit amount for the given object code and salary amount
@@ -83,9 +84,11 @@ public interface LaborModuleService {
      * @param chartCode the chart for object code record
      * @param objectCode the object code
      * @param salaryAmount amount to calculate benefits for
+     * @param accountNumber
+     * @param subAccountNumber
      * @return the fringe benefit amount
      */
-    public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount);
+    public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber);
 
     /**
      * create and approve a salary expense transfer document generated from the given accounting lines

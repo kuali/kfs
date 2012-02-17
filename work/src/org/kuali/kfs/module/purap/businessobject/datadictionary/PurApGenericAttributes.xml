@@ -30,7 +30,6 @@
 			<ref bean="PurApGenericAttributes-purchaseOrderDocumentCurrentIndicator"/>
 			<ref bean="PurApGenericAttributes-receivingDocumentRequiredIndicator"/>
 			<ref bean="PurApGenericAttributes-paymentRequestPositiveApprovalIndicator"/>
-			<ref bean="PurApGenericAttributes-statusCode"/>
 			<ref bean="PurApGenericAttributes-purchaseOrderAutomaticIndicator"/>
 			<ref bean="PurApGenericAttributes-organizationCode"/>
 			<ref bean="PurApGenericAttributes-chartOfAccountsCode"/>
@@ -171,18 +170,6 @@
       <ref bean="HiddenControl" />
     </property>
   </bean>
-  <bean id="PurApGenericAttributes-statusCode" parent="PurApGenericAttributes-statusCode-parentBean"/>
-
-  <bean id="PurApGenericAttributes-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="statusCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Incomplete Statuses"/>
-    <property name="shortLabel" value="Inc Statuses"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-  </bean>
   <bean id="PurApGenericAttributes-purchaseOrderAutomaticIndicator" parent="PurApGenericAttributes-purchaseOrderAutomaticIndicator-parentBean"/>
 
   <bean id="PurApGenericAttributes-purchaseOrderAutomaticIndicator-parentBean" abstract="true" parent="AttributeDefinition">
@@ -222,31 +209,63 @@
   </bean>
   <bean id="PurApGenericAttributes-requisitionStatus" parent="PurApGenericAttributes-requisitionStatus-parentBean"/>
 
-  <bean id="PurApGenericAttributes-requisitionStatus-parentBean" abstract="true" parent="RequisitionStatus-statusCode">
+  <bean id="PurApGenericAttributes-requisitionStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionStatus"/>
+    <property name="forceUppercase" value="true"/>
     <property name="label" value="Requisition Status"/>
     <property name="shortLabel" value="Requisition Status"/>
-  </bean>
+    <property name="maxLength" value="64"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
+    </property>
+    <property name="control">
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>            
   <bean id="PurApGenericAttributes-purchaseOrderStatus" parent="PurApGenericAttributes-purchaseOrderStatus-parentBean"/>
 
-  <bean id="PurApGenericAttributes-purchaseOrderStatus-parentBean" abstract="true" parent="PurchaseOrderStatus-statusCode">
+  <bean id="PurApGenericAttributes-purchaseOrderStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderStatus"/>
+    <property name="forceUppercase" value="true"/>
     <property name="label" value="Purchase Order Status"/>
     <property name="shortLabel" value="Purchase Order Status"/>
+    <property name="maxLength" value="64"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
+    </property>
+    <property name="control">
+      <bean parent="HiddenControlDefinition" />
+    </property>    
   </bean>
   <bean id="PurApGenericAttributes-paymentRequestStatus" parent="PurApGenericAttributes-paymentRequestStatus-parentBean"/>
 
-  <bean id="PurApGenericAttributes-paymentRequestStatus-parentBean" abstract="true" parent="PaymentRequestStatus-statusCode">
+  <bean id="PurApGenericAttributes-paymentRequestStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentRequestStatus"/>
+    <property name="forceUppercase" value="true"/>
     <property name="label" value="Payment Request Status"/>
     <property name="shortLabel" value="Payment Request Status"/>
+    <property name="maxLength" value="64"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
+    </property>
+    <property name="control">
+      <bean parent="HiddenControlDefinition" />
+    </property>    
   </bean>
   <bean id="PurApGenericAttributes-creditMemoStatus" parent="PurApGenericAttributes-creditMemoStatus-parentBean"/>
 
-  <bean id="PurApGenericAttributes-creditMemoStatus-parentBean" abstract="true" parent="CreditMemoStatus-statusCode">
+  <bean id="PurApGenericAttributes-creditMemoStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="creditMemoStatus"/>
+    <property name="forceUppercase" value="true"/>
     <property name="label" value="Credit Memo Status"/>
     <property name="shortLabel" value="Credit Memo Status"/>
+    <property name="maxLength" value="64"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
+    </property>
+    <property name="control">
+      <bean parent="HiddenControlDefinition" />
+    </property>        
   </bean>
   <bean id="PurApGenericAttributes-extractedTimestamp" parent="PurApGenericAttributes-extractedTimestamp-parentBean"/>
 

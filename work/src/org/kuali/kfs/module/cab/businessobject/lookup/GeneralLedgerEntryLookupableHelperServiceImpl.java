@@ -56,7 +56,7 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         Map<String,String> permissionDetails = new HashMap<String,String>();
         permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, "KFS-CAB");
-        permissionDetails.put(KimConstants.AttributeConstants.ACTION_CLASS, "PurApLineAction");
+        permissionDetails.put(KimConstants.AttributeConstants.ACTION_CLASS, "CapitalAssetInformationAction");
 
         if (!SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.USE_SCREEN, permissionDetails, null)) {
             return super.getEmptyActionUrls();

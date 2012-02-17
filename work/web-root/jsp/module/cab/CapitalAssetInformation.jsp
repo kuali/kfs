@@ -47,13 +47,16 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerName"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerModelNumber"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" labelFor="${capitalAssetInfoName}.capitalAssetDescription"/>
-				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.amount}" labelFor="${capitalAssetInfoName}.amount"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.distributionAmountCode}" labelFor="${capitalAssetInfoName}.distributionAmountCode"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.capitalAssetLineAmount}" labelFor="${capitalAssetInfoName}.capitalAssetLineAmount"/>
 			</tr>
+			<c:set var="capitalAssetPosition" value="0" />			
 			<c:forEach items="${KualiForm.capitalAssetInformation}" var="detailLine" varStatus="status">
+			<c:set var="capitalAssetPosition" value="${capitalAssetPosition+1}" />			
 			<tr>
 				<c:if test="${!readOnly}">
 					<c:if test="${detailLine.capitalAssetProcessedIndicator == true}" >
-				    	<td class="grid" align="center">Processed</td>
+				    	<td class="grid" align="center"><div vAlign="middle"><b>Processed</b></div></td>
 					</c:if>	
 					<c:if test="${detailLine.capitalAssetProcessedIndicator == false}" >
 				    	<td class="grid" align="center">
@@ -93,16 +96,33 @@
 								attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true"/></td>
 				<td class="grid"><kul:htmlControlAttribute property="capitalAssetInformation[${status.index}].capitalAssetDescription" 
 								attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true"/></td>
-				<td class="grid"><kul:htmlControlAttribute property="capitalAssetInformation[${status.index}].amount" 
-								attributeEntry="${CapitalAssetInformationAttributes.amount}" readOnly="true"/></td>
+				
+				<c:set var="distributionAmountCode" value="${detailLine.distributionAmountCode}" />
+				<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE}">
+					<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_DESCRIPTION}" />
+				</c:if>
+				<c:if test="${distributionAmountCode eq KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE}">
+					<c:set var="distributionAmountDescription" value="${KFSConstants.CapitalAssets.DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION}" />
+				</c:if>
+				
+				<td>	
+					<div><c:out value="${distributionAmountDescription}"/></div>
+				</td>	
+				
+				<td class="grid">
+					<div align="right" valign="middle">
+						<kul:htmlControlAttribute property="capitalAssetInformation[${status.index}].capitalAssetLineAmount" 
+								attributeEntry="${CapitalAssetInformationAttributes.capitalAssetLineAmount}" readOnly="true"/>
+					</div></td>
+			</tr>
+			<tr>
+				<td colspan="11">
+					<cab:groupAccountingLinesDetails capitalAssetInformation="${detailLine}" capitalAssetPosition="${capitalAssetPosition}" showViewButton="true"/>
+				</td>
 			</tr>
 			</c:forEach>	
 	    </table>
 		</div>
 	</kul:tabTop>
-	
-	<kul:tab tabTitle="GL Entry Processing" defaultOpen="true">
-		<cams:glEntryProcessing generalLedgerEntry="${KualiForm.generalLedgerEntry}" />
-	</kul:tab>
 	<kul:panelFooter />
 </kul:page>

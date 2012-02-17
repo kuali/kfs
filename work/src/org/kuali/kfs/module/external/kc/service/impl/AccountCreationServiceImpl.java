@@ -154,7 +154,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         if (parameters.getEffectiveDate() != null) account.setAccountEffectiveDate(new java.sql.Date(parameters.getEffectiveDate().getTime()));
         boolean isKCOverrideKFS = parameterService.getParameterValueAsBoolean(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_OVERRIDES_KFS_DEFAULT_ACCOUNT_IND);
         if (isKCOverrideKFS) {
-            // set the right address based on the system parameter ACCOUNT_ADDRESS_TYPE
+            // set the right address based on the system parameter RESEARCH_ADMIN_ACCOUNT_ADDRESS_TYPE
             List<String> addressTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADDRESS_TYPE) );
             for (String addressType : addressTypes) {
                 if (addressType.equals(ContractsAndGrantsConstants.AccountCreationService.PI_ADDRESS_TYPE) && (!StringUtils.isBlank(parameters.getDefaultAddressStreetAddress()))) {

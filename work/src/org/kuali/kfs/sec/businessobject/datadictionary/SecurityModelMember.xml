@@ -117,7 +117,7 @@
   </bean>
 
   <bean id="SecurityModelMember-inquirySectionDefinition" parent="SecurityModelMember-inquirySectionDefinition-parentBean"/>  
-  <bean id="SecurityModelMember-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition">
+  <bean id="SecurityModelMember-inquirySectionDefinition-parentBean" abstract="true" parent="InquirySectionDefinition">
     <property name="title" value=""/>
     <property name="numberOfColumns" value="1"/>
     <property name="inquiryFields">

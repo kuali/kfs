@@ -61,6 +61,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -105,6 +106,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private OptionsService optionsService;
     private PersistenceService persistenceService;
     private OrganizationService organizationService;
+    private String defaultLaborBenefitRateCategoryCode;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getByCandidateKey(java.lang.String, java.lang.String,
@@ -266,10 +268,17 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // allow benefits calculation if document's account is not salary setting only lines
         bcDoc.setBenefitsCalcNeeded(false);
         if (!bcDoc.isSalarySettingOnly()) {
-
-            // pbgl lines are saved at this point, calc benefits
-            benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-
+            
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            LOG.debug("sysParam: " + sysParam);
+            // if sysParam == Y then Labor Benefit Rate Category Code must be used
+            if (sysParam.equalsIgnoreCase("Y")) {
+                benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(), bcDoc.getAccount().getLaborBenefitRateCategoryCode());
+            } else {
+                // pbgl lines are saved at this point, calc benefits
+                benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(), this.getDefaultLaborBenefitRateCategoryCode());
+            }
+            
             // write global message on calc success
             KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
         }
@@ -284,10 +293,17 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // allow benefits calculation if document's account is not salary setting only lines
         bcDoc.setMonthlyBenefitsCalcNeeded(false);
         if (!bcDoc.isSalarySettingOnly()) {
-
-            // pbgl lines are saved at this point, calc benefits
-            benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-
+            
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            LOG.debug("sysParam: " + sysParam);
+            // if sysParam == Y then Labor Benefit Rate Category Code must be used
+            if (sysParam.equalsIgnoreCase("Y")) {
+                benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(), bcDoc.getAccount().getLaborBenefitRateCategoryCode());
+            } else {
+                // pbgl lines are saved at this point, calc benefits
+                benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(),this.getDefaultLaborBenefitRateCategoryCode());
+            }
+                
             // write global message on calc success
             KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
         }
@@ -1209,6 +1225,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         this.optionsService = optionsService;
     }
 
+
     /**
      * Gets the persistenceService attribute.
      * 
@@ -1247,6 +1264,33 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+
+    /**
+     * Gets the defaultLaborBenefitRateCategoryCode attribute. 
+     * @return Returns the defaultLaborBenefitRateCategoryCode.
+     */
+    @Transactional
+    public String getDefaultLaborBenefitRateCategoryCode() {
+        if(ObjectUtils.isNull(defaultLaborBenefitRateCategoryCode)){
+         // make sure the parameter exists
+            if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
+                this.defaultLaborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+            }
+            else {
+                this.defaultLaborBenefitRateCategoryCode = "";
+            }
+        }
+        return defaultLaborBenefitRateCategoryCode;
+    }
+
+    /**
+     * Sets the defaultLaborBenefitRateCategoryCode attribute value.
+     * @param defaultLaborBenefitRateCategoryCode The defaultLaborBenefitRateCategoryCode to set.
+     */
+    @Transactional
+    public void setDefaultLaborBenefitRateCategoryCode(String defaultLaborBenefitRateCategoryCode) {
+        this.defaultLaborBenefitRateCategoryCode = defaultLaborBenefitRateCategoryCode;
     }
 
 }

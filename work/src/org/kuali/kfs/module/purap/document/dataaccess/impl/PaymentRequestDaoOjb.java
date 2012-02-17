@@ -127,8 +127,8 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         LOG.debug("getPaymentRequestsToExtract() started");
 
         List statuses = new ArrayList();
-        statuses.add(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED);
-        statuses.add(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
+        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", campusCode);
@@ -165,8 +165,8 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         LOG.debug("getPaymentRequestsToExtract() started");
 
         List statuses = new ArrayList();
-        statuses.add(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED);
-        statuses.add(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
+        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", campusCode);
@@ -352,7 +352,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         Criteria criteria = new Criteria();
 
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
-        criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE));
+    //    criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE));
         Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
         while (iter.hasNext()) {
             Object[] cols = (Object[]) iter.next();
@@ -364,7 +364,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         Criteria criteria = new Criteria();
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
-        criteria.addEqualTo("statusCode", PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW);
+        criteria.addEqualTo("statusCode", PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
         
         Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);       
 

@@ -129,7 +129,7 @@
 
   <bean id="CustomerInvoiceWriteoffDocument-validations" parent="CustomerInvoiceWriteoffDocument-validations-parentBean"/>
   
-  <bean id="CustomerInvoiceWriteoffDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="CustomerInvoiceWriteoffDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>			
 			<entry>

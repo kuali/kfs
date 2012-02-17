@@ -20,8 +20,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
@@ -74,13 +75,22 @@ public class RequisitionForm extends PurchasingFormBase {
         else {
             getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", "Not Available"));
         }
-        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getStatus())) {
-            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", ((RequisitionDocument) this.getDocument()).getStatus().getStatusDescription()));
+        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getAppDocStatus())) {
+            String reqStatus = "";
+            String appDocStatus ="";
+                       
+            appDocStatus = workflowDocument.getApplicationDocumentStatus();
+            if (!StringUtils.isEmpty(appDocStatus)) {
+                reqStatus = appDocStatus;
+            }
+         
+            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.appDocStatus", reqStatus));
         }
         else {
-            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", "Not Available"));
+            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.appDocStatus", "Not Available"));
+            
         }
-    }
+        }
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
@@ -167,7 +177,7 @@ public class RequisitionForm extends PurchasingFormBase {
 
     @Override
     public boolean canUserCalculate(){        
-        return documentActions != null && documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) &&
-        !getRequisitionDocument().isDocumentStoppedInRouteNode(NodeDetailEnum.ORG_REVIEW);       
+        return documentActions != null && documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) &&        
+        !getRequisitionDocument().isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_ORG_REVIEW);
     }    
 }

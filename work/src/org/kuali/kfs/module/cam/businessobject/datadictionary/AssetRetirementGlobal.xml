@@ -59,6 +59,7 @@
         <ref bean="AssetRetirementGlobal-calculatedTotal"/>
         <ref bean="AssetRetirementGlobal-buyerDescription"/>
         <ref bean="AssetRetirementGlobal-paidCaseNumber"/>
+        <ref bean="AssetRetirementGlobal-accountingPeriodCompositeString" />
       </list>
     </property>
 
@@ -370,4 +371,21 @@
       </list>
     </property>
   </bean>
+  
+  <bean id="AssetRetirementGlobal-accountingPeriodCompositeString" parent="AssetRetirementGlobal-accountingPeriodCompositeString-parentBean"/>
+  <bean id="AssetRetirementGlobal-accountingPeriodCompositeString-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountingPeriodCompositeString"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Accounting Period"/>
+    <property name="shortLabel" value="Acct. Prd."/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.YearEndAccountingPeriodValuesFinder" p:includeKeyInLabel="false"/>
+    </property>    
+  </bean>    
+  
 </beans>

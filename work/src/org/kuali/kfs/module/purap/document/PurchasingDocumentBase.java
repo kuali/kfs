@@ -1194,7 +1194,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
             managedLists.add(assetLists);
             managedLists.add(capitalAssetLocationLists);
             managedLists.add(this.getPurchasingCapitalAssetSystems());
-            managedLists.add(this.getPurchasingCapitalAssetItems());
+            //managedLists.add(this.getPurchasingCapitalAssetItems());
         }
         return managedLists;
     }
@@ -1228,13 +1228,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public void clearCapitalAssetFields() {
-        this.setPurchasingCapitalAssetItems(new ArrayList<PurchasingCapitalAssetItem>());
-        this.setPurchasingCapitalAssetSystems(new ArrayList<CapitalAssetSystem>());
+        this.getPurchasingCapitalAssetItems().clear();
+        this.getPurchasingCapitalAssetSystems().clear();
         this.setCapitalAssetSystemStateCode(null);
         this.setCapitalAssetSystemTypeCode(null);
         this.setCapitalAssetSystemState(null);
         this.setCapitalAssetSystemType(null);
-        
+
     }
 
     /**

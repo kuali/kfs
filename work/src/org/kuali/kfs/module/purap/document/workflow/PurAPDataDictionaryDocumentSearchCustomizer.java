@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 The Kuali Foundation
+ * Copyright 2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.businessobject;
+package org.kuali.kfs.module.purap.document.workflow;
 
+import org.kuali.rice.krad.workflow.attribute.DataDictionaryDocumentSearchCustomizer;
 
-/**
- * Credit Memo Status Code Business Object.
- */
-public class CreditMemoStatus extends Status {
+public class PurAPDataDictionaryDocumentSearchCustomizer extends DataDictionaryDocumentSearchCustomizer {
 
     /**
-     * Default constructor.
+     * Constructs a PurAPDataDictionaryDocumentSearchCustomizer.
      */
-    public CreditMemoStatus() {
-        super();
-        super.ojbConcreteClass = this.getClass().getName();
+    public PurAPDataDictionaryDocumentSearchCustomizer() {
+        setProcessResultSet(false);
+        setSearchResultProcessor(new PurAPDocumentSearchResultProcessor());
     }
 }

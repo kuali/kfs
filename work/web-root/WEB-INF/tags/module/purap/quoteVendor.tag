@@ -29,7 +29,7 @@
 
 <c:set var="tabindexOverrideBase" value="60" />
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-<c:set var="poOutForQuote" value="${KualiForm.document.statusCode eq 'QUOT'}" />
+<c:set var="poOutForQuote" value="${KualiForm.document.appDocStatus eq 'Out for Quote'}" />
 <c:set var="quoteEditable" value="${poOutForQuote && !isPurchaseOrderAwarded && fullEntryMode}" />
 
 <tr>

@@ -44,7 +44,8 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
 	</bean>
     
-    <bean id="tableReportWriterService" parent="reportWriterService">
+    <bean id="tableReportWriterService" parent="reportWriterService-parentBean"/>
+    <bean id="tableReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${reports.directory}"/>
         <property name="fileNamePrefix" value="table_report_test_"/>
         <property name="title" value="Test Report As Table"/>
@@ -95,7 +96,8 @@
         </property>        
     </bean>
     
-    <bean id="colspanTableReportWriterService" parent="reportWriterService">
+    <bean id="colspanTableReportWriterService" parent="reportWriterService-parentBean"/>
+    <bean id="colspanTableReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${reports.directory}"/>
         <property name="fileNamePrefix" value="colspan_table_report_test_"/>
         <property name="title" value="Test Report As Table"/>
@@ -127,7 +129,8 @@
         </property>        
     </bean>
     
-    <bean id="testLedgerReportWriterService" parent="reportWriterService">
+    <bean id="testLedgerReportWriterService" parent="reportWriterService-parentBean"/>
+    <bean id="testLedgerReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${reports.directory}"/>
         <property name="fileNamePrefix" value="ledger_report_test_"/>
         <property name="title" value="Test Ledger Report"/>

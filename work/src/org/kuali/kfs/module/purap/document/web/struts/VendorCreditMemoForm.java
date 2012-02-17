@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.CreditMemoEditMode;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
@@ -61,11 +62,22 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
         else {
             getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available"));
         }
-        if (ObjectUtils.isNotNull(((VendorCreditMemoDocument) getDocument()).getStatus())) {
-            getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.statusCode", ((VendorCreditMemoDocument) getDocument()).getStatus().getStatusDescription()));
+        if (ObjectUtils.isNotNull(((VendorCreditMemoDocument) getDocument()).getAppDocStatus())) {
+            
+            String vcmStatus = "";
+            String appDocStatus ="";
+                       
+            appDocStatus = workflowDocument.getApplicationDocumentStatus();
+            if (!StringUtils.isEmpty(appDocStatus)) {
+                vcmStatus = appDocStatus;
+            }
+         
+            getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.appDocStatus", vcmStatus));
+       
+            
         }
         else {
-            getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.statusCode", "Not Available"));
+            getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.appDocStatus", "Not Available"));
         }
     }
 
@@ -104,7 +116,7 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
             if (getEditingMode().containsKey(CreditMemoEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL)) {
                 if (cmDocument.isSourceDocumentPaymentRequest() || cmDocument.isSourceDocumentPurchaseOrder()) {
                     //if the source is PREQ or PO, check the PO status
-                    if (PurapConstants.PurchaseOrderStatuses.CLOSED.equals(cmDocument.getPurchaseOrderDocument().getStatusCode())) {
+                    if (PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(cmDocument.getPurchaseOrderDocument().getAppDocStatus())) {
                         //if the PO is CLOSED, show the 'open order' button; but only if there are no pending actions on the PO
                         if (!cmDocument.getPurchaseOrderDocument().isPendingActionIndicator()) {
                             addExtraButton("methodToCall.reopenPo", appExternalImageURL + "buttonsmall_openorder.gif", "Reopen PO");

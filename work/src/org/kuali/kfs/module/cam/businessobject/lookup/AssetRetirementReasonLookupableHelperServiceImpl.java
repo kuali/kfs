@@ -62,6 +62,8 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObject;
         
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String mergeParam = parameterService.getParameterValueAsString(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS);
+        String razeParam = parameterService.getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS);
         
         if (initializingAssetRetirement) {
             FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
@@ -77,13 +79,13 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
                 if (!isAuthorized) {
                     return getEmptyAnchorHtmlData();
                 }
-            } else if (Arrays.asList(parameterService.getParameterValueAsString(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
+            } else if (mergeParam != null && Arrays.asList(mergeParam.split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
                 boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MERGE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 
                 if (!isAuthorized) {
                     return getEmptyAnchorHtmlData();
                 }
-            } else if (Arrays.asList(parameterService.getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
+            } else if (razeParam != null && Arrays.asList(razeParam.split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
                 boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.RAZE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 
                 if (!isAuthorized) {
@@ -97,7 +99,9 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetRetirementGlobal.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE);
         parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE+"::"+assetRetirementReason.getRetirementReasonCode());
-        setBackLocation(KFSConstants.MAINTENANCE_ACTION);
+        if(!lookupForm.isHideReturnLink()){
+            setBackLocation(KFSConstants.MAINTENANCE_ACTION);        
+        }
         return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys, businessObjectRestrictions);
     }
 

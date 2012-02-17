@@ -30,7 +30,6 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -281,12 +280,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         if (StringUtils.isNotEmpty(getPurchaseOrderDocument().getStatusChange())){
             return getPurchaseOrderDocument().getStatusChange();
         } else {
-            if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.IN_PROCESS)){
-                return PurchaseOrderStatuses.IN_PROCESS;
-            } else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)){
-                return PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT;
-            }else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.WAITING_FOR_VENDOR)){
-                return PurchaseOrderStatuses.WAITING_FOR_VENDOR;
+            if (StringUtils.equals(getPurchaseOrderDocument().getAppDocStatus(),PurchaseOrderStatuses.APPDOC_IN_PROCESS)){
+                return PurchaseOrderStatuses.APPDOC_IN_PROCESS;
+            } else if (StringUtils.equals(getPurchaseOrderDocument().getAppDocStatus(),PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT)){
+                return PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT;
+            }else if (StringUtils.equals(getPurchaseOrderDocument().getAppDocStatus(),PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR)){
+                return PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR;   
             }else{
                 return null;
             }
@@ -353,11 +352,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         else {
             getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", "Not Available"));
         }
-        if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getStatus())) {
-            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.statusCode", ((PurchaseOrderDocument) this.getDocument()).getStatus().getStatusDescription()));
+        if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getAppDocStatus())) {            
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.appDocStatus", getPurchaseOrderDocument().getAppDocStatus()));                            
         }
         else {
-            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.statusCode", "Not Available"));
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.appDocStatus", "Not Available"));
         }
     }
 
@@ -409,13 +408,13 @@ public class PurchaseOrderForm extends PurchasingFormBase {
                     // being tied to AwaitingFiscal (in case full entry is moved)
                     // look for a doc that is currently routing, that will probably be the one that called this close if called from
                     // preq (with close po box)
-                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.AWAITING_FISCAL_REVIEW) && ! pReq.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains( PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
+                    if (StringUtils.equalsIgnoreCase(pReq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames(), PurapConstants.PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
                         // terminate the search since this close doc is probably being called by this doc, a doc should never be In
                         // Process and enroute in any other case
                         checkInProcess = false;
                         break;
                     }
-                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                    if (StringUtils.equalsIgnoreCase(pReq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_IN_PROCESS)) {
                         hasInProcess = true;
                     }
                 }
@@ -461,10 +460,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         boolean can = getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
 
         if (can) {
-            boolean pendingPrint = PurchaseOrderStatuses.PENDING_PRINT.equals(getPurchaseOrderDocument().getStatusCode());
-            boolean open = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
-            boolean errorCxml = PurchaseOrderStatuses.CXML_ERROR.equals(getPurchaseOrderDocument().getStatusCode());
-            boolean errorFax = PurchaseOrderStatuses.FAX_ERROR.equals(getPurchaseOrderDocument().getStatusCode());
+            boolean pendingPrint = PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(getPurchaseOrderDocument().getAppDocStatus());
+            boolean open = PurchaseOrderStatuses.APPDOC_OPEN.equals(getPurchaseOrderDocument().getAppDocStatus());
+            boolean errorCxml = PurchaseOrderStatuses.APPDOC_CXML_ERROR.equals(getPurchaseOrderDocument().getAppDocStatus());
+            boolean errorFax = PurchaseOrderStatuses.APPDOC_FAX_ERROR.equals(getPurchaseOrderDocument().getAppDocStatus());
 
             List<PaymentRequestView> preqViews = getPurchaseOrderDocument().getRelatedViews().getRelatedPaymentRequestViews();
             boolean hasPaymentRequest = preqViews != null && preqViews.size() > 0;
@@ -491,7 +490,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     protected boolean canClose() {
         // check PO status etc
-        boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+        boolean can = PurchaseOrderStatuses.APPDOC_OPEN.equals(getPurchaseOrderDocument().getAppDocStatus());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
         can = can && processPaymentRequestRulesForCanClose(getPurchaseOrderDocument());
 
@@ -512,7 +511,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     protected boolean canReopen() {
         // check PO status etc
-        boolean can = PurchaseOrderStatuses.CLOSED.equals(getPurchaseOrderDocument().getStatusCode());
+        boolean can = PurchaseOrderStatuses.APPDOC_CLOSED.equals(getPurchaseOrderDocument().getAppDocStatus());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
 
         // check user authorization
@@ -532,7 +531,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     protected boolean canHoldPayment() {
         // check PO status etc
-        boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+        boolean can = PurchaseOrderStatuses.APPDOC_OPEN.equals(getPurchaseOrderDocument().getAppDocStatus());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
 
         // check user authorization
@@ -552,7 +551,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     protected boolean canRemoveHold() {
         // check PO status etc
-        boolean can = PurchaseOrderStatuses.PAYMENT_HOLD.equals(getPurchaseOrderDocument().getStatusCode());
+        boolean can = PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD.equals(getPurchaseOrderDocument().getAppDocStatus());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
 
         // check user authorization
@@ -574,7 +573,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     protected boolean canRetransmit() {
         // check PO status etc
-        boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+        boolean can = PurchaseOrderStatuses.APPDOC_OPEN.equals(getPurchaseOrderDocument().getAppDocStatus());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
         can = can && getPurchaseOrderDocument().getPurchaseOrderLastTransmitTimestamp() != null;
         can = can && !PurapConstants.RequisitionSources.B2B.equals(getPurchaseOrderDocument().getRequisitionSourceCode());
@@ -636,10 +635,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     protected boolean canSplitPo() {
         // PO must be in either "In Process" or "Awaiting Purchasing Review"
-        boolean can = PurchaseOrderStatuses.IN_PROCESS.equals(getPurchaseOrderDocument().getStatusCode());
-        can = can && !getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
-        can = can || PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(getPurchaseOrderDocument().getStatusCode());
-
+        boolean can = PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(getPurchaseOrderDocument().getAppDocStatus());
+        can = can && !getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().isEnroute(); 
+        can = can || PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW.equals(getPurchaseOrderDocument().getAppDocStatus());
+        
         // can't split a SplitPO Document, according to new specs
         can = can && !(getPurchaseOrderDocument() instanceof PurchaseOrderSplitDocument);
 

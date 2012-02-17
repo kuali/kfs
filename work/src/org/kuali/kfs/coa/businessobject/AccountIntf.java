@@ -20,7 +20,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;

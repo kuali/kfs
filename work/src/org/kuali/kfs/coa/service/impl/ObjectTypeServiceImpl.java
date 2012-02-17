@@ -39,6 +39,13 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     private ObjectTypeDao objectTypeDao;
 
     /**
+     * @see org.kuali.kfs.coa.service.ObjectTypeService#getAllObjectType()
+     */
+    public List<ObjectType> getAllObjectType() {
+        return (List<ObjectType>) SpringContext.getBean(BusinessObjectService.class).findAll(ObjectType.class);
+    }
+    
+    /**
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getByPrimaryKey(java.lang.String)
      */
     public ObjectType getByPrimaryKey(String objectTypeCode) {

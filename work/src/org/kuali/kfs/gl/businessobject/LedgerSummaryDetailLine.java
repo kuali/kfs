@@ -16,7 +16,6 @@
 package org.kuali.kfs.gl.businessobject;
 
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;

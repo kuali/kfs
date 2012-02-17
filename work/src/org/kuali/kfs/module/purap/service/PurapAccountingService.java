@@ -205,6 +205,20 @@ public interface PurapAccountingService {
      */
     public void updateItemAccountAmounts(PurApItem item);
 
+    /**
+     * Updates a single preq item accounts amounts
+     * 
+     * @param item
+     */
+    public void updatePreqItemAccountAmounts(PurApItem item);
+
+    /**
+     * Updates a single preq item accounts amounts
+     * 
+     * @param item
+     */
+    public void updatePreqProportionalItemAccountAmounts(PurApItem item);
+    
     public List<PurApAccountingLine> getAccountsFromItem(PurApItem item);
     
     /**
@@ -260,6 +274,24 @@ public interface PurapAccountingService {
      * @param totalAmount
      */
     public <T extends PurApAccountingLine> void updateAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount);
+
+    /**
+     * calculates values for a list of accounting lines based on an amount on preq for sequential method.
+     * 
+     * @param <T>
+     * @param sourceAccountingLines
+     * @param totalAmount
+     */
+    public <T extends PurApAccountingLine> void updatePreqAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount);
+
+    /**
+     * calculates values for a list of accounting lines based on an amount on preq for proportional method.
+     * 
+     * @param <T>
+     * @param sourceAccountingLines
+     * @param totalAmount
+     */
+    public <T extends PurApAccountingLine> void updatePreqProporationalAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount);
 
     /**
      * Merges list 2 into list 1

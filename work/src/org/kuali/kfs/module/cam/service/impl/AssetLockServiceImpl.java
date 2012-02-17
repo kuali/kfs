@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -117,10 +118,10 @@ public class AssetLockServiceImpl implements AssetLockService {
             return true;
         }
 
-        AssetLock lock = assetLocks.iterator().next();
+        AssetLock lock = assetLocks.iterator().next();  
         String documentTypeName = lock.getDocumentTypeName();
         String documentNumber = lock.getDocumentNumber();
-
+        
         // build asset number collection for lock checking.
         List assetNumbers = new ArrayList<Long>();
         for (AssetLock assetLock : assetLocks) {
@@ -132,11 +133,13 @@ public class AssetLockServiceImpl implements AssetLockService {
         if (isAssetLocked(assetNumbers, documentTypeName, documentNumber)) {
             return false;
         }
-        // locking. here we got to delete and save again...it looks clumsy but it is constrained by the framework, see
-        // MaintenanceDocumentBase.postProcessSave() for example.
-        deleteAssetLocks(documentNumber, lock.getLockingInformation());
-        getBusinessObjectService().save(assetLocks);
-
+        
+        for (AssetLock assetLock : assetLocks) {
+            deleteAssetLocks(documentNumber, assetLock.getLockingInformation());
+        }
+        
+        getBusinessObjectService().save(assetLocks);        
+        
         return true;
     }
 

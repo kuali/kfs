@@ -49,7 +49,9 @@ import org.kuali.kfs.module.cam.util.AssetSeparatePaymentDistributor;
 import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants.CAPITAL_ASSETS_BATCH;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -89,6 +91,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     private BusinessObjectService businessObjectService;
     private AssetPaymentService assetPaymentService;
     private PaymentSummaryService paymentSummaryService;
+    private DateTimeService dateTimeService;
 
     private static final Logger LOG = Logger.getLogger(AssetGlobalServiceImpl.class);
 
@@ -569,5 +572,33 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                 CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM);         
     }
 
+    
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#getFiscalYearEndDayAndMonth()
+     */
+    public String getFiscalYearEndDayAndMonth() {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String yearEndDateAndMonth = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_ALL.class, CamsConstants.Parameters.FISCAL_YEAR_END_DAY_AND_MONTH);
+        return yearEndDateAndMonth.substring(0, 2).concat("/").concat(yearEndDateAndMonth.substring(2, 4));
+    }
+
+
+    /**
+     * Sets dateTimeService.
+     * 
+     * @param dateTimeService
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Gets the dateTimeService.
+     * 
+     * @return dateTimeService
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
 
 }

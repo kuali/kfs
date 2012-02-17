@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -34,7 +35,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-import org.apache.commons.lang.ObjectUtils;
 
 public class PaymentRequestTaxAreaValidation extends GenericValidation {
     
@@ -94,7 +94,7 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
         PaymentRequestDocument preq = (PaymentRequestDocument)event.getDocument();
         
         // do this validation only at route level of awaiting tax review
-        if (!preq.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) 
+        if (!preq.getAppDocStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) 
             return true;
         
         MessageMap errorMap = GlobalVariables.getMessageMap();        
@@ -262,7 +262,15 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
             if (preq.getTaxSpecialW4Amount() != null && preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) != 0) { 
                 valid = false;
                 errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
-            }               
+            }
+            if (preq.getTaxFederalPercent() != null && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0) {
+                valid = false;
+                errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_FEDERAL_PERCENT);
+            }
+            if (preq.getTaxStatePercent() != null && preq.getTaxStatePercent().compareTo(new BigDecimal(0)) != 0) {
+                valid = false;
+                errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_STATE_PERCENT);
+            }
         }
 
         // if choose gross up, cannot choose any other above, and fed tax rate cannot be zero

@@ -17,7 +17,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
         
-	<bean id="securityBalanceLookupableHelperService" parent="securityBalanceLookupableHelperService-parentBean"/>
+	<bean id="securityBalanceLookupableHelperService" parent="securityBalanceLookupableHelperService-parentBean" scope="prototype" />
         
 	<bean id="securityBalanceLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityBalanceLookupableHelperServiceImpl" scope="prototype" abstract="true">
 		<property name="accessSecurityService">
@@ -44,7 +44,7 @@
 		    </bean>
 		</property>
 	</bean>	
-	<bean id="securityAccountBalanceByConsolidationLookupableHelperService" parent="securityAccountBalanceByConsolidationLookupableHelperService-parentBean"/>
+	<bean id="securityAccountBalanceByConsolidationLookupableHelperService" parent="securityAccountBalanceByConsolidationLookupableHelperService-parentBean" scope="prototype" />
 	
 	<bean id="securityAccountBalanceByConsolidationLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountBalanceByConsolidationLookupableHelperServiceImpl" parent="glAccountBalanceByConsolidationLookupableHelperService" scope="prototype" abstract="true">
 		<property name="accessSecurityService">

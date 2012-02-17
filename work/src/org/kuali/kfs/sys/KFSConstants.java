@@ -315,7 +315,6 @@ public class KFSConstants {
     public static final String INQUIRY_ACTION = "kr/inquiry.do";
     public static final String JOURNAL_VOUCHER_CHANGE_BALANCE_TYPE_QUESTION = "JournalVoucherChangeBalanceTypeQuestion";
     public static final String JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION = "JournalVoucherRouteOutOfBalanceDocumentQuestion";
-    public static final String JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = "R";
     public static final String JOURNAL_LINE_HELPER_PROPERTY_NAME = "journalLineHelper";
     public static final String AUXILIARY_LINE_HELPER_PROPERTY_NAME = "auxiliaryLineHelper";
     public static final String VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME = ".credit";
@@ -464,6 +463,9 @@ public class KFSConstants {
     public static final String EDIT_PRE_ENCUMBRANCE_ERRORS = "EditPreEncumbranceErrors";
 
     public static final String ACCOUNTING_LINE_ERRORS = "document.accountingLines";
+    
+    //cannot use SOURCE_ACCOUNTING_LINE_ERROR_PATTERN due to doubled error displayed in checking already added source accounting line
+    public static final String NEW_SOURCE_LINE_ERRORS = "newSourceLine*";
     public static final String SOURCE_ACCOUNTING_LINE_ERROR_PATTERN = "document.sourceAccounting*,sourceAccountingLines,newSourceLine*,journalLineHelper*,auxiliaryLineHelper*";
     public static final String TARGET_ACCOUNTING_LINE_ERROR_PATTERN = "document.targetAccounting*,targetAccountingLines,newTargetLine*";
     public static final String ACCOUNTING_LINE_GROUP_SUFFIX = "s";
@@ -759,7 +761,6 @@ public class KFSConstants {
     public static class ObjectCodeConstants {
         public static final String INACTIVE_OBJECT_LEVEL_QUESTION_ID = "InactiveObjectLevelQuestion";
         public static final String SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES = "researchAdminAttributes";
-        public static final String PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND = "ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND";
     }
 
     public static final String MONTH1 = "01";
@@ -1262,8 +1263,21 @@ public class KFSConstants {
         public static final String CREATE_CAPITAL_ASSETS_TAB_TITLE = "Create Capital Assets";
         public static final String MODIFY_CAPITAL_ASSETS_TAB_TITLE = "Modify Capital Assets";
 
+        public static final String DISTRIBUTE_COST_EQUALLY_CODE = "2";
+        public static final String DISTRIBUTE_COST_EQUALLY_DESCRIPTION = "Distribute cost evenly";
+        public static final String DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE = "1";
+        public static final String DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION = "Distribute cost by amount";
+        
         public static final Integer PERCENT_SCALE = new Integer(2);
         public static final Integer CAPITAL_ACCOUNT_LINE_PERCENT_SCALE = new Integer(20);
     }
+ 
+    public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_PERMISSION = "Edit Accounting Period";
+    public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_PERMISSION = "View Accounting Period";
+    public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
+    public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
+    // CSU 6702 END
+    
+    
 }
 

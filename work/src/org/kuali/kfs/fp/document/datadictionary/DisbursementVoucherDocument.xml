@@ -397,8 +397,8 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="DisbursementVoucherDocument-disbExcptAttachedIndicator" parent="DisbursementVoucherDocument-disbExcptAttachedIndicator-parenetBean"/>
-  <bean id="DisbursementVoucherDocument-disbExcptAttachedIndicator-parenetBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DisbursementVoucherDocument-disbExcptAttachedIndicator" parent="DisbursementVoucherDocument-disbExcptAttachedIndicator-parentBean"/>
+  <bean id="DisbursementVoucherDocument-disbExcptAttachedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="disbExcptAttachedIndicator"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Exception Attached"/>
@@ -552,7 +552,7 @@
   
   <!-- validations -->  
   <bean id="DisbursementVoucherDocument-validations" parent="DisbursementVoucherDocument-validations-parentBean"/> 
-  <bean id="DisbursementVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="DisbursementVoucherDocument-validations-parentBean"  abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

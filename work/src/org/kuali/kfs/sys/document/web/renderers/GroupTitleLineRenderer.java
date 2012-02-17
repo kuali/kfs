@@ -364,7 +364,7 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
      * @return the name of the line collection property, but in a form that is okay for javascript variable/function naming
      */
     protected String getVariableFriendlyLineCollectionProperty() {
-        return lineCollectionProperty.replaceAll("[^A-Za-z]", "_");
+        return lineCollectionProperty.replaceAll("[^A-Za-z0-9]", "_");
     }
 
     /**

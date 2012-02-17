@@ -90,7 +90,8 @@
 		<property name="name" value="active" />
 	</bean>
 
-	<bean id="CombineGroupCode-codeForReport" parent="CombineGroupCode-code-parentBean">
+	<bean id="CombineGroupCode-codeForReport" parent="CombineGroupCode-codeForReport-parentBean"/>
+	<bean id="CombineGroupCode-codeForReport-parentBean" abstract="true" parent="CombineGroupCode-code-parentBean">
 		<property name="name" value="codeForReport" />
 		<property name="maxLength" value="150" />
 		<property name="control">

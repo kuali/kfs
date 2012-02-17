@@ -21,7 +21,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,8 +33,6 @@ import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax;
@@ -72,13 +69,13 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Payment Request Document Business Object. Contains the fields associated with the main document table.
@@ -169,7 +166,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public boolean isInquiryRendered() {
-        if (isPostingYearPrior() && (getStatusCode().equals(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED) || getStatusCode().equals(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED) || getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE) || getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS))) {
+        if (isPostingYearPrior() && (getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED) || getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED) || getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE) || getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS))) {
             return false;
         }
         else {
@@ -445,7 +442,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
         Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
-        this.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
+        setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
         this.setAccountsPayableProcessorIdentifier(currentUser.getPrincipalId());
         this.setProcessingCampusCode(currentUser.getCampusCode());
         this.refreshNonUpdateableReferences();
@@ -696,11 +693,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         LOG.debug("doRouteStatusChange() started");
         
         super.doRouteStatusChange(statusChangeEvent);
-
+        try{
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
-                if (!PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
-                    SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+                if (!PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getAppDocStatus())) {                    
+                    setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
                     populateDocumentForRouting();
                     SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                     return;
@@ -708,14 +705,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-                String nodeName = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next();
-                NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
-                if (ObjectUtils.isNotNull(currentNode)) {
-                    String newStatusCode = currentNode.getDisapprovedStatusCode();
-                    if ((StringUtils.isBlank(newStatusCode)) && ((StringUtils.isBlank(currentNode.getDisapprovedStatusCode())) && ((PaymentRequestStatuses.INITIATE.equals(getStatusCode())) || (PaymentRequestStatuses.IN_PROCESS.equals(getStatusCode()))))) {
-                        newStatusCode = PaymentRequestStatuses.CANCELLED_IN_PROCESS;
+                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                String disapprovalStatus = PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(nodeName);
+                        
+                if (ObjectUtils.isNotNull(nodeName)) {                    
+                    if (((StringUtils.isBlank(disapprovalStatus)) && ((PaymentRequestStatuses.APPDOC_INITIATE.equals(getAppDocStatus())) || (PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(getAppDocStatus()))))) {
+                        disapprovalStatus = PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS;
                     }
-                    if (StringUtils.isNotBlank(newStatusCode)) {
+                    if (StringUtils.isNotBlank(disapprovalStatus)) {
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
                         return;
                     }
@@ -724,18 +721,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-                String currentNodeName = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next();
-                NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
-                if (ObjectUtils.isNotNull(currentNode)) {
-                    String cancelledStatusCode = currentNode.getDisapprovedStatusCode();
-                    if (StringUtils.isNotBlank(cancelledStatusCode)) {
-                        SpringContext.getBean(PurapService.class).updateStatus(this, cancelledStatusCode);
+                String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getDocumentHeader().getWorkflowDocument());
+                String cancelledStatus = PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(currentNodeName); 
+                
+                if (ObjectUtils.isNotNull(cancelledStatus)) {                    				
+                    setAppDocStatus(cancelledStatus);
                         SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                         return;
-                    }
                 }
-                logAndThrowRuntimeException("No status found to set for document being canceled in node '" + currentNode + "'");
+                logAndThrowRuntimeException("No status found to set for document being canceled in node '" + currentNodeName + "'");                
             }
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
+        }
     }
 
     /**
@@ -754,22 +753,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
 
         // everything in the below list requires correcting entries to be written to the GL
-        if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
-            if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode) || NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(currentNode)) {
+            if (PaymentRequestStatuses.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {                
                 SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
             }
         }
-    }
 
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
-        if (PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
+        if (PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getAppDocStatus())) {
             // do nothing for an auto approval
             return false;
         }
-        if (NodeDetailEnum.ADHOC_REVIEW.getName().equals(oldNodeName)) {
+        if (PaymentRequestStatuses.NODE_ADHOC_REVIEW.equals(oldNodeName)) {
             SpringContext.getBean(AccountsPayableService.class).performLogicForFullEntryCompleted(this);
         }
         return true;
@@ -778,9 +775,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#getNodeDetailEnum(java.lang.String)
      */
-    public NodeDetails getNodeDetailEnum(String nodeName) {
-        return NodeDetailEnum.getNodeDetailEnumByName(nodeName);
-    }
+    //public NodeDetails getNodeDetailEnum(String nodeName) {
+    //    return NodeDetailEnum.getNodeDetailEnumByName(nodeName);
+    //}
 
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()

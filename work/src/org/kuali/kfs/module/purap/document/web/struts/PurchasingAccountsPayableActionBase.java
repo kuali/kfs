@@ -226,6 +226,8 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     protected void insertAccountingLine(PurchasingAccountsPayableFormBase financialDocumentForm, PurApItem item, PurApAccountingLine line) {
         PurchasingAccountsPayableDocument preq = (PurchasingAccountsPayableDocument) financialDocumentForm.getDocument();
 
+        Integer index = item.getSourceAccountingLines().size() + 1;
+        line.setSequenceNumber(index);
         // add it to the item
         item.getSourceAccountingLines().add(line);
     }

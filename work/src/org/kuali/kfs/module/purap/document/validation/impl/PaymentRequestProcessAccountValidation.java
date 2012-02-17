@@ -19,10 +19,12 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentRequestProcessAccountValidation extends GenericValidation {
 
     private PurchasingAccountsPayableHasAccountsValidation hasAccountsValidation;
+    private PurchasingAccountsPayableAccountPercentValidation accountPercentValidation;
     private PurchasingAccountsPayableAccountTotalValidation accountTotalValidation;
     private PurchasingAccountsPayableUniqueAccountingStringsValidation accountingStringsValidation;          
     private PurApItem itemForValidation;
@@ -32,8 +34,17 @@ public class PaymentRequestProcessAccountValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
 
+        if (ObjectUtils.isNull(itemForValidation)) {
+            return valid;
+        }
+        
         hasAccountsValidation.setItemForValidation(itemForValidation);
         valid &= hasAccountsValidation.validate(event);
+        
+        if(valid){
+            accountPercentValidation.setItemForValidation(itemForValidation);
+            valid &= accountPercentValidation.validate(event);
+        }
         
         if(valid){
                 accountTotalValidation.setItemForValidation(itemForValidation);
@@ -130,4 +141,13 @@ public class PaymentRequestProcessAccountValidation extends GenericValidation {
     public void setAccountLineAmountValidation(PurchasingAccountingLineAmountValidation accountLineAmountValidation) {
         this.accountLineAmountValidation = accountLineAmountValidation;
     }
+    
+    public PurchasingAccountsPayableAccountPercentValidation getAccountPercentValidation() {
+        return accountPercentValidation;
+    }
+
+    public void setAccountPercentValidation(PurchasingAccountsPayableAccountPercentValidation accountPercentValidation) {
+        this.accountPercentValidation = accountPercentValidation;
+    }
+    
 }

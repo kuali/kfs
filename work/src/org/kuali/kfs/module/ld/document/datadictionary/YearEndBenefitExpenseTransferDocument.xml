@@ -62,7 +62,7 @@
   
   <bean id="YearEndBenefitExpenseTransferDocument-validations" parent="YearEndBenefitExpenseTransferDocument-validations-parentBean"/>
   
-  <bean id="YearEndBenefitExpenseTransferDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="YearEndBenefitExpenseTransferDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

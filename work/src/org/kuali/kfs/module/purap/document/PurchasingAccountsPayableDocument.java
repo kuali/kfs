@@ -18,9 +18,7 @@ package org.kuali.kfs.module.purap.document;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -82,7 +80,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
      * @param nodeDetails the node details of the specified node.
      * @return true if this document is stopped in the specified route node.
      */
-    public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails);
+    public boolean isDocumentStoppedInRouteNode(String nodeName);
 
     /**
      * Adds the specified item to this document.
@@ -202,8 +200,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
 
     public Country getVendorCountry();
 
-    public Status getStatus();
-
     public VendorDetail getVendorDetail();
 
     public List<PurApItem> getItems();
@@ -230,9 +226,9 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
 
     public void setPurapDocumentIdentifier(Integer identifier);
 
-    public String getStatusCode();
-
-    public void setStatusCode(String statusCode);
+    public String getAppDocStatus();
+    
+    public void setAppDocStatus(String appDocStatus);
 
     public String getVendorCityName();
 

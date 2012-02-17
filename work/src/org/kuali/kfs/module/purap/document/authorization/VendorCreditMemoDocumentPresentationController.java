@@ -42,7 +42,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     public boolean canSave(Document document) {
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) document;
 
-        if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
+        if (StringUtils.equals(vendorCreditMemoDocument.getAppDocStatus(), PurapConstants.CreditMemoStatuses.APPDOC_INITIATE)) {
             return false;
         }
 
@@ -57,7 +57,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     public boolean canReload(Document document) {
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) document;
 
-        if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
+        if (StringUtils.equals(vendorCreditMemoDocument.getAppDocStatus(), PurapConstants.CreditMemoStatuses.APPDOC_INITIATE)) {
             return false;
         }
 
@@ -119,15 +119,15 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
             editModes.add(CreditMemoEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
         }
         else {
-            if (ObjectUtils.isNotNull(vendorCreditMemoDocument.getPurchaseOrderDocument()) &&
-                    !vendorCreditMemoDocument.isSourceVendor() &&
-                    PurapConstants.PurchaseOrderStatuses.CLOSED.equals(vendorCreditMemoDocument.getPurchaseOrderDocument().getStatusCode())) {
+            if (ObjectUtils.isNotNull(vendorCreditMemoDocument.getPurchaseOrderDocument()) && 
+                    !vendorCreditMemoDocument.isSourceVendor() && 
+                    PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(vendorCreditMemoDocument.getPurchaseOrderDocument().getAppDocStatus())) {
                 // TODO hjs-is this right? check to see if the checkbox is showing up for non-AP folks
                 editModes.add(CreditMemoEditMode.ALLOW_REOPEN_PURCHASE_ORDER);
             }
         }
 
-        if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
+        if (StringUtils.equals(vendorCreditMemoDocument.getAppDocStatus(), PurapConstants.CreditMemoStatuses.APPDOC_INITIATE)) {
             editModes.add(CreditMemoEditMode.DISPLAY_INIT_TAB);
         }
 
@@ -170,7 +170,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
      * @return boolean - true if hold can occur, false if not allowed.
      */
     protected boolean canHold(VendorCreditMemoDocument cmDocument) {
-        return !cmDocument.isHoldIndicator() && !cmDocument.isExtracted() && !PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode());
+        return !cmDocument.isHoldIndicator() && !cmDocument.isExtracted() && !PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getAppDocStatus());
     }
 
     /**
@@ -191,15 +191,13 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
      * @return boolean - true if document can be canceled, false if it cannot be.
      */
     protected boolean canCancel(VendorCreditMemoDocument cmDocument) {
-        return !CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode()) && !cmDocument.isExtracted() && !cmDocument.isHoldIndicator();
+        return !CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getAppDocStatus()) && !cmDocument.isExtracted() && !cmDocument.isHoldIndicator();
     }
 
     protected boolean canEditPreExtraction(VendorCreditMemoDocument vendorCreditMemoDocument) {
-
-        return (!vendorCreditMemoDocument.isExtracted()
-                && !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getStatusCode())
-                && !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(vendorCreditMemoDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId())
-                );
+        return (!vendorCreditMemoDocument.isExtracted() && 
+                !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(vendorCreditMemoDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) &&
+                !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getAppDocStatus()));
     }
 
 }

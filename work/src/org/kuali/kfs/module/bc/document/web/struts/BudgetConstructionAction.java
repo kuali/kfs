@@ -632,6 +632,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, expLine.getChartOfAccountsCode());
         parameters.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, expLine.getFinancialObjectCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, expLine.getAccountLineAnnualBalanceAmount().toString());
+        parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, expLine.getAccountNumber());
         parameters.put(KRADConstants.LOOKUP_READ_ONLY_FIELDS, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + "," + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + "," + KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME + "," + KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT);
 
         String url = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_TEMP_LIST_LOOKUP, parameters);

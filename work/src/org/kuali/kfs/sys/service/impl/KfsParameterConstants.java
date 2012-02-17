@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.util.KRADConstants;
 
 
-public class KfsParameterConstants {
+
+public class KfsParameterConstants extends ParameterConstants {
 
     public static final String NERVOUS_SYSTEM_NAMESPACE = KRADConstants.KRAD_NAMESPACE;
     public static final String ALL_COMPONENT = "All";
@@ -363,5 +365,13 @@ public class KfsParameterConstants {
     @NAMESPACE(namespace = VENDOR_NAMESPACE)
     @COMPONENT(component = BATCH_COMPONENT)
     public final class VENDOR_BATCH {
+    }
+
+    // CSU 6702 BEGIN
+    public static class YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES {
+        public static final String DETAIL_PARAMETER_TYPE = "Document";
+        public static final String ENABLE_FISCAL_PERIOD_SELECTION_IND = "ENABLE_FISCAL_PERIOD_SELECTION_IND";
+        public static final String FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES = "FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES";
+        public static final String NUMBER_OF_POSTBACK_PERIODS = "NUMBER_OF_POSTBACK_PERIODS";
     }
 }

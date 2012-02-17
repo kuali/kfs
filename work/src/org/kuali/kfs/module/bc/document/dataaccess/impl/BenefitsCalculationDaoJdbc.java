@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao;
+import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.Guid;
 
@@ -157,7 +158,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("              WHERE (sesid = ?)\n");
         sqlBuilder.append("                AND (LD_PND_BCNSTR_GL_T.fin_object_cd = LD_BCN_BENEFITS_RECALC01_MT.pos_frngben_obj_cd))\n");
         sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.fin_obj_typ_cd IN ");
-        // expenditure object types 
+        // expenditure object types
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append(")");
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder, insertionPoints));
@@ -204,12 +205,61 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("')\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_obj_typ_cd IN ");
-        //  expenditure object types
+        // expenditure object types
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("))))");
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder, insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
         insertionPoints.clear();
+
+        /********************************************
+         * Added new statements to check labor benefit rate category code. Used only when
+         * ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND system parameter is set to "Y"
+         ********************************************/
+        /**
+         * set the request to 0 for fringe benefits objects with base
+         */
+        sqlBuilder.append("UPDATE LD_PND_BCNSTR_GL_T\n");
+        sqlBuilder.append("SET ACLN_ANNL_BAL_AMT =0\n");
+        sqlBuilder.append("WHERE (LD_PND_BCNSTR_GL_T.FDOC_NBR = ?)\n");
+        sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = ?)\n");
+        sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.FIN_COA_CD = ?)\n");
+        sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.ACCOUNT_NBR = ?)\n");
+        sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.SUB_ACCT_NBR = ?)\n");
+        sqlBuilder.append("  AND (EXISTS (SELECT 1 FROM LD_BENEFITS_CALC_T\n");
+        sqlBuilder.append("               WHERE (LD_BENEFITS_CALC_T.UNIV_FISCAL_YR = LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR)\n");
+        sqlBuilder.append("                 AND (LD_BENEFITS_CALC_T.FIN_COA_CD = LD_PND_BCNSTR_GL_T.FIN_COA_CD)\n");
+        sqlBuilder.append("                 AND (LD_BENEFITS_CALC_T.LBR_BEN_RT_CAT_CD = ?)\n");
+        sqlBuilder.append("                 AND (LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)))");
+        sqlAnnualSteps.add(new SQLForStep(sqlBuilder));
+        sqlBuilder.delete(0, sqlBuilder.length());
+        /**
+         * sum the amounts in benefits-eligible objects and attach the appropriate benefits object code
+         */
+        sqlBuilder.append("INSERT INTO LD_BCN_BENEFITS_RECALC01_MT\n(SESID, POS_FRNGBEN_OBJ_CD, FB_SUM)\n");
+        sqlBuilder.append("(SELECT ?,LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD,\n");
+        sqlBuilder.append(" ROUND(SUM(LD_PND_BCNSTR_GL_T.ACLN_ANNL_BAL_AMT * (LD_BENEFITS_CALC_T.POS_FRNG_BENE_PCT/100.0)),0)\n ");
+        sqlBuilder.append(" FROM LD_PND_BCNSTR_GL_T,\n");
+        sqlBuilder.append("      LD_LBR_OBJ_BENE_T,\n");
+        sqlBuilder.append("      LD_BENEFITS_CALC_T\n");
+        sqlBuilder.append(" WHERE (LD_PND_BCNSTR_GL_T.FDOC_NBR = ?)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = ?)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.FIN_COA_CD = ?)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.ACCOUNT_NBR = ?)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.SUB_ACCT_NBR = ?)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.ACLN_ANNL_BAL_AMT <> 0)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = LD_LBR_OBJ_BENE_T.UNIV_FISCAL_YR)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_coa_cd = LD_LBR_OBJ_BENE_T.fin_coa_cd)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_object_cd = LD_LBR_OBJ_BENE_T.fin_object_cd)\n");
+        sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.univ_fiscal_yr = LD_BENEFITS_CALC_T.univ_fiscal_yr)\n");
+        sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.fin_coa_cd = LD_BENEFITS_CALC_T.fin_coa_cd)\n");
+        sqlBuilder.append("   AND (LD_BENEFITS_CALC_T.LBR_BEN_RT_CAT_CD = ?)\n");
+        sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.finobj_bene_typ_cd = LD_BENEFITS_CALC_T.pos_benefit_typ_cd)\n");
+        sqlBuilder.append(" GROUP BY LD_BENEFITS_CALC_T.pos_frngben_obj_cd)");
+        sqlAnnualSteps.add(new SQLForStep(sqlBuilder));
+        sqlBuilder.delete(0, sqlBuilder.length());
+
+
         /**
          * this is the SQL for the monthly budget benefits. any rounding amount is added to the amount for month 1
          */
@@ -334,7 +384,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.fin_coa_cd = LD_LBR_OBJ_BENE_T.fin_coa_cd\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.pos_benefit_typ_cd = LD_LBR_OBJ_BENE_T.finobj_bene_typ_cd\n");
         sqlBuilder.append("GROUP BY LD_BENEFITS_CALC_T.pos_frngben_obj_cd");
-        sqlMonthlySteps.add(new SQLForStep(sqlBuilder,insertionPoints));
+        sqlMonthlySteps.add(new SQLForStep(sqlBuilder, insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
         insertionPoints.clear();
 
@@ -375,13 +425,129 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("          AND LD_BENEFITS_CALC_T.pos_frngben_obj_cd = LD_BCNSTR_MONTH_T.fin_object_cd)\n");
         ;
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder));
+
+        /********************************************
+         * Added new statements to check labor benefit rate category code. Used only when
+         * ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND system parameter is set to "Y"
+         ********************************************/
+        sqlBuilder.delete(0, sqlBuilder.length());
+        insertionPoints.clear();
+
+        /**
+         * calc benefits for source objects and sum to target objects. all budget construction GL lines added by the budget
+         * construction application have an object type code of FinObjTypeExpenditureexpCd, which we pass at run time as a
+         * parameter. we have an IN clause to check for other object types which may have been loaded in the base from the general
+         * ledger. the request for such lines will not have this object type.
+         */
+        sqlBuilder.append("INSERT INTO ld_bcnstr_month_t\n");
+        sqlBuilder.append("(FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD,\n");
+        sqlBuilder.append("FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, FDOC_LN_MO1_AMT, FDOC_LN_MO2_AMT,\n");
+        sqlBuilder.append(" FDOC_LN_MO3_AMT, FDOC_LN_MO4_AMT, FDOC_LN_MO5_AMT, FDOC_LN_MO6_AMT, FDOC_LN_MO7_AMT, FDOC_LN_MO8_AMT,\n");
+        sqlBuilder.append(" FDOC_LN_MO9_AMT, FDOC_LN_MO10_AMT, FDOC_LN_MO11_AMT, FDOC_LN_MO12_AMT)\n");
+        sqlBuilder.append("SELECT ?,\n");
+        sqlBuilder.append("    ?,\n");
+        sqlBuilder.append("    ?,\n");
+        sqlBuilder.append("    ?,\n");
+        sqlBuilder.append("    ?,\n");
+        sqlBuilder.append("   ld_benefits_calc_t.pos_frngben_obj_cd,");
+        sqlBuilder.append(" '");
+        // default sub object code
+        insertionPoints.add(sqlBuilder.length());
+        sqlBuilder.append("', '");
+        // general ledger budget balance type code
+        insertionPoints.add(sqlBuilder.length());
+        sqlBuilder.append("', ");
+        sqlBuilder.append("?, \n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo1_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo2_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo3_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo4_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo5_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo6_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo7_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo8_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo9_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo10_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo11_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo12_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0)\n");
+        sqlBuilder.append("FROM ld_bcnstr_month_t,\n");
+        sqlBuilder.append("     ld_benefits_calc_t,\n");
+        sqlBuilder.append("     ld_lbr_obj_bene_t\n");
+        sqlBuilder.append("WHERE ld_bcnstr_month_t.fdoc_nbr = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.univ_fiscal_yr = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.fin_coa_cd = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.account_nbr = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.sub_acct_nbr = ?\n");
+        sqlBuilder.append("  AND NOT (ld_bcnstr_month_t.fdoc_ln_mo1_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo2_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo3_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo4_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo5_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo6_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo7_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo8_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo9_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo10_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo11_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo12_amt = 0) \n");
+        sqlBuilder.append("  AND ld_lbr_obj_bene_t.univ_fiscal_yr = ld_bcnstr_month_t.univ_fiscal_yr\n");
+        sqlBuilder.append("  AND ld_lbr_obj_bene_t.fin_coa_cd = ld_bcnstr_month_t.fin_coa_cd\n");
+        sqlBuilder.append("  AND ld_lbr_obj_bene_t.fin_object_cd = ld_bcnstr_month_t.fin_object_cd\n");
+        sqlBuilder.append("  AND ld_benefits_calc_t.univ_fiscal_yr = ld_lbr_obj_bene_t.univ_fiscal_yr\n");
+        sqlBuilder.append("  AND ld_benefits_calc_t.fin_coa_cd = ld_lbr_obj_bene_t.fin_coa_cd\n");
+        sqlBuilder.append("  AND ld_benefits_calc_t.pos_benefit_typ_cd = ld_lbr_obj_bene_t.finobj_bene_typ_cd\n");
+        sqlBuilder.append("  AND ld_benefits_calc_t.lbr_ben_rt_cat_cd = ?\n");
+        sqlBuilder.append("GROUP BY ld_benefits_calc_t.pos_frngben_obj_cd");
+        sqlMonthlySteps.add(new SQLForStep(sqlBuilder, insertionPoints));
+        sqlBuilder.delete(0, sqlBuilder.length());
+        insertionPoints.clear();
+
+
+        /**
+         * adjust the month 1 totals for rounding error
+         */
+        sqlBuilder.append("UPDATE ld_bcnstr_month_t\n");
+        sqlBuilder.append("SET fdoc_ln_mo1_amt =\n");
+        sqlBuilder.append("    (SELECT (ld_bcnstr_month_t.fdoc_ln_mo1_amt +\n");
+        sqlBuilder.append("            (ld_pnd_bcnstr_gl_t.acln_annl_bal_amt -\n");
+        sqlBuilder.append("            (ld_bcnstr_month_t.fdoc_ln_mo1_amt + ld_bcnstr_month_t.fdoc_ln_mo2_amt +\n");
+        sqlBuilder.append("             ld_bcnstr_month_t.fdoc_ln_mo3_amt + ld_bcnstr_month_t.fdoc_ln_mo4_amt +\n");
+        sqlBuilder.append("             ld_bcnstr_month_t.fdoc_ln_mo5_amt + ld_bcnstr_month_t.fdoc_ln_mo6_amt +\n");
+        sqlBuilder.append("             ld_bcnstr_month_t.fdoc_ln_mo7_amt + ld_bcnstr_month_t.fdoc_ln_mo8_amt +\n");
+        sqlBuilder.append("             ld_bcnstr_month_t.fdoc_ln_mo9_amt + ld_bcnstr_month_t.fdoc_ln_mo10_amt +\n");
+        sqlBuilder.append("             ld_bcnstr_month_t.fdoc_ln_mo11_amt + ld_bcnstr_month_t.fdoc_ln_mo12_amt)))\n");
+        sqlBuilder.append("    FROM ld_pnd_bcnstr_gl_t\n");
+        sqlBuilder.append("    WHERE ld_bcnstr_month_t.fdoc_nbr = ld_pnd_bcnstr_gl_t.fdoc_nbr\n");
+        sqlBuilder.append("      AND ld_bcnstr_month_t.univ_fiscal_yr = ld_pnd_bcnstr_gl_t.univ_fiscal_yr\n");
+        sqlBuilder.append("      AND ld_bcnstr_month_t.fin_coa_cd = ld_pnd_bcnstr_gl_t.fin_coa_cd\n");
+        sqlBuilder.append("      AND ld_bcnstr_month_t.account_nbr = ld_pnd_bcnstr_gl_t.account_nbr\n");
+        sqlBuilder.append("      AND ld_bcnstr_month_t.sub_acct_nbr = ld_pnd_bcnstr_gl_t.sub_acct_nbr\n");
+        sqlBuilder.append("      AND ld_bcnstr_month_t.fin_object_cd = ld_pnd_bcnstr_gl_t.fin_object_cd\n");
+        sqlBuilder.append("      AND ld_bcnstr_month_t.fin_sub_obj_cd = ld_pnd_bcnstr_gl_t.fin_sub_obj_cd\n");
+        sqlBuilder.append("      AND ld_bcnstr_month_t.fin_balance_typ_cd = ld_pnd_bcnstr_gl_t.fin_balance_typ_cd\n");
+        sqlBuilder.append("      AND ld_bcnstr_month_t.fin_obj_typ_cd = ld_pnd_bcnstr_gl_t.fin_obj_typ_cd)\n");
+        sqlBuilder.append("WHERE ld_bcnstr_month_t.fdoc_nbr = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.univ_fiscal_yr = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.fin_coa_cd = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.account_nbr = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.sub_acct_nbr = ?\n");
+        sqlBuilder.append("  AND EXISTS \n");
+        sqlBuilder.append("        (SELECT 1\n");
+        sqlBuilder.append("        FROM ld_benefits_calc_t\n");
+        sqlBuilder.append("        WHERE ld_benefits_calc_t.univ_fiscal_yr = ?\n");
+        sqlBuilder.append("          AND ld_benefits_calc_t.fin_coa_cd = ?\n");
+        sqlBuilder.append("          AND ld_benefits_calc_t.lbr_ben_rt_cat_cd = ?\n");
+        sqlBuilder.append("          AND ld_benefits_calc_t.pos_frngben_obj_cd = ld_bcnstr_month_t.fin_object_cd)\n");
+        sqlMonthlySteps.add(new SQLForStep(sqlBuilder));
+
     }
+
 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateAnnualBudgetConstructionGeneralLedgerBenefits(String,
-     *      Integer, String, String, String, String)
+     *      Integer, String, String, String, String, String)
      */
-    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String expenditureINList) {
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String laborBenefitRateCategoryCode) {
 
         // the first thing to do is get the SQL IN list of expenditure object code types allowed in budget construction.
         // if this parameter is ill-formed, we can't calculate benefits. we will blow the user out of the water as a consequence.
@@ -391,13 +557,13 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         ArrayList<String> stringsToInsert = new ArrayList<String>();
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
         stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
-        stringsToInsert.add(expenditureINList);
+        stringsToInsert.add(BudgetConstructionUtils.getExpenditureINList());
         String idForSession = (new Guid()).toString();
 
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
-        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
-        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(3).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(6).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode);
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(7).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode);
         // re-set general ledger amount for existing fringe benefits object codes
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(4).getSQL(stringsToInsert), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession);
         // insert general ledger lines for new fringe benefits object codes.
@@ -405,6 +571,11 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         stringsToInsert.add(3, stringsToInsert.get(1));
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache. otherwise, subsequent calls
+         * to OJB will fetch the old, unupdated cached rows.
+         */
+        // persistenceService.clearCache();
     }
 
     /**
@@ -428,4 +599,33 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(3).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
     }
 
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @@ -420,6 +615,31 @@ persistenceService.clearCache(); } /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String laborBenefitRateCategoryCode) {
+        String idForSession = (new Guid()).toString();
+
+        ArrayList<String> stringsToInsert = new ArrayList<String>();
+        stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
+        stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
+
+        // get rid of monthly buckets for any rows with annual zero request
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        // get rid of existing monthly budgets for this key
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
+        // spread the budgeted general ledger fringe beneftis amounts for this key equally into the twelve months
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(4).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode);
+        // add any rounding errors to the first month
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(5).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts, laborBenefitRateCategoryCode);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache. otherwise, subsequent calls
+         * to OJB will fetch the old, unupdated cached rows.
+         */
+        //persistenceService.clearCache();
+    }
 }

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2011 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans 	xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       	xmlns:p="http://www.springframework.org/schema/p"
+       	xsi:schemaLocation="http://www.springframework.org/schema/beans         
+       	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="AssetYearEndDepreciationMaintenanceDocument" parent="AssetYearEndDepreciationMaintenanceDocument-parentBean"/>
+
+    <bean id="AssetYearEndDepreciationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation"/>
+        <!--<property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetRetirementGlobalMaintainableImpl"/>-->
+        <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetYearEndDepreciationMaintainableImpl"/>
+        <!--<property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>-->
+        <!--<property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>-->
+
+        <property name="maintainableSections">
+            <list>
+                <!--<ref bean="AssetYearEndDepreciationMaintenanceDocument-EditAssetYearEndDepreciation"/>-->
+                <ref bean="AssetYearEndDepreciationMaintenanceDocument-UniversityFiscalYear"/>
+                <ref bean="AssetYearEndDepreciationMaintenanceDocument-AssetDetailInformation"/>
+            </list>
+        </property>
+        <property name="defaultExistenceChecks">
+            <list>
+                <!--<bean parent="ReferenceDefinition" p:attributeName="asset" p:collection="assetYearEndDepreciationDetails"-->
+                      <!--p:attributeToHighlightOnFail="capitalAssetNumber"/>-->
+                <!--<bean parent="ReferenceDefinition" p:attributeName="postalZipCode"-->
+                      <!--p:attributeToHighlightOnFail="retirementZipCode"/>-->
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>universityFiscalYear</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="YEARENDDEPR"/>
+        <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
+        <!--<property name="businessRulesClass"-->
+                  <!--value="org.kuali.kfs.module.cam.document.validation.impl.AssetYearEndDepreciationRule"/>-->
+        <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+        <!--<property name="documentPresentationControllerClass"-->
+                  <!--value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementPresentationController"/>-->
+        <property name="workflowAttributes">
+            <ref bean="AssetYearEndDepreciationMaintenanceDocument-workflowAttributes"/>
+        </property>
+        <!--<property name="additionalSectionsFile" value="/jsp/module/cams/AssetMaintenanceGlpe.jsp"/>-->
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <!--<bean id="AssetYearEndDepreciationMaintenanceDocument-EditAssetYearEndDepreciation" parent="AssetYearEndDepreciationMaintenanceDocument-EditAssetYearEndDepreciation-parentBean"/>-->
+    <!--<bean id="AssetYearEndDepreciationMaintenanceDocument-EditAssetYearEndDepreciation-parentBean" abstract="true" parent="MaintainableSectionDefinition">-->
+        <!--<property name="id" value="Edit Asset Year End Depreciation"/>-->
+        <!--<property name="title" value="Edit Asset Year End Depreciation"/>-->
+        <!--<property name="maintainableItems">-->
+            <!--<list>-->
+                <!--<bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>-->
+                <!--<bean parent="MaintainableFieldDefinition" p:name="runDate" p:required="false"/>-->
+                <!--<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean id="AssetYearEndDepreciationMaintenanceDocument-UniversityFiscalYear"
+          parent="AssetYearEndDepreciationMaintenanceDocument-UniversityFiscalYear-parentBean"/>
+
+    <bean id="AssetYearEndDepreciationMaintenanceDocument-UniversityFiscalYear-parentBean" abstract="true"
+          parent="MaintainableSectionDefinition">
+    <property name="id" value="Fiscal Year"/>
+    <property name="title" value="Fiscal Year"/>
+    <property name="maintainableItems">
+    <list>
+       <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+       <bean parent="MaintainableFieldDefinition" p:name="active" p:readOnlyAfterAdd="false" p:required="true"/>
+    <!--<bean parent="MaintainableFieldDefinition" p:name="runDate" p:required="false" />-->
+    </list>
+    </property>
+    </bean>
+
+    <bean id="AssetYearEndDepreciationMaintenanceDocument-AssetDetailInformation"
+          parent="AssetYearEndDepreciationMaintenanceDocument-AssetDetailInformation-parentBean"/>
+
+    <bean id="AssetYearEndDepreciationMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true"
+          parent="MaintainableSectionDefinition">
+        <property name="id" value="Asset Detail Information"/>
+        <property name="title" value="Asset Detail Information"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="assetYearEndDepreciationDetails"/>
+                    <property name="businessObjectClass"
+                              value="org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciationDetail"/>
+                    <property name="sourceClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
+                    <property name="summaryTitle" value="Asset"/>
+                    <property name="summaryFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber"/>
+                        </list>
+                    </property>
+                    <property name="duplicateIdentificationFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber"/>
+                        </list>
+                    </property>
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" p:readOnlyAfterAdd="false" p:template="capitalAssetNumber" p:required="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="active" p:readOnlyAfterAdd="false" />
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.organizationOwnerChartOfAccountsCode" p:unconditionallyReadOnly="true" p:template="organizationOwnerChartOfAccountsCode"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.organizationOwnerAccountNumber" p:unconditionallyReadOnly="true" p:template="organizationOwnerAccountNumber"/>-->
+                            <bean parent="MaintainableFieldDefinition" p:name="asset.organizationOwnerAccount.organizationCode" p:unconditionallyReadOnly="true" p:template="organizationOwnerAccount.organizationCode"/>
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.acquisitionTypeCode" p:unconditionallyReadOnly="true" p:template="acquisitionTypeCode"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.inventoryStatusCode" p:unconditionallyReadOnly="true" p:template="inventoryStatusCode"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.conditionCode" p:unconditionallyReadOnly="true" p:template="conditionCode"/>-->
+                            <bean parent="MaintainableFieldDefinition" p:name="asset.capitalAssetDescription" p:unconditionallyReadOnly="true" p:template="capitalAssetDescription"/>
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.capitalAssetTypeCode" p:unconditionallyReadOnly="true" p:template="capitalAssetTypeCode"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.vendorName" p:unconditionallyReadOnly="true" p:template="vendorName"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.manufacturerModelNumber" p:unconditionallyReadOnly="true" p:template="manufacturerModelNumber"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.serialNumber" p:unconditionallyReadOnly="true" p:template="serialNumber"/>-->
+                            <bean parent="MaintainableFieldDefinition" p:name="asset.campusTagNumber" p:unconditionallyReadOnly="true" p:template="campusTagNumber"/>
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.governmentTagNumber" p:unconditionallyReadOnly="true" p:template="governmentTagNumber"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.lastInventoryDate" p:unconditionallyReadOnly="true" p:template="lastInventoryDate"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.createDate" p:unconditionallyReadOnly="true" p:template="createDate"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.capitalAssetInServiceDate" p:unconditionallyReadOnly="true" p:template="capitalAssetInServiceDate"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.depreciationDate" p:unconditionallyReadOnly="true" p:template="depreciationDate"/>-->
+                            <bean parent="MaintainableFieldDefinition" p:name="asset.totalCostAmount" p:unconditionallyReadOnly="true" p:template="totalCostAmount"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="asset.accumulatedDepreciation" p:unconditionallyReadOnly="true" p:template="accumulatedDepreciation"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="asset.bookValue" p:unconditionallyReadOnly="true" p:template="bookValue"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="asset.federalContribution" p:unconditionallyReadOnly="true" p:template="federalContribution"/>
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="asset.assetOrganization.organizationText" p:unconditionallyReadOnly="true"/>-->
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AssetYearEndDepreciationMaintenanceDocument-workflowAttributes"
+          parent="AssetYearEndDepreciationMaintenanceDocument-workflowAttributes-parentBean"/>
+
+    <bean id="AssetYearEndDepreciationMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+
+</beans>

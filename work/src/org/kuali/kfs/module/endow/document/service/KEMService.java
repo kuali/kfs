@@ -93,7 +93,7 @@ public interface KEMService {
 
     /**
      * Gets the FISCAL_YEAR_END_DAY_AND_MONTH system parameter
-     * 
+     * TODO This should be refactored to a generic parm accessible to any module.
      * @return FISCAL_YEAR_END_DAY_AND_MONTH value
      */
     public Date getFiscalYearEndDayAndMonth();

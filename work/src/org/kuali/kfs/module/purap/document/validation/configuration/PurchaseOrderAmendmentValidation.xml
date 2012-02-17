@@ -30,6 +30,10 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  	
 				
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">	
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+							
   				<bean parent="PurchaseOrder-assignedUserValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  					
@@ -75,6 +79,10 @@
   		<property name="validations">
   			<list>  				
   				<bean parent="PurchaseOrderAmendment-newProcessItemValidation-parentBean" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+				
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">	
 					<property name="quitOnFail" value="false" />
 				</bean>  	
 				
@@ -539,5 +547,25 @@
             </list>
         </property>
     </bean>
+    
+      <!-- accounts percents and accounts amounts validations  -->
+	<bean id="PurchaseOrderAmendment-purchasingAccountsPayablesItemPreCalculateValidations" parent="PurchaseOrderAmendment-purchasingAccountsPayablesItemPreCalculateValidations-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-purchasingAccountsPayablesItemPreCalculateValidations-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="PurchasingAccountsPayables-itemPreCalculateValidations" scope="prototype">
+        			<property name="parameterProperties">
+           				<list>
+             				<bean parent="validationFieldConversion">
+                               <property name="sourceEventProperty" value="item" />
+                               <property name="targetValidationProperty" value="item" />
+                           </bean>
+           				</list> 
+                   </property>
+       			</bean>
+  			</list>
+  		</property>
+	</bean>
     
 </beans>

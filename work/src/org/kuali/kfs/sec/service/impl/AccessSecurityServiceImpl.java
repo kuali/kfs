@@ -34,6 +34,7 @@ import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.ReportBusinessObject;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.businessobject.datadictionary.FinancialSystemBusinessObjectEntry;
@@ -423,9 +424,13 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         }
 
         // get all configured restricted attributes for this business object through it data dictionary entry
-        FinancialSystemBusinessObjectEntry businessObjectEntry = (FinancialSystemBusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntry(entryClass.getName());
+        FinancialSystemBusinessObjectEntry businessObjectEntry = (FinancialSystemBusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntryForConcreteClass(entryClass.getName());
 
-        if ( businessObject instanceof PersistableBusinessObject ) {
+        //if the business object is of class ReportBusinessObject interface, use refreshNonUpdateableForReport();
+        if (ReportBusinessObject.class.isAssignableFrom(businessObject.getClass())) {
+            ((ReportBusinessObject) businessObject).refreshNonUpdateableForReport();
+        }
+        else if (PersistableBusinessObject.class.isAssignableFrom(businessObject.getClass())) {
             ((PersistableBusinessObject) businessObject).refreshNonUpdateableReferences();
         } else {
             businessObject.refresh();

@@ -90,7 +90,7 @@
             <ref bean="parameterService"/>
         </property>
     </bean>
-    <bean id="vendorLookupableHelperService" parent="vendorLookupableHelperService-parentBean"/>
+    <bean id="vendorLookupableHelperService" parent="vendorLookupableHelperService-parentBean" scope="prototype" />
     
     <bean id="vendorLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorLookupableHelperServiceImpl"  abstract="true" scope="prototype">
         <property name="persistenceStructureService">
@@ -118,7 +118,7 @@
             <ref bean="parameterService" />
         </property>
     </bean>
-    <bean id="vendorContactLookupableHelperService" parent="vendorContactLookupableHelperService-parentBean"/>
+    <bean id="vendorContactLookupableHelperService" parent="vendorContactLookupableHelperService-parentBean" scope="prototype" />
 
     <bean id="vendorContactLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContactLookupableHelperServiceImpl"  abstract="true" scope="prototype">
         <property name="persistenceStructureService">
@@ -137,7 +137,7 @@
             <ref bean="dataDictionaryService" />
         </property>
     </bean>
-    <bean id="vendorPhoneLookupableHelperService" parent="vendorPhoneLookupableHelperService-parentBean"/>
+    <bean id="vendorPhoneLookupableHelperService" parent="vendorPhoneLookupableHelperService-parentBean" scope="prototype" />
     
     <bean id="vendorPhoneLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorPhoneLookupableHelperServiceImpl"  abstract="true" scope="prototype">
         <property name="persistenceStructureService">
@@ -156,7 +156,7 @@
             <ref bean="dataDictionaryService" />
         </property>
     </bean>
-	<bean id="vendorContractLookupableHelperService" parent="vendorContractLookupableHelperService-parentBean"/>
+	<bean id="vendorContractLookupableHelperService" parent="vendorContractLookupableHelperService-parentBean" scope="prototype" />
 	   
     <bean id="vendorContractLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContractLookupableHelperServiceImpl" scope="prototype" abstract="true">
         <property name="persistenceStructureService">
@@ -181,7 +181,7 @@
             <ref bean="dataDictionaryService" />
         </property>
     </bean>
-    <bean id="vendorAddressLookupableHelperService" parent="vendorAddressLookupableHelperService-parentBean"/>
+    <bean id="vendorAddressLookupableHelperService" parent="vendorAddressLookupableHelperService-parentBean" scope="prototype" />
     
     <bean id="vendorAddressLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorAddressLookupableHelperServiceImpl" scope="prototype" abstract="true">
         <property name="persistenceStructureService">
@@ -200,7 +200,7 @@
             <ref bean="dataDictionaryService" />
         </property>
     </bean>
-    <bean id="vendorCustomerNumberLookupableHelperService" parent="vendorCustomerNumberLookupableHelperService-parentBean"/>
+    <bean id="vendorCustomerNumberLookupableHelperService" parent="vendorCustomerNumberLookupableHelperService-parentBean" scope="prototype" />
   
     <bean id="vendorCustomerNumberLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorCustomerNumberLookupableHelperServiceImpl" scope="prototype" abstract="true">
         <property name="persistenceStructureService">

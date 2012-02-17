@@ -379,7 +379,6 @@ public class RequisitionServiceImpl implements RequisitionService {
      */
     protected List<String> getDocumentsNumbersAwaitingContractManagerAssignment() {
         List<String> requisitionDocumentNumbers = new ArrayList<String>();
-        WorkflowInfo workflowInfo = new WorkflowInfo();
              
         DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
         //Search for status of P and F        
@@ -387,32 +386,27 @@ public class RequisitionServiceImpl implements RequisitionService {
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.REQUISITION_DOCUMENT_TYPE);
         documentSearchCriteriaDTO.setSaveName(null);
         
-        try {
-            DocumentSearchService documentSearch = KEWServiceLocator.getDocumentSearchService();
-            DocumentSearchResults results = documentSearch.lookupDocuments(null, documentSearchCriteriaDTO.build());
+        DocumentSearchService documentSearch = KEWServiceLocator.getDocumentSearchService();
+        DocumentSearchResults results = documentSearch.lookupDocuments(null, documentSearchCriteriaDTO.build());
 
-            String documentHeaderId = null;
+        String documentHeaderId = null;
 
-            for (DocumentSearchResult result : results.getSearchResults()) {
-                documentHeaderId = result.getDocument().getDocumentId();
-                Document document = findDocument(documentHeaderId);
+        for (DocumentSearchResult result : results.getSearchResults()) {
+            documentHeaderId = result.getDocument().getDocumentId();
+            Document document = findDocument(documentHeaderId);
+            
+            if (document != null) {
                 
-                if (document != null) {
-                    
-                    
-                    ///use the appDocStatus from the KeyValueDTO result to look up custom status
-                    if (PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equalsIgnoreCase(
-                            document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
-                        //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
-                        requisitionDocumentNumbers.add(document.getDocumentNumber());
-                    }
-                }else{
-                    LOG.error("Document is NULL.  It should never have been null");                
+                
+                ///use the appDocStatus from the KeyValueDTO result to look up custom status
+                if (PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equalsIgnoreCase(
+                        document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
+                    //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
+                    requisitionDocumentNumbers.add(document.getDocumentNumber());
                 }
+            }else{
+                LOG.error("Document is NULL.  It should never have been null");                
             }
-        } 
-        catch (WorkflowException ex) {
-            LOG.error("Exception encountered on finding the documents");            
         }
         
         return requisitionDocumentNumbers;

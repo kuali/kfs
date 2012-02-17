@@ -105,9 +105,9 @@
 			index="true" />
 		<field-descriptor name="laborBenefitRateCategoryCode"
 			column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR"  />
-		<field-descriptor name="accountCodeOffset" column="ACCT_CODE_OFF"
+		<field-descriptor name="accountCodeOffset" column="OFFSET_ACCOUNT_NBR"
 			jdbc-type="VARCHAR" />
-		<field-descriptor name="objectCodeOffset" column="OBJ_CODE_OFF"
+		<field-descriptor name="objectCodeOffset" column="OFFSET_FIN_OBJECT_CD"
 			jdbc-type="VARCHAR" />
 
 		<reference-descriptor name="positionFringeBenefitObject"
@@ -162,7 +162,7 @@
 			jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="activeIndicator" column="actv_ind"
 			jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="codeDesc" column="code_desc"
+		<field-descriptor name="codeDesc" column=" LBR_BEN_RT_CAT_NM"
 			jdbc-type="VARCHAR" />
 	</class-descriptor>
 

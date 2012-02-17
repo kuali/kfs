@@ -17,7 +17,7 @@
 			<column name='ACTV_IND' type='VARCHAR2(1)'>
 				<constraints nullable='false' />
 			</column>
-			<column name='CODE_DESC' type='VARCHAR2(40)'>
+			<column name='LBR_BEN_RT_CAT_NM' type='VARCHAR2(40)'>
 				<constraints nullable='false' />
 			</column>
 		</createTable>
@@ -30,8 +30,6 @@
 			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)'
 				defaultValue='--' />
 		</addColumn>
-		<dropForeignKeyConstraint baseTableName='LD_LBR_OBJ_BENE_T'
-			constraintName='LD_LBR_OBJ_BENE_TR1' />
 		<addColumn tableName='LD_LBR_OBJ_BENE_T'>
 			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)' />
 		</addColumn>
@@ -42,10 +40,10 @@
 		<addColumn tableName='LD_BENEFITS_CALC_T'>
 			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)'
 				defaultValue='--' />
-			<column name='OBJ_CODE_OFF' type='VARCHAR2(4)'>
+			<column name='OFFSET_FIN_OBJECT_CD' type='VARCHAR2(4)'>
 				<constraints nullable='true' />
 			</column>
-			<column name='ACCT_CODE_OFF' type='VARCHAR2(7)'>
+			<column name='OFFSET_ACCOUNT_NBR' type='VARCHAR2(7)'>
 				<constraints nullable='true' />
 			</column>
 		</addColumn>

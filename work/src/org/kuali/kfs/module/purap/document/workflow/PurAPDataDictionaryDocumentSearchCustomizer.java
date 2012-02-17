@@ -23,7 +23,8 @@ public class PurAPDataDictionaryDocumentSearchCustomizer extends DataDictionaryD
      * Constructs a PurAPDataDictionaryDocumentSearchCustomizer.
      */
     public PurAPDataDictionaryDocumentSearchCustomizer() {
-        setProcessResultSet(false);
-        setSearchResultProcessor(new PurAPDocumentSearchResultProcessor());
+        //RICE20 commented out until PurAP Processor fixed
+        //setProcessResultSet(false);
+        //setSearchResultProcessor(new PurAPDocumentSearchResultProcessor());
     }
 }

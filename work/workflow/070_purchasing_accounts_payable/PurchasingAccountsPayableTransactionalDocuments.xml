@@ -7,7 +7,8 @@
       <description>Financial System Searchable Attribute</description>
       <type>SearchableAttribute</type>
     </ruleAttribute>
-    <ruleAttribute>
+<!-- RICE20 commented out until search customizer fixed
+	<ruleAttribute>
       <name>FinancialSystemDocumentSearchResultProcessorAttribute</name>
       <className>org.kuali.kfs.module.purap.document.workflow.PurAPDataDictionaryDocumentSearchCustomizer</className>
       <label>PurAP Document Search Result Processor Attribute</label>
@@ -20,7 +21,7 @@
       <label>Financial System Document Search Generator Attribute</label>
       <description>Financial System Document Search Generator Attribute</description>
       <type>DocumentSearchGeneratorAttribute</type>
-    </ruleAttribute>
+    </ruleAttribute>-->
     <ruleAttribute>
       <name>NoFyiActionListAttribute</name>
       <className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>

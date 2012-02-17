@@ -233,7 +233,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         boolean statusContainsR = false;
         String notAcceptedAssetStatusString = "";
         String depreciationDateParameter = fiscalYearToDepreciate.toString()+getLastDayOfFiscalyear();
-        notAcceptedAssetStatus.addAll(parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES));
+        notAcceptedAssetStatus.addAll(parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES));
         LOG.info("notAcceptedAssetStatusString = " + notAcceptedAssetStatusString);
         if (notAcceptedAssetStatus.contains("R")) {
             LOG.info("looks like notAcceptedAssetStatusString contains R");
@@ -246,7 +246,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             if (notAcceptedAssetStatusString.endsWith(";")){
                 notAcceptedAssetStatusString = notAcceptedAssetStatusString.substring(0, (notAcceptedAssetStatusString.length()-1));
             }
-            parameterService.setParameterForTesting(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES, notAcceptedAssetStatusString);
+//RICE20            parameterService.setParameterForTesting(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES, notAcceptedAssetStatusString);
         }
 
         try{
@@ -261,7 +261,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 includeRetired=true;
             }
             depreciationDate.setTime(java.sql.Date.valueOf(fiscalYearToDepreciate.toString()+getLastDayOfFiscalyear()));
-            UniversityDate universityDate = universityDateDao.getByPrimaryKey(depreciationDate.getTime());
+//RICE20            UniversityDate universityDate = universityDateDao.getByPrimaryKey(depreciationDate.getTime());
+            UniversityDate universityDate = null;
             if (universityDate == null) {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
             }
@@ -317,8 +318,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         if (statusContainsR){
             notAcceptedAssetStatusString = notAcceptedAssetStatusString+";R";
             LOG.info("notAcceptedAssetStatusString after reset= " + notAcceptedAssetStatusString);
-            parameterService.setParameterForTesting(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES, notAcceptedAssetStatusString);
-            LOG.info(CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES+" now = "+ parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES));
+//RICE20            parameterService.setParameterForTesting(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES, notAcceptedAssetStatusString);
+            LOG.info(CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES+" now = "+ parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES));
         }
     }
 
@@ -877,10 +878,10 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         LOG.info("YEAR END DEPRECIATION - " + "Getting the parameters for the plant fund object sub types.");
         // Getting system parameters needed.
         if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES)) {
-            organizationPlantFundObjectSubType = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES);
+            organizationPlantFundObjectSubType = (List<String>) parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES);
         }
         if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES)) {
-            campusPlantFundObjectSubType = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES);
+            campusPlantFundObjectSubType = (List<String>) parameterService.getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES);
         }
         // Initializing the asset payment table.
         depreciationBatchDao.resetPeriodValuesWhenFirstFiscalPeriod(fiscalMonth);

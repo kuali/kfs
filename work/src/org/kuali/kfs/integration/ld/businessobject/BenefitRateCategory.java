@@ -98,7 +98,6 @@ public class BenefitRateCategory implements LaborBenefitRateCategory {
         
     }
 
-    @Override
     public void prepareForWorkflow() {
         // TODO Auto-generated method stub
         

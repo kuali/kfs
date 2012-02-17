@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -90,8 +91,8 @@ public class AssetYearEndDepreciation extends PersistableBusinessObjectBase impl
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<List> managedList = super.buildListOfDeletionAwareLists();
-        managedList.add(getAssetYearEndDepreciationDetails());
+        List<Collection<PersistableBusinessObject>> managedList = super.buildListOfDeletionAwareLists();
+        managedList.add(new ArrayList <PersistableBusinessObject> (getAssetYearEndDepreciationDetails()));
         return managedList;
     }
 

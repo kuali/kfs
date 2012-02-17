@@ -204,8 +204,9 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
         try {
             String activeNode = null;
-            String[] nodeNames = document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-            if (nodeNames.length == 1) {
+            String[] nodeNames = (String[]) document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toArray();
+
+             if (nodeNames.length == 1) {
                 activeNode = nodeNames[0];
             }
 

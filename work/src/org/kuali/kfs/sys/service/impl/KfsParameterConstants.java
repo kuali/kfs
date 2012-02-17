@@ -22,7 +22,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 
 
-public class KfsParameterConstants extends ParameterConstants {
+public class KfsParameterConstants  {
 
     public static final String NERVOUS_SYSTEM_NAMESPACE = KRADConstants.KRAD_NAMESPACE;
     public static final String ALL_COMPONENT = "All";

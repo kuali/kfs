@@ -32,7 +32,7 @@ public class CustomerInvoiceLookup extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
+
     protected LinkedHashMap<String,String> toStringMapper() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();      
         m.put("invoiceNumber", this.invoiceNumber);

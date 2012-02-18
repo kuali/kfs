@@ -2373,9 +2373,9 @@
     <field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="capitalAssetManufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="capitalAssetQuantity" column="CPTLAST_LINE_QTY" jdbc-type="INTEGER" />
-    <field-descriptor name="capitalAssetLineAmount" column="CPTLAST_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="capitalAssetLineAmount" column="CPTLAST_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="capitalAssetActionIndicator" column="CPTLAST_ACTION_IND" jdbc-type="VARCHAR" />
-    <field-descriptor name="capitalAssetProcessedIndicator" column="CPTLAST_PROCESSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="capitalAssetProcessedIndicator" column="CPTLAST_PROCESSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     <field-descriptor name="distributionAmountCode" column="CPTLAST_DST_AMT_CD" jdbc-type="VARCHAR" />
     
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -2441,7 +2441,7 @@
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="amount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="amount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
     
     <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
     	<foreignkey field-ref="documentNumber"/>

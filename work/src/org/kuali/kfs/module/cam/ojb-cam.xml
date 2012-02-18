@@ -452,7 +452,7 @@
 	<field-descriptor 			name="nextSourceLineNumber" 				column="NXT_AST_PMT_LN_NBR" 	jdbc-type="INTEGER"/>
 	<field-descriptor 			name="capitalAssetBuilderOriginIndicator" 	column="CB_ORIGIN_IND" 			jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	<field-descriptor 			name="assetPaymentAllocationTypeCode" 		column="AST_PMT_DST_CD" 		jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="allocationFromFPDocuments" column="AST_PMT_DIST_CD_FROM_FP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="allocationFromFPDocuments" column="AST_PMT_DIST_CD_FROM_FP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
@@ -982,7 +982,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="runDate" column="YEAR_END_DEPR_RUN_DATE" jdbc-type="DATE"/>
-    <field-descriptor name="active" column="YEAR_END_DEPR_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="YEAR_END_DEPR_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 
     <collection-descriptor name="assetYearEndDepreciationDetails" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
         <orderby name="capitalAssetNumber" sort="ASC"/>
@@ -1000,8 +1000,8 @@
     <field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="active" column="YEAR_END_DEPR_DTL_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="processed" column="YEAR_END_DEPR_DTL_PROC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="YEAR_END_DEPR_DTL_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="processed" column="YEAR_END_DEPR_DTL_PROC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 
     <reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="capitalAssetNumber"/>

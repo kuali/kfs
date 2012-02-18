@@ -369,8 +369,7 @@
 	    </property>
 	</bean>
 
-	<bean id="nonResidentAlienTaxPercentLookupableHelperService" scope="prototype" parent="nonResidentAlienTaxPercentLookupableHelperService-parentBean" />
-	<bean id="nonResidentAlienTaxPercentLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.fp.businessobject.lookup.KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+	<bean id="nonResidentAlienTaxPercentLookupableHelperService-parentBean" class="org.kuali.kfs.fp.businessobject.lookup.KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 
 	<bean id="nonResidentAlienTaxPercentLookupable"  parent="nonResidentAlienTaxPercentLookupable-parentBean" scope="prototype"/>
 	<bean id="nonResidentAlienTaxPercentLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
@@ -379,7 +378,7 @@
 		</property>
 	</bean>
 	
-	<bean id="cashDrawerLookupableHelperService"  parent="cashDrawerLookupableHelperService-parentBean"  scope="prototype"/>
+	<bean id="cashDrawerLookupableHelperService"  parent="cashDrawerLookupableHelperService-parentBean"/>
 	<bean id="cashDrawerLookupableHelperService-parentBean" class="org.kuali.kfs.fp.businessobject.lookup.CashDrawerLookupableHelperServiceImpl" abstract="true">
 		<property name="cashDrawerService" ref="cashDrawerService" />
 		<property name="cashReceiptService" ref="cashReceiptService" />
@@ -416,8 +415,7 @@
 		</property>
 	</bean>
  
- 	<bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean"/>
-	<bean id="disbursementPayeeLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+	<bean id="disbursementPayeeLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="vendorLookupable">
 			<ref bean="vendorLookupable" />
 		</property>	

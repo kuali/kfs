@@ -323,8 +323,7 @@
     </property>
   </bean>
   
-  <bean id="PaymentRequestDocument-holdIndicatorForSearching" parent="PaymentRequestDocument-holdIndicatorForSearching-parentBean"/>
-  <bean id="PaymentRequestDocument-holdIndicatorForSearching-parentBean" abstract="true" parent="PaymentRequestDocument-holdIndicator-parentBean">
+  <bean id="PaymentRequestDocument-holdIndicatorForSearching" parent="PaymentRequestDocument-holdIndicator-parentBean">
   	<property name="name" value="holdIndicatorForSearching"/>
   	<property name="label" value="Hold"/>
    	<property name="control">
@@ -340,8 +339,7 @@
     <property name="shortLabel" value="Extract Date"/>
   </bean>
 
-  <bean id="PaymentRequestDocument-extractedIndicatorForSearching" parent="PaymentRequestDocument-extractedIndicatorForSearching-parentBean"/>
-  <bean id="PaymentRequestDocument-extractedIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="PaymentRequestDocument-extractedIndicatorForSearching" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="extractedIndicatorForSearching"/>
   	<property name="label" value="Extracted"/>
   	<property name="control">
@@ -697,8 +695,7 @@
     </property>
   </bean>
   
-  <bean id="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching" parent="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching-parentBean"/>
-  <bean id="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="paymentRequestedCancelIndicatorForSearching"/>
   	<property name="label" value="Request Cancel"/>
   	<property name="maxLength" value="1"/>
@@ -1228,7 +1225,7 @@
     			</bean>
     			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">       		
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="statusDescription"/>
     						<property name="showAttributeInSearchCriteria" value="false"/>
@@ -1479,7 +1476,7 @@
 
     			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="receivingDocumentRequiredIndicatorForSearching"/>
     					</bean>

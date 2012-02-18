@@ -411,7 +411,6 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="receivingDao" ref="receivingDao" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
-        <property name="parameterService" ref="parameterService" />        
 	</bean>
 	<bean id="bulkReceivingService" parent="bulkReceivingService-parentBean"/>
 	

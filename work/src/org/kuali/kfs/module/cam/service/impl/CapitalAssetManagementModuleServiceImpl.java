@@ -60,7 +60,8 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#deleteAssetLocks(java.lang.String, java.lang.String)
      */
     public void deleteAssetLocks(String documentNumber, String lockingInformation) {
-        getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
+        //getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
+        getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation);
     }
 
     protected AssetLockService getAssetLockService() {
@@ -72,7 +73,8 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      *      java.lang.String)
      */
     public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
-        return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
+        //return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
+        return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, lockingInformation);
     }
 
     /**

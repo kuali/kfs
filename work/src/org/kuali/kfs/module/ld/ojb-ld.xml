@@ -88,6 +88,12 @@
 		<field-descriptor name="laborBenefitRateCategoryCode"
 			column="LBR_BEN_RT_CAT_CD" primarykey="true" jdbc-type="VARCHAR"
 			index="true" />
+		<field-descriptor name="laborBenefitRateCategoryCode"
+			column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR"  />
+		<field-descriptor name="accountCodeOffset" column="OFFSET_ACCOUNT_NBR"
+			jdbc-type="VARCHAR" />
+		<field-descriptor name="objectCodeOffset" column="OFFSET_FIN_OBJECT_CD"
+			jdbc-type="VARCHAR" />
 
 		<reference-descriptor name="positionFringeBenefitObject"
 			class-ref="org.kuali.kfs.coa.businessobject.ObjectCode"
@@ -128,52 +134,20 @@
 			<foreignkey field-ref="universityFiscalYear" />
 		</reference-descriptor>
 
-		<reference-descriptor name="extension"
-			class-ref="org.kuali.kfs.module.ld.businessobject.BenefitsCalculationExtension"
-			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
-			<foreignkey field-ref="universityFiscalYear" />
-			<foreignkey field-ref="chartOfAccountsCode" />
-			<foreignkey field-ref="positionBenefitTypeCode" />
-			<foreignkey field-ref="laborBenefitRateCategoryCode" />
-		</reference-descriptor>
-
 	</class-descriptor>
 	
-	<class-descriptor
-		class="org.kuali.kfs.module.ld.businessobject.BenefitsCalculationExtension"
-		table="LD_BENEFITS_CALC_EXT_T">
-		<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR"
-			jdbc-type="INTEGER" primarykey="true" index="true" />
-		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD"
-			jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="positionBenefitTypeCode"
-			column="POS_BENEFIT_TYP_CD" jdbc-type="VARCHAR" primarykey="true"
-			index="true" />
-		<field-descriptor name="laborBenefitRateCategoryCode"
-			column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR" primarykey="true"
-			index="true" />
-		<field-descriptor name="accountCodeOffset" column="ACCT_CODE_OFF"
-			jdbc-type="VARCHAR" />
-		<field-descriptor name="objectCodeOffset" column="OBJ_CODE_OFF"
-			jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID"
-			jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" locking="true"
-			column="VER_NBR" jdbc-type="BIGINT" />
-	</class-descriptor>
-
 	<class-descriptor
 		class="org.kuali.kfs.module.ld.businessobject.LaborBenefitRateCategory"
 		table="LD_LBR_BFT_RT_CAT_T">
 		<field-descriptor name="laborBenefitRateCategoryCode"
-			primarykey="true" column="code" jdbc-type="VARCHAR" />
+			primarykey="true" column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID"
 			jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR"
 			jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="activeIndicator" column="act_ind"
+		<field-descriptor name="activeIndicator" column="actv_ind"
 			jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="codeDesc" column="code_desc"
+		<field-descriptor name="codeDesc" column=" LBR_BEN_RT_CAT_NM"
 			jdbc-type="VARCHAR" />
 	</class-descriptor>
 

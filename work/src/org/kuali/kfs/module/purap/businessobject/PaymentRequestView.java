@@ -165,13 +165,4 @@ public class PaymentRequestView extends AbstractRelatedView {
     public String getDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST;
     }
-
-    public String getAppDocStatus(){
-        return documentHeader.getWorkflowDocument().getApplicationDocumentStatus();
-    }
-    
-    public void setAppDocStatus(String appDocStatus){
-        documentHeader.getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);        
-    }
-        
 }

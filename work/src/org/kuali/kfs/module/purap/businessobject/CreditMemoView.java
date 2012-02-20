@@ -18,6 +18,8 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -158,13 +160,4 @@ public class CreditMemoView extends AbstractRelatedView {
     public String getDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO;
     }
-    
-	public String getAppDocStatus(){
-        return documentHeader.getWorkflowDocument().getApplicationDocumentStatus();
-    }
-    
-    public void setAppDocStatus(String appDocStatus){
-        documentHeader.getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);        
-    }
-    
 }

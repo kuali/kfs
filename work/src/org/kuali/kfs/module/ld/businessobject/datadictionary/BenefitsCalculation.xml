@@ -47,35 +47,6 @@
 					p:blockedReferencePropertyName="positionFringeBenefitObject" />
 			</list>
 		</property>
-
-		<property name="relationships">
-			<list merge="true">
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="laborAccountOffset" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="extension.accountCodeOffset"
-								p:targetName="accountNumber" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="chartOfAccountsCode"
-								p:targetName="chartOfAccountsCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="laborObjectCodeOffset" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="extension.objectCodeOffset"
-								p:targetName="financialObjectCode" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="chartOfAccountsCode"
-								p:targetName="chartOfAccountsCode" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="universityFiscalYear"
-								p:targetName="universityFiscalYear" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -123,8 +94,7 @@
 		abstract="true" parent="LaborBenefitRateCategory-code">
 		<property name="name" value="laborBenefitRateCategoryCode" />
 	</bean>
-
-
+ 
 	<bean id="BenefitsCalculation-positionBenefitTypeCode" parent="BenefitsCalculation-positionBenefitTypeCode-parentBean" />
 
 	<bean id="BenefitsCalculation-positionBenefitTypeCode-parentBean"
@@ -154,6 +124,32 @@
 		<property name="name" value="active" />
 	</bean>
 
+  <bean id="BenefitsCalculation-accountCodeOffset" parent="BenefitsCalculation-accountCodeOffset-parentBean"/>
+
+  <bean id="BenefitsCalculation-accountCodeOffset-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountCodeOffset"/>
+    <property name="label" value="Labor Account Code Offset"/>
+    <property name="shortLabel" value="Labor Account Code Offset"/>
+    <property name="maxLength" value="7"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
+    </property>
+  </bean>
+
+  <bean id="BenefitsCalculation-objectCodeOffset" parent="BenefitsCalculation-objectCodeOffset-parentBean"/>
+
+  <bean id="BenefitsCalculation-objectCodeOffset-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectCodeOffset"/>
+    <property name="label" value="Labor Object Code Offset"/>
+    <property name="shortLabel" value="Labor Object Code Offset"/>
+    <property name="maxLength" value="4"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+  </bean>
+  
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -181,24 +177,13 @@
 				<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
 				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent" />
-				<bean parent="FieldDefinition" p:attributeName="extension.accountCodeOffset" />
-				<bean parent="FieldDefinition" p:attributeName="extension.objectCodeOffset" />
+				<bean parent="FieldDefinition" p:attributeName="accountCodeOffset" />
+				<bean parent="FieldDefinition" p:attributeName="objectCodeOffset" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="BenefitsCalculation-accountCodeOffset" parent="BenefitsCalculation-accountCodeOffset-parentBean"/>
-	<bean id="BenefitsCalculation-accountCodeOffset-parentBean" abstract="true"
-		parent="BenefitsCalculationExtension-accountCodeOffset-parentBean">
-		<property name="name" value="extension.accountCodeOffset" />
-	</bean>
-
-	<bean id="BenefitsCalculation-objectCodeOffset" parent="BenefitsCalculation-objectCodeOffset-parentBean"/>
-	<bean id="BenefitsCalculation-objectCodeOffset-parentBean" abstract="true"
-		parent="BenefitsCalculationExtension-objectCodeOffset-parentBean">
-		<property name="name" value="extension.objectCodeOffset" />
-	</bean>
 
 	<!-- Business Object Lookup Definition -->
 
@@ -221,8 +206,8 @@
 				<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
 				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent" />
-				<bean parent="FieldDefinition" p:attributeName="extension.accountCodeOffset" />
-				<bean parent="FieldDefinition" p:attributeName="extension.objectCodeOffset" />
+				<bean parent="FieldDefinition" p:attributeName="accountCodeOffset" />
+				<bean parent="FieldDefinition" p:attributeName="objectCodeOffset" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -234,8 +219,8 @@
 				<bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
 				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="extension.accountCodeOffset" />
-				<bean parent="FieldDefinition" p:attributeName="extension.objectCodeOffset" />
+				<bean parent="FieldDefinition" p:attributeName="accountCodeOffset" />
+				<bean parent="FieldDefinition" p:attributeName="objectCodeOffset" />
 				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

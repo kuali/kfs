@@ -19,15 +19,18 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -66,10 +69,16 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -77,7 +86,6 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -155,7 +163,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         this.workflowDocumentService = workflowDocumentService;
     }
     
-
     
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
@@ -163,13 +170,19 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public Iterator<VendorCreditMemoDocument> getCreditMemosToExtract(String chartCode) {
         LOG.debug("getCreditMemosToExtract() started");
 
-        return creditMemoDao.getCreditMemosToExtract(chartCode);
+        Iterator<VendorCreditMemoDocument> docs = creditMemoDao.getCreditMemosToExtract(chartCode);
+        docs = filterCreditMemoByAppDocStatus(docs, CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
+        return docs;
+        
     }
 
     public Collection<VendorCreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor ) {
         LOG.debug("getCreditMemosToExtractByVendor() started");
 
-        return creditMemoDao.getCreditMemosToExtractByVendor(chartCode,vendor);
+        Collection<VendorCreditMemoDocument> docs = creditMemoDao.getCreditMemosToExtractByVendor(chartCode,vendor);
+        docs = filterCreditMemoByAppDocStatus(docs, CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
+        return docs;
+ 
     }
 
     public Set<VendorGroupingHelper> getVendorsOnCreditMemosToExtract(String chartCode) {
@@ -182,6 +195,92 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             vendors.add( new VendorGroupingHelper( doc ) );
         }
         return vendors;
+    }
+    
+    /**
+     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
+     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus 
+     *  from workflow document and filter against the provided status
+     *  
+     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
+     * 
+     * @param lookupDocNumbers
+     * @param appDocStatus
+     * @return
+     */
+    private List<String> filterCreditMemoByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
+        boolean valid = false;
+
+        final String DOC_NUM_DELIM = "|"; 
+        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
+
+        List<String> creditMemoDocNumbers = new ArrayList<String>();
+        
+        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
+        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT);
+        
+        DocumentSearchResults creditMemoDocumentsList = KEWServiceLocator.getDocumentSearchService().lookupDocuments(
+                GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
+        
+        for (DocumentSearchResult creditMemoDocument : creditMemoDocumentsList.getSearchResults()) {                                
+            ///use the appDocStatus from the KeyValueDTO result to look up custom status
+            if (Arrays.asList(appDocStatus).contains(creditMemoDocument.getDocument().getApplicationDocumentStatus())){
+                //found the matching status, retrieve the routeHeaderId and add to the list
+                creditMemoDocNumbers.add(creditMemoDocument.getDocument().getDocumentId());
+            }
+        }
+        
+        return creditMemoDocNumbers;
+    }
+    
+    /**
+     * Wrapper class to the filterPaymentRequestByAppDocStatus
+     * 
+     * This class first extract the payment request document numbers from the Payment Request Collections,
+     * then perform the filterPaymentRequestByAppDocStatus function.  Base on the filtered payment request
+     * doc number, reconstruct the filtered Payment Request Collection
+     * 
+     * @param paymentRequestDocuments
+     * @param appDocStatus
+     * @return
+     */
+    private Collection<VendorCreditMemoDocument> filterCreditMemoByAppDocStatus(Collection<VendorCreditMemoDocument> creditMemoDocuments, String... appDocStatus) {
+        List<String> creditMemoDocNumbers = new ArrayList<String>();
+        for (VendorCreditMemoDocument creditMemo : creditMemoDocuments){
+            creditMemoDocNumbers.add(creditMemo.getDocumentNumber());
+        }
+        
+        List<String> filteredCreditMemoDocNumbers = filterCreditMemoByAppDocStatus(creditMemoDocNumbers, appDocStatus);
+
+        Collection<VendorCreditMemoDocument> filteredCreditMemoDocuments = new ArrayList<VendorCreditMemoDocument>(); 
+        //add to filtered collection if it is in the filtered payment request doc number list
+        for (VendorCreditMemoDocument creditMemo : creditMemoDocuments){
+            if (filteredCreditMemoDocNumbers.contains(creditMemo.getDocumentNumber())){
+                filteredCreditMemoDocuments.add(creditMemo);
+            }
+        }
+        return filteredCreditMemoDocuments;
+    }
+    
+
+    /**
+     * Wrapper class to the filterPaymentRequestByAppDocStatus (Collection<PaymentRequestDocument>)
+     * 
+     * This class first construct the Payment Request Collection from the iterator, and then process through
+     * filterPaymentRequestByAppDocStatus
+     * 
+     * @param paymentRequestDocuments
+     * @param appDocStatus
+     * @return
+     */
+    private Iterator<VendorCreditMemoDocument> filterCreditMemoByAppDocStatus(Iterator<VendorCreditMemoDocument> creditMemoIterator, String... appDocStatus) {
+        Collection<VendorCreditMemoDocument> creditMemoDocuments = new ArrayList<VendorCreditMemoDocument>(); 
+        for (;creditMemoIterator.hasNext();){
+            creditMemoDocuments.add(creditMemoIterator.next());
+        }
+
+        return filterCreditMemoByAppDocStatus(creditMemoDocuments, appDocStatus).iterator();
     }
 
     /**
@@ -623,7 +722,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         WorkflowDocument workflowDocument = null;
         
         docNumbers= creditMemoDao.getActiveCreditMemoDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
-        
+        docNumbers = filterCreditMemoByAppDocStatus(docNumbers, CreditMemoStatuses.STATUSES_POTENTIALLY_ACTIVE);
+       
         for (String docNumber : docNumbers) {
             try{
                 workflowDocument = workflowDocumentService.loadWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());

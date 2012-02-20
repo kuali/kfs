@@ -31,6 +31,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
@@ -73,6 +74,7 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -85,7 +87,11 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -191,13 +197,19 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
+     * NOTE: unused
+     * 
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsToExtractByCM(java.lang.String, org.kuali.kfs.module.purap.document.VendorCreditMemoDocument)
      */
-    @Override
+    @Deprecated
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, VendorCreditMemoDocument cmd) {
         LOG.debug("getPaymentRequestsByCM() started");
         Date currentSqlDateMidnight = dateTimeService.getCurrentSqlDateMidnight();
-        return paymentRequestDao.getPaymentRequestsToExtract(campusCode, null, null, cmd.getVendorHeaderGeneratedIdentifier(), cmd.getVendorDetailAssignedIdentifier(), currentSqlDateMidnight);
+        Iterator<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getPaymentRequestsToExtract(campusCode, null, null, cmd.getVendorHeaderGeneratedIdentifier(), cmd.getVendorDetailAssignedIdentifier(), currentSqlDateMidnight);
+
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator, 
+                PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED, 
+                PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
     }
 
 
@@ -205,53 +217,59 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsToExtractByVendor(java.lang.String,
      *      org.kuali.kfs.module.purap.util.VendorGroupingHelper, java.sql.Date)
      */
-    @Override
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsByVendor() started");
+        Collection<PaymentRequestDocument> paymentRequestDocuments = paymentRequestDao.getPaymentRequestsToExtractForVendor(campusCode, vendor, onOrBeforePaymentRequestPayDate); 
 
-        return paymentRequestDao.getPaymentRequestsToExtractForVendor(campusCode, vendor, onOrBeforePaymentRequestPayDate);
+        return filterPaymentRequestByAppDocStatus(paymentRequestDocuments, 
+                PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED, 
+                PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
     }
 
     /**
      * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtract(Date)
      */
-    @Override
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(false, null, onOrBeforePaymentRequestPayDate);
+        Iterator<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getPaymentRequestsToExtract(false, null, onOrBeforePaymentRequestPayDate); 
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
+                PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsToExtractSpecialPayments(java.lang.String,
      *      java.sql.Date)
      */
-    @Override
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtractSpecialPayments() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(true, chartCode, onOrBeforePaymentRequestPayDate);
+        Iterator<PaymentRequestDocument> paymentRequestIterator =  paymentRequestDao.getPaymentRequestsToExtract(true, chartCode, onOrBeforePaymentRequestPayDate);
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
+                PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getImmediatePaymentRequestsToExtract(java.lang.String)
      */
-    @Override
     public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 
-        return paymentRequestDao.getImmediatePaymentRequestsToExtract(chartCode);
+        Iterator<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getImmediatePaymentRequestsToExtract(chartCode);
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
+                PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestToExtractByChart(java.lang.String,
      *      java.sql.Date)
      */
-    @Override
     public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestToExtractByChart() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(false, chartCode, onOrBeforePaymentRequestPayDate);
+        Iterator<PaymentRequestDocument> paymentRequestIterator =  paymentRequestDao.getPaymentRequestsToExtract(false, chartCode, onOrBeforePaymentRequestPayDate);
+        return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
+                PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
 
     /**
@@ -262,8 +280,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         boolean hadErrorAtLeastOneError = true;
         // should objects from existing user session be copied over
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
-        //List<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
+
         List<String> docNumbers = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
+        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE);
+        
         List<PaymentRequestDocument> docs = new ArrayList<PaymentRequestDocument>();
         for (String docNumber : docNumbers) {
             PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
@@ -289,7 +309,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#autoApprovePaymentRequest(java.lang.String,
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
-    @Override
     public boolean autoApprovePaymentRequest(String docNumber, KualiDecimal defaultMinimumLimit) {
         PaymentRequestDocument paymentRequestDocument = null;
         try {
@@ -330,7 +349,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#autoApprovePaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
-    @Override
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit) {
         if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
             try {
@@ -465,7 +483,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param invoiceNumber The invoice number as entered by AP.
      * @return List of payment request document.
      */
-    @Override
     public List getPaymentRequestsByVendorNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId) {
         LOG.debug("getActivePaymentRequestsByVendorNumber() started");
         return paymentRequestDao.getActivePaymentRequestsByVendorNumber(vendorHeaderGeneratedId, vendorDetailAssignedId);
@@ -479,7 +496,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param invoiceNumber The invoice number as entered by AP.
      * @return List of payment request document.
      */
-    @Override
     public List getPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
         return paymentRequestDao.getActivePaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, invoiceNumber);
@@ -488,7 +504,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#paymentRequestDuplicateMessages(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    @Override
     public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document) {
         HashMap<String, String> msgs;
         msgs = new HashMap<String, String>();
@@ -592,7 +607,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestByDocumentNumber(java.lang.String)
      */
-    @Override
     public PaymentRequestDocument getPaymentRequestByDocumentNumber(String documentNumber) {
         LOG.debug("getPaymentRequestByDocumentNumber() started");
 
@@ -613,7 +627,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestById(java.lang.Integer)
      */
-    @Override
     public PaymentRequestDocument getPaymentRequestById(Integer poDocId) {
         return getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(poDocId));
     }
@@ -621,7 +634,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPurchaseOrderId(java.lang.Integer)
      */
-    @Override
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
         List<PaymentRequestDocument> preqs = new ArrayList<PaymentRequestDocument>();
         List<String> docNumbers = paymentRequestDao.getDocumentNumbersByPurchaseOrderId(poDocId);
@@ -638,8 +650,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
      *      org.kuali.rice.core.api.util.type.KualiDecimal, java.sql.Date)
      */
-    @Override
-    public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate) {
+    public List<PaymentRequestDocument> getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate) {
         LOG.debug("getPaymentRequestsByPOIdInvoiceAmountInvoiceDate() started");
         return paymentRequestDao.getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(poId, invoiceAmount, invoiceDate);
     }
@@ -647,7 +658,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#isInvoiceDateAfterToday(java.sql.Date)
      */
-    @Override
     public boolean isInvoiceDateAfterToday(Date invoiceDate) {
         // Check invoice date to make sure it is today or before
         Calendar now = Calendar.getInstance();
@@ -671,7 +681,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#calculatePayDate(java.sql.Date,
      *      org.kuali.kfs.vnd.businessobject.PaymentTermType)
      */
-    @Override
     public java.sql.Date calculatePayDate(Date invoiceDate, PaymentTermType terms) {
         LOG.debug("calculatePayDate() started");
         // calculate the invoice + processed calendar
@@ -749,7 +758,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#calculatePaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
      *      boolean)
      */
-    @Override
     public void calculatePaymentRequest(PaymentRequestDocument paymentRequest, boolean updateDiscount) {
         LOG.debug("calculatePaymentRequest() started");
 
@@ -864,7 +872,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#calculateTaxArea(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    @Override
     public void calculateTaxArea(PaymentRequestDocument preq) {
         LOG.debug("calculateTaxArea() started");
 
@@ -1193,7 +1200,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
      *      java.lang.String)
      */
-    @Override
     public PaymentRequestDocument addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
@@ -1216,7 +1222,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    @Override
     public PaymentRequestDocument removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
@@ -1240,7 +1245,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
      *      java.lang.String)
      */
-    @Override
     public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
@@ -1263,7 +1267,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    @Override
     public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
@@ -1290,16 +1293,18 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#isExtracted(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    @Override
     public boolean isExtracted(PaymentRequestDocument document) {
         return (ObjectUtils.isNull(document.getExtractedTimestamp()) ? false : true);
+    }
+
+    protected boolean isBeingAdHocRouted(PaymentRequestDocument document) {
+        return SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(document.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());        
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#cancelExtractedPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
      *      java.lang.String)
      */
-    @Override
     public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note) {
         LOG.debug("cancelExtractedPaymentRequest() started");
         if (PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequest.getAppDocStatus())) {
@@ -1332,7 +1337,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#resetExtractedPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
      *      java.lang.String)
      */
-    @Override
     public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note) {
         LOG.debug("resetExtractedPaymentRequest() started");
         if (PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequest.getAppDocStatus())) {
@@ -1359,7 +1363,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#populatePaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    @Override
     public void populatePaymentRequest(PaymentRequestDocument paymentRequestDocument) {
 
         PurchaseOrderDocument purchaseOrderDocument = paymentRequestDocument.getPurchaseOrderDocument();
@@ -1397,7 +1400,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#createPreqDocumentDescription(java.lang.Integer,
      *      java.lang.String)
      */
-    @Override
     public String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName) {
         StringBuffer descr = new StringBuffer("");
         descr.append("PO: ");
@@ -1417,7 +1419,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#populateAndSavePaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    @Override
     public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException {
         try {
             preq.setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
@@ -1446,7 +1447,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#shouldPurchaseOrderBeReversed
      *      (org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    @Override
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc) {
         PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
         if (ObjectUtils.isNull(po)) {
@@ -1462,7 +1462,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#getPersonForCancel(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    @Override
     public Person getPersonForCancel(AccountsPayableDocument apDoc) {
         PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
         Person user = null;
@@ -1475,7 +1474,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#takePurchaseOrderCancelAction(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    @Override
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc) {
         PaymentRequestDocument preqDocument = (PaymentRequestDocument) apDoc;
         if (preqDocument.isReopenPurchaseOrderIndicator()) {
@@ -1488,7 +1486,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#updateStatusByNode(java.lang.String,
      *      org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    @Override
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc) {
         return updateStatusByNode(currentNodeName, (PaymentRequestDocument) apDoc);
     }
@@ -1518,7 +1515,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         if (StringUtils.isNotBlank(cancelledStatus)) {            
             preqDoc.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(cancelledStatus);
             purapService.saveDocumentNoValidation(preqDoc);
-            return cancelledStatus;
         }
         else {
             logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + currentNodeName + "'");
@@ -1530,7 +1526,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#markPaid(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
      *      java.sql.Date)
      */
-    @Override
     public void markPaid(PaymentRequestDocument pr, Date processDate) {
         LOG.debug("markPaid() started");
 
@@ -1541,7 +1536,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#hasDiscountItem(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    @Override
     public boolean hasDiscountItem(PaymentRequestDocument preq) {
         return ObjectUtils.isNotNull(findDiscountItem(preq));
     }
@@ -1550,7 +1544,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#poItemEligibleForAp(org.kuali.kfs.module.purap.document.AccountsPayableDocument,
      *      org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem)
      */
-    @Override
     public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poi) {
         if (ObjectUtils.isNull(poi)) {
             throw new RuntimeException("item null in purchaseOrderItemEligibleForPayment ... this should never happen");
@@ -1582,7 +1575,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
     }
 
-    @Override
     public void removeIneligibleAdditionalCharges(PaymentRequestDocument document) {
 
         List<PaymentRequestItem> itemsToRemove = new ArrayList<PaymentRequestItem>();
@@ -1616,7 +1608,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
     }
 
-    @Override
     public void changeVendor(PaymentRequestDocument preq, Integer headerId, Integer detailId) {
 
         VendorDetail primaryVendor = vendorService.getVendorDetail(preq.getOriginalVendorHeaderGeneratedIdentifier(), preq.getOriginalVendorDetailAssignedIdentifier());
@@ -1719,7 +1710,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#generateGLEntriesCreateAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    @Override
     public void generateGLEntriesCreateAccountsPayableDocument(AccountsPayableDocument apDocument) {
         PaymentRequestDocument paymentRequest = (PaymentRequestDocument) apDocument;
         SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest(paymentRequest);
@@ -1728,15 +1718,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#hasActivePaymentRequestsForPurchaseOrder(java.lang.Integer)
      */
-    @Override
     public boolean hasActivePaymentRequestsForPurchaseOrder(Integer purchaseOrderIdentifier) {
 
         boolean hasActivePreqs = false;
         List<String> docNumbers = null;
         WorkflowDocument workflowDocument = null;
-
+        
         docNumbers = paymentRequestDao.getActivePaymentRequestDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
-
+        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE);
+        
         for (String docNumber : docNumbers) {
             try {
                 workflowDocument = workflowDocumentService.loadWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
@@ -1744,42 +1734,109 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             catch (WorkflowException we) {
                 throw new RuntimeException(we);
             }
-            //if app document status is in the list of potentially active statuses then...
-            if (documentStatusInPotentiallyActive(workflowDocument)) {
-                // if the document is not in a non-active status then return true and stop evaluation
-                if (!(workflowDocument.isCanceled() || workflowDocument.isException())) {
-                    hasActivePreqs = true;
-                    break;
-                }
+            // if the document is not in a non-active status then return true and stop evaluation
+            if (!(workflowDocument.isCanceled() || workflowDocument.isException())) {
+                hasActivePreqs = true;
+                break;
             }
         }
-
         return hasActivePreqs;
     }
 
     /**
-     * checks the appDocStatus on the workflow document with the potentially active
-     * statuses.
+     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
+     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus 
+     *  from workflow document and filter against the provided status
+     *  
+     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
      * 
-     * @param workflowDocument
-     * @return true if appDocStatus is in STATUSES_POTENTIALLY_ACTIVE else false
+     * @param lookupDocNumbers
+     * @param appDocStatus
+     * @return
      */
-    protected boolean documentStatusInPotentiallyActive(WorkflowDocument workflowDocument) {
+    private List<String> filterPaymentRequestByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
         boolean valid = false;
+
+        final String DOC_NUM_DELIM = "|"; 
+        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
+
+        List<String> paymentRequestDocNumbers = new ArrayList<String>();
         
-        String[] preqActiveStatuses = PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE;
+        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
+        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
         
-        for (int i = 0; i < preqActiveStatuses.length; i++) {
-            if (preqActiveStatuses[i].equalsIgnoreCase(workflowDocument.getApplicationDocumentStatus())) {
-                return true;
+        DocumentSearchResults reqDocumentsList = KEWServiceLocator.getDocumentSearchService().lookupDocuments(
+                GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());            
+        
+        for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {                
+            ///use the appDocStatus from the KeyValueDTO result to look up custom status
+            if (Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
+                //found the matching status, retrieve the routeHeaderId and add to the list
+                paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
             }
+            
         }
         
-        return valid;
+        return paymentRequestDocNumbers;
     }
     
+    /**
+     * Wrapper class to the filterPaymentRequestByAppDocStatus
+     * 
+     * This class first extract the payment request document numbers from the Payment Request Collections,
+     * then perform the filterPaymentRequestByAppDocStatus function.  Base on the filtered payment request
+     * doc number, reconstruct the filtered Payment Request Collection
+     * 
+     * @param paymentRequestDocuments
+     * @param appDocStatus
+     * @return
+     */
+    private Collection<PaymentRequestDocument> filterPaymentRequestByAppDocStatus(Collection<PaymentRequestDocument> paymentRequestDocuments, String... appDocStatus) {
+        List<String> paymentRequestDocNumbers = new ArrayList<String>();
+        for (PaymentRequestDocument paymentRequest : paymentRequestDocuments){
+            paymentRequestDocNumbers.add(paymentRequest.getDocumentNumber());
+        }
+        
+        List<String> filteredPaymentRequestDocNumbers = filterPaymentRequestByAppDocStatus(paymentRequestDocNumbers, appDocStatus);
+
+        Collection<PaymentRequestDocument> filteredPaymentRequestDocuments = new ArrayList<PaymentRequestDocument>(); 
+        //add to filtered collection if it is in the filtered payment request doc number list
+        for (PaymentRequestDocument paymentRequest : paymentRequestDocuments){
+            if (filteredPaymentRequestDocNumbers.contains(paymentRequest.getDocumentNumber())){
+                filteredPaymentRequestDocuments.add(paymentRequest);
+            }
+        }
+        return filteredPaymentRequestDocuments;
+    }
+    
+
+    /**
+     * Wrapper class to the filterPaymentRequestByAppDocStatus (Collection<PaymentRequestDocument>)
+     * 
+     * This class first construct the Payment Request Collection from the iterator, and then process through
+     * filterPaymentRequestByAppDocStatus
+     * 
+     * @param paymentRequestDocuments
+     * @param appDocStatus
+     * @return
+     */
+    private Iterator<PaymentRequestDocument> filterPaymentRequestByAppDocStatus(Iterator<PaymentRequestDocument> paymentRequestIterator, String... appDocStatus) {
+        Collection<PaymentRequestDocument> paymentRequestDocuments = new ArrayList<PaymentRequestDocument>(); 
+        for (;paymentRequestIterator.hasNext();){
+            paymentRequestDocuments.add(paymentRequestIterator.next());
+        }
+
+        return filterPaymentRequestByAppDocStatus(paymentRequestDocuments, appDocStatus).iterator();
+    }
+   
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#processPaymentRequestInReceivingStatus()
+     */
     public void processPaymentRequestInReceivingStatus() {
         List<String> docNumbers = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
+        
         List<PaymentRequestDocument> preqsAwaitingReceiving = new ArrayList<PaymentRequestDocument>();
         for (String docNumber : docNumbers) {
             PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
@@ -1805,7 +1862,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#allowBackpost(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    @Override
     public boolean allowBackpost(PaymentRequestDocument paymentRequestDocument) {
         int allowBackpost = (Integer.parseInt(parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapRuleConstants.ALLOW_BACKPOST_DAYS)));
 
@@ -1834,7 +1890,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return false;
     }
 
-    @Override
     public boolean isPurchaseOrderValidForPaymentRequestDocumentCreation(PaymentRequestDocument paymentRequestDocument, PurchaseOrderDocument po) {
         Integer POID = paymentRequestDocument.getPurchaseOrderIdentifier();
         boolean valid = true;
@@ -1861,7 +1916,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return valid;
     }
 
-    @Override
     public boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
         boolean zeroDollar = true;
         GlobalVariables.getMessageMap().clearErrorPath();

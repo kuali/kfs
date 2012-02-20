@@ -5,7 +5,7 @@
     <insert tableName='LD_LBR_BFT_RT_CAT_T'>
       <column name='CODE' value='--' />
       <column name='CODE_DESC' value='Not Applicable' />
-      <column name='ACT_IND' value='Y' />
+      <column name='ACTV_IND' value='Y' />
       <column name='VER_NBR' value='1' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
     </insert>

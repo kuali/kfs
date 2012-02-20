@@ -63,7 +63,6 @@ import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
-import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
@@ -629,7 +628,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 // DOCUMENT PROCESSED
                 if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
                     SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrder(this);
-                    SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+                    SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());
                 }
                 // DOCUMENT DISAPPROVED
                 else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
@@ -637,7 +636,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                     String disapprovalStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
                     
                     if (ObjectUtils.isNotNull(disapprovalStatus)) {                        
-                        updateAndSaveAppDocStatus(disapprovalStatus);                            
+                        getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(disapprovalStatus);
+                        SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());
                         RequisitionDocument req = getPurApSourceDocumentIfPossible();
                         appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                         return;
@@ -646,7 +646,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 }
                 // DOCUMENT CANCELED
                 else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
-                     updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);                                                 
+                    getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);
+                    SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());
                 }
             }
             catch (WorkflowException e) {
@@ -655,16 +656,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
     }
     
-    /**
-     * Updates status of this document and saves it.
-     * 
-     * @param appDocStatus is the current status of the document.
-     */
-   protected void updateAndSaveAppDocStatus(String appDocStatus) {
-       setAppDocStatus(appDocStatus);
-       SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-    }
-
     /**
      * Returns the name of the current route node.
      *
@@ -1696,4 +1687,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.glOnlySourceAccountingLines = glOnlySourceAccountingLines;
     }
 
+    public String getAppDocStatus(){
+        
+        return this.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
+    }
+
+    public void setAppDocStatus(String appDocStatus){
+            
+        this.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);
+    }
+    
 }

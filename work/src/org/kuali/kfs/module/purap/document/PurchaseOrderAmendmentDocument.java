@@ -63,8 +63,8 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
             // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
 
-            // update indicators
-            SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrderAmendment(this);
+                // update indicators
+                SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrderAmendment(this);
 
             // update vendor commodity code by automatically spawning vendor maintenance document
             SpringContext.getBean(PurchaseOrderService.class).updateVendorCommodityCode(this);
@@ -91,7 +91,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
-            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+
             // for app doc status
             getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);
             

@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -114,8 +115,13 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
-        setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
-        this.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+        try {
+            updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
+        }
+ 
         Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
         setAccountsPayableProcessorIdentifier(currentUser.getPrincipalId());
         setProcessingCampusCode(currentUser.getCampusCode());
@@ -200,8 +206,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
-                setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE);
-                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+		updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE);
 
                 return;
             }
@@ -213,12 +218,13 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
                                 
                 if (((StringUtils.isBlank(disapprovalStatus)) && ((CreditMemoStatuses.APPDOC_INITIATE.equals(getAppDocStatus())) || (CreditMemoStatuses.APPDOC_IN_PROCESS.equals(getAppDocStatus()))))) {
                     disapprovalStatus = CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS;
+                    updateAndSaveAppDocStatus(disapprovalStatus);                    
                 }
                 if (StringUtils.isNotBlank(disapprovalStatus)) {
                     SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
-                    return;
-                }else                
+                }else{                
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                }
             }
             // DOCUMENT CANCELED
             else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
@@ -272,12 +278,6 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
             String poNumber = getPurchaseOrderIdentifier().toString();
             popreq = new StringBuffer("PO: ").append(poNumber).toString();
         }
-        /*
-        else if (this.isSourceDocumentPaymentRequest()) {
-            String preqNumber = this.getPaymentRequestIdentifier().toString();
-            popreq = new StringBuffer("PREQ: ").append(preqNumber).toString();
-        }
-        */
 
         String vendorName = StringUtils.trimToEmpty(getVendorName());
         String cmAmount = getGrandTotal().toString();

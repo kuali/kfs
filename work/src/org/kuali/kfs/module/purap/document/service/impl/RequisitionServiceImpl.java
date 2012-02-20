@@ -50,11 +50,8 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KEWPropertyConstants;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
@@ -95,7 +92,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private RequisitionDao requisitionDao;
     private UniversityDateService universityDateService;
     private VendorService vendorService;
-
+ 
     public PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
         PurchasingCapitalAssetItem camsItem = new RequisitionCapitalAssetItem();
         camsItem.setItemIdentifier(purapItem.getItemIdentifier());
@@ -398,7 +395,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (document != null) {
                 
                 
-                ///use the appDocStatus from the KeyValueDTO result to look up custom status
+                ///use the appDocStatus from the KeyValueDTO result to look up contract manager assignment status
                 if (PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equalsIgnoreCase(
                         document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
                     //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list

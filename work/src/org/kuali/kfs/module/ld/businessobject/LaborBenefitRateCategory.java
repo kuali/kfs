@@ -11,7 +11,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * 
  * @author Allan Sonkin
  */
-public class LaborBenefitRateCategory extends PersistableBusinessObjectBase implements Inactivatable {
+public class LaborBenefitRateCategory extends PersistableBusinessObjectBase implements org.kuali.kfs.integration.ld.LaborBenefitRateCategory, Inactivatable {
 
     private String laborBenefitRateCategoryCode;//the BO code
     

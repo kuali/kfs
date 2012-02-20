@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -42,18 +44,20 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePu
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Struts Action for Credit Memo document.
@@ -87,6 +91,29 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
         VendorCreditMemoForm cmForm = (VendorCreditMemoForm) form;
         VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) cmForm.getDocument();
         
+        String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
+
+        String preqId = request.getParameter("document.paymentRequestIdentifier");
+        if (ObjectUtils.isNotNull(preqId)) {
+            //get the po document and get the account distribution method code....
+            String distributionCode = getDistributionMethodFromPReq(preqId);
+            if (ObjectUtils.isNotNull(distributionCode)) {
+                defaultDistributionMethod = distributionCode;
+            }
+        } else {
+            String poId = request.getParameter("document.purchaseOrderIdentifier");
+            if (ObjectUtils.isNotNull(poId)) {
+                //get the po document and get the account distribution method code....
+                String distributionCode = getDistributionMethodFromPO(poId);
+                if (ObjectUtils.isNotNull(distributionCode)) {
+                    defaultDistributionMethod = distributionCode;
+                }
+            }            
+        }
+        
+        //set the account distribution method code on the document.
+        creditMemoDocument.setAccountDistributionMethod(defaultDistributionMethod);
+        
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedContinuePurapEvent(creditMemoDocument));
         if (!rulePassed){
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -118,7 +145,6 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
             //do nothing for credit memos against a vendor; no link to PO means no need to hide doc based on sensitive data
         }
 
-
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicateCreditMemoCheck(mapping, form, request, response, creditMemoDocument);
         if (forward != null) {
@@ -141,6 +167,56 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * using preqId from vendor credit memo initiation screen, the corresponding
+     * preq documents are collected and then the distribution menthod is retrieved from it..
+     * 
+     * @param preqId
+     * @return distributionMethod
+     */
+    protected String getDistributionMethodFromPReq(String preqId) {
+        String distributionMethod = "";
+        
+        Map criteria = new HashMap();
+        criteria.put("purapDocumentIdentifier", preqId);
+        
+        List<PaymentRequestDocument> preqDocuments = (List<PaymentRequestDocument>)SpringContext.getBean(BusinessObjectService.class).findMatching(PaymentRequestDocument.class, criteria);
+        
+        for (PaymentRequestDocument preqDoc : preqDocuments) {
+            if (ObjectUtils.isNotNull(preqDoc.getAccountDistributionMethod())) {
+                distributionMethod = preqDoc.getAccountDistributionMethod();
+                return distributionMethod;
+            }
+        }
+        
+        return distributionMethod;
+    }
+    
+    /**
+     * using poId from vendor credit memo initiation screen, the corresponding
+     * po documents are collected and then the distribution menthod is retrieved from it..
+     * 
+     * @param preqId
+     * @return distributionMethod
+     */
+    protected String getDistributionMethodFromPO(String poId) {
+        String distributionMethod = "";
+        
+        Map criteria = new HashMap();
+        criteria.put("purapDocumentIdentifier", poId);
+        
+        List<PurchaseOrderDocument> poDocuments = (List<PurchaseOrderDocument>)SpringContext.getBean(BusinessObjectService.class).findMatching(PurchaseOrderDocument.class, criteria);
+        
+        for (PurchaseOrderDocument poDoc : poDocuments) {
+            if (ObjectUtils.isNotNull(poDoc.getAccountDistributionMethod())) {
+                distributionMethod = poDoc.getAccountDistributionMethod();
+                return distributionMethod;
+            }
+        }
+        
+        return distributionMethod;
     }
 
     /**

@@ -71,8 +71,8 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
             // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesReopenPurchaseOrder(this);
 
-            // update indicators
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
+                // update indicators
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
             // set purap status
             setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);

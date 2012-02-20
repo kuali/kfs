@@ -52,7 +52,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", chartCode);
-        criteria.addIn("statusCode", Arrays.asList(CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
+        //criteria.addIn("statusCode", Arrays.asList(CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
         criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
@@ -68,7 +68,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo( "processingCampusCode", chartCode );
-        criteria.addIn( "statusCode", Arrays.asList(CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION) );
+        //criteria.addIn( "statusCode", Arrays.asList(CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION) );
         criteria.addIsNull( "extractedTimestamp" );
         criteria.addEqualTo( "holdIndicator", Boolean.FALSE );
         criteria.addEqualTo( "vendorHeaderGeneratedIdentifier", vendor.getVendorHeaderGeneratedIdentifier() );
@@ -93,7 +93,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorNumberDetailId);
         criteria.addEqualTo("creditMemoNumber", creditMemoNumber);
 
-        criteria.addNotIn(PurapPropertyConstants.STATUS_CODE, PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES);
+        //criteria.addNotIn(PurapPropertyConstants.STATUS_CODE, PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES);
 
         // use the criteria to do a Count against the DB, and return the resulting
         // number. Any positive non-zero result means that a potential duplicate
@@ -120,7 +120,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         criteria.addEqualTo("creditMemoDate", date);
         criteria.addEqualTo("creditMemoAmount", amount);
 
-        criteria.addNotIn(PurapPropertyConstants.STATUS_CODE, PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES);
+        //criteria.addNotIn(PurapPropertyConstants.STATUS_CODE, PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES);
 
         // use the criteria to do a Count against the DB, and return the resulting
         // number. Any positive non-zero result means that a potential duplicate
@@ -195,7 +195,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         Criteria criteria = new Criteria();
         
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
-        criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(CreditMemoStatuses.STATUSES_POTENTIALLY_ACTIVE));
+        //criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(CreditMemoStatuses.STATUSES_POTENTIALLY_ACTIVE));
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         
         Iterator<Object[]> iter = getDocumentNumbersOfCreditMemoByCriteria(criteria, false);

@@ -137,7 +137,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
             // for app doc status
             getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);
         }
-
+        
     }
 
     public boolean isShouldDisplayRetransmitTab() {

@@ -404,16 +404,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         
         this.refreshNonUpdateableReferences();
     }
-    
-    /**
-     * Updates status of this document and saves it.
-     * 
-     * @param appDocStatus is the current status of the document.
-     */
-   protected void updateAndSaveAppDocStatus(String appDocStatus) {
-       setAppDocStatus(appDocStatus);
-       SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-    }
 
     @Override
     public List<String> getWorkflowEngineDocumentIdsToLock() {
@@ -450,20 +440,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                
                 String disapprovalStatus = RequisitionStatuses.getRequistionAppDocStatuses().get(nodeName);                
                 
                 if (StringUtils.isNotBlank(disapprovalStatus)) {
                     updateAndSaveAppDocStatus(disapprovalStatus);                    
-                        return;
-                    }
-                logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                }else{
+                    logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                }
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                 String reqStatus = RequisitionStatuses.getRequistionAppDocStatuses().get(RequisitionStatuses.APPDOC_CANCELLED);
                 updateAndSaveAppDocStatus(reqStatus);
-
             }
         }
         catch (WorkflowException e) {

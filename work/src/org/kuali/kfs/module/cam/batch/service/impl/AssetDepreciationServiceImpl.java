@@ -63,6 +63,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -249,7 +250,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             if (notAcceptedAssetStatusString.endsWith(";")){
                 notAcceptedAssetStatusString = notAcceptedAssetStatusString.substring(0, (notAcceptedAssetStatusString.length()-1));
             }
-//RICE20            parameterService.setParameterForTesting(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES, notAcceptedAssetStatusString);
+            Parameter.Builder param = Parameter.Builder.create( parameterService.getParameter(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES) );
+            param.setValue(notAcceptedAssetStatusString);
+            parameterService.updateParameter(param.build());
         }
 
         try{
@@ -321,7 +324,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             if ( LOG.isInfoEnabled() ) {
                 LOG.info("notAcceptedAssetStatusString after reset= " + notAcceptedAssetStatusString);
             }
-//RICE20            parameterService.setParameterForTesting(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES, notAcceptedAssetStatusString);
+            Parameter.Builder param = Parameter.Builder.create( parameterService.getParameter(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES) );
+            param.setValue(notAcceptedAssetStatusString);
+            parameterService.updateParameter(param.build());
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES+" now = "+ parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES));
             }

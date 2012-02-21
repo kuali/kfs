@@ -135,9 +135,6 @@
     </bean>
 
 	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciableAssetsDaoOjb">
-		<property name="universityDateDao">
-			<ref bean="universityDateDao" />
-		</property>
 		<property name="depreciationBatchDao">
 			<ref bean="depreciationBatchDao" />
 		</property>		                				                		

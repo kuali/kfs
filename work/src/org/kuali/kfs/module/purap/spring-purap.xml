@@ -168,7 +168,6 @@
     	<property name="ruleService" ref="kualiRuleService"/>
         <property name="universityDateService" ref="universityDateService"/>
         <property name="vendorService" ref="vendorService"/>
-        <property name="workflowInfoService" ref="workflowInfoService" />
 	</bean>
     <bean id="purapService" parent="purapService-parentBean"/>
 
@@ -262,7 +261,6 @@
         <property name="vendorService" ref="vendorService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="universityDateService" ref="universityDateService"/>
-        <property name="workflowInfoService" ref="workflowInfoService" />
     </bean>
 	
 	<bean id="creditMemoDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.CreditMemoDaoOjb" />
@@ -282,7 +280,6 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="vendorService" ref="vendorService" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
-        <property name="workflowInfoService" ref="workflowInfoService" />
     </bean>
     <bean id="printService" parent="printService-parentBean"/>
     

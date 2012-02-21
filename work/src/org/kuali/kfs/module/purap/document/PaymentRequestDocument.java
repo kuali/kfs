@@ -177,6 +177,36 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
     }
 
+    @Override
+    public String getAppDocStatus(){
+        KualiWorkflowDocument workflowDocument = getWorkflowDocument();
+        
+        return workflowDocument.getRouteHeader().getAppDocStatus();
+    }
+    
+    /**
+     * method to retrieve the workflow document for the given documentHeader.
+     * 
+     * @return workflowDocument
+     */
+    public KualiWorkflowDocument getWorkflowDocument() {
+        KualiWorkflowDocument workflowDocument = null;
+        try {
+            workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException(we);
+        }
+        return workflowDocument;
+    }
+    
+    @Override    
+    public void setAppDocStatus(String appDocStatus){
+        KualiWorkflowDocument workflowDocument = getWorkflowDocument();
+            
+        workflowDocument.getRouteHeader().setAppDocStatus(appDocStatus);
+    }
+    
     public Integer getRequisitionIdentifier() {
         return getPurchaseOrderDocument().getRequisitionIdentifier();
     }

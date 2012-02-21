@@ -279,7 +279,6 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
         this.purApContactPhoneNumber = purApContactPhoneNumber;
     }
 
-
     /**
      * Gets the statusDescription attribute.
      * 
@@ -313,7 +312,6 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
         return statusDescription;
     }
 
-
     /**
      * Sets the statusDescription attribute value.
      * 
@@ -322,8 +320,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     public void setStatusDescription(String statusDescription) {
         this.statusDescription = statusDescription;
     }
-
-
+    
     /**
      * Need to override this method, so we can save item assets, the framework can delete the allocated item assets.
      * 

@@ -265,7 +265,7 @@ public class SpringContext {
             if (Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
                 LOG.info( "Starting up MemoryMonitor thread" );
                 MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
-                memoryMonitor = new MemoryMonitor("kfs");
+                memoryMonitor = new MemoryMonitor("KFS Memory Monitor: Over " + KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY) + "% Memory Used");
                 memoryMonitor.addListener(new MemoryMonitor.Listener() {
                     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
 

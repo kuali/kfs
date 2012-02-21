@@ -120,8 +120,8 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="universityDateDao">
-			<ref bean="universityDateDao" />
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
 		</property>
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
@@ -143,9 +143,6 @@
 		</property>		                				                		
 	</bean>
 	<bean id="depreciationBatchDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciationBatchDaoJdbc">
-		<property name="universityDateDao">
-			<ref bean="universityDateDao" />
-		</property>		
 		<!-- CSU 6702 BEGIN -->
 		<property name="parameterService">
             <ref bean="parameterService" />

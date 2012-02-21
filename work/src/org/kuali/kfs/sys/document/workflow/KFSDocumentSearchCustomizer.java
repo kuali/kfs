@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,24 +24,18 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.uif.RemotableAttributeField;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.Document;
+import org.kuali.rice.kew.api.document.DocumentStatusCategory;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeString;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.api.extension.ExtensionDefinition;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizerBase;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultSetConfiguration;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValue;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.web.ui.Row;
-import org.kuali.rice.krad.service.DataDictionaryRemoteFieldService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
@@ -67,13 +61,20 @@ public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
 
         List<DocumentSearchResultValue.Builder> customResultValueBuilders = new ArrayList<DocumentSearchResultValue.Builder>();
 
-        boolean isAuthorized = isAuthorizedToViewPurapDocId();
+        boolean isAuthorizedToViewPurapDocId = false;
+        if ( defaultResults.size() > 0 ) {
+            for (DocumentAttribute documentAttribute : defaultResults.get(0).getDocumentAttributes()) {
+                if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
+                    isAuthorizedToViewPurapDocId = isAuthorizedToViewPurapDocId();
+                }
+            }
+        }
         for (DocumentSearchResult result : defaultResults) {
             List<DocumentAttribute.AbstractBuilder<?>> custAttrBuilders = new ArrayList<DocumentAttribute.AbstractBuilder<?>>();
             Document document = result.getDocument();
             for (DocumentAttribute documentAttribute : result.getDocumentAttributes()) {
                 if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
-                    if (!isAuthorized && !KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(document.getStatus().getCode())) {
+                    if (!isAuthorizedToViewPurapDocId && !document.getStatus().getCategory().equals(DocumentStatusCategory.SUCCESSFUL) ) {
                         DocumentAttributeString.Builder builder = DocumentAttributeString.Builder.create(KFSPropertyConstants.PURAP_DOC_ID);
                         builder.setValue("********");
                         custAttrBuilders.add(builder);
@@ -92,7 +93,7 @@ public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
 
     private boolean isAuthorizedToViewPurapDocId() {
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
+        String namespaceCode = KFSConstants.CoreModuleNamespaces.KNS;
         String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
 
         Map<String, String> roleQualifiers = new HashMap<String, String>();
@@ -130,8 +131,8 @@ public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
     public boolean isCustomizeResultSetFieldsEnabled(String documentTypeName) {
         return false;
     }
-    
-   
+
+
 
 
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -56,7 +56,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowAttributePropertyResolutionS
 
 //RICE20 This class is a temporary fix to support KNS attribute definitions. Should be deleted when rice2.0 adds support.
 public class DataDictionaryRemoteFieldBuilder {
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DataDictionaryRemoteFieldBuilder.class);
 
     /**
      * @see org.kuali.rice.krad.service.DataDictionaryRemoteFieldService#buildRemotableFieldFromAttributeDefinition(java.lang.String,
@@ -90,9 +90,13 @@ public class DataDictionaryRemoteFieldBuilder {
             definition.setControl(control);
         }
 
-        RemotableQuickFinder.Builder qf = createQuickFinder(componentClass, attributeName);
-        if (qf != null) {
-            definition.setWidgets(Collections.<RemotableAbstractWidget.Builder> singletonList(qf));
+        try {
+            RemotableQuickFinder.Builder qf = createQuickFinder(componentClass, attributeName);
+            if (qf != null) {
+                definition.setWidgets(Collections.<RemotableAbstractWidget.Builder> singletonList(qf));
+            }
+        } catch ( Exception ex ) {
+            LOG.warn(ex);
         }
 
         return definition.build();
@@ -100,7 +104,7 @@ public class DataDictionaryRemoteFieldBuilder {
 
     /**
      * Creates a {@link RemotableAbstractControl} instance based on the control definition within the given attribute definition
-     * 
+     *
      * @param attr - attribute definition instance to pull control from
      * @return RemotableAbstractControl instance or null if one could not be built
      */
@@ -156,7 +160,7 @@ public class DataDictionaryRemoteFieldBuilder {
     /**
      * Will first try to retrieve options configured on the control. If that doesn't return any values then will try to use the
      * optionfinder on the AttributeDefinition.
-     * 
+     *
      * @param attr - AttributeDefinition
      * @return Map of key value pairs
      */
@@ -190,7 +194,7 @@ public class DataDictionaryRemoteFieldBuilder {
      * component class itself. If a relationship suitable for lookup is found, the associated field conversions and lookup
      * parameters are built
      * </p>
-     * 
+     *
      * @param componentClass - class that attribute belongs to and should be checked for relationships
      * @param attributeName - name of the attribute to determine quickfinder for
      * @return RemotableQuickFinder.Builder instance for the configured lookup, or null if one could not be found

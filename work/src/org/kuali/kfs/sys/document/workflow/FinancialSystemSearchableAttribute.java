@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.kew.api.extension.ExtensionDefinition;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute;
 
 //RICE20 This class needs to be fixed to support pre-rice2.0 features
@@ -34,7 +35,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         for (Row row : searchRows) {
             List<RemotableAttributeField> rowAttributeFields = new ArrayList<RemotableAttributeField>();
             for (Field field : row.getFields()) {
-                RemotableAttributeField remotableAttributeField = new DataDictionaryRemoteFieldBuilder().buildRemotableFieldFromAttributeDefinition(field.getBusinessObjectClassName(), field.getPropertyName());
+                RemotableAttributeField remotableAttributeField = KRADServiceLocatorWeb.getDataDictionaryRemoteFieldService().buildRemotableFieldFromAttributeDefinition(field.getBusinessObjectClassName(), field.getPropertyName());
                 if (remotableAttributeField != null) {
                     rowAttributeFields.add(remotableAttributeField);
                 }

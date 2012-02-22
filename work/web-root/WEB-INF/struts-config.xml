@@ -89,7 +89,7 @@
 			type="org.kuali.kfs.fp.document.web.struts.YearEndBudgetAdjustmentForm" />
 
 		<!--  Accounts Receivable Module Bean Definitions -->
-		<!--  RICE20 : restore when adding optional modules 
+ 
 		<form-bean name="PaymentApplicationDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.PaymentApplicationDocumentForm" />
 		<form-bean name="CashControlDocumentForm"
@@ -112,10 +112,10 @@
 			type="org.kuali.kfs.module.ar.web.struts.CustomerStatementForm" />
 		<form-bean name="CustomerInvoiceForm"
 			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceForm" />
- -->
+ 
 		<!-- Labor Distribution Bean Definitions -->
 		
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<form-bean name="LaborSalaryExpenseTransferForm"
 			type="org.kuali.kfs.module.ld.document.web.struts.SalaryExpenseTransferForm" />
 		<form-bean name="LaborYearEndSalaryExpenseTransferForm"
@@ -128,11 +128,11 @@
 			type="org.kuali.kfs.module.ld.document.web.struts.LaborCorrectionForm" />
 		<form-bean name="LaborYearEndBenefitExpenseTransferForm"
 			type="org.kuali.kfs.module.ld.document.web.struts.YearEndBenefitExpenseTransferForm" />
--->
+
 
 		<!-- Budget Construction Bean Definitions -->
 
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<form-bean name="BudgetConstructionSelectionForm"
 			type="org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionSelectionForm" />
 		<form-bean name="BudgetConstructionRequestImportForm"
@@ -161,7 +161,7 @@
 			type="org.kuali.kfs.module.bc.document.web.struts.PayrateImportExportForm" />
 		<form-bean name="BudgetExpansionForm"
 			type="org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm" />
--->
+
 
 		<!-- General Ledger Bean Definitions -->
 		<form-bean name="CorrectionForm"
@@ -172,7 +172,7 @@
 			type="org.kuali.kfs.gl.web.struts.BalanceInquiryLookupForm" />
 
 		<!-- PURAP Module Bean Definitions -->
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<form-bean name="ContractManagerAssignmentForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.ContractManagerAssignmentForm" />
 		<form-bean name="RequisitionForm"
@@ -196,19 +196,19 @@
 
 		<form-bean name="ElectronicInvoiceTestForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.ElectronicInvoiceTestForm" />
--->
+
 
 		<!-- CG Module Bean Definitions -->
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<form-bean name="CloseForm"
 			type="org.kuali.kfs.module.cg.web.struts.CloseForm" />
--->
+
 		<!-- PDP Module Bean Definitions -->
 		<form-bean name="PdpFormatForm" type="org.kuali.kfs.pdp.web.struts.FormatForm" />
 
 		<!-- CAMs Module Bean Definitions -->
 		
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<form-bean name="AssetPaymentForm"
 			type="org.kuali.kfs.module.cam.document.web.struts.AssetPaymentForm" />
 		<form-bean name="AssetTransferForm"
@@ -219,35 +219,35 @@
 			type="org.kuali.kfs.module.cam.document.web.struts.BarcodeInventoryErrorForm" />
 		<form-bean name="AssetBarCodeInventoryInputFileForm"
 			type="org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm" />
--->
+
 		<!-- Effort Certification Bean Definitions -->
 
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<form-bean name="EffortCertificationForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.EffortCertificationForm" />
 		<form-bean name="CertificationRecreateForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.CertificationRecreateForm" />
 		<form-bean name="CertificationReportForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm" />
--->
+
 
 		<!-- KFS incident report  -->
 		<form-bean name="KualiExceptionIncidentForm"
 			type="org.kuali.rice.kns.web.struts.form.KualiExceptionIncidentForm" />
 
 		<!-- CAB Module Bean Definitions -->
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<form-bean name="PurApLineForm"
 			type="org.kuali.kfs.module.cab.document.web.struts.PurApLineForm" />
 		<form-bean name="GlLineForm"
 			type="org.kuali.kfs.module.cab.document.web.struts.GlLineForm" />
 		<form-bean name="CapitalAssetInformationForm"
 			type="org.kuali.kfs.module.cab.document.web.struts.CapitalAssetInformationForm" />
--->
+
 
 		<!-- Endowment Module Bean Definitions -->
 
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<form-bean name="AssetIncreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.AssetIncreaseDocumentForm" />
 		<form-bean name="AssetDecreaseDocumentForm"
@@ -286,7 +286,7 @@
 			type="org.kuali.kfs.module.endow.web.struts.TransactionSummaryForm" />
 		<form-bean name="AssetStatementForm"
 			type="org.kuali.kfs.module.endow.web.struts.AssetStatementForm" />
--->
+
 	</form-beans>
 
 	<global-exceptions>
@@ -380,7 +380,7 @@
 
 		<!--  Module Action Mappings -->
 
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<action path="/ar*" name="{1}Form" input="/jsp/module/ar/{1}.jsp"
 			type="org.kuali.kfs.module.ar.document.web.struts.{1}Action" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -456,7 +456,7 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/cab/{1}.jsp" />
 		</action>
--->
+
 		<action path="/financial*" name="{1}Form" input="/jsp/fp/{1}.jsp"
 			type="org.kuali.kfs.fp.document.web.struts.{1}Action" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -523,7 +523,7 @@
                 path="/jsp/sys/KualiBatchInputFileSet.jsp" />
         </action>        
 
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<action path="/labor*" name="Labor{1}Form" input="/jsp/module/ld/{1}.jsp"
 			type="org.kuali.kfs.module.ld.document.web.struts.{1}Action" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -613,7 +613,7 @@
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
 			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
--->
+
 		<action path="/cashManagementStatus" name="CashManagementStatusForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementStatusAction"
 			scope="request" attribute="KualiForm">
@@ -621,7 +621,7 @@
 			<forward name="basic" path="/jsp/fp/CashManagementStatus.jsp" />
 		</action>
 
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<action path="/purap*" name="{1}Form" input="/jsp/module/purap/{1}.jsp"
 			type="org.kuali.kfs.module.purap.document.web.struts.{1}Action"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -678,7 +678,7 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/cams/{1}.jsp" />
 		</action>
--->
+
 		<action path="/batchUpload" name="KualiBatchInputFileForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileAction">
@@ -693,7 +693,7 @@
 			<forward name="basic" path="/jsp/sys/KualiBatchInputFileSet.jsp" />
 		</action>
 		
-<!--  RICE20 : restore when adding optional modules 
+ 
 		<action path="/reportEndow*" name="{1}Form"
 			input="/jsp/module/endow/{1}.jsp" 
 			type="org.kuali.kfs.module.endow.web.struts.{1}Action"
@@ -708,7 +708,7 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/endow/{1}.jsp" />
 		</action>
--->
+
 		<!-- These are PDP items -->
 		<action path="/pdp/paymentdetail" name="KualiForm"
 			type="org.kuali.kfs.pdp.web.struts.PaymentDetailAction" scope="request"

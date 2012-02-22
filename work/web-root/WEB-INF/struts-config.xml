@@ -294,7 +294,7 @@
 			handler="org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler"
 			key="meaningless" />
 		<exception type="org.kuali.rice.krad.exception.AuthorizationException"
-			handler="org.kuali.rice.kns.web.struts.pojo.AuthorizationExceptionHandler"
+			handler="org.kuali.rice.kns.web.struts.form.pojo.AuthorizationExceptionHandler"
 			key="meaningless" />
 	</global-exceptions>
 

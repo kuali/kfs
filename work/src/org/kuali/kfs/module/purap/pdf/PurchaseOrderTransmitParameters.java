@@ -82,9 +82,7 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          // We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the
          // images as blank space
          if (useImage) {
-             this.imageTempLocation = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
-
-             if (imageTempLocation == null) {
+             if (getImageTempLocation() == null) {
                  throw new PurapConfigurationException("IMAGE_TEMP_PATH is missing");
              }
 
@@ -102,10 +100,9 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
 
          Map<String, Object> criteria = new HashMap<String, Object>();
          criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
-         this.campusParameter = (CampusParameter) ((List) SpringContext.getBean(BusinessObjectService.class).findMatching(CampusParameter.class, criteria)).get(0);
+         this.campusParameter = ((List<CampusParameter>) SpringContext.getBean(BusinessObjectService.class).findMatching(CampusParameter.class, criteria)).get(0);
 
-        this. statusInquiryUrl = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
-         if (this.statusInquiryUrl == null) {
+         if (getStatusInquiryUrl() == null) {
              LOG.debug("generatePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting INVOICE_STATUS_INQUIRY_URL is missing.");
          }
@@ -125,8 +122,7 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          
          this.contractLanguage = contractLanguage.toString();
          
-         this.pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
-         if (pdfFileLocation == null) {
+         if (getPdfFileLocation() == null) {
              LOG.debug("savePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
          }
@@ -145,10 +141,8 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
 
      public void setPurchaseOrderFaxParameters(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq) {
          // get parameters to send fax 
-         
-      
-         this.pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
-         if (this.pdfFileLocation == null) {
+              
+         if (getPdfFileLocation() == null) {
              LOG.debug("savePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
          }
@@ -197,9 +191,7 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          // We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the
          // images as blank space
          if (useImage) {
-             this.imageTempLocation = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
-
-             if (this.imageTempLocation == null) {
+             if (getImageTempLocation() == null) {
                  throw new PurapConfigurationException("IMAGE_TEMP_PATH is missing");
              }
 
@@ -217,10 +209,9 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
 
          Map<String, Object> criteria = new HashMap<String, Object>();
          criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
-         this.campusParameter = (CampusParameter) ((List) SpringContext.getBean(BusinessObjectService.class).findMatching(CampusParameter.class, criteria)).get(0);
+         this.campusParameter = ((List<CampusParameter>) SpringContext.getBean(BusinessObjectService.class).findMatching(CampusParameter.class, criteria)).get(0);
 
-          this.statusInquiryUrl = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
-         if (this.statusInquiryUrl == null) {
+         if (getStatusInquiryUrl() == null) {
              LOG.debug("generatePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting INVOICE_STATUS_INQUIRY_URL is missing.");
          }
@@ -240,8 +231,7 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
          
          this.contractLanguage = contractLanguage.toString();
          
-         this.pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
-         if (pdfFileLocation == null) {
+         if (getPdfFileLocation() == null) {
              LOG.debug("savePurchaseOrderPdf() ended");
              throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
          }
@@ -289,6 +279,9 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
     }
 
     public String getPdfFileLocation() {
+        if (pdfFileLocation == null) {
+            pdfFileLocation = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+        }
         return pdfFileLocation;
     }
 
@@ -329,6 +322,9 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
     }
 
     public String getImageTempLocation() {
+        if (imageTempLocation == null) {
+            imageTempLocation = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
+        }
         return imageTempLocation;
     }
 
@@ -353,6 +349,9 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
     }
 
     public String getStatusInquiryUrl() {
+        if (statusInquiryUrl == null) {
+            statusInquiryUrl = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
+        }
         return statusInquiryUrl;
     }
 
@@ -381,7 +380,7 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
     }
     
     public void setVendorName(String vendorName) {
-        vendorName = vendorName;
+        this.vendorName = vendorName;
     }
     
     public String getFaxDescription() {

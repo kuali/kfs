@@ -29,6 +29,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
@@ -203,6 +204,14 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                     if (!column[1].equals(CamsConstants.BarCodeInventory.BCI_SCANED_INTO_DEVICE) && !column[1].equals(CamsConstants.BarCodeInventory.BCI_MANUALLY_KEYED_CODE)) {
                         errorMsg += ", " + inventoryScannedCodeLabel + " is invalid";
                     }
+
+                    // validate date 
+                    if(!validateDate(column[2])) {
+                        errorMsg += ", " + InventoryDateLabel + " is invalid";
+                    }
+
+
+
                 }
                 if (!StringUtils.isBlank(errorMsg)) {
                     errorMsg = "Error on record number " + recordCount + ": " + errorMsg.substring(2) + "\n";
@@ -298,7 +307,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 if (lineStrings[2].equals(StringUtils.repeat("0", 14))) {
                     timestamp = null;
                 }
-                
+
                 barcodeInventoryErrorDetail = new BarcodeInventoryErrorDetail();
                 barcodeInventoryErrorDetail.setUploadRowNumber(ln);
                 barcodeInventoryErrorDetail.setAssetTagNumber(lineStrings[0].trim());
@@ -452,11 +461,11 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                     ln = 0;
                     isFirstDocument = false;
                 }
-                
+
                 BarcodeInventoryErrorDetail barcodeInventoryErrorDetail =bcies.get(bcieCount);
                 barcodeInventoryErrorDetail.setUploadRowNumber(Long.valueOf(ln+1));
                 barcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);
-                
+
                 ln++;
                 bcieCount++;
             }
@@ -486,7 +495,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         asset.setBuildingSubRoomNumber(barcodeInventoryErrorDetail.getBuildingSubRoomNumber());
         asset.setCampusCode(barcodeInventoryErrorDetail.getCampusCode());
         asset.setConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode());        
-       
+
         // set building code and room number to null if they are empty string, to avoid FK violation exception
         if (StringUtils.isEmpty(asset.getBuildingCode())) {
             asset.setBuildingCode(null);
@@ -502,7 +511,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         } else {
             asset.setLastInventoryDate(new Timestamp(this.dateTimeService.getCurrentSqlDate().getTime()));
         }
-        
+
         // Updating asset information
         businessObjectService.save(asset);
     }
@@ -559,35 +568,66 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         return adHocRouteRecipient;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
+    private boolean validateDate(String date) {
+        // Parsing date so it can be validated.
+        boolean valid = true;
+        if(StringHelper.isEmpty(date)) {
+            valid = false;
+        }
+        else {
+            SimpleDateFormat formatter = new SimpleDateFormat(CamsConstants.DateFormats.MONTH_DAY_YEAR + " " + CamsConstants.DateFormats.STANDARD_TIME, Locale.US);
+            date = StringUtils.rightPad(date.trim(), 14, "0");
+            String day = date.substring(0, 2);
+            String month = date.substring(2, 4);
+            String year = date.substring(4, 8);
+            String hours = date.substring(8, 10);
+            String minutes = date.substring(10, 12);
+            String seconds = date.substring(12);
 
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
+            String stringDate = month + "/" + day + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
+            Timestamp timestamp = null;
 
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
+            // If date has invalid format set its value to null
+            try {
+                timestamp = new Timestamp(formatter.parse(stringDate).getTime());
+            }
+            catch (Exception e) {
+                valid = false;
+            }
+            
+        }
+        
+        return valid;
     }
+        public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+            this.businessObjectService = businessObjectService;
+        }
 
-    public void setKualiRuleService(KualiRuleService ruleService) {
-        this.kualiRuleService = ruleService;
-    }
+        public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+            this.dataDictionaryService = dataDictionaryService;
+        }
 
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
+        public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+            this.workflowDocumentService = workflowDocumentService;
+        }
 
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
+        public void setKualiRuleService(KualiRuleService ruleService) {
+            this.kualiRuleService = ruleService;
+        }
 
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
+        public void setDocumentService(DocumentService documentService) {
+            this.documentService = documentService;
+        }
 
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
+        public ParameterService getParameterService() {
+            return parameterService;
+        }
+
+        public void setParameterService(ParameterService parameterService) {
+            this.parameterService = parameterService;
+        }
+
+        public void setDateTimeService(DateTimeService dateTimeService) {
+            this.dateTimeService = dateTimeService;
+        }
     }
-}

@@ -44,6 +44,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
+import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -1075,11 +1076,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
         String mailTitle = "E-Invoice Load Results for " + ElectronicInvoiceUtils.getDateDisplayText(SpringContext.getBean(DateTimeService.class).getCurrentDate());
         
-        if (KRADUtils.isProductionEnvironment()) {
             message.setSubject(mailTitle);
-        } else {
-            message.setSubject(kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY) + " - " + mailTitle);
-        }
         return message;
     }
     
@@ -1227,7 +1224,9 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         String reqDocInitiator = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         try {
             Person user = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(reqDocInitiator);
-            preqDoc.setProcessingCampusCode(user.getCampusCode());
+            
+            setProcessingCampus(preqDoc, user.getCampusCode());
+
         }catch(Exception e){
             String extraDescription = "Error setting processing campus code - " + e.getMessage();
             ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, extraDescription, orderHolder.getFileName());
@@ -1313,6 +1312,24 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         }
         
         return preqDoc;
+    }
+    
+    /**
+     * 
+     * This method check OVERRIDE_PROCESSING_CAMPUS parameter to set processing campus code.
+     * If parameter value is populated, it set the processing campus to the value in parameter, otherwise use requisition initiator's campus code. 
+     * @param preqDoc
+     * @param initiatorCampusCode
+     */
+    protected void setProcessingCampus(PaymentRequestDocument preqDoc, String initiatorCampusCode) {
+       String campusCode = parameterService.getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.OVERRIDE_PROCESSING_CAMPUS);
+       if(!StringHelper.isNullOrEmpty(campusCode)) {
+           preqDoc.setProcessingCampusCode(campusCode);
+       }
+       else {
+           preqDoc.setProcessingCampusCode(initiatorCampusCode);
+       }
+        
     }
     
     protected void addShipToNotes(PaymentRequestDocument preqDoc, 
@@ -1430,7 +1447,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
     }
     
     protected void populateItemDetails(PaymentRequestDocument preqDocument, ElectronicInvoiceOrderHolder orderHolder) {
-        
+
         if (LOG.isInfoEnabled()) {
             LOG.info("Populating invoice order items into the payment request document");
         }
@@ -1665,6 +1682,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
                 purapItem.setItemDescription(purapItem.getItemDescription() + " - " + invoiceSpecialHandlingDescription);
             }
         }
+        
     }
     
     protected void processTaxItem (PaymentRequestItem preqItem,
@@ -1684,8 +1702,9 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
                 preqItem.setItemDescription(preqItem.getItemDescription() + " - " + orderHolder.getTaxDescription());
             }
         }
+        
     }
-       
+    
     protected void processShippingItem(PaymentRequestItem preqItem,
                                                    ElectronicInvoiceOrderHolder orderHolder){
         
@@ -1724,6 +1743,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         
         preqItem.addToUnitPrice(orderHolder.getInvoiceDepositAmount());
         preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceDepositAmount()));
+        
     }
     
     protected void processDueItem(PaymentRequestItem preqItem,
@@ -1752,7 +1772,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             return false;
         }
     }
-
+    
     protected void setItemDefaultDescription(PaymentRequestItem preqItem){
         
         //If description is empty and item is not type "ITEM"... use default description

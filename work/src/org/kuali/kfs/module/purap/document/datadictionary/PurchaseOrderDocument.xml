@@ -21,6 +21,7 @@
     <property name="documentTypeName" value="PO"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>        
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController"/>
@@ -186,6 +187,7 @@
         <ref bean="PurchaseOrderDocument-assignedUserPrincipalName"/>
         <ref bean="PurchaseOrderDocument-sensitive"/>
 		<ref bean="PurchaseOrderDocument-accountDistributionMethod"/> 
+        <ref bean="RequisitionDocument-justification"/>
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
@@ -1089,7 +1091,6 @@
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  
   <bean id="PurchaseOrderDocument-purchaseOrderConfirmedIndicator" parent="PurchaseOrderDocument-purchaseOrderConfirmedIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderConfirmedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
@@ -1168,6 +1169,8 @@
   </bean>
 
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteTypeCode" parent="PurchaseOrderDocument-purchaseOrderQuoteTypeCode-parentBean"/>
+
+
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderQuoteTypeCode"/>
     <property name="forceUppercase" value="true"/>
@@ -1508,6 +1511,20 @@
 	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AccountDistributionMethodValuesFinder" p:includeKeyInLabel="false"/>
 	    </property>
 	</bean>
+    
+    <bean id="RequisitionDocument-justification" parent="RequisitionDocument-justification-parentBean"/>
+
+  	<bean id="RequisitionDocument-justification-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="justification"/>
+   	 	<property name="label" value="Justification"/>
+   	 	<property name="maxLength" value="255"/>
+    	<property name="validationPattern">
+      		<ref bean="AnyCharacterWithWhitespaceValidation" />
+    	</property>
+    	<property name="control">
+      		<bean parent="TextareaControlDefinition" p:rows="5" p:cols="50"/>
+    	</property>
+  	</bean>
     
     <!-- workflow attributes for routing -->
     <bean id="PurchaseOrderDocument-workflowAttributes" parent="PurchaseOrderDocument-workflowAttributes-parentBean"/>

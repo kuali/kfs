@@ -75,19 +75,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class FormatServiceImpl implements FormatService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatServiceImpl.class);
 
-    private PaymentDetailDao paymentDetailDao;
-    private PaymentGroupDao paymentGroupDao;
-    private ProcessDao processDao;
-    private AchService achService;
-    private PendingTransactionService glPendingTransactionService;
-    private ParameterService parameterService;
-    private FormatPaymentDao formatPaymentDao;
-    private SchedulerService schedulerService;
-    private BusinessObjectService businessObjectService;
-    private PaymentGroupService paymentGroupService;
-    private DateTimeService dateTimeService;
-    private ExtractPaymentService extractPaymentService;
-    private PersonService personService;
+    protected PaymentDetailDao paymentDetailDao;
+    protected PaymentGroupDao paymentGroupDao;
+    protected ProcessDao processDao;
+    protected AchService achService;
+    protected PendingTransactionService glPendingTransactionService;
+    protected ParameterService parameterService;
+    protected FormatPaymentDao formatPaymentDao;
+    protected SchedulerService schedulerService;
+    protected BusinessObjectService businessObjectService;
+    protected PaymentGroupService paymentGroupService;
+    protected DateTimeService dateTimeService;
+    protected ExtractPaymentService extractPaymentService;
+    protected PersonService<Person> personService;
 
     /**
      * Constructs a FormatServiceImpl.java.
@@ -97,7 +97,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.FormatProcessService#getDataForFormat(org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.kfs.pdp.service.FormatProcessService#getDataForFormat(org.kuali.rice.kim.bo.Person)
      */
     public FormatSelection getDataForFormat(Person user) {
 
@@ -140,7 +140,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.FormatService#startFormatProcess(org.kuali.rice.kim.api.identity.Person, java.lang.String,
+     * @see org.kuali.kfs.pdp.service.FormatService#startFormatProcess(org.kuali.rice.kim.bo.Person, java.lang.String,
      *      java.util.List, java.util.Date, java.lang.String)
      */
     public FormatProcessSummary startFormatProcess(Person user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes) {

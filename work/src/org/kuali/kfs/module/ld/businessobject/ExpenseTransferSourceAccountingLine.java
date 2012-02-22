@@ -20,8 +20,11 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Labor business object for special case <code>{@link SourceAccountingLine}</code> type for
@@ -34,6 +37,9 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine im
     private String payrollEndDateFiscalPeriodCode;
     private String emplid;
     private LaborObject laborObject;
+    private String fringeBenefitView;
+    
+    
     
     /**
      * Constructs a ExpenseTransferSourceAccountingLine.java.
@@ -212,5 +218,15 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine im
         this.setPayrollEndDateFiscalYear(from.getPayrollEndDateFiscalYear());
         this.setPayrollEndDateFiscalPeriodCode(from.getPayrollEndDateFiscalPeriodCode());
         this.setEmplid(from.getEmplid());
+    }
+    
+    /**
+     * This method returns a string so that an fringe benefit inquiry can have a link to view 
+     * inquiry page from salary transfer.
+     * 
+     * @return the String "View Organization Reversion"
+     */
+    public String getFringeBenefitView() {
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.SALARY_TRANSFER_FRINGE_BENEFIT_INQUIRY_LABEL);
     }
 }

@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
@@ -110,6 +111,7 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     private ProjectCode project;
     private OriginationCode financialSystemOrigination;
     private LaborObject laborObject;
+    private Person employee;
 
     /**
      * Default constructor.
@@ -1272,7 +1274,38 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     public void setLaborObject(LaborObject laborObject) {
         this.laborObject = laborObject;
     }
-
+    
+    /**
+     * @return the employee associated with this record
+     */
+    public Person getEmployee() {
+        if (employee == null || !StringUtils.equals(employee.getEmployeeId(), getEmplid())) {
+            employee = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
+            if (employee == null) {
+                final Class<? extends Person> employeeClass = SpringContext.getBean(PersonService.class).getPersonImplementationClass();
+                try {
+                    employee = employeeClass.newInstance();
+                }
+                catch (InstantiationException ie) {
+                    throw new RuntimeException("Could not instantiate empty Person object", ie);
+                }
+                catch (IllegalAccessException iae) {
+                    throw new RuntimeException("Could not instantiate empty Person object", iae);
+                }
+            }
+        }
+        return employee;
+    }
+    
+    /**
+     * Sets the employee. 
+     * @param employee the employee to set
+     */
+    @Deprecated
+    public void setEmployee(Person employee) {
+        this.employee = employee;
+    }
+    
     /**
      * construct the key list of the business object.
      * 

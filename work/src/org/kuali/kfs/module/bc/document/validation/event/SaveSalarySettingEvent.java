@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.validation.event;
 
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
@@ -25,6 +26,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  */
 public class SaveSalarySettingEvent extends SalarySettingBaseEvent {
     PendingBudgetConstructionAppointmentFunding appointmentFunding;
+    SynchronizationCheckType synchronizationCheckType;
 
     /**
      * Constructs a SaveSalarySettingEvent.java.
@@ -34,9 +36,10 @@ public class SaveSalarySettingEvent extends SalarySettingBaseEvent {
      * @param document the specified budget construction document
      * @param appointmentFunding the current appointment funding being varified
      */
-    public SaveSalarySettingEvent(String description, String errorPathPrefix, BudgetConstructionDocument document, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public SaveSalarySettingEvent(String description, String errorPathPrefix, BudgetConstructionDocument document, PendingBudgetConstructionAppointmentFunding appointmentFunding, SynchronizationCheckType synchronizationCheckType) {
         super(description, errorPathPrefix, document);
         this.appointmentFunding = appointmentFunding;
+        this.synchronizationCheckType = synchronizationCheckType;
     }
 
     /**
@@ -44,6 +47,6 @@ public class SaveSalarySettingEvent extends SalarySettingBaseEvent {
      */
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {
-        return ((SalarySettingRule) rule).processSaveAppointmentFunding(appointmentFunding);
+        return ((SalarySettingRule) rule).processSaveAppointmentFunding(appointmentFunding, synchronizationCheckType);
     }
 }

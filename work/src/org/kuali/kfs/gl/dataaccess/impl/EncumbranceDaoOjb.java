@@ -166,10 +166,10 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * @return a collection of open encumbrances
      * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#findOpenEncumbrance(java.util.Map)
      */
-    public Iterator findOpenEncumbrance(Map fieldValues) {
+    public Iterator findOpenEncumbrance(Map fieldValues, boolean includeZeroEncumbrances) {
         LOG.debug("findOpenEncumbrance() started");
 
-        Query query = this.getOpenEncumbranceQuery(fieldValues);
+        Query query = this.getOpenEncumbranceQuery(fieldValues, includeZeroEncumbrances);
         OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
@@ -181,10 +181,10 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * @return the number of the open encumbrances
      * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#getOpenEncumbranceRecordCount(java.util.Map)
      */
-    public Integer getOpenEncumbranceRecordCount(Map fieldValues) {
+    public Integer getOpenEncumbranceRecordCount(Map fieldValues, boolean includeZeroEncumbrances) {
         LOG.debug("getOpenEncumbranceRecordCount() started");
 
-        Query query = this.getOpenEncumbranceQuery(fieldValues);
+        Query query = this.getOpenEncumbranceQuery(fieldValues, includeZeroEncumbrances);
         return getPersistenceBrokerTemplate().getCount(query);
     }
 
@@ -192,11 +192,17 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * build the query for encumbrance search
      * 
      * @param fieldValues a Map of values to use as keys for the query
+     * @param includeZeroEncumbrances should the query include encumbrances which have zeroed out?
      * @return an OJB query
      */
-    protected Query getOpenEncumbranceQuery(Map fieldValues) {
+    protected Query getOpenEncumbranceQuery(Map fieldValues, boolean includeZeroEncumbrances) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new Encumbrance());
         criteria.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, Arrays.asList(KFSConstants.ENCUMBRANCE_BALANCE_TYPE));
+        if (!includeZeroEncumbrances) {
+            Criteria nonZeroEncumbranceCriteria = new Criteria();
+            nonZeroEncumbranceCriteria.addNotEqualToField(KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT, KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT);
+            criteria.addAndCriteria(nonZeroEncumbranceCriteria);
+        }
         return QueryFactory.newQuery(Encumbrance.class, criteria);
     }
 

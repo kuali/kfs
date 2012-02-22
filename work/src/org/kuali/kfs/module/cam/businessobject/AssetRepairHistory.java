@@ -24,7 +24,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AssetRepairHistory extends PersistableBusinessObjectBase {
+public class AssetRepairHistory extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private Long capitalAssetNumber;
 	private Date incidentDate;
@@ -35,6 +35,7 @@ public class AssetRepairHistory extends PersistableBusinessObjectBase {
 	private Date repairDate;
 	private KualiDecimal repairAmount;
 	private String repairSolutionDescription;
+	private boolean active;
 
     private Asset asset;
 
@@ -253,6 +254,25 @@ public class AssetRepairHistory extends PersistableBusinessObjectBase {
 	public void setAsset(Asset asset) {
 		this.asset = asset;
 	}
+	
+
+    /**
+    * Gets the active attribute.
+    * 
+    * @return Returns the active
+    */
+   public boolean isActive() {
+       return active;
+   }
+
+   /**
+    * Sets the active attribute.
+    * 
+    * @param active The active to set.
+    */
+   public void setActive(boolean active) {
+       this.active = active;
+   }
 
 	/**
 	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()

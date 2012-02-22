@@ -15,9 +15,13 @@
  */
 package org.kuali.kfs.fp.document.service;
 
+import java.util.Map;
+
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * define a set of service methods related to disbursement payee
@@ -88,4 +92,34 @@ public interface DisbursementVoucherPayeeService {
      * @return the ownership type code if the given payee is a vendor; otherwise, return null
      */
     public String getVendorOwnershipTypeCode(DisbursementPayee payee);
+    
+    /**
+     * convert the field names between Payee and Vendor
+     * 
+     * @return a field name map of Payee and Vendor. The map key is a field name of Payee, and its value is a field name of Vendor
+     */
+    public Map<String, String> getFieldConversionBetweenPayeeAndVendor();
+    
+    /**
+     * convert the field names between Payee and Person
+     * 
+     * @return a field name map of Payee and Person. The map key is a field name of Payee, and its value is a field name of Person
+     */
+    public Map<String, String> getFieldConversionBetweenPayeeAndPerson();
+    
+    /**
+     * build a payee object from the given vendor object
+     * 
+     * @param vendorDetail the given vendor object
+     * @return a payee object built from the given vendor object
+     */
+    public DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail);
+    
+    /**
+     * build a payee object from the given person object
+     * 
+     * @param person the given person object
+     * @return a payee object built from the given person object
+     */
+    public DisbursementPayee getPayeeFromPerson(Person person);
 }

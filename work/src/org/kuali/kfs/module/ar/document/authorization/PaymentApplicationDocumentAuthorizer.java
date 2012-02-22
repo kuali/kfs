@@ -15,9 +15,45 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+
+/**
+ * Document Authorizer for the Payment Application Document
+ */
 public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
+
+    /**
+     * Adding the role qualifications for the processing chart and organization
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject, java.util.Map)
+     */
+    @Override
+    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
+        if (businessObject != null && businessObject instanceof PaymentApplicationDocument) {
+            final PaymentApplicationDocument document = (PaymentApplicationDocument)businessObject;
+            final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) { // only add processing chart and org if we're PreRoute
+                final AccountsReceivableDocumentHeader arDocumentHeader = document.getAccountsReceivableDocumentHeader();
+                if (!ObjectUtils.isNull(arDocumentHeader)) {
+                    if (!StringUtils.isBlank(arDocumentHeader.getProcessingChartOfAccCodeAndOrgCode())) {
+                        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, arDocumentHeader.getProcessingChartOfAccountCode());
+                    }
+                    if (!StringUtils.isBlank(arDocumentHeader.getProcessingOrganizationCode())) {
+                        attributes.put(KfsKimAttributes.ORGANIZATION_CODE, arDocumentHeader.getProcessingOrganizationCode());
+                    }
+                }
+            }
+        }
+    }
 
 }
 

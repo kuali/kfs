@@ -24,6 +24,8 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
@@ -34,9 +36,26 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
+
+    @Override
+   public Set<String> getDocumentActions(Document document) {
+
+        Set<String> documentActions = super.getDocumentActions(document); 
+        if (isDocErrorCorrectionMode((FinancialSystemTransactionalDocument) document)) {
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        }
+
+        return documentActions;
+    }
+
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
+
+        if (!isDocErrorCorrectionMode((FinancialSystemTransactionalDocument) document)) {
+            editModes.add(KfsAuthorizationConstants.CustomerInvoiceEditMode.PROCESSING_ORGANIZATION_MODE);
+            
+        }
         
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
         String receivableOffsetOption = paramService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
@@ -54,14 +73,14 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
                 editModes.remove(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON);
             }
         }
-        
+
         if (ObjectUtils.isNotNull(workflowDocument) && workflowDocument.isEnroute()) {
             editModes.add(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_DESCRIPTION);
         }
-        
+
         return editModes;
     }    
-    
+
     @Override
     public boolean canCopy(Document document) {
         boolean copyable = true;
@@ -70,7 +89,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
         // Confirm doc is in a saved and copyable state.
         copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().isInitiated(); 
         copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().isCanceled();
-        
+
         // Confirm doc is reversible.
         copyable &= !((CustomerInvoiceDocument)document).isInvoiceReversal();
         return copyable;
@@ -82,7 +101,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
         if (StringUtils.isNotBlank(document.getFinancialSystemDocumentHeader().getCorrectedByDocumentId())) {
             return false;
         }
-        
+
         if(((CustomerInvoiceDocument)document).isInvoiceReversal()){
             return false;
         } else {
@@ -91,15 +110,31 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
             return isDocFinalWithNoAppliedAmountsExceptDiscounts((CustomerInvoiceDocument) document);
         }
     }
-    
+
     //  if this isnt self-explanatory, I dont know what is
     protected boolean isDocFinalWithNoAppliedAmountsExceptDiscounts(CustomerInvoiceDocument document) {
         boolean isFinal = document.getDocumentHeader().getWorkflowDocument().isFinal();
-        
+
         InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);
         boolean hasAppliedAmountsExcludingDiscounts = paidAppliedService.doesInvoiceHaveAppliedAmounts(document);
-        
+
         return isFinal && !hasAppliedAmountsExcludingDiscounts;
     }
     
+    protected boolean isDocErrorCorrectionMode(FinancialSystemTransactionalDocument document) {
+        
+        // check if this document has been error corrected
+        if (StringUtils.isNotBlank(document.getDocumentHeader().getCorrectedByDocumentId())) {
+            return true;
+        }
+
+        if(((CustomerInvoiceDocument)document).isInvoiceReversal()){
+            return true;
+        } else {
+            // a normal invoice can only be error corrected if document is in a final state 
+            // and no amounts have been applied (excluding discounts)
+            return isDocFinalWithNoAppliedAmountsExceptDiscounts((CustomerInvoiceDocument) document);
+        }
+    }
+
 }

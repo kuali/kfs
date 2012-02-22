@@ -239,9 +239,10 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         LineItemReceivingForm lineItemReceivingForm = (LineItemReceivingForm) form;
         LineItemReceivingItem item = lineItemReceivingForm.getNewLineItemReceivingItemLine();
         LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument) lineItemReceivingForm.getDocument();
+        
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddReceivingItemEvent(PurapPropertyConstants.NEW_LINE_ITEM_RECEIVING_ITEM_LINE, lineItemReceivingDocument, item));
-
         if (rulePassed) {
+            lineItemReceivingForm.setHideAddUnorderedItem(true); // hide the add unordered item line once an item is added
             item = lineItemReceivingForm.getAndResetNewReceivingItemLine();                       
             lineItemReceivingDocument.addItem(item);                       
             //TODO: we need to set the line number correctly to match up to PO
@@ -299,5 +300,41 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    /**
+     * Gives a warning before showing the add new unordered line item; if the user confirms the action, proceeds;
+     * otherwise cancels the action and returns to the current LineItemReceivingDocument.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @throws Exception
+     * @return An ActionForward
+     */
+    public ActionForward showAddUnorderedItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LineItemReceivingForm lineItemReceivingForm = (LineItemReceivingForm)form;
+
+        boolean shouldGiveWarning = lineItemReceivingForm.shouldGiveAddUnorderedItemWarning();        
+        if (!shouldGiveWarning) {
+            lineItemReceivingForm.setHideAddUnorderedItem(false);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);            
+        }
+        
+        String msgkey = PurapKeyConstants.WARNING_RECEIVING_LINEITEM_ADD_UNORDERED;
+        String msgtxt = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(msgkey);
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);        
+
+        if (question == null) {
+            return performQuestionWithoutInput(mapping, form, request, response, msgkey, msgtxt, KFSConstants.CONFIRMATION_QUESTION, "showAddUnorderedItem", "");
+        }
+
+        Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+        if ((msgkey.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {                
+            lineItemReceivingForm.setHideAddUnorderedItem(false);
+        }        
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }    
 
 }

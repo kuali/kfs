@@ -23,6 +23,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+
+import org.kuali.kfs.module.purap.PurapConstants;
 
 public class AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidation extends GenericValidation {
 
@@ -41,7 +44,15 @@ public class AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidat
         if (((AccountsPayableDocument)event.getDocument()).isDocumentStoppedInRouteNode(AccountsPayableStatuses.NODE_ACCOUNT_PAYABLE_REVIEW)) {
             if (!((AccountsPayableDocument)event.getDocument()).approvalAtAccountsPayableReviewAllowed()) {
                 valid &= false;
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_AP_REQUIRES_ATTACHMENT);
+                KualiWorkflowDocument workflowDoc = event.getDocument().getDocumentHeader().getWorkflowDocument();
+                if(PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(workflowDoc.getDocumentType())) {
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_CREDIT_MEMO_REQUIRES_ATTACHMENT);
+                }
+                else {
+                        GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_AP_REQUIRES_ATTACHMENT);
+                }
+                
+                
             }
         }
         GlobalVariables.getMessageMap().clearErrorPath();

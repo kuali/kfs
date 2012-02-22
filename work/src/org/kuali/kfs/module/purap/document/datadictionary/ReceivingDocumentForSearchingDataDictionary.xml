@@ -21,7 +21,7 @@
   
     <property name="documentTypeName" value="RCV"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
-  
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
     <property name="workflowAttributes">
     	<ref bean="ReceivingDocumentForSearching-workflowAttributes"/>
     </property>

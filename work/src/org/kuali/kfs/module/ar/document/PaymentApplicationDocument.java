@@ -862,12 +862,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             else {
                 offsetDebitEntry.setSubAccountNumber(ipa.getInvoiceDetail().getSubAccountNumber());
             }
-            if (StringUtils.isBlank(ipa.getInvoiceDetail().getFinancialSubObjectCode())) {
-                offsetDebitEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-            }
-            else {
-                offsetDebitEntry.setFinancialSubObjectCode(ipa.getInvoiceDetail().getFinancialSubObjectCode());
-            }
+            
+            offsetDebitEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             if (StringUtils.isBlank(ipa.getInvoiceDetail().getProjectCode())) {
                 offsetDebitEntry.setProjectCode(KFSConstants.getDashProjectCode());
             }
@@ -889,7 +885,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditEntry.setFinancialObjectTypeCode(accountsReceivableObjectCode.getFinancialObjectTypeCode());
             offsetCreditEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
             offsetCreditEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
-            offsetCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            if (StringUtils.isBlank(ipa.getInvoiceDetail().getSubAccountNumber())) {
+                offsetCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            }
+            else {
+                offsetCreditEntry.setSubAccountNumber(ipa.getInvoiceDetail().getSubAccountNumber());
+            }
+            
             offsetCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             offsetCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());
             offsetCreditEntry.refreshNonUpdateableReferences();

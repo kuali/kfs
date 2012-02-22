@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,6 +46,9 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
+        
+        CashReceiptDocument crDoc = (CashReceiptDocument) getCashReceiptDocumentForValidation();
+        
         CashDrawer cd = getCashDrawerService().getByCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());
         if (cd == null) {
             throw new IllegalStateException("There is no cash drawer associated with unitName '" + getCashReceiptDocumentForValidation().getCampusLocationCode() + "' from cash receipt " + getCashReceiptDocumentForValidation().getDocumentNumber());
@@ -106,7 +109,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
     }
 
     /**
-     * Gets the cashReceiptDocumentForValidation attribute.
+     * Gets the cashReceiptDocumentForValidation attribute. 
      * @return Returns the cashReceiptDocumentForValidation.
      */
     public CashReceiptFamilyBase getCashReceiptDocumentForValidation() {
@@ -122,7 +125,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
     }
 
     /**
-     * Gets the cashDrawerService attribute.
+     * Gets the cashDrawerService attribute. 
      * @return Returns the cashDrawerService.
      */
     public CashDrawerService getCashDrawerService() {
@@ -138,7 +141,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
     }
 
     /**
-     * Gets the cashReceiptService attribute.
+     * Gets the cashReceiptService attribute. 
      * @return Returns the cashReceiptService.
      */
     public CashReceiptService getCashReceiptService() {

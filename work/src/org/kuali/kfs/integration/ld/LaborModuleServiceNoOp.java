@@ -107,4 +107,14 @@ public class LaborModuleServiceNoOp extends UnimplementedKfsModuleServiceImpl im
         return null;
     }
 
+    public List<String> getLaborLedgerGLOriginCodes() {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return Collections.emptyList();
+    }
+
+    public HtmlData getInquiryUrlForGeneralLedgerEntryDocumentNumber(Entry entry) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return null;
+    }
+
 }

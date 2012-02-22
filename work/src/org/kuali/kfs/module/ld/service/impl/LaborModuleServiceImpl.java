@@ -22,10 +22,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
@@ -35,6 +37,8 @@ import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntryGLSummary;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
@@ -67,6 +71,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LaborModuleServiceImpl implements LaborModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborModuleServiceImpl.class);
+    
+    private final static String LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES_PARAM_NAME = "LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES";
+    private final static String GL_LABOR_ENTRY_SUMMARIZATION_INQUIRY_BASE_URL = "laborGLLaborEntrySummarizationInquiry.do";
+    private final static String GL_LABOR_ENTRY_SUMMARIZATION_INQUIRY_METHOD = "viewResults";
 
     /**
      * @see org.kuali.kfs.integration.ld.LaborModuleService#calculateFringeBenefitFromLaborObject(org.kuali.kfs.integration.ld.LaborLedgerObject,
@@ -290,6 +298,38 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 //    }
 
     /**
+     * Looks up the origin codes from the parameter KFS-LD / LedgerEntry / LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES
+     * @see org.kuali.kfs.integration.ld.LaborModuleService#getLaborLedgerGLOriginCodes()
+     */
+    public List<String> getLaborLedgerGLOriginCodes() {
+        return getParameterService().getParameterValues(LedgerEntry.class, LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES_PARAM_NAME);
+    }
+    
+    /**
+     * Builds the url for the given GL entry to go to inquiry screen for related LD entries
+     * @see org.kuali.kfs.integration.ld.LaborModuleService#getInquiryUrlForGeneralLedgerEntryDocumentNumber(org.kuali.kfs.gl.businessobject.Entry)
+     */
+    public HtmlData getInquiryUrlForGeneralLedgerEntryDocumentNumber(Entry entry) {
+        Properties props = new Properties();
+        props.setProperty(KFSConstants.DISPATCH_REQUEST_PARAMETER, GL_LABOR_ENTRY_SUMMARIZATION_INQUIRY_METHOD);
+        props.setProperty(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, entry.getUniversityFiscalYear().toString());
+        props.setProperty(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, entry.getUniversityFiscalPeriodCode());
+        props.setProperty(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, entry.getChartOfAccountsCode());
+        props.setProperty(KFSPropertyConstants.ACCOUNT_NUMBER, entry.getAccountNumber());
+        props.setProperty(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, entry.getSubAccountNumber());
+        props.setProperty(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, entry.getFinancialObjectCode());
+        props.setProperty(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, entry.getFinancialSubObjectCode());
+        props.setProperty(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, entry.getFinancialBalanceTypeCode());
+        props.setProperty(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, entry.getFinancialObjectTypeCode());
+        props.setProperty(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, entry.getFinancialDocumentTypeCode());
+        props.setProperty(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, entry.getFinancialSystemOriginationCode());
+        props.setProperty(KFSPropertyConstants.DOCUMENT_NUMBER, entry.getDocumentNumber());
+        props.setProperty(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, LedgerEntryGLSummary.class.getName());
+        HtmlData htmlData = new AnchorHtmlData(UrlFactory.parameterizeUrl(GL_LABOR_ENTRY_SUMMARIZATION_INQUIRY_BASE_URL, props), entry.getDocumentNumber());
+        return htmlData;
+    }
+
+    /**
      * Gets the laborBenefitsCalculationService attribute.
      * 
      * @return an implementation of the laborBenefitsCalculationService.
@@ -368,6 +408,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public LaborOriginEntryService getLaborOriginEntryService() {
         return SpringContext.getBean(LaborOriginEntryService.class);
+    }
+    
+    /**
+     * @return the default implementation of the ParameterService
+     */
+    public ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
     }
 
     /**

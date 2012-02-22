@@ -21,6 +21,7 @@
     <property name="documentTypeName" value="PORT"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument"/>
     <property name="businessRulesClass" value="org.kuali.rice.krad.rules.TransactionalDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRetransmitDocumentPresentationController"/>

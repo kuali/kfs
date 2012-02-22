@@ -593,6 +593,7 @@
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PayeeType" table="PDP_PAYEE_TYP_T">
     <field-descriptor name="code" column="PAYEE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="name" column="PAYEE_TYP_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="achEligible" column="ACH_ELGBL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>

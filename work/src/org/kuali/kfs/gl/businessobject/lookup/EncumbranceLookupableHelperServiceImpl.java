@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -118,16 +119,19 @@ public class EncumbranceLookupableHelperServiceImpl extends AbstractGeneralLedge
 
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);
+        
+        final String zeroEncumbranceOption = getSelectedZeroEncumbranceOption(fieldValues); // store in a temporary variable, because the method removes the key from the map
+        final boolean includeZeroEncumbrances = (StringUtils.isBlank(zeroEncumbranceOption) || zeroEncumbranceOption.equals(Constant.ZERO_ENCUMBRANCE_INCLUDE));
 
         // get the search result collection
-        Iterator encumbranceIterator = encumbranceService.findOpenEncumbrance(fieldValues);
+        Iterator encumbranceIterator = encumbranceService.findOpenEncumbrance(fieldValues, includeZeroEncumbrances);
         Collection searchResultsCollection = this.buildEncumbranceCollection(encumbranceIterator);
 
         // update search results according to the selected pending entry option
         updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, false, false);
 
         // get the actual size of all qualified search results
-        Integer recordCount = encumbranceService.getOpenEncumbranceRecordCount(fieldValues);
+        Integer recordCount = encumbranceService.getOpenEncumbranceRecordCount(fieldValues, includeZeroEncumbrances);
         Long actualSize = OJBUtility.getResultActualSize(searchResultsCollection, recordCount, fieldValues, new Encumbrance());
 
         return this.buildSearchResultList(searchResultsCollection, actualSize);
@@ -172,6 +176,15 @@ public class EncumbranceLookupableHelperServiceImpl extends AbstractGeneralLedge
             encumbranceCollection.add(encumrbance);
         }
         return encumbranceCollection;
+    }
+    
+    /**
+     * Method tests to see if the user selected to include or exclude zero encumbrances
+     * @param fieldValues the lookup field values
+     * @return the value of the zero encumbrance option
+     */
+    protected String getSelectedZeroEncumbranceOption(Map fieldValues) {
+        return (String)fieldValues.remove(Constant.ZERO_ENCUMBRANCE_OPTION);
     }
 
     /**

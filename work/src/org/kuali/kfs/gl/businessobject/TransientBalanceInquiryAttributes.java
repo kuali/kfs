@@ -39,6 +39,8 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
     private String reportingSortCode;
     private String consolidationReportingSortCode;
     private String levelObjectCode;
+    private String debitCreditOption;
+    private String zeroEncumbranceOption;
 
 
     /**
@@ -272,5 +274,40 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
      */
     public void setBlankLineOption(String blankLineOption) {
         this.blankLineOption = blankLineOption;
+    }
+    
+    
+    /**
+     * 
+     * Gets the debitCreditOption attribute value.
+     * 
+     * @return Returns the debitCreditOption
+     */
+    public String getDebitCreditOption() {
+        return debitCreditOption;
+    }
+
+    /**
+     * 
+     * Sets the debitCreditOption attribute
+     * @param debitCreditOption The debitCreditOption to set.
+     */
+    public void setDebitCreditOption(String debitCreditOption) {
+        this.debitCreditOption = debitCreditOption;
+    }
+
+    /**
+     * @return the include option for encumbrances which have gone to zero
+     */
+    public String getZeroEncumbranceOption() {
+        return zeroEncumbranceOption;
+    }
+
+    /**
+     * Sets the include option for encumbrances which have gone to zero
+     * @param includeZeroEncumbranceOption the include option for encumbrances which have gone to zero
+     */
+    public void setZeroEncumbranceOption(String zeroEncumbranceOption) {
+        this.zeroEncumbranceOption = zeroEncumbranceOption;
     }
 }

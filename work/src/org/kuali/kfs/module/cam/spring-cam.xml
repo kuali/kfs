@@ -99,6 +99,8 @@
 <!-- ********* Begin of depreciation batch beans ********** -->
 	<bean id="assetDepreciationService"  parent="assetDepreciationService-parentBean"/>
 	<bean id="assetDepreciationService-parentBean" class="org.kuali.kfs.module.cam.batch.service.impl.AssetDepreciationServiceImpl" abstract="true">											       
+	    <property name="cronExpression" value="0 * * ? * 5#3"/>
+	    <property name="mailService" ref="mailService" />											       
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>

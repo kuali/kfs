@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,7 +42,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PaymentRequestDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
 
-
+    
     @Override
     public boolean canSave(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
@@ -54,10 +54,10 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         if (canEditPreExtraction(paymentRequestDocument)) {
             return true;
         }
-
+        
         return super.canSave(document);
     }
-
+    
     @Override
     public boolean canReload(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
@@ -65,7 +65,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         if (StringUtils.equals(paymentRequestDocument.getAppDocStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
             return false;
         }
-
+        
         if (canEditPreExtraction(paymentRequestDocument)) {
             return true;
         }
@@ -82,11 +82,11 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     @Override
     public boolean canApprove(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-
+        
         if (paymentRequestDocument.isPaymentRequestedCancelIndicator() || paymentRequestDocument.isHoldIndicator()) {
             return false;
         }
-
+        
         return super.canApprove(document);
     }
 
@@ -97,7 +97,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     }
 
     /**
-     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean canEdit(Document document) {
@@ -105,44 +105,40 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         boolean fullDocEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument);
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        //  fiscal officer review gets the doc editable once its enroute, but no one else does
-        if (fullDocEntryCompleted) {
-            if (paymentRequestDocument.isDocumentStoppedInRouteNode(PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
-                return true;
-            }
-            return false;
-        }
-
         // if the hold or cancel indicator is true, don't allow editing
         if (paymentRequestDocument.isHoldIndicator() || paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
             return false;
         }
-
-        //  in general, the doc should not be editable once its enroute
-        if (workflowDocument.isEnroute() || workflowDocument.isException()) {
+        if (fullDocEntryCompleted) {
+            //  after fullDocEntry is completed, only fiscal officer reviewers can edit
+            if (paymentRequestDocument.isDocumentStoppedInRouteNode(PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
+                return true;
+            }
             return false;
+        } else {
+            //before fullDocEntry is completed, document can be edited (could be preroute or enroute)
+            return true;
         }
-        return super.canEdit(document);
     }
 
     /**
-     *
-     * @see org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
+     * 
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
-
+        
         if (canProcessorCancel(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL);
         }
-
+        
         if (canManagerCancel(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.ACCOUNTS_PAYABLE_MANAGER_CANCEL);
         }
-
+        
         if (canHold(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.HOLD);
         }
@@ -162,11 +158,11 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         if (paymentRequestDocument.getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE)) {
             editModes.add(PaymentRequestEditMode.DISPLAY_INIT_TAB);
         }
-
+        
         if (ObjectUtils.isNotNull(paymentRequestDocument.getVendorHeaderGeneratedIdentifier())) {
             editModes.add(PaymentRequestEditMode.LOCK_VENDOR_ENTRY);
         }
-
+        
         if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
         }
@@ -191,7 +187,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             else {
                 // display the "clear all taxes" button if doc is not using use tax
                 editModes.add(PaymentRequestEditMode.CLEAR_ALL_TAXES);
-
+                
             }
         }
 
@@ -200,11 +196,11 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
         /*
-        if (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(paymentRequestDocument.getAppDocStatus())) {
+        if (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
             editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
         */
-
+        
         // the tax tab is viewable to everyone after tax is approved
         if (PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED.equals(paymentRequestDocument.getAppDocStatus()) &&
                 // if and only if the preq has gone through tax review would TaxClassificationCode be non-empty
@@ -247,7 +243,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         
         String docStatus = paymentRequestDocument.getAppDocStatus();
         boolean requestCancelIndicator = paymentRequestDocument.getPaymentRequestedCancelIndicator();
-        boolean holdIndicator = paymentRequestDocument.isHoldIndicator();
+        boolean holdIndicator = paymentRequestDocument.isHoldIndicator();        
         boolean extracted = paymentRequestDocument.isExtracted();
         
         boolean preroute = 
@@ -263,13 +259,13 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(docStatus);
         
         boolean can = false;
-        if (preroute) {
+        if (PaymentRequestStatuses.STATUSES_PREROUTE.contains(docStatus)) {
             can = true;
         }
-        else if (enroute) {
+        else if (PaymentRequestStatuses.STATUSES_ENROUTE.contains(docStatus)) {
             can = requestCancelIndicator;
         }
-        else if (postroute) {
+        else if (PaymentRequestStatuses.STATUSES_POSTROUTE.contains(docStatus)) {
             can = !requestCancelIndicator && !holdIndicator && !extracted;
         }
 
@@ -284,7 +280,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         
         String docStatus = paymentRequestDocument.getAppDocStatus();
         boolean requestCancelIndicator = paymentRequestDocument.getPaymentRequestedCancelIndicator();
-        boolean holdIndicator = paymentRequestDocument.isHoldIndicator();
+        boolean holdIndicator = paymentRequestDocument.isHoldIndicator();        
         boolean extracted = paymentRequestDocument.isExtracted();
         
         boolean preroute = 
@@ -300,10 +296,11 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(docStatus);
         
         boolean can = false;
-        if (preroute || enroute) {
+        if (PaymentRequestStatuses.STATUSES_PREROUTE.contains(docStatus) || 
+                PaymentRequestStatuses.STATUSES_ENROUTE.contains(docStatus)) {
             can = true;
         }
-        else if (postroute) {
+        else if (PaymentRequestStatuses.STATUSES_POSTROUTE.contains(docStatus)) {
             can = !requestCancelIndicator && !holdIndicator && !extracted;
         }
 
@@ -316,7 +313,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      * - Payment Request is not already being requested to be canceled, and
      * - Payment Request has not already been extracted to PDP, and
      * - Payment Request status is not in the list of "STATUSES_DISALLOWING_HOLD" or document is being adhoc routed; and
-     *
+     * 
      * @return True if the document state allows placing the Payment Request on hold.
      */
     protected boolean canHold(PaymentRequestDocument paymentRequestDocument) {
@@ -335,7 +332,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      * - Payment Request is not already being requested to be canceled, and
      * - Payment Request has not already been extracted to PDP, and
      * - Payment Request status is not in the list of "STATUSES_DISALLOWING_REQUEST_CANCEL" or document is being adhoc routed; and
-     *
+     * 
      * @return True if the document state allows placing the request that the Payment Request be canceled.
      */
     protected boolean canRequestCancel(PaymentRequestDocument paymentRequestDocument) {
@@ -351,25 +348,25 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     /**
      * Determines whether the Remove Hold button shall be available. Conditions:
      * - the hold indicator is set to true
-     *
-     * Because the state of the Payment Request cannot be changed while the document is on hold,
-     * we should not have to check the state of the document to remove the hold.
+     * 
+     * Because the state of the Payment Request cannot be changed while the document is on hold, 
+     * we should not have to check the state of the document to remove the hold.  
      * For example, the document should not be allowed to be approved or extracted while on hold.
-     *
+     * 
      * @return True if the document state allows removing the Payment Request from hold.
      */
     protected boolean canRemoveHold(PaymentRequestDocument paymentRequestDocument) {
-        return paymentRequestDocument.isHoldIndicator();
+        return paymentRequestDocument.isHoldIndicator();       
     }
 
     /**
      * Determines whether the Remove Request Cancel button shall be available. Conditions:
-     * - the request cancel indicator is set to true;  and
-     *
-     * Because the state of the Payment Request cannot be changed while the document is set to request cancel,
-     * we should not have to check the state of the document to remove the request cancel.
+     * - the request cancel indicator is set to true;  and 
+     *   
+     * Because the state of the Payment Request cannot be changed while the document is set to request cancel, 
+     * we should not have to check the state of the document to remove the request cancel.  
      * For example, the document should not be allowed to be approved or extracted while set to request cancel.
-     *
+     *  
      * @return True if the document state allows removing a request that the Payment Request be canceled.
      */
     protected boolean canRemoveRequestCancel(PaymentRequestDocument paymentRequestDocument) {

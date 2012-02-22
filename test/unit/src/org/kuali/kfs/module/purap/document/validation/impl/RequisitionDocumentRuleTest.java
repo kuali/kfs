@@ -20,11 +20,13 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.AmountsLimitsFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
@@ -78,7 +80,11 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
                 
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_DEBARRED_VENDOR));
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.ParameterNamespaces.PURCHASING, "Requisition", PurapParameterConstants.SHOW_DEBARRED_VENDOR_WARNING_IND)) {
+            assertTrue(GlobalVariables.getMessageMap().hasWarnings());
+        } else {
+            assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_DEBARRED_VENDOR));
+        }
     }
     
     //Inactive Vendor should fail the vendor validation.

@@ -295,7 +295,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * a set number of days have passed since the document's creation.
      * 
      * @return True if copying of this requisition is allowed.
-     * @see org.kuali.rice.krad.document.Document#getAllowsCopy()
+     * @see org.kuali.rice.kns.document.Document#getAllowsCopy()
      */
     @Override
     public boolean getAllowsCopy() {
@@ -321,7 +321,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * Performs logic needed to copy Requisition Document.
      * 
-     * @see org.kuali.rice.krad.document.Document#toCopy()
+     * @see org.kuali.rice.kns.document.Document#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException, ValidationException {
@@ -419,7 +419,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
@@ -461,7 +461,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.rice.krad.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
     public void doRouteLevelChange(DocumentRouteLevelChange change) {
@@ -492,8 +492,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         catch (WorkflowException e) {
             String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
             LOG.warn(errorMsg, e);
-        }*/
         }
+    }
 
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLineClass()
@@ -610,7 +610,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.rice.krad.document.Document#getDocumentTitle()
+     * @see org.kuali.rice.kns.document.Document#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
@@ -660,6 +660,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * Used for routing only.
      * 
+     * @deprecated
      */
     public String getStatusDescription() {
         return getAppDocStatus();

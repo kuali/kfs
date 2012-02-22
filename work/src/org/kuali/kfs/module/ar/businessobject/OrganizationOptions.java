@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -63,6 +65,12 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
     private PostalCode orgPostalZipCode;
     private PostalCode orgRemitToZipCode;
     private PostalCode orgPostalCountryCode;
+    
+    private transient SystemInformation systemInformationForAddress;
+    private transient SystemInformation systemInformationForAddressName;
+    protected static volatile ParameterService parameterService;
+    protected static volatile SystemInformationService systemInformationService;
+    protected static volatile UniversityDateService universityDateService;
     
 
     /**
@@ -225,7 +233,11 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	public String getOrganizationRemitToAddressName() { 
-		return organizationRemitToAddressName;
+	    final SystemInformation systemInfo = getSystemInformationForRemitToAddressName();
+	    if(systemInfo != null) {
+	        return systemInfo.getOrganizationRemitToAddressName();
+	    }
+	    return organizationRemitToAddressName;
 	}
 
 	/**
@@ -246,7 +258,11 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	public String getOrganizationRemitToLine1StreetAddress() { 
-		return organizationRemitToLine1StreetAddress;
+	    final SystemInformation systemInfo = getSystemInformationForRemitToAddress();
+        if(systemInfo != null) {
+            return systemInfo.getOrganizationRemitToLine1StreetAddress();
+        } 
+        return organizationRemitToLine1StreetAddress;
 	}
 
 	/**
@@ -267,7 +283,11 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	public String getOrganizationRemitToLine2StreetAddress() { 
-		return organizationRemitToLine2StreetAddress;
+	    final SystemInformation systemInfo = getSystemInformationForRemitToAddress();
+        if(systemInfo != null) {
+            return systemInfo.getOrganizationRemitToLine2StreetAddress();
+        } 
+        return organizationRemitToLine2StreetAddress;
 	}
 
 	/**
@@ -288,6 +308,10 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	public String getOrganizationRemitToCityName() { 
+	    final SystemInformation systemInfo = getSystemInformationForRemitToAddress();
+        if(systemInfo != null) {
+            return systemInfo.getOrganizationRemitToCityName();
+        }
 		return organizationRemitToCityName;
 	}
 
@@ -309,6 +333,10 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	public String getOrganizationRemitToStateCode() { 
+	    final SystemInformation systemInfo = getSystemInformationForRemitToAddress();
+        if(systemInfo != null) {
+            return systemInfo.getOrganizationRemitToStateCode();
+        }
 		return organizationRemitToStateCode;
 	}
 
@@ -330,6 +358,10 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	public String getOrganizationRemitToZipCode() { 
+        final SystemInformation systemInfo = getSystemInformationForRemitToAddress();
+        if(systemInfo != null) {
+            return systemInfo.getOrganizationRemitToZipCode();
+        }
 		return organizationRemitToZipCode;
 	}
 
@@ -434,6 +466,10 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	public String getOrganizationCheckPayableToName() { 
+	    final SystemInformation systemInfo = getSystemInformationForRemitToAddress();
+        if(systemInfo != null) {
+            return systemInfo.getOrganizationCheckPayableToName();
+        }
 		return organizationCheckPayableToName;
 	}
 
@@ -627,6 +663,79 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 
     public void setOrgPostalCountryCode(PostalCode orgPostalCountryCode) {
         this.orgPostalCountryCode = orgPostalCountryCode;
-    }    
+    }
+    
+    /**
+     * @return the related SystemInformation object with the address to use as remit to address, if the remit to address is not editable on this OrganizationOptions business object
+     */
+    protected SystemInformation getSystemInformationForRemitToAddress() {
+        if (!isRemitToAddressEditable()) {
+            if (systemInformationForAddressName == null) {
+                final Integer currentFiscalYear = getUniversityDateService().getCurrentFiscalYear();
+                systemInformationForAddressName = getSystemInformationService()
+                    .getByProcessingChartOrgAndFiscalYear(processingChartOfAccountCode, processingOrganizationCode, currentFiscalYear);
+            }
+            return systemInformationForAddressName;
+        }
+        return null;
+    }
+    
+    /**
+     * @return the related SystemInformation object with the address to use as remit to address name, if the remit to address name is not editable on this OrganizationOptions business object
+     */
+    protected SystemInformation getSystemInformationForRemitToAddressName() {
+        if (!isRemitToAddressNameEditable()) {
+            if (systemInformationForAddress == null) {
+                final Integer currentFiscalYear = getUniversityDateService().getCurrentFiscalYear();
+                systemInformationForAddress = getSystemInformationService()
+                    .getByProcessingChartOrgAndFiscalYear(processingChartOfAccountCode, processingOrganizationCode, currentFiscalYear);
+            }
+            return systemInformationForAddress;
+        }
+        return null;
+    }
+    
+    /**
+     * @return true if the name for the remit to address is editable, false otherwise
+     */
+    protected boolean isRemitToAddressNameEditable() {
+        return getParameterService().getIndicatorParameter(OrganizationOptions.class, ArConstants.REMIT_TO_NAME_EDITABLE_IND);
+    }
+    
+    /**
+     * @return true if the remit to address is editable, false otherwise
+     */
+    protected boolean isRemitToAddressEditable() {
+        return getParameterService().getIndicatorParameter(OrganizationOptions.class, ArConstants.REMIT_TO_ADDRESS_EDITABLE_IND);
+    }
+    
+    /**
+     * @return the default implementation of the ParameterService
+     */
+    protected ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
+    }
 
+    /**
+     * @return the default implementation of the SystemInformationService
+     */
+    protected SystemInformationService getSystemInformationService() {
+        if (systemInformationService == null) {
+            systemInformationService = SpringContext.getBean(SystemInformationService.class);
+        }
+        return systemInformationService;
+    }
+    
+    /**
+     * @return the default implementation of the UniversityDateService
+     */
+    protected UniversityDateService getUniversityDateService() {
+        if (universityDateService == null) {
+            universityDateService = SpringContext.getBean(UniversityDateService.class);
+        }
+        return universityDateService;
+    }
 }

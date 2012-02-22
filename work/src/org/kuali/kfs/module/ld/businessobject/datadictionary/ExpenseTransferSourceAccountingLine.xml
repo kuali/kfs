@@ -1,20 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	<!--
-		Copyright 2007-2009 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
-	<bean id="ExpenseTransferSourceAccountingLine" parent="ExpenseTransferSourceAccountingLine-parentBean" />
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="ExpenseTransferSourceAccountingLine" parent="ExpenseTransferSourceAccountingLine-parentBean"/>
 
 	<bean id="ExpenseTransferSourceAccountingLine-parentBean"
 		abstract="true" parent="BusinessObjectEntry">
@@ -22,6 +23,9 @@
 			value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
 		<property name="objectLabel" value="Expense Transfer Source Accounting Line" />
 
+    <property name="inquiryDefinition">
+      <ref bean="ExpenseTransferSourceAccountingLine-inquiryDefinition"/>
+    </property>
 		<property name="attributes">
 			<list>
 				<ref bean="ExpenseTransferSourceAccountingLine-emplid" />
@@ -75,14 +79,15 @@
 					bean="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
 				<ref
 					bean="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate" />
+        <ref bean="ExpenseTransferSourceAccountingLine-fringeBenefitView"/>
 			</list>
 		</property>
 	</bean>
 
-	<!-- Attribute Definitions -->
+<!-- Attribute Definitions -->
 
 
-	<bean id="ExpenseTransferSourceAccountingLine-emplid" parent="ExpenseTransferSourceAccountingLine-emplid-parentBean" />
+  <bean id="ExpenseTransferSourceAccountingLine-emplid" parent="ExpenseTransferSourceAccountingLine-emplid-parentBean"/>
 
 	<bean id="ExpenseTransferSourceAccountingLine-emplid-parentBean"
 		abstract="true" parent="PersonImpl-employeeId">
@@ -244,19 +249,14 @@
 	<bean id="ExpenseTransferSourceAccountingLine-financialObjectCode"
 		parent="ExpenseTransferSourceAccountingLine-financialObjectCode-parentBean" />
 
-	<bean
-		id="ExpenseTransferSourceAccountingLine-financialObjectCode-parentBean"
-		abstract="true" parent="ObjectCode-financialObjectCode">
+  <bean id="ExpenseTransferSourceAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-accountNumber" parent="ExpenseTransferSourceAccountingLine-accountNumber-parentBean"/>
 
-	</bean>
-	<bean id="ExpenseTransferSourceAccountingLine-accountNumber"
-		parent="ExpenseTransferSourceAccountingLine-accountNumber-parentBean" />
-
-	<bean id="ExpenseTransferSourceAccountingLine-accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber">
-	</bean>
-	<bean id="ExpenseTransferSourceAccountingLine-organizationReferenceId"
-		parent="ExpenseTransferSourceAccountingLine-organizationReferenceId-parentBean" />
+  <bean id="ExpenseTransferSourceAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-organizationReferenceId" parent="ExpenseTransferSourceAccountingLine-organizationReferenceId-parentBean"/>
 
 	<bean
 		id="ExpenseTransferSourceAccountingLine-organizationReferenceId-parentBean"
@@ -279,16 +279,13 @@
 	<bean id="ExpenseTransferSourceAccountingLine-chartOfAccountsCode"
 		parent="ExpenseTransferSourceAccountingLine-chartOfAccountsCode-parentBean" />
 
-	<bean
-		id="ExpenseTransferSourceAccountingLine-chartOfAccountsCode-parentBean"
-		abstract="true" parent="Chart-chartOfAccountsCode">
-		<property name="control">
-			<ref bean="ChartSimpleSelectControl" />
-		</property>
-
-	</bean>
-	<bean id="ExpenseTransferSourceAccountingLine-postingYear"
-		parent="ExpenseTransferSourceAccountingLine-postingYear-parentBean" />
+  <bean id="ExpenseTransferSourceAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control">
+      <ref bean="ChartSimpleSelectControl" />
+    </property>
+    
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-postingYear" parent="ExpenseTransferSourceAccountingLine-postingYear-parentBean"/>
 
 	<bean id="ExpenseTransferSourceAccountingLine-postingYear-parentBean"
 		abstract="true" parent="GenericAttributes-genericFiscalYear">
@@ -345,12 +342,9 @@
 	<bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode"
 		parent="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" />
 
-	<bean
-		id="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean"
-		abstract="true" parent="GenericAttributes-referenceTypeCode" />
+  <bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
 
-	<bean id="ExpenseTransferSourceAccountingLine-projectCode"
-		parent="ExpenseTransferSourceAccountingLine-projectCode-parentBean" />
+  <bean id="ExpenseTransferSourceAccountingLine-projectCode" parent="ExpenseTransferSourceAccountingLine-projectCode-parentBean"/>
 
 	<bean id="ExpenseTransferSourceAccountingLine-projectCode-parentBean"
 		abstract="true" parent="ProjectCode-code">
@@ -571,11 +565,44 @@
 		id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate"
 		parent="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" />
 
-	<bean
-		id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean"
-		abstract="true" parent="SalesTax-financialDocumentSaleDate">
-		<property name="name" value="salesTax.financialDocumentSaleDate" />
-		<property name="label" value="Sale Date" />
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
+    <property name="name" value="salesTax.financialDocumentSaleDate"/>
+    <property name="label" value="Sale Date"/>
+  </bean>
+  
+  <bean id="ExpenseTransferSourceAccountingLine-fringeBenefitView" parent="ExpenseTransferSourceAccountingLine-fringeBenefitView-parentBean"/>
+  <bean id="ExpenseTransferSourceAccountingLine-fringeBenefitView-parentBean" abstract="true"  parent="AttributeDefinition">
+    <property name="name" value="fringeBenefitView"/>
+    <property name="label" value="Fringe Benefit"/>
+    <property name="shortLabel" value="Fringe Benefit"/>
+    <property name="maxLength" value="100"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="StandardNameTextControl" />
+    </property>
+  </bean>
+  
+  <!-- Business Object Inquiry Definition -->
 
-	</bean>
+
+  <bean id="ExpenseTransferSourceAccountingLine-inquiryDefinition" parent="ExpenseTransferSourceAccountingLine-inquiryDefinition-parentBean"/>
+
+  <bean id="ExpenseTransferSourceAccountingLine-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Fringe Benefit"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Fringe Benefit"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+            <bean parent="FieldDefinition" p:attributeName="fringeBenefitView"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="inquirableClass" value="org.kuali.kfs.module.ld.businessobject.inquiry.ExpenseTransferAccountingLineInquirable"/>
+  </bean>
+  
 </beans>

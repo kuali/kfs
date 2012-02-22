@@ -268,8 +268,10 @@ public class LockboxServiceImpl implements LockboxService {
                     throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
                 }
                 
-                //  write the detail and payapp lines to the report
-                routePayAppWithoutBusinessRules(payAppDocNumber, "CREATED & SAVED by Lockbox batch");
+                //write the detail and payapp lines to the report
+                
+                //KFSMI-6719
+                //routePayAppWithoutBusinessRules(payAppDocNumber, "CREATED & SAVED by Lockbox batch");
                 writeCashControlDetailLine(pdfdoc, detail.getFinancialDocumentLineAmount(), detail.getCustomerPaymentDescription());
                 writePayAppLine(pdfdoc, detail.getReferenceFinancialDocumentNumber(), "CREATED & SAVED");
                 writeSummaryDetailLine(pdfdoc, "INVOICE NUMBER NOT PARSEABLE");

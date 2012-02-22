@@ -172,4 +172,18 @@ public interface LaborModuleService {
      * @return true if the position object group exists, false otherwise
      */
     public boolean doesLaborLedgerPositionObjectGroupExist(String positionObjectGroupCode);
+    
+    /**
+     * A list of the origin codes which will appear in GL entries which should be linked to a labor ledger lookup
+     * @return a list of labor ledger oriented origin codes which appear on general ledger entries
+     */
+    public List<String> getLaborLedgerGLOriginCodes();
+    
+    /**
+     * When handed a GeneralLedger, determines and returns the url which will point to the labor ledger entries "inquiry" related to the given entry.
+     * The url will be linked via the document number
+     * @param entry an entry to find a labor ledger inquiry on the document number was
+     * @return the inquiry HtmlData for the given general ledger entry
+     */
+    public HtmlData getInquiryUrlForGeneralLedgerEntryDocumentNumber(Entry entry);
 }

@@ -16,11 +16,14 @@
 package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.kfs.module.purap.service.PdpExtractService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.rice.kns.service.ParameterService;
 
 @Transactional
 public class ExtractPdpImmediatesStep extends AbstractStep {
@@ -38,11 +41,11 @@ public class ExtractPdpImmediatesStep extends AbstractStep {
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");
-
         pdpExtractService.extractImmediatePaymentsOnly();
         return true;
     }
-
+    
+   
     public boolean execute() throws InterruptedException {
         try {
             return execute(null, dateTimeService.getCurrentDate());
@@ -64,4 +67,13 @@ public class ExtractPdpImmediatesStep extends AbstractStep {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
+    
+    
+    
+
+    
+    
+    
+    
 }

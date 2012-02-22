@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
@@ -124,6 +125,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected static transient DateTimeService dateTimeService;
     protected static transient DisbursementVoucherPaymentReasonService dvPymentReasonService;
     protected static transient IdentityManagementService identityManagementService;
+    protected static transient DisbursementVoucherExtractService disbursementVoucherExtractService;
 
     protected Integer finDocNextRegistrantLineNbr;
     protected String disbVchrContactPersonName;
@@ -154,7 +156,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
     protected boolean payeeAssigned = false;
     protected boolean editW9W8BENbox = false;
-    
+    protected boolean immediatePaymentIndicator = false;
     
     protected DocumentHeader financialDocument;
     protected DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc;
@@ -899,15 +901,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(vendor.getVendorName());
 
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(vendor.getVendorHeader().getVendorForeignIndicator());
-
-        if (ObjectUtils.isNull(vendorAddress) || ObjectUtils.isNull(vendorAddress.getVendorAddressGeneratedIdentifier())) {
-            for (VendorAddress addr : vendor.getVendorAddresses()) {
-                if (addr.isVendorDefaultAddressIndicator()) {
-                    vendorAddress = addr;
-                    break;
-                }
-            }
-        }
+		
 
         if (ObjectUtils.isNotNull(vendorAddress) && ObjectUtils.isNotNull(vendorAddress.getVendorAddressGeneratedIdentifier())) {
             this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber(vendorAddress.getVendorAddressGeneratedIdentifier().toString());
@@ -919,13 +913,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(vendorAddress.getVendorCountryCode());
         }
         else {
-            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber("");
-            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr("");
-            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
-            this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
-            this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
-            this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
-            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");      
+            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber(StringUtils.EMPTY);
+            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(StringUtils.EMPTY);
+            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(StringUtils.EMPTY);
+            this.getDvPayeeDetail().setDisbVchrPayeeCityName(StringUtils.EMPTY);
+            this.getDvPayeeDetail().setDisbVchrPayeeStateCode(StringUtils.EMPTY);
+            this.getDvPayeeDetail().setDisbVchrPayeeZipCode(StringUtils.EMPTY);
+            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(StringUtils.EMPTY);      
         }
 
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(vendor.getVendorHeader().getVendorForeignIndicator());
@@ -1048,9 +1042,9 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     
     /**
      * Someday this method will be in Rice.  But...'til it is...lazy loop through the entity entity types in the given
-     * EntityInfo and return the one who has the type of "PERSON"
+     * KimEntityInfo and return the one who has the type of "PERSON"
      * @param entityInfo the entity info to loop through entity entity types of
-     * @return a found entity entity type or null if a PERSON entity entity type is not associated with the given EntityInfo record
+     * @return a found entity entity type or null if a PERSON entity entity type is not associated with the given KimEntityInfo record
      */
     protected EntityTypeContactInfo getPersonEntityEntityType(Entity entity) {
         final List<EntityTypeContactInfo> entityEntityTypes = entity.getEntityTypeContactInfos();
@@ -1068,10 +1062,10 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
     
     /**
-     * Given a List of EntityAddress and an address type, finds the address in the List with the given type (or null if no matching EntityAddress is found)
-     * @param addresses the List of EntityAddress records to search
+     * Given a List of KimEntityAddress and an address type, finds the address in the List with the given type (or null if no matching KimEntityAddress is found)
+     * @param addresses the List of KimEntityAddress records to search
      * @param addressType the address type of the address to return
-     * @return the found EntityAddress, or null if not found
+     * @return the found KimEntityAddress, or null if not found
      */
     protected EntityAddress findAddressByType(List<? extends EntityAddress> addresses, String addressType) {
         EntityAddress foundAddress = null;
@@ -1079,7 +1073,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         
         while (count < addresses.size() && foundAddress == null) {
             final EntityAddress currentAddress = addresses.get(count);
-            if (currentAddress.getAddressType().getCode().equals(addressType)) {
+            if (currentAddress.isActive() && currentAddress.getAddressType().getCode().equals(addressType)) {
                 foundAddress = currentAddress;
             }
             count += 1;
@@ -1089,7 +1083,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.rice.krad.document.Document#prepareForSave()
+     * @see org.kuali.rice.kns.document.Document#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -1169,7 +1163,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * computed and saved to the DV Payee Detail BO so they can be serialized to XML for routing. Some of the routing rules rely on
      * these variables.
      * 
-     * @see org.kuali.rice.krad.document.DocumentBase#populateDocumentForRouting()
+     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {
@@ -1240,15 +1234,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         // clear fields
         setDisbVchrContactPhoneNumber(StringUtils.EMPTY);
         setDisbVchrContactEmailId(StringUtils.EMPTY);
-        getDvPayeeDetail().setDisbVchrPayeePersonName(StringUtils.EMPTY);
-
-        getDvPayeeDetail().setDisbVchrPayeeLine1Addr(StringUtils.EMPTY);
-        getDvPayeeDetail().setDisbVchrPayeeLine2Addr(StringUtils.EMPTY);
-        getDvPayeeDetail().setDisbVchrPayeeCityName(StringUtils.EMPTY);
-        getDvPayeeDetail().setDisbVchrPayeeStateCode(StringUtils.EMPTY);
-        getDvPayeeDetail().setDisbVchrPayeeZipCode(StringUtils.EMPTY);
-        getDvPayeeDetail().setDisbVchrPayeeCountryCode(StringUtils.EMPTY);
-
         setDisbVchrPayeeTaxControlCode(StringUtils.EMPTY);
 
         // clear nra
@@ -1285,9 +1270,14 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * generic, shared logic used to initiate a dv document
      */
     public void initiateDocument() {
+        PhoneNumberService phoneNumberService = SpringContext.getBean(PhoneNumberService.class);
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         setDisbVchrContactPersonName(currentUser.getName());
-        setDisbVchrContactPhoneNumber(currentUser.getPhoneNumber());
+        
+        if(!phoneNumberService.isDefaultFormatPhoneNumber(currentUser.getPhoneNumber())) {
+            setDisbVchrContactPhoneNumber(phoneNumberService.formatNumberIfPossible(currentUser.getPhoneNumber()));
+        }
+        
         setDisbVchrContactEmailId(currentUser.getEmailAddress());
         ChartOrgHolder chartOrg = SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.FINANCIAL);
         
@@ -1322,7 +1312,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.rice.krad.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -1359,8 +1349,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param accountingLine accounting line in accounting document
      * @return true if document is debit
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
-     *      org.kuali.rice.krad.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // disallow error corrections
@@ -1380,8 +1370,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param financialDocument submitted accounting document
      * @param accountingLine accounting line in submitted accounting document
      * @param explicitEntry explicit GLPE
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.krad.document.FinancialDocument,
-     *      org.kuali.rice.krad.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry) {
@@ -1407,7 +1397,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param financialDocument submitted financial document
      * @param sequenceHelper helper class to keep track of GLPE sequence
      * @return true if GLPE's are generated successfully
-     * @see org.kuali.rice.krad.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.krad.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -1655,7 +1645,22 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }   
 
     /**
-     * @see org.kuali.rice.krad.document.DocumentBase#getDocumentTitle()
+     * @return whether this document should be paid out immediately from PDP
+     */
+    public boolean isImmediatePaymentIndicator() {
+        return immediatePaymentIndicator;
+    }
+
+    /**
+     * Sets whether this document should be paid out as quickly as possible from PDP
+     * @param immediatePaymentIndicator true if this should be immediately disbursed; false otherwise
+     */
+    public void setImmediatePaymentIndicator(boolean immediatePaymentIndicator) {
+        this.immediatePaymentIndicator = immediatePaymentIndicator;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
@@ -1675,17 +1680,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return title;
         }
         
-        Object[] indicators = new String[3];        
+        Object[] indicators = new String[2];        
         indicators[0] = payee.isEmployee() ? AdHocPaymentIndicator.EMPLOYEE_PAYEE : AdHocPaymentIndicator.OTHER;
         indicators[1] = payee.isDisbVchrAlienPaymentCode() ? AdHocPaymentIndicator.ALIEN_PAYEE : AdHocPaymentIndicator.OTHER;
         
-        DisbursementVoucherPaymentReasonService paymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
-        boolean isTaxReviewRequired = paymentReasonService.isTaxReviewRequired(payee.getDisbVchrPaymentReasonCode());
-        indicators[2] = isTaxReviewRequired ? AdHocPaymentIndicator.PAYMENT_REASON_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER;
-        
         for(Object indicator : indicators) {
             if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
-                String titlePattern = title + " [{0}:{1}:{2}]";
+                String titlePattern = title + " [{0}:{1}]";
                 return MessageFormat.format(titlePattern, indicators);
             }
         }
@@ -1789,14 +1790,11 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return true;
         }
 
-        boolean isEmployee = this.getDvPayeeDetail().isDisbVchrPayeeEmployeeCode();
-        if (isEmployee) {
-            return true;
-        }
-        
         String payeeTypeCode = this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode();
         if (payeeTypeCode.equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
-            return true;
+            return false;
+        } else if (payeeTypeCode.equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) {
+            return vendorService.isVendorInstitutionEmployee(this.getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger());
         }
         
         if (payeeTypeCode.equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR) && this.getVendorService().isVendorForeign(getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger())) {
@@ -1862,19 +1860,26 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         return this.getDvPymentReasonService().isPrepaidTravelPaymentReason(paymentReasonCode) || this.getDvPymentReasonService().isNonEmployeeTravelPaymentReason(paymentReasonCode);
         }
 
-    protected PersonService getPersonService() {
+    /**
+     * Overridden to immediately extract DV, if it has been marked for immediate extract
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            if (isImmediatePaymentIndicator()) {
+                getDisbursementVoucherExtractService().extractImmediatePayment(this);
+            }
+        }
+    }
+
+
+    protected PersonService<Person> getPersonService() {
         if ( personService == null ) {
             personService = SpringContext.getBean(PersonService.class);
         }
         return personService;
-    }
-
-
-    protected ParameterService getParameterService() {
-        if ( parameterService == null ) {
-            parameterService = SpringContext.getBean(ParameterService.class);
-        }
-        return parameterService;
     }
 
 
@@ -1883,14 +1888,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             vendorService = SpringContext.getBean(VendorService.class);
         }
         return vendorService;
-    }
-
-
-    protected BusinessObjectService getBusinessObjectService() {
-        if ( businessObjectService == null ) {
-            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        }
-        return businessObjectService;
     }
 
     /**
@@ -1924,6 +1921,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public static void setIdentityManagementService(IdentityManagementService identityManagementService) {
         DisbursementVoucherDocument.identityManagementService = identityManagementService;
     }
+    
+    /**
+     * @return the default implementation of the DisbursementVoucherExtractService
+     */
+    public static DisbursementVoucherExtractService getDisbursementVoucherExtractService() {
+        if (disbursementVoucherExtractService == null) {
+            disbursementVoucherExtractService = SpringContext.getBean(DisbursementVoucherExtractService.class);
+        }
+        return disbursementVoucherExtractService;
+    }
+    
     /**
      * @return Returns the disbExcptAttachedIndicator.
      */

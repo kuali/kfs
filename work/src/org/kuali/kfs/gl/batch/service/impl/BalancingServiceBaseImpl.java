@@ -157,6 +157,11 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         LOG.debug("Comparing custom, if any, history table with the PRD counterpart.");
         Map<String, Integer> countCustomComparisionFailures = this.customCompareHistory();
 
+        if (!historyTablesPopulated) {
+            reportWriterService.writeNewLines(1);
+            reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FILE_LISTING), this.getFilenames());
+        }
+        
         LOG.debug("Writing statistics section");
         reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_FISCAL_YEARS_INCLUDED), ledgerBalanceHistoryBalancingDao.findDistinctFiscalYears());
         reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_HISTORY_TABLES_INITIALIZED), historyTablesPopulated ? "Yes" : "No");

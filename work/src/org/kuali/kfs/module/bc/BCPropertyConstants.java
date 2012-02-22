@@ -51,6 +51,7 @@ public class BCPropertyConstants {
     public static final String APPOINTMENT_FUNDING_MONTH = "appointmentFundingMonth";
 
     public static final String APPOINTMENT_REQUESTED_CSF_AMOUNT = "appointmentRequestedCsfAmount";
+    public static final String APPOINTMENT_CHART_OF_ACCOUNT = "chartOfAccountsCode";
     public static final String APPOINTMENT_REQUESTED_CSF_FTE_QUANTITY = "appointmentRequestedCsfFteQuantity";
     public static final String APPOINTMENT_REQUESTED_CSF_TIME_PERCENT = "appointmentRequestedCsfTimePercent";
     public static final String APPOINTMENT_REQUESTED_FTE_QUANTITY = "appointmentRequestedFteQuantity";

@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -52,6 +53,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private AccountingPeriod financialDocumentPostingPeriod;
     private DocumentTypeEBO expenditureFinancialSystemDocumentTypeCode;
     private OriginationCode expenditureFinancialSystemOrigination;
+    private Account account;
 
 
 
@@ -83,10 +85,9 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.setAmount(assetPayment.getAccountChargeAmount());
     }
     
+
     /**
-     * Replace the original toStringMapper
-     * 
-     * @return
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap<String,String> assetPaymentToStringMapper() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
@@ -226,6 +227,26 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     public void setExpenditureFinancialSystemOrigination(OriginationCode expenditureFinancialSystemOrigination) {
         this.expenditureFinancialSystemOrigination = expenditureFinancialSystemOrigination;
+    }
+    
+    /**
+     * Gets the account attribute.
+     * 
+     * @return Returns the account
+     * 
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute.
+     * 
+     * @param account The account to set.
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
     }
     
     public KualiDecimal getAmount() {

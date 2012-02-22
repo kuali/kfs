@@ -140,7 +140,7 @@
     <property name="name" value="disbVchrPayeeAccountNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank Account #"/>
-    <property name="shortLabel" value="Bnk Cntry"/>
+    <property name="shortLabel" value="Bank Account"/>
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">

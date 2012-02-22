@@ -21,6 +21,8 @@ import java.util.Set;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetComponent;
+import org.kuali.kfs.module.cam.businessobject.AssetRepairHistory;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -55,6 +57,10 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
 
         // Hide payment sequence numbers
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+        hideInactiveAssetComponent(fields, asset);
+        hideInactiveAssetRepairHistory(fields, asset);
+        hideInactiveAssetWarranty(fields, asset);
+        
         int size = asset.getAssetPayments().size();
         for (int i = 0; i < size; i++) {
             fields.add(CamsPropertyConstants.Asset.ASSET_PAYMENTS + "[" + i + "]." + CamsPropertyConstants.AssetPayment.PAYMENT_SEQ_NUMBER);
@@ -212,5 +218,35 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
         }
         
         return actions;
+    }
+    
+    private void hideInactiveAssetWarranty(Set<String> fields , Asset asset){
+        if(ObjectUtils.isNotNull(asset.getAssetWarranty())) {
+            if(!asset.getAssetWarranty().isActive()) {
+                fields.add(CamsPropertyConstants.Asset.ASSET_WARRANTY);
+            }
+        }
+    }
+    
+    private  void hideInactiveAssetComponent(Set<String> fields , Asset asset){
+      List<AssetComponent> components = asset.getAssetComponents();
+      int i=0;
+      for(AssetComponent component : components ) {
+          if(!component.isActive()) {
+              fields.add(CamsPropertyConstants.Asset.ASSET_COMPONENTS + "[" + i + "]");
+          }
+          i++;
+      }
+    }
+    
+    
+    private  void hideInactiveAssetRepairHistory(Set<String> fields , Asset asset) {
+        int i=0;
+        for(AssetRepairHistory assetRepairHistory : asset.getAssetRepairHistory()) {
+            if(!assetRepairHistory.isActive()) {
+                fields.add(CamsPropertyConstants.Asset.ASSET_REPAIR_HISTORY+ "[" + i + "]");
+            }
+           i++;
+        }
     }
 }

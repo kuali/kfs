@@ -64,7 +64,7 @@ public class FaxServiceImpl implements FaxService {
      */
     public void faxPurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit) {
         LOG.debug("faxPurchaseOrderPdf(po,reTransmit) started");
-        String pdfFileLocation = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+        String pdfFileLocation = getPdfFileLocation();
         if (pdfFileLocation == null) {
             throw new RuntimeException("Application Setting PDF_DIRECTORY is missing.");
         }
@@ -301,5 +301,18 @@ public class FaxServiceImpl implements FaxService {
     public void setCountryService(CountryService countryService) {
         this.countryService = countryService;
     }
+
+    public ImageDao getImageDao() {
+        return imageDao;
+    }
+
+    public void setImageDao(ImageDao imageDao) {
+        this.imageDao = imageDao;
+    }
+    
+    public String getPdfFileLocation() {
+        return parameterService.getParameterValueAsService(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+    }
+
 
 }

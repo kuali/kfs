@@ -49,7 +49,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * An extension of KualiLookupableImpl to support balance lookups
  */
-public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+public class PendingEntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PendingEntryLookupableHelperServiceImpl.class);
 
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
@@ -215,7 +215,14 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
 
         return new CollectionIncomplete(collection, new Long(collection.size()));
     }
-
+    
+    
+    @Override
+    protected void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, boolean isCostShareInclusive) {
+        // TODO Auto-generated method stub
+        
+    }
+    
     /**
      * Sets the generalLedgerPendingEntryService attribute value.
      * 

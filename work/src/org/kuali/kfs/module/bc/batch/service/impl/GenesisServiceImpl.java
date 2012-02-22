@@ -30,8 +30,8 @@ public class GenesisServiceImpl implements GenesisService {
 
     /* settings for common fields for all document headers for budget construction */
 
-    private GenesisDao genesisDao;
-    private BudgetConstructionHumanResourcesPayrollInterfaceService budgetConstructionHumanResourcesPayrollInterfaceService;
+    protected GenesisDao genesisDao;
+    protected BudgetConstructionHumanResourcesPayrollInterfaceService budgetConstructionHumanResourcesPayrollInterfaceService;
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisServiceImpl.class);
 

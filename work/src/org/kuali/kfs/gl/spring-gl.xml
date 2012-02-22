@@ -101,9 +101,6 @@
 		<property name="balanceService">
 			<ref bean="glBalanceService" />
 		</property>
-		<property name="generalLedgerPendingEntryService">
-			<ref bean="generalLedgerPendingEntryService" />
-		</property>
 		<property name="postBalance">
 			<ref bean="glPostBalance" />
 		</property>
@@ -135,9 +132,6 @@
 			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="generalLedgerPendingEntryService">
-			<ref bean="generalLedgerPendingEntryService" />
 		</property>
 		<property name="postEncumbrance">
 			<ref bean="glPostEncumbrance" />
@@ -177,9 +171,6 @@
 		<property name="balanceService">
 			<ref bean="glBalanceService" />
 		</property>
-		<property name="generalLedgerPendingEntryService">
-			<ref bean="generalLedgerPendingEntryService" />
-		</property>
 		<property name="postBalance">
 			<ref bean="glPostBalance" />
 		</property>
@@ -209,9 +200,6 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="generalLedgerPendingEntryService">
-			<ref bean="generalLedgerPendingEntryService" />
-		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
@@ -220,7 +208,7 @@
 	<bean id="glPendingEntryLookupable"  parent="glPendingEntryLookupable-parentBean" scope="prototype"/>
 	<bean id="glPendingEntryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
-			<ref bean="glPendingEntryLookupableHelperServiceImpl" />
+			<ref bean="glPendingEntryLookupableHelperService" />
 		</property>
 	</bean>
 
@@ -240,9 +228,6 @@
 		</property>
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="generalLedgerPendingEntryService">
-			<ref bean="generalLedgerPendingEntryService" />
 		</property>
 		<property name="scrubberValidator">
 			<ref bean="scrubberValidator" />
@@ -1308,6 +1293,7 @@
 		<property name="dependencies">
 			<map>
 				<entry key="processPdpCancelsAndPaidJob" value="hardDependency"/>
+				<entry key="assetDepreciationBatchJob" value="hardDependency"/>
 			</map>
 		</property>
 	</bean>
@@ -1638,16 +1624,22 @@
 	    <property name="reportAggregatorService" ref="reportAggregatorService"/>
 	</bean>
 	
-	<bean id="scrubberSortStep" class="org.kuali.kfs.gl.batch.ScrubberSortStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+	<bean id="scrubberSortStep" parent="flatFileSortStep">
+		<property name="inputFileName" value="${staging.directory}/gl/originEntry/gl_prescrub.data"/>
+		<property name="outputFileName" value="${staging.directory}/gl/originEntry/gl_sortscrb.data"/>
+		<property name="lineComparatorClass" value="org.kuali.kfs.gl.batch.ScrubberSortComparator"/>
 	</bean>
 	
-	<bean id="demergerSortStep" class="org.kuali.kfs.gl.batch.DemergerSortStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+	<bean id="demergerSortStep" parent="flatFileSortStep">
+		<property name="inputFileName" value="${staging.directory}/gl/originEntry/gl_scrberr1.data"/>
+		<property name="outputFileName" value="${staging.directory}/gl/originEntry/gl_sorterr1.data"/>
+		<property name="lineComparatorClass" value="org.kuali.kfs.gl.batch.DemergerSortComparator"/>
 	</bean>
 
-	<bean id="posterSortStep" class="org.kuali.kfs.gl.batch.PosterSortStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+	<bean id="posterSortStep" parent="flatFileSortStep">
+		<property name="inputFileName" value="${staging.directory}/gl/originEntry/gl_scrbout2.data"/>
+		<property name="outputFileName" value="${staging.directory}/gl/originEntry/gl_sortpost.data"/>
+		<property name="lineComparatorClass" value="org.kuali.kfs.gl.batch.PosterSortComparator"/>
 	</bean>
 	
 	<bean id="icrSortStep" class="org.kuali.kfs.gl.batch.IcrSortStep" parent="step">
@@ -2807,4 +2799,15 @@
     <bean id="glcpPreScrubberReportWriterService-parentBean" abstract="true"  parent="preScrubberReportWriterService">
 		<property name="fileNamePrefix" value="glcp-scrubberReports-02-preScrubber"/>
     </bean>
+    
+    <bean id="generalLedgerLookupableHelperService-parentBean" abstract="true"  >
+    	<property name="debitDeterminerService">
+			<ref bean="debitDeterminerService" />
+		</property>
+    	<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService" />
+		</property>
+		
+    </bean>
+    
 </beans>

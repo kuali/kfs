@@ -23,7 +23,17 @@ import org.kuali.rice.krad.bo.KualiCodeBase;
  */
 public class PayeeType extends KualiCodeBase {
 
+    private boolean achEligible;
+    
     public PayeeType() {
     }
 
+    public boolean isAchEligible() {
+        return achEligible;
+    }
+
+    public void setAchEligible(boolean achEligible) {
+        this.achEligible = achEligible;
+    }
+    
 }

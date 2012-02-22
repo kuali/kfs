@@ -693,6 +693,9 @@ public class PurapConstants {
         public static final Set STATUSES_DISALLOWING_REMOVE_HOLD = new HashSet();
         public static final Set STATUSES_DISALLOWING_REQUEST_CANCEL = new HashSet();
         public static final Set STATUSES_DISALLOWING_REMOVE_REQUEST_CANCEL = new HashSet();
+        public static final Set STATUSES_PREROUTE = new HashSet();
+        public static final Set STATUSES_ENROUTE = new HashSet();
+        public static final Set STATUSES_POSTROUTE = new HashSet();
         static {
             CANCELLED_STATUSES.add(APPDOC_CANCELLED_IN_PROCESS);
             CANCELLED_STATUSES.add(APPDOC_CANCELLED_POST_AP_APPROVE);
@@ -711,6 +714,17 @@ public class PurapConstants {
             STATUSES_DISALLOWING_REQUEST_CANCEL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
 
             STATUSES_DISALLOWING_REMOVE_REQUEST_CANCEL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
+
+            STATUSES_PREROUTE.add(IN_PROCESS);
+            STATUSES_PREROUTE.add(AWAITING_ACCOUNTS_PAYABLE_REVIEW);
+            
+            STATUSES_ENROUTE.add(AWAITING_SUB_ACCT_MGR_REVIEW);
+            STATUSES_ENROUTE.add(AWAITING_FISCAL_REVIEW);
+            STATUSES_ENROUTE.add(AWAITING_ORG_REVIEW);
+            STATUSES_ENROUTE.add(AWAITING_TAX_REVIEW);
+        
+            STATUSES_POSTROUTE.add(DEPARTMENT_APPROVED);
+            STATUSES_POSTROUTE.add(AUTO_APPROVED);
         }
         
         public static final HashMap<String, String> getPaymentRequestAppDocDisapproveStatuses(){

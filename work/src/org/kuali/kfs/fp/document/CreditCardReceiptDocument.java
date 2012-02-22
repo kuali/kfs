@@ -55,7 +55,9 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     // monetary attributes
     protected KualiDecimal totalCreditCardAmount = KualiDecimal.ZERO;
-
+    protected String creditCardReceiptBankCode;
+    protected Bank bank;
+    
     /**
      * Default constructor that calls super.
      */
@@ -268,12 +270,60 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     }
     
     /**
+     * Assigns default bank code
+     */
+    public void initiateDocument() {
+        // default bank code
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(this.getClass());
+        if (defaultBank != null) {
+            this.creditCardReceiptBankCode = defaultBank.getBankCode();
+            this.bank = defaultBank;
+        }
+    }
+    
+    /**
      * Returns the default bank code for Credit Card Receipt documents.
      */
     protected Bank getOffsetBank() {
-        return SpringContext.getBean(BankService.class).getDefaultBankByDocType(this.getClass());
+        return SpringContext.getBean(BankService.class).getByPrimaryId(creditCardReceiptBankCode);
     }
     
+    /**
+     * Gets the creditCardReceiptBankCode attribute. 
+     * @return Returns the creditCardReceiptBankCode.
+     */
+    public String getCreditCardReceiptBankCode() {
+        return creditCardReceiptBankCode;
+    }
+
+
+    /**
+     * Sets the creditCardReceiptBankCode attribute value.
+     * @param creditCardReceiptBankCode The creditCardReceiptBankCode to set.
+     */
+    public void setCreditCardReceiptBankCode(String creditCardReceiptBankCode) {
+        this.creditCardReceiptBankCode = creditCardReceiptBankCode;
+    }
+
+
+    /**
+     * Gets the bank attribute. 
+     * @return Returns the bank.
+     */
+    public Bank getBank() {
+        return bank;
+    }
+
+
+    /**
+     * Sets the bank attribute value.
+     * @param bank The bank to set.
+     */
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);

@@ -786,7 +786,28 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (nodeName.equals(EffortCertificationDocument.DO_AWARD_SPLIT)) return isDoAwardSplit();
         if (nodeName.equals(EffortCertificationDocument.DO_RECREATE_SPLIT)) return isDoRecreateSplit();
+        if (nodeName.equals(KFSConstants.REQUIRES_WORKSTUDY_REVIEW)) return checkOjbectCodeForWorkstudy();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+    
+    
+    /**
+     * KFSMI-4606
+     * @return boolean 
+     */
+    protected boolean checkOjbectCodeForWorkstudy(){
+        List<String> workstudyRouteObjectcodes = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.WORKSTUDY_ROUTE_OBJECT_CODES_PARM_NM);
+        
+        List<EffortCertificationDetail> effortCertificationDetails = getEffortCertificationDetailLines();
+        
+        // check object code in accounting lines
+        for (EffortCertificationDetail effortCertificationDetail : effortCertificationDetails){
+            if (workstudyRouteObjectcodes.contains(effortCertificationDetail.getFinancialObjectCode())) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     /**

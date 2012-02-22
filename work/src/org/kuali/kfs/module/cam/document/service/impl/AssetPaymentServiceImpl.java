@@ -82,9 +82,10 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentFederalOwned(org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
     public boolean isPaymentFederalOwned(AssetPayment assetPayment) {
-        assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
-        if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
-            return this.getParameterService().getParameterValuesAsString(Asset.class, CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES).contains(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.OBJECT_CODE_CURRENT);
+        if (ObjectUtils.isNotNull(assetPayment.getObjectCodeCurrent())) {
+            String subTypeCode = assetPayment.getObjectCodeCurrent().getFinancialObjectSubTypeCode();
+            return this.getParameterService().getParameterValuesAsString(Asset.class, CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES).contains(subTypeCode);
         }
         return false;
     }
@@ -142,7 +143,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         processPayments(document);
     }
 
-    
+
     /**
      * Creates a new asset payment record for each new asset payment detail record and then save them
      * 

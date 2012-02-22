@@ -55,6 +55,19 @@ public class CollectorDetailFieldUtil extends BusinessObjectStringParserFieldUti
                 KFSPropertyConstants.COLLECTOR_DETAIL_AMOUNT,
                 KFSPropertyConstants.COLLECTOR_DETAIL_GL_CREDIT_CODE,
                 KFSPropertyConstants.COLLECTOR_DETAIL_NOTE_TEXT
-            };
+        };
+    }
+
+    /**
+     * 
+     */
+
+    public int getDetailLineTotalLength() {
+        int totalLength = 0;
+        Map<String, Integer> lengthMap = getFieldLengthMap();
+        for (String property : getOrderedProperties()) {
+            totalLength += lengthMap.get(property).intValue();
+        }
+        return totalLength;
     }
 }

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -47,6 +48,11 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
         if (isAtAccountLevel(disbursementVoucherDocument)) {
             addAccountQualification(getAccountingLines(disbursementVoucherDocument), attributes);
         }
+        
+        // add campus code if we have one
+        if (!StringUtils.isBlank(disbursementVoucherDocument.getCampusCode())) {
+            attributes.put(KfsKimAttributes.CAMPUS_CODE, disbursementVoucherDocument.getCampusCode());
+        }
     }
     
     /**
@@ -54,7 +60,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @param disbursementVoucherDocument a document to get accounting lines from
      * @return a List of accounting lines
      */
-    protected List getAccountingLines(DisbursementVoucherDocument disbursementVoucherDocument) {  
+    protected List<? extends AccountingLine> getAccountingLines(DisbursementVoucherDocument disbursementVoucherDocument) {  
         return disbursementVoucherDocument.getSourceAccountingLines();
     }
 
@@ -64,12 +70,12 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @param accountingLines a List of AccountingLines
      * @param attributes a Map of role qualification attributes
      */
-    protected void addAccountQualification(List accountingLines, Map<String, String> attributes) {
+    protected void addAccountQualification(List<? extends AccountingLine> accountingLines, Map<String, String> attributes) {
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
         boolean foundQualification = false;
         int count = 0;
         while (!foundQualification && count < accountingLines.size()) {
-            AccountingLine accountingLine = (AccountingLine)accountingLines.get(count);
+            AccountingLine accountingLine = accountingLines.get(count);
             if (ObjectUtils.isNull(accountingLine.getAccount())) {
                 accountingLine.refreshReferenceObject("account");
             }

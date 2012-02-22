@@ -54,6 +54,7 @@
             <call-method-rule pattern="campus_address_ind" methodname="setCampusAddress" paramcount="0" paramtypes="java.lang.Boolean"/>
             <call-method-rule pattern="payment_date" methodname="setPaymentDate" paramcount="0" />
             <call-method-rule pattern="attachment_ind" methodname="setPymtAttachment" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="immediate_ind" methodname="setProcessImmediate" paramcount="0" paramtypes="java.lang.Boolean" />
             <call-method-rule pattern="special_handling_ind" methodname="setPymtSpecialHandling" paramcount="0" paramtypes="java.lang.Boolean" />
             <call-method-rule pattern="taxable_ind" methodname="setTaxablePayment" paramcount="0" paramtypes="java.lang.Boolean" />
             <call-method-rule pattern="nra_ind" methodname="setNraPayment" paramcount="0" paramtypes="java.lang.Boolean" />

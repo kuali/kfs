@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl implements BudgetConstructionHumanResourcesPayrollInterfaceService {
 
-    private BudgetConstructionHumanResourcesPayrollInterfaceDao budgetConstructionHumanResourcesPayrollInterfaceDao;
+    protected BudgetConstructionHumanResourcesPayrollInterfaceDao budgetConstructionHumanResourcesPayrollInterfaceDao;
     
     
     /**

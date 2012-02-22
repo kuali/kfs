@@ -40,6 +40,7 @@ import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
 import org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
+import org.kuali.kfs.fp.businessobject.ProcurementCardDefault;
 import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
@@ -360,24 +361,51 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         ProcurementCardHolder cardHolder = new ProcurementCardHolder();
 
         cardHolder.setDocumentNumber(pcardDocument.getDocumentNumber());
-        cardHolder.setAccountNumber(transaction.getAccountNumber());
-        cardHolder.setCardCycleAmountLimit(transaction.getCardCycleAmountLimit());
-        cardHolder.setCardCycleVolumeLimit(transaction.getCardCycleVolumeLimit());
-        cardHolder.setCardHolderAlternateName(transaction.getCardHolderAlternateName());
-        cardHolder.setCardHolderCityName(transaction.getCardHolderCityName());
-        cardHolder.setCardHolderLine1Address(transaction.getCardHolderLine1Address());
-        cardHolder.setCardHolderLine2Address(transaction.getCardHolderLine2Address());
-        cardHolder.setCardHolderName(transaction.getCardHolderName());
-        cardHolder.setCardHolderStateCode(transaction.getCardHolderStateCode());
-        cardHolder.setCardHolderWorkPhoneNumber(transaction.getCardHolderWorkPhoneNumber());
-        cardHolder.setCardHolderZipCode(transaction.getCardHolderZipCode());
-        cardHolder.setCardLimit(transaction.getCardLimit());
-        cardHolder.setCardNoteText(transaction.getCardNoteText());
-        cardHolder.setCardStatusCode(transaction.getCardStatusCode());
-        cardHolder.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
-        cardHolder.setSubAccountNumber(transaction.getSubAccountNumber());
         cardHolder.setTransactionCreditCardNumber(transaction.getTransactionCreditCardNumber());
-
+        cardHolder.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
+        cardHolder.setAccountNumber(transaction.getAccountNumber());
+        cardHolder.setSubAccountNumber(transaction.getSubAccountNumber());
+        
+        if (getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME)) {
+            final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
+            if (procurementCardDefault != null) {
+                cardHolder.setCardCycleAmountLimit(procurementCardDefault.getCardCycleAmountLimit());
+                cardHolder.setCardCycleVolumeLimit(procurementCardDefault.getCardCycleVolumeLimit());
+                cardHolder.setCardHolderAlternateName(procurementCardDefault.getCardHolderAlternateName());
+                cardHolder.setCardHolderCityName(procurementCardDefault.getCardHolderCityName());
+                cardHolder.setCardHolderLine1Address(procurementCardDefault.getCardHolderLine1Address());
+                cardHolder.setCardHolderLine2Address(procurementCardDefault.getCardHolderLine2Address());
+                cardHolder.setCardHolderName(procurementCardDefault.getCardHolderName());
+                cardHolder.setCardHolderStateCode(procurementCardDefault.getCardHolderStateCode());
+                cardHolder.setCardHolderWorkPhoneNumber(procurementCardDefault.getCardHolderWorkPhoneNumber());
+                cardHolder.setCardHolderZipCode(procurementCardDefault.getCardHolderZipCode());
+                cardHolder.setCardLimit(procurementCardDefault.getCardLimit());
+                cardHolder.setCardNoteText(procurementCardDefault.getCardNoteText());
+                cardHolder.setCardStatusCode(procurementCardDefault.getCardStatusCode());
+                
+                if (getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
+                    cardHolder.setChartOfAccountsCode(procurementCardDefault.getChartOfAccountsCode());
+                    cardHolder.setAccountNumber(procurementCardDefault.getAccountNumber());
+                    cardHolder.setSubAccountNumber(procurementCardDefault.getSubAccountNumber());
+                }
+            }
+        }
+        if (StringUtils.isEmpty(cardHolder.getCardHolderName())) {
+            cardHolder.setCardCycleAmountLimit(transaction.getCardCycleAmountLimit());
+            cardHolder.setCardCycleVolumeLimit(transaction.getCardCycleVolumeLimit());
+            cardHolder.setCardHolderAlternateName(transaction.getCardHolderAlternateName());
+            cardHolder.setCardHolderCityName(transaction.getCardHolderCityName());
+            cardHolder.setCardHolderLine1Address(transaction.getCardHolderLine1Address());
+            cardHolder.setCardHolderLine2Address(transaction.getCardHolderLine2Address());
+            cardHolder.setCardHolderName(transaction.getCardHolderName());
+            cardHolder.setCardHolderStateCode(transaction.getCardHolderStateCode());
+            cardHolder.setCardHolderWorkPhoneNumber(transaction.getCardHolderWorkPhoneNumber());
+            cardHolder.setCardHolderZipCode(transaction.getCardHolderZipCode());
+            cardHolder.setCardLimit(transaction.getCardLimit());
+            cardHolder.setCardNoteText(transaction.getCardNoteText());
+            cardHolder.setCardStatusCode(transaction.getCardStatusCode());
+        }
+        
         pcardDocument.setProcurementCardHolder(cardHolder);
     }
 
@@ -464,7 +492,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param docTransactionDetail The transaction detail to create source and target accounting lines from.
      * @return String containing any error messages.
      */
-    protected String createAndValidateAccountingLines(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
+    protected String createAndValidateAccountingLines(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {        
         // build source lines
         ProcurementCardSourceAccountingLine sourceLine = createSourceAccountingLine(transaction, docTransactionDetail);
         sourceLine.setPostingYear(pcardDocument.getPostingYear());
@@ -492,7 +520,6 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     protected ProcurementCardTargetAccountingLine createTargetAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         ProcurementCardTargetAccountingLine targetLine = new ProcurementCardTargetAccountingLine();
-
         targetLine.setDocumentNumber(docTransactionDetail.getDocumentNumber());
         targetLine.setFinancialDocumentTransactionLineNumber(docTransactionDetail.getFinancialDocumentTransactionLineNumber());
         targetLine.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
@@ -501,6 +528,18 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         targetLine.setSubAccountNumber(transaction.getSubAccountNumber());
         targetLine.setFinancialSubObjectCode(transaction.getFinancialSubObjectCode());
         targetLine.setProjectCode(transaction.getProjectCode());
+
+        if (getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
+            final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
+            if (procurementCardDefault != null) {
+                    targetLine.setChartOfAccountsCode(procurementCardDefault.getChartOfAccountsCode());
+                    targetLine.setAccountNumber(procurementCardDefault.getAccountNumber());
+                    targetLine.setFinancialObjectCode(procurementCardDefault.getFinancialObjectCode());
+                    targetLine.setSubAccountNumber(procurementCardDefault.getSubAccountNumber());
+                    targetLine.setFinancialSubObjectCode(procurementCardDefault.getFinancialSubObjectCode());
+                    targetLine.setProjectCode(procurementCardDefault.getProjectCode());
+            }
+        }
 
         if (GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
             targetLine.setAmount(transaction.getFinancialDocumentTotalAmount().negated());
@@ -634,6 +673,18 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     protected String getErrorAccountNumber() {
         return parameterService.getParameterValueAsString(ProcurementCardCreateDocumentsStep.class, ERROR_TRANS_ACCOUNT_PARM_NM);
     }
+    
+    /**
+     * Gets the default Chart Code, Account from the custom Procurement Cardholder table.
+     * 
+     */
+    protected ProcurementCardDefault retrieveProcurementCardDefault(String creditCardNumber) {
+        Map<String, String> pkMap = new HashMap<String, String>();
+        pkMap.put(KFSPropertyConstants.CREDIT_CARD_NUMBER, creditCardNumber);
+        ProcurementCardDefault procurementCardDefault = (ProcurementCardDefault) businessObjectService.findByPrimaryKey(ProcurementCardDefault.class, pkMap);
+                
+        return procurementCardDefault;
+    }
 
     /**
      * Retrieves the default chard code from the parameter table.
@@ -673,6 +724,13 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     protected void loadTransactions(List transactions) {
         businessObjectService.save(transactions);
+    }
+    
+    /**
+     * @return retrieves the presumably injected implementation of ParameterService to use
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
     }
 
     /**

@@ -17,6 +17,9 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 
 import static org.kuali.kfs.module.cam.CamsKeyConstants.ERROR_INVALID_ASSET_WARRANTY_NO;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_REPRESENTATIVE;
+import static org.kuali.kfs.module.cam.CamsKeyConstants.PreTag.ERROR_PRE_TAG_INVALID_REPRESENTATIVE_ID;
+
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -141,6 +144,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
             valid &= checkAssetLocked(document);
         }
+        valid &= validateManufacturer(newAsset);
         return valid;
     }
 
@@ -271,6 +275,21 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
+    
+    /**
+     * 
+     * Validate asset representative 
+     * @return boolean
+     */
+    protected boolean validateAssetRepresentative() {
+        boolean valid = true;
+        Person assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(newAsset.getAssetRepresentative().getPrincipalName());
+        if(ObjectUtils.isNull(assetRepresentative)) {
+            putFieldError(ASSET_REPRESENTATIVE, ERROR_PRE_TAG_INVALID_REPRESENTATIVE_ID);
+            valid = false;
+        }
+        return valid;
+    }
 
     /**
      * Set asset component numbers
@@ -309,7 +328,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.equalsIgnoreCase(oldAsset.getOrganizationOwnerAccountNumber(), newAsset.getOrganizationOwnerAccountNumber())) {
             valid &= validateAccount();
         }
-
+        
+        // validate asset representative name 
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getAssetRepresentative().getPrincipalName(), newAsset.getAssetRepresentative().getPrincipalName())) {
+            valid &= validateAssetRepresentative();
+        }
+        
+        
         // validate Vendor Name.
         if (!StringUtils.equalsIgnoreCase(oldAsset.getVendorName(), newAsset.getVendorName())) {
             valid &= validateVendorName();
@@ -708,5 +733,17 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             }
         }
         return true;
+    }
+    
+    protected boolean validateManufacturer(Asset asset) {
+        boolean valid = true;
+        if (assetService.isCapitalAsset(asset)) {
+            if (parameterService.getIndicatorParameter(CamsConstants.CAM_MODULE_CODE, "Asset", CamsConstants.Parameters.MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND) &&
+                    StringUtils.isEmpty(asset.getManufacturerName())){
+                putFieldError(CamsPropertyConstants.Asset.MANUFACTURER_NAME, CamsKeyConstants.AssetGlobal.ERROR_MFR_NAME_REQUIRED);
+                valid = false;
+            }
+        }
+        return valid;
     }
 }

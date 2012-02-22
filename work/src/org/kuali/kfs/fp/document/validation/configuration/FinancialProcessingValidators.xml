@@ -133,6 +133,10 @@
 	
 	<bean id="CashReceipt-checkAmountPositiveValidation" class="org.kuali.kfs.fp.document.validation.impl.CashReceiptCheckAmountPositiveValidation" abstract="true" />
 	
+	<bean id="CashReceipt-cashManagerValidation" class="org.kuali.kfs.fp.document.validation.impl.CashReceiptCashManagerValidation" abstract="true">
+		<property name="validRouteNodeNames" value="CashManagement" />
+	</bean>
+	
 	<bean id="CashReceipt-cashDrawerOpenValidation" class="org.kuali.kfs.fp.document.validation.impl.CashReceiptCashDrawerOpenValidation" abstract="true">
 		<property name="cashDrawerService" ref="cashDrawerService" />
 		<property name="cashReceiptService" ref="cashReceiptService" />
@@ -385,7 +389,7 @@
 	
 	<bean id="DisbursementVoucher-foreignDraftValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherForeignDraftValidation" abstract="true" />
 	
-	<bean id="DisbursementVoucher-nonEmployeeTravelComanyValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTravelComanyValidation" abstract="true" />
+	<bean id="DisbursementVoucher-nonEmployeeTravelCompanyValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTravelCompanyValidation" abstract="true" />
 	
 	<bean id="DisbursementVoucher-nonEmployeeTravelValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTravelValidation" abstract="true">
 		<property name="parameterService" ref="parameterService" />

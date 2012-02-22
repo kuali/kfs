@@ -20,6 +20,7 @@
   <bean id="CashReceiptDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="documentTypeName" value="CR"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashReceiptDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.CashReceiptDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer"/>

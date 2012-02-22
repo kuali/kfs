@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -409,7 +409,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // This isnt as performant a solution as the other getPrintableCustomerInvoiceBy...
         // methods, but its the best we can do in this release, and it should be manageable.
 
-        //
+        // 
         // attempt to retrieve the initiator person specified, and puke if not found
         Person initiator = getPersonService().getPersonByPrincipalName(initiatorPrincipalName);
         if (initiator == null) {
@@ -479,6 +479,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      */
     @Override
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+
         List<String> documentHeaderIds = customerInvoiceDocumentDao.getPrintableCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(chartOfAccountsCode, organizationCode);
 
         return getCustomerInvoiceDocumentsByDocumentNumbers(documentHeaderIds);
@@ -503,6 +504,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      */
     @Override
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+
         List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(chartOfAccountsCode, organizationCode);
 
         return getCustomerInvoiceDocumentsByDocumentNumbers(documentHeaderIds);
@@ -510,7 +512,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     /**
      * Refactor to have all the setters in here.
-     *
+     * 
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#setupDefaultValuesForNewCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     @Override
@@ -671,7 +673,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     /**
      * This method sets due date equal to todays date +30 days by default
-     *
+     * 
      * @param dateTimeService
      */
     protected Date getDefaultInvoiceDueDate() {

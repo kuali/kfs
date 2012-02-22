@@ -29,12 +29,12 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
@@ -553,7 +553,22 @@ public class PurapServiceImpl implements PurapService {
         return value;
     }
 
-
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isPaymentRequestFullDocumentEntryCompleted(String)
+     */
+    public boolean isPaymentRequestFullDocumentEntryCompleted(String purapDocumentStatus) {
+        LOG.debug("isPaymentRequestFullDocumentEntryCompleted() started");
+        return PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocumentStatus);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isVendorCreditMemoFullDocumentEntryCompleted(String)
+     */
+    public boolean isVendorCreditMemoFullDocumentEntryCompleted(String purapDocumentStatus) {
+        LOG.debug("isVendorCreditMemoFullDocumentEntryCompleted() started");
+        return PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocumentStatus);
+    }
+    
     /**
      * Main hook point for close/Reopen PO.
      * 

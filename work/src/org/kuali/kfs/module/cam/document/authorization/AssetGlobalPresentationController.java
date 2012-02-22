@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document.authorization;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
@@ -25,6 +26,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
@@ -113,7 +115,13 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
             // If asset global document is created from CAB, disallow add payment to collection.
             fields.addAll(getAssetGlobalPaymentsReadOnlyFields(assetGlobal));
         }
-
+        
+        // if accounts can't cross charts, then add the extra chartOfAccountsCode field to be displayed readOnly
+        if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) { 
+            String COA_CODE_NAME = KNSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+            fields.add(COA_CODE_NAME);
+        }
+        
         return fields;
     }
 

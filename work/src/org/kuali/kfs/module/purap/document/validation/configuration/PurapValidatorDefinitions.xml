@@ -637,6 +637,7 @@
 
 	<bean id="VendorCreditMemo-initTabReferenceNumberValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoInitTabReferenceNumberValidation" abstract="true">
 		<property name="paymentRequestService" ref="paymentRequestService" />
+		<property name="purapService" ref="purapService" />
 		<property name="purchaseOrderService" ref="purchaseOrderService" />
 		<property name="vendorService" ref="vendorService" />
 	</bean>

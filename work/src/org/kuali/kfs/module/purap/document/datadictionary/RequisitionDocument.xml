@@ -20,6 +20,7 @@
   <bean id="RequisitionDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="documentTypeName" value="REQS"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentPresentationController"/>
@@ -157,6 +158,7 @@
         <ref bean="RequisitionDocument-createDateForResult"/>
         <ref bean="RequisitionDocument-sensitive"/>
         <ref bean="RequisitionDocument-accountDistributionMethod"/>
+        <ref bean="RequisitionDocument-justification"/>
       </list>
     </property>
     <property name="validationMap" ref="RequisitionDocument-validations"/>
@@ -1025,6 +1027,20 @@
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AccountDistributionMethodValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+
+  <bean id="RequisitionDocument-justification" parent="RequisitionDocument-justification-parentBean"/>
+
+  <bean id="RequisitionDocument-justification-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="justification"/>
+    <property name="label" value="Justification"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="50"/>
     </property>
   </bean>
   

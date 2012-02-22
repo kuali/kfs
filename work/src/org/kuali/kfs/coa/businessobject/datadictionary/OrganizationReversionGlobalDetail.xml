@@ -26,6 +26,7 @@
         <ref bean="OrganizationReversionGlobalDetail-organizationReversionCategoryCode"/>
         <ref bean="OrganizationReversionGlobalDetail-organizationReversionObjectCode"/>
         <ref bean="OrganizationReversionGlobalDetail-organizationReversionCode"/>
+        <ref bean="OrganizationReversionGlobalDetail-objectCodeNames"/>
         <bean parent="GenericAttributes-newCollectionRecord"/>
       </list>
     </property>
@@ -71,6 +72,11 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.OrganizationReversionCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
+  </bean>
+  
+  <bean id="OrganizationReversionGlobalDetail-objectCodeNames" parent="OrganizationReversionGlobalDetail-objectCodeNames-parentBean" />
+  <bean id="OrganizationReversionGlobalDetail-objectCodeNames-parentBean" abstract="true" parent="ObjectCode-financialObjectCodeName">
+  	<property name="name" value="objectCodeNames" />
   </bean>
 
 </beans>

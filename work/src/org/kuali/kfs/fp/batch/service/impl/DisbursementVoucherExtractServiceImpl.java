@@ -134,6 +134,39 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         return true;
     }
+    
+    /**
+     * Pulls all disbursement vouchers with status of "A" and marked for immediate payment from the database and builds payment records for them
+     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#extractImmediatePayments()
+     */
+    public void extractImmediatePayments() {
+        LOG.debug("extractImmediatePayments() started");
+
+        Date processRunDate = dateTimeService.getCurrentDate();
+
+        String noteLines = parameterService.getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
+
+        try {
+            maxNoteLines = Integer.parseInt(noteLines);
+        }
+        catch (NumberFormatException nfe) {
+            throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
+        }
+
+        Person uuser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        if (uuser == null) {
+            LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
+            throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
+        }
+
+        // Get a list of campuses that have documents with an 'A' (approved) status.
+        Set<String> campusList = getImmediatesCampusListByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
+
+        // Process each campus one at a time
+        for (String campusCode : campusList) {
+            extractImmediatePaymentsForCampus(campusCode, uuser, processRunDate);
+        }
+    }
 
     /**
      * This method extracts all outstanding payments from all the disbursement vouchers in approved status for a given campus and
@@ -152,7 +185,34 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
-        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode);
+        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, false);
+        for (DisbursementVoucherDocument document : dvd) {
+            addPayment(document, batch, processRunDate);
+            count++;
+            totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount());
+        }
+
+        batch.setPaymentCount(new KualiInteger(count));
+        batch.setPaymentTotalAmount(totalAmount);
+
+        businessObjectService.save(batch);
+        paymentFileEmailService.sendLoadEmail(batch);
+    }
+    
+    /**
+     * Builds payment batch for Disbursement Vouchers marked as immediate
+     * @param campusCode the campus code the disbursement vouchers should be associated with
+     * @param user the user responsible building the payment batch (typically the System User, kfs)
+     * @param processRunDate the time that the job to build immediate payments is run
+     */
+    protected void extractImmediatePaymentsForCampus(String campusCode, Person user, Date processRunDate) {
+        LOG.debug("extractImmediatesPaymentsForCampus() started for campus: " + campusCode);
+
+        Batch batch = createBatch(campusCode, user, processRunDate);
+        Integer count = 0;
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, true);
         for (DisbursementVoucherDocument document : dvd) {
             addPayment(document, batch, processRunDate);
             count++;
@@ -627,9 +687,29 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Set<String> campusSet = new HashSet<String>();
 
-        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
+        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode, false);
         for (DisbursementVoucherDocument element : docs) {
             String dvdCampusCode = element.getCampusCode();
+            campusSet.add(dvdCampusCode);
+        }
+
+        return campusSet;
+    }
+    
+    /**
+     * Retrieves a list of campuses which have Disbursement Vouchers ready to be process which are marked for immediate processing
+     * @param statusCode the status code of the documents to retrieve
+     * @return the Set of campuses which have DV which are up for immediate disbursement
+     */
+    protected Set<String> getImmediatesCampusListByDocumentStatusCode(String statusCode) {
+        LOG.debug("getCampusListByDocumentStatusCode() started");
+
+        Set<String> campusSet = new HashSet<String>();
+
+        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode, true);
+        for (DisbursementVoucherDocument element : docs) {
+            
+            final String dvdCampusCode = element.getCampusCode();
             campusSet.add(dvdCampusCode);
         }
 
@@ -641,9 +721,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * 
      * @param statusCode The status of the disbursement vouchers to be retrieved.
      * @param campusCode The campus code that the disbursement vouchers will be associated with.
+     * @param immediatesOnly only retrieve Disbursement Vouchers marked for immediate payment
      * @return A collection of disbursement voucher objects that meet the search criteria given.
      */
-    protected Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode) {
+    protected Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode, boolean immediatesOnly) {
         LOG.debug("getListByDocumentStatusCodeCampus() started");
 
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
@@ -654,7 +735,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 String dvdCampusCode = element.getCampusCode();
 
                 if (dvdCampusCode.equals(campusCode) && DisbursementVoucherConstants.PAYMENT_METHOD_CHECK.equals(element.getDisbVchrPaymentMethodCode())) {
-                    list.add(element);
+                    if ((immediatesOnly && element.isImmediatePaymentIndicator()) || !immediatesOnly) {
+                        list.add(element);
+                    }
                 }
             }
         }
@@ -794,6 +877,43 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
             throw new RuntimeException(we);
         }
+    }
+    
+    
+
+    /**
+     * Extracts a single DisbursementVoucherDocument
+     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#extractImmediatePayment(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
+    public void extractImmediatePayment(DisbursementVoucherDocument disbursementVoucher) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("extractImmediatePayment(DisbursementVoucherDocument) started");
+        }
+        Date processRunDate = dateTimeService.getCurrentDate();
+        String noteLines = parameterService.getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
+        try {
+            maxNoteLines = Integer.parseInt(noteLines);
+        }
+        catch (NumberFormatException nfe) {
+            throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
+        }
+        Person user = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        if (user == null) {
+            LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
+            throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
+        }
+
+        Batch batch = createBatch(disbursementVoucher.getCampusCode(), user, processRunDate);
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        addPayment(disbursementVoucher, batch, processRunDate);
+        totalAmount = totalAmount.add(disbursementVoucher.getDisbVchrCheckTotalAmount());
+
+        batch.setPaymentCount(new KualiInteger(1));
+        batch.setPaymentTotalAmount(totalAmount);
+
+        businessObjectService.save(batch);
+        paymentFileEmailService.sendDisbursementVoucherImmediateExtractEmail(disbursementVoucher, user);
     }
 
     /**

@@ -35,9 +35,9 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
 
         sqlText.append("INSERT INTO LD_BCN_ACCTSEL_T \n");
         sqlText.append(" (PERSON_UNVL_ID,UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FDOC_NBR, \n");
-        sqlText.append("  ORG_LEVEL_CD,ORG_FIN_COA_CD,ORG_CD,FDOC_STATUS_CD,FDOC_CREATE_DT) \n");
+        sqlText.append("  ORG_LEVEL_CD,ORG_FIN_COA_CD,ORG_CD,FDOC_STATUS_CD) \n");
         sqlText.append("SELECT pull.person_unvl_id, head.univ_fiscal_yr, head.fin_coa_cd, head.account_nbr, head.sub_acct_nbr,head.fdoc_nbr, \n");
-        sqlText.append(" head.org_level_cd, hier2.org_fin_coa_cd, hier2.org_cd, fshd.fdoc_status_cd, fshd.temp_doc_fnl_dt \n");
+        sqlText.append(" head.org_level_cd, hier2.org_fin_coa_cd, hier2.org_cd, fshd.fdoc_status_cd \n");
         sqlText.append("FROM LD_BCN_PULLUP_T pull, LD_BCN_ACCT_ORG_HIER_T hier,  LD_BCN_ACCT_ORG_HIER_T hier2, \n");
         sqlText.append("     LD_BCNSTR_HDR_T head, FS_DOC_HEADER_T fshd \n");
         sqlText.append("WHERE pull.pull_flag > 0 \n");
@@ -55,7 +55,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("  AND fshd.fdoc_nbr = head.fdoc_nbr \n");
         sqlText.append("UNION \n");
         sqlText.append("SELECT pull.person_unvl_id, head.univ_fiscal_yr, head.fin_coa_cd, head.account_nbr, head.sub_acct_nbr, head.fdoc_nbr, \n");
-        sqlText.append(" head.org_level_cd, hier2.org_fin_coa_cd, hier2.org_cd, fshd.fdoc_status_cd, fshd.temp_doc_fnl_dt \n");
+        sqlText.append(" head.org_level_cd, hier2.org_fin_coa_cd, hier2.org_cd, fshd.fdoc_status_cd \n");
         sqlText.append("FROM LD_BCN_PULLUP_T pull, LD_BCN_ACCT_ORG_HIER_T hier, LD_BCN_ACCT_ORG_HIER_T hier2, \n");
         sqlText.append("     LD_BCNSTR_HDR_T head, FS_DOC_HEADER_T fshd \n");
         sqlText.append("WHERE pull.pull_flag > 0 \n");
@@ -77,7 +77,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
 
         sqlText.append("INSERT INTO LD_BCN_ACCTSEL_T \n");
         sqlText.append(" (PERSON_UNVL_ID, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FDOC_NBR, \n");
-        sqlText.append(" ORG_LEVEL_CD, ORG_FIN_COA_CD, ORG_CD, FDOC_STATUS_CD, FDOC_CREATE_DT) \n");
+        sqlText.append(" ORG_LEVEL_CD, ORG_FIN_COA_CD, ORG_CD, FDOC_STATUS_CD) \n");
         sqlText.append("SELECT  ?, \n");
         sqlText.append(" head.univ_fiscal_yr, \n");
         sqlText.append(" head.fin_coa_cd, \n");
@@ -87,8 +87,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append(" head.org_level_cd, \n");
         sqlText.append(" ah.org_fin_coa_cd, \n");
         sqlText.append(" ah.org_cd, \n");
-        sqlText.append(" fshd.fdoc_status_cd, \n");
-        sqlText.append(" fshd.TEMP_DOC_FNL_DT \n");
+        sqlText.append(" fshd.fdoc_status_cd \n");
         sqlText.append("FROM LD_BCN_PULLUP_T pull, \n");
         sqlText.append(" LD_BCNSTR_HDR_T head, \n");
         sqlText.append(" FS_DOC_HEADER_T fshd, \n");
@@ -131,7 +130,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("    NULL, \n");
         sqlText.append("    fshd.fdoc_status_cd, \n");
         sqlText.append("    '', \n");
-        sqlText.append("    fshd.temp_doc_fnl_dt \n");
+        sqlText.append("    NULL \n");
         sqlText.append("FROM LD_BCNSTR_HDR_T head, \n");
         sqlText.append("    CA_ACCT_DELEGATE_T adel, \n");
         sqlText.append("    FS_DOC_HEADER_T fshd \n");
@@ -155,7 +154,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("    NULL, \n");
         sqlText.append("    fshd.fdoc_status_cd, \n");
         sqlText.append("    '', \n");
-        sqlText.append("    fshd.temp_doc_fnl_dt \n");
+        sqlText.append("    NULL \n");
         sqlText.append("FROM LD_BCNSTR_HDR_T head, \n");
         sqlText.append("    CA_ACCOUNT_T acct, \n");
         sqlText.append("    FS_DOC_HEADER_T fshd \n");

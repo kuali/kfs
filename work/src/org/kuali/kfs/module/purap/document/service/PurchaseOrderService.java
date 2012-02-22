@@ -449,4 +449,10 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      * @return
      */
     public String getPurchaseOrderAppDocStatus(Integer poId);
+
+     * 
+     * This method is to  send an FYI to fiscal officers for general ledger entries created for amend purchase order 
+     * @param po
+     */
+    public void sendFyiForGLEntries(PurchaseOrderDocument po);
 }

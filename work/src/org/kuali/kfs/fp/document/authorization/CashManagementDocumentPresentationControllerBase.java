@@ -41,7 +41,11 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-
+        
+        if (!this.canHaveBankEntry(document)) {
+            editModes.add(KFSConstants.BANK_ENTRY_VIEWABLE_EDITING_MODE);
+        }
+        
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isSaved()) {
             editModes.add(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS);
@@ -235,5 +239,16 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
             throw new RuntimeException("Illegal access occurred while instantiating instance of maintainable implementation "+cashDrawerMaintenanceDocumentEntry.getMaintainableClass().getName(), iae);
         }
         return cashDrawerMaintainable;
+    }
+    
+    @Override
+    public Set<String> getDocumentActions(Document document) {
+        Set<String> documentActions = super.getDocumentActions(document);
+        
+        if (!canHaveBankEntry(document)) {
+            documentActions.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
+        }
+        
+        return documentActions;
     }
 }

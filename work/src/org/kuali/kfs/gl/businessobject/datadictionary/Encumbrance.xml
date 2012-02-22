@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	<!--
-		Copyright 2007-2009 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
 
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
-
-	<bean id="Encumbrance" parent="Encumbrance-parentBean" />
+  <bean id="Encumbrance" parent="Encumbrance-parentBean"/>
 
   <bean id="Encumbrance-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.Encumbrance"/>
@@ -46,6 +45,7 @@
         <ref bean="Encumbrance-transactionEncumbranceDate"/>
         <ref bean="Encumbrance-timestamp"/>
         <ref bean="Encumbrance-dummyBusinessObject.pendingEntryOption"/>
+        <ref bean="Encumbrance-dummyBusinessObject.zeroEncumbranceOption"/>
         <ref bean="Encumbrance-objectCode.financialObjectLevelCode"/>
         <ref bean="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
         <ref bean="Encumbrance-account.organizationCode"/>
@@ -78,10 +78,10 @@
     </property>
   </bean>
 
-	<!-- Attribute Definitions -->
+<!-- Attribute Definitions -->
 
 
-	<bean id="Encumbrance-universityFiscalYear" parent="Encumbrance-universityFiscalYear-parentBean" />
+  <bean id="Encumbrance-universityFiscalYear" parent="Encumbrance-universityFiscalYear-parentBean"/>
 
 	<bean id="Encumbrance-universityFiscalYear-parentBean" abstract="true"
 		parent="GenericAttributes-genericFiscalYear">
@@ -250,11 +250,16 @@
     <bean id="Encumbrance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
          <property name="name" value="account.organizationCode"/>
     </bean>   
+  <bean id="Encumbrance-dummyBusinessObject.zeroEncumbranceOption" parent="Encumbrance-dummyBusinessObject.zeroEncumbranceOption-parentBean"/>
+
+  <bean id="Encumbrance-dummyBusinessObject.zeroEncumbranceOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-zeroEncumbranceOption">
+    <property name="name" value="dummyBusinessObject.zeroEncumbranceOption"/>
+  </bean>
     
 	<!-- Business Object Inquiry Definition -->
 
 
-	<bean id="Encumbrance-inquiryDefinition" parent="Encumbrance-inquiryDefinition-parentBean" />
+  <bean id="Encumbrance-inquiryDefinition" parent="Encumbrance-inquiryDefinition-parentBean"/>
 
 	<bean id="Encumbrance-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition" p:title="Open Encumbrance">
@@ -283,71 +288,58 @@
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
+<!-- Business Object Lookup Definition -->
 
 
-	<bean id="Encumbrance-lookupDefinition" parent="Encumbrance-lookupDefinition-parentBean" />
+  <bean id="Encumbrance-lookupDefinition" parent="Encumbrance-lookupDefinition-parentBean"/>
 
-	<bean id="Encumbrance-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="title" value="Open Encumbrance Lookup" />
-		<property name="lookupableID" value="glEncumbranceLookupable" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>objectCode</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear"
-					p:treatWildcardsAndOperatorsAsLiteral="true"
-					p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"
-					p:treatWildcardsAndOperatorsAsLiteral="true" />
-				<bean parent="FieldDefinition" p:attributeName="accountNumber"
-					p:treatWildcardsAndOperatorsAsLiteral="false" />
-				<bean parent="FieldDefinition" p:attributeName="subAccountNumber"
-					p:treatWildcardsAndOperatorsAsLiteral="true" p:forceLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="objectCode"
-					p:treatWildcardsAndOperatorsAsLiteral="false" />
-				<bean parent="FieldDefinition" p:attributeName="subObjectCode"
-					p:treatWildcardsAndOperatorsAsLiteral="false" />
-				<bean parent="FieldDefinition" p:attributeName="balanceTypeCode"
-					p:treatWildcardsAndOperatorsAsLiteral="true"
-					p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.EncumbranceBalanceTypeOptionFinder" />
-				<bean parent="FieldDefinition" p:attributeName="documentTypeCode"
-					p:treatWildcardsAndOperatorsAsLiteral="true" />
-				<bean parent="FieldDefinition" p:attributeName="originCode"
-					p:treatWildcardsAndOperatorsAsLiteral="true" />
-				<bean parent="FieldDefinition" p:attributeName="documentNumber"
-					p:treatWildcardsAndOperatorsAsLiteral="true" />
-				<bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.pendingEntryOption"
-					p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-				<bean parent="FieldDefinition" p:attributeName="objectCode" />
-				<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="balanceTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="documentTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="originCode" />
-				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
-				<bean parent="FieldDefinition" p:attributeName="transactionEncumbranceDescription" />
-				<bean parent="FieldDefinition" p:attributeName="accountLineEncumbranceAmount" />
-				<bean parent="FieldDefinition" p:attributeName="accountLineEncumbranceClosedAmount" />
-				<bean parent="FieldDefinition" p:attributeName="accountLineEncumbranceOutstandingAmount" />
-				<bean parent="FieldDefinition" p:attributeName="transactionEncumbranceDate" />
-			</list>
-		</property>
-	</bean>
+  <bean id="Encumbrance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Open Encumbrance Lookup"/>
+    <property name="lookupableID" value="glEncumbranceLookupable"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>objectCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"  p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber" p:treatWildcardsAndOperatorsAsLiteral="false" />
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber" p:treatWildcardsAndOperatorsAsLiteral="true" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="objectCode" p:treatWildcardsAndOperatorsAsLiteral="false" />
+        <bean parent="FieldDefinition" p:attributeName="subObjectCode" p:treatWildcardsAndOperatorsAsLiteral="false" />
+        <bean parent="FieldDefinition" p:attributeName="balanceTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.EncumbranceBalanceTypeOptionFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="documentTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="originCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="documentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.pendingEntryOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.zeroEncumbranceOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ZeroEncumbranceOptionFinder"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="objectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="balanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="documentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="originCode"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionEncumbranceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="accountLineEncumbranceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="accountLineEncumbranceClosedAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="accountLineEncumbranceOutstandingAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionEncumbranceDate"/>
+      </list>
+    </property>
+  </bean>
 </beans>

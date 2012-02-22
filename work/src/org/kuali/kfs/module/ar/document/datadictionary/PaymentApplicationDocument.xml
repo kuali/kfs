@@ -7,6 +7,7 @@
 		
 		<property name="documentTypeName" value="APP"/>
 		<property name="documentClass" value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument"/>
+		<property name="baseDocumentClass" value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument"/>
 		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRule"/>
 <!-- Uncommenting this line will move to the accounting line validation framework. To enable it comment out the line above and uncomment this line. -->
 <!-- 

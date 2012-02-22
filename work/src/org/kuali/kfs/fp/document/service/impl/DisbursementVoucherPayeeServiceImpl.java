@@ -27,10 +27,12 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.document.service.VendorService;
@@ -59,6 +61,8 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     private DocumentService documentService;
     private ParameterService parameterService;
     private VendorService vendorService;
+    
+    public final static String addressPattern = "{0}, {1}, {2} {3}";
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#getPayeeTypeDescription(java.lang.String)
@@ -208,7 +212,87 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
             }
         }
     }
+
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#getFieldConversionBetweenPayeeAndVendor()
+     */
+    public Map<String, String> getFieldConversionBetweenPayeeAndVendor() {
+        Map<String, String> fieldConversionMap = new HashMap<String, String>();
+
+        fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, VendorPropertyConstants.VENDOR_TAX_NUMBER);
+
+        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NAME, KFSPropertyConstants.VENDOR_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NUMBER, KFSPropertyConstants.VENDOR_NUMBER);
+
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, VendorPropertyConstants.VENDOR_FIRST_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, VendorPropertyConstants.VENDOR_LAST_NAME);
+
+        fieldConversionMap.put(KNSPropertyConstants.ACTIVE, KFSPropertyConstants.ACTIVE_INDICATOR);
+
+        return fieldConversionMap;
+    }
     
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#getFieldConversionBetweenPayeeAndPerson()
+     */
+    public Map<String, String> getFieldConversionBetweenPayeeAndPerson() {
+        Map<String, String> fieldConversionMap = new HashMap<String, String>();
+
+    //    fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
+
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KIMPropertyConstants.Person.FIRST_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KIMPropertyConstants.Person.LAST_NAME);
+
+        fieldConversionMap.put(KFSPropertyConstants.EMPLOYEE_ID, KIMPropertyConstants.Person.EMPLOYEE_ID);
+        fieldConversionMap.put(KNSPropertyConstants.ACTIVE, KNSPropertyConstants.ACTIVE);
+
+        return fieldConversionMap;
+    }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#getPayeeFromVendor(org.kuali.kfs.vnd.businessobject.VendorDetail)
+     */
+    public DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail) {
+        DisbursementPayee disbursementPayee = new DisbursementPayee();
+
+        disbursementPayee.setActive(vendorDetail.isActiveIndicator());
+
+        disbursementPayee.setPayeeIdNumber(vendorDetail.getVendorNumber());
+        disbursementPayee.setPayeeName(vendorDetail.getAltVendorName());
+        disbursementPayee.setTaxNumber(vendorDetail.getVendorHeader().getVendorTaxNumber());
+
+        String vendorTypeCode = vendorDetail.getVendorHeader().getVendorTypeCode();
+        String payeeTypeCode = getVendorPayeeTypeCodeMapping().get(vendorTypeCode);
+        disbursementPayee.setPayeeTypeCode(payeeTypeCode);
+
+        String vendorAddress = MessageFormat.format(addressPattern, vendorDetail.getDefaultAddressLine1(), vendorDetail.getDefaultAddressCity(), vendorDetail.getDefaultAddressStateCode(), vendorDetail.getDefaultAddressCountryCode());
+        disbursementPayee.setAddress(vendorAddress);
+
+        return disbursementPayee;
+    }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#getPayeeFromPerson(org.kuali.rice.kim.bo.Person)
+     */
+    public DisbursementPayee getPayeeFromPerson(Person person) {
+        DisbursementPayee disbursementPayee = new DisbursementPayee();
+
+        disbursementPayee.setActive(person.isActive());
+
+        disbursementPayee.setPayeeIdNumber(person.getEmployeeId());
+        disbursementPayee.setPrincipalId(person.getPrincipalId());
+        
+        disbursementPayee.setPayeeName(person.getName());
+        disbursementPayee.setTaxNumber(KFSConstants.BLANK_SPACE);
+        
+        disbursementPayee.setPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
+
+        String personAddress = MessageFormat.format(addressPattern, person.getAddressLine1(), person.getAddressCityName(), person.getAddressStateCode(), person.getAddressCountryCode());
+        disbursementPayee.setAddress(personAddress);
+
+        return disbursementPayee;
+    }
+
     /**
      * Creates text for a note which records changes to the payee
      * @param newPayeeDetail the changed payee detail
@@ -346,6 +430,18 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         }
 
         return false;
+    }
+    
+ // do mapping between vendor type code and payee type code 
+    private static Map<String, String> getVendorPayeeTypeCodeMapping() {
+        Map<String, String> payeeVendorTypeCodeMapping = new HashMap<String, String>();
+
+        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.PURCHASE_ORDER, DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
+        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.DISBURSEMENT_VOUCHER, DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
+        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.REVOLVING_FUND, DisbursementVoucherConstants.DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR);
+        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.SUBJECT_PAYMENT, DisbursementVoucherConstants.DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR);
+
+        return payeeVendorTypeCodeMapping;
     }
 
     /**

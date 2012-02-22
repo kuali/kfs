@@ -443,7 +443,6 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward performMyAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
-        this.flagBCInProgress();
 
         // call service to build account list and give message if empty
         int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountManagerDelegateList(GlobalVariables.getUserSession().getPerson().getPrincipalId(), budgetConstructionSelectionForm.getUniversityFiscalYear());
@@ -452,6 +451,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+
+        this.flagBCInProgress();
 
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, budgetConstructionSelectionForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_MANAGER_DELEGATE, BudgetConstructionAccountSelect.class.getName(), null);

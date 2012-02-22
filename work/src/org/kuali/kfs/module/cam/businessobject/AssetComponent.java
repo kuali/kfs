@@ -24,7 +24,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AssetComponent extends PersistableBusinessObjectBase {
+public class AssetComponent extends PersistableBusinessObjectBase implements Inactivateable {
 
     private Long capitalAssetNumber;
     private Integer componentNumber;
@@ -48,6 +48,7 @@ public class AssetComponent extends PersistableBusinessObjectBase {
     private String componentWarrantyText;
     private String governmentTagNumber;
     private String nationalStockNumber;
+    private boolean active;
 
     private Asset asset;
     private AssetCondition componentCondition;
@@ -552,9 +553,30 @@ public class AssetComponent extends PersistableBusinessObjectBase {
     public void setComponentCondition(AssetCondition componentCondition) {
         this.componentCondition = componentCondition;
     }
+    
+    
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active
+     */
+    public boolean isActive() {
+        return active;
+    }
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
+     * Sets the active attribute.
+     * 
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    
+
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();

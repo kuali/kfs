@@ -113,8 +113,12 @@ public class TempListLookupForm extends LookupForm {
                 setLookupableImplServiceName(lookupImplID);
             }
         }
-        
-        super.populate(request);
+
+        // don't try to populate if no BO - the case when we lose session
+        String localBusinessObjectClassName = getParameter(request, KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE);
+        if (ObjectUtils.isNotNull(localBusinessObjectClassName)) {
+            super.populate(request);
+        }
     }
 
     public boolean isForceToAccountListScreen() { 

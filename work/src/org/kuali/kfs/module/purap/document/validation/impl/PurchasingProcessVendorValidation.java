@@ -24,6 +24,8 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -83,8 +85,15 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
 
         // make sure that the vendor is not debarred
         if (vendorDetail.isVendorDebarred()) {
-            valid &= false;
-            errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_DEBARRED_VENDOR);
+            if (parameterService.getIndicatorParameter(KFSConstants.ParameterNamespaces.PURCHASING, "Requisition", PurapParameterConstants.SHOW_DEBARRED_VENDOR_WARNING_IND)) {
+                if (StringUtils.isEmpty(((PurchasingDocumentBase)purDocument).getJustification())) {
+                    errorMap.putWarning(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.WARNING_DEBARRED_VENDOR, vendorDetail.getVendorName());
+                    valid &= false;
+                }
+            } else {
+                errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_DEBARRED_VENDOR);
+                valid &= false;
+            }
         }
 
         // make sure that the vendor is of allowed type

@@ -50,8 +50,18 @@ public class BudgetExpansionAction extends KualiAction {
 
         BudgetExpansionForm budgetExpansionForm = (BudgetExpansionForm) form;
 
+        // we lost the session now recover back to the selection screen
+        if (budgetExpansionForm.getMethodToCall() != null && budgetExpansionForm.getMethodToCall().equals("performLost")) {
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
+
+            String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+
+            return new ActionForward(lookupUrl, true);
+        }
+
         // check for session timeout if not initial (re)load of BC selection
-        if (!(mapping.getType().endsWith("BudgetConstructionSelectionAction") && (budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD) || budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT)))) {
+        if (budgetExpansionForm.getMethodToCall() == null || !(mapping.getType().endsWith("BudgetConstructionSelectionAction") && (budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD) || budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT)))) {
 
             Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
             if (isBCHeartBeating == null) {
@@ -64,18 +74,10 @@ public class BudgetExpansionAction extends KualiAction {
                         return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
                     }
                 }
-                if (budgetExpansionForm.isMainWindow()){
-                    Properties parameters = new Properties();
-                    parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
 
-                    String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
-
-                    return new ActionForward(lookupUrl, true);
-                }
-                else {
-                    KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-                    return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
-                }
+                // do generic case session lost
+                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
             }
         }
 

@@ -20,6 +20,7 @@
   <bean id="CashManagementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="documentTypeName" value="CMD"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashManagementDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.CashManagementDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentRule"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentPreRules"/>    
     

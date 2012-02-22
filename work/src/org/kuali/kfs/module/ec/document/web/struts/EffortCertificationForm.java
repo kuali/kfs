@@ -347,7 +347,71 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
 
         return completeURL.concat(queryString.toString());
     }
+    
+   
+    /**
+     * Gets the fieldInfo attribute.
+     * 
+     * @return Returns the fieldInfo.
+     */
+    protected Map<String, String> getFieldInfo(EffortCertificationDetail detailLine) {
+        LOG.info("getFieldInfo(List<EffortCertificationDetail>) start");
 
+        //Map<String, String> fieldInfo = new HashMap<String, String>();
+        EffortCertificationDocument document = (EffortCertificationDocument) this.getDocument();
+        KualiDecimal totalOriginalPayrollAmount = document.getTotalOriginalPayrollAmount();
+
+        
+            detailLine.refreshNonUpdateableReferences();
+
+            Map<String, String> fieldInfoForAttribute = new HashMap<String, String>();
+            
+            fieldInfoForAttribute.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ObjectUtils.isNotNull(detailLine.getChartOfAccounts())? detailLine.getChartOfAccounts().getFinChartOfAccountDescription(): "");
+
+            String accountInfo = buildAccountInfo(detailLine.getAccount());
+            fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountInfo);
+
+            SubAccount subAccount = detailLine.getSubAccount();
+            if (ObjectUtils.isNotNull(subAccount)) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccount.getSubAccountName());
+            }
+
+            ObjectCode objectCode = detailLine.getFinancialObject();
+            if (ObjectUtils.isNotNull(objectCode)) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCodeName());
+            }
+
+            Account sourceAccount = detailLine.getSourceAccount();
+            if (ObjectUtils.isNotNull(sourceAccount)) {
+                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, sourceAccount.getAccountName());
+            }
+
+            Chart sourceChart = detailLine.getSourceChartOfAccounts();
+            if (ObjectUtils.isNotNull(sourceChart)) {
+                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
+            }
+
+            KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
+            String actualOriginalPercent = PayrollAmountHolder.recalculateEffortPercentAsString(totalOriginalPayrollAmount, originalPayrollAmount);
+            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT, actualOriginalPercent);
+
+            //fieldInfo.add(fieldInfoForAttribute);
+        
+
+        return fieldInfoForAttribute;
+    }
+    
+    /**
+     * Gets the fieldInfo attribute.
+     * 
+     * @return Returns the fieldInfo.
+     */
+    public Map<String, String> getDetailLineFieldInfo() {
+        LOG.info("getSummarizedDetailLineFieldInfo() start");
+
+        return this.getFieldInfo(this.getNewDetailLine());
+    }
+    
     /**
      * Gets the fieldInfo attribute.
      * 
@@ -399,7 +463,8 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
 
         return fieldInfo;
     }
-
+    
+  
     /**
      * get the inquirable implmentation
      * 

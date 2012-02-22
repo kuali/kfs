@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+
+    <changeSet author="jksmith" id="KFSMI6285_STRUCTURE_CHANGES">
+		<createTable tableName="FP_PRCRMNT_CARD_DFLT_T">
+            <column name="CC_NBR" type="VARCHAR2(16)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="FP_PRCRMNT_CARD_DFLT_TP1"/>
+            </column>
+            <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="FP_PRCRMNT_CARD_DFLT_TC0" />
+            </column>
+            <column name="CARD_HLDR_NM" type="VARCHAR2(123)" />
+            <column name="CARD_HLDR_ALTRNT_NM" type="VARCHAR2(123)" />
+            <column name="CARD_HLDR_LN1_ADDR" type="VARCHAR2(45)" />
+            <column name="CARD_HLDR_LN2_ADDR" type="VARCHAR2(45)" />
+            <column name="CARD_HLDR_CTY_NM" type="VARCHAR2(45)" />
+            <column name="CARD_HLDR_ST_CD" type="VARCHAR2(2)" />
+            <column name="CARD_HLDR_ZIP_CD" type="VARCHAR2(20)" />
+            <column name="CARD_HLDR_WRK_PHN_NBR" type="VARCHAR2(10)" />
+            <column name="CARD_LMT" type="NUMBER(19,2)" />
+            <column name="CARD_CYCLE_AMT_LMT" type="NUMBER(19,2)" />
+            <column name="CARD_CYCLE_VOL_LMT" type="NUMBER(19,2)" />
+            <column name="CARD_STAT_CD" type="VARCHAR2(2)" />
+            <column name="CARD_NTE_TXT" type="VARCHAR2(50)" />
+            <column name="FIN_COA_CD" type="VARCHAR2(2)" />
+            <column name="ACCOUNT_NBR" type="VARCHAR2(7)" />
+            <column name="SUB_ACCT_NBR" type="VARCHAR2(5)" />
+            <column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
+            <column name="FIN_SUB_OBJ_CD" type="VARCHAR2(3)" />
+            <column name="PROJECT_CD" type="VARCHAR2(10)" />
+            <column name="ROW_ACTV_IND" type="VARCHAR2(1)" />
+        </createTable>
+        <addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR1"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD"
+    		referencedTableName="CA_CHART_T" referencedColumnNames="FIN_COA_CD"
+		/>
+		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR2"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD, ACCOUNT_NBR"
+    		referencedTableName="CA_ACCOUNT_T" referencedColumnNames="FIN_COA_CD, ACCOUNT_NBR"
+		/>
+		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR3"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR"
+    		referencedTableName="CA_SUB_ACCT_T" referencedColumnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR"
+		/>
+		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR4"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="PROJECT_CD"
+    		referencedTableName="CA_PROJECT_T" referencedColumnNames="PROJECT_CD"
+		/>
+	</changeSet>
+
+	<changeSet author="jksmith" id="KFSMI6617_STRUCTURE_CHANGES">
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_100_DLR_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_50_DLR_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_20_DLR_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_10_DLR_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_5_DLR_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_2_DLR_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_1_DLR_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_OTHR_DLR_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_100_CENT_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_50_CENT_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_25_CENT_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_10_CENT_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_5_CENT_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_1_CENT_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_DEPOSIT_HDR_T">
+			<column name="FDOC_MSTR_OTHR_CENT_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_COIN_DTL_T">
+			<column name="CSHR_STAT_CD" type="VARCHAR2(1)"/>
+		</addColumn>
+		<addColumn tableName="FP_CHECK_DTL_T">
+			<column name="CSHR_STAT_CD" type="VARCHAR2(1)"/>
+		</addColumn>
+		<addColumn tableName="FP_CURRENCY_DTL_T">
+			<column name="CSHR_STAT_CD" type="VARCHAR2(1)"/>
+		</addColumn>
+		<addColumn tableName="FP_CASH_RCPT_DOC_T">
+			<column name="FDOC_CNFRMD_CASH_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_CASH_RCPT_DOC_T">
+			<column name="FDOC_CNFRMD_CHCK_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<addColumn tableName="FP_CASH_RCPT_DOC_T">
+			<column name="FDOC_CNFRMD_COIN_AMT" type="NUMBER(19,2)"/>
+		</addColumn>
+		<dropColumn tableName="FP_DEPOSIT_HDR_T" columnName="FDOC_REF_NBR"/>
+		<dropPrimaryKey tableName="FP_CURRENCY_DTL_T" constraintName="FP_CURRENCY_DTL_TP1"/>
+		<dropPrimaryKey tableName="FP_CHECK_DTL_T" constraintName="FP_CHECK_DTL_TP1"/>
+		<dropPrimaryKey tableName="FP_COIN_DTL_T" constraintName="FP_COIN_DTL_TP1"/>		
+		<update tableName="FP_CURRENCY_DTL_T">
+			<column name="CSHR_STAT_CD" value="C"/>
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'C'</where>
+		</update>
+		<update tableName="FP_CHECK_DTL_T">
+			<column name="CSHR_STAT_CD" value="C"/>
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'R'</where>
+		</update>
+		<update tableName="FP_COIN_DTL_T">
+			<column name="CSHR_STAT_CD" value="C"/>
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'C'</where>
+		</update>
+		<update tableName="FP_CURRENCY_DTL_T">
+			<column name="CSHR_STAT_CD" value="R"/>
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'R'</where>
+		</update>
+		<update tableName="FP_COIN_DTL_T">
+			<column name="CSHR_STAT_CD" value="R"/>
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'R'</where>
+		</update>
+		<update tableName="FP_CURRENCY_DTL_T">
+			<column name="FDOC_TYP_CD" value="CMD"/>
+			<where>FDOC_TYP_CD = 'CM'</where>
+		</update>
+		<update tableName="FP_CHECK_DTL_T">
+			<column name="FDOC_TYP_CD" value="CMD"/>
+			<where>FDOC_TYP_CD = 'CM'</where>
+		</update>
+		<update tableName="FP_COIN_DTL_T">
+			<column name="FDOC_TYP_CD" value="CMD"/>
+			<where>FDOC_TYP_CD = 'CM'</where>
+		</update>
+		<update tableName="FP_CURRENCY_DTL_T">
+			<column name="CSHR_STAT_CD" value="R"/>
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'R'</where>
+		</update>
+		<update tableName="FP_CURRENCY_DTL_T">
+			<column name="CSHR_STAT_CD" value="D"/>
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'D'</where>
+		</update>
+		<update tableName="FP_CURRENCY_DTL_T">
+			<column name="CSHR_STAT_CD" value="O"/>
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'O'</where>
+		</update>
+		<update tableName="FP_CURRENCY_DTL_T">
+			<column name="CSHR_STAT_CD" value="C"/>
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'C'</where>
+		</update>
+		<update tableName="FP_COIN_DTL_T">
+			<column name="CSHR_STAT_CD" value="R"/>
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'R'</where>
+		</update>
+		<update tableName="FP_COIN_DTL_T">
+			<column name="CSHR_STAT_CD" value="D"/>
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'D'</where>
+		</update>
+		<update tableName="FP_COIN_DTL_T">
+			<column name="CSHR_STAT_CD" value="O"/>
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'O'</where>
+		</update>
+		<update tableName="FP_COIN_DTL_T">
+			<column name="CSHR_STAT_CD" value="C"/>
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'C'</where>
+		</update>
+		<update tableName="FP_CHECK_DTL_T">
+			<column name="CSHR_STAT_CD" value="R"/>
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'I'</where>
+		</update>
+		<delete tableName="FP_CURRENCY_DTL_T">
+			<where>FDOC_TYP_CD = 'BCS'</where>
+		</delete>
+		<delete tableName="FP_COIN_DTL_T">
+			<where>FDOC_TYP_CD = 'BCS'</where>
+		</delete>
+		<sql>
+			declare
+				v_fdoc_nbr FP_DEPOSIT_HDR_T.fdoc_nbr%TYPE;
+				v_fdoc_100_dlr_amt FP_CURRENCY_DTL_T.fdoc_100_dlr_amt%TYPE;
+				v_fdoc_50_dlr_amt FP_CURRENCY_DTL_T.fdoc_50_dlr_amt%TYPE;
+				v_fdoc_20_dlr_amt FP_CURRENCY_DTL_T.fdoc_20_dlr_amt%TYPE;
+				v_fdoc_10_dlr_amt FP_CURRENCY_DTL_T.fdoc_10_dlr_amt%TYPE;
+				v_fdoc_5_dlr_amt FP_CURRENCY_DTL_T.fdoc_5_dlr_amt%TYPE;
+				v_fdoc_2_dlr_amt FP_CURRENCY_DTL_T.fdoc_2_dlr_amt%TYPE;
+				v_fdoc_1_dlr_amt FP_CURRENCY_DTL_T.fdoc_1_dlr_amt%TYPE;
+				v_fdoc_othr_dlr_amt FP_CURRENCY_DTL_T.fdoc_othr_dlr_amt%TYPE;
+				v_fdoc_100_cent_amt FP_COIN_DTL_T.fdoc_100_cent_amt%TYPE;
+				v_fdoc_50_cent_amt FP_COIN_DTL_T.fdoc_50_cent_amt%TYPE;
+				v_fdoc_25_cent_amt FP_COIN_DTL_T.fdoc_25_cent_amt%TYPE;
+				v_fdoc_10_cent_amt FP_COIN_DTL_T.fdoc_10_cent_amt%TYPE;
+				v_fdoc_5_cent_amt FP_COIN_DTL_T.fdoc_5_cent_amt%TYPE;
+				v_fdoc_1_cent_amt FP_COIN_DTL_T.fdoc_1_cent_amt%TYPE;
+				v_fdoc_othr_cent_amt FP_COIN_DTL_T.fdoc_othr_cent_amt%TYPE;
+				
+				cursor currency_dtl_cursor is
+					select fdoc_nbr, fdoc_100_dlr_amt, fdoc_50_dlr_amt, fdoc_20_dlr_amt, fdoc_10_dlr_amt, fdoc_5_dlr_amt, fdoc_2_dlr_amt, fdoc_1_dlr_amt, fdoc_othr_dlr_amt
+					from fp_currency_dtl_t
+					where fdoc_typ_cd = 'CMD' and fdoc_column_typ_cd = 'M';
+				cursor coin_dtl_cursor is
+					select fdoc_nbr, fdoc_100_cent_amt, fdoc_50_cent_amt, fdoc_25_cent_amt, fdoc_10_cent_amt, fdoc_5_cent_amt, fdoc_1_cent_amt, fdoc_othr_cent_amt
+					from fp_coin_dtl_t
+					where fdoc_typ_cd = 'CMD' and fdoc_column_typ_cd = 'M';	
+			begin
+				if not currency_dtl_cursor%ISOPEN then
+					open currency_dtl_cursor;
+				end if;
+				loop
+					fetch currency_dtl_cursor into v_fdoc_nbr, v_fdoc_100_dlr_amt, v_fdoc_50_dlr_amt, v_fdoc_20_dlr_amt, v_fdoc_10_dlr_amt, v_fdoc_5_dlr_amt, v_fdoc_2_dlr_amt, v_fdoc_1_dlr_amt, v_fdoc_othr_dlr_amt;
+					exit when currency_dtl_cursor%NOTFOUND;
+					update fp_deposit_hdr_t set fdoc_mstr_100_dlr_amt = v_fdoc_100_dlr_amt, fdoc_mstr_50_dlr_amt = v_fdoc_50_dlr_amt, fdoc_mstr_20_dlr_amt = v_fdoc_20_dlr_amt, fdoc_mstr_10_dlr_amt = v_fdoc_10_dlr_amt, fdoc_mstr_5_dlr_amt = v_fdoc_5_dlr_amt, fdoc_mstr_2_dlr_amt = v_fdoc_2_dlr_amt, fdoc_mstr_1_dlr_amt = v_fdoc_1_dlr_amt, fdoc_mstr_othr_dlr_amt = v_fdoc_othr_dlr_amt where fdoc_nbr = v_fdoc_nbr;
+				end loop;
+				if not coin_dtl_cursor%ISOPEN then
+					open coin_dtl_cursor;
+				end if;
+				loop
+					fetch coin_dtl_cursor into v_fdoc_nbr, v_fdoc_100_cent_amt, v_fdoc_50_cent_amt, v_fdoc_25_cent_amt, v_fdoc_10_cent_amt, v_fdoc_5_cent_amt, v_fdoc_1_cent_amt, v_fdoc_othr_cent_amt;
+					exit when coin_dtl_cursor%NOTFOUND;
+					update fp_deposit_hdr_t set fdoc_mstr_100_cent_amt = v_fdoc_100_cent_amt, fdoc_mstr_50_cent_amt = v_fdoc_50_cent_amt, fdoc_mstr_25_cent_amt = v_fdoc_25_cent_amt, fdoc_mstr_10_cent_amt = v_fdoc_10_cent_amt, fdoc_mstr_5_cent_amt = v_fdoc_5_cent_amt, fdoc_mstr_1_cent_amt = v_fdoc_1_cent_amt, fdoc_mstr_othr_cent_amt = v_fdoc_othr_cent_amt where fdoc_nbr = v_fdoc_nbr;
+				end loop;
+			end;
+		</sql>
+		<delete tableName="FP_CURRENCY_DTL_T">
+			<where>fdoc_typ_cd = 'CMD' and fdoc_column_typ_cd = 'M'</where>
+		</delete>
+		<delete tableName="FP_COIN_DTL_T">
+			<where>fdoc_typ_cd = 'CMD' and fdoc_column_typ_cd = 'M'</where>
+		</delete>
+		<update tableName="FP_CURRENCY_DTL_T">
+			<column name="FDOC_TYP_CD" value="CR"/>
+			<column name="CSHR_STAT_CD" value="Q"/>
+			<where>FDOC_TYP_CD = 'CH' and fdoc_column_typ_cd = 'R'</where>
+		</update>
+		<update tableName="FP_COIN_DTL_T">
+			<column name="FDOC_TYP_CD" value="CR"/>
+			<column name="CSHR_STAT_CD" value="Q"/>
+			<where>FDOC_TYP_CD = 'CH' and fdoc_column_typ_cd = 'R'</where>
+		</update>
+		<update tableName="FP_CURRENCY_DTL_T">
+			<column name="FDOC_TYP_CD" value="CR"/>
+			<column name="CSHR_STAT_CD" value="G"/>
+			<where>FDOC_TYP_CD = 'CH' and fdoc_column_typ_cd = 'V'</where>
+		</update>
+		<update tableName="FP_COIN_DTL_T">
+			<column name="FDOC_TYP_CD" value="CR"/>
+			<column name="CSHR_STAT_CD" value="G"/>
+			<where>FDOC_TYP_CD = 'CH' and fdoc_column_typ_cd = 'V'</where>
+		</update>
+		<!-- implementers: think twice before running the lines below, they're to make sure test data works -->
+		<delete tableName="FP_CURRENCY_DTL_T">
+			<where>cshr_stat_cd is null</where>
+		</delete>
+		<delete tableName="FP_COIN_DTL_T">
+			<where>cshr_stat_cd is null</where>
+		</delete>
+		<addPrimaryKey tableName="FP_CURRENCY_DTL_T" columnNames="FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD" constraintName="FP_CURRENCY_DTL_TP1"/>
+		<addPrimaryKey tableName="FP_CHECK_DTL_T" columnNames="FDOC_NBR, FDOC_TYP_CD, CSHR_STAT_CD, FDOC_LINE_NBR" constraintName="FP_CHECK_DTL_TP1"/>
+		<addPrimaryKey tableName="FP_COIN_DTL_T" columnNames="FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD" constraintName="FP_COIN_DTL_TP1"/>
+		<dropColumn tableName="FP_CURRENCY_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<dropColumn tableName="FP_COIN_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<dropColumn tableName="FP_CHECK_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSMI307_STRUCTURE_CHANGES">
+		<addColumn tableName="FP_DV_DOC_T">
+			<column name="IMD_PMT_IND" type="VARCHAR2(1)"/>
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="kekanaya" id="KFSMI4123_STRUCTURE_CHANGES">
+		<addColumn tableName="FP_CASH_RCPT_DOC_T">
+			<column name="FDOC_BNK_CD" type="VARCHAR2(4)"/>
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSMI6858_REMOVE_USELESS_CR_ARTIFACTS">
+		<comment>Removes unused and non-informative FP_REVOLVFND_DTL_T table and FDOC_COLUMN_TYP_CD columns from FP_ADV_DPST_DTL_T and FP_CR_CARD_DTL_T.</comment>
+		<dropTable tableName="FP_REVOLVFND_DTL_T"/>
+		<dropPrimaryKey tableName="FP_ADV_DPST_DTL_T" constraintName="FP_ADV_DPST_DTL_TP1"/>
+		<dropColumn tableName="FP_ADV_DPST_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<addPrimaryKey tableName="FP_ADV_DPST_DTL_T" constraintName="FP_ADV_DPST_DTL_TP1" columnNames="FDOC_NBR,  FDOC_TYP_CD, FDOC_LINE_NBR"/>
+		<dropPrimaryKey tableName="FP_CR_CARD_DTL_T" constraintName="FP_CR_CARD_DTL_TP1"/>
+		<dropColumn tableName="FP_CR_CARD_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
+		<addPrimaryKey tableName="FP_CR_CARD_DTL_T" constraintName="FP_CR_CARD_DTL_TP1" columnNames="FDOC_NBR,  FDOC_TYP_CD, FDOC_LINE_NBR"/>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSMI6905_ADD_ACH_ELIGIBLE_TO_PAYEE_TYPE">
+		<comment>Add column to PDP's payee type table to say whether the payee type is ACH eligible or not.  Original SQL version by Ying Feng.</comment>
+		<addColumn tableName="PDP_PAYEE_TYP_T">
+			<column name="ACH_ELGBL_IND" type="VARCHAR2(1)"/>
+		</addColumn>
+		<update tableName="PDP_PAYEE_TYP_T">
+			<column name="ACH_ELGBL_IND" value="N"/>
+		</update>
+		<update tableName="PDP_PAYEE_TYP_T">
+			<column name="ACH_ELGBL_IND" value="Y"/>
+			<where>PAYEE_TYP_CD in ('E','V', 'T')</where>
+		</update>
+	</changeSet>
+	
+	<changeSet author="schoo" id="KFSMI-6709_STRUCTURE_CHANGES">
+		<renameTable oldTableName="GL_EXPEND_TRN_T" newTableName="GL_EXPEND_TRN_MT"/>
+	</changeSet>
+	
+	<changeSet author="schoo" id="KFSMI-KFSMI-6629_STRUCTURE_CHANGES">
+		<modifyColumn tableName='CM_CPTLAST_DTL_T'>
+      		<column name='AST_OFFCMP_ADDR' type='VARCHAR2(45)' />
+    	</modifyColumn>
+    	<modifyColumn tableName='CM_AST_TRNFR_DOC_T'>
+      		<column name='AST_OFFCMP_ADDR' type='VARCHAR2(45)' />
+    	</modifyColumn>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSMI7058_ASSET_PMT_DOC_TABLE_AND_SAMPLE_DATA">
+		<createSequence sequenceName="CM_AST_PMT_DOC_TYP_SEQ" startValue="20" incrementBy="1" />
+		<createTable tableName="CM_AST_PMT_DOC_TYP_T">
+            <column name="DOC_TYP_ID" type="NUMBER(7,0)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CM_AST_PMT_DOC_TYP_T_TP1"/>
+            </column>
+            <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="CM_AST_PMT_DOC_TYP_T_TC0" />
+            </column>
+            <column name="DOC_TYP_NM" type="VARCHAR2(4)" />
+            <column name="ACTV_IND" type="VARCHAR2(1)" />
+        </createTable>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="1" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="AA" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="2" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="MPAY" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="3" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="AD" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="4" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="CR" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="5" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="CCR" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="6" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="DI" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="7" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="DV" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="8" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="GEC" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="9" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="IB" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="10" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="JV" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="11" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="SB" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="12" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="YEDI" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="13" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="YEGE" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="14" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="PCDO" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="15" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="PREQ" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="16" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="CM" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="17" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="ND" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSMI6999_RENAME_CFDA_REF_T">
+		<renameTable oldTableName="CG_CFDA_REF_T" newTableName="CA_CFDA_REF_T"/>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSMI6965_PCDO_ACCT_LINES_DESC">
+		<comment>Adds column to hold description to PCDO accounting lines</comment>
+		<addColumn tableName="FP_PRCRMNT_ACCT_LINES_T">
+			<column name="FDOC_LINE_DESC" type="VARCHAR2(40)" />
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSCNTRB641_ADD_ACTIVE_INDICATORS_TO_CAMS_TABLES">
+		<comment>Adds active indicators to three CAMS tables.</comment>
+		<addColumn tableName="CM_AST_COMPONENT_T">
+			<column name="ACTV_IND" type="VARCHAR2(1)"/>
+		</addColumn>
+		<update tableName="CM_AST_COMPONENT_T">
+			<column name="ACTV_IND" value="Y"/>
+		</update>
+		<addColumn tableName="CM_AST_WRNTY_T">
+			<column name="ACTV_IND" type="VARCHAR2(1)"/>
+		</addColumn>
+		<update tableName="CM_AST_WRNTY_T">
+			<column name="ACTV_IND" value="Y"/>
+		</update>
+		<addColumn tableName="CM_AST_RPR_HIST_T">
+			<column name="ACTV_IND" type="VARCHAR2(1)"/>
+		</addColumn>
+		<update tableName="CM_AST_RPR_HIST_T">
+			<column name="ACTV_IND" value="Y"/>
+		</update>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSCNTRB162_DEBARRED_VENDOR_TABLES">
+		<comment>Alters and creates tables as necessary for the debarred vendor tracking process.</comment>
+		<addColumn tableName="PUR_REQS_T">
+			<column name="VNDR_DEBRD_REAS_TXT" type="VARCHAR2(255)"/>
+		</addColumn>
+		<addColumn tableName="PUR_PO_T">
+			<column name="VNDR_DEBRD_REAS_TXT" type="VARCHAR2(255)"/>
+		</addColumn>
+		<createSequence sequenceName="PUR_VNDR_EXCL_MTCH_T_SEQ" startValue="1" incrementBy="1" minValue="1"/>
+		<createTable tableName="PUR_VNDR_EXCL_MT">
+			<column name="VNDR_EXCL_ID" type="NUMBER(10,0)">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="VNDR_EXCL_LOAD_DT" type="DATE"/>
+			<column name="VNDR_EXCL_NM" type="VARCHAR2(200)"/>
+			<column name="VNDR_EXCL_LN1_ADDR" type="VARCHAR2(150)"/>
+			<column name="VNDR_EXCL_LN2_ADDR" type="VARCHAR2(50)"/>
+			<column name="VNDR_EXCL_CTY_NM" type="VARCHAR2(50)"/>
+			<column name="VNDR_EXCL_ST_CD" type="VARCHAR2(2)"/>
+			<column name="VNDR_EXCL_PRVN_NM" type="VARCHAR2(20)"/>
+			<column name="VNDR_EXCL_ZIP_CD" type="VARCHAR2(20)"/>
+			<column name="VNDR_EXCL_OTHR_NM" type="VARCHAR2(1000)"/>
+			<column name="VNDR_EXCL_DESC_TXT" type="VARCHAR2(1000)"/>
+		</createTable>
+		<createTable tableName="PUR_VNDR_EXCL_MTCH_T">
+			<column name="VNDR_EXCL_ID" type="NUMBER(10,0)">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"/>
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="VNDR_HDR_GNRTD_ID" type="NUMBER(10,0)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="VNDR_DTL_ASND_ID" type="NUMBER(10,0)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="VNDR_ADDR_GNRTD_ID" type="NUMBER(10,0)"/>
+			<column name="VNDR_EXCL_CFRM_STAT_CD" type="VARCHAR2(10)"/>
+			<column name="VNDR_EXCL_LOAD_DT" type="DATE"/>
+			<column name="VNDR_EXCL_NM" type="VARCHAR2(200)"/>
+			<column name="VNDR_EXCL_LN1_ADDR" type="VARCHAR2(150)"/>
+			<column name="VNDR_EXCL_LN2_ADDR" type="VARCHAR2(50)"/>
+			<column name="VNDR_EXCL_CTY_NM" type="VARCHAR2(50)"/>
+			<column name="VNDR_EXCL_ST_CD" type="VARCHAR2(2)"/>
+			<column name="VNDR_EXCL_PRVN_NM" type="VARCHAR2(20)"/>
+			<column name="VNDR_EXCL_ZIP_CD" type="VARCHAR2(20)"/>
+			<column name="VNDR_EXCL_OTHR_NM" type="VARCHAR2(1000)"/>
+			<column name="VNDR_EXCL_DESC_TXT" type="VARCHAR2(1000)"/>
+			<column name="LST_UPDT_TS" type="DATE"/>
+			<column name="LST_UPDT_PRNCPL_NM" type="VARCHAR2(100)"/>
+		</createTable>
+		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TP1" baseTableName="PUR_VNDR_EXCL_MTCH_T" baseColumnNames="VNDR_HDR_GNRTD_ID" referencedTableName="PUR_VNDR_HDR_T" referencedColumnNames="VNDR_HDR_GNRTD_ID"/>
+		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TP2" baseTableName="PUR_VNDR_EXCL_MTCH_T" baseColumnNames="VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID" referencedTableName="PUR_VNDR_DTL_T" referencedColumnNames="VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID"/>
+	</changeSet>
+</databaseChangeLog>

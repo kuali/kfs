@@ -96,15 +96,17 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private BankService bankService;
     private DataDictionaryService dataDictionaryService;
     private PurapAccountingServiceImpl purapAccountingService;
+    private List<String> lockedDocuments;
 
     /**
      * @see org.kuali.kfs.module.purap.service.PdpExtractService#extractImmediatePaymentsOnly()
      */
     public void extractImmediatePaymentsOnly() {
         LOG.debug("extractImmediatePaymentsOnly() started");
-
         Date processRunDate = dateTimeService.getCurrentDate();
+        lockUnlockDocuments(true);
         extractPayments(true, processRunDate);
+        lockUnlockDocuments(false);
     }
 
     /**
@@ -1042,6 +1044,40 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             return new EqualsBuilder().append(key(), thisobj.key()).isEquals();
         }
     }
+    
+    private void lockUnlockDocuments(boolean locked) {
+        for(String documentType : lockedDocuments) {
+            Class<? extends Document> documentClass = dataDictionaryService.getDocumentClassByTypeName(documentType);
+            boolean exists = parameterService.parameterExists(documentClass , KFSConstants.DOCUMENT_LOCKOUT_PARM_NM);
+            if(exists) {
+                String namespace = parameterService.getNamespace(documentClass);
+                String detailType = parameterService.getDetailType(documentClass);
+                Parameter parameter  = parameterService.retrieveParameter(namespace,detailType , KFSConstants.DOCUMENT_LOCKOUT_PARM_NM);
+                if(locked) {
+                    parameter.setParameterValue("Y");
+                }
+                else {
+                    parameter.setParameterValue("N");
+                }
+                
+                businessObjectService.save(parameter);
+                parameterService.clearCache();
+            }
+            else {
+                String namespace = parameterService.getNamespace(documentClass);
+                String detailType = parameterService.getDetailType(documentClass);
+                Parameter parameter = new Parameter();
+                parameter.setParameterDetailTypeCode(detailType);
+                parameter.setParameterNamespaceCode(namespace);
+                parameter.setParameterApplicationNamespaceCode(KFSConstants.APPLICATION_NAMESPACE_CODE);
+                parameter.setParameterName(KFSConstants.DOCUMENT_LOCKOUT_PARM_NM);
+                parameter.setParameterValue("Y");
+                parameter.setParameterDescription(KFSConstants.DOCUMENT_LOCKOUT_PARM_DESC);
+                parameter.setParameterTypeCode(KfsParameterConstants.PARAMETER_CONFIG_TYPE_CODE);
+                businessObjectService.save(parameter);
+            }
+        }
+    }
 
     /**
      * Sets the paymentRequestService attribute value.
@@ -1188,5 +1224,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             personService = SpringContext.getBean(PersonService.class);
         return personService;
     }
+
+    public void setLockedDocuments(List<String> lockedDocuments) {
+        this.lockedDocuments = lockedDocuments;
+    }
+    
+    
 
 }

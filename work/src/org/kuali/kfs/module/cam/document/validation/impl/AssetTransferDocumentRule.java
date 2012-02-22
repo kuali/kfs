@@ -410,7 +410,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         // check if account is valid
         Account organizationOwnerAccount = assetTransferDocument.getOrganizationOwnerAccount();
         if (ObjectUtils.isNotNull(organizationOwnerAccount) && (organizationOwnerAccount.isExpired())) {
-            putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_INVALID, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetTransferDocument.getOrganizationOwnerAccountNumber());
+            putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_INVALID, assetTransferDocument.getOrganizationOwnerAccountNumber(), assetTransferDocument.getOrganizationOwnerChartOfAccountsCode());
             valid &= false;
         }
         else if (getAssetService().isCapitalAsset(asset) && !asset.getAssetPayments().isEmpty()) {

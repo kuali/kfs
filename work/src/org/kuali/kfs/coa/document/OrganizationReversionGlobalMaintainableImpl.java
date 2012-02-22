@@ -20,7 +20,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobal;
@@ -28,10 +30,13 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalDetail;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalOrganization;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversionGlobal} maintenance document inner class for
@@ -144,6 +149,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
      * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     protected boolean isRelationshipRefreshable(Class boClass, String relationshipName) {
         if (relationshipName.equals("organizationReversionGlobalDetails")) {
@@ -166,6 +172,46 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
         for (OrganizationReversionGlobalDetail changeDetail : ((OrganizationReversionGlobal) businessObject).getOrganizationReversionGlobalDetails()) {
             changeDetail.setNewCollectionRecord(false);
         }
+    }
+
+    /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+        super.refresh(refreshCaller, fieldValues, document);
+        final String lookupBusinessObjectClassName = (String)fieldValues.get(KFSConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
+        if (!StringUtils.isBlank(lookupBusinessObjectClassName)) {
+            if (lookupBusinessObjectClassName.equals(OrganizationReversion.class.getName())) {
+                final String lookupResultsSequenceNumber = (String)fieldValues.get(KFSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+                if (!StringUtils.isBlank(lookupResultsSequenceNumber)) {
+                    final LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
+                    try {
+                        final List<ResultRow> resultRows = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPrincipalId());
+                        if (!resultRows.isEmpty()) {
+                            final ResultRow topRow = resultRows.get(0);
+                            for (Column column : topRow.getColumns()) {
+                                if (column.getPropertyName().equals(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
+                                    final String universityFiscalYearAsString = column.getPropertyValue();
+                                    final Integer universityFiscalYear = Integer.parseInt(universityFiscalYearAsString);
+                                    
+                                    final OrganizationReversionGlobal orgRevGlobal = ((OrganizationReversionGlobal)document.getNewMaintainableObject().getBusinessObject());
+                                    orgRevGlobal.setUniversityFiscalYear(universityFiscalYear);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        throw new RuntimeException("Could not retrieve lookup results to populate fiscal year", ex);
+                    }
+                    
+                    
+                }
+            }
+        }
+        
     }
 
     @Override

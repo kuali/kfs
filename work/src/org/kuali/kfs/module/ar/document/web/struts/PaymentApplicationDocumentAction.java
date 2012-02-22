@@ -530,16 +530,18 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
         // validate the customer number in the unapplied
         if (StringUtils.isNotBlank(customerNumber)) {
-            // force customer number to upper
-            payAppForm.setNonAppliedHoldingCustomerNumber(customerNumber.toUpperCase());
 
             Map<String, String> pkMap = new HashMap<String, String>();
-            pkMap.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
+            pkMap.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber.toUpperCase());
             int found = businessObjectService.countMatching(Customer.class, pkMap);
             if (found == 0) {
                 addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.UNAPPLIED_TAB, ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_CUSTOMER_NUMBER, ArKeyConstants.PaymentApplicationDocumentErrors.ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID);
                 return null;
             }
+            
+            // force customer number to upper
+            payAppForm.setNonAppliedHoldingCustomerNumber(customerNumber.toUpperCase());
+
         }
 
         // validate the amount in the unapplied

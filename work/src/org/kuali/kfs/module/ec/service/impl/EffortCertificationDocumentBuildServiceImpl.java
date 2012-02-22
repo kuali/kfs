@@ -78,7 +78,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
     public EffortCertificationDocumentBuild generateDocumentBuild(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LaborLedgerBalance> ledgerBalances) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
-        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
+        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods, true);
         PayrollAmountHolder payrollAmountHolder = new PayrollAmountHolder(totalAmount, KualiDecimal.ZERO, 0);
 
         LaborLedgerBalance headOfBalanceList = ledgerBalances.get(0);

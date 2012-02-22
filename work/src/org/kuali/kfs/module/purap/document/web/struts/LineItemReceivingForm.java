@@ -42,6 +42,7 @@ public class LineItemReceivingForm extends ReceivingFormBase {
     protected Integer purchaseOrderId;
     protected LineItemReceivingItem newLineItemReceivingItemLine;
     protected boolean fromPurchaseOrder = false;
+    protected Boolean hideAddUnorderedItem = true;    
     
     /**
      * Constructs a LineItemReceivingForm instance and sets up the appropriately casted document.
@@ -197,6 +198,15 @@ public class LineItemReceivingForm extends ReceivingFormBase {
         return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(LineItemReceivingDocument.class, PurapParameterConstants.SHOW_CLEAR_AND_LOAD_QTY_BUTTONS);        
     }
 
+    /**
+     * Indicates if a warning should be given when users click "add unordered item" button, according to the system parameter.
+     *  
+     * @return true if the parameter says YES; otherwise faluse.
+     */
+    public boolean shouldGiveAddUnorderedItemWarning(){        
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(LineItemReceivingDocument.class, PurapParameterConstants.UNORDERED_ITEM_WARNING_IND);
+    }
+
     public boolean isFromPurchaseOrder() {
         return fromPurchaseOrder;
     }
@@ -205,4 +215,12 @@ public class LineItemReceivingForm extends ReceivingFormBase {
         this.fromPurchaseOrder = fromPurchaseOrder;
     }
 
+    public Boolean getHideAddUnorderedItem() {
+        return hideAddUnorderedItem;
+    }
+
+    public void setHideAddUnorderedItem(Boolean hideAddUnorderedItem) {
+        this.hideAddUnorderedItem = hideAddUnorderedItem;
+    }
+    
 }

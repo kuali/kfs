@@ -813,8 +813,10 @@
           <ref bean="genesisService"/>
        </property>    
     </bean>
-        
-    <bean id="genesisBatchStep" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step">
+    
+    <bean id="genesisBatchStep" parent="GenesisBatchStep-parentBean"/>    
+    
+    <bean id="GenesisBatchStep-parentBean" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step">
       <property name="genesisService">
          <ref bean="genesisService"/>
        </property>

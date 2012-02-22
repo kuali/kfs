@@ -16,9 +16,11 @@
 package org.kuali.kfs.module.cam.document.validation.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +61,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -1174,6 +1178,74 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             return false;
         }
 
+        return true;
+    }
+    
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#dataDictionaryValidate(org.kuali.rice.kns.document.MaintenanceDocument)
+     * Override this method to only validate reference exists for asset separate , otherwise do default Existence Checks.
+     * KFSMI-6584
+     */
+    @Override
+    protected boolean dataDictionaryValidate(MaintenanceDocument document) {
+        
+        AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
+        LOG.debug("MaintenanceDocument validation beginning");
+
+        // explicitly put the errorPath that the dictionaryValidationService requires
+        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
+
+        // document must have a newMaintainable object
+        Maintainable newMaintainable = document.getNewMaintainableObject();
+        if (newMaintainable == null) {
+            GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
+            throw new ValidationException("Maintainable object from Maintenance Document '" + document.getDocumentTitle() + "' is null, unable to proceed.");
+        }
+
+        // document's newMaintainable must contain an object (ie, not null)
+        PersistableBusinessObject businessObject = newMaintainable.getBusinessObject();
+        if (businessObject == null) {
+            GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.");
+            throw new ValidationException("Maintainable's component business object is null.");
+        }
+
+        // run required check from maintenance data dictionary
+        maintDocDictionaryService.validateMaintenanceRequiredFields(document);
+
+        //check for duplicate entries in collections if necessary
+        maintDocDictionaryService.validateMaintainableCollectionsForDuplicateEntries(document);
+
+        // run the DD DictionaryValidation (non-recursive)
+        dictionaryValidationService.validateBusinessObjectOnMaintenanceDocument(businessObject,
+                document.getDocumentHeader().getWorkflowDocument().getDocumentType());
+
+        // do default (ie, mandatory) existence checks
+        if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
+            dictionaryValidationService.validateDefaultExistenceChecks(businessObject);
+        }
+        else {
+            
+            Collection references = KNSServiceLocator.getMaintenanceDocumentDictionaryService().getDefaultExistenceChecks(businessObject.getClass());
+
+            // walk through the references, doing the tests on each
+            for (Iterator iter = references.iterator(); iter.hasNext();) {
+                ReferenceDefinition reference = (ReferenceDefinition) iter.next();
+                // do the existence and validation testing
+                dictionaryValidationService.validateReferenceExists(assetGlobal,reference );
+            }
+            
+        }
+
+        // do apc checks
+        dictionaryValidationService.validateApcRules(businessObject);
+
+
+        // explicitly remove the errorPath we've added
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
+
+        LOG.debug("MaintenanceDocument validation ending");
         return true;
     }
 

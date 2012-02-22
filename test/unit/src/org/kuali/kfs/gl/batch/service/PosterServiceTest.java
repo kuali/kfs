@@ -621,7 +621,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
 
         assertOriginEntries(2, outputTransactions);
 
-        List trans = unitTestSqlDao.sqlSelect("select * from GL_EXPEND_TRN_T order by account_nbr");
+        List trans = unitTestSqlDao.sqlSelect("select * from GL_EXPEND_TRN_MT order by account_nbr");
 
         assertEquals("Wrong number of transactions", 4, trans.size());
         Map acct4031407 = (Map) trans.get(0);
@@ -685,23 +685,23 @@ public class PosterServiceTest extends OriginEntryTestBase {
 //    public void testIcrGeneration() throws Exception {
 //        LOG.debug("testIcrGeneration() started");
 //        // Load the expenditure table
-//        unitTestSqlDao.sqlCommand("delete from gl_expend_trn_t");
+//        unitTestSqlDao.sqlCommand("delete from GL_EXPEND_TRN_MT");
 //
 //        // This one shouldn't generate any entries
-//        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '1031400', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', 10000)");
+//        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_MT (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '1031400', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', 10000)");
 //
 //        // This one is fin_series_id 001 3.13% to 1 account (2 gl entries)
-//        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531407', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', 10000)");
+//        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_MT (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531407', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', 10000)");
 //
 //        // This one is fin_series_id 002 3.8% to 2 accounts (2.0% & 1.8%)
-//        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531408', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', 10000)");
+//        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_MT (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531408', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', 10000)");
 //
 //        // Clear origin entry & origin entry group
 //        clearOriginEntryTables();
 //
 //        posterService.generateIcrTransactions();
 //
-//        List results = unitTestSqlDao.sqlSelect("select * from gl_expend_trn_t");
+//        List results = unitTestSqlDao.sqlSelect("select * from GL_EXPEND_TRN_MT");
 //        assertEquals("Should be no expenditure rows left", 0, results.size());
 //
 //        results = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_t order by origin_entry_id");

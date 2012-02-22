@@ -215,7 +215,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * This method creates new cumulative currency and coin details for the document given.
      * 
      * @param cmDoc The cash management document the cumulative details will be associated with.
-     * @param cashieringStatus The cashiering status for the new details.
+     * @param cashieringSource The cashiering record source for the new details.
      */
     public void createNewCashDetails(CashManagementDocument cmDoc, String cashieringStatus) {
         CoinDetail coinDetail = new CoinDetail();

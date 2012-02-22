@@ -270,7 +270,8 @@
 		</property>
 	</bean>
 
-	<bean id="procurementCardLoadStep" class="org.kuali.kfs.fp.batch.ProcurementCardLoadStep" parent="step">
+	<bean id="procurementCardLoadStep" parent="procurementCardLoadStep-parentBean"/>
+	<bean id="procurementCardLoadStep-parentBean" abstract="true" class="org.kuali.kfs.fp.batch.ProcurementCardLoadStep" parent="step">
 		<property name="procurementCardLoadTransactionsService">
 			<ref bean="procurementCardLoadTransactionsService" />
 		</property>
@@ -415,7 +416,9 @@
 		</property>
 	</bean>
  
-	<bean id="disbursementPayeeLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+	<bean id="disbursementPayeeLookupableHelperService" parent="disbursementPayeeLookupableHelperService-parentBean"/>
+
+	<bean id="disbursementPayeeLookupableHelperService-parentBean" class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="vendorLookupable">
 			<ref bean="vendorLookupable" />
 		</property>	
@@ -424,7 +427,10 @@
 		</property>			
 		<property name="disbursementVoucherPaymentReasonService">
 			<ref bean="disbursementVoucherPaymentReasonService" />
-		</property>	
+		</property>		
+		<property name="disbursementVoucherPayeeService">
+			<ref bean="disbursementVoucherPayeeService" />
+		</property>
 	</bean>
 	
 	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" scope="prototype" parent="kualiInquirable"/>

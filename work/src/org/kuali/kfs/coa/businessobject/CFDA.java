@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2009 The Kuali Foundation
+ * Copyright 2007 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.integration.cg.businessobject;
+package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
+import java.util.LinkedHashMap;
+
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 
 /**
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
-public class CFDA implements ContractsAndGrantsCfda {
+public class CFDA extends PersistableBusinessObjectBase implements  Inactivateable {
 
     private String cfdaNumber;
     private String cfdaProgramTitleName;
     private String cfdaMaintenanceTypeId;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -89,7 +94,30 @@ public class CFDA implements ContractsAndGrantsCfda {
         this.cfdaMaintenanceTypeId = cfdaMaintenanceTypeId;
     }
 
-    public void prepareForWorkflow() {}
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("cfdaNumber", this.cfdaNumber);
+        return m;
+    }
 
-    public void refresh() {}
+    /**
+     * This method gets the active value.
+     * 
+     * @return The value of the active attribute.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * This method sets the active for this object.
+     * 
+     * @param active The value to be assigned to the active attribute.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

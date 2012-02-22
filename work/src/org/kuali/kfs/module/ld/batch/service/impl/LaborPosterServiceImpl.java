@@ -145,11 +145,13 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             String currentLine = INPUT_GLE_FILE_br.readLine();
 
             while (currentLine != null) {
+                LaborOriginEntry laborOriginEntry = null;
+                
                 try {
                     lineNumber++;
                     if (!StringUtils.isEmpty(currentLine) && !StringUtils.isBlank(currentLine.trim())) {
-                        LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
-
+                        laborOriginEntry = new LaborOriginEntry();
+                    
                         // checking parsing process and stop poster when it has errors.
                         List<Message> parsingError = new ArrayList<Message>();
                         parsingError = laborOriginEntry.setFromTextFileForBatch(currentLine, lineNumber);
@@ -176,10 +178,11 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
                     currentLine = INPUT_GLE_FILE_br.readLine();
                 }
-                catch (RuntimeException ioe) {
+                catch (RuntimeException re) {
                     // catch here again, it should be from postSingleEntryIntoLaborLedger
-                    LOG.error("postLaborLedgerEntries stopped due to: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
-                    throw new RuntimeException("Unable to execute: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
+                    LOG.error("postLaborLedgerEntries stopped due to: " + re.getMessage() + " on line number : " + loadedCount, re);
+                    LOG.error("laborOriginEntry failure occured on: " + laborOriginEntry == null ? null : laborOriginEntry.toString());
+                    throw new RuntimeException("Unable to execute: " + re.getMessage() + " on line number : " + loadedCount, re);
                 }
             }
 

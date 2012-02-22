@@ -36,6 +36,7 @@
         <ref bean="AssetWarranty-warrantyPhoneNumber"/>
         <ref bean="AssetWarranty-warrantyPurchaseOrderNumber"/>
         <ref bean="AssetWarranty-warrantyText"/>
+        <ref bean="AssetWarranty-active"/>
       </list>
     </property>
   </bean>
@@ -133,6 +134,13 @@
       <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
+  
+   <bean id="AssetWarranty-active" parent="AssetWarranty-active-parentBean"/>
+  <bean id="AssetWarranty-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+  
+  
 
 <!-- Business Object Inquiry Definition -->
 
@@ -154,6 +162,7 @@
               <bean parent="FieldDefinition" p:attributeName="warrantyPhoneNumber"/>
               <bean parent="FieldDefinition" p:attributeName="warrantyPurchaseOrderNumber"/>
               <bean parent="FieldDefinition" p:attributeName="warrantyText"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -181,6 +190,7 @@
         <bean parent="FieldDefinition" p:attributeName="warrantyPhoneNumber"/>
         <bean parent="FieldDefinition" p:attributeName="warrantyPurchaseOrderNumber"/>
         <bean parent="FieldDefinition" p:attributeName="warrantyText"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
@@ -193,6 +203,7 @@
         <bean parent="FieldDefinition" p:attributeName="warrantyPhoneNumber"/>
         <bean parent="FieldDefinition" p:attributeName="warrantyPurchaseOrderNumber"/>
         <bean parent="FieldDefinition" p:attributeName="warrantyText"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

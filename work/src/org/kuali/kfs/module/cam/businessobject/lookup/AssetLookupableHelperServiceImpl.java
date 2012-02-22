@@ -40,6 +40,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -110,7 +111,8 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
             parameters.put(CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsConstants.AssetRetirementReasonCode.MERGED);
             parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + "::" + CamsConstants.AssetRetirementReasonCode.MERGED);
-
+            
+            
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
 
             return new AnchorHtmlData(href, CamsConstants.AssetActions.MERGE, CamsConstants.AssetActions.MERGE);
@@ -119,6 +121,15 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             return new AnchorHtmlData("", "", "");
         }
     }
+    
+    @Override
+    protected String getReturnHref(Properties parameters, LookupForm lookupForm, List returnKeys) {
+        String href = super.getReturnHref(parameters, lookupForm, returnKeys);
+        href += "&referencesToRefresh=mergedTargetCapitalAsset";
+        return href;
+        
+    }
+    
 
     protected HtmlData getLoanUrl(Asset asset) {
         AnchorHtmlData anchorHtmlData = null;

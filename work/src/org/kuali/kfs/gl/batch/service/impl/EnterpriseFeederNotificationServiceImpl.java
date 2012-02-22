@@ -89,10 +89,13 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
         try {
             if (isStatusNotifiable(feederProcessName, status, doneFileDescription, dataFileDescription, reconFileDescription, errorMessages)) {
                 Set<String> toEmailAddresses = generateToEmailAddresses(feederProcessName, status, doneFileDescription, dataFileDescription, reconFileDescription, errorMessages);
-                String fromEmailAddress = mailService.getBatchMailingList();
 
                 MailMessage mailMessage = new MailMessage();
-                mailMessage.setFromAddress(fromEmailAddress);
+                String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.GL, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+                if(StringUtils.isEmpty(returnAddress)) {
+                    returnAddress = mailService.getBatchMailingList();
+                }
+                mailMessage.setFromAddress(returnAddress);
                 mailMessage.setToAddresses(toEmailAddresses);
                 mailMessage.setSubject(getSubjectLine(doneFileDescription, dataFileDescription, reconFileDescription, errorMessages, feederProcessName, status));
                 mailMessage.setMessage(buildFileFeedStatusMessage(doneFileDescription, dataFileDescription, reconFileDescription, errorMessages, feederProcessName, status));

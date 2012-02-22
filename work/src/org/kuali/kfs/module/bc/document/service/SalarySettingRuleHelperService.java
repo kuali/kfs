@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -41,7 +42,7 @@ public interface SalarySettingRuleHelperService {
      * @param errorMap the given error map that can hold the error message if any
      * @return true if the given appointment funding is associated with an active job; otherwise, false
      */
-    public boolean hasActiveJob(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
+    public boolean hasActiveJob(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap, SynchronizationCheckType synchronizationCheckType);
 
     /**
      * determine whether the object code of the given appointment funding matches the position default object code

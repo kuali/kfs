@@ -16,11 +16,14 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PayeeACHAccount extends PersistableBusinessObjectBase implements MutableInactivatable {
 
@@ -104,11 +107,35 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
 
     /**
-     * Gets the payeeName attribute.
+     * Gets the payee's name from KIM or Vendor data, if the payee type is Employee, Entity or Vendor;
+     * otherwise returns the stored field value.
      * 
-     * @return Returns the payeeName
+     * @return Returns the payee name
      */
     public String getPayeeName() {
+        // for Employee, retrieves from Person table by employee ID
+        if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.EMPLOYEE)) {
+            Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+            if (ObjectUtils.isNotNull(person)) 
+                return person.getName();
+            else return null;
+        }
+        // for Entity, retrieve from Entity table by entity ID
+        else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
+            KimEntityDefaultInfo entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
+            if (ObjectUtils.isNotNull(entity)) 
+                return entity.getDefaultName().getFormattedName();
+            else return null;
+        }
+        // for Vendor, retrieves from Vendor table by vendor number
+        else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.VENDOR_ID)) {             
+            VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(payeeIdNumber);
+            if (ObjectUtils.isNotNull(vendor)) 
+                return vendor.getVendorName();
+            else return null;
+        }
+
+        // otherwise return field value
         return payeeName;
     }
 
@@ -121,18 +148,43 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
         this.payeeName = payeeName;
     }
 
-
     /**
-     * Gets the payeeEmailAddress attribute.
+     * Gets the payee's email address from KIM data if the payee type is Employee or Entity;
+     * otherwise, returns the stored field value.
      * 
      * @return Returns the payeeEmailAddress
      */
     public String getPayeeEmailAddress() {
+        // for Employee, retrieve from Person table by employee ID
+        if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.EMPLOYEE)) {
+            Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+            if (ObjectUtils.isNotNull(person)) 
+                return person.getEmailAddress();
+            else return null;
+        }
+        // for Entity, retrieve from Entity table by entity ID then from Person table
+        else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
+            KimEntityDefaultInfo entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
+            if (ObjectUtils.isNotNull(entity)) {
+                List<KimPrincipalInfo> principals = entity.getPrincipals();
+                if (principals.size() > 0 && ObjectUtils.isNotNull(principals.get(0))) {                    
+                    String principalId = principals.get(0).getPrincipalId();
+                    Person person = SpringContext.getBean(PersonService.class).getPerson(principalId);
+                    if (ObjectUtils.isNotNull(person)) 
+                        return person.getEmailAddress();
+                    else return null;
+                }
+                else return null;
+            }
+            else return null;
+        }
+        
+        // otherwise returns the field value
         return payeeEmailAddress;
     }
 
     /**
-     * Sets the payeeEmailAddress attribute.
+     * Sets the payeeEmailAddress attribute if the payee is not Employee or Entity.
      * 
      * @param payeeEmailAddress The payeeEmailAddress to set.
      */

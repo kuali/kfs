@@ -25,8 +25,6 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableSharedStatuses;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
@@ -501,6 +499,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         else if (PurapConstants.CreditMemoStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getAppDocStatus())) {
             //while awaiting AP approval, just call regular disapprove logic as user will have action request
             documentService.disapproveDocument(document, noteText);
+        }
+        else if (document instanceof PaymentRequestDocument && PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(document.getStatusCode()) && ((PaymentRequestDocument)document).isPaymentRequestedCancelIndicator()) {
+            // special logic to disapprove PREQ as the fiscal officer
+            WorkflowDocument fiscalOfficerDocument = new WorkflowDocument(document.getLastActionPerformedByPersonId(), Long.valueOf(document.getDocumentNumber()));
+            fiscalOfficerDocument.disapprove("Document cancelled after requested cancel by "+GlobalVariables.getUserSession().getPrincipalName());
         }
         else {
             UserSession originalUserSession = GlobalVariables.getUserSession();

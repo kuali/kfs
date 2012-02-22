@@ -139,6 +139,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     protected String vendorShippingPaymentTermsCode;
     protected String capitalAssetSystemTypeCode;
     protected String capitalAssetSystemStateCode;
+    protected String justification;
 
     // NOT PERSISTED IN DB
     protected String supplierDiversityLabel;
@@ -1090,6 +1091,22 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setCapitalAssetSystemStateCode(String capitalAssetSystemStateCode) {
         this.capitalAssetSystemStateCode = capitalAssetSystemStateCode;
+    }
+
+    /**
+     * Gets the justification attribute. 
+     * @return Returns the justification.
+     */
+    public String getJustification() {
+        return justification;
+    }
+
+    /**
+     * Sets the justification attribute value.
+     * @param justification The justification to set.
+     */
+    public void setJustification(String justification) {
+        this.justification = justification;
     }
 
     public CapitalAssetSystemType getCapitalAssetSystemType() {

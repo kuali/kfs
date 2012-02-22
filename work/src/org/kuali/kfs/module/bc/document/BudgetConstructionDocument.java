@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
@@ -259,6 +260,14 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+        // if accounts can't cross charts, set chart code whenever account number is set
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (!accountService.accountsCanCrossCharts()) {
+            Account account = accountService.getUniqueAccountForAccountNumber(accountNumber);
+            if (ObjectUtils.isNotNull(account)) {
+                setChartOfAccountsCode(account.getChartOfAccountsCode());
+            }
+        }           
     }
 
 

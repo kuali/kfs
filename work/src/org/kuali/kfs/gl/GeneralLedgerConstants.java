@@ -23,9 +23,11 @@ import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
+import org.kuali.kfs.gl.businessobject.CollectorDetailFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.BusinessObjectStringParserFieldUtils;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -491,14 +493,9 @@ public class GeneralLedgerConstants {
     
     public static String getSpaceAllCollectorDetailFields() {
         if (SPACE_ALL_COLLECTOR_DETAIL_FIELDS == null) {
-            List<AttributeDefinition> attributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(CollectorDetail.class.getName()).getAttributes();
-
-            int totalLength = 0;
-
-            for ( AttributeDefinition attributeDefinition : attributes ) {
-                totalLength += attributeDefinition.getMaxLength();
-            }
-
+            CollectorDetailFieldUtil collectorDetailFieldUtil = new CollectorDetailFieldUtil();
+            int totalLength = collectorDetailFieldUtil .getDetailLineTotalLength();
+            
             SPACE_ALL_COLLECTOR_DETAIL_FIELDS = StringUtils.rightPad("", totalLength, ' ');
         }
 

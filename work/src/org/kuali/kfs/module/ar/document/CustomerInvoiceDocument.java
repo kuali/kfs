@@ -519,6 +519,15 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public void setPaymentAccountNumber(String paymentAccountNumber) {
         this.paymentAccountNumber = paymentAccountNumber;
+        
+        // if accounts can't cross charts, set chart code whenever account number is set
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (!accountService.accountsCanCrossCharts()) {
+            Account account = accountService.getUniqueAccountForAccountNumber(paymentAccountNumber);
+            if (ObjectUtils.isNotNull(account)) {
+                setPaymentChartOfAccountsCode(account.getChartOfAccountsCode());
+            }
+        }           
     }
 
     /**

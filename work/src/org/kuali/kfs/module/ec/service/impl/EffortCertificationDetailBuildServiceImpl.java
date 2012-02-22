@@ -54,7 +54,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         detailLine.setFinancialObjectCode(ledgerBalance.getFinancialObjectCode());
 
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
-        KualiDecimal payrollAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
+        KualiDecimal payrollAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods, true);
 
         detailLine.setEffortCertificationPayrollAmount(payrollAmount);
         detailLine.setEffortCertificationOriginalPayrollAmount(payrollAmount);

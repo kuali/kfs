@@ -57,9 +57,13 @@ public class PurapParameterConstants {
     public static final String ENABLE_RECEIVING_ADDRESS_IND = "ENABLE_RECEIVING_ADDRESS_IND";
     public static final String ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND = "ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND";
     
+    //public static final String DISPLAY_DELIVERY_PHONE_NUMBER_ON_PDF_IND = "DISPLAY_DELIVERY_PHONE_NUMBER_ON_PDF_IND";
+    //public static final String DISPLAY_REQUESTOR_EMAIL_ADDRESS_ON_PDF_IND = "DISPLAY_REQUESTOR_EMAIL_ADDRESS_ON_PDF_IND";
+
     public static final String VALIDATE_ACCOUNT_DISTRIBUTION_IND = "VALIDATE_ACCOUNT_DISTRIBUTION_IND";
     
     public static final String SHOW_CLEAR_AND_LOAD_QTY_BUTTONS = "SHOW_CLEAR_AND_LOAD_QTY_BUTTONS";
+    public static final String UNORDERED_ITEM_WARNING_IND = "UNORDERED_ITEM_WARNING_IND";
     
     public static final String ENABLE_DEFAULT_CONTRACT_MANAGER_IND = "ENABLE_DEFAULT_CONTRACT_MANAGER_IND";
     public static final String AUTO_CLOSE_RECURRING_PO_DATE = "AUTO_CLOSE_RECURRING_PO_DATE";
@@ -84,10 +88,12 @@ public class PurapParameterConstants {
     
     //Vendor Choices
     public static final String DEFAULT_APO_VENDOR_CHOICE = "DEFAULT_APO_VENDOR_CHOICE";
-    public static final String DEFAULT_B2B_VENDOR_CHOICE = "DEFAULT_B2B_VENDOR_CHOICE";
+    public static final String DEFAULT_B2B_VENDOR_CHOICE = "DEFAULT_B2B_VENDOR_CHOICE";      
     
     public static final String OBJECT_SUB_TYPES_REQUIRING_QUANTITY = "OBJECT_SUB_TYPES_REQUIRING_QUANTITY";
     public static final String PURCHASING_OBJECT_SUB_TYPES = "PURCHASING_OBJECT_SUB_TYPES";
+    
+    public static final String SHOW_DEBARRED_VENDOR_WARNING_IND = "SHOW_DEBARRED_VENDOR_WARNING_IND";
     
     public static class CapitalAsset {
         // used in CAB module service
@@ -140,6 +146,7 @@ public class PurapParameterConstants {
         public static final String DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES = "DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES";
         public static final String SALES_TAX_UPPER_VARIANCE_PERCENT = "SALES_TAX_UPPER_VARIANCE_PERCENT";
         public static final String SALES_TAX_LOWER_VARIANCE_PERCENT = "SALES_TAX_LOWER_VARIANCE_PERCENT";
+        public static final String OVERRIDE_PROCESSING_CAMPUS = "OVERRIDE_PROCESSING_CAMPUS";
     }
     
     public static class TaxParameters {

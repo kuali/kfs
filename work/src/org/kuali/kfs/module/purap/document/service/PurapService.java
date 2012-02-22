@@ -128,6 +128,23 @@ public interface PurapService {
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 
     /**
+     * Determines if full entry mode has ended for this Payment Request status
+     * 
+     * @param purapDocumentStatus String
+     * @return a boolean to indicate if document has completed full entry mode
+     */
+    public boolean isPaymentRequestFullDocumentEntryCompleted(String purapDocumentStatus);
+    
+    /**
+     * Determines if full entry mode has ended for this Vendor Credit Memo status
+     * 
+     * @param purapDocumentStatus String
+     * @return a boolean to indicate if document has completed full entry mode
+     */
+    public boolean isVendorCreditMemoFullDocumentEntryCompleted(String purapDocumentStatus);
+        
+
+    /**
      * Create a close or reopen purchase order document.
      * 
      * @param purapDocument PurchasingAccountsPayableDocument

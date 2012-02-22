@@ -25,11 +25,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.batch.ExtractAchPaymentsStep;
 import org.kuali.kfs.pdp.batch.LoadPaymentsStep;
+import org.kuali.kfs.pdp.batch.SendAchAdviceNotificationsStep;
 import org.kuali.kfs.pdp.businessobject.ACHBank;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
@@ -41,6 +44,7 @@ import org.kuali.kfs.pdp.service.AchBankService;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -71,7 +75,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
     /**
      * @see org.kuali.kfs.pdp.service.PdpEmailService#sendErrorEmail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
-     *      org.kuali.rice.krad.util.MessageMap)
+     *      org.kuali.rice.kns.util.ErrorMap)
      */
     public void sendErrorEmail(PaymentFileLoad paymentFile, MessageMap errors) {
         LOG.debug("sendErrorEmail() starting");
@@ -82,8 +86,12 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         }
 
         MailMessage message = new MailMessage();
-
-        message.setFromAddress(mailService.getBatchMailingList());
+        
+        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
         message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_FAILURE_EMAIL_SUBJECT_PARAMETER_NAME));
 
         StringBuilder body = new StringBuilder();
@@ -146,7 +154,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             LOG.error("sendErrorEmail() Invalid email address.  Message not sent", e);
         }
     }
-    
+
     /**
      * KFSMI-6475 - Alter the subject and switch all recipients
      * 
@@ -190,8 +198,12 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         }
 
         MailMessage message = new MailMessage();
-
-        message.setFromAddress(mailService.getBatchMailingList());
+        
+        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
         message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_SUCCESS_EMAIL_SUBJECT_PARAMETER_NAME));
 
         List<String> ccAddresses = new ArrayList<String>( parameterService.getParameterValuesAsString(LoadPaymentsStep.class, PdpParameterConstants.HARD_EDIT_CC) );
@@ -243,8 +255,12 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      */
     protected void sendThresholdEmail(boolean fileThreshold, PaymentFileLoad paymentFile, CustomerProfile customer) {
         MailMessage message = new MailMessage();
-
-        message.setFromAddress(mailService.getBatchMailingList());
+        
+        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
         message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_THRESHOLD_EMAIL_SUBJECT_PARAMETER_NAME));
 
         StringBuilder body = new StringBuilder();
@@ -296,8 +312,12 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         LOG.debug("sendTaxEmail() starting");
 
         MailMessage message = new MailMessage();
-
-        message.setFromAddress(mailService.getBatchMailingList());
+        
+        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
         message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_TAX_EMAIL_SUBJECT_PARAMETER_NAME));
 
         StringBuilder body = new StringBuilder();
@@ -344,8 +364,12 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         }
 
         MailMessage message = new MailMessage();
-
-        message.setFromAddress(mailService.getBatchMailingList());
+        
+        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
         message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_SUCCESS_EMAIL_SUBJECT_PARAMETER_NAME));
 
         StringBuilder body = new StringBuilder();
@@ -388,12 +412,22 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         }
 
         MailMessage message = new MailMessage();
-        message.setFromAddress(mailService.getBatchMailingList());
+        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
 
         StringBuilder body = new StringBuilder();
 
-        String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
-        message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
+        String productionEnvironmentCode = kualiConfigurationService.getPropertyAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = kualiConfigurationService.getPropertyAsString(KFSConstants.ENVIRONMENT_KEY);
+        if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
+            message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
+        }
+        else {
+            message.setSubject(environmentCode + "-" + getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
+        }
 
         // Get recipient email address
         String toAddresses = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL);
@@ -432,8 +466,12 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         message.getToAddresses().addAll(toAddressList);
         message.getCcAddresses().addAll(toAddressList);
         message.getBccAddresses().addAll(toAddressList);
-
-        message.setFromAddress(mailService.getBatchMailingList());
+        
+        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
 
         String subject = parameterService.getParameterValueAsString(ExtractAchPaymentsStep.class, PdpParameterConstants.ACH_SUMMARY_EMAIL_SUBJECT_PARAMETER_NAME);
         message.setSubject(subject);
@@ -475,12 +513,20 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        message.addToAddress(paymentGroup.getAdviceEmailAddress());
-        message.addCcAddress(paymentGroup.getAdviceEmailAddress());
-        message.addBccAddress(paymentGroup.getAdviceEmailAddress());
-        message.setFromAddress(customer.getAdviceReturnEmailAddr());
-        message.setSubject(customer.getAdviceSubjectLine());
-
+        String productionEnvironmentCode = kualiConfigurationService.getPropertyAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = kualiConfigurationService.getPropertyAsString(KFSConstants.ENVIRONMENT_KEY);
+        if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
+            message.addToAddress(paymentGroup.getAdviceEmailAddress());
+            message.addCcAddress(paymentGroup.getAdviceEmailAddress());
+            message.addBccAddress(paymentGroup.getAdviceEmailAddress());
+            message.setFromAddress(customer.getAdviceReturnEmailAddr());
+            message.setSubject(customer.getAdviceSubjectLine());
+        }
+        else {
+            message.addToAddress(mailService.getBatchMailingList());
+            message.addCcAddress(mailService.getBatchMailingList());
+            message.addBccAddress(mailService.getBatchMailingList());
+        }
         if (LOG.isDebugEnabled()) {
             LOG.debug("sending email to " + paymentGroup.getAdviceEmailAddress() + " for disb # " + paymentGroup.getDisbursementNbr());
         }
@@ -582,7 +628,11 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             // send notification to advice return address with payment details
             message.addToAddress(customer.getAdviceReturnEmailAddr());
             
-            message.setFromAddress(mailService.getBatchMailingList());
+            String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+            if(StringUtils.isEmpty(returnAddress)) {
+                returnAddress = mailService.getBatchMailingList();
+            }
+            message.setFromAddress(returnAddress);
             message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS));
 
             LOG.warn("bouncing email to " + customer.getAdviceReturnEmailAddr() + " for disb # " + paymentGroup.getDisbursementNbr());
@@ -601,14 +651,12 @@ public class PdpEmailServiceImpl implements PdpEmailService {
     
     /**
      * 
-     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendCancelEmail(org.kuali.kfs.pdp.businessobject.PaymentGroup, java.lang.String, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendCancelEmail(org.kuali.kfs.pdp.businessobject.PaymentGroup, java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     public void sendCancelEmail(PaymentGroup paymentGroup, String note, Person user) {
         LOG.debug("sendCancelEmail() starting");
 
         MailMessage message = new MailMessage();
-        
-        String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         
         message.setSubject("PDP --- Cancelled Payment by Tax");
 
@@ -742,6 +790,34 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         String paymentTotalLabel = dataDictionaryService.getAttributeLabel(PaymentFileLoad.class, PdpPropertyConstants.PAYMENT_TOTAL_AMOUNT);
         body.append(paymentTotalLabel + ": " + paymentTotal + "\n");
+    }
+
+    /**
+     * Sends notification e-mail that an immediate extract Disbursement Voucher has been extracted
+     * @param disbursementVoucher the disbursement voucher which was immediately extracted
+     * @param user the current extracting user
+     */
+    public void sendDisbursementVoucherImmediateExtractEmail(DisbursementVoucherDocument disbursementVoucher, Person user) {
+        MailMessage message = new MailMessage();
+        
+        final String fromAddress = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
+        final List<String> toAddresses = parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM);
+        final String disbursementVoucherDocumentLabel = dataDictionaryService.getDocumentLabelByTypeName(DisbursementVoucherConstants.DOCUMENT_TYPE_CODE);
+        final String subject = getMessage(KFSKeyConstants.MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_SUBJECT, disbursementVoucherDocumentLabel, disbursementVoucher.getCampusCode());
+        final String body = getMessage(KFSKeyConstants.MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_BODY, disbursementVoucherDocumentLabel, disbursementVoucher.getCampusCode(), disbursementVoucher.getDocumentNumber());
+        
+        message.setFromAddress(fromAddress);
+        for (String toAddress : toAddresses) {
+            message.addToAddress(toAddress);
+        }
+        message.setSubject(subject);
+        message.setMessage(body);
+        try {
+            mailService.sendMessage(message);
+        }
+        catch (InvalidAddressException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
+        }
     }
 
     /**

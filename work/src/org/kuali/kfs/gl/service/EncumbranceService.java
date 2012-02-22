@@ -60,15 +60,17 @@ public interface EncumbranceService {
      * This method finds the open encumbrances according to input fields and values
      * 
      * @param fieldValues the input fields and values
+     * @param includeZeroEncumbrances should the query include encumbrances which have zeroed out?
      * @return a collection of open encumbrances
      */
-    public Iterator findOpenEncumbrance(Map fieldValues);
+    public Iterator findOpenEncumbrance(Map fieldValues, boolean includeZeroEncumbrances);
 
     /**
      * This method gets the number of the open encumbrances according to input fields and values
      * 
      * @param fieldValues the input fields and values
+     * @param includeZeroEncumbrances should the query include encumbrances which have zeroed out?
      * @return the number of the open encumbrances
      */
-    public Integer getOpenEncumbranceRecordCount(Map fieldValues);
+    public Integer getOpenEncumbranceRecordCount(Map fieldValues, boolean includeZeroEncumbrances);
 }

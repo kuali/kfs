@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -167,8 +168,16 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	 */
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
+		
+        // if accounts can't cross charts, set chart code whenever account number is set
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (!accountService.accountsCanCrossCharts()) {
+            Account account = accountService.getUniqueAccountForAccountNumber(accountNumber);
+            if (ObjectUtils.isNotNull(account)) {
+                setChartOfAccountsCode(account.getChartOfAccountsCode());
+            }
+        }		
 	}
-
 
 	/**
 	 * Gets the subAccountNumber attribute.

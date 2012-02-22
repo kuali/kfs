@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,11 +25,10 @@ import org.kuali.kfs.coa.service.CfdaService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.mail.MailMessage;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.krad.service.MailService;
 
 /**
  * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in
@@ -46,9 +45,10 @@ public class CfdaBatchStep extends AbstractStep {
     private KualiConfigurationService configurationService;
     /**
      * See the class description.
-     * 
+     *
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
+    @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         MailMessage message = new MailMessage();
 
@@ -60,14 +60,14 @@ public class CfdaBatchStep extends AbstractStep {
                 LOG.fatal("Couldn't find address to send notification to.");
                 return true;
             }
-            
+
             for (String listserv : listservAddresses) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Mailing to: "+listserv);
                 }
                 message.addToAddress(listserv);
             }
-            
+
             message.setFromAddress(listservAddresses.get(0));
 
             // TODO this message should come from some config file.
@@ -119,7 +119,7 @@ public class CfdaBatchStep extends AbstractStep {
 
     /**
      * Sets the {@link CfdaService}. For use by Spring.
-     * 
+     *
      * @param cfdaService The service to be assigned.
      */
     public void setCfdaService(CfdaService cfdaService) {
@@ -128,24 +128,25 @@ public class CfdaBatchStep extends AbstractStep {
 
     /**
      * Set the {@link MailService}. For use by Spring.
-     * 
+     *
      * @param mailService The service to be assigned.
      */
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
-    
+
     /**
      * Sets the {@link ParameterService}. For use by Spring.
-     * 
+     *
      * @param parameterService The service to be assigned.
      */
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
     /**
-     * Gets the configurationService attribute. 
+     * Gets the configurationService attribute.
      * @return Returns the configurationService.
      */
     public KualiConfigurationService getConfigurationService() {

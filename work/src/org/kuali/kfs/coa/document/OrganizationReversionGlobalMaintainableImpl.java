@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,10 +33,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversionGlobal} maintenance document inner class for
@@ -52,6 +55,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
      * This class is an inner class for comparing two {@link OrganizationReversionCategory}s
      */
     private class CategoryComparator implements Comparator<OrganizationReversionGlobalDetail> {
+        @Override
         public int compare(OrganizationReversionGlobalDetail detailA, OrganizationReversionGlobalDetail detailB) {
             OrganizationReversionCategory categoryA = detailA.getOrganizationReversionCategory();
             OrganizationReversionCategory categoryB = detailB.getOrganizationReversionCategory();
@@ -66,7 +70,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
     /**
      * This implementation locks all organization reversions that would be accessed by this global organization reversion. It does
      * not lock any OrganizationReversionDetail objects, as we expect that those will be inaccessible
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#generateMaintenaceLocks()
      */
     @Override
@@ -105,7 +109,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
     /**
      * Just like OrganizationReversionMaintainableImpl's setBusinessObject method populates the list of details so there is one
      * detail per active Organization Reversion Category, this method populates a list of Organization Reversion Change details.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
@@ -115,7 +119,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
         OrganizationReversionGlobal globalOrgRev = (OrganizationReversionGlobal) businessObject;
         List<OrganizationReversionGlobalDetail> details = globalOrgRev.getOrganizationReversionGlobalDetails();
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Details size before adding categories = " + details.size());    
+            LOG.debug("Details size before adding categories = " + details.size());
         }
 
         if (details == null) {
@@ -146,7 +150,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
     /**
      * Prevents Organization Reversion Change Details from being refreshed by a look up (because doing that refresh before a save
      * would wipe out the list of organization reversion change details).
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */
     @SuppressWarnings("unchecked")
@@ -163,7 +167,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
     /**
      * The org reversion detail collection does not behave like a true collection (no add lines). The records on the collection
      * should not have the delete option.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#processGlobalsAfterRetrieve()
      */
     @Override
@@ -175,7 +179,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
     }
 
     /**
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @SuppressWarnings("unchecked")
@@ -196,7 +200,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
                                 if (column.getPropertyName().equals(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
                                     final String universityFiscalYearAsString = column.getPropertyValue();
                                     final Integer universityFiscalYear = Integer.parseInt(universityFiscalYearAsString);
-                                    
+
                                     final OrganizationReversionGlobal orgRevGlobal = ((OrganizationReversionGlobal)document.getNewMaintainableObject().getBusinessObject());
                                     orgRevGlobal.setUniversityFiscalYear(universityFiscalYear);
                                 }
@@ -206,12 +210,12 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
                     catch (Exception ex) {
                         throw new RuntimeException("Could not retrieve lookup results to populate fiscal year", ex);
                     }
-                    
-                    
+
+
                 }
             }
         }
-        
+
     }
 
     @Override

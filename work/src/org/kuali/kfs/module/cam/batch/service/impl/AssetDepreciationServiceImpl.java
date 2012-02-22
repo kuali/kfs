@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -38,12 +37,10 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.batch.AssetDepreciationStep;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.batch.service.AssetDepreciationService;
 import org.kuali.kfs.module.cam.batch.service.ReportService;
-import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationTransaction;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation;
@@ -64,6 +61,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -71,10 +69,12 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.cache.annotation.Cacheable;
+import org.quartz.CronExpression;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -122,10 +122,10 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         Calendar currentDate = dateTimeService.getCurrentCalendar();
         String depreciationDateParameter = null;
         DateFormat dateFormat = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY);
-        boolean executeJob = false; 
+        boolean executeJob = false;
 
         try {
-            executeJob = runAssetDepreciation(); 
+            executeJob = runAssetDepreciation();
             if(executeJob)
             {
                 LOG.info("*******" + CamsConstants.Depreciation.DEPRECIATION_BATCH + " HAS BEGUN *******");
@@ -160,7 +160,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             fiscalMonth = new Integer(universityDate.getUniversityFiscalAccountingPeriod());
             // If the depreciation date is not = to the system date then, the depreciation process cannot run.
             if ( LOG.isInfoEnabled() ) {
-                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal Year = " + this.fiscalYear + " & Fiscal Period=" + this.fiscalMonth);
+                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal Year = " + fiscalYear + " & Fiscal Period=" + fiscalMonth);
             }
             reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate));
             // update if fiscal period is 12
@@ -174,7 +174,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     processGeneralLedgerPendingEntry(fiscalYear, fiscalMonth, documentNos, depreciationTransactions);
             }
             else {
-                throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND));
+                throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(CamsKeyConstants.Depreciation.NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND));
             }
         }
         catch (Exception e) {
@@ -190,8 +190,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 reportLog.addAll(depreciableAssetsDao.generateStatistics(false, documentNos, fiscalYear, fiscalMonth, depreciationDate));
             }
             // the report will be generated only when there is an error or when the log has something.
-            if (!reportLog.isEmpty() || !errorMsg.trim().equals(""))
+            if (!reportLog.isEmpty() || !errorMsg.trim().equals("")) {
                 reportService.generateDepreciationReport(reportLog, errorMsg, depreciationDateParameter);
+            }
 
             LOG.info("*******" + CamsConstants.Depreciation.DEPRECIATION_BATCH + " HAS ENDED *******");
         }
@@ -307,19 +308,19 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
         }
     }
-    
+
     private boolean runAssetDepreciation() throws ParseException {
         boolean executeJob = false;
         List<String> errorMessages = new ArrayList<String>();
         Date currentDate = convertToDate(dateTimeService.toDateString(dateTimeService.getCurrentDate()));
         Date beginDate = getBlankOutBeginDate(errorMessages);
         Date endDate = getBlankOutEndDate(errorMessages);
-        
+
         if (hasBlankOutPeriodStarted(beginDate, endDate, errorMessages)) {
-                String blankOutPeriodrunDate = parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_PERIOD_RUN_DATE);
+                String blankOutPeriodrunDate = parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_PERIOD_RUN_DATE);
                 if(!StringHelper.isNullOrEmpty(blankOutPeriodrunDate)){
                     Date runDate = convertToDate(blankOutPeriodrunDate);
-                    
+
                     if(runDate.compareTo(beginDate)>=0 && runDate.compareTo(endDate)<=0) {
                         if(currentDate.equals(runDate)) {
                             executeJob = true;
@@ -327,12 +328,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                         else {
                             LOG.info("Today is not BLANK_OUT_PERIOD_RUN_DATE. executeJob not set to true");
                         }
-                       
+
                     }
                     else {
-                        String blankOutBegin =  parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_BEGIN_MMDD);
-                        String blankOutEnd =  parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_END_MMDD);
-                        String message =  "BLANK_OUT_PERIOD_RUN_DATE: " + blankOutPeriodrunDate + " is not in the blank out period range." + "Blank out period range is [ " + 
+                        String blankOutBegin =  parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_BEGIN_MMDD);
+                        String blankOutEnd =  parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_END_MMDD);
+                        String message =  "BLANK_OUT_PERIOD_RUN_DATE: " + blankOutPeriodrunDate + " is not in the blank out period range." + "Blank out period range is [ " +
                         blankOutBegin + "-" + blankOutEnd + " ] ." ;
                         errorMessages.add(message);
                         LOG.info(message);
@@ -355,14 +356,14 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 LOG.info("Cron condition not met. executeJob not set to true");
             }
         }
-        
+
         if(!executeJob && !errorMessages.isEmpty()) {
             sendWarningMail(errorMessages);
         }
-        
+
         return executeJob;
     }
-    
+
     private boolean hasBlankOutPeriodStarted(Date beginDate, Date endDate, List<String> errorMessages) throws ParseException {
         Date currentDate = convertToDate(dateTimeService.toDateString(dateTimeService.getCurrentDate()));
         String blankOutBegin =  parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_BEGIN_MMDD);
@@ -375,26 +376,26 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         else {
             String message = "Unable to determine blank out period for a given " + blankOutBegin +
             " - " + blankOutEnd + " range .";
-            
+
             errorMessages.add(message);
             LOG.info(message);
         }
-        
+
         return false;
     }
-    
+
     private boolean runAssetDepreciation() throws ParseException {
         boolean executeJob = false;
         List<String> errorMessages = new ArrayList<String>();
         Date currentDate = convertToDate(dateTimeService.toDateString(dateTimeService.getCurrentDate()));
         Date beginDate = getBlankOutBeginDate(errorMessages);
         Date endDate = getBlankOutEndDate(errorMessages);
-        
+
         if (hasBlankOutPeriodStarted(beginDate, endDate, errorMessages)) {
-                String blankOutPeriodrunDate = parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_PERIOD_RUN_DATE);
+                String blankOutPeriodrunDate = parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_PERIOD_RUN_DATE);
                 if(!StringHelper.isNullOrEmpty(blankOutPeriodrunDate)){
                     Date runDate = convertToDate(blankOutPeriodrunDate);
-                    
+
                     if(runDate.compareTo(beginDate)>=0 && runDate.compareTo(endDate)<=0) {
                         if(currentDate.equals(runDate)) {
                             executeJob = true;
@@ -402,12 +403,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                         else {
                             LOG.info("Today is not BLANK_OUT_PERIOD_RUN_DATE. executeJob not set to true");
                         }
-                       
+
                     }
                     else {
-                        String blankOutBegin =  parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_BEGIN_MMDD);
-                        String blankOutEnd =  parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_END_MMDD);
-                        String message =  "BLANK_OUT_PERIOD_RUN_DATE: " + blankOutPeriodrunDate + " is not in the blank out period range." + "Blank out period range is [ " + 
+                        String blankOutBegin =  parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_BEGIN_MMDD);
+                        String blankOutEnd =  parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_END_MMDD);
+                        String message =  "BLANK_OUT_PERIOD_RUN_DATE: " + blankOutPeriodrunDate + " is not in the blank out period range." + "Blank out period range is [ " +
                         blankOutBegin + "-" + blankOutEnd + " ] ." ;
                         errorMessages.add(message);
                         LOG.info(message);
@@ -430,18 +431,18 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 LOG.info("Cron condition not met. executeJob not set to true");
             }
         }
-        
+
         if(!executeJob && !errorMessages.isEmpty()) {
             sendWarningMail(errorMessages);
         }
-        
+
         return executeJob;
     }
-    
+
     private boolean hasBlankOutPeriodStarted(Date beginDate, Date endDate, List<String> errorMessages) throws ParseException {
         Date currentDate = convertToDate(dateTimeService.toDateString(dateTimeService.getCurrentDate()));
-        String blankOutBegin =  parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_BEGIN_MMDD);
-        String blankOutEnd =  parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_END_MMDD);
+        String blankOutBegin =  parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_BEGIN_MMDD);
+        String blankOutEnd =  parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_END_MMDD);
         if(ObjectUtils.isNotNull(beginDate) && ObjectUtils.isNotNull(endDate)) {
             if(currentDate.compareTo(beginDate)>=0 && currentDate.compareTo(endDate)<=0 ) {
                 return true;
@@ -450,81 +451,81 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         else {
             String message = "Unable to determine blank out period for a given " + blankOutBegin +
             " - " + blankOutEnd + " range .";
-            
+
             errorMessages.add(message);
             LOG.info(message);
         }
-        
+
         return false;
     }
-    
+
     /**
-     * 
+     *
      * This method calculate blank out period end date.
      * @return blank out period end date in MM/dd/yyyy format.
      * @throws ParseException
      */
     private Date getBlankOutEndDate(List<String> errorMessages) throws ParseException {
-        String endDate = parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_END_MMDD);
+        String endDate = parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_END_MMDD);
         if(!StringHelper.isNullOrEmpty(endDate)) {
             int endDay = new Integer(StringUtils.substringAfterLast(endDate, "/")).intValue();
             int endMonth = new Integer(StringUtils.substringBeforeLast(endDate, "/")).intValue()-1  ;
             Calendar blankOutEndcalendar = Calendar.getInstance();
             blankOutEndcalendar.set(blankOutEndcalendar.get(Calendar.YEAR), endMonth , endDay);
             return  convertToDate(dateTimeService.toString(blankOutEndcalendar.getTime(), CamsConstants.DateFormats.MONTH_DAY_YEAR));
-            
+
         }
         else {
-            
+
             String message  = "Parameter BLANK_OUT_END_MMDD (component:Asset Depreciation Step) is not set." ;
             errorMessages.add(message);
             LOG.info(message);
-            
+
         }
-        
+
         return null;
     }
-    
+
     /**
-     * 
+     *
      * This method calculate blank out period begin date.
-     * @return blank out period begin date in MM/dd/yyyy format. 
+     * @return blank out period begin date in MM/dd/yyyy format.
      * @throws ParseException
      */
     private Date getBlankOutBeginDate(List<String> errorMessages) throws ParseException {
-        String beginDate =  parameterService.getParameterValue(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_BEGIN_MMDD);
-        
+        String beginDate =  parameterService.getParameterValueAsString(AssetDepreciationStep.class, CamsConstants.Parameters.BLANK_OUT_BEGIN_MMDD);
+
         if(!StringHelper.isNullOrEmpty(beginDate)) {
             int beginDay = new Integer(StringUtils.substringAfterLast(beginDate, "/")).intValue();
             int beginMonth = new Integer(StringUtils.substringBeforeLast(beginDate, "/")).intValue()-1;
             Calendar blankOutBegincalendar = Calendar.getInstance();
             blankOutBegincalendar.set(blankOutBegincalendar.get(Calendar.YEAR),beginMonth , beginDay);
             return convertToDate(dateTimeService.toString(blankOutBegincalendar.getTime(), CamsConstants.DateFormats.MONTH_DAY_YEAR));
-           
+
         }
         else {
-            String message  = "Parameter BLANK_OUT_BEGIN_MMDD (component:Asset Depreciation Step) is not set."; 
+            String message  = "Parameter BLANK_OUT_BEGIN_MMDD (component:Asset Depreciation Step) is not set.";
             errorMessages.add(message);
             LOG.info(message);
-            
+
         }
-        
-        
+
+
        return null;
     }
-       
+
     private Date convertToDate(String date) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat(CamsConstants.DateFormats.MONTH_DAY_YEAR);
         dateFormat.setLenient(false);
         return dateFormat.parse(date);
-        
+
     }
-    
-    
+
+
     /**
      * This method calculates the depreciation of each asset payment, creates the depreciation transactions that will be stored in
      * the general ledger pending entry table
-     * 
+     *
      * @param depreciableAssetsCollection asset payments eligible for depreciation
      * @return SortedMap with a list of depreciation transactions
      */
@@ -597,11 +598,13 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 // CALCULATING ACCUMULATED DEPRECIATION BASED ON FORMULA FOR SINGLE LINE AND SALVAGE VALUE DEPRECIATION METHODS.
                 // **************************************************************************************************************
                 KualiDecimal primaryDepreciationBaseAmount = assetPaymentInfo.getPrimaryDepreciationBaseAmount();
-                if (primaryDepreciationBaseAmount == null)
+                if (primaryDepreciationBaseAmount == null) {
                     assetPaymentInfo.setPrimaryDepreciationBaseAmount(KualiDecimal.ZERO);
+                }
 
-                if (assetPaymentInfo.getAccumulatedPrimaryDepreciationAmount() == null)
+                if (assetPaymentInfo.getAccumulatedPrimaryDepreciationAmount() == null) {
                     assetPaymentInfo.setAccumulatedPrimaryDepreciationAmount(KualiDecimal.ZERO);
+                }
 
                 // If the months elapsed >= to the life of the asset (in months) then, the accumulated depreciation should be:
                 if (monthsElapsed >= assetLifeInMonths) {
@@ -675,7 +678,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     /**
      * This method stores in a collection of business objects the depreciation transaction that later on will be passed to the
      * processGeneralLedgerPendingEntry method in order to store the records in gl pending entry table
-     * 
+     *
      * @param assetPayment asset payment
      * @param transactionType which can be [C]redit or [D]ebit
      * @param plantCOA plant fund char of account code
@@ -717,7 +720,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     /**
      * This method stores the depreciation transactions in the general pending entry table and creates a new documentHeader entry.
      * <p>
-     * 
+     *
      * @param trans SortedMap with the transactions
      * @return none
      */
@@ -811,7 +814,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         // **************************************************************************************************
 
         String documentNumber = documentHeader.getDocumentNumber();
-        documentNos.add(documentNumber);
         LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Document Number Created: " + documentNumber);
         return documentNumber;
     }
@@ -819,7 +821,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     /**
      * Depreciation object code is returned from cache or from DB
-     * 
+     *
      * @param capitalizationObjectCodes collection cache
      * @param assetPaymentInfo
      * @param capitalizationFinancialObjectCode
@@ -839,7 +841,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     /**
      * Builds map between object code to corresponding asset object code
-     * 
+     *
      * @return Map
      */
     protected Map<String, AssetObjectCode> buildChartObjectToCapitalizationObjectMap(Integer fiscalYear) {
@@ -857,27 +859,27 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         }
         return assetObjectCodeMap;
     }
-    
+
     private void sendWarningMail(List<String> errorMessages) {
-        
+
         LOG.debug("sendEmail() starting");
         MailMessage message = new MailMessage();
 
         message.setFromAddress(mailService.getBatchMailingList());
         String subject = "Asset Depreciation Job status";
         message.setSubject(subject);
-        List<String> toAddresses =  parameterService.getParameterValues(AssetDepreciationStep.class, CamsConstants.Parameters.RUN_DATE_NOTIFICATION_EMAIL_ADDRESSES);
+        Collection<String> toAddresses =  parameterService.getParameterValuesAsString(AssetDepreciationStep.class, CamsConstants.Parameters.RUN_DATE_NOTIFICATION_EMAIL_ADDRESSES);
         message.getToAddresses().add(toAddresses);
-      
-        
+
+
         StringBuffer sb = new StringBuffer();
         sb.append("Unable to run Depreciation process.Reason:\n");
         for (String msg : errorMessages) {
             sb.append(msg + "\n");
         }
-        
+
         sb.append("Please set the dates correctly to run the job.");
-        
+
         message.setMessage(sb.toString());
 
         try {
@@ -885,7 +887,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         }
         catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
-        }   
+        }
     }
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
@@ -925,7 +927,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     /**
      * Gets the depreciationBatchDao attribute.
-     * 
+     *
      * @return Returns the depreciationBatchDao.
      */
     public DepreciationBatchDao getDepreciationBatchDao() {
@@ -934,7 +936,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     /**
      * Sets the depreciationBatchDao attribute value.
-     * 
+     *
      * @param depreciationBatchDao The depreciationBatchDao to set.
      */
     @Override
@@ -951,7 +953,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
-    
-    
+
+
 
 }

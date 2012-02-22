@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,10 +28,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class DisbursementVoucherNonEmployeeTravelCompanyValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherNonEmployeeTravelCompanyValidation.class);
@@ -44,13 +44,14 @@ public class DisbursementVoucherNonEmployeeTravelCompanyValidation extends Gener
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
-        
+
         boolean isValid = true;
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherNonEmployeeTravel nonEmployeeTravel = disbursementVoucherDocument.getDvNonEmployeeTravel();
-        
+
         MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
@@ -83,9 +84,9 @@ public class DisbursementVoucherNonEmployeeTravelCompanyValidation extends Gener
 
             index++;
         }
-        
+
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-        
+
         return isValid;
     }
 
@@ -106,7 +107,7 @@ public class DisbursementVoucherNonEmployeeTravelCompanyValidation extends Gener
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
-     * 
+     *
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
@@ -114,7 +115,7 @@ public class DisbursementVoucherNonEmployeeTravelCompanyValidation extends Gener
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute. 
+     * Gets the accountingDocumentForValidation attribute.
      * @return Returns the accountingDocumentForValidation.
      */
     public AccountingDocument getAccountingDocumentForValidation() {

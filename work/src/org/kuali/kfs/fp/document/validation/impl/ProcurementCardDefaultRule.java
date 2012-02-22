@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,9 +21,9 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardDefault;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class represents business rules for the procurement cardholder maintenance document
@@ -35,20 +35,20 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Returns true procurement card defaults maintenance document is routed successfully
-     * 
+     *
      * @param document submitted procurement card defaults maintenance document
      * @return true if chart/account/organization is valid
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean continueRouting = super.processCustomRouteDocumentBusinessRules(document);
         final ProcurementCardDefault newProcurementCardDefault = (ProcurementCardDefault)getNewBo();
-        
+
         continueRouting &= validateCardHolderDefault(newProcurementCardDefault);
         continueRouting &= validateAccountingDefault(newProcurementCardDefault);
-        
+
         return continueRouting;
     }
     /**
@@ -58,11 +58,11 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         super.processCustomSaveDocumentBusinessRules(document);
-        
+
         final ProcurementCardDefault newProcurementCardDefault = (ProcurementCardDefault)getNewBo();
         validateCardHolderDefault(newProcurementCardDefault);
         validateAccountingDefault(newProcurementCardDefault);
-        
+
         return true;
     }
 
@@ -70,16 +70,16 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
      * @return true if use of card holder defaults is turned on via parameter, false if it is turned off
      */
     protected boolean isCardHolderDefaultTurnedOn() {
-        return getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME);
+        return getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME);
     }
-    
+
     /**
      * @return true if use of accounting defaults is turned on via parameter, false if it is turned off
      */
     protected boolean isAccountDefaultTurnedOn() {
-        return getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME);
+        return getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME);
     }
-    
+
     /**
      * Validates the card holder information
      * @return true if the card holder is valid, false otherwise
@@ -130,7 +130,7 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-    
+
     /**
      * Validates the accounting default information
      * @return true if the accounting default information is valid, false otherwise
@@ -153,7 +153,7 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-    
+
     /**
      * Adds a property-specific error to the global errors list, with the DD short label as the single argument.
      *
@@ -165,13 +165,13 @@ public class ProcurementCardDefaultRule extends MaintenanceDocumentRuleBase {
         final String label = getDataDictionaryService().getAttributeLabel(getNewBo().getClass(), propertyName);
         putFieldError(propertyName, errorConstant, label);
     }
-    
+
     /**
      * @return the default implementation of the ParameterService
      */
     protected synchronized ParameterService getParameterService() {
         if (parameterService == null) {
-            parameterService = SpringContext.getBean(ParameterService.class); 
+            parameterService = SpringContext.getBean(ParameterService.class);
         }
         return parameterService;
     }

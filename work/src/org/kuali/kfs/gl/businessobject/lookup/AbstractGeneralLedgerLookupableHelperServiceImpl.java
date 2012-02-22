@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.gl.businessobject.lookup;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,8 +22,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.Constant;
@@ -34,8 +31,6 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -120,10 +115,10 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
      *
      * @param fieldValues the map containing the search fields and values
      * @return true if consolidation is selected and subaccount is not specified
-     * 
+     *
      * KRAD Conversion: Lookupable performs checking for a particular attribute and return true or false.
      * This method is called from AccountBalanceLookupableHelperServiceImpl.java, BalanceLookupableHelperServiceImpl.java,
-     * CashBalanceLookupableHelperServiceImpl.java in gl module.  
+     * CashBalanceLookupableHelperServiceImpl.java in gl module.
      */
     protected boolean isConsolidationSelected(Map fieldValues) {
         // truncate the non-property filed
@@ -188,7 +183,7 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
         // sort list if default sort column given
-        List searchResults = (List) results;
+        List searchResults = results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));

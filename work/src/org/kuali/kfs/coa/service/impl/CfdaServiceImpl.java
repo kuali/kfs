@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,9 +38,9 @@ import org.kuali.kfs.coa.service.CfdaService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -52,6 +52,7 @@ public class CfdaServiceImpl implements CfdaService {
 
     static {
         cfdaComparator = new Comparator() {
+            @Override
             public int compare(Object o1, Object o2) {
                 String lhs = (String) o1;
                 String rhs = (String) o2;
@@ -156,6 +157,7 @@ public class CfdaServiceImpl implements CfdaService {
     /**
      *
      */
+    @Override
     public CfdaUpdateResults update() throws IOException {
 
         CfdaUpdateResults results = new CfdaUpdateResults();
@@ -233,11 +235,12 @@ public class CfdaServiceImpl implements CfdaService {
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public CFDA getByPrimaryId(String cfdaNumber) {
         if (StringUtils.isBlank(cfdaNumber)) {
             return null;
         }
-        return (CFDA) businessObjectService.findByPrimaryKey(CFDA.class, mapPrimaryKeys(cfdaNumber));
+        return businessObjectService.findByPrimaryKey(CFDA.class, mapPrimaryKeys(cfdaNumber));
     }
 
     protected Map<String, Object> mapPrimaryKeys(String cfdaNumber) {

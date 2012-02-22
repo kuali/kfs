@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,14 +19,13 @@ import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.document.validation.RouteNodeValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CashReceiptCashManagerValidation extends RouteNodeValidation {
-    
+
     private CashReceiptFamilyBase cashReceiptDocumentForValidation;
-    
+
     @Override
     public boolean validate(AttributedDocumentEvent event) {
       //check whether cash manager confirmed amount equals to the old amount
@@ -35,9 +34,9 @@ public class CashReceiptCashManagerValidation extends RouteNodeValidation {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CONFIRMED_TOTAL, crDoc.getTotalDollarAmount().toString());
             return false;
         }
-         
+
         return true;
-        
+
     }
 
     public CashReceiptFamilyBase getCashReceiptDocumentForValidation() {
@@ -47,6 +46,6 @@ public class CashReceiptCashManagerValidation extends RouteNodeValidation {
     public void setCashReceiptDocumentForValidation(CashReceiptFamilyBase cashReceiptDocumentForValidation) {
         this.cashReceiptDocumentForValidation = cashReceiptDocumentForValidation;
     }
-    
-    
+
+
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,13 +26,12 @@ import org.kuali.kfs.pdp.service.AchService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Implementation for InactivatePayeeAchAccountsService interface.
@@ -43,32 +42,33 @@ public class InactivatePayeeAchAccountsServiceImpl implements InactivatePayeeAch
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private IdentityManagementService identityManagementService;
-    private PersonService personService;    
+    private PersonService personService;
     private VendorService vendorService;
     private AchService achService;
     private ReportWriterService reportWriterService;
-    
+
     /**
      * @see rg.kuali.kfs.pdp.batch.service.#inactivatePayeeAchAccounts()
      */
+    @Override
     public boolean inactivatePayeeAchAccounts() {
-        LOG.info("Retrieving currently active Payee ACH Accounts ...");              
+        LOG.info("Retrieving currently active Payee ACH Accounts ...");
         List<PayeeACHAccount> accounts = achService.getActiveAchAccounts();
-        
-        LOG.info("Inactivating ACH Accounts for inactive Payees and writing to the report ...");     
+
+        LOG.info("Inactivating ACH Accounts for inactive Payees and writing to the report ...");
         reportWriterService.writeTableHeader(PayeeACHAccount.class);
         int countEmployee = 0;
         int countEntity = 0;
         int countVendor = 0;
-        Date currentDate = dateTimeService.getCurrentDate();           
-        
+        Date currentDate = dateTimeService.getCurrentDate();
+
         for (PayeeACHAccount account : accounts) {
             String idType = account.getPayeeIdentifierTypeCode();
             String idNumber = account.getPayeeIdNumber();
-            
+
             // for Employee, retrieve from Person table by employee ID
             if (StringUtils.equalsIgnoreCase(idType, PayeeIdTypeCodes.EMPLOYEE)) {
-                Person person = personService.getPersonByEmployeeId(idNumber);   
+                Person person = personService.getPersonByEmployeeId(idNumber);
                 // inactivate the account if the person doesn't exist anymore or is inactive
                 if (ObjectUtils.isNull(person) || !person.isActive()) {
                     LOG.info("Inactivating Payee ACH account for employee with ID # " + idNumber);
@@ -91,9 +91,9 @@ public class InactivatePayeeAchAccountsServiceImpl implements InactivatePayeeAch
                 }
             }
             // for Vendor, retrieve from Vendor table by vendor number
-            else if (StringUtils.equalsIgnoreCase(idType, PayeeIdTypeCodes.VENDOR_ID)) { 
+            else if (StringUtils.equalsIgnoreCase(idType, PayeeIdTypeCodes.VENDOR_ID)) {
                 /*
-                // in PayeeACHAccount table, in case the vendor number only refers to the headerId, 
+                // in PayeeACHAccount table, in case the vendor number only refers to the headerId,
                 // with default detailId being 0, we need to add the default detailId to the vendor number
                 String vendorNumber = idNumber;
                 if (!StringUtils.contains(idNumber, VendorConstants.DASH)) {
@@ -106,22 +106,22 @@ public class InactivatePayeeAchAccountsServiceImpl implements InactivatePayeeAch
                 if (ObjectUtils.isNull(vendor) || !vendor.isActiveIndicator()) {
                     LOG.info("Inactivating Payee ACH account for vendor with vendor # " + idNumber);
                     account.setActive(false);
-                    businessObjectService.save(account);                
+                    businessObjectService.save(account);
                     countVendor++;
                     reportWriterService.writeTableRow(account);
                 }
             }
         }
-        
-        LOG.info("Total number of Employee Payee ACH accounts inacticated:" + countEmployee);    
-        LOG.info("Total number of Entity Payee ACH accounts inacticated:" + countEntity);    
-        LOG.info("Total number of Vendor Payee ACH accounts inacticated:" + countVendor); 
-        
+
+        LOG.info("Total number of Employee Payee ACH accounts inacticated:" + countEmployee);
+        LOG.info("Total number of Entity Payee ACH accounts inacticated:" + countEntity);
+        LOG.info("Total number of Vendor Payee ACH accounts inacticated:" + countVendor);
+
         reportWriterService.writeStatisticLine("%s %s", "TOTAL ACTIVE ACCOUNTS BEFORE RUNNING THE JOB:", accounts.size());
         reportWriterService.writeStatisticLine("%s %s", "TOTAL ACCOUNTS INACTIVATED FOR EMPLOYEES:    ", countEmployee);
         reportWriterService.writeStatisticLine("%s %s", "TOTAL ACCOUNTS INACTIVATED FOR ENTITIES:     ", countEntity);
         reportWriterService.writeStatisticLine("%s %s", "TOTAL ACCOUNTS INACTIVATED FOR VENDORS:      ", countVendor);
-        reportWriterService.writeStatisticLine("%s %s", "ACCOUNTS INACTIVATION DATE:                  ", currentDate);  
+        reportWriterService.writeStatisticLine("%s %s", "ACCOUNTS INACTIVATION DATE:                  ", currentDate);
 
         return true;
     }
@@ -153,5 +153,5 @@ public class InactivatePayeeAchAccountsServiceImpl implements InactivatePayeeAch
     public void setReportWriterService(ReportWriterService reportWriterService) {
         this.reportWriterService = reportWriterService;
     }
-    
+
 }

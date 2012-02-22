@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,10 +16,9 @@
 package org.kuali.kfs.module.cam.document.validation.impl;
 
 import static org.kuali.kfs.module.cam.CamsKeyConstants.ERROR_INVALID_ASSET_WARRANTY_NO;
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_REPRESENTATIVE;
 import static org.kuali.kfs.module.cam.CamsKeyConstants.PreTag.ERROR_PRE_TAG_INVALID_REPRESENTATIVE_ID;
-
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_REPRESENTATIVE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -59,6 +58,8 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.DateUtils;
@@ -150,7 +151,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if asset is locked by other document.
-     * 
+     *
      * @param document
      * @param valid
      * @return
@@ -162,7 +163,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Retrieve asset numbers need to be locked.
-     * 
+     *
      * @return
      */
     protected List<Long> retrieveAssetNumberForLocking(Asset asset) {
@@ -205,7 +206,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check for duplicate incident dates within the Repair History section
-     * 
+     *
      * @param assetRepairHistory
      * @param incidentDateSet
      * @return boolean
@@ -223,7 +224,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate fabrication details
-     * 
+     *
      * @return boolean
      */
     protected boolean validateFabricationDetails() {
@@ -249,7 +250,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate account
-     * 
+     *
      * @return boolean
      */
     protected boolean validateAccount() {
@@ -275,15 +276,15 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-    
+
     /**
-     * 
-     * Validate asset representative 
+     *
+     * Validate asset representative
      * @return boolean
      */
     protected boolean validateAssetRepresentative() {
         boolean valid = true;
-        Person assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(newAsset.getAssetRepresentative().getPrincipalName());
+        Person assetRepresentative = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(newAsset.getAssetRepresentative().getPrincipalName());
         if(ObjectUtils.isNull(assetRepresentative)) {
             putFieldError(ASSET_REPRESENTATIVE, ERROR_PRE_TAG_INVALID_REPRESENTATIVE_ID);
             valid = false;
@@ -293,7 +294,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Set asset component numbers
-     * 
+     *
      * @param asset
      */
     protected void setAssetComponentNumbers(Asset asset) {
@@ -312,7 +313,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates Asset document.
-     * 
+     *
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
@@ -328,13 +329,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.equalsIgnoreCase(oldAsset.getOrganizationOwnerAccountNumber(), newAsset.getOrganizationOwnerAccountNumber())) {
             valid &= validateAccount();
         }
-        
-        // validate asset representative name 
+
+        // validate asset representative name
         if (!StringUtils.equalsIgnoreCase(oldAsset.getAssetRepresentative().getPrincipalName(), newAsset.getAssetRepresentative().getPrincipalName())) {
             valid &= validateAssetRepresentative();
         }
-        
-        
+
+
         // validate Vendor Name.
         if (!StringUtils.equalsIgnoreCase(oldAsset.getVendorName(), newAsset.getVendorName())) {
             valid &= validateVendorName();
@@ -358,7 +359,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if the new In-service Date is a valid University Date
-     * 
+     *
      * @return
      */
     protected boolean validateInServiceDate() {
@@ -379,7 +380,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if off campus fields has changed.
-     * 
+     *
      * @return
      */
     protected boolean isOffCampusLocationChanged() {
@@ -428,7 +429,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     /**
      * If the tag number has not been assigned, the departmental user will be able to update the tag number. The Tag Number shall be
      * verified that the tag number does not exist on another asset.
-     * 
+     *
      * @param asset
      * @return
      */
@@ -464,7 +465,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * The Vendor Name is required for capital equipment and not required for non-capital assets.
-     * 
+     *
      * @param asset
      * @return
      */
@@ -482,7 +483,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate Asset Location fields
-     * 
+     *
      * @param asset
      * @return
      */
@@ -500,7 +501,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate warranty information if user enters value
-     * 
+     *
      * @param asset Asset
      * @return validation result
      */
@@ -520,7 +521,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * validates depreciation data
-     * 
+     *
      * @param asset
      * @return boolean
      */
@@ -573,7 +574,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Locking asset number
-     * 
+     *
      * @param document
      * @return
      */
@@ -595,7 +596,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if the Acquisition Type Code is valid or is inactive.
-     * 
+     *
      * @param oldAcquisitionTypeCode
      * @param newAcquisitionTypeCode
      * @return boolean
@@ -619,7 +620,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if the Asset Condition is valid or is inactive.
-     * 
+     *
      * @param oldConditionCode
      * @param newConditionCode
      * @return boolean
@@ -643,7 +644,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if the Asset Depreciation Method is valid or is inactive.
-     * 
+     *
      * @param oldAssetDepreciationMethod
      * @param newAssetDepreciationMethod
      * @return boolean
@@ -667,7 +668,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if the Asset Status Code is valid or is inactive.
-     * 
+     *
      * @param oldAssetStatus
      * @param newAssetStatus
      * @return boolean
@@ -691,7 +692,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if the Asset Type Code is valid or is inactive.
-     * 
+     *
      * @param oldAssetType
      * @param newAssetType
      * @return boolean
@@ -715,7 +716,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if the Financial Object Sub-Type Code is valid or is inactive.
-     * 
+     *
      * @param oldObjectSubType
      * @param newObjectSubType
      * @return boolean
@@ -734,11 +735,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         return true;
     }
-    
+
     protected boolean validateManufacturer(Asset asset) {
         boolean valid = true;
         if (assetService.isCapitalAsset(asset)) {
-            if (parameterService.getIndicatorParameter(CamsConstants.CAM_MODULE_CODE, "Asset", CamsConstants.Parameters.MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND) &&
+            if (parameterService.getParameterValueAsBoolean(CamsConstants.CAM_MODULE_CODE, "Asset", CamsConstants.Parameters.MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND) &&
                     StringUtils.isEmpty(asset.getManufacturerName())){
                 putFieldError(CamsPropertyConstants.Asset.MANUFACTURER_NAME, CamsKeyConstants.AssetGlobal.ERROR_MFR_NAME_REQUIRED);
                 valid = false;

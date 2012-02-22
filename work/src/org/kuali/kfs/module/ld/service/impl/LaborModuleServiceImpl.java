@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,9 +50,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
@@ -63,6 +66,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -71,7 +75,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LaborModuleServiceImpl implements LaborModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborModuleServiceImpl.class);
-    
+
     private final static String LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES_PARAM_NAME = "LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES";
     private final static String GL_LABOR_ENTRY_SUMMARIZATION_INQUIRY_BASE_URL = "laborGLLaborEntrySummarizationInquiry.do";
     private final static String GL_LABOR_ENTRY_SUMMARIZATION_INQUIRY_METHOD = "viewResults";
@@ -80,6 +84,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#calculateFringeBenefitFromLaborObject(org.kuali.kfs.integration.ld.LaborLedgerObject,
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
         return getLaborBenefitsCalculationService().calculateFringeBenefit(laborLedgerObject, salaryAmount, accountNumber, subAccountNumber);
     }
@@ -88,6 +93,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String,
      *      java.lang.String, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
         return getLaborBenefitsCalculationService().calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount, accountNumber, subAccountNumber);
     }
@@ -96,6 +102,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#createAndBlankApproveSalaryExpenseTransferDocument(java.lang.String,
      *      java.lang.String, java.lang.String, java.util.List, java.util.List, java.util.List)
      */
+    @Override
     public void createAndBlankApproveSalaryExpenseTransferDocument(String documentDescription, String explanation, String annotation, List<String> adHocRecipients, List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines) throws WorkflowException {
         LOG.debug("createSalaryExpenseTransferDocument() start");
 
@@ -134,20 +141,20 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         }
 
         this.getBusinessObjectService().save(document);
-   
+
         List<AdHocRouteRecipient> adHocRecipientList = new ArrayList<AdHocRouteRecipient>();
-  
+
         for (String adHocRouteRecipient : adHocRecipients) {
             adHocRecipientList.add(this.buildApprovePersonRecipient(adHocRouteRecipient));
          }
-        
-        SpringContext.getBean(DocumentService.class).blanketApproveDocument(document, annotation, adHocRecipientList);     
+
+        SpringContext.getBean(DocumentService.class).blanketApproveDocument(document, annotation, adHocRecipientList);
          SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), document.getDocumentHeader().getWorkflowDocument());
 
     }
-    
+
     /**
-     * 
+     *
      * This method builds a recipient for Approval.
      * @param userId
      * @return
@@ -158,10 +165,11 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         adHocRouteRecipient.setId(userId);
         return adHocRouteRecipient;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.ld.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
+    @Override
     public int countPendingSalaryExpenseTransfer(String emplid) {
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(KFSPropertyConstants.EMPLID, emplid);
@@ -177,6 +185,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * @see org.kuali.kfs.integration.ld.LaborModuleService#findEmployeesWithPayType(java.util.Map, java.util.List, java.util.Map)
      */
+    @Override
     public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
         return getLaborLedgerEntryService().findEmployeesWithPayType(payPeriods, balanceTypes, earnCodePayGroupMap);
     }
@@ -185,6 +194,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#isEmployeeWithPayType(java.lang.String, java.util.Map, java.util.List,
      *      java.util.Map)
      */
+    @Override
     public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
         return getLaborLedgerEntryService().isEmployeeWithPayType(emplid, payPeriods, balanceTypes, earnCodePayGroupMap);
     }
@@ -196,7 +206,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     @Override
     public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, Collection<String>> fieldValues, Map<String, Collection<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes) {
         Collection<LaborLedgerBalance> LaborLedgerBalances = new ArrayList<LaborLedgerBalance>();
-       
+
         Map<String, List<String>> excludedFieldValueList = new HashMap<String,List<String>>();
         for ( Map.Entry<String, Collection<String>> e : excludedFieldValues.entrySet()) {
             // convert collection to list
@@ -228,6 +238,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#doesLaborLedgerPositionObjectGroupExist(java.lang.String)
      */
+    @Override
     public boolean doesLaborLedgerPositionObjectGroupExist(String positionObjectGroupCode) {
         return this.getLaborLedgerPositionObjectGroup(positionObjectGroupCode) != null;
     }
@@ -236,6 +247,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#retrieveLaborLedgerObject(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public LaborLedgerObject retrieveLaborLedgerObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
@@ -248,6 +260,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * @see org.kuali.kfs.integration.ld.LaborModuleService#retrieveLaborLedgerObject(org.kuali.kfs.coa.businessobject.ObjectCode)
      */
+    @Override
     public LaborLedgerObject retrieveLaborLedgerObject(ObjectCode financialObject) {
         if (financialObject == null) {
             throw new IllegalArgumentException("The given financial object cannot be null.");
@@ -263,6 +276,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * @see org.kuali.kfs.integration.ld.LaborModuleService#hasPendingLaborLedgerEntry(java.lang.String, java.lang.String)
      */
+    @Override
     public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber) {
         return getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(chartOfAccountsCode, accountNumber);
     }
@@ -271,6 +285,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#retrieveLaborPositionObjectBenefits(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public List<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
 
@@ -285,6 +300,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#hasFringeBenefitProducingObjectCodes(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
+    @Override
     public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         List<LaborLedgerPositionObjectBenefit> objectBenefits = this.retrieveLaborPositionObjectBenefits(fiscalYear, chartOfAccountsCode, financialObjectCode);
         return (objectBenefits != null && !objectBenefits.isEmpty());
@@ -301,10 +317,11 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * Looks up the origin codes from the parameter KFS-LD / LedgerEntry / LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES
      * @see org.kuali.kfs.integration.ld.LaborModuleService#getLaborLedgerGLOriginCodes()
      */
+    @Override
     public List<String> getLaborLedgerGLOriginCodes() {
         return getParameterService().getParameterValues(LedgerEntry.class, LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES_PARAM_NAME);
     }
-    
+
     /**
      * Builds the url for the given GL entry to go to inquiry screen for related LD entries
      * @see org.kuali.kfs.integration.ld.LaborModuleService#getInquiryUrlForGeneralLedgerEntryDocumentNumber(org.kuali.kfs.gl.businessobject.Entry)
@@ -331,7 +348,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Gets the laborBenefitsCalculationService attribute.
-     * 
+     *
      * @return an implementation of the laborBenefitsCalculationService.
      */
     public LaborBenefitsCalculationService getLaborBenefitsCalculationService() {
@@ -340,7 +357,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Gets the laborLedgerEntryService attribute.
-     * 
+     *
      * @return an implementation of the laborLedgerEntryService.
      */
     public LaborLedgerEntryService getLaborLedgerEntryService() {
@@ -349,7 +366,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Gets the laborLedgerBalanceService attribute.
-     * 
+     *
      * @return an implementation of the laborLedgerBalanceService.
      */
     public LaborLedgerBalanceService getLaborLedgerBalanceService() {
@@ -358,7 +375,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Gets the documentService attribute.
-     * 
+     *
      * @return an implementation of the documentService.
      */
     public DocumentService getDocumentService() {
@@ -367,7 +384,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Gets the dataDictionaryService attribute.
-     * 
+     *
      * @return an implementation of the dataDictionaryService.
      */
     public DataDictionaryService getDataDictionaryService() {
@@ -376,7 +393,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Gets the universityDateService attribute.
-     * 
+     *
      * @return an implementation of the universityDateService.
      */
     public UniversityDateService getUniversityDateService() {
@@ -385,7 +402,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return an implementation of the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -394,7 +411,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Gets the laborLedgerPendingEntryService
-     * 
+     *
      * @return an implementation of the LaborLedgerPendingEntryService
      */
     public LaborLedgerPendingEntryService getLaborLedgerPendingEntryService() {
@@ -403,13 +420,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Returns an instance of the LaborOriginEntryService, for use by services in the module
-     * 
+     *
      * @return an instance of an implementation of the LaborOriginEntryService
      */
     public LaborOriginEntryService getLaborOriginEntryService() {
         return SpringContext.getBean(LaborOriginEntryService.class);
     }
-    
+
     /**
      * @return the default implementation of the ParameterService
      */
@@ -419,7 +436,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * Gets the KualiModuleService attribute value.
-     * 
+     *
      * @return an implementation of the KualiModuleService.
      */
     public KualiModuleService getKualiModuleService() {

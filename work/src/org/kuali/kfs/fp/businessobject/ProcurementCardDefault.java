@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,23 +15,17 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.GroupImpl;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class is used to represent a procurement card holder, or the individual whose name is on the card.
@@ -39,7 +33,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class ProcurementCardDefault extends PersistableBusinessObjectBase implements Inactivateable {
     private String creditCardNumber;
-    
+
     private String cardHolderName;
     private String cardHolderAlternateName;
     private String cardHolderLine1Address;
@@ -49,27 +43,27 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
     private String cardHolderZipCode;
     private String cardHolderWorkPhoneNumber;
     private KualiDecimal cardLimit;
-    private KualiDecimal cardCycleAmountLimit;    
+    private KualiDecimal cardCycleAmountLimit;
     private KualiDecimal cardCycleVolumeLimit;
     private String cardStatusCode;
     private String cardNoteText;
-    
+
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
     private String financialObjectCode;
     private String financialSubObjectCode;
     private String projectCode;
-    
+
     private boolean active;
 
     private Account account;
-    private Chart chartOfAccounts;    
+    private Chart chartOfAccounts;
     private SubAccount subAccount;
     private ObjectCode objectCode;
     private SubObjectCode subObjectCode;
     private ProjectCode project;
-       
+
     /**
      * Default constructor.
      */
@@ -79,7 +73,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
      /**
      * Gets the creditCardNumber attribute.
-     * 
+     *
      * @return Returns the creditCardNumber
      */
     public String getCreditCardNumber() {
@@ -88,7 +82,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the creditCardNumber attribute.
-     * 
+     *
      * @param creditCardNumber The creditCardNumber to set.
      */
     public void setCreditCardNumber(String creditCardNumber) {
@@ -97,7 +91,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardHolderName attribute.
-     * 
+     *
      * @return Returns the cardHolderName
      */
     public String getCardHolderName() {
@@ -106,7 +100,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardHolderName attribute.
-     * 
+     *
      * @param cardHolderName The cardHolderName to set.
      */
     public void setCardHolderName(String cardHolderName) {
@@ -115,7 +109,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardHolderAlternateName attribute.
-     * 
+     *
      * @return Returns the cardHolderAlternateName
      */
     public String getCardHolderAlternateName() {
@@ -124,7 +118,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardHolderAlternateName attribute.
-     * 
+     *
      * @param cardHolderAlternateName The cardHolderAlternateName to set.
      */
     public void setCardHolderAlternateName(String cardHolderAlternateName) {
@@ -133,7 +127,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardHolderLine1Address attribute.
-     * 
+     *
      * @return Returns the cardHolderLine1Address
      */
     public String getCardHolderLine1Address() {
@@ -142,7 +136,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardHolderLine1Address attribute.
-     * 
+     *
      * @param cardHolderLine1Address The cardHolderLine1Address to set.
      */
     public void setCardHolderLine1Address(String cardHolderLine1Address) {
@@ -151,7 +145,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardHolderLine2Address attribute.
-     * 
+     *
      * @return Returns the cardHolderLine2Address
      */
     public String getCardHolderLine2Address() {
@@ -160,7 +154,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardHolderLine2Address attribute.
-     * 
+     *
      * @param cardHolderLine2Address The cardHolderLine2Address to set.
      */
     public void setCardHolderLine2Address(String cardHolderLine2Address) {
@@ -169,7 +163,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardHolderCityName attribute.
-     * 
+     *
      * @return Returns the cardHolderCityName
      */
     public String getCardHolderCityName() {
@@ -178,7 +172,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardHolderCityName attribute.
-     * 
+     *
      * @param cardHolderCityName The cardHolderCityName to set.
      */
     public void setCardHolderCityName(String cardHolderCityName) {
@@ -187,7 +181,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardHolderStateCode attribute.
-     * 
+     *
      * @return Returns the cardHolderStateCode
      */
     public String getCardHolderStateCode() {
@@ -196,7 +190,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardHolderStateCode attribute.
-     * 
+     *
      * @param cardHolderStateCode The cardHolderStateCode to set.
      */
     public void setCardHolderStateCode(String cardHolderStateCode) {
@@ -205,7 +199,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardHolderZipCode attribute.
-     * 
+     *
      * @return Returns the cardHolderZipCode
      */
     public String getCardHolderZipCode() {
@@ -214,7 +208,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardHolderZipCode attribute.
-     * 
+     *
      * @param cardHolderZipCode The cardHolderZipCode to set.
      */
     public void setCardHolderZipCode(String cardHolderZipCode) {
@@ -223,7 +217,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardHolderWorkPhoneNumber attribute.
-     * 
+     *
      * @return Returns the cardHolderWorkPhoneNumber
      */
     public String getCardHolderWorkPhoneNumber() {
@@ -232,7 +226,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardHolderWorkPhoneNumber attribute.
-     * 
+     *
      * @param cardHolderWorkPhoneNumber The cardHolderWorkPhoneNumber to set.
      */
     public void setCardHolderWorkPhoneNumber(String cardHolderWorkPhoneNumber) {
@@ -241,7 +235,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardLimit attribute.
-     * 
+     *
      * @return Returns the cardLimit
      */
     public KualiDecimal getCardLimit() {
@@ -250,7 +244,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardLimit attribute.
-     * 
+     *
      * @param cardLimit The cardLimit to set.
      */
     public void setCardLimit(KualiDecimal cardLimit) {
@@ -259,7 +253,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardCycleAmountLimit attribute.
-     * 
+     *
      * @return Returns the cardCycleAmountLimit
      */
     public KualiDecimal getCardCycleAmountLimit() {
@@ -268,16 +262,16 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardCycleAmountLimit attribute.
-     * 
+     *
      * @param cardCycleAmountLimit The cardCycleAmountLimit to set.
      */
     public void setCardCycleAmountLimit(KualiDecimal cardCycleAmountLimit) {
         this.cardCycleAmountLimit = cardCycleAmountLimit;
-    }    
-   
+    }
+
     /**
      * Gets the cardCycleVolumeLimit attribute.
-     * 
+     *
      * @return Returns the cardCycleVolumeLimit
      */
     public KualiDecimal getCardCycleVolumeLimit() {
@@ -286,7 +280,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardCycleVolumeLimit attribute.
-     * 
+     *
      * @param cardCycleVolumeLimit The cardCycleVolumeLimit to set.
      */
     public void setCardCycleVolumeLimit(KualiDecimal cardCycleVolumeLimit) {
@@ -295,7 +289,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardStatusCode attribute.
-     * 
+     *
      * @return Returns the cardStatusCode
      */
     public String getCardStatusCode() {
@@ -304,7 +298,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardStatusCode attribute.
-     * 
+     *
      * @param cardStatusCode The cardStatusCode to set.
      */
     public void setCardStatusCode(String cardStatusCode) {
@@ -313,7 +307,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the cardNoteText attribute.
-     * 
+     *
      * @return Returns the cardNoteText
      */
     public String getCardNoteText() {
@@ -322,7 +316,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the cardNoteText attribute.
-     * 
+     *
      * @param cardNoteText The cardNoteText to set.
      */
     public void setCardNoteText(String cardNoteText) {
@@ -331,7 +325,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -340,7 +334,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -350,7 +344,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber
      */
     public String getAccountNumber() {
@@ -359,7 +353,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -368,7 +362,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber
      */
     public String getSubAccountNumber() {
@@ -377,16 +371,16 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the subAccountNumber attribute.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
     }
-      
+
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode
      */
     public String getFinancialObjectCode() {
@@ -395,7 +389,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the financialObjectCode attribute.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -404,7 +398,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the financialSubObjectCode attribute.
-     * 
+     *
      * @return Returns the financialSubObjectCode
      */
     public String getFinancialSubObjectCode() {
@@ -413,7 +407,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the financialSubObjectCode attribute.
-     * 
+     *
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -453,7 +447,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account
      */
     public Account getAccount() {
@@ -462,17 +456,18 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccount(Account account) {
         this.account = account;
     }
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts() {
@@ -481,10 +476,11 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
@@ -498,17 +494,18 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the subAccount attribute.
-     * 
+     *
      * @param subAccount The subAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
     }
-        
+
     /**
      * Gets the objectCode attribute.
-     * 
+     *
      * @return Returns the objectCode
      */
      public ObjectCode getObjectCode() {
@@ -517,17 +514,18 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
      /**
       * Sets the objectCode attribute.
-      * 
+      *
       * @param objectCode The objectCode to set.
       * @deprecated
-      */ 
+      */
+    @Deprecated
     public void setObjectCode(ObjectCode objectCode) {
         this.objectCode = objectCode;
     }
 
     /**
      * Gets the subObjectCode attribute.
-     * 
+     *
      * @return Returns the subObjectCode
      */
     public SubObjectCode getSubObjectCode() {
@@ -536,10 +534,11 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the subObjectCode attribute.
-     * 
+     *
      * @param subObjectCode The subObjectCode to set.
      * @deprecated
      */
+    @Deprecated
     public void setSubObjectCode(SubObjectCode subObjectCode) {
         this.subObjectCode = subObjectCode;
     }
@@ -556,10 +555,11 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
      * @param project the project code for OJB to set.
      * @deprecated
      */
+    @Deprecated
     public void setProject(ProjectCode project) {
         this.project = project;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -568,7 +568,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.CREDIT_CARD_NUMBER, this.creditCardNumber);
         return m;
-    }    
+    }
 
 
 }

@@ -33,6 +33,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -519,7 +520,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public void setPaymentAccountNumber(String paymentAccountNumber) {
         this.paymentAccountNumber = paymentAccountNumber;
-        
+
         // if accounts can't cross charts, set chart code whenever account number is set
         AccountService accountService = SpringContext.getBean(AccountService.class);
         if (!accountService.accountsCanCrossCharts()) {
@@ -527,7 +528,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             if (ObjectUtils.isNotNull(account)) {
                 setPaymentChartOfAccountsCode(account.getChartOfAccountsCode());
             }
-        }           
+        }
     }
 
     /**
@@ -698,6 +699,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param billByChartOfAccount The billByChartOfAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setBillByChartOfAccount(Chart billByChartOfAccount) {
         this.billByChartOfAccount = billByChartOfAccount;
     }
@@ -717,6 +719,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param billedByOrganization The billedByOrganization to set.
      * @deprecated
      */
+    @Deprecated
     public void setBilledByOrganization(Organization billedByOrganization) {
         this.billedByOrganization = billedByOrganization;
     }
@@ -736,6 +739,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param customerSpecialProcessing The customerSpecialProcessing to set.
      * @deprecated
      */
+    @Deprecated
     public void setCustomerSpecialProcessing(CustomerProcessingType customerSpecialProcessing) {
         this.customerSpecialProcessing = customerSpecialProcessing;
     }
@@ -755,6 +759,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param paymentAccount The paymentAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setPaymentAccount(Account paymentAccount) {
         this.paymentAccount = paymentAccount;
     }
@@ -774,6 +779,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param paymentChartOfAccounts The paymentChartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setPaymentChartOfAccounts(Chart paymentChartOfAccounts) {
         this.paymentChartOfAccounts = paymentChartOfAccounts;
     }
@@ -793,6 +799,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param paymentFinancialObject The paymentFinancialObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setPaymentFinancialObject(ObjectCode paymentFinancialObject) {
         this.paymentFinancialObject = paymentFinancialObject;
     }
@@ -812,6 +819,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param paymentFinancialSubObject The paymentFinancialSubObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setPaymentFinancialSubObject(SubObjectCode paymentFinancialSubObject) {
         this.paymentFinancialSubObject = paymentFinancialSubObject;
     }
@@ -831,6 +839,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param paymentProject The paymentProject to set.
      * @deprecated
      */
+    @Deprecated
     public void setPaymentProject(ProjectCode paymentProject) {
         this.paymentProject = paymentProject;
     }
@@ -850,6 +859,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param paymentSubAccount The paymentSubAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setPaymentSubAccount(SubAccount paymentSubAccount) {
         this.paymentSubAccount = paymentSubAccount;
     }
@@ -1606,9 +1616,11 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     @Override
     public int compareTo(CustomerInvoiceDocument customerInvoiceDocument) {
-        if (this.getBillByChartOfAccountCode().equals(customerInvoiceDocument.getBillByChartOfAccountCode()))
-            if (this.getBilledByOrganizationCode().equals(customerInvoiceDocument.getBilledByOrganizationCode()))
+        if (this.getBillByChartOfAccountCode().equals(customerInvoiceDocument.getBillByChartOfAccountCode())) {
+            if (this.getBilledByOrganizationCode().equals(customerInvoiceDocument.getBilledByOrganizationCode())) {
                 return 0;
+            }
+        }
         return -1;
     }
 
@@ -1876,8 +1888,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
         accountsReceivableDocumentHeader.refreshReferenceObject("customer");
         Customer customer = accountsReceivableDocumentHeader.getCustomer();
-        if (ObjectUtils.isNotNull(customer))
+        if (ObjectUtils.isNotNull(customer)) {
             this.setCustomerName(customer.getCustomerName());
+        }
 
         if (ObjectUtils.isNotNull(customerShipToAddress)) {
             this.setShippingAddressTypeCode(customerShipToAddress.getCustomerAddressTypeCode());

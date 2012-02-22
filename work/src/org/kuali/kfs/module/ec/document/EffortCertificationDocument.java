@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,8 +31,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
@@ -50,12 +52,12 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     protected static final String DO_AWARD_SPLIT = "DoAwardSplit";
     protected static final String DO_RECREATE_SPLIT = "DoRecreateSplit";
-    
+
     protected String effortCertificationReportNumber;
     protected boolean effortCertificationDocumentCode;
     protected Integer universityFiscalYear;
     protected String emplid;
-    protected String organizationCode;    
+    protected String organizationCode;
     protected KualiDecimal financialDocumentTotalAmount;
 
     protected Integer totalEffortPercent;
@@ -70,22 +72,22 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     protected List<EffortCertificationDetail> effortCertificationDetailLines;
     protected List<EffortCertificationDetail> summarizedDetailLines;
-    
+
     protected Person ledgerPerson;
-    
+
     /**
      * Default constructor.
      */
     public EffortCertificationDocument() {
         super();
-        
+
         effortCertificationDetailLines = new ArrayList<EffortCertificationDetail>();
         summarizedDetailLines = new ArrayList<EffortCertificationDetail>();
     }
 
     /**
      * Gets the effortCertificationReportNumber attribute.
-     * 
+     *
      * @return Returns the effortCertificationReportNumber.
      */
     public String getEffortCertificationReportNumber() {
@@ -94,7 +96,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the effortCertificationReportNumber attribute value.
-     * 
+     *
      * @param effortCertificationReportNumber The effortCertificationReportNumber to set.
      */
     public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
@@ -103,7 +105,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the effortCertificationDocumentCode attribute.
-     * 
+     *
      * @return Returns the effortCertificationDocumentCode.
      */
     public boolean getEffortCertificationDocumentCode() {
@@ -112,7 +114,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the effortCertificationDocumentCode attribute value.
-     * 
+     *
      * @param effortCertificationDocumentCode The effortCertificationDocumentCode to set.
      */
     public void setEffortCertificationDocumentCode(boolean effortCertificationDocumentCode) {
@@ -121,7 +123,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -130,7 +132,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the universityFiscalYear attribute value.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -139,7 +141,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -148,7 +150,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the organizationCode attribute value.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -157,7 +159,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the organization attribute.
-     * 
+     *
      * @return Returns the organization.
      */
     public Organization getOrganization() {
@@ -166,16 +168,16 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the organization attribute value.
-     * 
+     *
      * @param organization The organization to set.
      */
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
-    
+
     /**
      * Gets the emplid attribute.
-     * 
+     *
      * @return Returns the emplid.
      */
     public String getEmplid() {
@@ -184,7 +186,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the emplid attribute value.
-     * 
+     *
      * @param emplid The emplid to set.
      */
     public void setEmplid(String emplid) {
@@ -193,7 +195,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the effortCertificationReportDefinition attribute.
-     * 
+     *
      * @return Returns the effortCertificationReportDefinition.
      */
     public EffortCertificationReportDefinition getEffortCertificationReportDefinition() {
@@ -202,7 +204,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the effortCertificationReportDefinition attribute value.
-     * 
+     *
      * @param effortCertificationReportDefinition The effortCertificationReportDefinition to set.
      */
     @Deprecated
@@ -212,12 +214,12 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the employee attribute.
-     * 
+     *
      * @return Returns the employee.
      */
     public Person getEmployee() {
         if ( StringUtils.isNotBlank( getEmplid() ) ) {
-            return (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
+            return SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
         } else {
             return null;
         }
@@ -225,7 +227,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the employee attribute value.
-     * 
+     *
      * @param employee The employee to set.
      */
     public void setEmployee(Person employee) {
@@ -234,29 +236,29 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the Person
-     * 
+     *
      * @return Returns the Person
      */
     public Person getLedgerPerson() {
         if( (ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), emplid)) && StringUtils.isNotBlank( emplid )) {
             ledgerPerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid);
         }
-        
+
         return ledgerPerson;
     }
 
     /**
      * Sets the ledgerPerson
-     * 
+     *
      * @param ledgerPerson The ledgerPerson to set.
      */
     public void setLedgerPerson(Person ledgerPerson) {
         this.ledgerPerson = ledgerPerson;
     }
-    
+
     /**
      * Gets the options attribute.
-     * 
+     *
      * @return Returns the options.
      */
     public SystemOptions getOptions() {
@@ -265,7 +267,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the options attribute value.
-     * 
+     *
      * @param options The options to set.
      */
     public void setOptions(SystemOptions options) {
@@ -274,7 +276,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the effortCertificationDetailLines attribute.
-     * 
+     *
      * @return Returns the effortCertificationDetailLines.
      */
     public List<EffortCertificationDetail> getEffortCertificationDetailLines() {
@@ -283,7 +285,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the effortCertificationDetailLines attribute value.
-     * 
+     *
      * @param effortCertificationDetailLines The effortCertificationDetailLines to set.
      */
     @Deprecated
@@ -304,7 +306,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * get the total amount of the given effort certification document
-     * 
+     *
      * @param effortCertificationDocument the given effort certification document
      * @return the total amount of the given effort certification document
      */
@@ -331,7 +333,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the totalEffortPercent attribute.
-     * 
+     *
      * @return Returns the totalEffortPercent.
      */
     public Integer getTotalEffortPercent() {
@@ -340,7 +342,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the totalOriginalEffortPercent attribute.
-     * 
+     *
      * @return Returns the totalOriginalEffortPercent.
      */
     public Integer getTotalOriginalEffortPercent() {
@@ -349,7 +351,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the totalPayrollAmount attribute.
-     * 
+     *
      * @return Returns the totalPayrollAmount.
      */
     public KualiDecimal getTotalPayrollAmount() {
@@ -358,7 +360,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the totalOriginalPayrollAmount attribute.
-     * 
+     *
      * @return Returns the totalOriginalPayrollAmount.
      */
     public KualiDecimal getTotalOriginalPayrollAmount() {
@@ -367,7 +369,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * find the detail lines that have max payroll amount
-     * 
+     *
      * @return the detail lines that have max payroll amount
      */
     public List<EffortCertificationDetail> getEffortCertificationDetailWithMaxPayrollAmount() {
@@ -398,7 +400,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates the total updated effort for all federal detail lines
-     * 
+     *
      * @return effortFederalTotal
      */
     public Integer getFederalTotalEffortPercent() {
@@ -416,7 +418,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates the total original effort for all federal detail lines
-     * 
+     *
      * @return original federal total
      */
     public Integer getFederalTotalOriginalEffortPercent() {
@@ -434,7 +436,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates the total original fringe benefit amount for federal pass through detail lines
-     * 
+     *
      * @return total federal benefit amount
      */
     public KualiDecimal getFederalTotalOriginalFringeBenefit() {
@@ -452,7 +454,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates total original fringe benenfit amount for non federal pass through detail lines
-     * 
+     *
      * @return total non federal benefit amount
      */
     public KualiDecimal getOtherTotalOriginalFringeBenefit() {
@@ -470,7 +472,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates the total fringe benefit amount for federal pass through detail lines
-     * 
+     *
      * @return total federal benefit amount
      */
     public KualiDecimal getFederalTotalFringeBenefit() {
@@ -488,7 +490,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates total fringe benenfit amount for non federal pass through detail lines
-     * 
+     *
      * @return total non federal benefit amount
      */
     public KualiDecimal getOtherTotalFringeBenefit() {
@@ -506,7 +508,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates the total original effor for non federal pass through detail lines
-     * 
+     *
      * @return original other total
      */
     public Integer getOtherTotalOriginalEffortPercent() {
@@ -524,7 +526,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates the total updated effort for non federal pass through detail lines
-     * 
+     *
      * @return effort total for non federal pass through accounts
      */
     public Integer getOtherTotalEffortPercent() {
@@ -542,7 +544,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates the total salary for federal detail lines
-     * 
+     *
      * @return total salary
      */
     public KualiDecimal getFederalTotalPayrollAmount() {
@@ -560,7 +562,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates the total original salary for federal pass through detail lines
-     * 
+     *
      * @return total salary
      */
     public KualiDecimal getFederalTotalOriginalPayrollAmount() {
@@ -578,7 +580,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates the total original salary for non federal pass through detail lines
-     * 
+     *
      * @return total original salary
      */
     public KualiDecimal getOtherTotalOriginalPayrollAmount() {
@@ -596,7 +598,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Calculates total updated salary for non federal pass through detail lines
-     * 
+     *
      * @return total salary
      */
     public KualiDecimal getOtherTotalPayrollAmount() {
@@ -614,7 +616,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the totalFringeBenefit attribute.
-     * 
+     *
      * @return Returns the totalFringeBenefit.
      */
     public KualiDecimal getTotalFringeBenefit() {
@@ -623,7 +625,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the totalOriginalFringeBenefit attribute.
-     * 
+     *
      * @return Returns the totalOriginalFringeBenefit.
      */
     public KualiDecimal getTotalOriginalFringeBenefit() {
@@ -640,7 +642,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
         // capture each line's salary amount before route level modification for later rule validation
         for (EffortCertificationDetail detailLine : this.getEffortCertificationDetailLines()) {
             detailLine.setPersistedPayrollAmount(new KualiDecimal(detailLine.getEffortCertificationPayrollAmount().bigDecimalValue()));
-            
+
             int effortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();
             detailLine.setPersistedEffortPercent(new Integer(effortPercent));
         }
@@ -653,7 +655,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Checks if the effort has changed for any of the detail lines.
-     * 
+     *
      * @return true if effort has changed, false otherwise
      */
     public boolean isEffortDistributionChanged() {
@@ -668,7 +670,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Finds the default position number for display based on the detail line with the maximum effort
-     * 
+     *
      * @return default position number
      */
     public String getDefaultPositionNumber() {
@@ -677,7 +679,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Finds the default object code for display based on the value for the detail line with the maximum effort
-     * 
+     *
      * @return default object code
      */
     public String getDefaultObjectCode() {
@@ -686,7 +688,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Finds the detail line with the maximum effort
-     * 
+     *
      * @return max effort line
      */
     protected EffortCertificationDetail getMaxEffortLine() {
@@ -719,7 +721,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Finds the list of unique object codes contained in this document
-     * 
+     *
      * @return list of unique object codes
      */
     public List<String> getObjectCodeList() {
@@ -736,7 +738,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Finds the list of unique position numbers for this document
-     * 
+     *
      * @return list of unique position numbers
      */
     public List<String> getPositionList() {
@@ -760,7 +762,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the summarizedDetailLines attribute.
-     * 
+     *
      * @return Returns the summarizedDetailLines.
      */
     public List<EffortCertificationDetail> getSummarizedDetailLines() {
@@ -769,13 +771,13 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the summarizedDetailLines attribute value.
-     * 
+     *
      * @param summarizedDetailLines The summarizedDetailLines to set.
      */
     public void setSummarizedDetailLines(List<EffortCertificationDetail> summarizedDetailLines) {
         this.summarizedDetailLines = summarizedDetailLines;
     }
-    
+
     /**
      * Provides answers to the following splits:
      * Do Award Split
@@ -784,36 +786,42 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(EffortCertificationDocument.DO_AWARD_SPLIT)) return isDoAwardSplit();
-        if (nodeName.equals(EffortCertificationDocument.DO_RECREATE_SPLIT)) return isDoRecreateSplit();
-        if (nodeName.equals(KFSConstants.REQUIRES_WORKSTUDY_REVIEW)) return checkOjbectCodeForWorkstudy();
+        if (nodeName.equals(EffortCertificationDocument.DO_AWARD_SPLIT)) {
+            return isDoAwardSplit();
+        }
+        if (nodeName.equals(EffortCertificationDocument.DO_RECREATE_SPLIT)) {
+            return isDoRecreateSplit();
+        }
+        if (nodeName.equals(KFSConstants.REQUIRES_WORKSTUDY_REVIEW)) {
+            return checkOjbectCodeForWorkstudy();
+        }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
-    
-    
+
+
     /**
      * KFSMI-4606
-     * @return boolean 
+     * @return boolean
      */
     protected boolean checkOjbectCodeForWorkstudy(){
         List<String> workstudyRouteObjectcodes = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.WORKSTUDY_ROUTE_OBJECT_CODES_PARM_NM);
-        
+
         List<EffortCertificationDetail> effortCertificationDetails = getEffortCertificationDetailLines();
-        
+
         // check object code in accounting lines
         for (EffortCertificationDetail effortCertificationDetail : effortCertificationDetails){
             if (workstudyRouteObjectcodes.contains(effortCertificationDetail.getFinancialObjectCode())) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * Checks system parameter that indicates whether routing to project directors should occur only on
-     * lines with federal accounts or all lines. 
-     * 
+     * lines with federal accounts or all lines.
+     *
      * @return detail lines with federal accounts if parameter is true, otherwise all detail lines
      */
     public List<EffortCertificationDetail> getDetailLinesForPDRouting() {
@@ -821,29 +829,29 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
         if (!federalOnlyRouting) {
             return this.effortCertificationDetailLines;
         }
-        
+
         List<EffortCertificationDetail> federalDetailLines = new ArrayList<EffortCertificationDetail>();
         for (EffortCertificationDetail detail : this.effortCertificationDetailLines) {
             if (detail.isFederalOrFederalPassThroughIndicator()) {
                 federalDetailLines.add(detail);
             }
         }
-        
+
         return federalDetailLines;
     }
-    
+
     /**
-     * @return boolean value 
+     * @return boolean value
      */
     protected boolean isDoAwardSplit() {
         return this.isEffortDistributionChanged();
     }
-    
+
     /**
      * @return boolean value
      */
     protected boolean isDoRecreateSplit() {
         return this.getEffortCertificationDocumentCode();
-    } 
+    }
 }
 

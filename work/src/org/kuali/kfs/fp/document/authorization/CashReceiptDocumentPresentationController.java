@@ -77,7 +77,9 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
      */
     @Override
     public boolean canEdit(Document document) {
-        if (document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) return false;
+        if (document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) {
+            return false;
+        }
         return super.canEdit(document);
     }
 
@@ -111,43 +113,4 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         }
     }
 
-    /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    public Set<String> getEditModes(Document document) {
-        Set<String> editModes = super.getEditModes(document);
-        addFullEntryEntryMode(document, editModes);
-        addChangeRequestMode(document, editModes);
-        
-        return editModes;
-    }
-    
-    protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (workflowDocument.stateIsEnroute()) {
-            List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-            if(currentRouteLevels.contains("CashManagement")) {
-                editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CASH_MANAGER_CONFIRM_MODE);
-            }
-        }
-    }
-    
-    protected void addChangeRequestMode(Document document, Set<String> editModes) {
-        boolean IndValue = SpringContext.getBean(ParameterService.class).getIndicatorParameter(CashReceiptDocument.class, "CHANGE_REQUEST_ENABLED_IND");
-        if(IndValue) {
-            editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CHANGE_REQUEST_MODE);
-        }
-    }
-    
-    protected List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
-        try {
-            return Arrays.asList(workflowDocument.getNodeNames());
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
 }

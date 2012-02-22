@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -63,12 +63,14 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,6 +103,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     /**
      * @see org.kuali.kfs.module.purap.service.PdpExtractService#extractImmediatePaymentsOnly()
      */
+    @Override
     public void extractImmediatePaymentsOnly() {
         LOG.debug("extractImmediatePaymentsOnly() started");
         Date processRunDate = dateTimeService.getCurrentDate();
@@ -112,6 +115,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     /**
      * @see org.kuali.kfs.module.purap.service.PdpExtractService#extractPayments(Date)
      */
+    @Override
     public void extractPayments(Date runDate) {
         LOG.debug("extractPayments() started");
 
@@ -120,7 +124,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Extracts payments from the database
-     * 
+     *
      * @param immediateOnly whether to pick up immediate payments only
      * @param processRunDate time/date to use to put on the {@link Batch} that's created; and when immediateOnly is false, is also
      *        used as the maximum allowed PREQ pay date when searching PREQ documents eligible to have payments extracted
@@ -142,7 +146,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Handle a single campus
-     * 
+     *
      * @param campusCode
      * @param puser
      * @param processRunDate
@@ -178,7 +182,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Get all the payments that could be combined with credit memos
-     * 
+     *
      * @param campusCode
      * @param puser
      * @param processRunDate
@@ -208,7 +212,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             for (VendorCreditMemoDocument cmd : vendorMemos) {
                 List<VendorCreditMemoDocument> bankMemos = new ArrayList<VendorCreditMemoDocument>();
                 if (bankCodeCreditMemos.containsKey(cmd.getBankCode())) {
-                    bankMemos = (List<VendorCreditMemoDocument>) bankCodeCreditMemos.get(cmd.getBankCode());
+                    bankMemos = bankCodeCreditMemos.get(cmd.getBankCode());
                 }
 
                 bankMemos.add(cmd);
@@ -220,7 +224,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             for (PaymentRequestDocument prd : vendorPreqs) {
                 List<PaymentRequestDocument> bankPreqs = new ArrayList<PaymentRequestDocument>();
                 if (bankCodePaymentRequests.containsKey(prd.getBankCode())) {
-                    bankPreqs = (List<PaymentRequestDocument>) bankCodePaymentRequests.get(prd.getBankCode());
+                    bankPreqs = bankCodePaymentRequests.get(prd.getBankCode());
                 }
 
                 bankPreqs.add(prd);
@@ -248,7 +252,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         Iterator<PaymentRequestDocument> paymentRequests = paymentRequestService.getPaymentRequestToExtractByChart(campusCode, onOrBeforePaymentRequestPayDate);
         while (paymentRequests.hasNext()) {
-            PaymentRequestDocument prd = (PaymentRequestDocument) paymentRequests.next();
+            PaymentRequestDocument prd = paymentRequests.next();
             // if in the list created above, don't create the payment group
             if (!preqsWithOutstandingCreditMemos.contains(prd.getDocumentNumber())) {
                 PaymentGroup paymentGroup = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
@@ -266,7 +270,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Processes the list of payment requests and credit memos as a payment group pending
-     * 
+     *
      * @param paymentRequests
      * @param creditMemos
      * @param totals
@@ -323,7 +327,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Handle a single payment request with no credit memos
-     * 
+     *
      * @param paymentRequestDocument
      * @param batch
      * @param puser
@@ -346,7 +350,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Get all the special payments for a campus and process them
-     * 
+     *
      * @param campusCode
      * @param puser
      * @param processRunDate
@@ -366,7 +370,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
 
         while (paymentRequests.hasNext()) {
-            PaymentRequestDocument prd = (PaymentRequestDocument) paymentRequests.next();
+            PaymentRequestDocument prd = paymentRequests.next();
             PaymentGroup pg = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
 
             totals.count = totals.count + pg.getPaymentDetails().size();
@@ -379,7 +383,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Mark a credit memo as extracted
-     * 
+     *
      * @param creditMemoDocument
      * @param puser
      * @param processRunDate
@@ -397,7 +401,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Mark a payment request as extracted
-     * 
+     *
      * @param prd
      * @param puser
      * @param processRunDate
@@ -415,7 +419,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Create the PDP payment group from a list of payment requests & credit memos
-     * 
+     *
      * @param paymentRequests
      * @param creditMemos
      * @param batch
@@ -447,7 +451,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Checks payment group note lines does not exceed the maximum allowed
-     * 
+     *
      * @param paymentGroup group to validate
      * @return true if group is valid, false otherwise
      */
@@ -479,7 +483,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
             // send warning email and prevent group from being processed by returning false
             paymentFileEmailService.sendExceedsMaxNotesWarningEmail(cmDocIds, preqDocIds, noteLines, maxNoteLines);
-            
+
             return false;
         }
 
@@ -500,7 +504,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Create a PDP payment detail record from a Credit Memo document
-     * 
+     *
      * @param creditMemoDocument Credit Memo to use for payment detail
      * @param batch current PDP batch object
      * @return populated PaymentDetail line
@@ -528,7 +532,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 paymentDetail.setOrganizationDocNbr(creditMemoDocument.getDocumentHeader().getOrganizationDocumentNumber());
             }
         }
-        
+
         paymentDetail.setCustomerInstitutionNumber(StringUtils.defaultString(creditMemoDocument.getVendorCustomerNumber()));
 
         final String creditMemoDocType = getDataDictionaryService().getDocumentTypeNameByClass(creditMemoDocument.getClass());
@@ -588,7 +592,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Create a PDP Payment Detail record from a Payment Request document
-     * 
+     *
      * @param paymentRequestDocument Payment Request to use for Payment Detail
      * @param batch current PDP batch object
      * @return populated PaymentDetail line
@@ -615,13 +619,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         if (paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber() != null) {
             paymentDetail.setOrganizationDocNbr(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
         }
-        
+
         paymentDetail.setCustomerInstitutionNumber(StringUtils.defaultString(paymentRequestDocument.getVendorCustomerNumber()));
 
         final String paymentRequestDocType = getDataDictionaryService().getDocumentTypeNameByClass(paymentRequestDocument.getClass());
         paymentDetail.setFinancialDocumentTypeCode(paymentRequestDocType);
         paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
-        
+
         paymentDetail.setInvoiceDate(paymentRequestDocument.getInvoiceDate());
         paymentDetail.setOrigInvoiceAmount(paymentRequestDocument.getVendorInvoiceAmount());
         if (paymentRequestDocument.isUseTaxIndicator()) {
@@ -629,7 +633,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         } else {
             paymentDetail.setNetPaymentAmount(paymentRequestDocument.getGrandTotal()); // including discounts
         }
-        
+
         KualiDecimal shippingAmount = KualiDecimal.ZERO;
         KualiDecimal discountAmount = KualiDecimal.ZERO;
         KualiDecimal creditAmount = KualiDecimal.ZERO;
@@ -679,7 +683,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Add accounts to a PDP Payment Detail
-     * 
+     *
      * @param accountsPayableDocument
      * @param paymentDetail
      * @param documentType
@@ -688,7 +692,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         String creditMemoDocType = getDataDictionaryService().getDocumentTypeNameByClass(VendorCreditMemoDocument.class);
         List<SourceAccountingLine> sourceAccountingLines = purapAccountingService.generateSourceAccountsForVendorRemit(accountsPayableDocument);
         for (SourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
-          KualiDecimal lineAmount = sourceAccountingLine.getAmount();  
+          KualiDecimal lineAmount = sourceAccountingLine.getAmount();
           PaymentAccountDetail paymentAccountDetail = new PaymentAccountDetail();
           paymentAccountDetail.setAccountNbr(sourceAccountingLine.getAccountNumber());
 
@@ -699,7 +703,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
           paymentAccountDetail.setAccountNetAmount(sourceAccountingLine.getAmount());
           paymentAccountDetail.setFinChartCode(sourceAccountingLine.getChartOfAccountsCode());
           paymentAccountDetail.setFinObjectCode(sourceAccountingLine.getFinancialObjectCode());
-          
+
           paymentAccountDetail.setFinSubObjectCode(StringUtils.defaultIfEmpty(sourceAccountingLine.getFinancialSubObjectCode(),KFSConstants.getDashFinancialSubObjectCode()));
           paymentAccountDetail.setOrgReferenceId(sourceAccountingLine.getOrganizationReferenceId());
           paymentAccountDetail.setProjectCode(StringUtils.defaultIfEmpty(sourceAccountingLine.getProjectCode(),KFSConstants.getDashProjectCode()));
@@ -710,7 +714,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Add Notes to a PDP Payment Detail
-     * 
+     *
      * @param accountsPayableDocument
      * @param paymentDetail
      */
@@ -762,7 +766,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             pnt.setCustomerNoteText(accountsPayableDocument.getNoteLine3Text());
             paymentDetail.addNote(pnt);
         }
-        
+
         PaymentNoteText pnt = new PaymentNoteText();
         pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
         pnt.setCustomerNoteText("Sales Tax: " + accountsPayableDocument.getTotalRemitTax());
@@ -770,7 +774,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Populate the PDP Payment Group from fields on a payment request
-     * 
+     *
      * @param paymentRequestDocument
      * @param batch
      * @return PaymentGroup
@@ -833,7 +837,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Populates a PaymentGroup record from a Credit Memo document
-     * 
+     *
      * @param creditMemoDocument
      * @param batch
      * @return PaymentGroup
@@ -895,7 +899,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Create a new PDP batch
-     * 
+     *
      * @param campusCode
      * @param puser
      * @param processRunDate
@@ -928,10 +932,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Find all the campuses that have payments to process
-     * 
+     *
      * @return List<String>
      */
-    
+
     protected List<String> getChartCodes(boolean immediatesOnly, Date processRunDate) {
         List<String> output = new ArrayList<String>();
 
@@ -943,9 +947,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             java.sql.Date onOrBeforePaymentRequestPayDate = DateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
             paymentRequests = paymentRequestService.getPaymentRequestsToExtract(onOrBeforePaymentRequestPayDate);
         }
-        
+
         while (paymentRequests.hasNext()) {
-            PaymentRequestDocument prd = (PaymentRequestDocument) paymentRequests.next();
+            PaymentRequestDocument prd = paymentRequests.next();
             if (!output.contains(prd.getProcessingCampusCode())) {
                 output.add(prd.getProcessingCampusCode());
             }
@@ -1032,10 +1036,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             return chart + "~" + account + "~" + subAccount + "~" + objectCode + "~" + subObjectCode + "~" + orgReferenceId + "~" + projectCode;
         }
 
+        @Override
         public int hashCode() {
             return new HashCodeBuilder(3, 5).append(key()).toHashCode();
         }
 
+        @Override
         public boolean equals(Object obj) {
             if (!(obj instanceof AccountingInfo)) {
                 return false;
@@ -1044,7 +1050,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             return new EqualsBuilder().append(key(), thisobj.key()).isEquals();
         }
     }
-    
+
     private void lockUnlockDocuments(boolean locked) {
         for(String documentType : lockedDocuments) {
             Class<? extends Document> documentClass = dataDictionaryService.getDocumentClassByTypeName(documentType);
@@ -1059,9 +1065,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 else {
                     parameter.setParameterValue("N");
                 }
-                
+
                 businessObjectService.save(parameter);
-                parameterService.clearCache();
             }
             else {
                 String namespace = parameterService.getNamespace(documentClass);
@@ -1081,7 +1086,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the paymentRequestService attribute value.
-     * 
+     *
      * @param paymentRequestService The paymentRequestService to set.
      */
     public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
@@ -1090,7 +1095,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -1099,7 +1104,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the paymentFileService attribute value.
-     * 
+     *
      * @param paymentFileService The paymentFileService to set.
      */
     public void setPaymentFileService(PaymentFileService paymentFileService) {
@@ -1108,7 +1113,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -1117,7 +1122,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the customerProfileService attribute value.
-     * 
+     *
      * @param customerProfileService The customerProfileService to set.
      */
     public void setCustomerProfileService(CustomerProfileService customerProfileService) {
@@ -1126,7 +1131,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -1135,7 +1140,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the paymentGroupService attribute value.
-     * 
+     *
      * @param paymentGroupService The paymentGroupService to set.
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
@@ -1144,7 +1149,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the paymentDetailService attribute value.
-     * 
+     *
      * @param paymentDetailService The paymentDetailService to set.
      */
     public void setPaymentDetailService(PaymentDetailService paymentDetailService) {
@@ -1153,7 +1158,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the creditMemoService attribute value.
-     * 
+     *
      * @param creditMemoService The creditMemoService to set.
      */
     public void setCreditMemoService(CreditMemoService creditMemoService) {
@@ -1162,7 +1167,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -1171,7 +1176,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the purapRunDateService attribute value.
-     * 
+     *
      * @param purapRunDateService The purapRunDateService to set.
      */
     public void setPurapRunDateService(PurapRunDateService purapRunDateService) {
@@ -1180,7 +1185,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the paymentFileEmailService attribute value.
-     * 
+     *
      * @param paymentFileEmailService The paymentFileEmailService to set.
      */
     public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {
@@ -1189,7 +1194,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     /**
      * Sets the bankService attribute value.
-     * 
+     *
      * @param bankService The bankService to set.
      */
     public void setBankService(BankService bankService) {
@@ -1197,7 +1202,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * Gets the dataDictionaryService attribute. 
+     * Gets the dataDictionaryService attribute.
      * @return Returns the dataDictionaryService.
      */
     public DataDictionaryService getDataDictionaryService() {
@@ -1215,20 +1220,21 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     public void setPurapAccountingService(PurapAccountingServiceImpl purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
-    
+
     /**
      * @return Returns the personService.
      */
     protected PersonService getPersonService() {
-        if(personService==null)
+        if(personService==null) {
             personService = SpringContext.getBean(PersonService.class);
+        }
         return personService;
     }
 
     public void setLockedDocuments(List<String> lockedDocuments) {
         this.lockedDocuments = lockedDocuments;
     }
-    
-    
+
+
 
 }

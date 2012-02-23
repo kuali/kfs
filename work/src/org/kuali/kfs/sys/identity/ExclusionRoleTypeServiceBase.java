@@ -19,25 +19,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.group.dto.GroupMembershipInfo;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
-import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.group.GroupMember;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 /**
  * Base role type for roles which will exclude their members based on certain criteria.  This base provides methods to
  * remove a single approver for any members
  */
-public class ExclusionRoleTypeServiceBase extends KimRoleTypeServiceBase {
-    protected RoleManagementService roleManagementService;
+public class ExclusionRoleTypeServiceBase extends RoleTypeServiceBase {
+    protected RoleService roleManagementService;
     protected GroupService groupService;
     
     /**
@@ -47,7 +48,7 @@ public class ExclusionRoleTypeServiceBase extends KimRoleTypeServiceBase {
      * @param membershipInfos the role members
      * @return the filtered role memberships
      */
-    protected List<RoleMembershipInfo> excludePrincipalAsNeeded(String excludedPrincipalId, AttributeSet qualification, List<RoleMembershipInfo> membershipInfos) {
+    protected List<RoleMember> excludePrincipalAsNeeded(String excludedPrincipalId, Map<String, String> qualification, List<RoleMember> membershipInfos) {
         if (StringUtils.isBlank(excludedPrincipalId)) {
             return membershipInfos;
         }
@@ -58,23 +59,25 @@ public class ExclusionRoleTypeServiceBase extends KimRoleTypeServiceBase {
         }
         
         Set<String> checkedMembers = new HashSet<String>();
-        final String documentId = new String(qualification.get(KimAttributes.DOCUMENT_NUMBER));
+        final String documentId = new String(qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER));
 
-        List<RoleMembershipInfo> qualifiedRoleMembers = new ArrayList<RoleMembershipInfo>();
-        for (RoleMembershipInfo member : membershipInfos) {
-            String topLevelRoleMemberId = member.getRoleMemberId();
-            if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(member.getMemberTypeCode())) {
+        List<RoleMember> qualifiedRoleMembers = new ArrayList<RoleMember>();
+        for (RoleMember member : membershipInfos) {
+            String topLevelRoleMemberId = member.getId();
+            if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(member.getType().getCode())) {
                 if(!excludedPrincipalId.equals(member.getMemberId())) {
                     qualifiedRoleMembers.add(member);
                 }
             }
-            else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(member.getMemberTypeCode())) {
+            else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(member.getType().getCode())) {
                 // get members of role
-                checkRoleMemberShip(excludedPrincipalId,member, qualification, qualifiedRoleMembers, checkedMembers,  documentId, topLevelRoleId, topLevelRoleMemberId ); 
+                RoleMembership.Builder membership = RoleMembership.Builder.create(member.getRoleId(), member.getId(), member.getMemberId(), member.getType(), qualification);
+                checkRoleMemberShip(excludedPrincipalId,membership.build(), qualification, qualifiedRoleMembers, checkedMembers,  documentId, topLevelRoleId, topLevelRoleMemberId, member.getMemberNamespaceCode(), member.getMemberName() ); 
            
             }
-            else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(member.getMemberTypeCode())) {
-                checkGroupMemberShip(excludedPrincipalId, member, qualification, qualifiedRoleMembers, checkedMembers,  documentId, topLevelRoleId, topLevelRoleMemberId ); 
+            else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(member.getType().getCode())) {
+                RoleMembership.Builder membership = RoleMembership.Builder.create(member.getRoleId(), member.getId(), member.getMemberId(), member.getType(), qualification);
+                checkGroupMemberShip(excludedPrincipalId, membership.build(), qualification, qualifiedRoleMembers, checkedMembers,  documentId, topLevelRoleId, topLevelRoleMemberId, member.getMemberNamespaceCode(), member.getMemberName() ); 
             }
         }
         return qualifiedRoleMembers;
@@ -92,24 +95,23 @@ public class ExclusionRoleTypeServiceBase extends KimRoleTypeServiceBase {
      * @param topLevelRoleId
      * @param topLevelRoleMemberId
      */
-    protected void checkRoleMemberShip(String excludedPrincipalId ,RoleMembershipInfo member, AttributeSet qualification,List<RoleMembershipInfo> qualifiedRoleMembers, Set<String> checkedRoletypeMember, String documentId, String topLevelRoleId, String topLevelRoleMemberId ) {
-       String key = member.getMemberTypeCode()+ "~" + member.getMemberId();
+    protected void checkRoleMemberShip(String excludedPrincipalId ,RoleMembership member, Map<String, String> qualification,List<RoleMember> qualifiedRoleMembers, Set<String> checkedRoletypeMember, String documentId, String topLevelRoleId, String topLevelRoleMemberId, String membershipNamespace, String membershipName ) {
+       String key = member.getType().getCode()+ "~" + member.getMemberId();
        if(!checkedRoletypeMember.contains(key)) {
            checkedRoletypeMember.add(key);
-           List<RoleMembershipInfo> roleMembershipInfos = getRoleManagementService().getRoleMembers(Collections.singletonList(member.getMemberId()), qualification);
-           for(RoleMembershipInfo membershipInfo : roleMembershipInfos) {
-               if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(membershipInfo.getMemberTypeCode())) {
+           List<RoleMembership> roleMembers = getRoleManagementService().getRoleMembers(Collections.singletonList(member.getMemberId()), qualification);
+           for(RoleMembership membershipInfo : roleMembers) {
+               if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(membershipInfo.getType().getCode())) {
                    if(!excludedPrincipalId.equals(membershipInfo.getMemberId())) {
-                       membershipInfo.setRoleId(topLevelRoleId);
-                       membershipInfo.setRoleMemberId(topLevelRoleMemberId);
-                       qualifiedRoleMembers.add(membershipInfo);
+                       RoleMember.Builder updatedMembershipInfo = RoleMember.Builder.create(topLevelRoleId, member.getId(), topLevelRoleMemberId, MemberType.PRINCIPAL, null, null, qualification, membershipName, membershipNamespace);
+                       qualifiedRoleMembers.add(updatedMembershipInfo.build());
                    }
                }
-               else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(membershipInfo.getMemberTypeCode())) {
-                   checkRoleMemberShip(excludedPrincipalId,membershipInfo, qualification, qualifiedRoleMembers, checkedRoletypeMember,  documentId, topLevelRoleId, topLevelRoleMemberId );
+               else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(membershipInfo.getType().getCode())) {
+                   checkRoleMemberShip(excludedPrincipalId,membershipInfo, qualification, qualifiedRoleMembers, checkedRoletypeMember,  documentId, topLevelRoleId, topLevelRoleMemberId, membershipNamespace, membershipName );
                }
-               else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(membershipInfo.getMemberTypeCode())) {
-                   checkGroupMemberShip(excludedPrincipalId ,membershipInfo, qualification, qualifiedRoleMembers, checkedRoletypeMember,  documentId, topLevelRoleId, topLevelRoleMemberId ); 
+               else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(membershipInfo.getType().getCode())) {
+                   checkGroupMemberShip(excludedPrincipalId ,membershipInfo, qualification, qualifiedRoleMembers, checkedRoletypeMember,  documentId, topLevelRoleId, topLevelRoleMemberId, membershipNamespace, membershipName ); 
                }
            }
        }
@@ -129,34 +131,35 @@ public class ExclusionRoleTypeServiceBase extends KimRoleTypeServiceBase {
      * @param topLevelRoleId
      * @param topLevelRoleMemberId
      */
-    protected void checkGroupMemberShip(String excludedPrincipalId,RoleMembershipInfo member, AttributeSet qualification,List<RoleMembershipInfo> qualifiedRoleMembers, Set<String> checkedMembers, String documentId, String topLevelRoleId, String topLevelRoleMemberId ) {
-        String key = member.getMemberTypeCode()+ "~" + member.getMemberId();
+    protected void checkGroupMemberShip(String excludedPrincipalId,RoleMembership member, Map<String, String> qualification,List<RoleMember> qualifiedRoleMembers, Set<String> checkedMembers, String documentId, String topLevelRoleId, String topLevelRoleMemberId, String membershipNamespace, String membershipName ) {
+        String key = member.getType().getCode()+ "~" + member.getMemberId();
         if(!checkedMembers.contains(key)) {
             checkedMembers.add(key);
-             List<GroupMembershipInfo> groupMembershipInfos = (List<GroupMembershipInfo>)getGroupService().getGroupMembers(Collections.singletonList(member.getMemberId()));
-             for(GroupMembershipInfo membershipInfo : groupMembershipInfos) {
-                 if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(membershipInfo.getMemberTypeCode())) {
+             List<GroupMember> GroupMembers = (List<GroupMember>)getGroupService().getMembersOfGroup(member.getMemberId());
+             for(GroupMember membershipInfo : GroupMembers) {
+                 if(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE.equals(membershipInfo.getType().getCode())) {
                      if(!excludedPrincipalId.equals(membershipInfo.getMemberId())) {
-                         qualifiedRoleMembers.add( new RoleMembershipInfo(topLevelRoleId, topLevelRoleMemberId, membershipInfo.getMemberId(), KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE, qualification));
+                         RoleMember.Builder updatedMembershipInfo = RoleMember.Builder.create(topLevelRoleId, member.getId(), topLevelRoleMemberId, MemberType.PRINCIPAL, null, null, qualification, membershipName, membershipNamespace);
+                         qualifiedRoleMembers.add(updatedMembershipInfo.build());
                      }
                  }
-                 else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(membershipInfo.getMemberTypeCode())) {
-                    checkGroupMemberShip(excludedPrincipalId, member, qualification, qualifiedRoleMembers, checkedMembers, documentId, topLevelRoleId, topLevelRoleMemberId);
+                 else if (KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE.equals(membershipInfo.getType().getCode())) {
+                    checkGroupMemberShip(excludedPrincipalId, member, qualification, qualifiedRoleMembers, checkedMembers, documentId, topLevelRoleId, topLevelRoleMemberId, membershipNamespace, membershipName);
                  }
              }   
         }
     }
     
-    protected RoleManagementService getRoleManagementService() {
+    protected RoleService getRoleManagementService() {
         if (roleManagementService == null) {
-            roleManagementService = SpringContext.getBean(RoleManagementService.class);
+            roleManagementService = KimApiServiceLocator.getRoleService();
         }
         return roleManagementService;
     }
     
     protected GroupService getGroupService(){
         if (groupService == null) {
-            groupService = SpringContext.getBean(GroupService.class);
+            groupService = KimApiServiceLocator.getGroupService();
         }
         return groupService;
     }

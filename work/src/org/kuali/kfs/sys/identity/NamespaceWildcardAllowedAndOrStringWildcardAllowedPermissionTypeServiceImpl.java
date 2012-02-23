@@ -23,8 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.coreservice.api.namespace.Namespace;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.krad.kim.NamespacePermissionTypeServiceImpl;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
@@ -48,7 +51,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
  */
 public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl
 		extends NamespacePermissionTypeServiceImpl {
-	protected static final String NAMESPACE_CODE = KimAttributes.NAMESPACE_CODE;
+	protected static final String NAMESPACE_CODE = KimConstants.AttributeConstants.NAMESPACE_CODE;
 
 	protected String wildcardMatchStringAttributeName;
 	protected boolean namespaceRequiredOnStoredAttributeSet;
@@ -62,18 +65,18 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
      * @see org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet, java.util.List)
      */
 	@Override
-	protected List<KimPermissionInfo> performPermissionMatches(AttributeSet requestedDetails, List<KimPermissionInfo> permissionsList) {
-		List<KimPermissionInfo> matchingPermissions = new ArrayList<KimPermissionInfo>();
+	protected List<Permission> performPermissionMatches(Map<String, String> requestedDetails, List<Permission> permissionsList) {
+		List<Permission> matchingPermissions = new ArrayList<Permission>();
 
-		List<KimPermissionInfo> exactNamespacePermissions = new ArrayList<KimPermissionInfo>();
-		List<KimPermissionInfo> partialNamespacePermissions = new ArrayList<KimPermissionInfo>();
-        List<KimPermissionInfo> blankNamespacePermissions = new ArrayList<KimPermissionInfo>();
+		List<Permission> exactNamespacePermissions = new ArrayList<Permission>();
+		List<Permission> partialNamespacePermissions = new ArrayList<Permission>();
+        List<Permission> blankNamespacePermissions = new ArrayList<Permission>();
 
 	    String requestedNamespaceAttributeValue = requestedDetails.get(NAMESPACE_CODE);
 
 
-	    for ( KimPermissionInfo kpi : permissionsList ) {
-	        String permissionNamespaceAttributeValue = kpi.getDetails().get(NAMESPACE_CODE);
+	    for ( Permission kpi : permissionsList ) {
+	        String permissionNamespaceAttributeValue = kpi.getAttributes().get(NAMESPACE_CODE);
 	        if ( matchExact(requestedNamespaceAttributeValue, permissionNamespaceAttributeValue) ) {
 	            exactNamespacePermissions.add(kpi);
 	        }
@@ -128,16 +131,16 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
      * @param permissionsList the list of permissions for this permission type
      * @return the list of matching permissions
      */
-	private List<KimPermissionInfo> performStringAttributeMatching(AttributeSet requestedDetails, String attributeNameForMatching, List<KimPermissionInfo> permissionsList) {
+	private List<Permission> performStringAttributeMatching(Map<String, String> requestedDetails, String attributeNameForMatching, List<Permission> permissionsList) {
 		String requestedAttributeValue = requestedDetails.get(attributeNameForMatching);
 
-		List<KimPermissionInfo> exactMatchingPermissions = new ArrayList<KimPermissionInfo>();
-		List<KimPermissionInfo> partialMatchingPermissions = new ArrayList<KimPermissionInfo>();
-		List<KimPermissionInfo> blankMatchingPermissions = new ArrayList<KimPermissionInfo>();
+		List<Permission> exactMatchingPermissions = new ArrayList<Permission>();
+		List<Permission> partialMatchingPermissions = new ArrayList<Permission>();
+		List<Permission> blankMatchingPermissions = new ArrayList<Permission>();
 
 		//check attribute matching
-    	for ( KimPermissionInfo kpi : permissionsList ) {
-    		String permissionAttributeValue = kpi.getDetails().get(attributeNameForMatching);
+    	for ( Permission kpi : permissionsList ) {
+    		String permissionAttributeValue = kpi.getAttributes().get(attributeNameForMatching);
 
     		if ( matchExact(requestedAttributeValue, permissionAttributeValue) ) {
     			exactMatchingPermissions.add(kpi);
@@ -228,9 +231,9 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 	 * Overrides the superclass's version of this method in order to account for "namespaceCode" permission detail values containing wildcards.
 	 */
 	@Override
-	protected Map<String, List<String>> validateReferencesExistAndActive(KimTypeInfo kimType, AttributeSet attributes, Map<String, String> previousValidationErrors) {
-		Map<String,List<String>> errors = new HashMap<String,List<String>>();
-		AttributeSet nonNamespaceCodeAttributes = new AttributeSet(attributes);
+	protected List<RemotableAttributeError> validateReferencesExistAndActive(KimType kimType, Map<String, String> attributes, List<RemotableAttributeError> previousValidationErrors) {
+	    List<RemotableAttributeError> errors = new ArrayList<RemotableAttributeError>();
+		Map<String, String> nonNamespaceCodeAttributes = new HashMap<String, String>(attributes);
 
 		// Check if "namespaceCode" is one of the permission detail values.
 		if (attributes.containsKey(NAMESPACE_CODE)) {
@@ -240,16 +243,20 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 			// If the lookup service found at least one namespace, perform exists-and-active checks on each one.
 			if (namespaces != null && !namespaces.isEmpty()) {
 				for (Namespace namespace : namespaces) {
-					errors.putAll(super.validateReferencesExistAndActive(kimType, new AttributeSet(NAMESPACE_CODE, namespace.getCode()), previousValidationErrors));
+				    Map<String, String> attr = new HashMap<String, String>();
+				    attr.put(NAMESPACE_CODE, namespace.getCode());
+					errors.addAll(super.validateReferencesExistAndActive(kimType, attr, previousValidationErrors));
 				}
 			} else {
 				// If no namespaces were found, let the superclass generate an appropriate error.
-				errors.putAll(super.validateReferencesExistAndActive(kimType, new AttributeSet(NAMESPACE_CODE, attributes.get(NAMESPACE_CODE)), previousValidationErrors));
+			    Map<String, String> attr = new HashMap<String, String>();
+			    attr.put(NAMESPACE_CODE, attributes.get(NAMESPACE_CODE));
+				errors.addAll(super.validateReferencesExistAndActive(kimType, attr, previousValidationErrors));
 			}
 		}
 
 		// Validate all non-namespaceCode attributes.
-		errors.putAll(super.validateReferencesExistAndActive(kimType, nonNamespaceCodeAttributes, previousValidationErrors));
+		errors.addAll(super.validateReferencesExistAndActive(kimType, nonNamespaceCodeAttributes, previousValidationErrors));
 		return errors;
 	}
 }

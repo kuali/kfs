@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.Permission;
 
 /**
@@ -54,7 +55,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         permissionTypeService = new NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl();
 
         permissionTypeService.setWildcardMatchStringAttributeName(KfsKimAttributes.FILE_PATH);
-        permissionTypeService.setNamespaceRequiredOnStoredHashMap<String,String>(false);
+        permissionTypeService.setNamespaceRequiredOnStoredMap(false);
         permissionTypeService.setCheckRequiredAttributes(false);
     }
 
@@ -69,7 +70,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         String requestedFilePathExactMatch = "staging/gl/collectorXml/gl_collector1.xml";
 
         HashMap<String,String> requestedDetails = new HashMap<String,String>();
-        requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
+        requestedDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathExactMatch);
 
         List<Permission> perms = new ArrayList<Permission>();
@@ -88,7 +89,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 	    String requestedFilePathExactMatch = "staging/gl/collectorXml/gl_collector1.xml";
 
         HashMap<String,String> requestedDetails = new HashMap<String,String>();
-        requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
+        requestedDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathExactMatch);
 
         List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
@@ -101,7 +102,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         String requestedFilePathPartialMatch = "staging/gl/collectorXml/gl_collector2.xml";
 
         HashMap<String,String> requestedDetails = new HashMap<String,String>();
-        requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
+        requestedDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathPartialMatch);
 
         List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
@@ -114,7 +115,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         String requestedFilePathBlankMatchStaging = "staging/gl/enterpriseFeed/entp_test_file_001.data";
 
         HashMap<String,String> requestedDetails = new HashMap<String,String>();
-        requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
+        requestedDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathBlankMatchStaging);
 
         List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
@@ -136,7 +137,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         String requestedFilePathPartialMatch = "staging/cm/barcode/placeholder.txt";
 
         HashMap<String,String> requestedDetails = new HashMap<String,String>();
-        requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_PARTIAL_MATCH);
+        requestedDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, REQUESTED_NAMESPACE_PARTIAL_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathPartialMatch);
 
         List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
@@ -149,7 +150,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         String requestedFilePathBlankMatch = "reports/cm/placeholder.txt";
 
         HashMap<String,String> requestedDetails = new HashMap<String,String>();
-        requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_PARTIAL_MATCH);
+        requestedDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, REQUESTED_NAMESPACE_PARTIAL_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathBlankMatch);
 
         List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
@@ -165,7 +166,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         String requestedFilePathBlankMatch = "staging/workflow/loaded/placeholder.txt";
 
         HashMap<String,String> requestedDetails = new HashMap<String,String>();
-        requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_BLANK_MATCH);
+        requestedDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, REQUESTED_NAMESPACE_BLANK_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathBlankMatch);
 
         List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
@@ -173,9 +174,9 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         assertResults( permissions, results, 7);
     }
 
-    private void assertResults(List<Permission> permissionsList, List<Permission> resultsList, int permissionIndexExpected) {
+    protected void assertResults(List<Permission> permissionsList, List<Permission> resultsList, int permissionIndexExpected) {
         String resultStrPrefix = "returned PERMISSION ";
-        String resultStr = (resultsList.size() == 1 ? resultStrPrefix + resultsList.get(0).getPermissionId() +": " : "");
+        String resultStr = (resultsList.size() == 1 ? resultStrPrefix + resultsList.get(0).getId() +": " : "");
 
         System.out.println ( resultStr + resultsList );
 
@@ -183,14 +184,14 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         assertEquals( "Wrong permission was returned", permissionsList.get(permissionIndexExpected), resultsList.get(0));
     }
 
-	private List<Permission> buildPermissionList( String[][] permissionData ) {
+	protected List<Permission> buildPermissionList( String[][] permissionData ) {
 	    List<Permission> permissions = new ArrayList<Permission>();
 
 	    for ( String[] perm : permissionData ) {
-	        Permission.Builder kpi = Permission.Builder.create();
+	        Permission.Builder kpi = Permission.Builder.create("KFS-SYS", "Namesapce Wildcard And String Wildcard Test");
 	        kpi.setAttributes( new HashMap<String,String>() );
 	        kpi.setId(perm[0]);
-	        kpi.getAttributes().put(KfsKimAttributes.NAMESPACE_CODE, perm[1] );
+	        kpi.getAttributes().put(KimConstants.AttributeConstants.NAMESPACE_CODE, perm[1] );
 	        kpi.getAttributes().put(KfsKimAttributes.FILE_PATH, perm[2] );
 	        permissions.add(kpi.build());
 	    }

@@ -1011,6 +1011,17 @@ public class KFSPropertyConstants {
     public static final String CONTACT_DEPARTMENT_NAME = "contactDepartmentName";
     public static final String CONTACT_MAILING_ADDRESS= "contactMailingAddress";
     public static final String CONTACT_PERSON_PHONE_NUMBER = "contactPersonPhoneNumber";
+    public static final String PROCUREMENT_CARD_HOLDER_LINE1_ADDRESS = "cardHolderLine1Address";
+    public static final String PROCUREMENT_CARD_HOLDER_LINE2_ADDRESS = "cardHolderLine2Address";
+    public static final String PROCUREMENT_CARD_HOLDER_CITY_NAME = "cardHolderCityName";
+    public static final String PROCUREMENT_CARD_HOLDER_STATE = "cardHolderStateCode";
+    public static final String PROCUREMENT_CARD_HOLDER_ZIP_CODE = "cardHolderZipCode";
+    public static final String PROCUREMENT_CARD_HOLDER_WORK_PHONE_NUMBER = "cardHolderWorkPhoneNumber";
+    public static final String PROCUREMENT_CARD_LIMIT = "cardLimit";
+    public static final String PROCUREMENT_CARD_CYCLE_AMOUNT_LIMIT = "cardCycleAmountLimit";    
+    public static final String PROCUREMENT_CARD_CYCLE_VOLUME_LIMIT = "cardCycleVolumeLimit";
+    public static final String PROCUREMENT_CARD_STATUS_CODE = "cardStatusCode";
+    public static final String PROCUREMENT_CARD_NOTE_TEXT = "cardNoteText";
     public static final String PROJECT = "project";
     public static final String PROJECT_CODE = "projectCode";
     public static final String PROJECT_DESCRIPTION = "projectDescription";
@@ -1154,6 +1165,7 @@ public class KFSPropertyConstants {
     public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";
     public static final String TRANSACTION_TOTAL_HOURS = "transactionTotalHours";
     public static final String TRANSMISSION_DATE = "transmissionDate";
+    public static final String CREDIT_CARD_NUMBER = "creditCardNumber";
     public static final String TRN_ENTRY_LEDGER_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
     public static final String TWO_DIGIT_TEXT_CODE = KRADPropertyConstants.TWO_DIGIT_TEXT_CODE;
     public static final String TYPE = KRADPropertyConstants.TYPE;

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -274,9 +275,9 @@ public class AccountingLineOverride {
      * 
      * @param line
      */
-    public static void processForOutput(AccountingLine line) {
+    public static void processForOutput(AccountingDocument document ,AccountingLine line) {
         AccountingLineOverride fromCurrentCode = valueOf(line.getOverrideCode());
-        AccountingLineOverride needed = determineNeededOverrides(line);
+        AccountingLineOverride needed = determineNeededOverrides(document,line);
         line.setAccountExpiredOverride(fromCurrentCode.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
         line.setAccountExpiredOverrideNeeded(needed.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
         line.setObjectBudgetOverride(fromCurrentCode.hasComponent(COMPONENT.NON_BUDGETED_OBJECT));
@@ -289,9 +290,15 @@ public class AccountingLineOverride {
      * @param line
      * @return what overrides the given line needs.
      */
-    public static AccountingLineOverride determineNeededOverrides(AccountingLine line) {
+    public static AccountingLineOverride determineNeededOverrides(AccountingDocument document ,AccountingLine line) {
+       Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+       if(ObjectUtils.isNotNull(document)) {
+           AccountingDocument accountingDocument = (AccountingDocument) document;
+          date = accountingDocument.getAccountExpirationDocumentDate();
+       }
+       
         Set neededOverrideComponents = new HashSet();
-        if (needsExpiredAccountOverride(line.getAccount())) {
+        if (needsExpiredAccountOverride(line.getAccount(), date)) {
             neededOverrideComponents.add(COMPONENT.EXPIRED_ACCOUNT);
         }
         if (needsObjectBudgetOverride(line.getAccount(), line.getObjectCode())) {
@@ -302,6 +309,22 @@ public class AccountingLineOverride {
             // todo: error for invalid override checkbox combinations, for which there is no override code
         }
         return valueOf(neededOverrideComponents);
+    }
+    
+    /**
+     * Returns whether the given account needs an expired account override.
+     * 
+     * @param account
+     * @return whether the given account needs an expired account override.
+     */
+    public static boolean needsExpiredAccountOverride(Account account, Date date) {
+        
+        if(ObjectUtils.isNotNull(account) && account.isActive()) {
+            if(account.getAccountExpirationDate() != null ) {
+                return  account.isExpired(date);
+            }
+        }
+        return false;
     }
 
     /**
@@ -332,5 +355,17 @@ public class AccountingLineOverride {
      */
     public static boolean needsObjectBudgetOverride(Account account, ObjectCode objectCode) {
         return !ObjectUtils.isNull(account) && !ObjectUtils.isNull(objectCode) && account.isActive() && !SpringContext.getBean(AccountPresenceService.class).isObjectCodeBudgetedForAccountPresence(account, objectCode);
+    }
+    
+    public static Document getDocument(AccountingLine line) {
+        Document document = null;
+        try {
+            document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(line.getDocumentNumber());
+           
+       }catch(WorkflowException exception) {
+           LOG.error("Unable to locate document for documentId :: " + line.getDocumentNumber() );
+       }
+       
+       return document;
     }
 }

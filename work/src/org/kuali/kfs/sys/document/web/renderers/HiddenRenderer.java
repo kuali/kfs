@@ -52,7 +52,7 @@ public class HiddenRenderer extends FieldRendererBase {
         if (getField().isSecure()) {
             tag.setValue(getField().getEncryptedValue());
         } else {
-            tag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
+            tag.setValue(getField().getPropertyValue());
         }
         tag.setStyleId(getFieldName());
         tag.setWrite(false);

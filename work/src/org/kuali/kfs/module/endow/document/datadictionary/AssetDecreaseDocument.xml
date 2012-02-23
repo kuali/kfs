@@ -21,6 +21,7 @@
     
     <property name="documentTypeName" value="EAD"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.AssetDecreaseDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.AssetDecreaseDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.AssetDecreaseDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetDecreaseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetDecreaseDocumentPresentationController"/>

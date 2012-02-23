@@ -294,7 +294,8 @@ public class BusinessObjectReportHelper {
                 int width = cellWidthList.get(index);
                 String alignment = (allowRightAlignment && cellAlignmentList.get(index).equals(RIGHT_ALIGNMENT)) ? StringUtils.EMPTY : "-";
                 if(width > 0) {
-                    singleRowFormat = singleRowFormat.append("%").append(alignment).append(width).append("s ");
+                    // following translates to %<alignment><width>.<precision>s where the precision for Strings forces a maxLength
+                    singleRowFormat = singleRowFormat.append("%").append(alignment).append(width).append("." + width).append("s ");
                 }
             }
             

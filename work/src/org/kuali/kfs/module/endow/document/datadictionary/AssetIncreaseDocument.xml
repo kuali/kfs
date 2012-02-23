@@ -22,6 +22,7 @@
     <property name="allowsCopy" value="true"/>
     <property name="documentTypeName" value="EAI"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.AssetIncreaseDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.AssetIncreaseDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetIncreaseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetIncreaseDocumentPresentationController"/>

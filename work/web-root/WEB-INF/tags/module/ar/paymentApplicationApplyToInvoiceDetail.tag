@@ -170,8 +170,8 @@
 												</td>
 												<td>
 													<kul:htmlControlAttribute
-														attributeEntry="${arDocHeaderAttributes.financialDocumentExplanationText}"
-														property="selectedInvoiceApplication.invoice.accountsReceivableDocumentHeader.financialDocumentExplanationText"
+														attributeEntry="${invoiceAttributes.invoiceHeaderText}"
+														property="selectedInvoiceApplication.invoice.invoiceHeaderText"
 														readOnly="true" />
 												</td>
 												<td style="text-align: right;">

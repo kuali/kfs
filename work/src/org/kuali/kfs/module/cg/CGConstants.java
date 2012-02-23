@@ -39,10 +39,6 @@ public class CGConstants {
 
     public static final String DROPDOWN_LIST_SELECT = "select:";
 
-    // System Parameters
-    public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
-
-    public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
     
     public static final String MANUAL_BASE = "MN";
     public static final String MODIFIED_TOTAL_DIRECT_COST = "MT";

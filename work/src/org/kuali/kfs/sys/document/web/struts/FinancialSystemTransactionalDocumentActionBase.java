@@ -34,6 +34,7 @@ import org.kuali.rice.krad.document.Document;
  * This class...
  */
 public class FinancialSystemTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
+    public static final String MODULE_LOCKED_MESSAGE = "moduleLockedMessage";
 
     /**
      * This action method triggers a correct of the transactional document.
@@ -55,6 +56,46 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
         tmpForm.setExtraButtons(new ArrayList<ExtraButton>());
 
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+    
+    @Override
+    /**
+     * KFSMI-4452
+     */
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        
+        ActionForward returnForward =  super.execute(mapping, form, request, response);
+        if( isDocumentLocked(mapping, form, request)) {
+            return mapping.findForward(KFSConstants.DOCUMENT_LOCKED_MAPPING);
+        }
+        
+        return returnForward;
+        
+    }
+    
+    /**
+     * KFSMI-4452
+     */
+    protected boolean isDocumentLocked(ActionMapping mapping , ActionForm form, HttpServletRequest request) {
+        
+        KualiTransactionalDocumentFormBase tmpForm = (KualiTransactionalDocumentFormBase) form;
+        Document document = tmpForm.getDocument();
+        
+        boolean exists = SpringContext.getBean(ParameterServerService.class).parameterExists(document.getClass(),KFSConstants.DOCUMENT_LOCKOUT_PARM_NM );
+        if(exists) {
+            boolean documentLockedOut = SpringContext.getBean(ParameterServerService.class).getIndicatorParameter(document.getClass(),KFSConstants.DOCUMENT_LOCKOUT_PARM_NM );
+            if(documentLockedOut) {
+                if (tmpForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
+                  String message  = SpringContext.getBean(ParameterServerService.class).getParameterValue(KFSConstants.ParameterNamespaces.KFS, KfsParameterConstants.PARAMETER_ALL_DETAIL_TYPE, KFSConstants.DOCUMENT_LOCKOUT_DEFAULT_MESSAGE);
+                    request.setAttribute(MODULE_LOCKED_MESSAGE, message);
+                    return true;
+                }
+            }
+        }
+        
+         
+        return false;
     }
 }
 

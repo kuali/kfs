@@ -324,6 +324,7 @@ public class KFSKeyConstants {
     public static final String ERROR_CUSTOM = "error.custom";
     public static final String ERROR_MAINTENANCE_LOCKED = "error.maintenance.locked";
     public static final String ERROR_ZERO_AMOUNT = "error.zeroAmount";
+    public static final String ERROR_BLANK_AMOUNT = "error.blankAmount";
     public static final String ERROR_ZERO_OR_NEGATIVE_AMOUNT = "error.zeroOrNegativeAmount";
     public static final String ERROR_NEGATIVE_AMOUNT = "error.negativeAmount";
     public static final String ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION = "error.invalidNegativeAmountForNonCorrection";
@@ -408,6 +409,8 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_REVOLVING_PAYMENT_REASON = "error.dv.revolvingPaymentReason";
     public static final String ERROR_DV_CHECK_TOTAL_CHANGE = "error.dv.checkTotalChange";    
     public static final String ERROR_DV_CAMPUS_TURNED_OFF_SPECIAL_HANDLING_WITHOUT_EXPLANATORY_NOTE = "error.dv.campusTurnedOffSpecialHandlingWithoutExplanatoryNote";
+    public static final String MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_SUBJECT = "message.dv.immediateExtractEmail.subject";
+    public static final String MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_BODY = "message.dv.immediateExtractEmail.body";
 
     public static final String ERROR_BA_AMOUNT_ZERO = "error.document.ba.amount.zero";
     public static final String ERROR_BA_AMOUNT_NEGATIVE = "error.document.ba.amount.negative";
@@ -980,6 +983,7 @@ public class KFSKeyConstants {
     public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_CANCELLED = "message.batch.file.admin.delete.cancelled";
     
     public static final String MESSAGE_BATCH_FILE_LOG_EMAIL_BODY = "message.batch.log.email.body";
+    public static final String SALARY_TRANSFER_FRINGE_BENEFIT_INQUIRY_LABEL =  "salary.transfer.fringe.benefit.inquiry.label";
     
     public static final String ERROR_ACCOUNTING_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL = "error.accountingdocument.accountinglineimport.general";
     
@@ -994,6 +998,15 @@ public class KFSKeyConstants {
     
     public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT = "error.collector.emailSend.notification.subject";
     public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY = "error.collector.emailSend.notification.body";
+    
+    /**
+     * This class stores message keys for the SemaphoreInputFileType upload page
+     */
+    public static final class Semaphore {
+        public static final String MESSAGE_BATCH_UPLOAD_TITLE_PREFIX = "message.sys.batch.semaphore.upload.title";
+        public static final String ERROR_BATCH_UPLOAD_INVALID_STEP = "error.sys.batch.semaphore.upload.invalidStep";
+        public static final String ERROR_BATCH_UPLOAD_DELETE_DONE_FILE = "error.sys.batch.semaphore.upload.deleteDoneFile";
+    }
     
     /**
      * This class stores message keys for the SemaphoreInputFileType upload page

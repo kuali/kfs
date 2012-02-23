@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 /**
  * A contract for classes which wish to provide information about an accounting line which is being rendered
  */
-public interface AccountingLineRenderingContext {
+public interface AccountingLineRenderingContext extends RenderableElement {
     
     /**
      * @return the accounting line that would be rendered by the rendering of the given accounting line context
@@ -143,4 +143,15 @@ public interface AccountingLineRenderingContext {
      * Makes the line within this accounting line context deletable
      */
     public void makeDeletable();
+    
+    /**
+     * @return the number of cells that will actually be rendered (ie, colspans are taken into account)
+     */
+    public int getRenderableCellCount();
+    
+    /**
+     * Gets the rows attribute. 
+     * @return Returns the rows.
+     */
+    public List<AccountingLineTableRow> getRows();
 }

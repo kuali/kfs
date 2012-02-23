@@ -73,4 +73,12 @@ public class RequisitionView extends AbstractRelatedView {
     public String getDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.REQUISITION;
     }
+
+    /**
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentTypeName()
+     */
+    @Override
+    public String getDocumentTypeName() {
+        return KFSConstants.FinancialDocumentTypeCodes.REQUISITION;
+    }
 }

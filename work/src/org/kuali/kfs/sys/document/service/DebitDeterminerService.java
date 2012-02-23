@@ -19,6 +19,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * A collection of methods that help accounting docs determine whether an accounting line represents a debit or not
@@ -141,7 +142,16 @@ public interface DebitDeterminerService {
      * @param accountingLine
      * @return boolean
      */
+    
+    
+    
     public abstract boolean isDebitConsideringSectionAndTypePositiveOnly(AccountingDocument accountingDocument, AccountingLine accountingLine);
+    
+    /**
+     * This method is to convert amount to positive or negative based on the object type and Debit CreditCode combination.
+     *   
+     */
+    public  String getConvertedAmount(String objectType , String debitCreditCode, String amount) ;
     
     /**
      * throws an <code>IllegalStateException</code> if the document is an error correction. otherwise does nothing

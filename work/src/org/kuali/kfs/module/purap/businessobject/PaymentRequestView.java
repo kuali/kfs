@@ -165,4 +165,12 @@ public class PaymentRequestView extends AbstractRelatedView {
     public String getDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST;
     }
+
+    /**
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentTypeName()
+     */
+    @Override
+    public String getDocumentTypeName() {
+        return KFSConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST;
+    }
 }

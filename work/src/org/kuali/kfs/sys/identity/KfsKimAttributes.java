@@ -60,10 +60,12 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected String purchasingCommodityCode;
     protected Integer contractManagerCode;
     protected KualiInteger customerProfileId;
+    protected String achTransactionTypeCode;
     protected String vendorTypeCode;
     protected String contractsAndGrantsAccountResponsibilityId;
     protected String disbursementVoucherPaymentMethodCode;
     protected String subAccountNumber;
+    protected String filePath;
         
     protected Chart chart;
     protected Organization organization;
@@ -280,6 +282,14 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public void setCustomerProfileId(KualiInteger customerProfileId) {
         this.customerProfileId = customerProfileId;
     }
+    
+    public String getAchTransactionTypeCode() {
+        return achTransactionTypeCode;
+    }
+
+    public void setAchTransactionTypeCode(String achTransactionTypeCode) {
+        this.achTransactionTypeCode = achTransactionTypeCode;
+    }
 
     /**
      * Gets the vendorTypeCode attribute.
@@ -422,5 +432,23 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     public void setVendorType(VendorType vendorType) {
         this.vendorType = vendorType;
+    }
+    
+    /**
+     * Gets the filePath attribute.
+     * 
+     * @return Returns the filePath.
+     */
+    public String getFilePath() {
+        return filePath;
+    }
+
+    /**
+     * Sets the filePath attribute value.
+     * 
+     * @param filePath The filePath to set.
+     */
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 package org.kuali.kfs.sys.document;
-
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -717,5 +717,23 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     
     public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
         return this.getClass();
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getAccountExpirationDocumentDate()
+     */
+    public Date getAccountExpirationDocumentDate() {
+        if(ObjectUtils.isNotNull(getDocumentHeader().getDocumentNumber())) {
+           if(getDocumentHeader().hasWorkflowDocument() && getDocumentHeader().getWorkflowDocument().getRouteHeader().getDateFinalized() != null) {
+               return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getRouteHeader().getDateFinalized().getTime().getTime());
+           }
+           else {
+               return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+           }
+        }
+        
+        return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+     
     }
 }

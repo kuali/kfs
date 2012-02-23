@@ -51,5 +51,8 @@ public class KfsAuthorizationConstants  {
     public static class BudgetAdjustmentEditMode {
         public static final String BASE_AMT_ENTRY = "baseAmtEntry";
     }
-
+    
+    public static class CustomerInvoiceEditMode extends TransactionalEditMode {
+        public static final String PROCESSING_ORGANIZATION_MODE = "processingOrganizationMode";
+    }
 }

@@ -21,6 +21,7 @@
     
     <property name="documentTypeName" value="ECA"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.CorpusAdjustmentDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.CorpusAdjustmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.CorpusAdjustmentDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.CorpusAdjustmentDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.CorpusAdjustmentDocumentPresentationController"/>

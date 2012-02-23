@@ -90,7 +90,9 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
         // defer to batch input type to add any security or other needed information to the file name
         String saveFileName = batchInputFileType.getDirectoryPath() + "/" + batchInputFileType.getFileName(user.getPrincipalName(), parsedObject, fileUserIdentifier);
-        saveFileName += "." + batchInputFileType.getFileExtension();
+        if (!StringUtils.isBlank(batchInputFileType.getFileExtension())) {
+            saveFileName += "." + batchInputFileType.getFileExtension();
+        }
 
         // consruct the file object and check for existence
         File fileToSave = new File(saveFileName);
@@ -100,14 +102,14 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         }
 
         try {
-            FileWriter fileWriter = new FileWriter(fileToSave);
-            while (fileContents.available() > 0) {
-                fileWriter.write(fileContents.read());
+            FileOutputStream fos = new FileOutputStream(fileToSave);
+            while(fileContents.available() > 0) {
+                fos.write(fileContents.read());
             }
-            fileWriter.flush();
-            fileWriter.close();
-
-            createDoneFile(fileToSave);
+            fos.flush();
+            fos.close();
+            
+            createDoneFile(fileToSave, batchInputFileType);
             
             batchInputFileType.process(saveFileName, parsedObject);
         }
@@ -122,8 +124,9 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     /**
      * Creates a '.done' file with the name of the batch file.
      */
-    protected void createDoneFile(File batchFile) {
-        File doneFile = generateDoneFileObject(batchFile);
+    protected void createDoneFile(File batchFile ,BatchInputFileType batchInputFileType ) {
+        String fileExtension = batchInputFileType.getFileExtension();
+        File doneFile = generateDoneFileObject(batchFile, fileExtension);
         String doneFileName = doneFile.getName();
 
         if (!doneFile.exists()) {
@@ -151,8 +154,9 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @return a File object representing the done file. The real file may not exist on disk, but the return value can be used to
      *         create that file.
      */
-    protected File generateDoneFileObject(File batchInputFile) {
-        String doneFileName = StringUtils.substringBeforeLast(batchInputFile.getPath(), ".") + ".done";
+    protected File generateDoneFileObject(File batchInputFile, String fileExtension) {
+        String doneFileName = fileExtension != null  ? StringUtils.substringBeforeLast(batchInputFile.getPath(), ".") + ".done" :
+                                batchInputFile.getPath() + ".done" ;
         File doneFile = new File(doneFileName);
         return doneFile;
     }
@@ -210,7 +214,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             for (int i = 0; i < filesInBatchDirectory.length; i++) {
                 File batchFile = filesInBatchDirectory[i];
                 String fileExtension = StringUtils.substringAfterLast(batchFile.getName(), ".");
-                if (batchInputFileType.getFileExtension().equals(fileExtension)) {
+                if (StringUtils.isBlank(batchInputFileType.getFileExtension()) || batchInputFileType.getFileExtension().equals(fileExtension)) {
                     if (user.getPrincipalName().equals(batchInputFileType.getAuthorPrincipalName(batchFile))) {
                         userFileList.add(batchFile);
                     }
@@ -243,7 +247,13 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         List<String> batchInputFiles = new ArrayList<String>();
         for (int i = 0; i < doneFiles.length; i++) {
             File doneFile = doneFiles[i];
-            File dataFile = new File(StringUtils.substringBeforeLast(doneFile.getPath(), ".") + "." + batchInputFileType.getFileExtension());
+            
+            String dataFileName = StringUtils.substringBeforeLast(doneFile.getPath(), ".");
+            if (!StringUtils.isBlank(batchInputFileType.getFileExtension())) {
+                dataFileName += "." + batchInputFileType.getFileExtension();
+            }
+            
+            File dataFile = new File(dataFileName);
             if (dataFile.exists()) {
                 batchInputFiles.add(dataFile.getPath());
             }

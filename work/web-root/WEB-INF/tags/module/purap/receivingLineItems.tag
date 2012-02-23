@@ -46,6 +46,16 @@
 						<html:image property="methodToCall.loadQty" src="${ConfigProperties.externalizable.images.url}tinybutton-loadqtyreceived.gif" alt="load qty received" title="load qty received" styleClass="tinybutton" />
 						<html:image property="methodToCall.clearQty" src="${ConfigProperties.externalizable.images.url}tinybutton-clearqtyreceived.gif" alt="clear qty received" title="clear qty received" styleClass="tinybutton" />
 					</c:if>
+					<c:if test="${KualiForm.hideAddUnorderedItem}">
+						<html:image property="methodToCall.showAddUnorderedItem"
+							src="${ConfigProperties.externalizable.images.url}tinybutton-addunorditem.gif"
+							alt="add unordered item" title="add unordered item"
+							styleClass="tinybutton" />
+					</c:if>
+					<c:if test="${!KualiForm.hideAddUnorderedItem}">
+						<img src="${ConfigProperties.externalizable.images.url}tinybutton-addunorditem-grey.gif"
+							alt="add unordered item" border="0" styleClass="tinybutton" />
+					</c:if>
 				</div>
 			</td>
 		</tr>
@@ -72,7 +82,7 @@
 		</tr>
 		
 		<!--  New Receiving Line Item -->
-		<c:if test="${fullEntryMode}">
+		<c:if test="${fullEntryMode and !KualiForm.hideAddUnorderedItem}">
 		<tr>
             <td class="infoline">
                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newLineItemReceivingItemLine.itemLineNumber" readOnly="${true}"/>

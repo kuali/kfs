@@ -55,9 +55,14 @@
         <property name="batchFileDirectories">
           	<list>
             	<value>${reports.directory}/vnd</value>
+            	<value>${staging.directory}/vnd</value>
           	</list>
         </property>
-
+        <property name="jobNames">
+        	<list>
+				<value>vendorExcludeJob</value>
+			</list>
+		</property>
 	</bean>
 
     <bean id="vndModuleService" parent="vndModuleService-parentBean"/>

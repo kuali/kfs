@@ -860,6 +860,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     boolean validateDefaultAddressCampus(VendorDetail vendorDetail) {
         List<VendorAddress> vendorAddresses = vendorDetail.getVendorAddresses();
         String addressTypeCode;
+        String addressTypeDesc;
         String campusCode;
         boolean valid = true;
         boolean previousValue = false;
@@ -876,6 +877,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         int i = 0;
         for (VendorAddress address : vendorAddresses) {
             addressTypeCode = address.getVendorAddressTypeCode();
+            addressTypeDesc = address.getVendorAddressType().getVendorAddressTypeDescription();
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_ADDRESS + "[" + i + "]";
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             String[] parameters = new String[] { addressTypeCode };
@@ -895,7 +897,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 }
 
                 if (addressTypeCodeDefaultIndicator.put(addressTypeCode, address.isVendorDefaultAddressIndicator()) != null && previousValue && address.isVendorDefaultAddressIndicator()) {
-                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR, parameters);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR,addressTypeDesc );
                     valid = false;
                 }
 
@@ -935,9 +937,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
             for (String addressType : addressTypes) {
                 if (!addressTypesHavingDefaultTrue.contains(addressType)) {
-                    String[] parameters = new String[] { addressType };
+                    
                     int addressIndex = 0;
                     for (VendorAddress address : vendorAddresses) {
+                        String[] parameters = new String[] { address.getVendorAddressType().getVendorAddressTypeDescription() };
                         String propertyName = VendorPropertyConstants.VENDOR_ADDRESS + "[" + addressIndex + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR;
                         if (address.getVendorAddressType().getVendorAddressTypeCode().equalsIgnoreCase(addressType)) {
                             putFieldError(propertyName, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR, parameters);

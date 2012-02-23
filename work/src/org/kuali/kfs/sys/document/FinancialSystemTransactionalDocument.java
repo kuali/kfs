@@ -19,7 +19,6 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.krad.document.TransactionalDocument;
 
 public interface FinancialSystemTransactionalDocument extends TransactionalDocument {
-
     /**
      * @see org.kuali.rice.krad.document.Document#getDocumentHeader()
      */

@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -102,6 +104,8 @@ public class SchedulerServiceImpl implements SchedulerService {
             initializeJobsForModule(moduleService);
             initializeTriggersForModule(moduleService);
         }
+        
+        dropDependenciesNotScheduled();
     }
 
     /**
@@ -162,6 +166,36 @@ public class SchedulerServiceImpl implements SchedulerService {
         if (SCHEDULED_GROUP.equals(jobDetail.getGroup())) {
             jobDetail.setGroup(UNSCHEDULED_GROUP);
             addJob(jobDetail);
+        }
+    }
+    
+    /**
+     * Remove dependencies that are not scheduled. Important for modularization if some
+     * modules arn't loaded or if institutions don't schedule some dependencies
+     */
+    protected void dropDependenciesNotScheduled() {
+        try {
+            List<String> scheduledGroupJobNames = Arrays.asList(scheduler.getJobNames(SCHEDULED_GROUP));
+            
+            for (String jobName : scheduledGroupJobNames) {
+                JobDescriptor jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
+
+                if (jobDescriptor != null && jobDescriptor.getDependencies() != null) {
+                    // dependenciesToBeRemoved so to avoid ConcurrentModificationException
+                    ArrayList<Entry<String, String>> dependenciesToBeRemoved = new ArrayList<Entry<String, String>>();
+                    Set<Entry<String, String>> dependenciesSet = jobDescriptor.getDependencies().entrySet();
+                    for (Entry<String, String> dependency : dependenciesSet) {
+                        String dependencyJobName = dependency.getKey();
+                        if (!scheduledGroupJobNames.contains(dependencyJobName)) {
+                            LOG.warn("Removing dependency " + dependencyJobName + " from " + jobName + " because it is not scheduled.");
+                            dependenciesToBeRemoved.add(dependency);
+                        }
+                    }
+                    dependenciesSet.removeAll(dependenciesToBeRemoved);
+                }
+            }
+        } catch (SchedulerException e) {
+            throw new RuntimeException("Caught exception while trying to drop dependencies that are not scheduled", e);
         }
     }
 
@@ -450,10 +484,12 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     protected boolean shouldCancelJob(JobDetail jobDetail) {
+        LOG.info("shouldCancelJob:::::: " + jobDetail.getFullName());
         if ( jobDetail == null ) {
             return true;
         }
         for (String dependencyJobName : getJobDependencies(jobDetail.getName()).keySet()) {
+            LOG.info("dependencyJobName:::::" + dependencyJobName);
             JobDetail dependencyJobDetail = getScheduledJobDetail(dependencyJobName);
             if (isDependencySatisfiedNegatively(jobDetail, dependencyJobDetail)) {
                 return true;
@@ -470,6 +506,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     protected boolean isDependencySatisfiedNegatively(JobDetail dependentJobDetail, JobDetail dependencyJobDetail) {
+       LOG.info("isDependencySatisfiedNegatively::::  dependentJobDetail::: " + dependencyJobDetail.getFullName() + " dependencyJobDetail    " + dependencyJobDetail.getFullName() );
         if ( dependentJobDetail == null || dependencyJobDetail == null ) {
             return true;
         }
@@ -481,6 +518,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     protected Map<String, String> getJobDependencies(String jobName) {
+        LOG.info("getJobDependencies:::: for job " + jobName);
         return BatchSpringContext.getJobDescriptor(jobName).getDependencies();
     }
 
@@ -518,6 +556,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     protected JobDetail getScheduledJobDetail(String jobName) {
+        LOG.info("getScheduledJobDetail ::::::: " + jobName);
         try {
             JobDetail jobDetail = scheduler.getJobDetail(jobName, SCHEDULED_GROUP);
             if ( jobDetail == null ) {

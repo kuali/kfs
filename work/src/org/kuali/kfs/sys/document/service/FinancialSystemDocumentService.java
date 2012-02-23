@@ -26,5 +26,6 @@ import org.kuali.rice.krad.document.Document;
 public interface FinancialSystemDocumentService {
 
     public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode) throws WorkflowException;
+    public void prepareToCopy(FinancialSystemDocumentHeader oldDocumentHeader, FinancialSystemTransactionalDocument document);
 
 }

@@ -171,8 +171,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         if (transForm.hasDocumentId()) {
             AccountingDocument financialDocument = (AccountingDocument) transForm.getDocument();
 
-            processAccountingLineOverrides(financialDocument.getSourceAccountingLines());
-            processAccountingLineOverrides(financialDocument.getTargetAccountingLines());
+            processAccountingLineOverrides(financialDocument,financialDocument.getSourceAccountingLines());
+            processAccountingLineOverrides(financialDocument,financialDocument.getTargetAccountingLines());
         }
     }
 
@@ -182,17 +182,22 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     protected void processAccountingLineOverrides(AccountingLine line) {
         processAccountingLineOverrides(Arrays.asList(new AccountingLine[] { line }));
     }
-
+    
+    protected void processAccountingLineOverrides(List accountingLines) {
+        processAccountingLineOverrides(null,accountingLines);
+    }
     /**
      * @param accountingLines
      */
-    protected void processAccountingLineOverrides(List accountingLines) {
+    protected void processAccountingLineOverrides(AccountingDocument financialDocument ,List accountingLines) {
         if (!accountingLines.isEmpty()) {
-            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(accountingLines, AccountingLineOverride.REFRESH_FIELDS);
+            
 
             for (Iterator i = accountingLines.iterator(); i.hasNext();) {
                 AccountingLine line = (AccountingLine) i.next();
-                AccountingLineOverride.processForOutput(line);
+               // line.refreshReferenceObject("account");
+                SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, AccountingLineOverride.REFRESH_FIELDS);
+                AccountingLineOverride.processForOutput(financialDocument,line);
             }
         }
     }
@@ -229,22 +234,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         }
     }
 
-    /**
-     * Automatically clears any overrides that have become unneeded. This is for accounting lines that were changed right before
-     * final actions like route. Normally the unneeded overrides are cleared in accountingLineOverrideField.tag instead, but that
-     * requires another form submit. This method shouldn't be called on lines that haven't changed, to avoid automatically changing
-     * read-only lines. This cannot be done in the Rule because Rules cannot change the AccountingLines; they only get a deepCopy.
-     * 
-     * @param formLine
-     */
-    protected void clearOverridesThatBecameUnneeded(AccountingLine formLine) {
-        AccountingLineOverride currentlyNeeded = AccountingLineOverride.determineNeededOverrides(formLine);
-        AccountingLineOverride currentOverride = AccountingLineOverride.valueOf(formLine.getOverrideCode());
-        if (!currentOverride.isValidMask(currentlyNeeded)) {
-            // todo: handle unsupported combinations of overrides (not a problem until we allow certain multiple overrides)
-        }
-        formLine.setOverrideCode(currentOverride.mask(currentlyNeeded).getCode());
-    }
+   
 
     /**
      * This method will remove a TargetAccountingLine from a FinancialDocument. This assumes that the user presses the delete button

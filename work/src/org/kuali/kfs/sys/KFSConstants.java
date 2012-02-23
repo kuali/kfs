@@ -712,6 +712,7 @@ public class KFSConstants {
         public static final String ACTIVE_INPUT_TYPES_PARAMETER_NAME = "ACTIVE_FILE_TYPES";
 
         public static final String COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME = "VALIDATION_EMAIL_SUBJECT_LINE";
+        public static final String COLLECTOR_VALIDATOR_ERROR_EMAIL_SUBJECT_PARAMETER_NAME = "VALIDATION_ERROR_EMAIL_SUBJECT_LINE";
         public static final String COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME = "ERROR_EMAIL_SUBJECT_LINE";
         public static final String COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES = "EQUAL_DEBIT_CREDIT_TOTAL_DOCUMENT_TYPES";
         public static final String COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK = "PERFORM_DUPLICATE_HEADER_CHECK_IND";
@@ -729,6 +730,8 @@ public class KFSConstants {
         public static final String NUMBER_OF_DAYS_SINCE_LAST_UPDATE  = "NUMBER_OF_DAYS_SINCE_LAST_UPDATE";
 
         public static final String ACCOUNTS_CAN_CROSS_CHARTS_IND = "ACCOUNTS_CAN_CROSS_CHARTS_IND";
+        
+        public static final String BATCH_CONTAINER_SEMAPHORE_PROCESSING_INTERVAL = "SEMAPHORE_PROCESSING_INTERVAL";
     }
 
     public static class GeneralLedgerApplicationParameterKeys {
@@ -1234,6 +1237,22 @@ public class KFSConstants {
         public static final String TABLE_CELL_FORMAT_KEY = "tableCellFormat";
         public static final String[] FORMAT_ESCAPE_CHARACTERS = new String[]{"%", "\\"};
     }
+    
+    public static final String REQUIRES_WORKSTUDY_REVIEW = "RequiresWorkstudyReview";
+    public static final String WORKSTUDY_ROUTE_OBJECT_CODES_PARM_NM = "WORKSTUDY_ROUTE_OBJECT_CODES";
+    public static final String DOCUMENT_LOCKOUT_PARM_NM = "LOCKOUT_IND";
+    public static final String DOCUMENT_LOCKOUT_PARM_DESC = "This parameter is to lock document during the lockout time.";
+    public static final String DOCUMENT_LOCKOUT_DEFAULT_MESSAGE = "DOCUMENT_LOCKOUT_DEFAULT_MESSAGE";
+    public static final String DOCUMENT_LOCKED_MAPPING = "moduleLocked";
+    public static final String FROM_EMAIL_ADDRESS_PARM_NM = "FROM_EMAIL_ADDRESS";
+    
+ 
+    // System Parameters
+    public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
+    public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
+
+    
+   
 
     public static final String REPORT_WRITER_SERVICE_PAGE_NUMBER_PLACEHOLDER = "${pageNumber}";
 

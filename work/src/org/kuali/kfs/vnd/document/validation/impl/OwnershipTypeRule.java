@@ -64,7 +64,8 @@ public class OwnershipTypeRule extends MaintenanceDocumentRuleBase {
 
         if ((feinParameterValues.contains(newBo.getVendorOwnershipCode()) || ssnParameterValues.contains(newBo.getVendorOwnershipCode())) && ! newBo.isActive() && oldBo.isActive()) {
             success = false;
-            String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newBo.getClass());
+            final BusinessObjectEntry ownershipTypeEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(OwnershipType.class.getName());
+            final String documentLabel = ownershipTypeEntry == null ? DEFAULT_OWNERSHIP_TYPE_LABEL : ownershipTypeEntry.getObjectLabel();
             putGlobalError(KFSKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
         }
         return success;

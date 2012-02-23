@@ -16,6 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
+<%@ attribute name="accountsCanCrossCharts" required="false"  description="Whether or not accounts can cross charts"%>
 
 <c:set var="tableWidth" value="100%"/>
 <c:set var="isKeyFieldsLocked" value="${KualiForm.singleAccountMode}"/>
@@ -65,7 +66,7 @@
 			    
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}" >
 	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	
-	    		countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true" readOnly="${readOnly}">    		
+	    		countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true" readOnly="${readOnly}" accountsCanCrossCharts="${accountsCanCrossCharts}">    		
 	    		<c:if test="${canRecalculate}">
 					<html:image property="methodToCall.recalculateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-calculate.gif" 

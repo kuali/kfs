@@ -74,4 +74,13 @@ public class CorrectionReceivingView extends AbstractRelatedView {
         return KFSConstants.FinancialDocumentTypeCodes.CORRECTION_RECEIVING;
     }
     
+
+    /**
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentTypeName()
+     */
+    @Override
+    public String getDocumentTypeName() {
+        return KFSConstants.FinancialDocumentTypeCodes.CORRECTION_RECEIVING;
+    }
+    
 }

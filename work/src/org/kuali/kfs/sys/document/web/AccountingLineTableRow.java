@@ -130,6 +130,17 @@ public class AccountingLineTableRow implements RenderableElement {
     }
     
     /**
+     * @return returns the number of cells which will actually be rendered (ie, colspans are taken into account)
+     */
+    public int getChildRenderableCount() {
+        int count = 0;
+        for (AccountingLineTableCell cell : cells) {
+            count += cell.getColSpan();
+        }
+        return count;
+    }
+    
+    /**
      * Dutifully appends the names of any fields it knows about to the given List of field names
      * @param fieldNames a List of field names to append other names to
      * 

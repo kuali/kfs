@@ -5,7 +5,7 @@
   <bean id="FinancialSystemTransactionalDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="documentTypeName" value="KFST"/>
     <property name="documentClass" value="org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase"/>
-  
+    <property name="baseDocumentClass" value="org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase"/>
     <property name="workflowAttributes">
     	<ref bean="FinancialSystemTransactionalDocument-workflowAttributes"/>
     </property>

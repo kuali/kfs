@@ -80,4 +80,12 @@ public class LineItemReceivingView extends AbstractRelatedView {
     public String getDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.LINE_ITEM_RECEIVING;
     }
+
+    /**
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentTypeName()
+     */
+    @Override
+    public String getDocumentTypeName() {
+        return KFSConstants.FinancialDocumentTypeCodes.LINE_ITEM_RECEIVING;
+    }
 }

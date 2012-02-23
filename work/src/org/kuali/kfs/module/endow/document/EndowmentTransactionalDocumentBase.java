@@ -241,13 +241,6 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
 
-    protected BusinessObjectService getBusinessObjectService() {
-        if ( businessObjectService == null ) {
-            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        }
-        return businessObjectService;
-    }
-
     public DateTimeService getDateTimeService() {
         if ( dateTimeService == null ) {
             dateTimeService = SpringContext.getBean(DateTimeService.class);

@@ -55,7 +55,7 @@ public class VendorConstants {
         public static final String FAX = "FX";
         public static final String PO = "PO";
     }
-
+    
     public static class AddressTypes {
         public static final String QUOTE = "QT";
         public static final String PURCHASE_ORDER = "PO";

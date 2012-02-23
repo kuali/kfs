@@ -16,13 +16,14 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes for this row's fields." %>
-              
-<%@ attribute name="readOnly" required="true" description="used to decide editability of overview fields" %>
-
+    description="The DataDictionary entry containing attributes for this row's fields." %>              
+<%@ attribute name="readOnly" required="true" 
+	description="used to decide editability of overview fields" %>
 <%@ attribute name="receivableValuesMap" required="false" type="java.util.Map"
-              description="map of the accounting line primitive fields and values, for inquiry keys" %>     
-
+    description="map of the accounting line primitive fields and values, for inquiry keys" %>     
+<%@ attribute name="accountsCanCrossCharts" required="false"
+	description="Whether or not accounts can cross charts"%>
+	
 <script language="JavaScript" type="text/javascript" src="scripts/module/ar/receivableObjectInfo.js"></script>        
                          
 <kul:tab tabTitle="Receivable" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_RECEIVABLE_ACCOUNTING_LINE}">
@@ -42,6 +43,12 @@
             </tr>
             <tr>
                 <td align=left valign=middle class="datacell">
+                  <c:if test="${!accountsCanCrossCharts}">
+					<span id="document.paymentChartOfAccountsCode.div">
+						<bean:write name="KualiForm" property="document.paymentChartOfAccountsCode" />
+					</span>
+				  </c:if> 
+				  <c:if test="${accountsCanCrossCharts}">
                 	<span class="nowrap">
                     <kul:htmlControlAttribute 
                     	attributeEntry="${documentAttributes.paymentChartOfAccountsCode}" 
@@ -50,18 +57,29 @@
                     	onblur="loadChartInfo( this.name, 'document.paymentChartOfAccounts.finChartOfAccountDescription' );" 
                     	readOnly="${readOnly}"/>
                     </span>
+				  </c:if>
                     <br />
-                    <div id="document.paymentChartOfAccounts.finChartOfAccountDescription.div" class="fineprint">${document.paymentAccountNumber}</div>
+                    <div id="document.paymentChartOfAccounts.finChartOfAccountDescription.div" class="fineprint">${document.paymentChartOfAccounts.finChartOfAccountDescription}</div>
                 </td>
 				
                 <td align=left valign=middle class="datacell">
                 	<span class="nowrap">
+                  <c:if test="${!accountsCanCrossCharts}">
+                    <kul:htmlControlAttribute 
+                    	attributeEntry="${documentAttributes.paymentAccountNumber}" 
+                    	property="document.paymentAccountNumber"
+                    	styleClass="${dataCellCssClass}" 
+                    	onblur="loadReceivableChartAccountInfo( this.name, 'document.paymentAccount.accountName' );" 
+                    	readOnly="${readOnly}"/>
+				  </c:if>
+				  <c:if test="${accountsCanCrossCharts}">
                     <kul:htmlControlAttribute 
                     	attributeEntry="${documentAttributes.paymentAccountNumber}" 
                     	property="document.paymentAccountNumber"
                     	styleClass="${dataCellCssClass}" 
                     	onblur="loadReceivableAccountInfo( this.name, 'document.paymentAccount.accountName' );" 
                     	readOnly="${readOnly}"/>
+ 				  </c:if>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" fieldConversions="accountNumber:document.paymentAccountNumber" lookupParameters="document.paymentAccountNumber:accountNumber,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>

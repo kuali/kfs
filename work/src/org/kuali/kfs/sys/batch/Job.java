@@ -232,6 +232,32 @@ public class Job implements StatefulJob, InterruptableJob {
             return false;
         }
     }
+    
+    public static boolean isPastCutoffWindow(Date date, List<String> runDates) {
+        DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        Calendar jobRunDate = dTService.getCalendar(date);
+        if (parameterService.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, RUN_DATE_CUTOFF_PARM_NM)) {
+            String[] cutOffTime = StringUtils.split(parameterService.getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, RUN_DATE_CUTOFF_PARM_NM), ':');
+            Calendar runDate = null;
+            for (String runDateStr : runDates) {
+                try {
+                    runDate = dTService.getCalendar(dTService.convertToDate(runDateStr));
+                    runDate.add(Calendar.DAY_OF_YEAR, 1);
+                    runDate.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cutOffTime[0]));
+                    runDate.set(Calendar.MINUTE, Integer.parseInt(cutOffTime[1]));
+                    runDate.set(Calendar.SECOND, Integer.parseInt(cutOffTime[2]));
+                }
+                catch (ParseException e) {
+                    LOG.error("ParseException occured parsing " + runDateStr, e);
+                }
+                if (jobRunDate.before(runDate)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     /**
      * @throws UnableToInterruptJobException

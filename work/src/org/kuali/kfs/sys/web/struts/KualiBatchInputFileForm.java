@@ -115,6 +115,10 @@ public class KualiBatchInputFileForm extends KualiForm {
     public void setUrl(String url) {
         this.url = url;
     }
-
+    
+    @Override 
+    protected void customInitMaxUploadSizes() {
+        addMaxUploadSize (KNSServiceLocator.getParameterService().getParameterValue(KFSConstants.ParameterNamespaces.KFS, "Batch", "MAX_FILE_SIZE_UPLOAD"));
+    }
 
 }

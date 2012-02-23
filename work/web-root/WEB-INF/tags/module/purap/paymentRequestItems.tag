@@ -199,7 +199,7 @@
 				    property="document.item[${ctr}].itemAssignedToTradeInIndicator"
 				    readOnly="true" />
 			</td>			    
-			<td class="infoline" colspan="${colSpanDescription}">
+			<td  class="infoline" colspan="${colSpanDescription}">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"

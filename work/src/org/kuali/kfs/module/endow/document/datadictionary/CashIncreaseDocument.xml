@@ -20,6 +20,7 @@
   <bean id="CashIncreaseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="documentTypeName" value="ECI"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.CashIncreaseDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.CashIncreaseDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.CashIncreaseDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.CashIncreaseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.CashIncreaseDocumentPresentationController"/>

@@ -190,6 +190,8 @@
 	<bean id="unscheduledJobDescriptor-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.JobDescriptor">
 		<property name="group" value="unscheduled" />
 	</bean>
+	
+	<bean id="flatFileSortStep" parent="step" class="org.kuali.kfs.sys.batch.FlatFileSortStep" abstract="true"/>
 
 	<bean id="step" abstract="true">
 		<property name="parameterService" ref="parameterService" />
@@ -909,6 +911,55 @@
     </bean>
 
     <bean id="weeklyEmailStep" class="org.kuali.kfs.sys.batch.WeeklyEmailStep" parent="step" />
+    
+    <bean id="FlatFileParser" abstract="true" class="org.kuali.kfs.sys.batch.FlatFileParserBase">    
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+    <bean id="FlatFileParseTracker" class="org.kuali.kfs.sys.batch.FlatFileParseTrackerImpl" scope="prototype" />
+    
+    <bean id="FlatFilePrefixObjectSpecification" abstract="true" class="org.kuali.kfs.sys.batch.FlatFilePrefixObjectSpecification" />
+    
+    <bean id="FlatFileRegexObjectSpecification" abstract="true" class="org.kuali.kfs.sys.batch.FlatFileRegexObjectSpecification" />
+    
+	<bean id="FixedWidthFlatFileSpecification" abstract="true" class="org.kuali.kfs.sys.batch.FixedWidthFlatFileSpecification" />
+    
+    <bean id="FixedWidthFlatFilePropertySpecification" abstract="true" class="org.kuali.kfs.sys.batch.FixedWidthFlatFilePropertySpecification" />
+    
+	<bean id="DelimitedFlatFileSpecification" abstract="true" class="org.kuali.kfs.sys.batch.DelimitedFlatFileSpecification" />
+	
+    <bean id="DelimitedFlatFilePropertySpecification" abstract="true" class="org.kuali.kfs.sys.batch.DelimitedFlatFilePropertySpecification" />
+    
+    <bean id="FixedWidthFlatFileRegexSpecification" abstract="true" class="org.kuali.kfs.sys.batch.FixedWidthFlatFileRegexSpecification" />
+    
+    <bean id="batchContainerStep" parent="batchContainerStep-parentBean"/>
+    <bean id="batchContainerStep-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.BatchContainerStep" parent="step">
+        <property name="batchContainerDirectory" value="${staging.directory.sys.batchContainer}"/>
+        <property name="batchContainerStopStep" ref="stopBatchContainerStep" />
+	</bean>
+	
+	<bean id="stopBatchContainerStep" class="org.kuali.kfs.sys.batch.StopBatchContainerStep" parent="step"/>
+	
+	<bean id="semaphoreInputFileTypeError" class="org.kuali.kfs.sys.batch.SemaphoreInputFileType">
+    	<property name="directoryPath" value="${staging.directory.sys.batchContainer}"/>
+	 	<property name="fileExtension" value="error"/>
+	 	<property name="fileTypeIdentifier" value="semaphoreInputFileTypeError" />
+	</bean>
+	
+	<bean id="namespaceOrFilePathPermissionTypeService" class="org.kuali.kfs.sys.identity.NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl">
+        <property name="wildcardMatchStringAttributeName" value="filePath"/>
+    	<property name="namespaceRequiredOnStoredAttributeSet" value="false" />
+    </bean>
+    
+    <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService" parent="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" />
+    <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" abstract="true" class="org.kuali.kfs.sys.identity.ExcludeSingleActorSeparationOfDutiesRoleTypeService" />
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kfsService" p:service-ref="excludeSingleActorSeparationOfDutiesRoleTypeService"
+				p:localServiceName="excludeSingleActorSeparationOfDutiesRoleTypeService" />
+		</property>
+	</bean>
+    
     
     <import resource="spring-sys-bus-exports.xml"/>
 </beans>

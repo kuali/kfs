@@ -21,6 +21,7 @@
     <property name="allowsCopy" value="true"/>
     <property name="documentTypeName" value="GLET"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.GLToEndowmentTransferOfFundsDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.GLToEndowmentTransferOfFundsDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.GLToEndowmentTransferOfFundsDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.GLToEndowmentTransferOfFundsDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.GLToEndowmentTransferOfFundsDocumentPresentationController"/>

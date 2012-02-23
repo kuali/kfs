@@ -181,4 +181,13 @@ public interface ReceivingService {
      * Returns true, if the po is active for receiving document creation
      */
     public boolean isPurchaseOrderActiveForLineItemReceivingDocumentCreation(Integer poId);
+    
+    /**
+     * Checks if there're newly added items in the given LineItemReceivingDocument.
+     * 
+     * @param rlDoc the given LineItemReceivingDocument
+     * @return true if there're newly added (unordered) items; false otherwise.
+     */
+    public boolean hasNewUnorderedItem(LineItemReceivingDocument rlDoc);
+    
 }

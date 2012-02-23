@@ -170,5 +170,12 @@ public interface AccountingDocument extends GeneralLedgerPostingDocument, Genera
      * This method returns the Class to use for AccountingLingValuesAllowedValidation.
      */
     public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation();
-
+       
+    /**
+     * 
+     * This method return document date to use for determineNeededOverrides validation.
+     * It return final date if document is finalized, otherwise current date 
+     * @return
+     */
+    public Date getAccountExpirationDocumentDate();
 }

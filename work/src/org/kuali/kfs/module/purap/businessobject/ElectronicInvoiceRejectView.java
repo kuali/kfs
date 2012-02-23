@@ -77,6 +77,13 @@ public class ElectronicInvoiceRejectView extends AbstractRelatedView {
     }
 
     /**
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentTypeName()
+     */
+    @Override
+    public String getDocumentTypeName() {
+        return KFSConstants.FinancialDocumentTypeCodes.ELECTRONIC_INVOICE_REJECT;
+    }
+    /**
      * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getUrl()
      */
     @Override

@@ -21,6 +21,7 @@
     <property name="allowsErrorCorrection" value="true"/>    
     <property name="documentTypeName" value="ECT"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.CashTransferDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.CashTransferDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.CashTransferDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.CashTransferDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.CashTransferDocumentPresentationController"/>

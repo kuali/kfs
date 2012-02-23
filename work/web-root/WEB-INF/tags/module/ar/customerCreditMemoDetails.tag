@@ -82,9 +82,11 @@
 					<strong>${KualiForm.document.currencyFormattedCrmTotalItemAmount}</strong>
 				</td>
 				<!-- Customer Credit Memo Total Tax Amount -->
+				<c:if test="${salesTaxEnabled}">
 				<td class="total-line">
 					<strong>${KualiForm.document.currencyFormattedCrmTotalTaxAmount}</strong>
 				</td>
+				</c:if>
 				<!--  Customer Credit Memo Total Amount -->
 				<td class="total-line">
 					<strong>${KualiForm.document.currencyFormattedCrmTotalAmount}</strong>

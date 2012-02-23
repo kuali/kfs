@@ -131,6 +131,22 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         super.doRouteStatusChange(statusChangeEvent);
     }
     
+    /**
+     * This is the default implementation which, if parameter KFS-SYS / Document / UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_IND is on, updates the document
+     * and resaves if needed
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteLevelChange(org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO)
+     */
+    @Override
+    public void doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
+        if (this instanceof AmountTotaling && getDocumentHeader() != null && getParameterService() != null && getBusinessObjectService() != null && getParameterService().parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME) && getParameterService().getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME)) {
+            final KualiDecimal currentTotal = ((AmountTotaling)this).getTotalDollarAmount();
+            if (!currentTotal.equals(((FinancialSystemDocumentHeader)getDocumentHeader()).getFinancialDocumentTotalAmount())) {
+                ((FinancialSystemDocumentHeader)getDocumentHeader()).setFinancialDocumentTotalAmount(currentTotal);
+                getBusinessObjectService().save(getDocumentHeader());
+            }
+        }
+        super.doRouteLevelChange(levelChangeEvent);
+    }
 
     /**
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
@@ -151,5 +167,39 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
 
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("No split node logic defined for split node "+nodeName+" on " + this.getClass().getSimpleName());
+    }
+    
+    /**
+     * @return the default implementation of the ParameterService
+     */
+    public ParameterService getParameterService() {
+       if (parameterService == null) {
+           parameterService = SpringContext.getBean(ParameterService.class);
+       }
+       return parameterService;
+    }
+    
+    /**
+     * @return the default implementation of the BusinessObjectService
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+    
+    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        if (financialSystemDocumentService == null) {
+            financialSystemDocumentService = SpringContext.getBean(FinancialSystemDocumentService.class);
+        }
+        return financialSystemDocumentService;
+    }
+    
+    @Override
+    public void toCopy() throws WorkflowException, IllegalStateException {
+        FinancialSystemDocumentHeader oldDocumentHeader = getDocumentHeader();
+        super.toCopy();
+        getFinancialSystemDocumentService().prepareToCopy(oldDocumentHeader, this);
     }
 }

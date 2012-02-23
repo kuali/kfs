@@ -21,7 +21,6 @@
 </td>
 <td class="content" valign="top">
       <admininstrationChannel:configuration />
-      <admininstrationChannel:testing />
 </td>
 <td class="content" valign="top">
       <admininstrationChannel:batch />

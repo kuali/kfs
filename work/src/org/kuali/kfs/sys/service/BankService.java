@@ -15,12 +15,15 @@
  */
 package org.kuali.kfs.sys.service;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * This service interface defines methods that a BankService implementation must provide.
  */
 public interface BankService {
+    public static final String[] PERMANENT_BANK_SPECIFICATION_ENABLED_DOCUMENT_TYPES = {KFSConstants.FinancialDocumentTypeCodes.ADVANCE_DEPOSIT, KFSConstants.FinancialDocumentTypeCodes.CASH_MANAGEMENT, KFSConstants.FinancialDocumentTypeCodes.NON_CHECK_DISBURSEMENT};
 
     /**
      * Retrieves a bank object who's primary id matches the values provided.
@@ -36,7 +39,7 @@ public interface BankService {
      * @param documentClass <code>Class</code> for the document type
      * @return <code>Bank</code> object retrieved by default bank code
      */
-    public Bank getDefaultBankByDocType(Class documentClass);
+    public Bank getDefaultBankByDocType(Class<?> documentClass);
     
     /**
      * Retrieves the default bank code for the given document type from system parameter. 
@@ -52,4 +55,12 @@ public interface BankService {
      * @return true if specification is enabled
      */
     public boolean isBankSpecificationEnabled();
+    
+    /**
+     * Determines if the bank specification is enabled for the given document by a) the document being one of the permanent
+     * bank code documents (AD's, CMD's, and ND's) or by the document being listed in the KFS-SYS / Bank / BANK_CODE_DOCUMENT_TYPES parameter
+     * @param documentClass the class of the document to determine if it has bank specifications enabled
+     * @return true if specification is enabled, false if specification is disabled
+     */
+    public boolean isBankSpecificationEnabledForDocument(Class<?> documentClass);
 }

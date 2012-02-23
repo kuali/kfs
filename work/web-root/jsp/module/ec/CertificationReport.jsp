@@ -14,6 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
+<%@ page import="org.kuali.kfs.sys.context.SpringContext" %>
+<%@ page import="org.kuali.kfs.coa.service.AccountService" %>
 
 <html:xhtml/>
 
@@ -25,6 +27,7 @@
 
 <c:set var="documentTypeName" value="EffortCertificationDocument"/>
 <c:set var="htmlFormAction" value="effortCertificationRecreate"/>
+<c:set var="accountsCanCrossCharts" value="<%=SpringContext.getBean(AccountService.class).accountsCanCrossCharts()%>" />    
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="effortCertificationReport"
@@ -43,12 +46,12 @@
 	<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 	<c:set var="isSummaryTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.SUMMARY_TAB_ENTRY]}"/>
 	
- 	<c:if test="${canEdit && isSummaryTabEntry}">
-		<ec:summaryTab/>	
-	</c:if>
+ 	< c:if test="${canEdit && isSummaryTabEntry}" >
+		<ec:summaryTab accountsCanCrossCharts="${accountsCanCrossCharts}"/>	
+	</c:if >
 	
 	<c:set var="isDetailTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.DETAIL_TAB_ENTRY]}" />
-	<ec:detailTab isOpen="${!isSummaryTabEntry}" isEditable="${canEdit && isDetailTabEntry && !isSummaryTabEntry}"/>
+	<ec:detailTab isOpen="${!isSummaryTabEntry}" isEditable="${canEdit && isDetailTabEntry && !isSummaryTabEntry}" accountsCanCrossCharts="${accountsCanCrossCharts}"/>
 	
 	<kul:notes />
 	

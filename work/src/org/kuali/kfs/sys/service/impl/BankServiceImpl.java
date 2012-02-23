@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -76,7 +77,7 @@ public class BankServiceImpl implements BankService {
     /**
      * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.Class)
      */
-    public Bank getDefaultBankByDocType(Class documentClass) {
+    public Bank getDefaultBankByDocType(Class<?> documentClass) {
         final String documentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(documentClass);
         
         if (StringUtils.isBlank(documentTypeCode)) {
@@ -90,6 +91,18 @@ public class BankServiceImpl implements BankService {
      */
     public boolean isBankSpecificationEnabled() {
         return parameterService.getParameterValueAsBoolean(Bank.class, KFSParameterKeyConstants.ENABLE_BANK_SPECIFICATION_IND);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.BankService#isBankSpecificationEnabledForDocument(java.lang.Class)
+     */
+    public boolean isBankSpecificationEnabledForDocument(Class<?> documentClass) {
+        final String documentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(documentClass);
+        if (ArrayUtils.contains(PERMANENT_BANK_SPECIFICATION_ENABLED_DOCUMENT_TYPES, documentTypeCode)) {
+            return true;
+        }
+        final ParameterEvaluator evaluator = parameterService.getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeCode);
+        return evaluator.evaluationSucceeds();
     }
 
     /**

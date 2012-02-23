@@ -24,6 +24,7 @@
 <%@ attribute name="countOfMajorColumns" required="true" description="the number of major columns "%>
 <%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
 <%@ attribute name="isKeyFieldsLocked" required="false" description="determine whether the key fields can be locked from editing"%>
+<%@ attribute name="accountsCanCrossCharts" required="false"  description="Whether or not accounts can cross charts"%>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -47,6 +48,7 @@
 <%-- FIXME: remove when JS lookup use is fixed --%>
 <html:hidden property="${fundingLineName}.universityFiscalYear" />
 <html:hidden property="${fundingLineName}.emplid" />
+<html:hidden property="${fundingLineName}.chartOfAccountsCode" />
 
 <table border="0" cellpadding="0" cellspacing="0" style="width: ${tableWidth}; text-align: left; margin-left: auto; margin-right: auto;">    
 	<tr>
@@ -71,29 +73,52 @@
 		    field="appointmentFundingDeleteIndicator" readOnly="false"
 		    fieldAlign="center" disabled="true"
 		    anchor="salaryexistingLineLineAnchor${lineIndex}" />
-		      
-		 <bc:pbglLineDataCell dataCellCssClass="datacell"
-		    accountingLine="${fundingLineName}" attributes="${pbcafAttributes}"
-		    field="chartOfAccountsCode"
-		    detailField="chartOfAccounts.finChartOfAccountDescription" detailFunction="loadChartInfo"
-		    lookup="true" inquiry="true"
-		    boClassSimpleName="Chart"
-		    readOnly="${hasBeenAdded || isKeyFieldsLocked}"
-		    displayHidden="false"
-		    lookupOrInquiryKeys="chartOfAccountsCode"
-		    accountingLineValuesMap="${fundingLine.valuesMap}" />
-		      
-		 <bc:pbglLineDataCell dataCellCssClass="datacell"
-			accountingLine="${fundingLineName}"
-			field="accountNumber" detailFunction="loadAccountInfo"
-			detailField="account.accountName"
-			attributes="${pbcafAttributes}" lookup="true" inquiry="true"
-			boClassSimpleName="Account"
-			readOnly="${hasBeenAdded || isKeyFieldsLocked}"
-			displayHidden="false"
-			lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
-			accountingLineValuesMap="${fundingLine.valuesMap}" />
-	  
+		 <c:if test="${!accountsCanCrossCharts}">
+		 	<bc:pbglLineDataCell dataCellCssClass="datacell"
+			    accountingLine="${fundingLineName}" attributes="${pbcafAttributes}"
+			    field="chartOfAccountsCode"
+			    detailField="chartOfAccounts.finChartOfAccountDescription" detailFunction="loadChartInfo"
+			    lookup="true" inquiry="true"
+			    boClassSimpleName="Chart"
+			    readOnly="true"
+			    displayHidden="false"
+			    divId="newBCAFLine.chartOfAccountsCode.div"
+			    accountingLineValuesMap="${fundingLine.valuesMap}" />
+			      
+			 <bc:pbglLineDataCell dataCellCssClass="datacell"
+				accountingLine="${fundingLineName}"
+				field="accountNumber" detailFunction="budgetObjectInfoUpdator.loadChartAccountInfo"
+				detailField="account.accountName"
+				attributes="${pbcafAttributes}" lookup="true" inquiry="true"
+				boClassSimpleName="Account"
+				readOnly="${hasBeenAdded || isKeyFieldsLocked}"
+				displayHidden="false"
+				lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
+				accountingLineValuesMap="${fundingLine.valuesMap}" />
+		 </c:if>
+		  <c:if test="${accountsCanCrossCharts}">   
+			 <bc:pbglLineDataCell dataCellCssClass="datacell"
+			    accountingLine="${fundingLineName}" attributes="${pbcafAttributes}"
+			    field="chartOfAccountsCode"
+			    detailField="chartOfAccounts.finChartOfAccountDescription" detailFunction="loadChartInfo"
+			    lookup="true" inquiry="true"
+			    boClassSimpleName="Chart"
+			    readOnly="${hasBeenAdded || isKeyFieldsLocked}"
+			    displayHidden="false"
+			    lookupOrInquiryKeys="chartOfAccountsCode"
+			    accountingLineValuesMap="${fundingLine.valuesMap}" />
+			      
+			 <bc:pbglLineDataCell dataCellCssClass="datacell"
+				accountingLine="${fundingLineName}"
+				field="accountNumber" detailFunction="loadAccountInfo"
+				detailField="account.accountName"
+				attributes="${pbcafAttributes}" lookup="true" inquiry="true"
+				boClassSimpleName="Account"
+				readOnly="${hasBeenAdded || isKeyFieldsLocked}"
+				displayHidden="false"
+				lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
+				accountingLineValuesMap="${fundingLine.valuesMap}" />
+	 	</c:if> 
 		<c:set var="doAccountLookupOrInquiry" value="false"/>
 	  	<c:if test="${fundingLine.subAccountNumber ne BCConstants.DASH_SUB_ACCOUNT_NUMBER}">
 	      	<c:set var="doAccountLookupOrInquiry" value="true"/>

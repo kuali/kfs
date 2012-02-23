@@ -62,6 +62,11 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
+            
+            // if gl entries created(means there is amount change) for amend purchase order send an FYI to all fiscal officers
+            if ((getGlOnlySourceAccountingLines() != null && !getGlOnlySourceAccountingLines().isEmpty())) {
+                SpringContext.getBean(PurchaseOrderService.class).sendFyiForGLEntries(this);
+            }
 
                 // update indicators
                 SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrderAmendment(this);

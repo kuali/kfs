@@ -74,6 +74,27 @@
 	</target>
 
 	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
+	
+	<target name="filter-libraries" depends="init-properties" description="Copies over institutional lib libraries to the application's library directory">
+		<mkdir dir="${lib.directory}" />
+				
+		<copy todir="${lib.directory}" verbose="true">
+			<fileset dir="${build.rice.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+			<fileset dir="${build.kfs.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+		</copy>
+		<if>
+			<isset property="institution.lib.directory" />
+			<then>
+				<copy todir="${lib.directory}" overwrite="true">
+					<fileset dir="${institution.lib.directory}" includes="*.jar" />
+				</copy>
+			</then>
+		</if>
+	</target>
 
 	<target name="echo-properties" depends="init-properties" description="Print all build properties that have been set">
 		<echoproperties />
@@ -511,13 +532,7 @@
 	</target>
 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
-	    <if> <!-- we can only copy this file to the app server IF we are running a local build.  Otherwise, we need to assume that it is
-	    already there. -->
-	        <isset property="is.local.build" />
-	        <then>
-        		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
-            </then>
-        </if>
+		<copy file="${build.directory}/${log4j.library.file}" todir="${lib.directory}" />
 	</target>
 
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
@@ -535,7 +550,7 @@
 	</target>
 
 	<target name="filter-project-rice" unless="dont.filter.project.rice" depends="init-properties,clean-rice">
-		<echo message="Copying Rice Web Content from ${build.appserver.directory}/${rice.server.war.file.name}" />
+		<echo message="Copying Rice Web Content from ${rice.server.war.directory}/${rice.server.war.file.name}" />
 		<!--
 		<if>
 			<isset property="rice.standalone.flag" />
@@ -642,6 +657,12 @@
 		<mkdir dir="${settings.directory}" />
 		<echo file="${log4j.settings.file}" message="${log4j}" />
 		<if>
+			<isset property="institutional.log4j"/>
+			<then>
+				<echo append="true" file="${log4j.settings.file}" message="${line.separator}${institutional.log4j}"/>
+			</then>
+		</if>
+		<if>
 			<isset property="institution.settings.directory" />
 			<then>
 				<copy todir="${settings.directory}" overwrite="true">
@@ -708,9 +729,6 @@
             <classpath>
                 <pathelement location="${war.classes.directory}"/>
                 <path refid="compile.source.classpath" />
-                <fileset dir="${institution.lib.directory}">
-                    <include name="*.jar"/>
-                </fileset>
             </classpath>
         </javac>
         <copy todir="${war.classes.directory}" overwrite="true" verbose="true">
@@ -831,6 +849,10 @@ Excludes: ${tests.compile.excludes}
 				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
 				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
 			</batchtest>
+			<!-- run institution tests if possible -->
+			<batchtest todir="${test.xml.results.directory}" if="institution.test.source.directory">
+				<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
+			</batchtest>
 			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<mkdir dir="${test.html.results.directory}" />
@@ -862,6 +884,12 @@ Excludes: ${tests.compile.excludes}
 	<target name="dist-external" depends="init-properties">
 		<mkdir dir="temp"/>
 		<echo file="temp/${log4j.file}" message="${log4j}" />
+		<if>
+			<isset property="institutional.log4j"/>
+			<then>
+				<echo append="true" file="temp/${log4j.file}" message="${line.separator}${institutional.log4j}"/>
+			</then>
+		</if>
 		<if>
 			<isset property="institution.settings.directory" />
 			<then>

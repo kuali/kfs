@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.rice.kim.api.permission.Permission;
 
 /**
  * Class to test implementation of the NamespacePermissionTypeService (allowing wildcards in the namespace and adding an additional attribute with wildcards).
@@ -26,7 +27,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
     private static final String PERMISSION_FILE_PATH_WILDCARD = "*";
     private static final String PERMISSION_FILE_PATH_BLANK = null;
 
-    List<KimPermissionInfo> permissions =
+    List<Permission> permissions =
         buildPermissionList( new String[][]
         {
             {"1", PERMISSION_NAMESPACE_EXACT,   PERMISSION_FILE_PATH_EXACT},     //KFS-GL:   staging/gl/collectorXml/gl_collector1.xml   -staging/gl/collectorXml/gl_collector1.xml
@@ -71,12 +72,12 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathExactMatch);
 
-        List<KimPermissionInfo> perms = new ArrayList<KimPermissionInfo>();
+        List<Permission> perms = new ArrayList<Permission>();
 
         for( int i = permissions.size(); i > 0; i--) {
             perms.add(permissions.get(i-1));
 
-            List<KimPermissionInfo> results = permissionTypeService.getMatchingPermissions(requestedDetails, perms);
+            List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, perms);
 
             assertResults( perms, results, perms.size()-1 );
         }
@@ -90,7 +91,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathExactMatch);
 
-        List<KimPermissionInfo> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
+        List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
 
         assertResults( permissions, results, 0);
 	}
@@ -103,7 +104,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathPartialMatch);
 
-        List<KimPermissionInfo> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
+        List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
 
         assertResults( permissions, results, 1);
 	}
@@ -116,7 +117,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_EXACT_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathBlankMatchStaging);
 
-        List<KimPermissionInfo> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
+        List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
 
         assertResults( permissions, results, 2);
 
@@ -138,7 +139,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_PARTIAL_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathPartialMatch);
 
-        List<KimPermissionInfo> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
+        List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
 
         assertResults( permissions, results, 4);
     }
@@ -151,7 +152,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_PARTIAL_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathBlankMatch);
 
-        List<KimPermissionInfo> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
+        List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
 
         assertResults( permissions, results, 5);
     }
@@ -167,12 +168,12 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         requestedDetails.put(KfsKimAttributes.NAMESPACE_CODE, REQUESTED_NAMESPACE_BLANK_MATCH);
         requestedDetails.put(KfsKimAttributes.FILE_PATH, requestedFilePathBlankMatch);
 
-        List<KimPermissionInfo> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
+        List<Permission> results = permissionTypeService.getMatchingPermissions(requestedDetails, permissions);
 
         assertResults( permissions, results, 7);
     }
 
-    private void assertResults(List<KimPermissionInfo> permissionsList, List<KimPermissionInfo> resultsList, int permissionIndexExpected) {
+    private void assertResults(List<Permission> permissionsList, List<Permission> resultsList, int permissionIndexExpected) {
         String resultStrPrefix = "returned PERMISSION ";
         String resultStr = (resultsList.size() == 1 ? resultStrPrefix + resultsList.get(0).getPermissionId() +": " : "");
 
@@ -182,16 +183,16 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         assertEquals( "Wrong permission was returned", permissionsList.get(permissionIndexExpected), resultsList.get(0));
     }
 
-	private List<KimPermissionInfo> buildPermissionList( String[][] permissionData ) {
-	    List<KimPermissionInfo> permissions = new ArrayList<KimPermissionInfo>();
+	private List<Permission> buildPermissionList( String[][] permissionData ) {
+	    List<Permission> permissions = new ArrayList<Permission>();
 
 	    for ( String[] perm : permissionData ) {
-	        KimPermissionInfo kpi = new KimPermissionInfo();
-	        kpi.setDetails( new HashMap<String,String>() );
-	        kpi.setPermissionId(perm[0]);
-	        kpi.getDetails().put(KfsKimAttributes.NAMESPACE_CODE, perm[1] );
-	        kpi.getDetails().put(KfsKimAttributes.FILE_PATH, perm[2] );
-	        permissions.add(kpi);
+	        Permission.Builder kpi = Permission.Builder.create();
+	        kpi.setAttributes( new HashMap<String,String>() );
+	        kpi.setId(perm[0]);
+	        kpi.getAttributes().put(KfsKimAttributes.NAMESPACE_CODE, perm[1] );
+	        kpi.getAttributes().put(KfsKimAttributes.FILE_PATH, perm[2] );
+	        permissions.add(kpi.build());
 	    }
 	    return permissions;
     }

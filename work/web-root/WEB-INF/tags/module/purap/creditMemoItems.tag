@@ -47,28 +47,28 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" width="2%"/>
 		
 		<c:if test="${usePO}" >
-	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poInvoicedTotalQuantity}" width="12%"/>
-	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poUnitPrice}" width="12%"/>		
-	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poTotalAmount}" width="12%"/>
+	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poInvoicedTotalQuantity}" width="7%"/>
+	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poUnitPrice}" width="7%"/>		
+	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poTotalAmount}" width="7%"/>
 	    </c:if>
 	    
 		<c:if test="${!usePO}" >
-	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqInvoicedTotalQuantity}" width="12%"/>
-	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqUnitPrice}" width="12%"/>		
-	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqTotalAmount}" width="12%"/>
+	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqInvoicedTotalQuantity}" width="7%"/>
+	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqUnitPrice}" width="7%"/>		
+	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqTotalAmount}" width="7%"/>
 	    </c:if>
 	    	
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="12%"/>		
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="7%"/>		
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" width="7%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="7%"/>
 
 		<c:if test="${purapTaxEnabled}">
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>		
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="7%"/>		
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="7%"/>
 		</c:if>
 
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="${colSpanDescription}"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="7%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="45%" colspan="${colSpanDescription}"/>
 	</tr>
 </c:if>
 

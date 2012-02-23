@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.Constant;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
 
@@ -32,10 +34,10 @@ public class ZeroEncumbranceOptionFinder extends KeyValuesBase implements ValueF
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> options = new ArrayList<KeyLabelPair>();
-        options.add(new KeyLabelPair(Constant.ZERO_ENCUMBRANCE_INCLUDE, Constant.ZERO_ENCUMBRANCE_INCLUDE));
-        options.add(new KeyLabelPair(Constant.ZERO_ENCUMBRANCE_EXCLUDE, Constant.ZERO_ENCUMBRANCE_EXCLUDE));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> options = new ArrayList<KeyValue>();
+        options.add(new ConcreteKeyValue(Constant.ZERO_ENCUMBRANCE_INCLUDE, Constant.ZERO_ENCUMBRANCE_INCLUDE));
+        options.add(new ConcreteKeyValue(Constant.ZERO_ENCUMBRANCE_EXCLUDE, Constant.ZERO_ENCUMBRANCE_EXCLUDE));
         return options;
     }
 

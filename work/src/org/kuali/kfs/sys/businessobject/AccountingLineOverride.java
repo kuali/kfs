@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,12 @@ import java.util.Set;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountPresenceService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -99,7 +104,7 @@ public class AccountingLineOverride {
 
     /**
      * This private constructor is for the static initializer.
-     * 
+     *
      * @param myCode
      * @param myComponents
      */
@@ -112,7 +117,7 @@ public class AccountingLineOverride {
 
     /**
      * Checks whether this override contains the given component.
-     * 
+     *
      * @param component
      * @return whether this override contains the given component.
      */
@@ -122,7 +127,7 @@ public class AccountingLineOverride {
 
     /**
      * Gets the code of this override.
-     * 
+     *
      * @return the code of this override.
      */
     public String getCode() {
@@ -131,7 +136,7 @@ public class AccountingLineOverride {
 
     /**
      * Gets the components of this override.
-     * 
+     *
      * @return the components of this override.
      */
     private Set getComponents() {
@@ -141,6 +146,7 @@ public class AccountingLineOverride {
     /**
      * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
         return "AccountingLineOverride (code " + code + ", components " + components + ")";
     }
@@ -148,7 +154,7 @@ public class AccountingLineOverride {
     /**
      * Returns the AccountingLineOverride that has the components of this AccountingLineOverride minus any components not in the
      * given mask. This is like <code>&amp;</code>(a bit-wise and), if the components were bits.
-     * 
+     *
      * @param mask
      * @return the AccountingLineOverride that has the components of this AccountingLineOverride minus any components not in the
      *         given mask.
@@ -164,7 +170,7 @@ public class AccountingLineOverride {
 
     /**
      * Returns the Set of components that this override and the given override have in common.
-     * 
+     *
      * @param mask
      * @return the Set of components that this override and the given override have in common.
      */
@@ -177,7 +183,7 @@ public class AccountingLineOverride {
     /**
      * Returns whether this override, when masked by the given override, is valid. Some combinations of components have no override
      * code defined.
-     * 
+     *
      * @param mask
      * @return whether this override, when masked by the given override, is valid.
      */
@@ -187,7 +193,7 @@ public class AccountingLineOverride {
 
     /**
      * Returns whether the given String is a valid override code.
-     * 
+     *
      * @param code
      * @return whether the given String is a valid override code.
      */
@@ -198,7 +204,7 @@ public class AccountingLineOverride {
     /**
      * Returns whether the given Integers are a valid set of components. Some combinations of components are invalid and have no
      * code defined.
-     * 
+     *
      * @param components
      * @return whether the given Integers are a valid set of components.
      */
@@ -212,7 +218,7 @@ public class AccountingLineOverride {
 
     /**
      * Factory method from code.
-     * 
+     *
      * @param code the override code
      * @return the AccountingLineOverride instance corresponding to the given code.
      * @throws IllegalArgumentException if the given code is not valid
@@ -226,7 +232,7 @@ public class AccountingLineOverride {
 
     /**
      * Factory method from components.
-     * 
+     *
      * @param components the override components, treated as a set
      * @return the AccountingLineOverride instance corresponding to the given component set.
      * @throws IllegalArgumentException if the given set of components is not valid
@@ -249,7 +255,7 @@ public class AccountingLineOverride {
 
     /**
      * On the given AccountingLine, converts override input checkboxes from a Struts Form into a persistable override code.
-     * 
+     *
      * @param line
      */
     public static void populateFromInput(AccountingLine line) {
@@ -272,7 +278,7 @@ public class AccountingLineOverride {
      * Prepares the given AccountingLine in a Struts Action for display by a JSP. This means converting the override code to
      * checkboxes for display and input, as well as analysing the accounting line and determining which override checkboxes are
      * needed.
-     * 
+     *
      * @param line
      */
     public static void processForOutput(AccountingDocument document ,AccountingLine line) {
@@ -286,7 +292,7 @@ public class AccountingLineOverride {
 
     /**
      * Determines what overrides the given line needs.
-     * 
+     *
      * @param line
      * @return what overrides the given line needs.
      */
@@ -296,7 +302,7 @@ public class AccountingLineOverride {
            AccountingDocument accountingDocument = (AccountingDocument) document;
           date = accountingDocument.getAccountExpirationDocumentDate();
        }
-       
+
         Set neededOverrideComponents = new HashSet();
         if (needsExpiredAccountOverride(line.getAccount(), date)) {
             neededOverrideComponents.add(COMPONENT.EXPIRED_ACCOUNT);
@@ -310,15 +316,15 @@ public class AccountingLineOverride {
         }
         return valueOf(neededOverrideComponents);
     }
-    
+
     /**
      * Returns whether the given account needs an expired account override.
-     * 
+     *
      * @param account
      * @return whether the given account needs an expired account override.
      */
     public static boolean needsExpiredAccountOverride(Account account, Date date) {
-        
+
         if(ObjectUtils.isNotNull(account) && account.isActive()) {
             if(account.getAccountExpirationDate() != null ) {
                 return  account.isExpired(date);
@@ -329,7 +335,7 @@ public class AccountingLineOverride {
 
     /**
      * Returns whether the given account needs an expired account override.
-     * 
+     *
      * @param account
      * @return whether the given account needs an expired account override.
      */
@@ -339,7 +345,7 @@ public class AccountingLineOverride {
 
     /**
      * Returns whether the given account needs an expired account override.
-     * 
+     *
      * @param account
      * @return whether the given account needs an expired account override.
      */
@@ -349,23 +355,23 @@ public class AccountingLineOverride {
 
     /**
      * Returns whether the given object code needs an object budget override
-     * 
+     *
      * @param account
      * @return whether the given object code needs an object budget override
      */
     public static boolean needsObjectBudgetOverride(Account account, ObjectCode objectCode) {
         return !ObjectUtils.isNull(account) && !ObjectUtils.isNull(objectCode) && account.isActive() && !SpringContext.getBean(AccountPresenceService.class).isObjectCodeBudgetedForAccountPresence(account, objectCode);
     }
-    
+
     public static Document getDocument(AccountingLine line) {
         Document document = null;
         try {
             document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(line.getDocumentNumber());
-           
+
        }catch(WorkflowException exception) {
            LOG.error("Unable to locate document for documentId :: " + line.getDocumentNumber() );
        }
-       
+
        return document;
     }
 }

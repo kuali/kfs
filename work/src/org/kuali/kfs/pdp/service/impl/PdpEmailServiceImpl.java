@@ -18,6 +18,7 @@ package org.kuali.kfs.pdp.service.impl;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -55,7 +56,6 @@ import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.MessageMap;
@@ -88,7 +88,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -201,7 +201,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -258,7 +258,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
     protected void sendThresholdEmail(boolean fileThreshold, PaymentFileLoad paymentFile, CustomerProfile customer) {
         MailMessage message = new MailMessage();
 
-        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -316,7 +316,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -369,7 +369,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString( KfsParameterConstants.PRE_DISBURSEMENT_BATCH.class, KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -417,7 +417,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         }
 
         MailMessage message = new MailMessage();
-        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -473,7 +473,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         message.getCcAddresses().addAll(toAddressList);
         message.getBccAddresses().addAll(toAddressList);
 
-        String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -520,8 +520,8 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = kualiConfigurationService.getPropertyAsString(KFSConstants.ENVIRONMENT_KEY);
+        String productionEnvironmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             message.addToAddress(paymentGroup.getAdviceEmailAddress());
             message.addCcAddress(paymentGroup.getAdviceEmailAddress());
@@ -635,7 +635,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             // send notification to advice return address with payment details
             message.addToAddress(customer.getAdviceReturnEmailAddr());
 
-            String returnAddress = parameterService.getParameterValue(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+            String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
             if(StringUtils.isEmpty(returnAddress)) {
                 returnAddress = mailService.getBatchMailingList();
             }
@@ -809,8 +809,8 @@ public class PdpEmailServiceImpl implements PdpEmailService {
     public void sendDisbursementVoucherImmediateExtractEmail(DisbursementVoucherDocument disbursementVoucher, Person user) {
         MailMessage message = new MailMessage();
 
-        final String fromAddress = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
-        final List<String> toAddresses = parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM);
+        final String fromAddress = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
+        final Collection<String> toAddresses = parameterService.getParameterValuesAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM);
         final String disbursementVoucherDocumentLabel = dataDictionaryService.getDocumentLabelByTypeName(DisbursementVoucherConstants.DOCUMENT_TYPE_CODE);
         final String subject = getMessage(KFSKeyConstants.MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_SUBJECT, disbursementVoucherDocumentLabel, disbursementVoucher.getCampusCode());
         final String body = getMessage(KFSKeyConstants.MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_BODY, disbursementVoucherDocumentLabel, disbursementVoucher.getCampusCode(), disbursementVoucher.getDocumentNumber());
@@ -824,7 +824,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         try {
             mailService.sendMessage(message);
         }
-        catch (InvalidAddressException e) {
+        catch (Exception e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }

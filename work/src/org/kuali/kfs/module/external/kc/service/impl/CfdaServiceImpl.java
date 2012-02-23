@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,6 @@ import java.util.Map;
 
 import javax.xml.ws.WebServiceException;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.Cfda;
@@ -51,16 +50,18 @@ public class CfdaServiceImpl implements ExternalizableBusinessObjectService {
         return port;
     }
 
+    @Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
 
-        Collection Cfda = findMatching(primaryKeys);
+        Collection cfda = findMatching(primaryKeys);
 
-        if (Cfda != null && Cfda.iterator().hasNext())
-            return (ContractsAndGrantsCfda) Cfda.iterator().next();
+        if (cfda != null && cfda.iterator().hasNext())
+            return (ContractsAndGrantsCfda) cfda.iterator().next();
         else
             return null;
     }
 
+    @Override
     public Collection findMatching(Map fieldValues) {
         List<Cfda> cfdas = null;
         java.util.List<HashMapElement> hashMapList = new ArrayList<HashMapElement>();
@@ -88,7 +89,7 @@ public class CfdaServiceImpl implements ExternalizableBusinessObjectService {
         }
 
         if (cfdas == null) cfdas = new ArrayList();
-        
+
         return cfdas;
     }
 

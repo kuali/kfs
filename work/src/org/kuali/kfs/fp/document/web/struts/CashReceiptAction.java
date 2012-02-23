@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,12 +48,12 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * 
+ *
  */
 public class CashReceiptAction extends CapitalAccountingLinesActionBase {
     /**
      * Adds handling for check updates
-     * 
+     *
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -85,7 +85,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
     /**
      * Prepares and streams CR PDF Cover Sheet
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -95,7 +95,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
      */
     public ActionForward printCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashReceiptForm crForm = (CashReceiptForm) form;
-        
+
         // get directory of tempate
         String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
 
@@ -121,7 +121,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
     /**
      * This method processes the check entry mode to determine if the user is entering checks or if they are just entering the
      * total.
-     * 
+     *
      * @param crForm
      * @param crDoc
      */
@@ -158,7 +158,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
     /**
      * This method handles iterating over the check list and generating check events to apply rules to.
-     * 
+     *
      * @param cdoc
      * @param cform
      */
@@ -181,7 +181,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
     /**
      * Adds Check instance created from the current "new check" line to the document
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -208,40 +208,10 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Adds confirmed Check instance created from the current "new check" line to the document
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward addConfirmedCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashReceiptForm crForm = (CashReceiptForm) form;
-        CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
-
-        Check newCheck = crForm.getNewConfirmedCheck();
-        newCheck.setDocumentNumber(crDoc.getDocumentNumber());
-
-        // check business rules
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCheckEvent(KFSConstants.NEW_CHECK_PROPERTY_NAME, crDoc, newCheck));
-        if (rulePassed) {
-            // add check
-            crDoc.addConfirmedCheck(newCheck);
-
-            // clear the used newCheck
-            crForm.setNewConfirmedCheck(crDoc.createNewConfirmedCheck());
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Adds confirmed Check instance created from the current "new check" line to the document
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -271,7 +241,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
     /**
      * Deletes the selected check (line) from the document
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -304,10 +274,10 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Deletes the selected check (line) from the document
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -340,47 +310,10 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    /**
-     * Deletes the selected check (line) from the document
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward deleteConfirmedCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashReceiptForm crForm = (CashReceiptForm) form;
-        CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
-
-        int deleteIndex = getLineToDelete(request);
-        Check oldCheck = crDoc.getConfirmedCheck(deleteIndex);
-
-
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteCheckEvent(KFSConstants.EXISTING_CHECK_PROPERTY_NAME, crDoc, oldCheck));
-
-        if (rulePassed) {
-            // delete check
-            crDoc.removeConfirmedCheck(deleteIndex);
-
-            // delete baseline check, if any
-            if (crForm.hasBaselineCheck(deleteIndex)) {
-                crForm.getBaselineChecks().remove(deleteIndex);
-            }
-        }
-        else {
-            GlobalVariables.getMessageMap().putError("document.confirmedCheck[" + deleteIndex + "]", KFSKeyConstants.Check.ERROR_CHECK_DELETERULE, Integer.toString(deleteIndex));
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
 
     /**
      * Changes the current check-entry mode, if necessary
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -437,12 +370,12 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
         CashReceiptForm crForm = (CashReceiptForm) kualiDocumentFormBase;
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
 
-        CashReceiptService crs = SpringContext.getBean(CashReceiptService.class);         
+        CashReceiptService crs = SpringContext.getBean(CashReceiptService.class);
         crDoc.initializeCampusLocationCode();
 
         /* initialize currency and coin detail */
         CurrencyDetail currencyDetail = new CurrencyDetail();
-        currencyDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS); 
+        currencyDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
         currencyDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
         currencyDetail.setDocumentNumber(crDoc.getDocumentNumber());
         crDoc.setCurrencyDetail(currencyDetail);
@@ -452,13 +385,13 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
         coinDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
         coinDetail.setDocumentNumber(crDoc.getDocumentNumber());
         crDoc.setCoinDetail(coinDetail);
-        
+
         CurrencyDetail confirmedCurrencyDetail = new CurrencyDetail();
-        confirmedCurrencyDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN); 
+        confirmedCurrencyDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
         confirmedCurrencyDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
         confirmedCurrencyDetail.setDocumentNumber(crDoc.getDocumentNumber());
         crDoc.setConfirmedCurrencyDetail(confirmedCurrencyDetail);
-        
+
         CoinDetail confirmedCoinDetail = new CoinDetail();
         confirmedCoinDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
         confirmedCoinDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
@@ -477,10 +410,10 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
         initDerivedCheckValues((CashReceiptForm) kualiDocumentFormBase);
     }
-    
+
     /**
      * Copy all original checks to cash manager confirmed checks
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -491,7 +424,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
     public ActionForward copyAllChecks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashReceiptForm crForm = (CashReceiptForm) form;
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
-        
+
         Check c, confirmedCheck;
         for (Iterator<Check> i = crDoc.getChecks().iterator(); i.hasNext();) {
             c = i.next();
@@ -501,7 +434,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
             confirmedCheck.setCheckNumber(c.getCheckNumber());
             confirmedCheck.setAmount(c.getAmount());
             confirmedCheck.setDescription(c.getDescription());
-            
+
             crDoc.addConfirmedCheck(confirmedCheck);
             // clear the used newCheck
             crForm.setNewConfirmedCheck(crDoc.createNewConfirmedCheck());
@@ -509,10 +442,10 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Copy all original currency and coin to cash manager confirmed currency and coin
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -525,7 +458,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
         CurrencyDetail currencyDetail = crDoc.getCurrencyDetail();
         CoinDetail coinDetail = crDoc.getCoinDetail();
-        
+
         //populate new confirmedCurrencyDetail object
         CurrencyDetail confCurrencyDetail = new CurrencyDetail();
         confCurrencyDetail.setDocumentNumber(crDoc.getDocumentNumber());
@@ -539,7 +472,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
         confCurrencyDetail.setFinancialDocumentTwoDollarAmount(currencyDetail.getFinancialDocumentTwoDollarAmount());
         confCurrencyDetail.setFinancialDocumentOneDollarAmount(currencyDetail.getFinancialDocumentOneDollarAmount());
         confCurrencyDetail.setFinancialDocumentOtherDollarAmount(currencyDetail.getFinancialDocumentOtherDollarAmount());
-        
+
         //populate new confirmedCoinDetail object
         CoinDetail confCoinDetail = new CoinDetail();
         confCoinDetail.setDocumentNumber(crDoc.getDocumentNumber());
@@ -552,18 +485,18 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
         confCoinDetail.setFinancialDocumentFiveCentAmount(coinDetail.getFinancialDocumentFiveCentAmount());
         confCoinDetail.setFinancialDocumentOneCentAmount(coinDetail.getFinancialDocumentOneCentAmount());
         confCoinDetail.setFinancialDocumentOtherCentAmount(coinDetail.getFinancialDocumentOtherCentAmount());
-        
+
         crDoc.setConfirmedCurrencyDetail(confCurrencyDetail);
         crDoc.setConfirmedCoinDetail(confCoinDetail);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
 
     /**
      * Initializes form values which must be derived form document contents (i.e. those which aren't directly available from the
      * document)
-     * 
+     *
      * @param cform
      */
     protected void initDerivedCheckValues(CashReceiptForm cform) {
@@ -586,87 +519,6 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
         initDerivedCheckValues((CashReceiptForm)form);
         return forward;
     }
-    
-    /**
-     * Copy all original checks to cash manager confirmed checks
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward copyAllChecks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashReceiptForm crForm = (CashReceiptForm) form;
-        CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
-        
-        Check c, confirmedCheck;
-        for (Iterator<Check> i = crDoc.getChecks().iterator(); i.hasNext();) {
-            c = i.next();
-            confirmedCheck = crForm.getNewConfirmedCheck();
-            confirmedCheck.setDocumentNumber(c.getDocumentNumber());
-            confirmedCheck.setCheckDate(c.getCheckDate());
-            confirmedCheck.setCheckNumber(c.getCheckNumber());
-            confirmedCheck.setAmount(c.getAmount());
-            confirmedCheck.setDescription(c.getDescription());
-            
-            crDoc.addConfirmedCheck(confirmedCheck);
-            // clear the used newCheck
-            crForm.setNewConfirmedCheck(crDoc.createNewConfirmedCheck());
-        }
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
-    /**
-     * Copy all original currency and coin to cash manager confirmed currency and coin
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward copyAllCurrencyAndCoin(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashReceiptForm crForm = (CashReceiptForm) form;
-        CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
-        CurrencyDetail currencyDetail = crDoc.getCurrencyDetail();
-        CoinDetail coinDetail = crDoc.getCoinDetail();
-        
-        //populate new confirmedCurrencyDetail object
-        CurrencyDetail confCurrencyDetail = new CurrencyDetail();
-        confCurrencyDetail.setDocumentNumber(crDoc.getDocumentNumber());
-        confCurrencyDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-        confCurrencyDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
-        confCurrencyDetail.setFinancialDocumentHundredDollarAmount(currencyDetail.getFinancialDocumentHundredDollarAmount());
-        confCurrencyDetail.setFinancialDocumentFiftyDollarAmount(currencyDetail.getFinancialDocumentFiftyDollarAmount());
-        confCurrencyDetail.setFinancialDocumentTwentyDollarAmount(currencyDetail.getFinancialDocumentTwentyDollarAmount());
-        confCurrencyDetail.setFinancialDocumentTenDollarAmount(currencyDetail.getFinancialDocumentTenDollarAmount());
-        confCurrencyDetail.setFinancialDocumentFiveDollarAmount(currencyDetail.getFinancialDocumentFiveDollarAmount());
-        confCurrencyDetail.setFinancialDocumentTwoDollarAmount(currencyDetail.getFinancialDocumentTwoDollarAmount());
-        confCurrencyDetail.setFinancialDocumentOneDollarAmount(currencyDetail.getFinancialDocumentOneDollarAmount());
-        confCurrencyDetail.setFinancialDocumentOtherDollarAmount(currencyDetail.getFinancialDocumentOtherDollarAmount());
-        
-        //populate new confirmedCoinDetail object
-        CoinDetail confCoinDetail = new CoinDetail();
-        confCoinDetail.setDocumentNumber(crDoc.getDocumentNumber());
-        confCoinDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-        confCoinDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
-        confCoinDetail.setFinancialDocumentHundredCentAmount(coinDetail.getFinancialDocumentHundredCentAmount());
-        confCoinDetail.setFinancialDocumentFiftyCentAmount(coinDetail.getFinancialDocumentFiftyCentAmount());
-        confCoinDetail.setFinancialDocumentTwentyFiveCentAmount(coinDetail.getFinancialDocumentTwentyFiveCentAmount());
-        confCoinDetail.setFinancialDocumentTenCentAmount(coinDetail.getFinancialDocumentTenCentAmount());
-        confCoinDetail.setFinancialDocumentFiveCentAmount(coinDetail.getFinancialDocumentFiveCentAmount());
-        confCoinDetail.setFinancialDocumentOneCentAmount(coinDetail.getFinancialDocumentOneCentAmount());
-        confCoinDetail.setFinancialDocumentOtherCentAmount(coinDetail.getFinancialDocumentOtherCentAmount());
-        
-        crDoc.setConfirmedCurrencyDetail(confCurrencyDetail);
-        crDoc.setConfirmedCoinDetail(confCoinDetail);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
 }
 

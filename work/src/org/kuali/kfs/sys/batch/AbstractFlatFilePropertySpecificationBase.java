@@ -2,8 +2,8 @@ package org.kuali.kfs.sys.batch;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.sys.businessobject.format.BatchDateFormatter;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.springframework.util.StringUtils;
 
 
@@ -15,13 +15,14 @@ public abstract class AbstractFlatFilePropertySpecificationBase implements FlatF
     protected String propertyName;
     protected boolean rightTrim;
     protected boolean leftTrim;
-    protected Class<? extends Formatter> formatterClass = org.kuali.rice.kns.web.format.Formatter.class;
+    protected Class<? extends Formatter> formatterClass = Formatter.class;
     protected String dateFormat;
     protected boolean formatToTimestamp = false;
 
     /**
      * @return the name of the property that should be set
      */
+    @Override
     public String getPropertyName() {
         return propertyName;
     }
@@ -30,9 +31,10 @@ public abstract class AbstractFlatFilePropertySpecificationBase implements FlatF
      * Sets the property on the business object
      * @param value the substring of the parsed line to set
      * @param businessObject the business object to set the parsed line on
-     * @param lineNumber the parsed line number     
+     * @param lineNumber the parsed line number
      */
-    
+
+    @Override
     public void setProperty(String value, Object businessObject, int lineNumber) {
         if (leftTrim) {
             value = StringUtils.trimLeadingWhitespace(value);
@@ -55,8 +57,8 @@ public abstract class AbstractFlatFilePropertySpecificationBase implements FlatF
      * @return the class for the formatter
      */
     protected Class<?> getFormatterClass(Object parsedObject) {
-        if (formatterClass == org.kuali.rice.kns.web.format.Formatter.class) {
-            Class<? extends Formatter> attributeFormatter = KNSServiceLocator.getDataDictionaryService().getAttributeFormatter(parsedObject.getClass(), this.propertyName);
+        if (Formatter.class.isAssignableFrom(formatterClass) ) {
+            Class<? extends Formatter> attributeFormatter = KRADServiceLocatorWeb.getDataDictionaryService().getAttributeFormatter(parsedObject.getClass(), this.propertyName);
             if (attributeFormatter != null) {
                 this.formatterClass = attributeFormatter;
             }
@@ -140,7 +142,7 @@ public abstract class AbstractFlatFilePropertySpecificationBase implements FlatF
     }
 
     /**
-     * If the substring represents a date, then this is the format used to parse that date; it should be 
+     * If the substring represents a date, then this is the format used to parse that date; it should be
      * compatible with java.text.SimpleDateFormat
      * @param dateFormat the date format to utilized
      */
@@ -150,7 +152,7 @@ public abstract class AbstractFlatFilePropertySpecificationBase implements FlatF
 
     /**
      * If the formatter for this class is a BatchDateFormatter, then the formatted Date should be in the form of a timestamp
-     * 
+     *
      * @param formatToTimestamp true if we should format to timestamp, false (the default) if we should not
      */
     public void setFormatToTimestamp(boolean formatToTimestamp) {

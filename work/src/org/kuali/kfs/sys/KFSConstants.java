@@ -463,7 +463,7 @@ public class KFSConstants {
     public static final String EDIT_PRE_ENCUMBRANCE_ERRORS = "EditPreEncumbranceErrors";
 
     public static final String ACCOUNTING_LINE_ERRORS = "document.accountingLines";
-    
+
     //cannot use SOURCE_ACCOUNTING_LINE_ERROR_PATTERN due to doubled error displayed in checking already added source accounting line
     public static final String NEW_SOURCE_LINE_ERRORS = "newSourceLine*";
     public static final String SOURCE_ACCOUNTING_LINE_ERROR_PATTERN = "document.sourceAccounting*,sourceAccountingLines,newSourceLine*,journalLineHelper*,auxiliaryLineHelper*";
@@ -730,7 +730,7 @@ public class KFSConstants {
         public static final String NUMBER_OF_DAYS_SINCE_LAST_UPDATE  = "NUMBER_OF_DAYS_SINCE_LAST_UPDATE";
 
         public static final String ACCOUNTS_CAN_CROSS_CHARTS_IND = "ACCOUNTS_CAN_CROSS_CHARTS_IND";
-        
+
         public static final String BATCH_CONTAINER_SEMAPHORE_PROCESSING_INTERVAL = "SEMAPHORE_PROCESSING_INTERVAL";
     }
 
@@ -1000,6 +1000,7 @@ public class KFSConstants {
         public static final String ADVANCE_DEPOSIT = "AD";
         public static final String CASH_MANAGEMENT = "CMD";
         public static final String CREDIT_CARD_RECEIPT = "CCR";
+        public static final String NON_CHECK_DISBURSEMENT = "ND";
 
         // accounts receivable
         public static final String CASH_CONTROL = "CTRL";
@@ -1237,7 +1238,7 @@ public class KFSConstants {
         public static final String TABLE_CELL_FORMAT_KEY = "tableCellFormat";
         public static final String[] FORMAT_ESCAPE_CHARACTERS = new String[]{"%", "\\"};
     }
-    
+
     public static final String REQUIRES_WORKSTUDY_REVIEW = "RequiresWorkstudyReview";
     public static final String WORKSTUDY_ROUTE_OBJECT_CODES_PARM_NM = "WORKSTUDY_ROUTE_OBJECT_CODES";
     public static final String DOCUMENT_LOCKOUT_PARM_NM = "LOCKOUT_IND";
@@ -1245,14 +1246,14 @@ public class KFSConstants {
     public static final String DOCUMENT_LOCKOUT_DEFAULT_MESSAGE = "DOCUMENT_LOCKOUT_DEFAULT_MESSAGE";
     public static final String DOCUMENT_LOCKED_MAPPING = "moduleLocked";
     public static final String FROM_EMAIL_ADDRESS_PARM_NM = "FROM_EMAIL_ADDRESS";
-    
- 
+
+
     // System Parameters
     public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
     public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
 
-    
-   
+
+
 
     public static final String REPORT_WRITER_SERVICE_PAGE_NUMBER_PLACEHOLDER = "${pageNumber}";
 
@@ -1286,17 +1287,17 @@ public class KFSConstants {
         public static final String DISTRIBUTE_COST_EQUALLY_DESCRIPTION = "Distribute cost evenly";
         public static final String DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_CODE = "1";
         public static final String DISTRIBUTE_COST_BY_INDIVIDUAL_ASSET_AMOUNT_DESCRIPTION = "Distribute cost by amount";
-        
+
         public static final Integer PERCENT_SCALE = new Integer(2);
         public static final Integer CAPITAL_ACCOUNT_LINE_PERCENT_SCALE = new Integer(20);
     }
- 
+
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_PERMISSION = "Edit Accounting Period";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_PERMISSION = "View Accounting Period";
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
     // CSU 6702 END
-    
-    
+
+
 }
 

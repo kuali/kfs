@@ -3,8 +3,8 @@ package org.kuali.kfs.sys.businessobject.format;
 import java.math.BigDecimal;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.format.BigDecimalFormatter;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.BigDecimalFormatter;
 
 
 /**
@@ -16,11 +16,12 @@ public class ExplicitKualiDecimalFormatter extends BigDecimalFormatter {
 	/**
 	 * Converts the given String into a KualiDecimal with the final two characters being behind the decimal place
 	 */
-	protected Object convertToObject(String target) {
+	@Override
+    protected Object convertToObject(String target) {
 		BigDecimal value = (BigDecimal)super.convertToObject(addDecimalPoint(target));
 		return new KualiDecimal(value);
-	}    
-	
+	}
+
 	/**
 	 * Adds the decimal point to the String
 	 * @param amount the String representing the amount

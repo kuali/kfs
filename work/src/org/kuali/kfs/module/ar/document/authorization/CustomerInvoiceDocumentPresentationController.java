@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,6 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
@@ -32,6 +31,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
@@ -40,9 +40,9 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
     @Override
    public Set<String> getDocumentActions(Document document) {
 
-        Set<String> documentActions = super.getDocumentActions(document); 
+        Set<String> documentActions = super.getDocumentActions(document);
         if (isDocErrorCorrectionMode((FinancialSystemTransactionalDocument) document)) {
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_EDIT);
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT);
         }
 
         return documentActions;
@@ -54,9 +54,9 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
 
         if (!isDocErrorCorrectionMode((FinancialSystemTransactionalDocument) document)) {
             editModes.add(KfsAuthorizationConstants.CustomerInvoiceEditMode.PROCESSING_ORGANIZATION_MODE);
-            
+
         }
-        
+
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
         String receivableOffsetOption = paramService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
 
@@ -67,7 +67,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal())) {
             editModes.add(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON);
-        }        
+        }
         else {
             if (editModes.contains(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON)) {
                 editModes.remove(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON);
@@ -79,7 +79,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
         }
 
         return editModes;
-    }    
+    }
 
     @Override
     public boolean canCopy(Document document) {
@@ -87,7 +87,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
         CustomerInvoiceDocument ciDoc = (CustomerInvoiceDocument)document;
 
         // Confirm doc is in a saved and copyable state.
-        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().isInitiated(); 
+        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().isInitiated();
         copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().isCanceled();
 
         // Confirm doc is reversible.
@@ -105,7 +105,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
         if(((CustomerInvoiceDocument)document).isInvoiceReversal()){
             return false;
         } else {
-            // a normal invoice can only be error corrected if document is in a final state 
+            // a normal invoice can only be error corrected if document is in a final state
             // and no amounts have been applied (excluding discounts)
             return isDocFinalWithNoAppliedAmountsExceptDiscounts((CustomerInvoiceDocument) document);
         }
@@ -120,18 +120,18 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
 
         return isFinal && !hasAppliedAmountsExcludingDiscounts;
     }
-    
+
     protected boolean isDocErrorCorrectionMode(FinancialSystemTransactionalDocument document) {
-        
+
         // check if this document has been error corrected
-        if (StringUtils.isNotBlank(document.getDocumentHeader().getCorrectedByDocumentId())) {
+        if (StringUtils.isNotBlank(document.getFinancialSystemDocumentHeader().getCorrectedByDocumentId())) {
             return true;
         }
 
         if(((CustomerInvoiceDocument)document).isInvoiceReversal()){
             return true;
         } else {
-            // a normal invoice can only be error corrected if document is in a final state 
+            // a normal invoice can only be error corrected if document is in a final state
             // and no amounts have been applied (excluding discounts)
             return isDocFinalWithNoAppliedAmountsExceptDiscounts((CustomerInvoiceDocument) document);
         }

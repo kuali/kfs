@@ -20,9 +20,9 @@ import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLin
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -55,9 +55,9 @@ public class ExpenseTransferAccountingLineInquirable extends KfsInquirableImpl {
             }
 
             String fieldValue = objFieldValue == null ? KFSConstants.EMPTY_STRING : objFieldValue.toString();
-            final String url =  SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY)+"/fringeBenefitInquiry.do?" + parameters ;
+            final String url =  SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY)+"/fringeBenefitInquiry.do?" + parameters ;
 
-            return new AnchorHtmlData(url, KNSConstants.EMPTY_STRING, "");
+            return new AnchorHtmlData(url, "", "");
         }
 
         }

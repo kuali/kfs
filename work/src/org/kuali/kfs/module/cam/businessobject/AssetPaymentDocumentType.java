@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -28,7 +29,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * This class is to store document type use by the asset global document - Asset Payment tab.
  */
 
-public class AssetPaymentDocumentType extends PersistableBusinessObjectBase implements Inactivateable {
+public class AssetPaymentDocumentType extends PersistableBusinessObjectBase implements MutableInactivatable {
     private Long documentTypeId;
     private String expenditureFinancialDocumentTypeCode;
     private String label;
@@ -83,11 +84,13 @@ public class AssetPaymentDocumentType extends PersistableBusinessObjectBase impl
     }
 
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

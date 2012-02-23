@@ -14,36 +14,36 @@ import org.apache.log4j.NDC;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.batch.Step;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 
 
 /**
- * BatchStepExecutor executes a Step in its own Thread and writes either a .success or .error file after execution. 
- * This class notifies the ContainerStepListener when a Step has started and when it has completed. 
- * 
+ * BatchStepExecutor executes a Step in its own Thread and writes either a .success or .error file after execution.
+ * This class notifies the ContainerStepListener when a Step has started and when it has completed.
+ *
  * BatchStepExecutor adds a ConsoleAppender to its Logger if one hasn't been configured.
  *
  */
 public class BatchStepExecutor implements Runnable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchStepExecutor.class);
-	
+
 	private ParameterService parameterService;
 	private DateTimeService dateTimeService;
 	private BatchContainerDirectory batchContainerDirectory;
 	private BatchStepFileDescriptor batchStepFile;
 	private Step step;
 	private int stepIndex;
-	
+
 	private Appender ndcAppender;
 	private boolean ndcSet;
 	private String logFileName;
-	
+
 	private List<ContainerStepListener> containerStepListeners;
-		
+
 	/**
 	 * @param parameterService the ParameterService used by Job
 	 * @param dateTimeService the DateTimeService used by Job
@@ -54,35 +54,36 @@ public class BatchStepExecutor implements Runnable {
 	 */
 	public BatchStepExecutor(ParameterService parameterService, DateTimeService dateTimeService, BatchContainerDirectory batchContainerDirectory, BatchStepFileDescriptor batchStepFile, Step step, int stepIndex) {
 	    BatchLogger.addConsoleAppender(LOG);
-	    
+
 		this.parameterService = parameterService;
 		this.dateTimeService = dateTimeService;
-		
+
 		this.batchContainerDirectory = batchContainerDirectory;
 		this.batchStepFile = batchStepFile;
 		this.step = step;
 		this.stepIndex = stepIndex;
-		
+
 		this.containerStepListeners = new ArrayList<ContainerStepListener>();
-		
+
 		LOG.info("Initialized thread executor for "+ batchStepFile);
 	}
-	
+
 	/**
 	 * Execute the Step via Job.runStep(). Setup NDC logging so the Step has its own log file. Remove the NDC logging once the step is finished executing.
 	 * Notify the ContainerStepListeners when the step starts and finishes.
 	 */
-	public void run() {
+	@Override
+    public void run() {
 	    Date stepRunDate = dateTimeService.getCurrentDate();
 	    batchStepFile.setStartedDate(stepRunDate);
 	    batchStepFile.setStepIndex(new Integer(stepIndex));
-	    
-		setupNDCLogging();		
+
+		setupNDCLogging();
 		notifyStepStarted();
-		
-		try {        	            
+
+		try {
 			LOG.info("Running "+ batchStepFile);
-			
+
 			boolean result = Job.runStep(parameterService, batchStepFile.getJobName(), stepIndex, step, stepRunDate);
 
 			if (result) {
@@ -91,37 +92,37 @@ public class BatchStepExecutor implements Runnable {
 			}
 			else {
 				LOG.info("Step returned false");
-				batchContainerDirectory.writeBatchStepErrorResultFile(batchStepFile);        					
+				batchContainerDirectory.writeBatchStepErrorResultFile(batchStepFile);
 			}
 
 		} catch (Throwable throwable) {
 			LOG.info("Step threw an error: ", throwable);
-			batchContainerDirectory.writeBatchStepErrorResultFile(batchStepFile, throwable);        					
-			
+			batchContainerDirectory.writeBatchStepErrorResultFile(batchStepFile, throwable);
+
 		} finally {
-		    
-		    notifyStepFinished();		    
+
+		    notifyStepFinished();
 			resetNDCLogging();
-		}		
+		}
 	}
-	
+
 	/**
 	 * Adds a ContainerStepListener for step start and completion notifications
-	 * 
-	 * @param listener the ContainerStepListener 
+	 *
+	 * @param listener the ContainerStepListener
 	 */
 	public void addContainerStepListener(ContainerStepListener listener) {
 	    this.containerStepListeners.add(listener);
 	}
-	
+
 	/**
 	 * Add a new appender and context to the NDC for this execution of the step
 	 */
-	private void setupNDCLogging() {        
+	private void setupNDCLogging() {
         String nestedDiagnosticContext = getNestedDiagnosticContext();
         logFileName = getLogFileName(nestedDiagnosticContext);
-        
-        ndcAppender = null; 
+
+        ndcAppender = null;
         ndcSet = false;
         try {
             ndcAppender = new FileAppender(BatchLogger.getLogFileAppenderLayout(), logFileName);
@@ -133,7 +134,7 @@ public class BatchStepExecutor implements Runnable {
             LOG.warn("Could not initialize custom logging for step: " + step.getName(), ex);
         }
 	}
-	
+
 	/**
 	 * Remove the appender and context from the NDC
 	 */
@@ -142,49 +143,49 @@ public class BatchStepExecutor implements Runnable {
             ndcAppender.close();
             Logger.getRootLogger().removeAppender(ndcAppender);
             NDC.pop();
-        }		
+        }
 	}
-	
+
 	/**
 	 * Constructs the name of the log file to write to for this execution of the step
-	 * 
+	 *
 	 * @param nestedDiagnosticContext the context returned by getNestedDiagnosticContext() for this step
 	 * @return the name of the log file
 	 */
     private String getLogFileName(String nestedDiagnosticContext) {
-        return SpringContext.getBean( KualiConfigurationService.class ).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY) 
-                + File.separator 
+        return SpringContext.getBean( ConfigurationService.class ).getPropertyValueAsString(KFSConstants.REPORTS_DIRECTORY_KEY)
+                + File.separator
                 + nestedDiagnosticContext + ".log";
     }
-    
+
     /**
      * @return the nested diagnostic context string for this step's log file
      */
 	@SuppressWarnings("unchecked")
     private String getNestedDiagnosticContext() {
         Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
-        Class stepClass = unProxiedStep.getClass();        
-        ModuleService module = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService( stepClass );                    
-        
-        String nestedDiagnosticContext = 
+        Class stepClass = unProxiedStep.getClass();
+        ModuleService module = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService( stepClass );
+
+        String nestedDiagnosticContext =
                 StringUtils.substringAfter( module.getModuleConfiguration().getNamespaceCode(), "-").toLowerCase()
                 + File.separator + step.getName()
                 + "-" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
-        
+
         return nestedDiagnosticContext;
     }
-	
+
 	/**
 	 * Notify the ContainerStepListeners that the Step has started
 	 */
-	private void notifyStepStarted() {	    
+	private void notifyStepStarted() {
 	    String shortLogFileName = getShortLogFileName();
-	    
+
 	    for(ContainerStepListener listener : this.containerStepListeners) {
 	        listener.stepStarted(batchStepFile, shortLogFileName);
 	    }
 	}
-	
+
 	/**
 	 * Notify the ContainerStepListeners that the Step has completed
 	 */
@@ -192,26 +193,26 @@ public class BatchStepExecutor implements Runnable {
 	    BatchStepFileDescriptor resultFile = batchContainerDirectory.getResultFile(batchStepFile);
 	    resultFile.setCompletedDate(dateTimeService.getCurrentDate());
 	    resultFile.setStepIndex(new Integer(stepIndex));
-	    
+
         String shortLogFileName = getShortLogFileName();
-	    
+
 	    for(ContainerStepListener listener : this.containerStepListeners) {
 	        listener.stepFinished(resultFile, shortLogFileName);
 	    }
 	}
-	
+
 	/**
 	 * Returns just the name of the log file without the absolute path
-	 * 
+	 *
 	 * @return just the name of the log file (not the entire path)
 	 */
 	private String getShortLogFileName() {
         String shortLogFileName = logFileName;
-        
+
         File logFile = new File(logFileName);
         if (logFile.exists()) {
             shortLogFileName = logFile.getName();
-        }	    
+        }
         return shortLogFileName;
 	}
 }

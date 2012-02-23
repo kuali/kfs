@@ -17,6 +17,8 @@ package org.kuali.kfs.sys.batch;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +30,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -232,7 +235,7 @@ public class Job implements StatefulJob, InterruptableJob {
             return false;
         }
     }
-    
+
     public static boolean isPastCutoffWindow(Date date, List<String> runDates) {
         DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);

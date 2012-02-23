@@ -117,20 +117,6 @@
     <field-descriptor name="active" column="CG_GRNT_DESC_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanFieldAIConversion" />
 </class-descriptor>
 
-<!-- 
- 
- CATALOG OF FEDERAL DOMESTIC ASSISTANCE REFERENCE (CFDA)
-
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.CFDA" table="CG_CFDA_REF_T">
-    <field-descriptor name="cfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="cfdaProgramTitleName" column="CG_CFDA_PGM_TTL_NM" jdbc-type="VARCHAR" />
-    <!--field-descriptor name="cfdaStatusCode" column="CG_CFDA_STAT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanFieldAIConversion"/-->
-    <field-descriptor name="cfdaMaintenanceTypeId" column="CG_CFDA_MAINT_TYP_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
 
 <!-- 
  

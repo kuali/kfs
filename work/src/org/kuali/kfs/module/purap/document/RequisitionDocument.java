@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -95,10 +95,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     protected String alternate5VendorName;
     protected KualiDecimal organizationAutomaticPurchaseOrderLimit;
     protected List reqStatusList;
-    
+
     // non-persistent property used for controlling validation for accounting lines when doc is request for blanket approve.
     protected boolean isBlanketApproveRequest = false;
-    
+
     /**
      * Default constructor.
      */
@@ -114,7 +114,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * Provides answers to the following splits:
      * AmountRequiresSeparationOfDutiesReview
-     * 
+     *
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
@@ -131,14 +131,14 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     protected boolean isSeparationOfDutiesReviewRequired() {
         try {
             Set<Person> priorApprovers = this.getAllPriorApprovers();
-            
+
             // The initiator cannot be the approver
             String initiatorPrincipalId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             Person initiator = SpringContext.getBean(PersonService.class).getPerson(initiatorPrincipalId);
@@ -148,7 +148,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             if ( priorApproverIsInitiator && onlyOneApprover) {
                 return true;
             }
-            
+
             // if there are more than 0 prior approvers which means there had been at least another approver than the current approver
             // then no need for separation of duties
             if (priorApprovers.size() > 0) {
@@ -174,7 +174,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
          List<ActionTaken> actionsTaken = getDocumentHeader().getWorkflowDocument().getActionsTaken();
         Set<String> principalIds = new HashSet<String>();
         Set<Person> persons = new HashSet<Person>();
-        
+
         for (ActionTaken actionTaken : actionsTaken) {
             if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken())) {
                 String principalId = actionTaken.getPrincipalId();
@@ -186,25 +186,25 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
         return persons;
     }
-     
+
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria
      * specific to Requisition Document.
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#isInquiryRendered()
      */
     @Override
     public boolean isInquiryRendered() {
-        if ( isPostingYearPrior() && 
-             ( getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_CLOSED) || 
+        if ( isPostingYearPrior() &&
+             ( getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_CLOSED) ||
                getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_CANCELLED) ) )  {
-               return false;            
+               return false;
         }
         else {
             return true;
         }
     }
-    
+
     /**
      * Performs logic needed to initiate Requisition Document.
      */
@@ -216,7 +216,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
         this.setDocumentFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
         this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
-            
+
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser, PurapConstants.PURAP_NAMESPACE);
         if (ObjectUtils.isNotNull(purapChartOrg)) {
@@ -245,7 +245,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 SpringContext.getBean(BusinessObjectService.class).delete(defaultPrincipalAddress);
             }
         }
-        
+
         // set the APO limit
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
 
@@ -255,15 +255,15 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
         billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
         this.templateBillingAddress(billingAddress);
-        
+
         // populate receiving address with the default one for the chart/org
         loadReceivingAddress();
-        
+
         // Load Requistion Statuses
         RequisitionStatusValuesFinder requisitionStatusValuesFinder = new RequisitionStatusValuesFinder();
         reqStatusList = requisitionStatusValuesFinder.getKeyValues();
-        
-        
+
+
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.refreshNonUpdateableReferences();
     }
@@ -282,18 +282,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     /**
      * Determines what PO transmission method to use.
-     * 
+     *
      * @return the PO PO transmission method to use.
      */
     protected String determinePurchaseOrderTransmissionMethod() {
-        
+
         return SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
     }
 
     /**
      * Checks whether copying of this document should be allowed. Copying is not allowed if this is a B2B requistion, and more than
      * a set number of days have passed since the document's creation.
-     * 
+     *
      * @return True if copying of this requisition is allowed.
      * @see org.kuali.rice.kns.document.Document#getAllowsCopy()
      */
@@ -320,7 +320,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     /**
      * Performs logic needed to copy Requisition Document.
-     * 
+     *
      * @see org.kuali.rice.kns.document.Document#toCopy()
      */
     @Override
@@ -330,7 +330,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // Clear related views
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         this.setRelatedViews(null);
-        
+
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser, PurapConstants.PURAP_NAMESPACE);
         this.setPurapDocumentIdentifier(null);
@@ -338,7 +338,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // Set req status to INPR.
         //for app doc status
         setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
-        
+
 
         // Set fields from the user.
         if (ObjectUtils.isNotNull(purapChartOrg)) {
@@ -401,7 +401,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
         clearCapitalAssetFields();
         SpringContext.getBean(PurapService.class).clearTax(this, this.isUseTaxIndicator());
-        
+
         this.refreshNonUpdateableReferences();
     }
 
@@ -409,12 +409,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public List<String> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = new ArrayList<String>();
         docIdStrings.add(getDocumentNumber());
-        
+
         //  PROCESSED
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             // creates a new PO but no way to know what the docID will be ahead of time
         }
-        
+
         return docIdStrings;
     }
 
@@ -440,10 +440,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                String disapprovalStatus = RequisitionStatuses.getRequistionAppDocStatuses().get(nodeName);                
-                
+                String disapprovalStatus = RequisitionStatuses.getRequistionAppDocStatuses().get(nodeName);
+
                 if (StringUtils.isNotBlank(disapprovalStatus)) {
-                    updateAndSaveAppDocStatus(disapprovalStatus);                    
+                    updateAndSaveAppDocStatus(disapprovalStatus);
                 }else{
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
                 }
@@ -467,8 +467,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void doRouteLevelChange(DocumentRouteLevelChange change) {
         LOG.debug("handleRouteLevelChange() started");
         super.doRouteLevelChange(change);
-/*       
-  FIXME: Remove this code 
+/*
+  FIXME: Remove this code
         try {
             String newNodeName = change.getNewNodeName();
             if (StringUtils.isNotBlank(newNodeName)) {
@@ -493,6 +493,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
             LOG.warn(errorMsg, e);
         }
+        */
     }
 
     /**
@@ -502,8 +503,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public Class getSourceAccountingLineClass() {
       //NOTE: do not do anything with this method as it is used by routing etc!
         return super.getSourceAccountingLineClass();
-    } 
-    
+    }
+
     public String getRequisitionOrganizationReference1Text() {
         return requisitionOrganizationReference1Text;
     }
@@ -591,7 +592,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     /**
      * Returns null as requistion has no source document.
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
      */
     @Override
@@ -601,7 +602,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     /**
      * Returns null as requistion has no source document.
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
      */
     @Override
@@ -632,7 +633,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     /**
      * Gets this requisition's Chart/Account of the first accounting line from the first item.
-     * 
+     *
      * @return The first Chart and Account, or an empty string if there is none.
      */
     protected String getFirstChartAccount() {
@@ -659,7 +660,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     /**
      * Used for routing only.
-     * 
+     *
      * @deprecated
      */
     public String getStatusDescription() {
@@ -668,12 +669,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     /**
      * Used for routing only.
-     * 
+     *
      * @deprecated
      */
     public void setStatusDescription(String statusDescription) {
     }
-    
+
     /**
      * This is a "do nothing" version of the method - it just won't create GLPEs
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
@@ -687,12 +688,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public Class getPurchasingCapitalAssetItemClass() {
         return RequisitionCapitalAssetItem.class;
     }
-    
+
     @Override
     public Class getPurchasingCapitalAssetSystemClass() {
         return RequisitionCapitalAssetSystem.class;
     }
-    
+
     @Override
     public boolean shouldGiveErrorForEmptyAccountsProration() {
         //to be removed
@@ -704,13 +705,13 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
         return true;
     }
-    
+
     public Date getCreateDateForResult() {
         return this.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
     }
 
     /**
-     * Gets the isBlanketApproveRequest attribute. 
+     * Gets the isBlanketApproveRequest attribute.
      * @return Returns the isBlanketApproveRequest.
      */
     public boolean isBlanketApproveRequest() {
@@ -726,7 +727,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     public String getStatusDescription(String statusCode) {
-       
+
         for (Iterator i = reqStatusList.iterator(); i.hasNext();) {
                 ConcreteKeyValue pair = (ConcreteKeyValue) i.next();
                 if (StringUtils.equals((String) pair.getKey(), statusCode)) {
@@ -734,18 +735,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 }
             }
             return "";
-       
+
     }
-    
+
     /**
      * retrieves the system parameter value for account distribution method and determines
-     * if the drop-down box on the form should be read only or not.  Sets the default 
+     * if the drop-down box on the form should be read only or not.  Sets the default
      * value for account distribution method property on the document.
      */
     public void setupAccountDistributionMethod() {
         String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
         String defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE;
-        
+
         if (PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod) || PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
             defaultDistributionMethodCode = defaultDistributionMethod;
         }
@@ -762,6 +763,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
         setAccountDistributionMethod(defaultDistributionMethodCode);
     }
-    
+
 }
 

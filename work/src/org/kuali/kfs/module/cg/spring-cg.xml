@@ -151,39 +151,6 @@
         </property>
     </bean>
 
-    <bean id="cfdaService"  parent="cfdaService-parentBean"/>
-    <bean id="cfdaService-parentBean" class="org.kuali.kfs.module.cg.service.impl.CfdaServiceImpl" abstract="true">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>
-	
-    <bean id="cfdaBatchStep" class="org.kuali.kfs.module.cg.batch.CfdaBatchStep" parent="step">
-        <property name="cfdaService">
-            <ref bean="cfdaService" />
-        </property>
-        <property name="mailService">
-            <ref bean="mailService" />
-        </property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>
-        <property name="configurationService" ref="kualiConfigurationService" />
-    </bean>
-
-    <bean id="cfdaJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="cfdaBatchStep" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="cfdaJobTrigger" parent="cronTrigger">
-		<property name="jobName" value="cfdaJob" />
-		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
-	</bean>
-
     <bean id="closeBatchStep" class="org.kuali.kfs.module.cg.batch.CloseBatchStep" parent="step">
         <property name="closeService">
             <ref bean="closeService" />

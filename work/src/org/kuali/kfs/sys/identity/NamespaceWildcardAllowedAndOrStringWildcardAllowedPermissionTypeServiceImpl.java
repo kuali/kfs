@@ -240,7 +240,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 			// If the lookup service found at least one namespace, perform exists-and-active checks on each one.
 			if (namespaces != null && !namespaces.isEmpty()) {
 				for (Namespace namespace : namespaces) {
-					errors.putAll(super.validateReferencesExistAndActive(kimType, new AttributeSet(NAMESPACE_CODE, namespace.getNamespaceCode()), previousValidationErrors));
+					errors.putAll(super.validateReferencesExistAndActive(kimType, new AttributeSet(NAMESPACE_CODE, namespace.getCode()), previousValidationErrors));
 				}
 			} else {
 				// If no namespaces were found, let the superclass generate an appropriate error.

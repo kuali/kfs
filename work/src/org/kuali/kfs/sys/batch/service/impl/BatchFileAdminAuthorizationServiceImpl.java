@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.batch.BatchFile;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
 import org.kuali.kfs.sys.batch.service.BatchFileAdminAuthorizationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -38,19 +39,21 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
 
     private IdentityManagementService identityManagementService;
     private KualiModuleService kualiModuleService;
-    
+
+    @Override
     public boolean canDownload(BatchFile batchFile, Person user) {
         return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
                 KRADConstants.KRAD_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
     }
 
+    @Override
     public boolean canDelete(BatchFile batchFile, Person user) {
         return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
                 KRADConstants.KRAD_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
     }
-    
+
     protected String determineNamespaceCode(BatchFile batchFile) {
         for (ModuleService moduleService : getKualiModuleService().getInstalledModuleServices()) {
             ModuleConfiguration moduleConfiguration = moduleService.getModuleConfiguration();
@@ -70,7 +73,7 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
     protected Map<String,String> generateDownloadCheckPermissionDetails(BatchFile batchFile, Person user) {
         return generatePermissionDetails(batchFile, user);
     }
-    
+
     protected Map<String,String> generateDownloadCheckRoleQualifiers(BatchFile batchFile, Person user) {
         return generateRoleQualifiers(batchFile, user);
     }
@@ -78,7 +81,7 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
     protected Map<String,String> generateDeleteCheckPermissionDetails(BatchFile batchFile, Person user) {
         return generatePermissionDetails(batchFile, user);
     }
-    
+
     protected Map<String,String> generateDeleteCheckRoleQualifiers(BatchFile batchFile, Person user) {
         return generateRoleQualifiers(batchFile, user);
     }
@@ -86,14 +89,30 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
     protected Map<String,String> generatePermissionDetails(BatchFile batchFile, Person user) {
         Map<String,String> permissionDetails = new HashMap<String,String>();
         permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, determineNamespaceCode(batchFile));
-        permissionDetails.put("filePath", batchFile.retrieveFile().getAbsolutePath());
+        permissionDetails.put(KfsKimAttributes.FILE_PATH, replaceSlashes(batchFile.getPath() + File.separator + batchFile.getFileName()));
         return permissionDetails;
     }
-    
+
+    /**
+     * The permissions for the filePath will be added using '/' directory separators.
+     * This method will replace any '\\' directory separators with '/'
+     *
+     * @param filePath
+     * @return
+     */
+    private String replaceSlashes(String filePath) {
+
+        if (File.separatorChar == '\\') {
+            filePath = filePath.replace(File.separatorChar, '/');
+        }
+
+        return filePath;
+    }
+
     protected Map<String,String> generateRoleQualifiers(BatchFile batchFile, Person user) {
         return new HashMap<String,String>();
     }
-    
+
     protected IdentityManagementService getIdentityManagementService() {
         if (identityManagementService == null) {
             identityManagementService = SpringContext.getBean(IdentityManagementService.class);

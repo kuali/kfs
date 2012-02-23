@@ -44,21 +44,21 @@
 <c:if test="${KualiForm.countOfAboveTheLine>=1}">
 	<tr>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" width="2%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poOutstandingQuantity}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" width="12%" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchaseOrderItemUnitPrice}" width="12%"/>				
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="12%"/>				
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poOutstandingQuantity}" width="2%" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" width="5%" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchaseOrderItemUnitPrice}" width="5%"/>				
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="5%" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" width="5%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="5%"/>
 		
 		<c:if test="${purapTaxEnabled}">
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>		
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="5%"/>		
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="5%"/>
 		</c:if>
 
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" width="25%"/>		
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="${colSpanDescription}"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="5%" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" width="2%" />		
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="45%"  colspan="${colSpanDescription}"/>
 		<c:if test="${fullEntryMode}">
 			<kul:htmlAttributeHeaderCell literalLabel="Actions"/>
 		</c:if>

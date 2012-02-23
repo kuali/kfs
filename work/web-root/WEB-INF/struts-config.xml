@@ -128,6 +128,10 @@
 			type="org.kuali.kfs.module.ld.document.web.struts.LaborCorrectionForm" />
 		<form-bean name="LaborYearEndBenefitExpenseTransferForm"
 			type="org.kuali.kfs.module.ld.document.web.struts.YearEndBenefitExpenseTransferForm" />
+		<form-bean name="FringeBenefitInquiryForm"
+			type="org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryForm" />
+		<form-bean name="LaborGLLaborEntrySummarizationInquiryForm"
+			type="org.kuali.kfs.module.ld.web.struts.GLLaborEntrySummarizationInquiryForm"/>
 -->
 
 		<!-- Budget Construction Bean Definitions -->
@@ -287,6 +291,10 @@
 		<form-bean name="AssetStatementForm"
 			type="org.kuali.kfs.module.endow.web.struts.AssetStatementForm" />
 -->
+
+        <!-- VND Module Bean Definitions -->
+	    <form-bean name="VendorExclusionForm"
+			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />       			
 	</form-beans>
 
 	<global-exceptions>
@@ -553,6 +561,21 @@
 			<forward name="basic" path="/jsp/sys/KualiBatchInputFileSet.jsp" />
 		</action>
 
+		<action path="/fringeBenefitInquiry" name="FringeBenefitInquiryForm"
+			type="org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction"
+			scope="session" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ld/FringeBenefitInquiry.jsp" />
+		</action>
+		
+		<action path="/laborGLLaborEntrySummarizationInquiry" name="LaborGLLaborEntrySummarizationInquiryForm"
+			type="org.kuali.kfs.module.ld.web.struts.GLLaborEntrySummarizationInquiryAction"
+			scope="request" attribute="KualiForm" parameter="methodToCall">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ld/GLLaborEntrySummarizationInquiry.jsp" />
+		</action>
+
 		<action path="/budget*" name="{1}Form" input="/jsp/module/bc/{1}.jsp"
 			type="org.kuali.kfs.module.bc.document.web.struts.{1}Action" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -641,7 +664,9 @@
 			type="org.kuali.kfs.module.purap.document.web.struts.PrintAction"
 			scope="request" />
 
-		<action path="/purapElectronicInvoiceTest" name="ElectronicInvoiceTestForm"
+		<action path="/purapElectronicInvoiceTestFileGeneration" 
+			name="ElectronicInvoiceTestForm"
+			attribute="KualiForm" 
 			input="/jsp/module/purap/ElectronicInvoiceTest.jsp"
 			type="org.kuali.kfs.module.purap.document.web.struts.ElectronicInvoiceTestAction"
 			scope="request">
@@ -724,6 +749,14 @@
 			<forward name="selection" path="/jsp/pdp/format/formatSelection.jsp" />
 			<forward name="continue" path="/jsp/pdp/format/formatContinue.jsp" />
 		</action>
+
+		<!-- These are VND items -->
+		
+		<action path="/vendorExclusion" 
+			type="org.kuali.kfs.vnd.web.struts.VendorExclusionAction"
+			name="VendorExclusionForm"
+			scope="request" parameter="methodToCall" validate="false"
+			attribute="KualiForm" />
 
 	</action-mappings>
 

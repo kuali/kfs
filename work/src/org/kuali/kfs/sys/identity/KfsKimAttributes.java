@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,12 +43,14 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public static final String PURCHASING_COMMODITY_CODE = "purchasingCommodityCode";
     public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
     public static final String CUSTOMER_PROFILE_ID = "customerProfileId";
+    public static final String ACH_TRANSACTION_TYPE_CODE = "achTransactionTypeCode";
     public static final String VENDOR_TYPE_CODE = "vendorTypeCode";
     public static final String CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID = "contractsAndGrantsAccountResponsibilityId";
     public static final String DISBURSEMENT_VOUCHER_PAYMENT_METHOD_CODE = "disbursementVoucherPaymentMethodCode";
     public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
+    public static final String FILE_PATH = "filePath";
     public static final String ROUTE_NODE_NAME = "routeNodeName";
-    
+
     protected String chartOfAccountsCode;
     protected String accountNumber;
     protected String organizationCode;
@@ -66,20 +68,20 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected String disbursementVoucherPaymentMethodCode;
     protected String subAccountNumber;
     protected String filePath;
-        
+
     protected Chart chart;
     protected Organization organization;
     protected Account account;
-    protected SubFundGroup subFundGroup;    
+    protected SubFundGroup subFundGroup;
     protected ContractManager contractManager;
-    protected CommodityCode commodityCode; 
+    protected CommodityCode commodityCode;
     protected CustomerProfile customerProfile;
     protected SubAccount subAccount;
     protected VendorType vendorType;
-    
-    
+
+
     @SuppressWarnings("unchecked")
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         return m;
@@ -87,7 +89,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -96,7 +98,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -105,7 +107,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -114,7 +116,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -123,7 +125,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -132,7 +134,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the organizationCode attribute value.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -141,7 +143,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the descendHierarchy attribute.
-     * 
+     *
      * @return Returns the descendHierarchy.
      */
     public Boolean isDescendHierarchy() {
@@ -150,7 +152,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the descendHierarchy attribute value.
-     * 
+     *
      * @param descendHierarchy The descendHierarchy to set.
      */
     public void setDescendHierarchy(Boolean descendHierarchy) {
@@ -159,7 +161,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the fromAmount attribute.
-     * 
+     *
      * @return Returns the fromAmount.
      */
     public String getFromAmount() {
@@ -168,7 +170,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the fromAmount attribute value.
-     * 
+     *
      * @param fromAmount The fromAmount to set.
      */
     public void setFromAmount(String fromAmount) {
@@ -177,7 +179,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the toAmount attribute.
-     * 
+     *
      * @return Returns the toAmount.
      */
     public String getToAmount() {
@@ -186,7 +188,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the toAmount attribute value.
-     * 
+     *
      * @param toAmount The toAmount to set.
      */
     public void setToAmount(String toAmount) {
@@ -195,7 +197,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the accountingLineOverrideCode attribute.
-     * 
+     *
      * @return Returns the accountingLineOverrideCode.
      */
     public String getAccountingLineOverrideCode() {
@@ -204,7 +206,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the accountingLineOverrideCode attribute value.
-     * 
+     *
      * @param accountingLineOverrideCode The accountingLineOverrideCode to set.
      */
     public void setAccountingLineOverrideCode(String accountingLineOverrideCode) {
@@ -213,7 +215,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the subFundGroupCode attribute.
-     * 
+     *
      * @return Returns the subFundGroupCode.
      */
     public String getSubFundGroupCode() {
@@ -222,7 +224,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the subFundGroupCode attribute value.
-     * 
+     *
      * @param subFundGroupCode The subFundGroupCode to set.
      */
     public void setSubFundGroupCode(String subFundGroupCode) {
@@ -231,7 +233,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the purchasingCommodityCode attribute.
-     * 
+     *
      * @return Returns the purchasingCommodityCode.
      */
     public String getPurchasingCommodityCode() {
@@ -240,7 +242,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the purchasingCommodityCode attribute value.
-     * 
+     *
      * @param purchasingCommodityCode The purchasingCommodityCode to set.
      */
     public void setPurchasingCommodityCode(String purchasingCommodityCode) {
@@ -249,7 +251,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the contractManagerCode attribute.
-     * 
+     *
      * @return Returns the contractManagerCode.
      */
     public Integer getContractManagerCode() {
@@ -258,7 +260,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the contractManagerCode attribute value.
-     * 
+     *
      * @param contractManagerCode The contractManagerCode to set.
      */
     public void setContractManagerCode(Integer contractManagerCode) {
@@ -267,7 +269,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the customerProfileId attribute.
-     * 
+     *
      * @return Returns the customerProfileId.
      */
     public KualiInteger getCustomerProfileId() {
@@ -276,13 +278,13 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the customerProfileId attribute value.
-     * 
+     *
      * @param customerProfileId The customerProfileId to set.
      */
     public void setCustomerProfileId(KualiInteger customerProfileId) {
         this.customerProfileId = customerProfileId;
     }
-    
+
     public String getAchTransactionTypeCode() {
         return achTransactionTypeCode;
     }
@@ -293,7 +295,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the vendorTypeCode attribute.
-     * 
+     *
      * @return Returns the vendorTypeCode.
      */
     public String getVendorTypeCode() {
@@ -302,7 +304,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the vendorTypeCode attribute value.
-     * 
+     *
      * @param vendorTypeCode The vendorTypeCode to set.
      */
     public void setVendorTypeCode(String vendorTypeCode) {
@@ -311,7 +313,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the contractsAndGrantsAccountResponsibilityId attribute.
-     * 
+     *
      * @return Returns the contractsAndGrantsAccountResponsibilityId.
      */
     public String getContractsAndGrantsAccountResponsibilityId() {
@@ -320,7 +322,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the contractsAndGrantsAccountResponsibilityId attribute value.
-     * 
+     *
      * @param contractsAndGrantsAccountResponsibilityId The contractsAndGrantsAccountResponsibilityId to set.
      */
     public void setContractsAndGrantsAccountResponsibilityId(String contractsAndGrantsAccountResponsibilityId) {
@@ -328,7 +330,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     }
 
     /**
-     * 
+     *
      * @return Returns the disbursementVoucherPaymentMethodCode.
      */
     public String getDisbursementVoucherPaymentMethodCode() {
@@ -337,7 +339,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the disbursementVoucherPaymentMethodCode attribute value.
-     * 
+     *
      * @param disbursementVoucherPaymentMethodCode The disbursementVoucherPaymentMethodCode to set.
      */
     public void setDisbursementVoucherPaymentMethodCode(String disbursementVoucherPaymentMethodCode) {
@@ -346,7 +348,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
@@ -355,7 +357,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the subAccountNumber attribute value.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -433,10 +435,10 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public void setVendorType(VendorType vendorType) {
         this.vendorType = vendorType;
     }
-    
+
     /**
      * Gets the filePath attribute.
-     * 
+     *
      * @return Returns the filePath.
      */
     public String getFilePath() {
@@ -445,7 +447,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     /**
      * Sets the filePath attribute value.
-     * 
+     *
      * @param filePath The filePath to set.
      */
     public void setFilePath(String filePath) {

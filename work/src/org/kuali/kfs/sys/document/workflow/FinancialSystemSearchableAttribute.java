@@ -44,5 +44,27 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         }
         return attributeFields;
     }
+/*
+ * @@ -113,16 +113,19 @@
+             Field chartField = FieldUtils.getPropertyField(alClass, "chartOfAccountsCode", true);
+             chartField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+             displayedFieldNames.add("chartOfAccountsCode");
++            chartField.setColumnVisible(false);
+             LookupUtils.setFieldQuickfinder(alBusinessObject, "chartOfAccountsCode", chartField, displayedFieldNames);
 
+             Field orgField = FieldUtils.getPropertyField(orgClass, "organizationCode", true);
+             orgField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+             displayedFieldNames.clear();
++            chartField.setColumnVisible(false);
+             displayedFieldNames.add("organizationCode");
+             LookupUtils.setFieldQuickfinder(new Account(), "organizationCode", orgField, displayedFieldNames);
+
+             Field accountField = FieldUtils.getPropertyField(alClass, "accountNumber", true);
+             accountField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
++            accountField.setColumnVisible(false);
+             displayedFieldNames.clear();
+             displayedFieldNames.add("accountNumber");
+             LookupUtils.setFieldQuickfinder(alBusinessObject, "accountNumber", accountField, displayedFieldNames);
+
+ */
 }

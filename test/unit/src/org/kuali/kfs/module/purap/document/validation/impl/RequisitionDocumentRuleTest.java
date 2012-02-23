@@ -83,7 +83,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.ParameterNamespaces.PURCHASING, "Requisition", PurapParameterConstants.SHOW_DEBARRED_VENDOR_WARNING_IND)) {
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE, "Requisition", PurapParameterConstants.SHOW_DEBARRED_VENDOR_WARNING_IND)) {
             assertTrue(GlobalVariables.getMessageMap().hasWarnings());
         } else {
             assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_DEBARRED_VENDOR));

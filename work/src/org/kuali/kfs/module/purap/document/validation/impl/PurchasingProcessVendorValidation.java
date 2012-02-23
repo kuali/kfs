@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
@@ -44,22 +45,23 @@ import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PurchasingProcessVendorValidation extends PurchasingAccountsPayableProcessVendorValidation {
-    
+
     private VendorService vendorService;
     private ParameterService parameterService;
     private PostalCodeValidationService postalCodeValidationService;
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PurchasingDocument purDocument = (PurchasingDocument) event.getDocument();
         MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.clearErrorPath();
         errorMap.addToErrorPath(PurapConstants.VENDOR_ERRORS);
-        
-        valid &= super.validate(event);        
-        
+
+        valid &= super.validate(event);
+
         if (!purDocument.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
-            
+
             //If there is a vendor and the transmission method is FAX and the fax number is blank, display
             //error that the fax number is required.
             if (purDocument.getVendorHeaderGeneratedIdentifier() != null && purDocument.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX) && StringUtils.isBlank(purDocument.getVendorFaxNumber())) {
@@ -85,7 +87,7 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
 
         // make sure that the vendor is not debarred
         if (vendorDetail.isVendorDebarred()) {
-            if (parameterService.getIndicatorParameter(KFSConstants.ParameterNamespaces.PURCHASING, "Requisition", PurapParameterConstants.SHOW_DEBARRED_VENDOR_WARNING_IND)) {
+            if (parameterService.getParameterValueAsBoolean(KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE, "Requisition", PurapParameterConstants.SHOW_DEBARRED_VENDOR_WARNING_IND)) {
                 if (StringUtils.isEmpty(((PurchasingDocumentBase)purDocument).getJustification())) {
                     errorMap.putWarning(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.WARNING_DEBARRED_VENDOR, vendorDetail.getVendorName());
                     valid &= false;
@@ -113,7 +115,7 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
 
         // validate vendor address
         postalCodeValidationService.validateAddress(purDocument.getVendorCountryCode(), purDocument.getVendorStateCode(), purDocument.getVendorPostalCode(), PurapPropertyConstants.VENDOR_STATE_CODE, PurapPropertyConstants.VENDOR_POSTAL_CODE);
-        
+
         errorMap.clearErrorPath();
         return valid;
 
@@ -137,17 +139,17 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
 
     /**
      * Gets the postalCodeValidationService attribute.
-     * 
+     *
      * @return Returns the postalCodeValidationService
      */
-    
+
     public PostalCodeValidationService getPostalCodeValidationService() {
         return postalCodeValidationService;
     }
 
-    /** 
+    /**
      * Sets the postalCodeValidationService attribute.
-     * 
+     *
      * @param postalCodeValidationService The postalCodeValidationService to set.
      */
     public void setPostalCodeValidationService(PostalCodeValidationService postalCodeValidationService) {

@@ -19,6 +19,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -54,6 +55,7 @@ public class Job implements StatefulJob, InterruptableJob {
     public static final String STEP_RUN_PARM_NM = "RUN_IND";
     public static final String STEP_RUN_ON_DATE_PARM_NM = "RUN_DATE";
     public static final String STEP_USER_PARM_NM = "USER";
+    public static final String RUN_DATE_CUTOFF_PARM_NM = "RUN_DATE_CUTOFF_TIME";
     private static final Logger LOG = Logger.getLogger(Job.class);
     private SchedulerService schedulerService;
     private ParameterService parameterService;
@@ -211,7 +213,11 @@ public class Job implements StatefulJob, InterruptableJob {
 
         boolean runDateExists = parameterService.parameterExists(stepClass, STEP_RUN_ON_DATE_PARM_NM);
         boolean runDateIsEmpty = (runDateExists ? StringUtils.isEmpty(parameterService.getParameterValueAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM)) : true);
-        boolean runDateContainsTodaysDate = runDateExists ? parameterService.getParameterValuesAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM).contains(dTService.toString(jobRunDate, dateFormat)): true;
+        Collection<String> runDates = null;
+        if (runDateExists) {
+            runDates = parameterService.getParameterValuesAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM);
+        }
+        boolean runDateContainsTodaysDate = (runDateExists ? runDates.contains(dTService.toString(jobRunDate, dateFormat)) : true);
 
         if (!runInd && !runDateExists) {
             if (LOG.isInfoEnabled()) {
@@ -219,15 +225,15 @@ public class Job implements StatefulJob, InterruptableJob {
             }
             return true;
         }
-        else if (!runInd && !runDateIsEmpty && !runDateContainsTodaysDate) {
+        else if (!runInd && !runDateIsEmpty && !runDateContainsTodaysDate && isPastCutoffWindow(jobRunDate, runDates)) {
             if (LOG.isInfoEnabled()) {
-                LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + " and " + STEP_RUN_ON_DATE_PARM_NM +" for "+ stepClass.getName());
+                LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + ", " + STEP_RUN_ON_DATE_PARM_NM + " and " + RUN_DATE_CUTOFF_PARM_NM + " for "+ stepClass.getName());
             }
             return true;
         }
-        else if (!runIndExists && !runDateIsEmpty && !runDateContainsTodaysDate) {
+        else if (!runIndExists && !runDateIsEmpty && !runDateContainsTodaysDate && isPastCutoffWindow(jobRunDate, runDates)) {
             if (LOG.isInfoEnabled()) {
-                LOG.info("Skipping step due to system parameter: " + STEP_RUN_ON_DATE_PARM_NM +" for "+ stepClass.getName());
+                LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + ", " + STEP_RUN_ON_DATE_PARM_NM + " and " + RUN_DATE_CUTOFF_PARM_NM + " for "+ stepClass.getName());
             }
             return true;
         }
@@ -236,12 +242,12 @@ public class Job implements StatefulJob, InterruptableJob {
         }
     }
 
-    public static boolean isPastCutoffWindow(Date date, List<String> runDates) {
+    public static boolean isPastCutoffWindow(Date date, Collection<String> runDates) {
         DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         Calendar jobRunDate = dTService.getCalendar(date);
         if (parameterService.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, RUN_DATE_CUTOFF_PARM_NM)) {
-            String[] cutOffTime = StringUtils.split(parameterService.getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, RUN_DATE_CUTOFF_PARM_NM), ':');
+            String[] cutOffTime = StringUtils.split(parameterService.getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, RUN_DATE_CUTOFF_PARM_NM), ':');
             Calendar runDate = null;
             for (String runDateStr : runDates) {
                 try {

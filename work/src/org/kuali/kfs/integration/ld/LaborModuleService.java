@@ -179,7 +179,7 @@ public interface LaborModuleService {
      * A list of the origin codes which will appear in GL entries which should be linked to a labor ledger lookup
      * @return a list of labor ledger oriented origin codes which appear on general ledger entries
      */
-    public List<String> getLaborLedgerGLOriginCodes();
+    public Collection<String> getLaborLedgerGLOriginCodes();
 
     /**
      * When handed a GeneralLedger, determines and returns the url which will point to the labor ledger entries "inquiry" related to the given entry.

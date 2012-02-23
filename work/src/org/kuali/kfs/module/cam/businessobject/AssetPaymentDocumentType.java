@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.cam.businessobject;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
@@ -105,17 +103,5 @@ public class AssetPaymentDocumentType extends PersistableBusinessObjectBase impl
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
         return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
     }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.documentTypeId != null) {
-            m.put("documentTypeId", this.documentTypeId.toString());
-        }
-        return m;
-
-    }
-
-
 
 }

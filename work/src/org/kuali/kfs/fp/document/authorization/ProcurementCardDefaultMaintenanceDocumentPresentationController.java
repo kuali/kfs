@@ -54,14 +54,14 @@ public class ProcurementCardDefaultMaintenanceDocumentPresentationController ext
      * @return true if use of card holder defaults is turned on via parameter, false if it is turned off
      */
     protected boolean isCardHolderDefaultTurnedOn() {
-        return getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME);
+        return getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME);
     }
 
     /**
      * @return true if use of accounting defaults is turned on via parameter, false if it is turned off
      */
     protected boolean isAccountDefaultTurnedOn() {
-        return getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME);
+        return getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME);
     }
 
     /**

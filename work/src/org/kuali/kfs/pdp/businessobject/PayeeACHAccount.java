@@ -28,6 +28,8 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -132,9 +134,9 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
         }
         // for Entity, retrieve from Entity table by entity ID
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
-            KimEntityDefaultInfo entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
+            EntityDefault entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
             if (ObjectUtils.isNotNull(entity)) {
-                return entity.getDefaultName().getFormattedName();
+                return entity.getName().getCompositeName();
             }
             else {
                 return null;
@@ -183,9 +185,9 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
         }
         // for Entity, retrieve from Entity table by entity ID then from Person table
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
-            KimEntityDefaultInfo entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
+            EntityDefault entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
             if (ObjectUtils.isNotNull(entity)) {
-                List<KimPrincipalInfo> principals = entity.getPrincipals();
+                List<Principal> principals = entity.getPrincipals();
                 if (principals.size() > 0 && ObjectUtils.isNotNull(principals.get(0))) {
                     String principalId = principals.get(0).getPrincipalId();
                     Person person = SpringContext.getBean(PersonService.class).getPerson(principalId);

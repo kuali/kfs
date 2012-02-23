@@ -369,7 +369,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         cardHolder.setAccountNumber(transaction.getAccountNumber());
         cardHolder.setSubAccountNumber(transaction.getSubAccountNumber());
 
-        if (getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME)) {
+        if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME)) {
             final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
             if (procurementCardDefault != null) {
                 cardHolder.setCardCycleAmountLimit(procurementCardDefault.getCardCycleAmountLimit());
@@ -386,7 +386,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 cardHolder.setCardNoteText(procurementCardDefault.getCardNoteText());
                 cardHolder.setCardStatusCode(procurementCardDefault.getCardStatusCode());
 
-                if (getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
+                if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
                     cardHolder.setChartOfAccountsCode(procurementCardDefault.getChartOfAccountsCode());
                     cardHolder.setAccountNumber(procurementCardDefault.getAccountNumber());
                     cardHolder.setSubAccountNumber(procurementCardDefault.getSubAccountNumber());
@@ -532,7 +532,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         targetLine.setFinancialSubObjectCode(transaction.getFinancialSubObjectCode());
         targetLine.setProjectCode(transaction.getProjectCode());
 
-        if (getParameterService().getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
+        if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
             final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
             if (procurementCardDefault != null) {
                     targetLine.setChartOfAccountsCode(procurementCardDefault.getChartOfAccountsCode());

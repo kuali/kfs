@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,12 +33,12 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Presentation Controller for Asset Global Maintenance Documents
@@ -115,13 +115,13 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
             // If asset global document is created from CAB, disallow add payment to collection.
             fields.addAll(getAssetGlobalPaymentsReadOnlyFields(assetGlobal));
         }
-        
+
         // if accounts can't cross charts, then add the extra chartOfAccountsCode field to be displayed readOnly
-        if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) { 
-            String COA_CODE_NAME = KNSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+        if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
+            String COA_CODE_NAME = KRADConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
             fields.add(COA_CODE_NAME);
         }
-        
+
         return fields;
     }
 
@@ -271,7 +271,7 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
     @Override
     public Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = super.getDocumentActions(document);
-        
+
         if (document instanceof LedgerPostingDocument) {
             // check accounting period is enabled for doc type in system parameter
             String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
@@ -281,9 +281,9 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
                 documentActions.add(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
             }
         }
-        
+
         return documentActions;
     }
-    // CSU 6702 END    
-    
+    // CSU 6702 END
+
 }

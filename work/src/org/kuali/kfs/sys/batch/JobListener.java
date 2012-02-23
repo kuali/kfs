@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,6 +47,7 @@ public class JobListener implements org.quartz.JobListener {
     /**
      * @see org.quartz.JobListener#jobWasExecuted(org.quartz.JobExecutionContext, org.quartz.JobExecutionException)
      */
+    @Override
     public void jobWasExecuted(JobExecutionContext jobExecutionContext, JobExecutionException jobExecutionException) {
         if (jobExecutionContext.getJobInstance() instanceof Job) {
             try {
@@ -62,6 +63,7 @@ public class JobListener implements org.quartz.JobListener {
     /**
      * @see org.quartz.JobListener#jobToBeExecuted(org.quartz.JobExecutionContext)
      */
+    @Override
     public void jobToBeExecuted(JobExecutionContext jobExecutionContext) {
         if (jobExecutionContext.getJobInstance() instanceof Job) {
             schedulerService.initializeJob(jobExecutionContext.getJobDetail().getName(), (Job) jobExecutionContext.getJobInstance());
@@ -81,6 +83,7 @@ public class JobListener implements org.quartz.JobListener {
     /**
      * @see org.quartz.JobListener#jobExecutionVetoed(org.quartz.JobExecutionContext)
      */
+    @Override
     public void jobExecutionVetoed(JobExecutionContext jobExecutionContext) {
         if (jobExecutionContext.getJobInstance() instanceof Job) {
             throw new UnsupportedOperationException("JobListener does not implement jobExecutionVetoed(JobExecutionContext jobExecutionContext)");
@@ -113,7 +116,7 @@ public class JobListener implements org.quartz.JobListener {
 
     protected void notify(JobExecutionContext jobExecutionContext, String jobStatus) {
         try {
-            StringBuilder mailMessageSubject = new StringBuilder(configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY)).append(": ").append(jobExecutionContext.getJobDetail().getGroup()).append(": ").append(jobExecutionContext.getJobDetail().getName());
+            StringBuilder mailMessageSubject = new StringBuilder(jobExecutionContext.getJobDetail().getGroup()).append(": ").append(jobExecutionContext.getJobDetail().getName());
             MailMessage mailMessage = new MailMessage();
             mailMessage.setFromAddress(mailService.getBatchMailingList());
             if (jobExecutionContext.getMergedJobDataMap().containsKey(REQUESTOR_EMAIL_ADDRESS_KEY) && !StringUtils.isBlank(jobExecutionContext.getMergedJobDataMap().getString(REQUESTOR_EMAIL_ADDRESS_KEY))) {
@@ -138,13 +141,14 @@ public class JobListener implements org.quartz.JobListener {
     /**
      * @see org.quartz.JobListener#getName()
      */
+    @Override
     public String getName() {
         return NAME;
     }
 
     /**
      * Sets the schedulerService attribute value.
-     * 
+     *
      * @param schedulerService The schedulerService to set.
      */
     public void setSchedulerService(SchedulerService schedulerService) {
@@ -153,7 +157,7 @@ public class JobListener implements org.quartz.JobListener {
 
     /**
      * Sets the configurationService attribute value.
-     * 
+     *
      * @param configurationService The configurationService to set.
      */
     public void setConfigurationService(ConfigurationService configurationService) {
@@ -162,7 +166,7 @@ public class JobListener implements org.quartz.JobListener {
 
     /**
      * Sets the mailService attribute value.
-     * 
+     *
      * @param mailService The mailService to set.
      */
     public void setMailService(MailService mailService) {
@@ -171,7 +175,7 @@ public class JobListener implements org.quartz.JobListener {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {

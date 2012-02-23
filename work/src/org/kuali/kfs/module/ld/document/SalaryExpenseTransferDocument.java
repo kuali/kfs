@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ld.document;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -134,7 +135,7 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
      * @return boolean
      */
     protected boolean checkOjbectCodeForWorkstudy(){
-        List<String> workstudyRouteObjectcodes = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.WORKSTUDY_ROUTE_OBJECT_CODES_PARM_NM);
+        Collection<String> workstudyRouteObjectcodes = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.WORKSTUDY_ROUTE_OBJECT_CODES_PARM_NM);
 
         List<SourceAccountingLine> sourceAccountingLines = getSourceAccountingLines();
         List<TargetAccountingLine> targetAccountingLines = getTargetAccountingLines();

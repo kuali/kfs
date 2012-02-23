@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,6 +41,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class BudgetConstructionDocument extends FinancialSystemTransactionalDocumentBase {
@@ -163,7 +164,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * This adds a revenue or expenditure line to the appropriate list
-     * 
+     *
      * @param isRevenue
      * @param line
      */
@@ -207,7 +208,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear
      */
     public Integer getUniversityFiscalYear() {
@@ -216,7 +217,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the universityFiscalYear attribute.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -227,7 +228,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -236,7 +237,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -246,7 +247,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber
      */
     public String getAccountNumber() {
@@ -255,7 +256,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -267,13 +268,13 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
             if (ObjectUtils.isNotNull(account)) {
                 setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
-        }           
+        }
     }
 
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber
      */
     public String getSubAccountNumber() {
@@ -282,7 +283,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the subAccountNumber attribute.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -292,7 +293,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the organizationLevelCode attribute.
-     * 
+     *
      * @return Returns the organizationLevelCode
      */
     public Integer getOrganizationLevelCode() {
@@ -301,7 +302,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the organizationLevelCode attribute.
-     * 
+     *
      * @param organizationLevelCode The organizationLevelCode to set.
      */
     public void setOrganizationLevelCode(Integer organizationLevelCode) {
@@ -311,7 +312,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the organizationLevelChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the organizationLevelChartOfAccountsCode
      */
     public String getOrganizationLevelChartOfAccountsCode() {
@@ -320,7 +321,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the organizationLevelChartOfAccountsCode attribute.
-     * 
+     *
      * @param organizationLevelChartOfAccountsCode The organizationLevelChartOfAccountsCode to set.
      */
     public void setOrganizationLevelChartOfAccountsCode(String organizationLevelChartOfAccountsCode) {
@@ -330,7 +331,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the organizationLevelOrganizationCode attribute.
-     * 
+     *
      * @return Returns the organizationLevelOrganizationCode
      */
     public String getOrganizationLevelOrganizationCode() {
@@ -339,7 +340,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the organizationLevelOrganizationCode attribute.
-     * 
+     *
      * @param organizationLevelOrganizationCode The organizationLevelOrganizationCode to set.
      */
     public void setOrganizationLevelOrganizationCode(String organizationLevelOrganizationCode) {
@@ -349,7 +350,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the budgetLockUserIdentifier attribute.
-     * 
+     *
      * @return Returns the budgetLockUserIdentifier
      */
     public String getBudgetLockUserIdentifier() {
@@ -358,7 +359,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the budgetLockUserIdentifier attribute.
-     * 
+     *
      * @param budgetLockUserIdentifier The budgetLockUserIdentifier to set.
      */
     public void setBudgetLockUserIdentifier(String budgetLockUserIdentifier) {
@@ -368,7 +369,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the budgetTransactionLockUserIdentifier attribute.
-     * 
+     *
      * @return Returns the budgetTransactionLockUserIdentifier
      */
     public String getBudgetTransactionLockUserIdentifier() {
@@ -377,7 +378,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the budgetTransactionLockUserIdentifier attribute.
-     * 
+     *
      * @param budgetTransactionLockUserIdentifier The budgetTransactionLockUserIdentifier to set.
      */
     public void setBudgetTransactionLockUserIdentifier(String budgetTransactionLockUserIdentifier) {
@@ -387,7 +388,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts() {
@@ -396,7 +397,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
@@ -406,7 +407,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account
      */
     public Account getAccount() {
@@ -415,7 +416,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account to set.
      * @deprecated
      */
@@ -430,7 +431,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the budgetLockUser attribute.
-     * 
+     *
      * @param budgetLockUser The budgetLockUser to set.
      * @deprecated
      */
@@ -445,7 +446,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the budgetTransactionLockUser attribute value.
-     * 
+     *
      * @param budgetTransactionLockUser The budgetTransactionLockUser to set.
      * @deprecated
      */
@@ -455,7 +456,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the organizationLevelOrganization attribute.
-     * 
+     *
      * @return Returns the organizationLevelOrganization.
      */
     public Organization getOrganizationLevelOrganization() {
@@ -464,7 +465,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the organizationLevelOrganization attribute value.
-     * 
+     *
      * @param organizationLevelOrganization The organizationLevelOrganization to set.
      * @deprecated
      */
@@ -474,7 +475,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the subAccount attribute.
-     * 
+     *
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -483,7 +484,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the subAccount attribute value.
-     * 
+     *
      * @param subAccount The subAccount to set.
      */
     public void setSubAccount(SubAccount subAccount) {
@@ -492,7 +493,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the previousUniversityFiscalYear attribute.
-     * 
+     *
      * @return Returns the previousUniversityFiscalYear.
      */
     public Integer getPreviousUniversityFiscalYear() {
@@ -504,7 +505,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the previousUniversityFiscalYear attribute value.
-     * 
+     *
      * @param previousUniversityFiscalYear The previousUniversityFiscalYear to set.
      */
     public void setPreviousUniversityFiscalYear(Integer previousUniversityFiscalYear) {
@@ -513,7 +514,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the budgetConstructionAccountReports attribute.
-     * 
+     *
      * @return Returns the budgetConstructionAccountReports.
      */
     public BudgetConstructionAccountReports getBudgetConstructionAccountReports() {
@@ -522,7 +523,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the budgetConstructionAccountReports attribute value.
-     * 
+     *
      * @param budgetConstructionAccountReports The budgetConstructionAccountReports to set.
      * @deprecated
      */
@@ -533,7 +534,8 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     /**
      * @see org.kuali.rice.krad.document.DocumentBase#buildListOfDeletionAwareLists()
      */
-    
+
+    @Override
     public List buildListOfDeletionAwareLists() {
         // return new ArrayList();
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -564,7 +566,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the expenditureAccountLineAnnualBalanceAmountTotal attribute.
-     * 
+     *
      * @return Returns the expenditureAccountLineAnnualBalanceAmountTotal.
      */
     public KualiInteger getExpenditureAccountLineAnnualBalanceAmountTotal() {
@@ -573,7 +575,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the expenditureAccountLineAnnualBalanceAmountTotal attribute value.
-     * 
+     *
      * @param expenditureAccountLineAnnualBalanceAmountTotal The expenditureAccountLineAnnualBalanceAmountTotal to set.
      */
     public void setExpenditureAccountLineAnnualBalanceAmountTotal(KualiInteger expenditureAccountLineAnnualBalanceAmountTotal) {
@@ -582,7 +584,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the expenditureFinancialBeginningBalanceLineAmountTotal attribute.
-     * 
+     *
      * @return Returns the expenditureFinancialBeginningBalanceLineAmountTotal.
      */
     public KualiInteger getExpenditureFinancialBeginningBalanceLineAmountTotal() {
@@ -591,7 +593,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the expenditureFinancialBeginningBalanceLineAmountTotal attribute value.
-     * 
+     *
      * @param expenditureFinancialBeginningBalanceLineAmountTotal The expenditureFinancialBeginningBalanceLineAmountTotal to set.
      */
     public void setExpenditureFinancialBeginningBalanceLineAmountTotal(KualiInteger expenditureFinancialBeginningBalanceLineAmountTotal) {
@@ -600,7 +602,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the revenueAccountLineAnnualBalanceAmountTotal attribute.
-     * 
+     *
      * @return Returns the revenueAccountLineAnnualBalanceAmountTotal.
      */
     public KualiInteger getRevenueAccountLineAnnualBalanceAmountTotal() {
@@ -609,7 +611,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the revenueAccountLineAnnualBalanceAmountTotal attribute value.
-     * 
+     *
      * @param revenueAccountLineAnnualBalanceAmountTotal The revenueAccountLineAnnualBalanceAmountTotal to set.
      */
     public void setRevenueAccountLineAnnualBalanceAmountTotal(KualiInteger revenueAccountLineAnnualBalanceAmountTotal) {
@@ -618,7 +620,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the revenueFinancialBeginningBalanceLineAmountTotal attribute.
-     * 
+     *
      * @return Returns the revenueFinancialBeginningBalanceLineAmountTotal.
      */
     public KualiInteger getRevenueFinancialBeginningBalanceLineAmountTotal() {
@@ -627,7 +629,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the revenueFinancialBeginningBalanceLineAmountTotal attribute value.
-     * 
+     *
      * @param revenueFinancialBeginningBalanceLineAmountTotal The revenueFinancialBeginningBalanceLineAmountTotal to set.
      */
     public void setRevenueFinancialBeginningBalanceLineAmountTotal(KualiInteger revenueFinancialBeginningBalanceLineAmountTotal) {
@@ -636,7 +638,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the expenditurePercentChangeTotal attribute.
-     * 
+     *
      * @return Returns the expenditurePercentChangeTotal.
      */
     public KualiDecimal getExpenditurePercentChangeTotal() {
@@ -653,7 +655,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the expenditurePercentChangeTotal attribute value.
-     * 
+     *
      * @param expenditurePercentChangeTotal The expenditurePercentChangeTotal to set.
      */
     public void setExpenditurePercentChangeTotal(KualiDecimal expenditurePercentChangeTotal) {
@@ -662,7 +664,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the revenuePercentChangeTotal attribute.
-     * 
+     *
      * @return Returns the revenuePercentChangeTotal.
      */
     public KualiDecimal getRevenuePercentChangeTotal() {
@@ -679,7 +681,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the revenuePercentChangeTotal attribute value.
-     * 
+     *
      * @param revenuePercentChangeTotal The revenuePercentChangeTotal to set.
      */
     public void setRevenuePercentChangeTotal(KualiDecimal revenuePercentChangeTotal) {
@@ -688,7 +690,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the isBenefitsCalcNeeded attribute.
-     * 
+     *
      * @return Returns the isBenefitsCalcNeeded.
      */
     public boolean isBenefitsCalcNeeded() {
@@ -697,7 +699,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the isBenefitsCalcNeeded attribute value.
-     * 
+     *
      * @param isBenefitsCalcNeeded The isBenefitsCalcNeeded to set.
      */
     public void setBenefitsCalcNeeded(boolean isBenefitsCalcNeeded) {
@@ -706,7 +708,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the isMonthlyBenefitsCalcNeeded attribute.
-     * 
+     *
      * @return Returns the isMonthlyBenefitsCalcNeeded.
      */
     public boolean isMonthlyBenefitsCalcNeeded() {
@@ -715,7 +717,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the isMonthlyBenefitsCalcNeeded attribute value.
-     * 
+     *
      * @param isMonthlyBenefitsCalcNeeded The isMonthlyBenefitsCalcNeeded to set.
      */
     public void setMonthlyBenefitsCalcNeeded(boolean isMonthlyBenefitsCalcNeeded) {
@@ -724,7 +726,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the isSalarySettingOnly attribute.
-     * 
+     *
      * @return Returns the isSalarySettingOnly.
      */
     public boolean isSalarySettingOnly() {
@@ -739,7 +741,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the isSalarySettingOnly attribute value.
-     * 
+     *
      * @param isSalarySettingOnly The isSalarySettingOnly to set.
      */
     public void setSalarySettingOnly(boolean isSalarySettingOnly) {
@@ -748,7 +750,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the accountSalarySettingOnlyCause attribute.
-     * 
+     *
      * @return Returns the accountSalarySettingOnlyCause.
      */
     public AccountSalarySettingOnlyCause getAccountSalarySettingOnlyCause() {
@@ -761,7 +763,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the accountSalarySettingOnlyCause attribute value.
-     * 
+     *
      * @param accountSalarySettingOnlyCause The accountSalarySettingOnlyCause to set.
      */
     public void setAccountSalarySettingOnlyCause(AccountSalarySettingOnlyCause accountSalarySettingOnlyCause) {
@@ -770,7 +772,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the containsTwoPlug attribute.
-     * 
+     *
      * @return Returns the containsTwoPlug.
      */
     public boolean isContainsTwoPlug() {
@@ -779,7 +781,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the containsTwoPlug attribute value.
-     * 
+     *
      * @param containsTwoPlug The containsTwoPlug to set.
      */
     public void setContainsTwoPlug(boolean containsTwoPlug) {
@@ -788,7 +790,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the budgetableDocument attribute.
-     * 
+     *
      * @return Returns the budgetableDocument.
      */
     public boolean isBudgetableDocument() {
@@ -797,7 +799,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the budgetableDocument attribute value.
-     * 
+     *
      * @param budgetableDocument The budgetableDocument to set.
      */
     public void setBudgetableDocument(boolean budgetableDocument) {
@@ -806,7 +808,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the cleanupModeActionForceCheck attribute.
-     * 
+     *
      * @return Returns the cleanupModeActionForceCheck.
      */
     public boolean isCleanupModeActionForceCheck() {
@@ -815,7 +817,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the cleanupModeActionForceCheck attribute value.
-     * 
+     *
      * @param cleanupModeActionForceCheck The cleanupModeActionForceCheck to set.
      */
     public void setCleanupModeActionForceCheck(boolean cleanupModeActionForceCheck) {
@@ -827,7 +829,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * "pull-up/push-down" mechanism instead but, a budget construction document is routed so that the routing hierarchy can be used
      * to trace who has modified the document we override the routine below from Document we record the processed document state. a
      * budget construction document will never be "cancelled" or "disapproved"
-     * 
+     *
      * @see org.kuali.rice.krad.document.Document#doRouteStatusChange()
      */
     @Override

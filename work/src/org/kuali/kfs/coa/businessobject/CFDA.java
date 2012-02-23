@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
@@ -25,7 +26,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
-public class CFDA extends PersistableBusinessObjectBase implements  Inactivateable {
+public class CFDA extends PersistableBusinessObjectBase implements  MutableInactivatable {
 
     private String cfdaNumber;
     private String cfdaProgramTitleName;
@@ -107,6 +108,7 @@ public class CFDA extends PersistableBusinessObjectBase implements  Inactivateab
      *
      * @return The value of the active attribute.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -116,6 +118,7 @@ public class CFDA extends PersistableBusinessObjectBase implements  Inactivateab
      *
      * @param active The value to be assigned to the active attribute.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

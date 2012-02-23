@@ -17,6 +17,7 @@
 package org.kuali.kfs.module.ec.document;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -804,7 +805,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * @return boolean
      */
     protected boolean checkOjbectCodeForWorkstudy(){
-        List<String> workstudyRouteObjectcodes = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.WORKSTUDY_ROUTE_OBJECT_CODES_PARM_NM);
+        Collection<String> workstudyRouteObjectcodes = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.WORKSTUDY_ROUTE_OBJECT_CODES_PARM_NM);
 
         List<EffortCertificationDetail> effortCertificationDetails = getEffortCertificationDetailLines();
 

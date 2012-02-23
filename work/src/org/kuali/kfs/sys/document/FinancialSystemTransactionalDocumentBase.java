@@ -42,6 +42,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class FinancialSystemTransactionalDocumentBase extends TransactionalDocumentBase implements FinancialSystemTransactionalDocument {
     protected static final Logger LOG = Logger.getLogger(FinancialSystemTransactionalDocumentBase.class);
 
+    protected static final String UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME = "UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_IND";
+
     private static transient BusinessObjectService businessObjectService;
     private static transient FinancialSystemDocumentService financialSystemDocumentService;
     private static transient ParameterService parameterService;
@@ -148,7 +150,12 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      */
     @Override
     public void doRouteLevelChange(DocumentRouteLevelChange levelChangeEvent) {
-        if (this instanceof AmountTotaling && getDocumentHeader() != null && getParameterService() != null && getBusinessObjectService() != null && getParameterService().parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME) && getParameterService().getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME)) {
+        if (this instanceof AmountTotaling
+                && getDocumentHeader() != null
+                && getParameterService() != null
+                && getBusinessObjectService() != null
+                && getParameterService().parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME)
+                && getParameterService().getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME)) {
             final KualiDecimal currentTotal = ((AmountTotaling)this).getTotalDollarAmount();
             if (!currentTotal.equals(((FinancialSystemDocumentHeader)getDocumentHeader()).getFinancialDocumentTotalAmount())) {
                 ((FinancialSystemDocumentHeader)getDocumentHeader()).setFinancialDocumentTotalAmount(currentTotal);

@@ -30,16 +30,17 @@ import org.kuali.kfs.module.ld.businessobject.LedgerEntryGLSummary;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Action which will perform lookup and presentation of LD entries related to a GL entry
@@ -53,7 +54,7 @@ public class GLLaborEntrySummarizationInquiryAction extends KualiAction {
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        if (!KIMServiceLocator.getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.INQUIRE_INTO_RECORDS, KimCommonUtils.getNamespaceAndComponentSimpleName(LedgerEntry.class), null)) {
+        if (!SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.INQUIRE_INTO_RECORDS, KimCommonUtils.getNamespaceAndComponentSimpleName(LedgerEntry.class), null)) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "inquire", LedgerEntry.class.getSimpleName());
         }
     }
@@ -69,7 +70,7 @@ public class GLLaborEntrySummarizationInquiryAction extends KualiAction {
      */
     @SuppressWarnings("rawtypes")
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final BusinessObjectEntry entry = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(LedgerEntryGLSummary.class.getSimpleName());
+        final BusinessObjectEntry entry = (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(LedgerEntryGLSummary.class.getSimpleName());
         final String lookupId = entry.getLookupDefinition().getLookupableID();
         Lookupable lookupable = (Lookupable)SpringContext.getService(lookupId);
         lookupable.setBusinessObjectClass(LedgerEntryGLSummary.class);

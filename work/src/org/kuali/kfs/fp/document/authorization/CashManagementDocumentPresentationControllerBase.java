@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,11 +42,11 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        
+
         if (!this.canHaveBankEntry(document)) {
             editModes.add(KFSConstants.BANK_ENTRY_VIEWABLE_EDITING_MODE);
         }
-        
+
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isSaved()) {
             editModes.add(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS);
@@ -180,7 +181,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
 
         return super.canAddAdhocRequests(document);
     }
-    
+
     /**
      * Determines if the cash drawer can be opened by testing two things:
      * <ol>
@@ -190,11 +191,12 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @param document the document that wishes to open the cash drawer
      * @return true if the cash drawer can be opened, false otherwise
      */
+    @Override
     public boolean canOpenCashDrawer(Document document) {
         final CashDrawer cashDrawer = retrieveCashDrawer(document);
         return cashDrawer.isClosed() && noExistCashDrawerMaintLocks(cashDrawer, document.getDocumentNumber());
     }
-    
+
     /**
      * Retrieves the cash drawer associated with the given cash management document
      * @param document a CashManagementDocument with an associated cash drawer
@@ -205,7 +207,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
         final CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmDoc.getCampusCode());
         return cashDrawer;
     }
-    
+
     /**
      * Determines that no maintenance documents have locks on the given cash drawer
      * @param cashDrawer the cash drawer that may have locks on it
@@ -217,14 +219,14 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
        cashDrawerMaintainable.setDataObjectClass(cashDrawer.getClass());
        cashDrawerMaintainable.setDataObject(cashDrawer);
        cashDrawerMaintainable.setDocumentNumber(documentNumber);
-       
+
        final String lockingDocument = SpringContext.getBean(MaintenanceDocumentService.class).getLockingDocumentId(cashDrawerMaintainable, documentNumber);
        return StringUtils.isBlank(lockingDocument);
     }
-    
+
     /**
      * Builds an instance of the appropriate Maintainable implementation for the Cash Drawer Maintainable
-     * @param cashDrawerMaintenanceDocumentEntry the data dictionary entry from the Cash Drawer's maintenance document 
+     * @param cashDrawerMaintenanceDocumentEntry the data dictionary entry from the Cash Drawer's maintenance document
      * @return an appropriate Maintainable
      */
     protected org.kuali.rice.krad.maintenance.Maintainable createCashDrawerMaintainable(org.kuali.rice.krad.datadictionary.MaintenanceDocumentEntry cashDrawerMaintenanceDocumentEntry) {
@@ -240,15 +242,15 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
         }
         return cashDrawerMaintainable;
     }
-    
+
     @Override
     public Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = super.getDocumentActions(document);
-        
+
         if (!canHaveBankEntry(document)) {
             documentActions.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
         }
-        
+
         return documentActions;
     }
 }

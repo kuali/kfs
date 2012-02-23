@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.Constant;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
 
@@ -39,10 +41,10 @@ public class DebitCreditOptionFinder extends KeyValuesBase implements ValueFinde
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
-    public List getKeyValues() {
-        List labels = new ArrayList();
-        labels.add(new KeyLabelPair(Constant.DEBIT_CREDIT_INCLUDE, Constant.DEBIT_CREDIT_INCLUDE));
-        labels.add(new KeyLabelPair(Constant.DEBIT_CREDIT_EXCLUDE, Constant.DEBIT_CREDIT_EXCLUDE));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue(Constant.DEBIT_CREDIT_INCLUDE, Constant.DEBIT_CREDIT_INCLUDE));
+        labels.add(new ConcreteKeyValue(Constant.DEBIT_CREDIT_EXCLUDE, Constant.DEBIT_CREDIT_EXCLUDE));
         return labels;
     }
 }

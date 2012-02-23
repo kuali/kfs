@@ -318,14 +318,15 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#getLaborLedgerGLOriginCodes()
      */
     @Override
-    public List<String> getLaborLedgerGLOriginCodes() {
-        return getParameterService().getParameterValues(LedgerEntry.class, LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES_PARAM_NAME);
+    public Collection<String> getLaborLedgerGLOriginCodes() {
+        return getParameterService().getParameterValuesAsString(LedgerEntry.class, LINK_DOCUMENT_NUMBER_TO_LABOR_ORIGIN_CODES_PARAM_NAME);
     }
 
     /**
      * Builds the url for the given GL entry to go to inquiry screen for related LD entries
      * @see org.kuali.kfs.integration.ld.LaborModuleService#getInquiryUrlForGeneralLedgerEntryDocumentNumber(org.kuali.kfs.gl.businessobject.Entry)
      */
+    @Override
     public HtmlData getInquiryUrlForGeneralLedgerEntryDocumentNumber(Entry entry) {
         Properties props = new Properties();
         props.setProperty(KFSConstants.DISPATCH_REQUEST_PARAMETER, GL_LABOR_ENTRY_SUMMARIZATION_INQUIRY_METHOD);

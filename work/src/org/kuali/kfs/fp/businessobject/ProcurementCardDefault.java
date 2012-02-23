@@ -24,6 +24,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -31,7 +32,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * This class is used to represent a procurement card holder, or the individual whose name is on the card.
  */
 
-public class ProcurementCardDefault extends PersistableBusinessObjectBase implements Inactivateable {
+public class ProcurementCardDefault extends PersistableBusinessObjectBase implements MutableInactivatable {
     private String creditCardNumber;
 
     private String cardHolderName;
@@ -433,6 +434,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
      * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
      * @return true if this procurement card holder detail is active, false otherwise
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -441,6 +443,7 @@ public class ProcurementCardDefault extends PersistableBusinessObjectBase implem
      * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      * Sets whether this procurement card holder detail is active or not
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

@@ -40,6 +40,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * codes. Instances break the code into components. Static methods help with the AccountingLine.
  */
 public class AccountingLineOverride {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineOverride.class);
 
     /**
      * These codes are the way the override is persisted in the AccountingLine.

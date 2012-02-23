@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -55,10 +56,10 @@ public class TempListLookupForm extends LookupForm {
     private String financialObjectCode;
     private String financialSubObjectCode;
     private boolean mainWindow = true;
-    
+
     /**
      * Checks if the get new button for retrieving a position from the payroll service should be enabled.
-     * 
+     *
      * @return true if button should be enabled, false otherwise
      */
     public boolean isGetNewPositionEnabled() {
@@ -78,7 +79,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Checks if the get new button for retrieving an incumbent from the payroll service should be enabled.
-     * 
+     *
      * @return true if button should be enabled, false otherwise
      */
     public boolean isGetNewIncumbentEnabled() {
@@ -95,7 +96,7 @@ public class TempListLookupForm extends LookupForm {
 
         return budgetUpdatesAllowed && updatesFromHumanResourcedAllowed;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.web.struts.form.LookupForm#populate(javax.servlet.http.HttpServletRequest)
      */
@@ -115,13 +116,13 @@ public class TempListLookupForm extends LookupForm {
         }
 
         // don't try to populate if no BO - the case when we lose session
-        String localBusinessObjectClassName = getParameter(request, KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE);
+        String localBusinessObjectClassName = getParameter(request, KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE);
         if (ObjectUtils.isNotNull(localBusinessObjectClassName)) {
             super.populate(request);
         }
     }
 
-    public boolean isForceToAccountListScreen() { 
+    public boolean isForceToAccountListScreen() {
         return forceToAccountListScreen;
     }
 
@@ -131,7 +132,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the currentPointOfViewKeyCode attribute.
-     * 
+     *
      * @return Returns the currentPointOfViewKeyCode.
      */
     public String getCurrentPointOfViewKeyCode() {
@@ -140,7 +141,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the principalId attribute.
-     * 
+     *
      * @return Returns the principalId.
      */
     public String getPrincipalId() {
@@ -149,7 +150,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the reportMode attribute.
-     * 
+     *
      * @return Returns the reportMode.
      */
     public String getReportMode() {
@@ -158,7 +159,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -167,7 +168,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the buildControlList attribute.
-     * 
+     *
      * @return Returns the buildControlList.
      */
     public boolean isBuildControlList() {
@@ -176,7 +177,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the reportConsolidation attribute.
-     * 
+     *
      * @return Returns the reportConsolidation.
      */
     public boolean isReportConsolidation() {
@@ -185,7 +186,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the showInitialResults attribute.
-     * 
+     *
      * @return Returns the showInitialResults.
      */
     public boolean isShowInitialResults() {
@@ -194,7 +195,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the buildControlList attribute value.
-     * 
+     *
      * @param buildControlList The buildControlList to set.
      */
     public void setBuildControlList(boolean buildControlList) {
@@ -203,7 +204,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the currentPointOfViewKeyCode attribute value.
-     * 
+     *
      * @param currentPointOfViewKeyCode The currentPointOfViewKeyCode to set.
      */
     public void setCurrentPointOfViewKeyCode(String currentPointOfViewKeyCode) {
@@ -212,7 +213,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the principalId attribute value.
-     * 
+     *
      * @param principalId The principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -221,7 +222,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the reportConsolidation attribute value.
-     * 
+     *
      * @param reportConsolidation The reportConsolidation to set.
      */
     public void setReportConsolidation(boolean reportConsolidation) {
@@ -230,7 +231,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the reportMode attribute value.
-     * 
+     *
      * @param reportMode The reportMode to set.
      */
     public void setReportMode(String reportMode) {
@@ -239,7 +240,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the showInitialResults attribute value.
-     * 
+     *
      * @param showInitialResults The showInitialResults to set.
      */
     public void setShowInitialResults(boolean showInitialResults) {
@@ -248,7 +249,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the universityFiscalYear attribute value.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -257,7 +258,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the tempListLookupMode attribute.
-     * 
+     *
      * @return Returns the tempListLookupMode.
      */
     public int getTempListLookupMode() {
@@ -266,7 +267,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the tempListLookupMode attribute value.
-     * 
+     *
      * @param tempListLookupMode The tempListLookupMode to set.
      */
     public void setTempListLookupMode(int tempListLookupMode) {
@@ -275,7 +276,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the messages attribute.
-     * 
+     *
      * @return Returns the messages.
      */
     public List<String> getMessages() {
@@ -284,7 +285,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the messages attribute value.
-     * 
+     *
      * @param messages The messages to set.
      */
     public void setMessages(List<String> messages) {
@@ -293,7 +294,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Adds a message to the form message list.
-     * 
+     *
      * @param message - message text to add
      */
     public void addMessage(String message) {
@@ -329,7 +330,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the showSalaryByPositionAction attribute.
-     * 
+     *
      * @return Returns the showSalaryByPositionAction.
      */
     public boolean isShowSalaryByPositionAction() {
@@ -338,7 +339,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the showSalaryByPositionAction attribute value.
-     * 
+     *
      * @param showSalaryByPositionAction The showSalaryByPositionAction to set.
      */
     public void setShowSalaryByPositionAction(boolean showSalaryByPositionAction) {
@@ -347,7 +348,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the addLine attribute.
-     * 
+     *
      * @return Returns the addLine.
      */
     public boolean isAddLine() {
@@ -356,7 +357,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the addLine attribute value.
-     * 
+     *
      * @param addLine The addLine to set.
      */
     public void setAddLine(boolean addLine) {
@@ -365,7 +366,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the showSalaryByIncumbentAction attribute.
-     * 
+     *
      * @return Returns the showSalaryByIncumbentAction.
      */
     public boolean isShowSalaryByIncumbentAction() {
@@ -374,7 +375,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the showSalaryByIncumbentAction attribute value.
-     * 
+     *
      * @param showSalaryByIncumbentAction The showSalaryByIncumbentAction to set.
      */
     public void setShowSalaryByIncumbentAction(boolean showSalaryByIncumbentAction) {
@@ -383,7 +384,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Gets the budgetByAccountMode attribute.
-     * 
+     *
      * @return Returns the budgetByAccountMode.
      */
     public boolean isBudgetByAccountMode() {
@@ -392,43 +393,43 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the budgetByAccountMode attribute value.
-     * 
+     *
      * @param budgetByAccountMode The budgetByAccountMode to set.
      */
     public void setBudgetByAccountMode(boolean budgetByAccountMode) {
         this.budgetByAccountMode = budgetByAccountMode;
     }
-    
+
     /**
      * gets finanical object code
-     * 
+     *
      * @return
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
-    
+
     /**
      * sets financial object code
-     * 
+     *
      * @param financialObjectCode
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
     }
-    
+
     /**
      * gets financial subobject code
-     * 
+     *
      * @return
      */
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
     }
-    
+
     /**
      * sets financial subobject code
-     * 
+     *
      * @param financialSubObjectCode
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -436,7 +437,7 @@ public class TempListLookupForm extends LookupForm {
     }
 
     /**
-     * Gets the mainWindow attribute. 
+     * Gets the mainWindow attribute.
      * @return Returns the mainWindow.
      */
     public boolean isMainWindow() {

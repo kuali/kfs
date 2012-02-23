@@ -64,6 +64,8 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.Parameter.Builder;
+import org.kuali.rice.coreservice.api.parameter.ParameterType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -73,6 +75,7 @@ import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -1054,32 +1057,18 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void lockUnlockDocuments(boolean locked) {
         for(String documentType : lockedDocuments) {
             Class<? extends Document> documentClass = dataDictionaryService.getDocumentClassByTypeName(documentType);
-            boolean exists = parameterService.parameterExists(documentClass , KFSConstants.DOCUMENT_LOCKOUT_PARM_NM);
-            if(exists) {
-                String namespace = parameterService.getNamespace(documentClass);
-                String detailType = parameterService.getDetailType(documentClass);
-                Parameter parameter  = parameterService.retrieveParameter(namespace,detailType , KFSConstants.DOCUMENT_LOCKOUT_PARM_NM);
-                if(locked) {
-                    parameter.setParameterValue("Y");
-                }
-                else {
-                    parameter.setParameterValue("N");
-                }
-
-                businessObjectService.save(parameter);
-            }
-            else {
-                String namespace = parameterService.getNamespace(documentClass);
-                String detailType = parameterService.getDetailType(documentClass);
-                Parameter parameter = new Parameter();
-                parameter.setParameterDetailTypeCode(detailType);
-                parameter.setParameterNamespaceCode(namespace);
-                parameter.setParameterApplicationNamespaceCode(KFSConstants.APPLICATION_NAMESPACE_CODE);
-                parameter.setParameterName(KFSConstants.DOCUMENT_LOCKOUT_PARM_NM);
-                parameter.setParameterValue("Y");
-                parameter.setParameterDescription(KFSConstants.DOCUMENT_LOCKOUT_PARM_DESC);
-                parameter.setParameterTypeCode(KfsParameterConstants.PARAMETER_CONFIG_TYPE_CODE);
-                businessObjectService.save(parameter);
+            if(parameterService.parameterExists(documentClass , KFSConstants.DOCUMENT_LOCKOUT_PARM_NM)) {
+                Parameter existingParam = parameterService.getParameter( documentClass, KFSConstants.DOCUMENT_LOCKOUT_PARM_NM );
+                Parameter.Builder updatedParam = Builder.create(existingParam);
+                updatedParam.setValue( locked?"Y":"N" );
+                parameterService.updateParameter(updatedParam.build());
+            } else {
+                String namespace = KRADServiceLocatorWeb.getKualiModuleService().getNamespaceCode(documentClass);
+                String detailType = KRADServiceLocatorWeb.getKualiModuleService().getComponentCode(documentClass);
+                Parameter.Builder newParam = Builder.create(KFSConstants.APPLICATION_NAMESPACE_CODE, namespace, detailType, KFSConstants.DOCUMENT_LOCKOUT_PARM_NM, ParameterType.Builder.create(KfsParameterConstants.PARAMETER_CONFIG_TYPE_CODE) );
+                newParam.setValue("Y");
+                newParam.setDescription(KFSConstants.DOCUMENT_LOCKOUT_PARM_DESC);
+                parameterService.createParameter(newParam.build());
             }
         }
     }

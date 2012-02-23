@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidation extends GenericValidation {
@@ -43,8 +44,8 @@ public class AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidat
         if (((AccountsPayableDocument)event.getDocument()).isDocumentStoppedInRouteNode(AccountsPayableStatuses.NODE_ACCOUNT_PAYABLE_REVIEW)) {
             if (!((AccountsPayableDocument)event.getDocument()).approvalAtAccountsPayableReviewAllowed()) {
                 valid &= false;
-                KualiWorkflowDocument workflowDoc = event.getDocument().getDocumentHeader().getWorkflowDocument();
-                if(PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(workflowDoc.getDocumentType())) {
+                WorkflowDocument workflowDoc = event.getDocument().getDocumentHeader().getWorkflowDocument();
+                if(PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(workflowDoc.getDocumentTypeName())) {
                     GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_CREDIT_MEMO_REQUIRES_ATTACHMENT);
                 }
                 else {

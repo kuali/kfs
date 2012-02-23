@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,12 +52,12 @@ public class GLLaborEntrySummarizationInquiryForm extends LookupForm {
     private String financialDocumentTypeCode;
     private String financialSystemOriginationCode;
     private String documentNumber;
-        
+
     @SuppressWarnings("rawtypes")
     private Collection entries;
-    
+
     protected static volatile String pageTitle;
-    
+
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
@@ -130,7 +130,7 @@ public class GLLaborEntrySummarizationInquiryForm extends LookupForm {
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-    
+
     @SuppressWarnings("rawtypes")
     public Collection getEntries() {
         return entries;
@@ -139,15 +139,15 @@ public class GLLaborEntrySummarizationInquiryForm extends LookupForm {
     public void setEntries(Collection entries) {
         this.entries = entries;
     }
-    
+
     public String getPageTitle() {
         if (pageTitle == null) {
-            final BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(LedgerEntryGLSummary.class.getSimpleName());
+            final BusinessObjectEntry entry = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(LedgerEntryGLSummary.class.getSimpleName());
             pageTitle = entry.getObjectLabel();
         }
         return pageTitle;
     }
-    
+
     /**
      * @return the inquiry url for the fiscal year property
      */
@@ -210,14 +210,14 @@ public class GLLaborEntrySummarizationInquiryForm extends LookupForm {
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         return fieldValues;
     }
-    
+
     /**
      * Builds the inquiry urls for the set fields - fiscal year, fiscal period, chart, account, sub-account, object, and sub-object
      * @param lookupableHelperService the lookupable helper service which builds the related inquiry urls for us
      */
     protected void buildInquiryUrls(LookupableHelperService lookupableHelperService) {
         final LedgerEntryGLSummary summary = buildBasicLedgerEntrySummary();
-        universityFiscalYearInquiryUrl = retrieveInquiryUrlForProperty(summary, lookupableHelperService, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);        
+        universityFiscalYearInquiryUrl = retrieveInquiryUrlForProperty(summary, lookupableHelperService, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         universityFiscalPeriodCodeInquiryUrl = retrieveInquiryUrlForProperty(summary, lookupableHelperService, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
         chartOfAccountsCodeInquiryUrl = retrieveInquiryUrlForProperty(summary, lookupableHelperService, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         accountNumberInquiryUrl = retrieveInquiryUrlForProperty(summary, lookupableHelperService, KFSPropertyConstants.ACCOUNT_NUMBER);
@@ -225,7 +225,7 @@ public class GLLaborEntrySummarizationInquiryForm extends LookupForm {
         financialObjectCodeInquiryUrl = retrieveInquiryUrlForProperty(summary, lookupableHelperService, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         financialSubObjectCodeInquiryUrl = retrieveInquiryUrlForProperty(summary, lookupableHelperService, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
     }
-    
+
     /**
      * @return a LedgerEntryGLSummary record filled with the known values from the form
      */
@@ -240,7 +240,7 @@ public class GLLaborEntrySummarizationInquiryForm extends LookupForm {
         summary.setFinancialSubObjectCode(getFinancialSubObjectCode());
         return summary;
     }
-    
+
     /**
      * Determines the inquiry url for the given property
      * @param summary the LedgerEntryGLSummary populated with values to build inquiry links for
@@ -253,7 +253,7 @@ public class GLLaborEntrySummarizationInquiryForm extends LookupForm {
         final String inquiryUrl = (inquiryHtmlData != null && !StringUtils.isBlank(inquiryHtmlData.getHref())) ? inquiryHtmlData.getHref() : null;
         return inquiryUrl;
     }
-    
+
     public boolean isCanExport() {
         return false;
     }

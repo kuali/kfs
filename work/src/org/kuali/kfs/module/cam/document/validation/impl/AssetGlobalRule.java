@@ -1221,7 +1221,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         // run the DD DictionaryValidation (non-recursive)
         dictionaryValidationService.validateBusinessObjectOnMaintenanceDocument(businessObject,
-                document.getDocumentHeader().getWorkflowDocument().getDocumentType());
+                document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
 
         // do default (ie, mandatory) existence checks
         if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
@@ -1239,10 +1239,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
 
         }
-
-        // do apc checks
-        dictionaryValidationService.validateApcRules(businessObject);
-
 
         // explicitly remove the errorPath we've added
         GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");

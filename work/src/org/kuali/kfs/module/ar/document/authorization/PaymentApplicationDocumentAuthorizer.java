@@ -22,8 +22,8 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Document Authorizer for the Payment Application Document
@@ -35,12 +35,12 @@ public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransac
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
         if (businessObject != null && businessObject instanceof PaymentApplicationDocument) {
             final PaymentApplicationDocument document = (PaymentApplicationDocument)businessObject;
-            final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-            if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) { // only add processing chart and org if we're PreRoute
+            final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            if (workflowDocument.isInitiated() || workflowDocument.isSaved()) { // only add processing chart and org if we're PreRoute
                 final AccountsReceivableDocumentHeader arDocumentHeader = document.getAccountsReceivableDocumentHeader();
                 if (!ObjectUtils.isNull(arDocumentHeader)) {
                     if (!StringUtils.isBlank(arDocumentHeader.getProcessingChartOfAccCodeAndOrgCode())) {

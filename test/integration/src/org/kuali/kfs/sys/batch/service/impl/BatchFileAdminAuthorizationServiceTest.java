@@ -51,7 +51,7 @@ public class BatchFileAdminAuthorizationServiceTest extends KualiTestBase {
 
     private BatchFile getBatchFile() {
         //Any batch file should do
-        String batchContainerDir = kualiConfigurationService.getPropertyString("staging.directory.sys.batchContainer");
+        String batchContainerDir = kualiConfigurationService.getPropertyValueAsString("staging.directory.sys.batchContainer");
 
         String batchFileName = batchContainerDir + File.separator + "placeholder.txt";
         File file = new File(batchFileName).getAbsoluteFile();

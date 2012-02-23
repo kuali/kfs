@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,8 +18,6 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -40,7 +38,7 @@ public class CreditMemoView extends AbstractRelatedView {
     private Timestamp creditMemoExtractedTimestamp;
     private Timestamp creditMemoPaidTimestamp;
     private String vendorName;
-    
+
     // REFERENCE OBJECTS
     private FinancialSystemDocumentHeader documentHeader;
 
@@ -121,7 +119,7 @@ public class CreditMemoView extends AbstractRelatedView {
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
-    
+
     /**
      * @return workflow document type for the VendorCreditMemoDocument
      */
@@ -152,15 +150,6 @@ public class CreditMemoView extends AbstractRelatedView {
     public String getUrl() {
         return super.getUrl();
     }
-
-    /**
-     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentTypeName()
-     */
-    @Override
-    public String getDocumentTypeName() {
-        return KFSConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO;
-    }
-    
 
     /**
      * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentTypeName()

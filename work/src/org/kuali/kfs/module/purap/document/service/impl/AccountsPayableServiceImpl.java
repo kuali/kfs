@@ -53,7 +53,9 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -520,23 +522,24 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             //while awaiting AP approval, just call regular disapprove logic as user will have action request
             documentService.disapproveDocument(document, noteText);
         }
-        else if (document instanceof PaymentRequestDocument && PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(document.getStatusCode()) && ((PaymentRequestDocument)document).isPaymentRequestedCancelIndicator()) {
+        else if (document instanceof PaymentRequestDocument && PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getAppDocStatus()) && ((PaymentRequestDocument)document).isPaymentRequestedCancelIndicator()) {
             // special logic to disapprove PREQ as the fiscal officer
-            WorkflowDocument fiscalOfficerDocument = new WorkflowDocument(document.getLastActionPerformedByPersonId(), Long.valueOf(document.getDocumentNumber()));
-            fiscalOfficerDocument.disapprove("Document cancelled after requested cancel by "+GlobalVariables.getUserSession().getPrincipalName());
+            DocumentActionParameters.Builder p = DocumentActionParameters.Builder.create(document.getDocumentNumber(), document.getLastActionPerformedByPersonId());
+            p.setAnnotation("Document cancelled after requested cancel by "+GlobalVariables.getUserSession().getPrincipalName());
+            KewApiServiceLocator.getWorkflowDocumentActionsService().disapprove( p.build() );
         }
         else {
             UserSession originalUserSession = GlobalVariables.getUserSession();
             WorkflowDocument originalWorkflowDocument = document.getDocumentHeader().getWorkflowDocument();
             //any other time, perform special logic to cancel the document
-            if (!document.getDocumentHeader().getWorkflowDocument().isFinal()) {
+            if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
                 try {
                     // person canceling may not have an action requested on the document
                     Person userRequestedCancel = SpringContext.getBean(PersonService.class).getPerson(document.getLastActionPerformedByPersonId());
                     GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
                     WorkflowDocumentService workflowDocumentService =  SpringContext.getBean(WorkflowDocumentService.class);
-                    WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), GlobalVariables.getUserSession().getPerson());
+                    WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), GlobalVariables.getUserSession().getPerson());
                     document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
 
                     String annotation = "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")";

@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.ACHTransactionType;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
@@ -30,12 +32,12 @@ public class AchTransactionTypeCodeValuesFinder extends KeyValuesBase {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<ACHTransactionType> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(ACHTransactionType.class);
-        List<KeyLabelPair> keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (ACHTransactionType element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+            keyValues.add(new ConcreteKeyValue(element.getCode(), element.getName()));
         }
 
         return keyValues;

@@ -70,7 +70,7 @@ public class CfdaServiceImpl implements CfdaService {
         SortedMap<String, CFDA> govMap = new TreeMap<String, CFDA>();
 
         // ftp://ftp.cfda.gov/programs09187.csv
-        String govURL = SpringContext.getBean(ParameterService.class).getParameterValue(CfdaBatchStep.class, KFSConstants.SOURCE_URL_PARAMETER);
+        String govURL = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CfdaBatchStep.class, KFSConstants.SOURCE_URL_PARAMETER);
         String fileName = StringUtils.substringAfterLast(govURL, "/");
         govURL = StringUtils.substringBeforeLast(govURL, "/");
         if (StringUtils.contains(govURL, "ftp://")) {

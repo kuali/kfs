@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * Labor business object for special case <code>{@link SourceAccountingLine}</code> type for
@@ -243,6 +244,6 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine im
      * @return the String "View Organization Reversion"
      */
     public String getFringeBenefitView() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.SALARY_TRANSFER_FRINGE_BENEFIT_INQUIRY_LABEL);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.SALARY_TRANSFER_FRINGE_BENEFIT_INQUIRY_LABEL);
     }
 }

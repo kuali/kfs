@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +16,8 @@
 package org.kuali.kfs.vnd.businessobject;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     private int debarredVendorId;
@@ -32,9 +31,9 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     private String zip;
     private String aliases;
     private String description;
-    
+
     /**
-     * Gets the debarredVendorId attribute. 
+     * Gets the debarredVendorId attribute.
      * @return Returns the debarredVendorId.
      */
     public int getDebarredVendorId() {
@@ -50,7 +49,7 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the loadDate attribute. 
+     * Gets the loadDate attribute.
      * @return Returns the loadDate.
      */
     public Date getLoadDate() {
@@ -66,7 +65,7 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the name attribute. 
+     * Gets the name attribute.
      * @return Returns the name.
      */
     public String getName() {
@@ -82,7 +81,7 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the address1 attribute. 
+     * Gets the address1 attribute.
      * @return Returns the address1.
      */
     public String getAddress1() {
@@ -98,7 +97,7 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the address2 attribute. 
+     * Gets the address2 attribute.
      * @return Returns the address2.
      */
     public String getAddress2() {
@@ -114,7 +113,7 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the city attribute. 
+     * Gets the city attribute.
      * @return Returns the city.
      */
     public String getCity() {
@@ -130,7 +129,7 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the stateOrCountry attribute. 
+     * Gets the stateOrCountry attribute.
      * @return Returns the stateOrCountry.
      */
     public String getState() {
@@ -146,7 +145,7 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the province attribute. 
+     * Gets the province attribute.
      * @return Returns the province.
      */
     public String getProvince() {
@@ -162,7 +161,7 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the zip attribute. 
+     * Gets the zip attribute.
      * @return Returns the zip.
      */
     public String getZip() {
@@ -176,9 +175,9 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     public void setZip(String zip) {
         this.zip = zip;
     }
-    
+
     /**
-     * Gets the alias attribute. 
+     * Gets the alias attribute.
      * @return Returns the alias.
      */
     public String getAliases() {
@@ -194,7 +193,7 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the description attribute. 
+     * Gets the description attribute.
      * @return Returns the description.
      */
     public String getDescription() {
@@ -207,12 +206,5 @@ public class DebarredVendorDetail extends PersistableBusinessObjectBase {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap toString = new LinkedHashMap();
-        toString.put("debarredVendorId", debarredVendorId);
-        return toString;
     }
 }

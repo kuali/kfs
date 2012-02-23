@@ -208,7 +208,7 @@
 			<column name="PARM_DESC_TXT" value="The run date to run the asset depreciation batch job during the blank out period." />
 			<column name="CONS_CD" value="A" />
 		</insert>
-		<insert tableName="KRNS_PARM_T">so 
+		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />
 			<column name="PARM_DTL_TYP_CD" value="AssetDepreciationStep" />
 			<column name="PARM_NM" value="BLANK_OUT_BEGIN_MMDD" />

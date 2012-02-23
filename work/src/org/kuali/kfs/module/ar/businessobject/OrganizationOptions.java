@@ -23,10 +23,10 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -58,11 +58,11 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private Chart chartOfAccounts;
 	private Chart processingChartOfAccount;
 	private Organization processingOrganization;
-    private State organizationRemitToState;
+    private StateEbo organizationRemitToState;
     private PrintInvoiceOptions printInvoiceOptions;
-    private PostalCode orgPostalZipCode;
-    private PostalCode orgRemitToZipCode;
-    private PostalCode orgPostalCountryCode;
+    private PostalCodeEbo orgPostalZipCode;
+    private PostalCodeEbo orgRemitToZipCode;
+    private PostalCodeEbo orgPostalCountryCode;
     
 
     /**
@@ -532,8 +532,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
      * Gets the organizationRemitToState attribute. 
      * @return Returns the organizationRemitToState.
      */
-    public State getOrganizationRemitToState() {
-        organizationRemitToState = (StringUtils.isBlank(organizationRemitToStateCode))?null:( organizationRemitToState == null||!StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode))?SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,organizationRemitToStateCode): organizationRemitToState;
+    public StateEbo getOrganizationRemitToState() {
+        organizationRemitToState = (StringUtils.isBlank(organizationRemitToStateCode))?null:( organizationRemitToState == null||!StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,organizationRemitToStateCode)): organizationRemitToState;
         return organizationRemitToState;
     }
 
@@ -542,7 +542,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
      * @param organizationRemitToState The organizationRemitToState to set.
      * @deprecated
      */
-    public void setOrganizationRemitToState(State organizationRemitToState) {
+    public void setOrganizationRemitToState(StateEbo organizationRemitToState) {
         this.organizationRemitToState = organizationRemitToState;
     }    
     
@@ -599,33 +599,33 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
         this.organizationPostalZipCode = organizationPostalZipCode;
     }
 
-    public PostalCode getOrgPostalZipCode() {
+    public PostalCodeEbo getOrgPostalZipCode() {
         if(ObjectUtils.isNull(orgPostalZipCode)) {
-            orgPostalZipCode = SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, organizationPostalZipCode );
+            orgPostalZipCode = PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, organizationPostalZipCode ));
         }
         return orgPostalZipCode;
     }
 
-    public void setOrgPostalZipCode(PostalCode orgPostalZipCode) {
+    public void setOrgPostalZipCode(PostalCodeEbo orgPostalZipCode) {
         this.orgPostalZipCode = orgPostalZipCode;
     }
 
-    public PostalCode getOrgRemitToZipCode() {
+    public PostalCodeEbo getOrgRemitToZipCode() {
         if(ObjectUtils.isNull(orgRemitToZipCode)) {
-            orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, organizationRemitToZipCode );
+            orgRemitToZipCode = PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, organizationRemitToZipCode ));
         }
         return orgRemitToZipCode;
     }
 
-    public void setOrgRemitToZipCode(PostalCode orgRemitToZipCode) {
+    public void setOrgRemitToZipCode(PostalCodeEbo orgRemitToZipCode) {
         this.orgRemitToZipCode = orgRemitToZipCode;
     }
 
-    public PostalCode getOrgPostalCountryCode() {
+    public PostalCodeEbo getOrgPostalCountryCode() {
         return orgPostalCountryCode;
     }
 
-    public void setOrgPostalCountryCode(PostalCode orgPostalCountryCode) {
+    public void setOrgPostalCountryCode(PostalCodeEbo orgPostalCountryCode) {
         this.orgPostalCountryCode = orgPostalCountryCode;
     }    
 

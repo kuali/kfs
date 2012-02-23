@@ -47,8 +47,8 @@ import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -114,7 +114,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
-    private Campus campus;
+    private CampusEbo campus;
     private Room buildingRoom;
     private Account retirementAccount;
     private Chart retirementChartOfAccounts;
@@ -1383,8 +1383,8 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * 
      * @return Returns the campus
      */
-    public Campus getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
     /**
@@ -1393,7 +1393,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @param campus The campus to set.
      * @deprecated
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 

@@ -33,12 +33,12 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 
 public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase {
@@ -64,14 +64,14 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     protected String borrowerStoragePhoneNumber;
     protected Long capitalAssetNumber;
 
-    protected State borrowerState;
-    protected State borrowerStorageState;
-    protected Country borrowerCountry;
-    protected Country borrowerStorageCountry;
+    protected StateEbo borrowerState;
+    protected StateEbo borrowerStorageState;
+    protected CountryEbo borrowerCountry;
+    protected CountryEbo borrowerStorageCountry;
     protected Person borrowerPerson;
     protected Asset asset;
-    protected PostalCode borrowerPostalZipCode;
-    protected PostalCode borrowerStoragePostalZipCode;
+    protected PostalCodeEbo borrowerPostalZipCode;
+    protected PostalCodeEbo borrowerStoragePostalZipCode;
 
     // sets document status (i.e. new loan, return, or renew)
     protected boolean newLoan;
@@ -107,8 +107,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerCountry
      */
-    public Country getBorrowerCountry() {
-        borrowerCountry = (borrowerCountryCode == null)?null:( borrowerCountry == null || !StringUtils.equals( borrowerCountry.getCode(),borrowerCountryCode))?SpringContext.getBean(CountryService.class).getCountry(borrowerCountryCode): borrowerCountry;
+    public CountryEbo getBorrowerCountry() {
+        borrowerCountry = (borrowerCountryCode == null)?null:( borrowerCountry == null || !StringUtils.equals( borrowerCountry.getCode(),borrowerCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(borrowerCountryCode)): borrowerCountry;
         return borrowerCountry;
     }
 
@@ -117,7 +117,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerCountry The borrowerCountry to set.
      */
-    public void setBorrowerCountry(Country borrowerCountry) {
+    public void setBorrowerCountry(CountryEbo borrowerCountry) {
         this.borrowerCountry = borrowerCountry;
     }
 
@@ -126,8 +126,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerState
      */
-    public State getBorrowerState() {
-        borrowerState = (StringUtils.isBlank(borrowerCountryCode) || StringUtils.isBlank( borrowerStateCode))?null:( borrowerState == null || !StringUtils.equals( borrowerState.getCountryCode(),borrowerCountryCode)|| !StringUtils.equals( borrowerState.getCode(), borrowerStateCode))?SpringContext.getBean(StateService.class).getState(borrowerCountryCode, borrowerStateCode): borrowerState;
+    public StateEbo getBorrowerState() {
+        borrowerState = (StringUtils.isBlank(borrowerCountryCode) || StringUtils.isBlank( borrowerStateCode))?null:( borrowerState == null || !StringUtils.equals( borrowerState.getCountryCode(),borrowerCountryCode)|| !StringUtils.equals( borrowerState.getCode(), borrowerStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(borrowerCountryCode, borrowerStateCode)): borrowerState;
         return borrowerState;
     }
 
@@ -136,7 +136,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerState The borrowerState to set.
      */
-    public void setBorrowerState(State borrowerState) {
+    public void setBorrowerState(StateEbo borrowerState) {
         this.borrowerState = borrowerState;
     }
 
@@ -145,8 +145,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerStorageCountry
      */
-    public Country getBorrowerStorageCountry() {
-        borrowerStorageCountry = (borrowerStorageCountryCode == null)?null:( borrowerStorageCountry == null || !StringUtils.equals( borrowerStorageCountry.getCode(),borrowerStorageCountryCode))?SpringContext.getBean(CountryService.class).getCountry(borrowerStorageCountryCode): borrowerStorageCountry;
+    public CountryEbo getBorrowerStorageCountry() {
+        borrowerStorageCountry = (borrowerStorageCountryCode == null)?null:( borrowerStorageCountry == null || !StringUtils.equals( borrowerStorageCountry.getCode(),borrowerStorageCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(borrowerStorageCountryCode)): borrowerStorageCountry;
         return borrowerStorageCountry;
     }
 
@@ -155,7 +155,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerStorageCountry The borrowerStorageCountry to set.
      */
-    public void setBorrowerStorageCountry(Country borrowerStorageCountry) {
+    public void setBorrowerStorageCountry(CountryEbo borrowerStorageCountry) {
         this.borrowerStorageCountry = borrowerStorageCountry;
     }
 
@@ -164,8 +164,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the getBorrowerStorageState
      */
-    public State getBorrowerStorageState() {
-        borrowerStorageState = (StringUtils.isBlank(borrowerStorageCountryCode) || StringUtils.isBlank( borrowerStorageStateCode))?null:( borrowerStorageState == null || !StringUtils.equals( borrowerStorageState.getCountryCode(),borrowerStorageCountryCode)|| !StringUtils.equals( borrowerStorageState.getCode(), borrowerStorageStateCode))?SpringContext.getBean(StateService.class).getState(borrowerStorageCountryCode, borrowerStorageStateCode): borrowerStorageState;
+    public StateEbo getBorrowerStorageState() {
+        borrowerStorageState = (StringUtils.isBlank(borrowerStorageCountryCode) || StringUtils.isBlank( borrowerStorageStateCode))?null:( borrowerStorageState == null || !StringUtils.equals( borrowerStorageState.getCountryCode(),borrowerStorageCountryCode)|| !StringUtils.equals( borrowerStorageState.getCode(), borrowerStorageStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(borrowerStorageCountryCode, borrowerStorageStateCode)): borrowerStorageState;
         return borrowerStorageState;
     }
 
@@ -174,7 +174,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerStorageState The borrowerStorageState to set.
      */
-    public void setBorrowerStorageState(State borrowerStorageState) {
+    public void setBorrowerStorageState(StateEbo borrowerStorageState) {
         this.borrowerStorageState = borrowerStorageState;
     }
 
@@ -400,8 +400,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerPostalZipCode
      */
-    public PostalCode getBorrowerPostalZipCode() {
-        borrowerPostalZipCode = (StringUtils.isBlank(borrowerCountryCode) || StringUtils.isBlank( borrowerZipCode))?null:( borrowerPostalZipCode == null || !StringUtils.equals( borrowerPostalZipCode.getCountryCode(),borrowerCountryCode)|| !StringUtils.equals( borrowerPostalZipCode.getCode(), borrowerZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(borrowerCountryCode, borrowerZipCode): borrowerPostalZipCode;
+    public PostalCodeEbo getBorrowerPostalZipCode() {
+        borrowerPostalZipCode = (StringUtils.isBlank(borrowerCountryCode) || StringUtils.isBlank( borrowerZipCode))?null:( borrowerPostalZipCode == null || !StringUtils.equals( borrowerPostalZipCode.getCountryCode(),borrowerCountryCode)|| !StringUtils.equals( borrowerPostalZipCode.getCode(), borrowerZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(borrowerCountryCode, borrowerZipCode)): borrowerPostalZipCode;
         return borrowerPostalZipCode;
     }
 
@@ -410,7 +410,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerPostalZipCode The borrowerPostalZipCode to set.
      */
-    public void setBorrowerPostalZipCode(PostalCode borrowerPostalZipCode) {
+    public void setBorrowerPostalZipCode(PostalCodeEbo borrowerPostalZipCode) {
         this.borrowerPostalZipCode = borrowerPostalZipCode;
     }
 
@@ -419,8 +419,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerStoragePostalZipCode The borrowerStoragePostalZipCode to set.
      */
-    public PostalCode getBorrowerStoragePostalZipCode() {
-        borrowerStoragePostalZipCode = (StringUtils.isBlank(borrowerStorageCountryCode) || StringUtils.isBlank( borrowerStorageZipCode))?null:( borrowerStoragePostalZipCode == null || !StringUtils.equals( borrowerStoragePostalZipCode.getCountryCode(),borrowerStorageCountryCode)|| !StringUtils.equals( borrowerStoragePostalZipCode.getCode(), borrowerStorageZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(borrowerStorageCountryCode, borrowerStorageZipCode): borrowerStoragePostalZipCode;
+    public PostalCodeEbo getBorrowerStoragePostalZipCode() {
+        borrowerStoragePostalZipCode = (StringUtils.isBlank(borrowerStorageCountryCode) || StringUtils.isBlank( borrowerStorageZipCode))?null:( borrowerStoragePostalZipCode == null || !StringUtils.equals( borrowerStoragePostalZipCode.getCountryCode(),borrowerStorageCountryCode)|| !StringUtils.equals( borrowerStoragePostalZipCode.getCode(), borrowerStorageZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(borrowerStorageCountryCode, borrowerStorageZipCode)): borrowerStoragePostalZipCode;
         return borrowerStoragePostalZipCode;
     }
 
@@ -429,7 +429,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerStoragePostalZipCode
      */
-    public void setborrowerStoragePostalZipCode(PostalCode borrowerStoragePostalZipCode) {
+    public void setborrowerStoragePostalZipCode(PostalCodeEbo borrowerStoragePostalZipCode) {
         this.borrowerStoragePostalZipCode = borrowerStoragePostalZipCode;
     }
 

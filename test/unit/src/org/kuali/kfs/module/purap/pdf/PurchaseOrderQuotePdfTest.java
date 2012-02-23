@@ -35,6 +35,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 @ConfigureContext
 public class PurchaseOrderQuotePdfTest extends KualiTestBase {
@@ -81,7 +82,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         poqv.setVendorPhoneNumber("1-800-DUSTY-CELL");
         poqv.setVendorPostalCode("48864");
 
-        Country country = countryService.getCountry("US");
+        CountryEbo country = CountryEbo.from(countryService.getCountry("US"));
         poqv.setVendorCountry(country);
         PurchaseOrderItem poi = new PurchaseOrderItem();
         ItemType it = new ItemType();

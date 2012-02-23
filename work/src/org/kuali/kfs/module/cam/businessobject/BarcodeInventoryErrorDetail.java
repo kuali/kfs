@@ -23,8 +23,8 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
  * Class for the barcode inventory error detail
@@ -47,7 +47,7 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
     private String assetConditionCode;
 
     // References
-    private Campus campus;
+    private CampusEbo campus;
     private Room buildingRoom;
     private Building building;
     private AssetCondition condition;
@@ -331,8 +331,8 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
      * 
      * @return Campus
      */
-    public Campus getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
     /**
@@ -340,7 +340,7 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
      * 
      * @param campus
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 

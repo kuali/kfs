@@ -36,6 +36,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleContract;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -83,7 +84,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     public void populateOrgReviewRoleFromDelegationMember(OrgReviewRole orr, String delegationMemberId) {
         DelegateMember delegationMember = KimApiServiceLocator.getRoleService().getDelegationMemberById(delegationMemberId);
         DelegateType delegation = KimApiServiceLocator.getRoleService().getDelegateTypeByDelegationId(delegationMember.getDelegationId());
-        Role roleInfo = KimApiServiceLocator.getRoleService().getRole(delegation.getRoleId());
+        RoleContract roleInfo = KimApiServiceLocator.getRoleService().getRole(delegation.getRoleId());
         KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
 
         orr.setDelegationMemberId(delegationMember.getDelegationMemberId());
@@ -97,7 +98,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     protected void populateObjectExtras( OrgReviewRole orr ) {
-        Role role = orr.getRole();
+        RoleContract role = orr.getRole();
         //Set the role details
         orr.setRoleName(role.getName());
         orr.setNamespaceCode(role.getNamespaceCode());

@@ -40,15 +40,15 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.attribute.KimAttribute;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateMemberContract;
-import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
 import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeAttribute;
+import org.kuali.rice.kim.framework.group.GroupEbo;
+import org.kuali.rice.kim.framework.role.RoleEbo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -109,8 +109,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     protected KfsKimDocRoleMember memberGroup = new KfsKimDocRoleMember( "", MemberType.GROUP );
     protected KfsKimDocRoleMember memberPerson = new KfsKimDocRoleMember( "", MemberType.PRINCIPAL );
 
-    protected Role role;
-    protected Group group;
+    protected RoleEbo role;
+    protected GroupEbo group;
     protected Person person;
 
     protected List<KfsKimDocumentAttributeData> attributes = new ArrayList<KfsKimDocumentAttributeData>();
@@ -967,14 +967,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * Gets the group attribute.
      * @return Returns the group.
      */
-    public Group getGroup() {
+    public GroupEbo getGroup() {
         return group;
     }
     /**
      * Sets the group attribute value.
      * @param group The group to set.
      */
-    public void setGroup(Group group) {
+    public void setGroup(GroupEbo group) {
         this.group = group;
     }
     /**
@@ -1003,9 +1003,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * Gets the role attribute.
      * @return Returns the role.
      */
-    public Role getRole() {
+    public RoleEbo getRole() {
         if ( role == null || !StringUtils.equals(role.getId(), roleId)) {
-            role = KimApiServiceLocator.getRoleService().getRole(roleId);
+            role = RoleEbo.from(KimApiServiceLocator.getRoleService().getRole(roleId));
         }
         return role;
     }
@@ -1060,7 +1060,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     public void setDelegationMemberRole(DelegateMemberContract delegationMemberRole) {
         this.delegationMemberRole = new KfsKimDocDelegateMember( delegationMemberRole );
         if(delegationMemberRole!=null){
-            Role roleInfo = KimApiServiceLocator.getRoleService().getRole(delegationMemberRole.getMemberId());
+            RoleEbo roleInfo = RoleEbo.from(KimApiServiceLocator.getRoleService().getRole(delegationMemberRole.getMemberId()));
 //            setRole(roleInfo);
         }
     }

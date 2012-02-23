@@ -20,14 +20,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * 
@@ -45,10 +45,10 @@ public class Building extends PersistableBusinessObjectBase implements MutableIn
     protected boolean active;
     protected String buildingAddressCountryCode;
     
-    protected Campus campus;
-    protected State buildingAddressState;
-    protected PostalCode buildingAddressZip;
-    protected Country buildingAddressCountry;
+    protected CampusEbo campus;
+    protected StateEbo buildingAddressState;
+    protected PostalCodeEbo buildingAddressZip;
+    protected CountryEbo buildingAddressCountry;
  
     /**
      * Gets the campusCode attribute.
@@ -111,8 +111,8 @@ public class Building extends PersistableBusinessObjectBase implements MutableIn
      * 
      * @return Returns the campus.
      */
-    public Campus getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:SpringContext.getBean(CampusService.class).getCampus( campusCode));
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
     /**
@@ -120,7 +120,7 @@ public class Building extends PersistableBusinessObjectBase implements MutableIn
      * 
      * @param campus The campus to set.
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
@@ -235,8 +235,8 @@ public class Building extends PersistableBusinessObjectBase implements MutableIn
      * 
      * @return Returns the buildingAddressState.
      */
-    public State getBuildingAddressState() {
-        buildingAddressState = (StringUtils.isBlank(buildingAddressCountryCode) || StringUtils.isBlank( buildingAddressStateCode))?null:( buildingAddressState == null || !StringUtils.equals( buildingAddressState.getCountryCode(),buildingAddressCountryCode)|| !StringUtils.equals( buildingAddressState.getCode(), buildingAddressStateCode))?SpringContext.getBean(StateService.class).getState(buildingAddressCountryCode, buildingAddressStateCode): buildingAddressState;
+    public StateEbo getBuildingAddressState() {
+        buildingAddressState = (StringUtils.isBlank(buildingAddressCountryCode) || StringUtils.isBlank( buildingAddressStateCode))?null:( buildingAddressState == null || !StringUtils.equals( buildingAddressState.getCountryCode(),buildingAddressCountryCode)|| !StringUtils.equals( buildingAddressState.getCode(), buildingAddressStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(buildingAddressCountryCode, buildingAddressStateCode)): buildingAddressState;
         return buildingAddressState;
     }
 
@@ -246,7 +246,7 @@ public class Building extends PersistableBusinessObjectBase implements MutableIn
      * @param buildingAddressState The buildingAddressState to set.
      * @deprecated
      */
-    public void setBuildingAddressState(State buildingAddressState) {
+    public void setBuildingAddressState(StateEbo buildingAddressState) {
         this.buildingAddressState = buildingAddressState;
     }
 
@@ -255,8 +255,8 @@ public class Building extends PersistableBusinessObjectBase implements MutableIn
      * 
      * @return Returns the buildingAddressZip.
      */
-    public PostalCode getBuildingAddressZip() {
-        buildingAddressZip = (StringUtils.isBlank(buildingAddressCountryCode) || StringUtils.isBlank( buildingAddressZipCode))?null:( buildingAddressZip == null || !StringUtils.equals( buildingAddressZip.getCountryCode(),buildingAddressCountryCode)|| !StringUtils.equals( buildingAddressZip.getCode(), buildingAddressZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(buildingAddressCountryCode, buildingAddressZipCode): buildingAddressZip;
+    public PostalCodeEbo getBuildingAddressZip() {
+        buildingAddressZip = (StringUtils.isBlank(buildingAddressCountryCode) || StringUtils.isBlank( buildingAddressZipCode))?null:( buildingAddressZip == null || !StringUtils.equals( buildingAddressZip.getCountryCode(),buildingAddressCountryCode)|| !StringUtils.equals( buildingAddressZip.getCode(), buildingAddressZipCode))? PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(buildingAddressCountryCode, buildingAddressZipCode)): buildingAddressZip;
         return buildingAddressZip;
     }
 
@@ -266,7 +266,7 @@ public class Building extends PersistableBusinessObjectBase implements MutableIn
      * @param buildingAddressZip The buildingAddressZip to set.
      * @deprecated
      */
-    public void setBuildingAddressZip(PostalCode buildingAddressZip) {
+    public void setBuildingAddressZip(PostalCodeEbo buildingAddressZip) {
         this.buildingAddressZip = buildingAddressZip;
     }
     
@@ -290,8 +290,8 @@ public class Building extends PersistableBusinessObjectBase implements MutableIn
      * Gets the buildingAddressCountry attribute. 
      * @return Returns the buildingAddressCountry.
      */
-    public Country getBuildingAddressCountry() {
-        buildingAddressCountry = (buildingAddressCountryCode == null)?null:( buildingAddressCountry == null || !StringUtils.equals( buildingAddressCountry.getCode(),buildingAddressCountryCode))?SpringContext.getBean(CountryService.class).getCountry(buildingAddressCountryCode): buildingAddressCountry;
+    public CountryEbo getBuildingAddressCountry() {
+        buildingAddressCountry = (buildingAddressCountryCode == null)?null:( buildingAddressCountry == null || !StringUtils.equals( buildingAddressCountry.getCode(),buildingAddressCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(buildingAddressCountryCode)): buildingAddressCountry;
         return buildingAddressCountry;
     }
 
@@ -299,7 +299,7 @@ public class Building extends PersistableBusinessObjectBase implements MutableIn
      * Sets the buildingAddressCountry attribute value.
      * @param buildingAddressCountry The buildingAddressCountry to set.
      */
-    public void setBuildingAddressCountry(Country buildingAddressCountry) {
+    public void setBuildingAddressCountry(CountryEbo buildingAddressCountry) {
         this.buildingAddressCountry = buildingAddressCountry;
     }
 

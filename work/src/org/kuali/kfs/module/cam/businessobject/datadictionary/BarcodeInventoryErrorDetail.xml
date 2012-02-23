@@ -95,18 +95,16 @@
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-buildingCode" parent="BarcodeInventoryErrorDetail-buildingCode-parentBean"/>
-  <bean id="BarcodeInventoryErrorDetail-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
+  <bean id="BarcodeInventoryErrorDetail-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber" parent="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean"/>
-  <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-    <property name="label" value="Room Number"/>
+  <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
     <property name="shortLabel" value="Room#"/>
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-buildingSubRoomNumber" parent="BarcodeInventoryErrorDetail-buildingSubRoomNumber-parentBean"/>
   <bean id="BarcodeInventoryErrorDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-    <property name="label" value="Sub Room Number"/>
     <property name="shortLabel" value="Sub Room#"/>
   </bean>
   

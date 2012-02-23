@@ -29,7 +29,7 @@ public class PayeeACHAccountMaintenanceDocumentAuthorizer extends FinancialSyste
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> qualifications) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> qualifications) {
         super.addRoleQualification(businessObject, qualifications);
 
         if (businessObject instanceof PayeeACHAccount) {

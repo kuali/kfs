@@ -123,6 +123,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         String errorMsg = "";
         List<String> documentNos = new ArrayList<String>();
         List<String[]> reportLog = new ArrayList<String[]>();
+        Collection<AssetObjectCode> assetObjectCodes = new ArrayList<AssetObjectCode>();
         boolean hasErrors = false;
         Calendar depreciationDate = dateTimeService.getCurrentCalendar();
         java.sql.Date depDate = null;
@@ -166,11 +167,13 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
                 fiscalYear = universityDate.getUniversityFiscalYear();
                 fiscalMonth = new Integer(universityDate.getUniversityFiscalAccountingPeriod());
+                
+                assetObjectCodes = depreciableAssetsDao.getAssetObjectCodes(fiscalYear);
                 // If the depreciation date is not = to the system date then, the depreciation process cannot run.
                 if ( LOG.isInfoEnabled() ) {
                     LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal Year = " + fiscalYear + " & Fiscal Period=" + fiscalMonth);
                 }
-                reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate));
+                reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate, assetObjectCodes));
                 // update if fiscal period is 12
                 depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
                 // Retrieving eligible asset payment details
@@ -178,7 +181,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 Collection<AssetPaymentInfo> depreciableAssetsCollection = depreciationBatchDao.getListOfDepreciableAssetPaymentInfo(fiscalYear, fiscalMonth, depreciationDate);
                 // if we have assets eligible for depreciation then, calculate depreciation and create glpe's transactions
                 if (depreciableAssetsCollection != null && !depreciableAssetsCollection.isEmpty()) {
-                    SortedMap<String, AssetDepreciationTransaction> depreciationTransactions = this.calculateDepreciation(fiscalYear, fiscalMonth, depreciableAssetsCollection, depreciationDate);
+                    SortedMap<String, AssetDepreciationTransaction> depreciationTransactions = this.calculateDepreciation(fiscalYear, fiscalMonth, depreciableAssetsCollection, depreciationDate, assetObjectCodes);
                         processGeneralLedgerPendingEntry(fiscalYear, fiscalMonth, documentNos, depreciationTransactions);
                 }
                 else {
@@ -195,7 +198,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         }
         finally {
             if (!hasErrors && executeJob) {
-                reportLog.addAll(depreciableAssetsDao.generateStatistics(false, documentNos, fiscalYear, fiscalMonth, depreciationDate));
+                reportLog.addAll(depreciableAssetsDao.generateStatistics(false, documentNos, fiscalYear, fiscalMonth, depreciationDate, assetObjectCodes));
             }
             // the report will be generated only when there is an error or when the log has something.
             if (!reportLog.isEmpty() || !errorMsg.trim().equals("")) {
@@ -270,6 +273,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             depreciationDate.setTime(java.sql.Date.valueOf(fiscalYearToDepreciate.toString()+getLastDayOfFiscalyear()));
             fiscalYear = fiscalYearToDepreciate;
             fiscalMonth = 12;
+            Collection<AssetObjectCode> assetObjectCodes = depreciableAssetsDao.getAssetObjectCodes(fiscalYear);
 
             // If the depreciation date is not = to the system date then, the depreciation process cannot run.
             if ( LOG.isInfoEnabled() ) {
@@ -286,7 +290,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             Collection<AssetPaymentInfo> depreciableAssetsCollection = depreciationBatchDao.getListOfDepreciableAssetPaymentInfoYearEnd(fiscalYear, fiscalMonth, depreciationDate, includeRetired);
             // if we have assets eligible for depreciation then, calculate depreciation and create glpe's transactions
             if (depreciableAssetsCollection != null && !depreciableAssetsCollection.isEmpty()) {
-                SortedMap<String, AssetDepreciationTransaction> depreciationTransactions = this.calculateYearEndDepreciation(depreciableAssetsCollection, depreciationDate, fiscalYearToDepreciate, fiscalYear, fiscalMonth);
+                SortedMap<String, AssetDepreciationTransaction> depreciationTransactions = this.calculateYearEndDepreciation(depreciableAssetsCollection, depreciationDate, fiscalYearToDepreciate, fiscalYear, fiscalMonth, assetObjectCodes);
                 processYearEndGeneralLedgerPendingEntry(fiscalYear, documentNos, depreciationTransactions);
             } else {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(CamsKeyConstants.Depreciation.NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND));
@@ -478,7 +482,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      * @param depreciableAssetsCollection asset payments eligible for depreciation
      * @return SortedMap with a list of depreciation transactions
      */
-    protected SortedMap<String, AssetDepreciationTransaction> calculateDepreciation(Integer fiscalYear, Integer fiscalMonth, Collection<AssetPaymentInfo> depreciableAssetsCollection, Calendar depreciationDate) {
+    protected SortedMap<String, AssetDepreciationTransaction> calculateDepreciation(Integer fiscalYear, Integer fiscalMonth, Collection<AssetPaymentInfo> depreciableAssetsCollection, Calendar depreciationDate, Collection<AssetObjectCode> assetObjectCodes) {
         LOG.debug("calculateDepreciation() - start");
 
         Collection<String> organizationPlantFundObjectSubType = new ArrayList<String>();
@@ -506,7 +510,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Calculating the base amount for each asset.");
             Map<Long, KualiDecimal> salvageValueAssetDeprAmounts = depreciationBatchDao.getPrimaryDepreciationBaseAmountForSV();
             // Retrieving the object asset codes.
-            Map<String, AssetObjectCode> assetObjectCodeMap = buildChartObjectToCapitalizationObjectMap(fiscalYear);
+            Map<String, AssetObjectCode> assetObjectCodeMap = buildChartObjectToCapitalizationObjectMap(assetObjectCodes);
             Map<String, ObjectCode> capitalizationObjectCodes = new HashMap<String, ObjectCode>();
 
             // Reading asset payments
@@ -794,9 +798,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      *
      * @return Map
      */
-    protected Map<String, AssetObjectCode> buildChartObjectToCapitalizationObjectMap(Integer fiscalYear) {
+    protected Map<String, AssetObjectCode> buildChartObjectToCapitalizationObjectMap(Collection<AssetObjectCode> assetObjectCodes) {
         Map<String, AssetObjectCode> assetObjectCodeMap = new HashMap<String, AssetObjectCode>();
-        Collection<AssetObjectCode> assetObjectCodes = depreciableAssetsDao.getAssetObjectCodes(fiscalYear);
 
         for (AssetObjectCode assetObjectCode : assetObjectCodes) {
             List<ObjectCode> objectCodes = assetObjectCode.getObjectCode();
@@ -886,7 +889,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     }
     
     
-    protected SortedMap<String, AssetDepreciationTransaction> calculateYearEndDepreciation(Collection<AssetPaymentInfo> depreciableAssetsCollection, Calendar depreciationDate, Integer fiscalYearToDepreciate, Integer fiscalYear, Integer fiscalMonth) {
+    protected SortedMap<String, AssetDepreciationTransaction> calculateYearEndDepreciation(Collection<AssetPaymentInfo> depreciableAssetsCollection, Calendar depreciationDate, Integer fiscalYearToDepreciate, Integer fiscalYear, Integer fiscalMonth, Collection<AssetObjectCode> assetObjectCodes) {
         LOG.info("calculateDepreciation() - start");
 
         SortedMap<String, AssetDepreciationTransaction> depreciationTransactionSummary = new TreeMap<String, AssetDepreciationTransaction>();
@@ -908,7 +911,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             LOG.info("YEAR END DEPRECIATION - Calculating the base amount for each asset.");
             Map<Long, KualiDecimal> salvageValueAssetDeprAmounts = depreciationBatchDao.getPrimaryDepreciationBaseAmountForSV();
             // Retrieving the object asset codes.
-            Map<String, AssetObjectCode> assetObjectCodeMap = buildChartObjectToCapitalizationObjectMap(fiscalYear);
+            Map<String, AssetObjectCode> assetObjectCodeMap = buildChartObjectToCapitalizationObjectMap(assetObjectCodes);
             Map<String, ObjectCode> capitalizationObjectCodes = new HashMap<String, ObjectCode>();
 
             // Reading asset payments

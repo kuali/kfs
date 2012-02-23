@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.batch.service.VendorExcludeService;
@@ -75,7 +76,7 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
 
         String href = UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, properties);
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KRADConstants.START_METHOD, "Inquiry");
-        anchorHtmlData.setTarget(KRADConstants.NEW_WINDOW_URL_TARGET);
+        anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
         return anchorHtmlData;
     }
 
@@ -99,7 +100,7 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
         properties.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, VendorDetail.class.getName());
         String href = UrlFactory.parameterizeUrl(KRADConstants.MAINTENANCE_ACTION, properties);
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, label);
-        anchorHtmlData.setTarget(KRADConstants.NEW_WINDOW_URL_TARGET);
+        anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
         return anchorHtmlData;
     }
 

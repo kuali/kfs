@@ -1185,7 +1185,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         if(!oldAccount.isClosed() && newAccount.isClosed()){
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, oldAccount.getAccountNumber());
-            int encumbranceCount = getEncumbranceService().getOpenEncumbranceRecordCount(pkMap);
+            int encumbranceCount = getEncumbranceService().getOpenEncumbranceRecordCount(pkMap, false);
             if ( encumbranceCount > 0){
                 success = false;
                 putFieldError("closed", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CANNOT_CLOSE_OPEN_ENCUMBRANCE);

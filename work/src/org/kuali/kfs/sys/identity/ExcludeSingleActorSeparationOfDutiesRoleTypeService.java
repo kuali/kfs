@@ -15,36 +15,19 @@
  */
 package org.kuali.kfs.sys.identity;
 
-import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.actiontaken.dao.ActionTakenDAO;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.dto.ActionTakenDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kim.bo.group.dto.GroupMembershipInfo;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.dao.KimRoleDao;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.impl.GroupServiceImpl;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kim.util.KimConstants.KimUIConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * KFSMI-4553
@@ -53,13 +36,13 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class ExcludeSingleActorSeparationOfDutiesRoleTypeService  extends ExclusionRoleTypeServiceBase {
     private static final Logger LOG = Logger.getLogger( ExcludeSingleActorSeparationOfDutiesRoleTypeService .class );
-    protected DocumentService documentService;
-    protected WorkflowInfo workflowInfo = new WorkflowInfo();
+    protected volatile DocumentService documentService;
+    protected volatile WorkflowDocumentService workflowDocumentService;
 
     @Override
-    public List<RoleMembershipInfo> doRoleQualifiersMatchQualification(AttributeSet qualification, List<RoleMembershipInfo> roleMemberList) {
-        List<RoleMembershipInfo> membershipInfos = super.doRoleQualifiersMatchQualification(qualification, roleMemberList);
-        String documentId = new String(qualification.get(KimAttributes.DOCUMENT_NUMBER));
+    public List<RoleMembership> getMatchingRoleMemberships(Map<String, String> qualification, List<RoleMembership> roleMemberList) {
+        List<RoleMembership> membershipInfos = super.getMatchingRoleMemberships(qualification, roleMemberList);
+        String documentId = new String(qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER));
         String approverOrInitiator = getApproverOrInitiator(documentId);
         if(ObjectUtils.isNotNull(approverOrInitiator )) {
             return excludePrincipalAsNeeded(approverOrInitiator, qualification, membershipInfos);
@@ -76,19 +59,14 @@ public class ExcludeSingleActorSeparationOfDutiesRoleTypeService  extends Exclus
      */
     private String getApproverOrInitiator(String documentId) {
         String approverOrInitiatorPrincipalId = null;
-        try {
-           String principalId = workflowInfo.getDocumentInitiatorPrincipalId(Long.valueOf(documentId));
-           ActionTakenDTO[] actionTakenDTOs = workflowInfo.getActionsTaken(Long.valueOf(documentId));
-           for (ActionTakenDTO  actionTaken : actionTakenDTOs ) {
-               if(principalId.equals(actionTaken.getPrincipalId())) {
-                   approverOrInitiatorPrincipalId = principalId;
-               }
-           }
 
-        } catch (WorkflowException wex) {
-            throw new RuntimeException("Error in determining approver or initiator principal Id" + 
-                    "for document number: "+documentId+" :"+wex.getLocalizedMessage(),wex);
-        } 
+       String principalId = getWorkflowDocumentService().getDocumentInitiatorPrincipalId(documentId);
+       List<ActionTaken> actionTakenDTOs = getWorkflowDocumentService().getActionsTaken(documentId);
+       for (ActionTaken  actionTaken : actionTakenDTOs ) {
+           if(principalId.equals(actionTaken.getPrincipalId())) {
+               approverOrInitiatorPrincipalId = principalId;
+           }
+       }
 
         return approverOrInitiatorPrincipalId;
     }
@@ -98,5 +76,12 @@ public class ExcludeSingleActorSeparationOfDutiesRoleTypeService  extends Exclus
             documentService = SpringContext.getBean(DocumentService.class);
         }
         return documentService;
+    }
+    
+    protected WorkflowDocumentService getWorkflowDocumentService() {
+        if (workflowDocumentService == null) {
+            workflowDocumentService = KewApiServiceLocator.getWorkflowDocumentService();
+        }
+        return workflowDocumentService;
     }
 }

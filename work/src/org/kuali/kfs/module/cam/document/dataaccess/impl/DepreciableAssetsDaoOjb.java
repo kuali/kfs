@@ -74,7 +74,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#generateStatistics(boolean, java.lang.String,
      *      java.lang.Integer, java.lang.Integer, java.util.Calendar)
      */
-    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, Collection<AssetObjectCode> assetObjectCodes) {
         LOG.debug("generateStatistics() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "generating statistics for report - " + (beforeDepreciationReport ? "Before part." : "After part"));
 
@@ -266,10 +266,10 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
         if (!beforeDepreciationReport) {
             // Generating a list of depreciation expense object codes.
-            List<String> depreExpObjCodes = this.getExpenseObjectCodes(fiscalYear);
+            List<String> depreExpObjCodes = this.getExpenseObjectCodes(assetObjectCodes);
 
             // Generating a list of accumulated depreciation object codes.
-            List<String> accumulatedDepreciationObjCodes = this.getAccumulatedDepreciationObjectCodes(fiscalYear);
+            List<String> accumulatedDepreciationObjCodes = this.getAccumulatedDepreciationObjectCodes(assetObjectCodes);
 
             KualiDecimal debits = new KualiDecimal(0);
             KualiDecimal credits = new KualiDecimal(0);
@@ -426,7 +426,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     /**
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#getAssetObjectCodes(java.lang.Integer)
      */
-    @CacheNoCopy
     public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear) {
         LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object codes.");
@@ -448,13 +447,11 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param fiscalYear
      * @return a List<String>
      */
-    @CacheNoCopy
-    protected List<String> getExpenseObjectCodes(Integer fiscalYear) {
+    protected List<String> getExpenseObjectCodes(Collection<AssetObjectCode> assetObjectCodesCollection) {
         LOG.debug("DepreciableAssetsDAoOjb.getExpenseObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting expense object codes");
 
         List<String> depreExpObjCodes = new ArrayList<String>();
-        Collection<AssetObjectCode> assetObjectCodesCollection = this.getAssetObjectCodes(fiscalYear);
 
         // Creating a list of depreciation expense object codes.
         for (Iterator<AssetObjectCode> iterator = assetObjectCodesCollection.iterator(); iterator.hasNext();) {
@@ -477,13 +474,11 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param fiscalYear
      * @return List<String>
      */
-    @CacheNoCopy
-    protected List<String> getAccumulatedDepreciationObjectCodes(Integer fiscalYear) {
+    protected List<String> getAccumulatedDepreciationObjectCodes(Collection<AssetObjectCode> assetObjectCodesCollection) {
         LOG.debug("DepreciableAssetsDAoOjb.getAccumulatedDepreciationObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting accum depreciation object codes");
 
         List<String> accumulatedDepreciationObjCodes = new ArrayList<String>();
-        Collection<AssetObjectCode> assetObjectCodesCollection = this.getAssetObjectCodes(fiscalYear);
 
         // Creating a list of depreciation expense object codes.
         for (Iterator<AssetObjectCode> iterator = assetObjectCodesCollection.iterator(); iterator.hasNext();) {

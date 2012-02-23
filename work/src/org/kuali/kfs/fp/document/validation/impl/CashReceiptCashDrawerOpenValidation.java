@@ -60,7 +60,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
         }
 
         //check whether cash manager confirmed amount equals to the old amount
-        CashReceiptDocument crDoc = (CashReceiptDocument) getCashReceiptDocumentForValidation();
+        CashReceiptDocument crDoc = (CashReceiptDocument)cashReceiptDocumentForValidation; 
         if ((crDoc.getTotalDollarAmount().compareTo(crDoc.getTotalConfirmedCashAmount().add(crDoc.getTotalConfirmedCheckAmount()).add(crDoc.getTotalConfirmedCoinAmount()))) != 0) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CONFIRMED_TOTAL, crDoc.getTotalDollarAmount().toString());
             return false;

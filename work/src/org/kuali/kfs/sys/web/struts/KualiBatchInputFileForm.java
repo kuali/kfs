@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,8 +18,10 @@ package org.kuali.kfs.sys.web.struts;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -30,7 +32,7 @@ public class KualiBatchInputFileForm extends KualiForm {
     private BatchUpload batchUpload;
     private List<KeyValue> userFiles;
     private String url;
-    
+
     //getterURL pull system parameter used method get  parameter.evaluator
 
 
@@ -101,7 +103,7 @@ public class KualiBatchInputFileForm extends KualiForm {
     }
 
     /**
-     * Gets the url attribute. 
+     * Gets the url attribute.
      * @return Returns the url.
      */
     public String getUrl() {
@@ -115,10 +117,10 @@ public class KualiBatchInputFileForm extends KualiForm {
     public void setUrl(String url) {
         this.url = url;
     }
-    
-    @Override 
+
+    @Override
     protected void customInitMaxUploadSizes() {
-        addMaxUploadSize (KNSServiceLocator.getParameterService().getParameterValue(KFSConstants.ParameterNamespaces.KFS, "Batch", "MAX_FILE_SIZE_UPLOAD"));
+        addMaxUploadSize (CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(KFSConstants.CoreModuleNamespaces.KFS, "Batch", "MAX_FILE_SIZE_UPLOAD"));
     }
 
 }

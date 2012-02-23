@@ -209,7 +209,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
 
     @Override
     public void toCopy() throws WorkflowException, IllegalStateException {
-        FinancialSystemDocumentHeader oldDocumentHeader = getDocumentHeader();
+        FinancialSystemDocumentHeader oldDocumentHeader = getFinancialSystemDocumentHeader();
         super.toCopy();
         getFinancialSystemDocumentService().prepareToCopy(oldDocumentHeader, this);
     }

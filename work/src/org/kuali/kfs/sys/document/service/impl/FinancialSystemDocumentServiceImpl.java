@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,6 +43,7 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
      * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByDocumentHeaderStatusCode(java.lang.Class,
      *      java.lang.String)
      */
+    @Override
     public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode) throws WorkflowException {
         Collection<T> foundDocuments = getFinancialSystemDocumentDao().findByDocumentHeaderStatusCode(clazz, statusCode);
         for (Document doc : foundDocuments)
@@ -54,6 +55,10 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
             returnDocuments.add((T) getDocumentService().getByDocumentHeaderId(doc.getDocumentNumber()));
         }
         return returnDocuments;
+    }
+
+    public void prepareToCopy(FinancialSystemDocumentHeader oldDocumentHeader, FinancialSystemTransactionalDocument document) {
+        // This method serves as a plugin to add logic to the copy functionality, when needed.
     }
 
     public FinancialSystemDocumentDao getFinancialSystemDocumentDao() {

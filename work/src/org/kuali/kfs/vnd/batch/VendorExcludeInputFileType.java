@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,58 +24,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.businessobject.DebarredVendorDetail;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import au.com.bytecode.opencsv.CSVReader;
 
 public class VendorExcludeInputFileType extends BatchInputFileTypeBase{
-    
+
     private static final String FILE_NAME_PREFIX = "epls_debarred_vendors_";
     public static final int[] FIELD_SIZES = {200, 150, 50, 50, 20, 2, 20, 1000, 1000}; //Size limits for the fields
     private String fileTypeIdentifier;
     private DateTimeService dateTimeService;
-    
+
     /**
      * @return the electronic invoice file type identifier
      */
+    @Override
     public String getFileTypeIdentifer() {
         return VendorConstants.VENDOR_EXCLUDE_FILE_TYPE_INDENTIFIER;
     }
-    
+
     /**
      * doesn't do any validation
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#validate(java.lang.Object)
      */
+    @Override
     public boolean validate(Object parsedFileContents) {
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
+    @Override
     public String getTitleKey() {
         return VendorKeyConstants.MESSAGE_BATCH_UPLOAD_VENDOR_EXCLUDE;
     }
-    
+
     /** @see org.kuali.kfs.sys.batch.BatchInputFileType#getAuthorPrincipalName(File)
      */
+    @Override
     public String getAuthorPrincipalName(File file) {
         return null;
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#process(java.lang.String, java.lang.Object)
      */
+    @Override
     public void process(String fileName, Object parsedFileContents) {
         // does nothing
     }
-    
+
     /**
      * @param principalName - not used
      * @param parsedFileContents List - not used
@@ -83,6 +87,7 @@ public class VendorExcludeInputFileType extends BatchInputFileTypeBase{
      * @return file name prefix appended by current date
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(String, Object, String)
      */
+    @Override
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifuer) {
         String fileName = FILE_NAME_PREFIX;
         fileName += "_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
@@ -91,6 +96,7 @@ public class VendorExcludeInputFileType extends BatchInputFileTypeBase{
         return fileName;
     }
 
+    @Override
     public Object parse(byte[] fileByteContent) throws ParseException {
         CSVReader reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(fileByteContent)));
         List <DebarredVendorDetail> debarredVendors = new ArrayList<DebarredVendorDetail>();
@@ -152,7 +158,7 @@ public class VendorExcludeInputFileType extends BatchInputFileTypeBase{
     }
 
     /**
-     * Gets the fileTypeIdentifier attribute. 
+     * Gets the fileTypeIdentifier attribute.
      * @return Returns the fileTypeIdentifier.
      */
     public String getFileTypeIdentifier() {
@@ -168,7 +174,7 @@ public class VendorExcludeInputFileType extends BatchInputFileTypeBase{
     }
 
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {

@@ -4,17 +4,15 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
- * Implementation of BatchInputFileType which parses flat files 
+ * Implementation of BatchInputFileType which parses flat files
  */
 public class FlatFileParserBase extends BatchInputFileTypeBase {
     protected static Logger LOG = Logger.getLogger(FlatFileParserBase.class);
@@ -28,6 +26,7 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
     /**
      * Returns the name of an uploaded file
      */
+    @Override
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifier) {
         String fileName = processor.getFileName(principalName, parsedFileContents, fileUserIdentifier);
         if(StringHelper.isNullOrEmpty(fileName)) {
@@ -37,7 +36,7 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
                 fileName += "_" + fileUserIdentifier;
             }
             fileName += "_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
-    
+
             // remove spaces in filename
             fileName = org.apache.commons.lang.StringUtils.remove(fileName, " ");
         }
@@ -46,7 +45,7 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
 
     /**
      * All foundation developers are brilliant at spelling!
-     * 
+     *
      * @param fileTypeIdentifier the file identifier to set
      */
     public void setFileTypeIdentifer(String fileTypeIdentifier) {
@@ -55,7 +54,7 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
 
     /**
      * The correctly spelled setter name - just to avoid injection confusion
-     * 
+     *
      * @param fileTypeIdentifier the file type identifier
      */
     public void setFileTypeIdentifier(String fileTypeIdentifier) {
@@ -91,20 +90,21 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
      * @return an object graph of parsed objects
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#parse(byte[])
      */
+    @Override
     public Object parse(byte[] fileByteContent) throws ParseException {
         BufferedReader bufferedFileReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileByteContent)));
         String lineToParse;
         Object returnObject = null;
         FlatFileParseTracker tracker = SpringContext.getBean(FlatFileParseTracker.class);
         tracker.initialize(flatFileSpecification);
-        int  lineNumber = 1; 
+        int  lineNumber = 1;
         try {
             while ((lineToParse = bufferedFileReader.readLine()) != null) {
                 Object parseIntoObject = tracker.getObjectToParseInto(lineToParse);
 
                 if (parseIntoObject != null) {
                     FlatFileObjectSpecification parseSpecification = flatFileSpecification.getObjectSpecification(parseIntoObject.getClass());
-    
+
                     if (parseSpecification.getParseProperties() != null && !parseSpecification.getParseProperties().isEmpty()) {
                         flatFileSpecification.parseLineIntoObject(parseSpecification, lineToParse, parseIntoObject, lineNumber);
                         tracker.completeLineParse();
@@ -113,7 +113,7 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
                lineNumber++;
             }
             returnObject = tracker.getParsedObjects();
-          
+
 
         }
         catch (Exception e) {
@@ -127,6 +127,7 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
     /**
      * Calls the processor if it is available
      */
+    @Override
     public void process(String fileName, Object parsedFileContents) {
         if (getProcessor() != null)
             getProcessor().process(fileName, parsedFileContents);
@@ -135,6 +136,7 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
     /**
      * @return currently always returns true; do we want to extend that sometime?
      */
+    @Override
     public boolean validate(Object parsedFileContents) {
         if (getProcessor() == null)
             return true;
@@ -170,6 +172,7 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
      * @param file the file to determine the author of
      * @return the principal name of the author
      */
+    @Override
     public String getAuthorPrincipalName(File file) {
         return org.apache.commons.lang.StringUtils.substringBetween(file.getName(), getFileNamePrefix(), "_");
     }
@@ -177,6 +180,7 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
     /**
      * @return the identifier for flat files of this type
      */
+    @Override
     public String getFileTypeIdentifer() {
         return fileTypeIdentifier;
     }
@@ -189,8 +193,9 @@ public class FlatFileParserBase extends BatchInputFileTypeBase {
     }
 
     /**
-     * @return the key of the message to be used as the title of the upload screen of this file type 
+     * @return the key of the message to be used as the title of the upload screen of this file type
      */
+    @Override
     public String getTitleKey() {
         return titleKey;
     }

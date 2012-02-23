@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,19 +20,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.common.util.StringUtils;
-import org.kuali.kfs.vnd.VendorConstants;
-import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.batch.service.VendorExcludeService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class DebarredVendorUnmatchedLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     VendorExcludeService vendorExcludeService;
     VendorService vendorService;
-    
+
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         return getDebarredVendorUnmatchedSearchResults(fieldValues);
@@ -42,7 +40,7 @@ public class DebarredVendorUnmatchedLookupableHelperServiceImpl extends KualiLoo
     public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> fieldValues) {
         return getDebarredVendorUnmatchedSearchResults(fieldValues);
     }
-    
+
     protected List<? extends BusinessObject> getDebarredVendorUnmatchedSearchResults(Map<String, String> fieldValues) {
         List<VendorDetail> vendorResultList = vendorExcludeService.getDebarredVendorsUnmatched();
         List<VendorDetail> filteredVendorList = new ArrayList<VendorDetail> ();
@@ -63,9 +61,9 @@ public class DebarredVendorUnmatchedLookupableHelperServiceImpl extends KualiLoo
         }
         return filteredVendorList;
     }
-    
+
     /**
-     * Gets the vendorExcludeService attribute. 
+     * Gets the vendorExcludeService attribute.
      * @return Returns the vendorExcludeService.
      */
     public VendorExcludeService getVendorExcludeService() {
@@ -81,7 +79,7 @@ public class DebarredVendorUnmatchedLookupableHelperServiceImpl extends KualiLoo
     }
 
     /**
-     * Gets the vendorService attribute. 
+     * Gets the vendorService attribute.
      * @return Returns the vendorService.
      */
     public VendorService getVendorService() {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,9 +33,9 @@ import org.kuali.kfs.vnd.batch.service.VendorExcludeService;
 import org.kuali.kfs.vnd.businessobject.DebarredVendorDetail;
 import org.kuali.kfs.vnd.businessobject.DebarredVendorMatch;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class VendorExcludeServiceImpl implements VendorExcludeService {
@@ -47,17 +47,18 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
     private BatchInputFileType batchInputFileType;
     private DebarredVendorDao debarredVendorDao;
     private DebarredVendorMatchDao debarredVendorMatchDao;
-    
+
     /**
      * @see org.kuali.kfs.vnd.batch.service.VendorExcludeService.loadEplsFile()
      */
+    @Override
     public boolean loadEplsFile() {
         //  create a list of the files to process
         List<String> fileNames = batchInputFileService.listInputFileNamesWithDoneFile(batchInputFileType);
         String fileName = null;
         long lastModified = 0;
         if(fileNames.size() == 0) {
-            return true; 
+            return true;
         }
         File tempFile;
         //Consider the latest file as the files are cumulative
@@ -69,9 +70,9 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
             }
         }
         if (fileName == null) {
-            LOG.error("BatchInputFileService.listInputFileNamesWithDoneFile(" + 
+            LOG.error("BatchInputFileService.listInputFileNamesWithDoneFile(" +
                     batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
-            throw new RuntimeException("BatchInputFileService.listInputFileNamesWithDoneFile(" + 
+            throw new RuntimeException("BatchInputFileService.listInputFileNamesWithDoneFile(" +
                     batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
         }
         byte[] fileByteContent;
@@ -89,14 +90,14 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
         }
         Object parsedObject = batchInputFileService.parse(batchInputFileType, fileByteContent);
         debarredVendorList = (List<DebarredVendorDetail>) parsedObject;
-        
+
         purgeOldVendorRecords();
         businessObjectService.save(debarredVendorList);
-        
+
         removeDoneFiles(fileNames);
         return true;
     }
-    
+
     /**
      * Clears out associated .done files for the processed data files.
      */
@@ -108,33 +109,37 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
             }
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.vnd.batch.service.VendorExcludeService.matchVendors()
      */
+    @Override
     public boolean matchVendors() {
         List<DebarredVendorMatch> matches = debarredVendorDao.match();
         businessObjectService.save(matches);
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.vnd.batch.service.VendorExcludeService.purgeOldVendorRecords()
      */
+    @Override
     public void purgeOldVendorRecords() {
         businessObjectService.deleteMatching(DebarredVendorDetail.class, new HashMap());
     }
-    
+
     /**
      * @see org.kuali.kfs.vnd.batch.service.VendorExcludeService.getDebarredVendorsUnmatched()
-     */ 
+     */
+    @Override
     public List<VendorDetail> getDebarredVendorsUnmatched() {
-        return debarredVendorMatchDao.getDebarredVendorsUnmatched();          
+        return debarredVendorMatchDao.getDebarredVendorsUnmatched();
     }
-    
+
     /**
      * @see org.kuali.kfs.vnd.batch.service.VendorExcludeService.confirmDebarredVendor()
      */
+    @Override
     public void confirmDebarredVendor(int debarredVendorId) {
         DebarredVendorMatch match = debarredVendorMatchDao.getDebarredVendor(debarredVendorId);
         match.setConfirmStatusCode("C");
@@ -142,10 +147,11 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
         match.setLastUpdatedTimeStamp(dateTimeService.getCurrentTimestamp());
         businessObjectService.save(match);
     }
-    
+
     /**
      * @see org.kuali.kfs.vnd.batch.service.VendorExcludeService.denyDebarredVendor()
      */
+    @Override
     public void denyDebarredVendor(int debarredVendorId) {
         DebarredVendorMatch match = debarredVendorMatchDao.getDebarredVendor(debarredVendorId);
         match.setConfirmStatusCode("D");
@@ -153,9 +159,9 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
         match.setLastUpdatedTimeStamp(dateTimeService.getCurrentTimestamp());
         businessObjectService.save(match);
     }
-    
+
     /**
-     * Gets the batchInputFileService attribute. 
+     * Gets the batchInputFileService attribute.
      * @return Returns the batchInputFileService.
      */
     public BatchInputFileService getBatchInputFileService() {
@@ -171,7 +177,7 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
     }
 
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -187,7 +193,7 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
     }
 
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -203,7 +209,7 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
     }
 
     /**
-     * Gets the batchInputFileType attribute. 
+     * Gets the batchInputFileType attribute.
      * @return Returns the batchInputFileType.
      */
     public BatchInputFileType getBatchInputFileType() {
@@ -219,7 +225,7 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
     }
 
     /**
-     * Gets the vendorExcludeDao attribute. 
+     * Gets the vendorExcludeDao attribute.
      * @return Returns the vendorExcludeDao.
      */
     public DebarredVendorDao getDebarredVendorDao() {
@@ -235,7 +241,7 @@ public class VendorExcludeServiceImpl implements VendorExcludeService {
     }
 
     /**
-     * Gets the debarredVendorMatchDao attribute. 
+     * Gets the debarredVendorMatchDao attribute.
      * @return Returns the debarredVendorMatchDao.
      */
     public DebarredVendorMatchDao getDebarredVendorMatchDao() {

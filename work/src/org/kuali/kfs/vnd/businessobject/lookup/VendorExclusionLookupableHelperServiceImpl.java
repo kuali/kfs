@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,43 +16,34 @@
 package org.kuali.kfs.vnd.businessobject.lookup;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
-import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.batch.service.VendorExcludeService;
 import org.kuali.kfs.vnd.businessobject.DebarredVendorMatch;
-import org.kuali.kfs.vnd.businessobject.VendorAddress;
-import org.kuali.kfs.vnd.businessobject.VendorAlias;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
     VendorExcludeService vendorExcludeService;
     VendorService vendorService;
-    KualiConfigurationService kualiConfigurationService;
-    
+    ConfigurationService kualiConfigurationService;
+
     private String confirmStatusFieldValue="";
-    
+
     /**
      * Custom action urls for Asset.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
      *      List pkNames)
      */
@@ -65,29 +56,29 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
         anchorHtmlDataList.add(getDenyUrl(bo));
         return anchorHtmlDataList;
     }
-    
+
     protected String getVendorInquiryUrl(DebarredVendorMatch match) {
         Properties properties = new Properties();
-        properties.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        properties.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, VendorDetail.class.getName());
+        properties.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
+        properties.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, VendorDetail.class.getName());
         properties.put("vendorDetailAssignedIdentifier", new Integer(match.getVendorDetailAssignedIdentifier()).toString());
         properties.put("vendorHeaderGeneratedIdentifier", new Integer(match.getVendorHeaderGeneratedIdentifier()).toString());
-        
-        return UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, properties); 
+
+        return UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, properties);
     }
-    
+
     protected HtmlData getInquiryUrl(BusinessObject bo){
         Properties properties = new Properties();
-        properties.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        properties.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         properties.put("debarredVendorId", new Integer(((DebarredVendorMatch)bo).getDebarredVendorId()).toString());
-        properties.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DebarredVendorMatch.class.getName());
-        
-        String href = UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, properties); 
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, "Inquiry");
-        anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+        properties.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DebarredVendorMatch.class.getName());
+
+        String href = UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, properties);
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KRADConstants.START_METHOD, "Inquiry");
+        anchorHtmlData.setTarget(KRADConstants.NEW_WINDOW_URL_TARGET);
         return anchorHtmlData;
     }
-    
+
     protected HtmlData getEditUrl(BusinessObject bo){
         String label = "edit";
         Integer vendorDetailAssignedIdentifier = ((DebarredVendorMatch)bo).getVendorDetailAssignedIdentifier();
@@ -100,48 +91,48 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
             vendorDetailAssignedIdentifier = parent.getVendorDetailAssignedIdentifier();
             vendorHeaderGeneratedIdentifier = parent.getVendorHeaderGeneratedIdentifier();
         }
-        
+
         Properties properties = new Properties();
-        properties.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+        properties.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
         properties.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, vendorHeaderGeneratedIdentifier.toString());
         properties.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailAssignedIdentifier.toString());
-        properties.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, VendorDetail.class.getName());
-        String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, properties); 
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, label);
-        anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+        properties.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, VendorDetail.class.getName());
+        String href = UrlFactory.parameterizeUrl(KRADConstants.MAINTENANCE_ACTION, properties);
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, label);
+        anchorHtmlData.setTarget(KRADConstants.NEW_WINDOW_URL_TARGET);
         return anchorHtmlData;
     }
-    
+
     protected HtmlData getConfirmUrl(BusinessObject bo){
         Properties properties = new Properties();
-        properties.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "confirmDebarredVendor");
+        properties.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "confirmDebarredVendor");
         properties.put(DebarredVendorMatch.CONFIRM_STATUS, confirmStatusFieldValue);
         properties.put(DebarredVendorMatch.DEBARRED_VENDOR_ID, String.valueOf(((DebarredVendorMatch)bo).getDebarredVendorId()));
-        properties.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DebarredVendorMatch.class.getName());
-        properties.put("returnLocation", kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY)+ "/kr/lookup.do");
+        properties.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DebarredVendorMatch.class.getName());
+        properties.put("returnLocation", kualiConfigurationService.getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY)+ "/kr/lookup.do");
         properties.put(DebarredVendorMatch.EXCLUSION_STATUS, ((DebarredVendorMatch)bo).getVendorExclusionStatus());
-        
-        String href = UrlFactory.parameterizeUrl("vendorExclusion.do", properties); 
-        href = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY)+"/"+ href;
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, "confirm");
+
+        String href = UrlFactory.parameterizeUrl("vendorExclusion.do", properties);
+        href = kualiConfigurationService.getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY)+"/"+ href;
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KRADConstants.START_METHOD, "confirm");
         return anchorHtmlData;
     }
-    
+
     protected HtmlData getDenyUrl(BusinessObject bo){
         Properties properties = new Properties();
-        properties.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "denyDebarredVendor");
+        properties.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "denyDebarredVendor");
         properties.put(DebarredVendorMatch.CONFIRM_STATUS, confirmStatusFieldValue);
         properties.put(DebarredVendorMatch.DEBARRED_VENDOR_ID, String.valueOf(((DebarredVendorMatch)bo).getDebarredVendorId()));
-        properties.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DebarredVendorMatch.class.getName());
-        properties.put("returnLocation", kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY)+ "/kr/lookup.do");
+        properties.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DebarredVendorMatch.class.getName());
+        properties.put("returnLocation", kualiConfigurationService.getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY)+ "/kr/lookup.do");
         properties.put("formKey", "88888888");
-        
-        String href = UrlFactory.parameterizeUrl("vendorExclusion.do", properties); 
-        href = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY)+"/"+ href;
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, "deny");
+
+        String href = UrlFactory.parameterizeUrl("vendorExclusion.do", properties);
+        href = kualiConfigurationService.getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY)+"/"+ href;
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KRADConstants.START_METHOD, "deny");
         return anchorHtmlData;
     }
-    
+
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         return getDebarredVendorSearchResults(fieldValues);
@@ -151,7 +142,7 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
     public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> fieldValues) {
         return getDebarredVendorSearchResults(fieldValues);
     }
-    
+
     protected List<? extends BusinessObject> getDebarredVendorSearchResults(Map<String, String> fieldValues) {
         List<DebarredVendorMatch> vendorResultList = new ArrayList<DebarredVendorMatch>();
         String exclusionStatus = fieldValues.get(DebarredVendorMatch.EXCLUSION_STATUS);
@@ -163,8 +154,8 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
         for (DebarredVendorMatch match : searchResults) {
             debarred = match.getVendorHeader().getVendorDebarredIndicator() == null ? false : match.getVendorHeader().getVendorDebarredIndicator();
             if ((status && debarred) || (!status && !debarred)) {
-                match.setConcatenatedId("<a href=\"" + getVendorInquiryUrl(match) + "\">" + match.getVendorDetail().getVendorNumber() + "</a> / " + 
-                        "<a href=\"http://www.epls.gov/epls/search.do?ssn=true&ssn_name=" + match.getName() + "&ssn_tin=" + 
+                match.setConcatenatedId("<a href=\"" + getVendorInquiryUrl(match) + "\">" + match.getVendorDetail().getVendorNumber() + "</a> / " +
+                        "<a href=\"http://www.epls.gov/epls/search.do?ssn=true&ssn_name=" + match.getName() + "&ssn_tin=" +
                         match.getVendorHeader().getVendorTaxNumber() + "\">" + match.getDebarredVendorId() + "</a>");
                 match.setName(match.getVendorDetail().getVendorName() + " / " + match.getName());
                 match.setCity(match.getVendorAddress().getVendorCityName() + " / " + match.getCity());
@@ -177,7 +168,7 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
     }
 
     /**
-     * Gets the vendorExcludeService attribute. 
+     * Gets the vendorExcludeService attribute.
      * @return Returns the vendorExcludeService.
      */
     public VendorExcludeService getVendorExcludeService() {
@@ -193,7 +184,7 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
     }
 
     /**
-     * Gets the vendorService attribute. 
+     * Gets the vendorService attribute.
      * @return Returns the vendorService.
      */
     public VendorService getVendorService() {
@@ -209,10 +200,11 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
     }
 
     /**
-     * Gets the kualiConfigurationService attribute. 
+     * Gets the kualiConfigurationService attribute.
      * @return Returns the kualiConfigurationService.
      */
-    public KualiConfigurationService getKualiConfigurationService() {
+    @Override
+    public ConfigurationService getKualiConfigurationService() {
         return kualiConfigurationService;
     }
 
@@ -220,7 +212,7 @@ public class VendorExclusionLookupableHelperServiceImpl extends KualiLookupableH
      * Sets the kualiConfigurationService attribute value.
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,23 +20,22 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.vnd.businessobject.DebarredVendorDetail;
 import org.kuali.kfs.vnd.businessobject.DebarredVendorMatch;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class DebarredVendorMatchDaoOjb extends  PlatformAwareDaoBaseOjb implements DebarredVendorMatchDao {
-    
+
     /**
      * @see org.kuali.kfs.vnd.batch.dataaccess.DebarredVendorMatchDao.getPreviousVendorExcludeConfirmation(org.kuali.kfs.vnd.businessobject.DebarredVendorMatch)
      */
     @Override
     public DebarredVendorMatch getPreviousVendorExcludeConfirmation(DebarredVendorMatch match) {
         Criteria criteria = new Criteria();
-        
+
         criteria.addEqualTo("vendorHeaderGeneratedIdentifier", match.getVendorHeaderGeneratedIdentifier());
         criteria.addEqualTo("vendorDetailAssignedIdentifier", match.getVendorDetailAssignedIdentifier());
-        
+
         if (match.getName() != null) {
             criteria.addEqualTo("upper(name)", match.getName().toUpperCase());
         } else {
@@ -69,25 +68,26 @@ public class DebarredVendorMatchDaoOjb extends  PlatformAwareDaoBaseOjb implemen
         }
         QueryByCriteria query = QueryFactory.newQuery(DebarredVendorMatch.class, criteria);
         List<DebarredVendorMatch> matches = (List<DebarredVendorMatch>)getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        
+
         DebarredVendorMatch oldMatch = null;
         if (matches.size() > 0) {
             oldMatch = matches.get(0);
         }
         return oldMatch;
     }
-    
+
     /**
      * @see org.kuali.kfs.vnd.batch.dataaccess.DebarredVendorMatchDao.getDebarredVendorsUnmatched()
      */
+    @Override
     public List<VendorDetail> getDebarredVendorsUnmatched() {
-        
+
         Criteria subcr = new Criteria();
         subcr.addEqualToField("vendorHeaderGeneratedIdentifier", Criteria.PARENT_QUERY_PREFIX + "vendorHeaderGeneratedIdentifier");
         subcr.addEqualToField("vendorDetailAssignedIdentifier", Criteria.PARENT_QUERY_PREFIX + "vendorDetailAssignedIdentifier");
-        Criteria orcr = new Criteria();     
+        Criteria orcr = new Criteria();
         orcr.addEqualTo("confirmStatusCode", "C");
-        Criteria orcr2 = new Criteria();        
+        Criteria orcr2 = new Criteria();
         orcr2.addEqualTo("confirmStatusCode", "U");
         orcr.addOrCriteria(orcr2);
         subcr.addAndCriteria(orcr);

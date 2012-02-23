@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,12 +27,15 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
 
-/* 
- * 
+/*
+ *
 */
 public class OwnershipTypeRule extends MaintenanceDocumentRuleBase {
+    protected static final String DEFAULT_OWNERSHIP_TYPE_LABEL = "Ownership Type"; // we shouldn't need this, but just in case...
 
+    @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomApproveDocumentBusinessRules called");
         this.setupConvenienceObjects();
@@ -40,6 +43,7 @@ public class OwnershipTypeRule extends MaintenanceDocumentRuleBase {
         return success && super.processCustomApproveDocumentBusinessRules(document);
     }
 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules called");
         this.setupConvenienceObjects();
@@ -47,6 +51,7 @@ public class OwnershipTypeRule extends MaintenanceDocumentRuleBase {
         return success && super.processCustomRouteDocumentBusinessRules(document);
     }
 
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomSaveDocumentBusinessRules called");
         this.setupConvenienceObjects();

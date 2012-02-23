@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -36,7 +36,7 @@ public class BankCodeValidation {
     /**
      * Performs required, exists, and active validation of bank code. Also validates bank for deposit or disbursement indicator if
      * requested. .
-     * 
+     *
      * @param bankCode value to validate
      * @param bankCodeProperty property to associate errors with
      * @param requireDeposit true if the bank code should support deposits
@@ -59,12 +59,12 @@ public class BankCodeValidation {
         }
 
         Bank bank = getBankService().getByPrimaryId(bankCode);
-        
+
         if (ObjectUtils.isNull(bank)) {
             GlobalVariables.getMessageMap().putError(bankCodeProperty, KFSKeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INVALID_BANK);
             return false;
         }
-        
+
         // validate deposit
         if (requireDeposit && !bank.isBankDepositIndicator()) {
             GlobalVariables.getMessageMap().putError(bankCodeProperty, KFSKeyConstants.Bank.ERROR_DEPOSIT_NOT_SUPPORTED);
@@ -85,7 +85,7 @@ public class BankCodeValidation {
     /**
      * Performs required, exists, and active validation of bank code. Also validates bank for deposit or disbursement indicator if
      * requested.
-     * 
+     *
      * @param document the document that is being validated
      * @param bankCode value to validate
      * @param bankCodeProperty property to associate errors with
@@ -99,7 +99,7 @@ public class BankCodeValidation {
         }
         return BankCodeValidation.validate(bankCode, bankCodeProperty, requireDeposit, requireDisbursement);
     }
-    
+
     /**
      * @return the default implementatino of the DataDictionaryService
      */
@@ -109,7 +109,7 @@ public class BankCodeValidation {
         }
         return dataDictionaryService;
     }
-    
+
     /**
      * @return the default implementation of the BankService
      */

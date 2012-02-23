@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,20 +16,15 @@
 package org.kuali.kfs.vnd.businessobject;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
-
-import antlr.StringUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     public static final String VENDOR_TYPE = "vendorHeader.vendorTypeCode";
     public static final String CONFIRM_STATUS = "confirmStatusCode";
     public static final String EXCLUSION_STATUS = "vendorExclusionStatus";
     public static final String DEBARRED_VENDOR_ID = "debarredVendorId";
-    
+
     private int debarredVendorId;
     private Date loadDate;
     private String name;
@@ -47,17 +42,17 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
     private long addressGeneratedId;
-    
+
     private VendorDetail vendorDetail;
     private VendorAddress vendorAddress;
     private VendorHeader vendorHeader;
-    
-    private String vendorExclusionStatus; // not persisted in the db 
+
+    private String vendorExclusionStatus; // not persisted in the db
     private String concatenatedId; // not persisted in the db
     private String concatenatedAliases; // not persisted in the db
-    
+
     /**
-     * Gets the debarredVendorId attribute. 
+     * Gets the debarredVendorId attribute.
      * @return Returns the debarredVendorId.
      */
     public int getDebarredVendorId() {
@@ -73,7 +68,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the loadDate attribute. 
+     * Gets the loadDate attribute.
      * @return Returns the loadDate.
      */
     public Date getLoadDate() {
@@ -89,7 +84,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the name attribute. 
+     * Gets the name attribute.
      * @return Returns the name.
      */
     public String getName() {
@@ -105,7 +100,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the address1 attribute. 
+     * Gets the address1 attribute.
      * @return Returns the address1.
      */
     public String getAddress1() {
@@ -121,7 +116,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the address2 attribute. 
+     * Gets the address2 attribute.
      * @return Returns the address2.
      */
     public String getAddress2() {
@@ -137,7 +132,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the city attribute. 
+     * Gets the city attribute.
      * @return Returns the city.
      */
     public String getCity() {
@@ -153,7 +148,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the state attribute. 
+     * Gets the state attribute.
      * @return Returns the state.
      */
     public String getState() {
@@ -169,7 +164,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the province attribute. 
+     * Gets the province attribute.
      * @return Returns the province.
      */
     public String getProvince() {
@@ -185,7 +180,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the zip attribute. 
+     * Gets the zip attribute.
      * @return Returns the zip.
      */
     public String getZip() {
@@ -201,7 +196,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the aliases attribute. 
+     * Gets the aliases attribute.
      * @return Returns the aliases.
      */
     public String getAliases() {
@@ -217,7 +212,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the description attribute. 
+     * Gets the description attribute.
      * @return Returns the description.
      */
     public String getDescription() {
@@ -233,7 +228,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the confirmStatusCode attribute. 
+     * Gets the confirmStatusCode attribute.
      * @return Returns the confirmStatusCode.
      */
     public String getConfirmStatusCode() {
@@ -249,7 +244,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the lastUpdatedTimeStamp attribute. 
+     * Gets the lastUpdatedTimeStamp attribute.
      * @return Returns the lastUpdatedTimeStamp.
      */
     public Date getLastUpdatedTimeStamp() {
@@ -265,7 +260,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the lastUpdatedPrincipalName attribute. 
+     * Gets the lastUpdatedPrincipalName attribute.
      * @return Returns the lastUpdatedPrincipalName.
      */
     public String getLastUpdatedPrincipalName() {
@@ -281,7 +276,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the vendorHeaderGeneratedIdentifier attribute. 
+     * Gets the vendorHeaderGeneratedIdentifier attribute.
      * @return Returns the vendorHeaderGeneratedIdentifier.
      */
     public Integer getVendorHeaderGeneratedIdentifier() {
@@ -297,7 +292,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the vendorDetailAssignedIdentifier attribute. 
+     * Gets the vendorDetailAssignedIdentifier attribute.
      * @return Returns the vendorDetailAssignedIdentifier.
      */
     public Integer getVendorDetailAssignedIdentifier() {
@@ -313,7 +308,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the addressGeneratedId attribute. 
+     * Gets the addressGeneratedId attribute.
      * @return Returns the addressGeneratedId.
      */
     public long getAddressGeneratedId() {
@@ -329,7 +324,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the vendorDetail attribute. 
+     * Gets the vendorDetail attribute.
      * @return Returns the vendorDetail.
      */
     public VendorDetail getVendorDetail() {
@@ -345,7 +340,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the vendorAddress attribute. 
+     * Gets the vendorAddress attribute.
      * @return Returns the vendorAddress.
      */
     public VendorAddress getVendorAddress() {
@@ -361,7 +356,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the vendorHeader attribute. 
+     * Gets the vendorHeader attribute.
      * @return Returns the vendorHeader.
      */
     public VendorHeader getVendorHeader() {
@@ -377,7 +372,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the vendorExclusionStatus attribute. 
+     * Gets the vendorExclusionStatus attribute.
      * @return Returns the vendorExclusionStatus.
      */
     public String getVendorExclusionStatus() {
@@ -393,7 +388,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the concatenatedId attribute. 
+     * Gets the concatenatedId attribute.
      * @return Returns the concatenatedId.
      */
     public String getConcatenatedId() {
@@ -409,7 +404,7 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the concatenatedAliases attribute. 
+     * Gets the concatenatedAliases attribute.
      * @return Returns the concatenatedAliases.
      */
     public String getConcatenatedAliases() {
@@ -423,12 +418,4 @@ public class DebarredVendorMatch extends PersistableBusinessObjectBase {
     public void setConcatenatedAliases(String concatenatedAliases) {
         this.concatenatedAliases = concatenatedAliases;
     }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap toString = new LinkedHashMap();
-        toString.put("debarredVendorId", debarredVendorId);
-        return toString;
-    }
-    
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.batch.service.impl;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,9 +44,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
     /**
      * Delegates to the batch input file type to parse the file.
-     * 
+     *
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#parse(org.kuali.kfs.sys.batch.BatchInputFileType, byte[])
      */
+    @Override
     public Object parse(BatchInputFileType batchInputFileType, byte[] fileByteContent) {
         try {
             return batchInputFileType.parse(fileByteContent);
@@ -59,9 +60,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
     /**
      * Defers to batch type to do any validation on the parsed contents.
-     * 
+     *
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#validate(org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.Object)
      */
+    @Override
     public boolean validate(BatchInputFileType batchInputFileType, Object parsedObject) {
         if (batchInputFileType == null || parsedObject == null) {
             LOG.error("an invalid(null) argument was given");
@@ -77,6 +79,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#save(org.kuali.rice.kim.api.identity.Person,
      *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String, java.io.InputStream)
      */
+    @Override
     public String save(Person user, BatchInputFileType batchInputFileType, String fileUserIdentifier, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException {
         if (user == null || batchInputFileType == null || fileContents == null) {
             LOG.error("an invalid(null) argument was given");
@@ -108,9 +111,9 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             }
             fos.flush();
             fos.close();
-            
+
             createDoneFile(fileToSave, batchInputFileType);
-            
+
             batchInputFileType.process(saveFileName, parsedObject);
         }
         catch (IOException e) {
@@ -149,7 +152,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     /**
      * This method is responsible for creating a File object that represents the done file. The real file represented on disk may
      * not exist
-     * 
+     *
      * @param batchInputFile
      * @return a File object representing the done file. The real file may not exist on disk, but the return value can be used to
      *         create that file.
@@ -164,6 +167,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     /**
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#isBatchInputTypeActive(org.kuali.kfs.sys.batch.BatchInputFileType)
      */
+    @Override
     public boolean isBatchInputTypeActive(BatchInputFileType batchInputFileType) {
         if (batchInputFileType == null) {
             LOG.error("an invalid(null) argument was given");
@@ -184,10 +188,11 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * Fetches workgroup for batch type from system parameter and verifies user is a member. Then a list of all files for the batch
      * type are retrieved. For each file, the file and user is sent through the checkAuthorization method of the batch input type
      * implementation for finer grained security. If the method returns true, the filename is added to the user's list.
-     * 
+     *
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#listBatchTypeFilesForUser(org.kuali.kfs.sys.batch.BatchInputFileType,
      *      org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public List<String> listBatchTypeFilesForUser(BatchInputFileType batchInputFileType, Person user) throws AuthorizationException {
         if (batchInputFileType == null || user == null) {
             LOG.error("an invalid(null) argument was given");
@@ -235,6 +240,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     /**
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#listInputFileNamesWithDoneFile(org.kuali.kfs.sys.batch.BatchInputFileType)
      */
+    @Override
     public List<String> listInputFileNamesWithDoneFile(BatchInputFileType batchInputFileType) {
         if (batchInputFileType == null) {
             LOG.error("an invalid(null) argument was given");
@@ -247,12 +253,12 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         List<String> batchInputFiles = new ArrayList<String>();
         for (int i = 0; i < doneFiles.length; i++) {
             File doneFile = doneFiles[i];
-            
+
             String dataFileName = StringUtils.substringBeforeLast(doneFile.getPath(), ".");
             if (!StringUtils.isBlank(batchInputFileType.getFileExtension())) {
                 dataFileName += "." + batchInputFileType.getFileExtension();
             }
-            
+
             File dataFile = new File(dataFileName);
             if (dataFile.exists()) {
                 batchInputFiles.add(dataFile.getPath());
@@ -269,6 +275,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         /**
          * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
          */
+        @Override
         public boolean accept(File dir, String name) {
             return name.endsWith(".done");
         }
@@ -276,9 +283,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
     /**
      * For this implementation, a file user identifier must consist of letters and digits
-     * 
+     *
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#isFileUserIdentifierProperlyFormatted(java.lang.String)
      */
+    @Override
     public boolean isFileUserIdentifierProperlyFormatted(String fileUserIdentifier) {
         if(ObjectUtils.isNull(fileUserIdentifier)) {
             return false;

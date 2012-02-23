@@ -3,6 +3,7 @@ package org.kuali.kfs.sys.batch.service.impl;
 
 
 import java.io.File;
+import java.util.Map;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.BatchFile;
@@ -40,7 +41,7 @@ public class BatchFileAdminAuthorizationServiceTest extends KualiTestBase {
         Person user = GlobalVariables.getUserSession().getPerson();
 
         //the method we're testing
-        AttributeSet permissionDetails = batchFileAdminAuthorizationService.generatePermissionDetails(batchFile, user);
+        Map<String, String> permissionDetails = batchFileAdminAuthorizationService.generatePermissionDetails(batchFile, user);
         System.out.println(permissionDetails);
 
         String permissionFilePath = permissionDetails.get(KfsKimAttributes.FILE_PATH);

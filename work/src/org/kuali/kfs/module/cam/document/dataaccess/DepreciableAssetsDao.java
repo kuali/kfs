@@ -19,19 +19,29 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+
 public interface DepreciableAssetsDao {
 
     /**
      * This method stores in a collection each item the depreciation report will print out
-     *
+     * 
      * @param beforeDepreciationReport when true will print out some of the items
      * @param documentNumber Document number that will be print out in the report
      * @param fiscalYear fiscal year of the date in depreciation
      * @param fiscalMonth fiscal month of the date in depreciation
-     * @param depreciationDateAsString a String representing the depreciation date that will be print out
+     * @param depreciationDate depreciation date that will be print out
      * @return
      */
-    public List<String[]> generateStatistics(boolean beforeDepreciationReport, Collection<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, String depreciationDateAsString, int fiscalStartMonth, Collection<String> depreExpObjCodes, Collection<String> accumulatedDepreciationObjCodes, Collection<String> notAcceptedAssetStatus, Collection<String> federallyOwnedObjectSubTypes);
+    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
 
+
+    /**
+     * This method retrieves a list of valid asset object codes for a particular fiscal year
+     * 
+     * @param fiscalYear
+     * @return Collection<AssetObjectCode>
+     */
+    public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear);
 
 }

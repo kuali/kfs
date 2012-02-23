@@ -17,7 +17,9 @@ package org.kuali.kfs.module.ld.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +41,7 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -54,9 +57,16 @@ public class GLLaborEntrySummarizationInquiryAction extends KualiAction {
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        if (!SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.INQUIRE_INTO_RECORDS, KimCommonUtils.getNamespaceAndComponentSimpleName(LedgerEntry.class), null)) {
+        if (!SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.INQUIRE_INTO_RECORDS, getNamespaceAndComponentSimpleName(LedgerEntry.class), null)) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "inquire", LedgerEntry.class.getSimpleName());
         }
+    }
+    
+    protected Map<String,String> getNamespaceAndComponentSimpleName( Class<? extends Object> clazz) {
+        Map<String,String> attributeSet = new HashMap<String,String>();
+        attributeSet.put(KimConstants.AttributeConstants.NAMESPACE_CODE, getKualiModuleService().getNamespaceCode(clazz));
+        attributeSet.put(KimConstants.AttributeConstants.COMPONENT_NAME, getKualiModuleService().getComponentCode(clazz));
+        return attributeSet;
     }
 
     /**

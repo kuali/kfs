@@ -690,6 +690,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         return cfda ;
     }
     
+    /**
+     * Sets the given related CFDA object
+     * @param cfda the related CFDA object.
+     */
+    public void setCfda(CFDA cfda) {
+        this.cfda = cfda;
+    }
+    
     public List<ContractsAndGrantsAccountAwardInformation> getAwards() {
         // TODO this code totally breaks modularization but can't be fixed until data dictionary modularization plans come down the
         // pike

@@ -99,12 +99,12 @@
   <!-- workflow attributes -->
   <bean id="ProcurementCardDefaultMaintenanceDocument-workflowAttributes" parent="ProcurementCardDefaultMaintenanceDocument-workflowAttributes-parentBean" />
   
-  <bean id="ProcurementCardDefaultMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="ProcurementCardDefaultMaintenanceDocument-workflowAttributes-parentBean" parent="WorkflowAttributes" abstract="true">
   	 <property name="searchingTypeDefinitions">
     	<list>    		
-        	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">                    
+        	<bean parent="SearchingTypeDefinition">                    
             	<property name="searchingAttribute">
-                	<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                	<bean parent="SearchingAttribute">
                     	<property name="businessObjectClassName" value="org.kuali.kfs.fp.businessobject.ProcurementCardDefault"/>
                         <property name="attributeName" value="creditCardNumber"/>
                   	</bean>

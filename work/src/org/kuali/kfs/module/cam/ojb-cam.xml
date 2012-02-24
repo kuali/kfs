@@ -666,7 +666,7 @@
 	<field-descriptor name="componentWarrantyText" column="CACMP_WRNTY_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
@@ -687,7 +687,7 @@
 	<field-descriptor name="warrantyNumber" column="AST_WRNTY_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="warrantyPurchaseOrderNumber" column="AST_WRNTY_PO_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="warrantyText" column="AST_WRNTY_TXT" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
@@ -706,7 +706,7 @@
 	<field-descriptor name="repairDate" column="CPTLAST_RPR_DT" jdbc-type="DATE"/>
 	<field-descriptor name="repairAmount" column="CPTLAST_RPR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="repairSolutionDescription" column="AST_RPR_SOLN_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
@@ -1023,7 +1023,7 @@
 <class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetPaymentDocumentType" table="CM_AST_PMT_DOC_TYP_T">
 	<field-descriptor name="documentTypeId" column="DOC_TYP_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="CM_AST_PMT_DOC_TYP_SEQ"/>
 	<field-descriptor name="expenditureFinancialDocumentTypeCode" column="DOC_TYP_NM" jdbc-type="VARCHAR" />
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	<field-descriptor name="objectId"   	column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" 	column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>

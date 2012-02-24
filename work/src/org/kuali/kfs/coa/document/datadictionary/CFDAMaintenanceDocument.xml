@@ -61,8 +61,7 @@
   </bean>
 
 	<!-- workflow attributes -->
-  	<bean id="CFDAMaintenanceDocument-workflowAttributes" parent="CFDAMaintenanceDocument-workflowAttributes-parentBean"/>
-  
-	<bean id="CFDAMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  	<bean id="CFDAMaintenanceDocument-workflowAttributes" parent="CFDAMaintenanceDocument-workflowAttributes-parentBean"/>  
+	<bean id="CFDAMaintenanceDocument-workflowAttributes-parentBean" parent="WorkflowAttributes" abstract="true"/>
 
 </beans>

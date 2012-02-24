@@ -953,12 +953,6 @@
     
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService" parent="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" />
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" abstract="true" class="org.kuali.kfs.sys.identity.ExcludeSingleActorSeparationOfDutiesRoleTypeService" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="excludeSingleActorSeparationOfDutiesRoleTypeService"
-				p:localServiceName="excludeSingleActorSeparationOfDutiesRoleTypeService" />
-		</property>
-	</bean>
     
     
     <import resource="spring-sys-bus-exports.xml"/>

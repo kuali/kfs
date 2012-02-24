@@ -157,7 +157,6 @@
         		<value>PREQ</value>
         	</list>
         </property>
-        <property name="kualiModuleService" ref="kualiModuleService"/>
 	</bean>
     <bean id="requisitionService" parent="requisitionService-parentBean"/>
 

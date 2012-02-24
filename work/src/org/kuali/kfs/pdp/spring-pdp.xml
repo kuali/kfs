@@ -308,9 +308,20 @@
 	<bean id="pdpSendAchAdviceNotificationsStep" class="org.kuali.kfs.pdp.batch.SendAchAdviceNotificationsStep" parent="step">
 		<property name="achAdviceNotificationService" ref="pdpAchAdviceNotificationService" />
 	</bean>
+	
+	<bean id="pdpInactivatePayeeAchAccountsService" class="org.kuali.kfs.pdp.batch.service.impl.InactivatePayeeAchAccountsServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+    	<property name="identityManagementService" ref="kimIdentityManagementService"/>
+    	<property name="personService" ref="personService"/>    	
+    	<property name="vendorService" ref="vendorService"/>
+		<property name="achService" ref="pdpAchService"/>	
+		<property name="reportWriterService" ref="pdpInactivatedPayeeAchAccountsReportWriterService"/>			
+	</bean>
+	
+	
 	<bean id="pdpDailyReportService" parent="pdpDailyReportService-parentBean"/>
-
-	<bean id="pdpDailyReportService" class="org.kuali.kfs.pdp.batch.service.impl.DailyReportServiceImpl">
+	<bean id="pdpDailyReportService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.DailyReportServiceImpl" abstract="true">
 		<property name="directoryName" value="${reports.directory}/pdp/"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
@@ -632,13 +643,7 @@
 
     <bean id="pdpExtractGlTransactionsReportWriterService" parent="pdpExtractGlTransactionsReportWriterService-parentBean"/>
     <bean id="payeeACHAccountRoleTypeService" class="org.kuali.kfs.pdp.identity.PayeeACHAccountRoleTypeServiceImpl"/>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="payeeACHAccountRoleTypeService"
-	      p:localServiceName="payeeACHAccountRoleTypeService" />
-	  </property>
-	</bean>
+
 	<bean id="pdpExtractGlTransactionsReportWriterService-parentBean" parent="reportWriterService" abstract="true">
 		<property name="filePath" value="${reports.directory}/pdp"/>
 		<property name="fileNamePrefix" value="pdp_ledger_"/>

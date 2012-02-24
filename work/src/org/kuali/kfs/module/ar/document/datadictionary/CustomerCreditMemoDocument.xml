@@ -116,7 +116,7 @@
 	
 
 
-	<bean id="RoutingType-CustomerCreditMemoDocument-Account-sourceOnly" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+	<bean id="RoutingType-CustomerCreditMemoDocument-Account-sourceOnly" parent="RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
@@ -130,7 +130,7 @@
     		</list>
     	</property>
     </bean>
-	<bean id="DocumentValuePathGroup-CustomerCreditMemoDocument-Account-sourceAccountingLines" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+	<bean id="DocumentValuePathGroup-CustomerCreditMemoDocument-Account-sourceAccountingLines" parent="DocumentValuePathGroup">
 	<property name="documentCollectionPath">
 		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
 			<property name="collectionPath" value="invoice.sourceAccountingLines"/>
@@ -138,12 +138,12 @@
 	</property>
 	</bean>
 
-    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" parent="RoutingAttribute">
    		<property name="qualificationAttributeName" value="financialDocumentTotalAmount"/>
     </bean>
     
     <bean id="RoutingType-CustomerCreditMemoDocument-OrganizationHierarchy-sourceOnly" parent="RoutingType-CustomerCreditMemoDocument-OrganizationHierarchy-sourceOnly-parentBean"/>
-    <bean id="RoutingType-CustomerCreditMemoDocument-OrganizationHierarchy-sourceOnly-parentBean" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    <bean id="RoutingType-CustomerCreditMemoDocument-OrganizationHierarchy-sourceOnly-parentBean" parent="RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
     			<ref bean="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount"/>
@@ -159,7 +159,7 @@
     	</property>
     </bean>
     
-    <bean id="DocumentValuePathGroup-CustomerCreditMemoDocument-OrganizationHierarchy-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    <bean id="DocumentValuePathGroup-CustomerCreditMemoDocument-OrganizationHierarchy-sourceAccountingLines" parent="DocumentValuePathGroup">
     	<property name="documentValues">
     		<list>
     			<value>documentHeader.financialDocumentTotalAmount</value>

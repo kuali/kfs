@@ -1893,7 +1893,7 @@
     <field-descriptor name="cfdaProgramTitleName" column="CG_CFDA_PGM_TTL_NM" jdbc-type="VARCHAR" />
     <!--field-descriptor name="cfdaStatusCode" column="CG_CFDA_STAT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanFieldAIConversion"/-->
     <field-descriptor name="cfdaMaintenanceTypeId" column="CG_CFDA_MAINT_TYP_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 </class-descriptor>
 
 </descriptor-repository>

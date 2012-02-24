@@ -27,6 +27,8 @@ public class FringeBenefitInquiryForm extends KualiForm {
     private String amount;
     private String payrollEndDateFiscalYear;
     private String financialObjectCode;
+    private String accountNumber;
+    private String subAccountNumber;
    
     
    
@@ -64,12 +66,17 @@ public class FringeBenefitInquiryForm extends KualiForm {
     public void setAmount(String amount) {
         this.amount = amount;
     }
-    
-    
-    
-    
-    
-    
-    
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
+    }    
     
 }

@@ -55,8 +55,6 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
         permissionTypeService = new NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl();
 
         permissionTypeService.setWildcardMatchStringAttributeName(KfsKimAttributes.FILE_PATH);
-        permissionTypeService.setNamespaceRequiredOnStoredMap(false);
-        permissionTypeService.setCheckRequiredAttributes(false);
     }
 
     /**

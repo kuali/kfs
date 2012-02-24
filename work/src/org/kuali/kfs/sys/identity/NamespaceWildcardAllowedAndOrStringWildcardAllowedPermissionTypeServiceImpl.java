@@ -220,7 +220,6 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 
 	public void setWildcardMatchStringAttributeName(String wildcardMatchStringAttributeName) {
 		this.wildcardMatchStringAttributeName = wildcardMatchStringAttributeName;
-		requiredAttributes.add(wildcardMatchStringAttributeName);
 	}
 
 	public void setNamespaceRequiredOnStoredAttributeSet(boolean namespaceRequiredOnStoredAttributeSet) {

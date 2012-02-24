@@ -243,7 +243,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             List<CreditMemoView> cmViews = purchaseOrderDocument.getRelatedViews().getRelatedCreditMemoViews();
             if ( cmViews != null ) {
                 for (CreditMemoView cmView : cmViews) {
-                if (!purapService.isVendorCreditMemoFullDocumentEntryCompleted(cmView.getCreditMemoStatusCode())) {
+                if (!purapService.isVendorCreditMemoFullDocumentEntryCompleted(cmView.getAppDocStatus())) {
                         return false;
                     }
                 }

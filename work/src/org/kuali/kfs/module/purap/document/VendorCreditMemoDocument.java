@@ -110,6 +110,16 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         }
     }
     
+    @Override
+    public String getAppDocStatus(){
+        return this.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
+    }
+        
+    @Override    
+    public void setAppDocStatus(String appDocStatus){
+        this.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);
+    }
+    
     /**
      * Initializes the values for a new document.
      */

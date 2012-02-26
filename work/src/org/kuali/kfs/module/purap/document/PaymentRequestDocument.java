@@ -174,6 +174,16 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
     }
 
+    @Override
+    public String getAppDocStatus(){
+        return this.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
+    }
+       
+    @Override    
+    public void setAppDocStatus(String appDocStatus){
+        this.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);        
+    }
+    
     public Integer getRequisitionIdentifier() {
         return getPurchaseOrderDocument().getRequisitionIdentifier();
     }

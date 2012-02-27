@@ -94,6 +94,8 @@
 	</property>
   </bean>
   
+  <!-- building code and room number shall be not required -->
+  
   <bean id="BarcodeInventoryErrorDetail-buildingCode" parent="BarcodeInventoryErrorDetail-buildingCode-parentBean"/>
   <bean id="BarcodeInventoryErrorDetail-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
   </bean>

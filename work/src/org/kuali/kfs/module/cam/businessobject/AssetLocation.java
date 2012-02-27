@@ -20,12 +20,12 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -47,9 +47,9 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     private Asset asset;
     private AssetLocationType assetLocationType;
 
-    private State assetLocationState;
-    private Country assetLocationCountry;
-    private PostalCode postalZipCode;
+    private StateEbo assetLocationState;
+    private CountryEbo assetLocationCountry;
+    private PostalCodeEbo postalZipCode;
 
     /**
      * Default constructor.
@@ -289,8 +289,8 @@ public class AssetLocation extends PersistableBusinessObjectBase {
      * 
      * @return Returns the postalZipCode
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = (StringUtils.isBlank(assetLocationCountryCode) || StringUtils.isBlank( assetLocationZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),assetLocationCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), assetLocationZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(assetLocationCountryCode, assetLocationZipCode): postalZipCode;
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (StringUtils.isBlank(assetLocationCountryCode) || StringUtils.isBlank( assetLocationZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),assetLocationCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), assetLocationZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(assetLocationCountryCode, assetLocationZipCode)): postalZipCode;
         return postalZipCode;
     }
 
@@ -299,7 +299,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -353,21 +353,21 @@ public class AssetLocation extends PersistableBusinessObjectBase {
         return m;
     }
 
-    public Country getAssetLocationCountry() {
-        assetLocationCountry = (assetLocationCountryCode == null)?null:( assetLocationCountry == null || !StringUtils.equals( assetLocationCountry.getCode(),assetLocationCountryCode))?SpringContext.getBean(CountryService.class).getCountry(assetLocationCountryCode): assetLocationCountry;
+    public CountryEbo getAssetLocationCountry() {
+        assetLocationCountry = (assetLocationCountryCode == null)?null:( assetLocationCountry == null || !StringUtils.equals( assetLocationCountry.getCode(),assetLocationCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(assetLocationCountryCode)): assetLocationCountry;
         return assetLocationCountry;
     }
 
-    public void setAssetLocationCountry(Country assetLocationCountry) {
+    public void setAssetLocationCountry(CountryEbo assetLocationCountry) {
         this.assetLocationCountry = assetLocationCountry;
     }
 
-    public State getAssetLocationState() {
-        assetLocationState = (StringUtils.isBlank(assetLocationCountryCode) || StringUtils.isBlank( assetLocationStateCode))?null:( assetLocationState == null || !StringUtils.equals( assetLocationState.getCountryCode(),assetLocationCountryCode)|| !StringUtils.equals( assetLocationState.getCode(), assetLocationStateCode))?SpringContext.getBean(StateService.class).getState(assetLocationCountryCode, assetLocationStateCode): assetLocationState;
+    public StateEbo getAssetLocationState() {
+        assetLocationState = (StringUtils.isBlank(assetLocationCountryCode) || StringUtils.isBlank( assetLocationStateCode))?null:( assetLocationState == null || !StringUtils.equals( assetLocationState.getCountryCode(),assetLocationCountryCode)|| !StringUtils.equals( assetLocationState.getCode(), assetLocationStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(assetLocationCountryCode, assetLocationStateCode)): assetLocationState;
         return assetLocationState;
     }
 
-    public void setAssetLocationState(State assetLocationState) {
+    public void setAssetLocationState(StateEbo assetLocationState) {
         this.assetLocationState = assetLocationState;
     }
 }

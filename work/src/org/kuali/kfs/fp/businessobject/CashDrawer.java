@@ -26,8 +26,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
  * This class represents a cash drawer used in cash management document. It contains amounts for 
@@ -59,7 +59,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     private KualiDecimal financialDocumentMiscellaneousAdvanceAmount;
 
     private String referenceFinancialDocumentNumber;
-    private Campus campus;
+    private CampusEbo campus;
 
     /**
      * Default constructor.
@@ -1072,17 +1072,17 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     /**
      * @return the campus associated with this cash drawer
      */
-    public Campus getCampus() {
+    public CampusEbo getCampus() {
         if (campusCode != null && (campus == null || !campus.getCode().equals(campusCode))) {
             campus = retrieveCampus();
         }
         return campus;
     }
     
-    private Campus retrieveCampus() {
+    private CampusEbo retrieveCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
+        return campus = CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */));
     }
 
     /**

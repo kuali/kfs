@@ -25,12 +25,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * This class is used to represent a disbursement voucher payee detail.
@@ -75,9 +75,9 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     // The following universal user-associated attributes are for convenience only and are not mapped to OJB or the the DB.
     private String disbVchrEmployeeIdNumber;
     
-    private State disbVchrPayeeState;
-    private Country disbVchrPayeeCountry;    
-    private PostalCode disbVchrPayeePostalZipCode;
+    private StateEbo disbVchrPayeeState;
+    private CountryEbo disbVchrPayeeCountry;    
+    private PostalCodeEbo disbVchrPayeePostalZipCode;
 
     /**
      * Default no-arg constructor.
@@ -767,8 +767,8 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeState attribute. 
      * @return Returns the disbVchrPayeeState.
      */
-    public State getDisbVchrPayeeState() {
-        disbVchrPayeeState = (StringUtils.isBlank( disbVchrPayeeCountryCode) || StringUtils.isBlank( disbVchrPayeeStateCode))?null:( disbVchrPayeeState == null || !StringUtils.equals( disbVchrPayeeState.getCountryCode(), disbVchrPayeeCountryCode)|| !StringUtils.equals( disbVchrPayeeState.getCode(), disbVchrPayeeStateCode))?SpringContext.getBean(StateService.class).getState( disbVchrPayeeCountryCode, disbVchrPayeeStateCode): disbVchrPayeeState;
+    public StateEbo getDisbVchrPayeeState() {
+        disbVchrPayeeState = (StringUtils.isBlank( disbVchrPayeeCountryCode) || StringUtils.isBlank( disbVchrPayeeStateCode))?null:( disbVchrPayeeState == null || !StringUtils.equals( disbVchrPayeeState.getCountryCode(), disbVchrPayeeCountryCode)|| !StringUtils.equals( disbVchrPayeeState.getCode(), disbVchrPayeeStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState( disbVchrPayeeCountryCode, disbVchrPayeeStateCode)): disbVchrPayeeState;
         return disbVchrPayeeState;
     }
 
@@ -776,7 +776,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeState attribute value.
      * @param disbVchrPayeeState The disbVchrPayeeState to set.
      */
-    public void setDisbVchrPayeeState(State disbVchrPayeeState) {
+    public void setDisbVchrPayeeState(StateEbo disbVchrPayeeState) {
         this.disbVchrPayeeState = disbVchrPayeeState;
     }
 
@@ -784,8 +784,8 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeCountry attribute. 
      * @return Returns the disbVchrPayeeCountry.
      */
-    public Country getDisbVchrPayeeCountry() {
-        disbVchrPayeeCountry = (disbVchrPayeeCountryCode == null)?null:( disbVchrPayeeCountry == null || !StringUtils.equals( disbVchrPayeeCountry.getCode(),disbVchrPayeeCountryCode))?SpringContext.getBean(CountryService.class).getCountry(disbVchrPayeeCountryCode): disbVchrPayeeCountry;
+    public CountryEbo getDisbVchrPayeeCountry() {
+        disbVchrPayeeCountry = (disbVchrPayeeCountryCode == null)?null:( disbVchrPayeeCountry == null || !StringUtils.equals( disbVchrPayeeCountry.getCode(),disbVchrPayeeCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(disbVchrPayeeCountryCode)): disbVchrPayeeCountry;
         return disbVchrPayeeCountry;
     }
 
@@ -793,7 +793,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeCountry attribute value.
      * @param disbVchrPayeeCountry The disbVchrPayeeCountry to set.
      */
-    public void setDisbVchrPayeeCountry(Country disbVchrPayeeCountry) {
+    public void setDisbVchrPayeeCountry(CountryEbo disbVchrPayeeCountry) {
         this.disbVchrPayeeCountry = disbVchrPayeeCountry;
     }
 
@@ -801,8 +801,8 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeePostalZipCode attribute. 
      * @return Returns the disbVchrPayeePostalZipCode.
      */
-    public PostalCode getDisbVchrPayeePostalZipCode() {
-        disbVchrPayeePostalZipCode = (StringUtils.isBlank(disbVchrPayeeCountryCode) || StringUtils.isBlank( disbVchrPayeeZipCode))?null:( disbVchrPayeePostalZipCode == null || !StringUtils.equals( disbVchrPayeePostalZipCode.getCountryCode(),disbVchrPayeeCountryCode)|| !StringUtils.equals( disbVchrPayeePostalZipCode.getCode(), disbVchrPayeeZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(disbVchrPayeeCountryCode, disbVchrPayeeZipCode): disbVchrPayeePostalZipCode;
+    public PostalCodeEbo getDisbVchrPayeePostalZipCode() {
+        disbVchrPayeePostalZipCode = (StringUtils.isBlank(disbVchrPayeeCountryCode) || StringUtils.isBlank( disbVchrPayeeZipCode))?null:( disbVchrPayeePostalZipCode == null || !StringUtils.equals( disbVchrPayeePostalZipCode.getCountryCode(),disbVchrPayeeCountryCode)|| !StringUtils.equals( disbVchrPayeePostalZipCode.getCode(), disbVchrPayeeZipCode))? PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(disbVchrPayeeCountryCode, disbVchrPayeeZipCode)): disbVchrPayeePostalZipCode;
         return disbVchrPayeePostalZipCode;
     }
 
@@ -810,7 +810,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeePostalZipCode attribute value.
      * @param disbVchrPayeePostalZipCode The disbVchrPayeePostalZipCode to set.
      */
-    public void setDisbVchrPayeePostalZipCode(PostalCode disbVchrPayeePostalZipCode) {
+    public void setDisbVchrPayeePostalZipCode(PostalCodeEbo disbVchrPayeePostalZipCode) {
         this.disbVchrPayeePostalZipCode = disbVchrPayeePostalZipCode;
     }
     

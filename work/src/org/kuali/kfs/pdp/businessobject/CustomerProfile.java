@@ -38,14 +38,14 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 public class CustomerProfile extends PersistableBusinessObjectBase implements MutableInactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
@@ -99,15 +99,15 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
     private boolean selectedForFormat;
 
     private Chart chartOfAccounts;
-    private Campus defaultProcessingCampus;
+    private CampusEbo defaultProcessingCampus;
     private Chart defaultChart;
     private Account defaultAccount;
     private SubAccount defaultSubAccount;
     private ObjectCode defaultObject;
     private SubObjectCode defaultSubObject;
-    private State state;
-    private PostalCode postalCode;
-    private Country country;
+    private StateEbo state;
+    private PostalCodeEbo postalCode;
+    private CountryEbo country;
     private ACHTransactionType transactionType;
 
     private List<CustomerBank> customerBanks;
@@ -831,8 +831,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * 
      * @return Returns the defaultProcessingCampus.
      */
-    public Campus getDefaultProcessingCampus() {
-        return defaultProcessingCampus = StringUtils.isBlank( defaultPhysicalCampusProcessingCode)?null:((defaultProcessingCampus!=null && defaultProcessingCampus.getCode().equals( defaultPhysicalCampusProcessingCode))?defaultProcessingCampus:SpringContext.getBean(CampusService.class).getCampus( defaultPhysicalCampusProcessingCode));
+    public CampusEbo getDefaultProcessingCampus() {
+        return defaultProcessingCampus = StringUtils.isBlank( defaultPhysicalCampusProcessingCode)?null:((defaultProcessingCampus!=null && defaultProcessingCampus.getCode().equals( defaultPhysicalCampusProcessingCode))?defaultProcessingCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( defaultPhysicalCampusProcessingCode)));
     }
 
     /**
@@ -840,7 +840,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * 
      * @param defaultProcessingCampus The defaultProcessingCampus to set.
      */
-    public void setDefaultProcessingCampus(Campus defaultProcessingCampus) {
+    public void setDefaultProcessingCampus(CampusEbo defaultProcessingCampus) {
         this.defaultProcessingCampus = defaultProcessingCampus;
     }
 
@@ -939,8 +939,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * 
      * @return Returns the state.
      */
-    public State getState() {
-        state = (StringUtils.isBlank(this.stateCode))?null:( this.state == null||!StringUtils.equals( this.state.getCode(),this.stateCode))?SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,this.stateCode): this.state;
+    public StateEbo getState() {
+        state = (StringUtils.isBlank(this.stateCode))?null:( this.state == null||!StringUtils.equals( this.state.getCode(),this.stateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,this.stateCode)): this.state;
         return state;
     }
 
@@ -949,7 +949,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * 
      * @param state The state to set.
      */
-    public void setState(State state) {
+    public void setState(StateEbo state) {
         this.state = state;
     }
 
@@ -958,8 +958,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * 
      * @return Returns the postalCode.
      */
-    public PostalCode getPostalCode() {
-        postalCode = (this.zipCode == null)?null:( this.postalCode == null || !StringUtils.equals( this.postalCode.getCode(),this.zipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,this.zipCode): this.postalCode;
+    public PostalCodeEbo getPostalCode() {
+        postalCode = (this.zipCode == null)?null:( this.postalCode == null || !StringUtils.equals( this.postalCode.getCode(),this.zipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,this.zipCode)): this.postalCode;
         return postalCode;
     }
 
@@ -968,7 +968,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * 
      * @param postalCode The postalCode to set.
      */
-    public void setPostalCode(PostalCode postalCode) {
+    public void setPostalCode(PostalCodeEbo postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -977,8 +977,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * 
      * @return Returns the country.
      */
-    public Country getCountry() {
-        country = (this.countryCode == null)?null:( this.country == null || !StringUtils.equals( this.country.getCode(),this.countryCode))?SpringContext.getBean(CountryService.class).getCountry(this.countryCode): this.country;
+    public CountryEbo getCountry() {
+        country = (this.countryCode == null)?null:( this.country == null || !StringUtils.equals( this.country.getCode(),this.countryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(this.countryCode)): this.country;
         return country;
     }
 
@@ -987,7 +987,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * 
      * @param country The country to set.
      */
-    public void setCountry(Country country) {
+    public void setCountry(CountryEbo country) {
         this.country = country;
     }
 

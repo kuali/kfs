@@ -39,6 +39,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateContract;
 
 public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRuleBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentRule.class);
@@ -183,7 +184,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         }
 
         if (equipmentLoanOrReturnDocument.getBorrowerCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
-            State borrowStateCode = equipmentLoanOrReturnDocument.getBorrowerState();
+            StateContract borrowStateCode = equipmentLoanOrReturnDocument.getBorrowerState();
             if (ObjectUtils.isNull(borrowStateCode)) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE, equipmentLoanOrReturnDocument.getBorrowerStateCode());
                 valid &= false;
@@ -205,7 +206,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
                 valid = false;
             }
             else {
-                State borrowStorageStateCode = equipmentLoanOrReturnDocument.getBorrowerStorageState();
+                StateContract borrowStorageStateCode = equipmentLoanOrReturnDocument.getBorrowerStorageState();
                 if (ObjectUtils.isNull(borrowStorageStateCode)) {
                     GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_STATE, equipmentLoanOrReturnDocument.getBorrowerStorageStateCode());
                     valid = false;

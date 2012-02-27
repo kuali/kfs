@@ -52,14 +52,14 @@ import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
@@ -86,18 +86,18 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     protected boolean interdepartmentalSalesIndicator;
     protected Long capitalAssetNumber;
     protected Person assetRepresentative;
-    protected Campus campus;
+    protected CampusEbo campus;
     protected Account organizationOwnerAccount;
     protected Account oldOrganizationOwnerAccount;
     protected Chart organizationOwnerChartOfAccounts;
-    protected State offCampusState;
-    protected Country offCampusCountry;
+    protected StateEbo offCampusState;
+    protected CountryEbo offCampusCountry;
     protected Building building;
     protected Room buildingRoom;
     protected transient List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails;
     protected transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
     protected Asset asset;
-    protected PostalCode postalZipCode;
+    protected PostalCodeEbo postalZipCode;
 
     public AssetTransferDocument() {
         super();
@@ -206,10 +206,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the campus
      */
-    public Campus getCampus() {
+    public CampusEbo getCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
+        return campus = CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */));
     }
 
     /**
@@ -276,8 +276,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the offCampusState.
      */
-    public State getOffCampusState() {
-        offCampusState = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusStateCode))?null:( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode))?SpringContext.getBean(StateService.class).getState(offCampusCountryCode, offCampusStateCode): offCampusState;
+    public StateEbo getOffCampusState() {
+        offCampusState = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusStateCode))?null:( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(offCampusCountryCode, offCampusStateCode)): offCampusState;
         return offCampusState;
     }
 
@@ -305,8 +305,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the postalZipCode
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), offCampusZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode(offCampusCountryCode, offCampusZipCode): postalZipCode;
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), offCampusZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(offCampusCountryCode, offCampusZipCode)): postalZipCode;
         return postalZipCode;
     }
 
@@ -315,8 +315,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the offCampusCountry.
      */
-    public Country getOffCampusCountry() {
-        offCampusCountry = (offCampusCountryCode == null)?null:( offCampusCountry == null || !StringUtils.equals( offCampusCountry.getCode(),offCampusCountryCode))?SpringContext.getBean(CountryService.class).getCountry(offCampusCountryCode): offCampusCountry;
+    public CountryEbo getOffCampusCountry() {
+        offCampusCountry = (offCampusCountryCode == null)?null:( offCampusCountry == null || !StringUtils.equals( offCampusCountry.getCode(),offCampusCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(offCampusCountryCode)): offCampusCountry;
         return offCampusCountry;
     }
 
@@ -581,7 +581,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @param campus The campus to set.
      * @deprecated
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
@@ -644,7 +644,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @param offCampusState The offCampusState to set.
      * @deprecated
      */
-    public void setOffCampusState(State offCampusState) {
+    public void setOffCampusState(StateEbo offCampusState) {
         this.offCampusState = offCampusState;
     }
 
@@ -673,7 +673,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -683,7 +683,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @param offCampusCountry The offCampusCountry to set.
      * @deprecated
      */
-    public void setOffCampusCountry(Country offCampusCountry) {
+    public void setOffCampusCountry(CountryEbo offCampusCountry) {
         this.offCampusCountry = offCampusCountry;
     }
 

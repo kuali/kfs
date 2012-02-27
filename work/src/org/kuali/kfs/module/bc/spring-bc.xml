@@ -250,7 +250,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="positionSelectLookupableHelperService"  parent="positionSelectLookupableHelperService-parentBean"/>
+	<bean id="positionSelectLookupableHelperService"  parent="positionSelectLookupableHelperService-parentBean" scope="prototype" />
 	<bean id="positionSelectLookupableHelperService-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionSelectLookupableHelperServiceImpl" 
 				scope="prototype" abstract="true">
 		<property name="persistenceStructureService">

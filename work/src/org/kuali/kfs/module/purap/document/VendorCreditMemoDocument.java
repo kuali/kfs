@@ -206,7 +206,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
-		updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE);
+                updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE);
 
                 return;
             }

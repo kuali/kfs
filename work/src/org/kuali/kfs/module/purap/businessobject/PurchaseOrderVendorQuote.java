@@ -25,8 +25,8 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * Purchase Order Vendor Quote Business Object.
@@ -59,7 +59,7 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 
     private PurchaseOrderDocument purchaseOrder;
     private PurchaseOrderQuoteStatus purchaseOrderQuoteStatus;
-    private Country vendorCountry;
+    private CountryEbo vendorCountry;
 
     //non-persisted variables
     protected boolean isPdfDisplayedToUserOnce;
@@ -83,12 +83,12 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
         return purchaseOrderVendorQuoteIdentifier;
     }
 
-    public Country getVendorCountry() {
-        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode): vendorCountry;
+    public CountryEbo getVendorCountry() {
+        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode)): vendorCountry;
         return vendorCountry;
     }
 
-    public void setVendorCountry(Country vendorCountry) {
+    public void setVendorCountry(CountryEbo vendorCountry) {
         this.vendorCountry = vendorCountry;
     }
 

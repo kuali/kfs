@@ -30,10 +30,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -77,7 +77,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 	protected Chart universityClearingChartOfAccounts;
     protected SubAccount universityClearingSubAccount;
     protected ObjectCode universityFiscalYearObject;
-    protected State organizationRemitToState;
+    protected StateEbo organizationRemitToState;
 //    protected Chart wireChartOfAccounts;
 //    protected Account wireAccount;
 //    protected SubAccount wireSubAccount;
@@ -85,7 +85,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    protected SubObjectCode wireSubObject;
     protected Person financialDocumentInitiator;
     protected transient SystemOptions universityFiscal;
-    protected PostalCode orgRemitToZipCode;
+    protected PostalCodeEbo orgRemitToZipCode;
     
 	public Person getFinancialDocumentInitiator() {
 	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
@@ -769,8 +769,8 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * Gets the organizationRemitToState attribute. 
      * @return Returns the organizationRemitToState.
      */
-    public State getOrganizationRemitToState() {
-        organizationRemitToState = (StringUtils.isBlank(organizationRemitToStateCode))?null:( organizationRemitToState == null||!StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode))?SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,organizationRemitToStateCode): organizationRemitToState;
+    public StateEbo getOrganizationRemitToState() {
+        organizationRemitToState = (StringUtils.isBlank(organizationRemitToStateCode))?null:( organizationRemitToState == null||!StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,organizationRemitToStateCode)): organizationRemitToState;
         return organizationRemitToState;
     }
 
@@ -779,7 +779,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @param organizationRemitToState The organizationRemitToState to set.
      * @deprecated
      */
-    public void setOrganizationRemitToState(State organizationRemitToState) {
+    public void setOrganizationRemitToState(StateEbo organizationRemitToState) {
         this.organizationRemitToState = organizationRemitToState;
     }
 
@@ -926,8 +926,8 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * Gets the orgRemitToZipCode attribute. 
      * @return Returns the orgRemitToZipCode.
      */
-    public PostalCode getOrgRemitToZipCode() {
-        orgRemitToZipCode = (organizationRemitToZipCode == null)?null:( orgRemitToZipCode == null || !StringUtils.equals( orgRemitToZipCode.getCode(),organizationRemitToZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,organizationRemitToZipCode): orgRemitToZipCode;
+    public PostalCodeEbo getOrgRemitToZipCode() {
+        orgRemitToZipCode = (organizationRemitToZipCode == null)?null:( orgRemitToZipCode == null || !StringUtils.equals( orgRemitToZipCode.getCode(),organizationRemitToZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,organizationRemitToZipCode)): orgRemitToZipCode;
         return orgRemitToZipCode;
     }
 
@@ -935,7 +935,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * Sets the orgRemitToZipCode attribute value.
      * @param orgRemitToZipCode The orgRemitToZipCode to set.
      */
-    public void setOrgRemitToZipCode(PostalCode orgRemitToZipCode) {
+    public void setOrgRemitToZipCode(PostalCodeEbo orgRemitToZipCode) {
         this.orgRemitToZipCode = orgRemitToZipCode;
     }
 

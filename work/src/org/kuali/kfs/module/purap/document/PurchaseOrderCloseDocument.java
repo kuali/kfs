@@ -66,39 +66,43 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        // DOCUMENT PROCESSED
-        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            // generate GL entries
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesClosePurchaseOrder(this);
+        try {
+            // DOCUMENT PROCESSED
+            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+                // generate GL entries
+                SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesClosePurchaseOrder(this);
 
-            // update indicators
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
-            
-            // for app doc status
-            getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_CLOSED);   
-
-        }
-        // DOCUMENT DISAPPROVED
-        else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
-
-            // for app doc status
-            try {
-                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
-                getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));   
-            } catch (WorkflowException e) {
-                logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
+                // update indicators
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
+                
+                // for app doc status
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CLOSED);
             }
+            // DOCUMENT DISAPPROVED
+            else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
 
-        }
-        // DOCUMENT CANCELLED
-        else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
-            // for app doc status
-            getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_CLOSED);
-        }
+                // for app doc status
+                try {
+                    String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                    String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
+                    updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));                    
 
+                } catch (WorkflowException e) {
+                    logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
+                }
+
+            }
+            // DOCUMENT CANCELLED
+            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
+                // for app doc status
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CLOSED);
+            }
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
+        }
     }
 
     /**
@@ -127,6 +131,4 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         }
         return accountingLines;
     }
-
-
 }

@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -47,7 +47,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     private CustomerAddressType customerAddressType;
     private Customer customer;
-    private Country customerCountry;
+    private CountryEbo customerCountry;
 
     /**
      * Default constructor.
@@ -360,8 +360,8 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      * 
      * @return Returns the customerCountry.
      */
-    public Country getCustomerCountry() {
-        customerCountry = (customerCountryCode == null)?null:( customerCountry == null || !StringUtils.equals( customerCountry.getCode(),customerCountryCode))?SpringContext.getBean(CountryService.class).getCountry(customerCountryCode): customerCountry;
+    public CountryEbo getCustomerCountry() {
+        customerCountry = (customerCountryCode == null)?null:( customerCountry == null || !StringUtils.equals( customerCountry.getCode(),customerCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(customerCountryCode)): customerCountry;
         return customerCountry;
     }
 
@@ -371,7 +371,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      * @param customerCountry The customerCountry to set.
      * @deprecated
      */
-    public void setCustomerCountry(Country customerCountry) {
+    public void setCustomerCountry(CountryEbo customerCountry) {
         this.customerCountry = customerCountry;
     }
 

@@ -105,21 +105,18 @@
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentBuildingNumber" parent="BarcodeInventoryErrorDocument-currentBuildingNumber-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-currentBuildingNumber-parentBean" abstract="true" parent="Room-buildingCode">
+  <bean id="BarcodeInventoryErrorDocument-currentBuildingNumber-parentBean" abstract="true" parent="Asset-buildingCode">
   	<property name="name" value="currentBuildingNumber"/>
-    <property name="required" value="false"/>  	
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentRoom" parent="BarcodeInventoryErrorDocument-currentRoom-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-currentRoom-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-  	<property name="name" value="currentRoom"/>
-    <property name="required" value="false"/>  	  
+  <bean id="BarcodeInventoryErrorDocument-currentRoom-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
+  	<property name="name" value="currentRoom"/> 	  
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentSubroom" parent="BarcodeInventoryErrorDocument-currentSubroom-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-currentSubroom-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-  	<property name="name" value="currentSubroom"/>
-    <property name="required" value="false"/>  	  
+  	<property name="name" value="currentSubroom"/> 
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentConditionCode" parent="BarcodeInventoryErrorDocument-currentConditionCode-parentBean"/>
@@ -162,21 +159,18 @@
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-newBuildingNumber" parent="BarcodeInventoryErrorDocument-newBuildingNumber-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-newBuildingNumber-parentBean" abstract="true" parent="Room-buildingCode">
-  	<property name="name" value="newBuildingNumber"/>
-    <property name="required" value="false"/>  	
+  <bean id="BarcodeInventoryErrorDocument-newBuildingNumber-parentBean" abstract="true" parent="Asset-buildingCode">
+  	<property name="name" value="newBuildingNumber"/>	
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-newRoom" parent="BarcodeInventoryErrorDocument-newRoom-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-newRoom-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-  	<property name="name" value="newRoom"/> 
-    <property name="required" value="false"/>  	 
+  <bean id="BarcodeInventoryErrorDocument-newRoom-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
+  	<property name="name" value="newRoom"/> 	 
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-newSubroom" parent="BarcodeInventoryErrorDocument-newSubroom-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newSubroom-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-  	<property name="name" value="newSubroom"/>
-    <property name="required" value="false"/>  	  
+  	<property name="name" value="newSubroom"/> 	  
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-newConditionCode" parent="BarcodeInventoryErrorDocument-newConditionCode-parentBean"/>

@@ -22,10 +22,10 @@ import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.postalcode.PostalCode;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 public class ACHBank extends PersistableBusinessObjectBase implements MutableInactivatable {
 
@@ -46,8 +46,8 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
     private String bankDataViewCode;
     private boolean active;
     
-    private State bankState;
-    private PostalCode postalCode;
+    private StateEbo bankState;
+    private PostalCodeEbo postalCode;
     
     /**
      * Default constructor.
@@ -396,8 +396,8 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
      * 
      * @return Returns the bankState.
      */
-    public State getBankState() {
-        bankState = (StringUtils.isBlank(bankStateCode))?null:( bankState == null||!StringUtils.equals( bankState.getCode(),bankStateCode))?SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,bankStateCode): bankState;
+    public StateEbo getBankState() {
+        bankState = (StringUtils.isBlank(bankStateCode))?null:( bankState == null||!StringUtils.equals( bankState.getCode(),bankStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,bankStateCode)): bankState;
         return bankState;
     }
 
@@ -406,8 +406,8 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
      * 
      * @return Returns the postalCode.
      */
-    public PostalCode getPostalCode() {
-        postalCode = (bankZipCode == null)?null:( postalCode == null || !StringUtils.equals( postalCode.getCode(),bankZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,bankZipCode): postalCode;
+    public PostalCodeEbo getPostalCode() {
+        postalCode = (bankZipCode == null)?null:( postalCode == null || !StringUtils.equals( postalCode.getCode(),bankZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,bankZipCode)): postalCode;
         return postalCode;
     }
     

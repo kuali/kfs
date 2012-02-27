@@ -30,8 +30,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 public class DisbursementNumberRange extends PersistableBusinessObjectBase implements MutableInactivatable {
 
@@ -44,7 +44,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
     private String disbursementTypeCode;
     private boolean active;
 
-    private Campus campus;
+    private CampusEbo campus;
     private Bank bank;
     private DisbursementType disbursementType;
 
@@ -186,8 +186,8 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * 
      * @return Returns the campus.
      */
-    public Campus getCampus() {
-        return campus = StringUtils.isBlank( physCampusProcCode)?null:((campus!=null && campus.getCode().equals( physCampusProcCode))?campus:SpringContext.getBean(CampusService.class).getCampus( physCampusProcCode));
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( physCampusProcCode)?null:((campus!=null && campus.getCode().equals( physCampusProcCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( physCampusProcCode)));
     }
 
     /**
@@ -195,7 +195,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * 
      * @param campus The campus to set.
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 

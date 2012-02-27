@@ -66,37 +66,41 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        // DOCUMENT PROCESSED
-        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            // generate GL entries
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesReopenPurchaseOrder(this);
+        try {
+            // DOCUMENT PROCESSED
+            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+                // generate GL entries
+                SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesReopenPurchaseOrder(this);
 
-                // update indicators
-                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
+                    // update indicators
+                    SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
-            // set purap status
-            setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
-        }
-        // DOCUMENT DISAPPROVED
-        else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(this);
-            
-            // for app doc status
-            try {
-                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
-                getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(reqStatus);   
-            } catch (WorkflowException e) {
-                logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
+                // set purap status
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
+            }
+            // DOCUMENT DISAPPROVED
+            else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(this);
+                
+                // for app doc status
+                try {
+                    String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                    String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
+                    updateAndSaveAppDocStatus(reqStatus);                     
+                } catch (WorkflowException e) {
+                    logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
+                }
+            }
+            // DOCUMENT CANCELED
+            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(this);
+                // for app doc status
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);                
             }
         }
-        // DOCUMENT CANCELED
-        else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(this);
-            // for app doc status
-            getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
-
     }
 
     /**

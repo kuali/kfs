@@ -58,6 +58,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
@@ -812,13 +813,39 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public String getAppDocStatus(){
-        return getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
-        }
-
-    public void setAppDocStatus(String appDocStatus){
-        getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);        
+        WorkflowDocument document = getWorkflowDocument();
+        
+        return document.getApplicationDocumentStatus();
     }
 
+    public void setAppDocStatus(String appDocStatus){
+        WorkflowDocument document = getWorkflowDocument();
+        
+        document.setApplicationDocumentStatus(appDocStatus);        
+    }
+
+    /**
+     * method to retrieve the workflow document for the given documentHeader.
+     * 
+     * @return workflowDocument
+     */
+    public WorkflowDocument getWorkflowDocument() {
+        WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        
+        try {
+            if (ObjectUtils.isNull(workflowDocument)) {
+                return workflowDocument;
+            }
+            
+            workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException(we);
+        }
+        
+        return workflowDocument;
+    }
+    
     public VendorDetail getVendorDetail() {
         return vendorDetail;
     }
@@ -1216,7 +1243,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     protected void updateAndSaveAppDocStatus(String appDocStatus) throws WorkflowException {
        setAppDocStatus(appDocStatus);
-       //SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
        SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());
     }
 }

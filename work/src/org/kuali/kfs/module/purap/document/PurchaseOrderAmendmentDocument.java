@@ -23,9 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
@@ -58,43 +58,45 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
 	public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        // DOCUMENT PROCESSED
-        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            // generate GL entries
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
+        try {
+            // DOCUMENT PROCESSED
+            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+                // generate GL entries
+                SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
 
-                // update indicators
-                SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrderAmendment(this);
+                    // update indicators
+                    SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrderAmendment(this);
 
-            // update vendor commodity code by automatically spawning vendor maintenance document
-            SpringContext.getBean(PurchaseOrderService.class).updateVendorCommodityCode(this);
-            
-            // for app doc status
-            getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);   
-
-        }
-        // DOCUMENT DISAPPROVED
-        else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
-            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-            
-            // for app doc status
-            try {
-                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
-                getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));   
-            } catch (WorkflowException e) {
-                logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
+                // update vendor commodity code by automatically spawning vendor maintenance document
+                SpringContext.getBean(PurchaseOrderService.class).updateVendorCommodityCode(this);
+                
+                // for app doc status
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             }
-            
-        }
-        // DOCUMENT CANCELED
-        else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
+            // DOCUMENT DISAPPROVED
+            else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
+                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+                
+                // for app doc status
+                try {
+                    String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                    String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
+                    updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));
+                } catch (WorkflowException e) {
+                    logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
+                }
+            }
+            // DOCUMENT CANCELED
+            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+                SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
 
-            // for app doc status
-            getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);
-            
+                // for app doc status
+                updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);                
+            }
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
    }
 

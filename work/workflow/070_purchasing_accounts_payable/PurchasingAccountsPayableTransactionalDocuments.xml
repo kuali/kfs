@@ -1,19 +1,5 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-	<ruleAttribute>
-      <name>PurapDocumentSearchResultProcessorAttribute</name>
-      <className>org.kuali.kfs.module.purap.document.workflow.PurAPDataDictionaryDocumentSearchCustomizer</className>
-      <label>PurAP Document Search Result Processor Attribute</label>
-      <description>PurAP Document Search Result Processor Attribute</description>
-      <type>DocumentSearchResultProcessorAttribute</type>
-    </ruleAttribute>
-    <ruleAttribute>
-      <name>PurapDocumentSearchGeneratorAttribute</name>
-      <className>org.kuali.kfs.module.purap.document.workflow.PurAPDataDictionaryDocumentSearchCustomizer</className>
-      <label>Financial System Document Search Generator Attribute</label>
-      <description>Financial System Document Search Generator Attribute</description>
-      <type>DocumentSearchGeneratorAttribute</type>
-    </ruleAttribute>
     <ruleAttribute>
       <name>NoFyiActionListAttribute</name>
       <className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>
@@ -278,16 +264,6 @@
         <attribute>
           <name>
             FinancialSystemSearchableAttribute
-          </name>
-        </attribute>
-        <attribute>
-          <name>
-            PurapDocumentSearchResultProcessorAttribute
-          </name>
-        </attribute>
-        <attribute>
-          <name>
-            PurapDocumentSearchGeneratorAttribute
           </name>
         </attribute>
         <attribute>

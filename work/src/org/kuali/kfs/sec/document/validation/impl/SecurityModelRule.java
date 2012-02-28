@@ -35,6 +35,7 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -52,6 +53,8 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
     private SecurityModel oldSecurityModel;
     private SecurityModel newSecurityModel;
+    
+    protected volatile static BusinessObjectService businessObjectService;
 
     public SecurityModelRule() {
         super();
@@ -187,13 +190,13 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
         Map<String, String> searchValues = new HashMap<String, String>();
         searchValues.put(KFSPropertyConstants.NAME, securityModel.getName());
 
-        int matchCount = SpringContext.getBean(BusinessObjectService.class).countMatching(SecurityModel.class, searchValues);
+        int matchCount = getBusinessObjectService().countMatching(SecurityModel.class, searchValues);
         if (matchCount > 0) {
             GlobalVariables.getMessageMap().putError(errorKeyPrefix + KFSPropertyConstants.NAME, SecKeyConstants.ERROR_MODEL_NAME_NON_UNIQUE, securityModel.getName());
             isValid = false;
         }
 
-        matchCount = SpringContext.getBean(BusinessObjectService.class).countMatching(SecurityDefinition.class, searchValues);
+        matchCount = getBusinessObjectService().countMatching(SecurityDefinition.class, searchValues);
         if (matchCount > 0) {
             GlobalVariables.getMessageMap().putError(errorKeyPrefix + KFSPropertyConstants.NAME, SecKeyConstants.ERROR_MODEL_NAME_NON_UNIQUE, securityModel.getName());
             isValid = false;
@@ -268,21 +271,21 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
         }
 
         if (MemberType.PRINCIPAL.getCode().equals(memberTypeCode)) {
-            Principal principalInfo = SpringContext.getBean(IdentityManagementService.class).getPrincipal(memberId);
+            Principal principalInfo = KimApiServiceLocator.getIdentityService().getPrincipal(memberId);
             if (principalInfo == null) {
                 GlobalVariables.getMessageMap().putError(errorKeyPrefix + SecPropertyConstants.MEMBER_ID, SecKeyConstants.ERROR_MODEL_MEMBER_ID_NOT_VALID, memberId, memberTypeCode);
                 isValid = false;
             }
         }
         else if (MemberType.ROLE.getCode().equals(memberTypeCode)) {
-            Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
+            Role roleInfo = KimApiServiceLocator.getRoleService().getRole(memberId);
             if (roleInfo == null) {
                 GlobalVariables.getMessageMap().putError(errorKeyPrefix + SecPropertyConstants.MEMBER_ID, SecKeyConstants.ERROR_MODEL_MEMBER_ID_NOT_VALID, memberId, memberTypeCode);
                 isValid = false;
             }
         }
         else if (MemberType.GROUP.getCode().equals(memberTypeCode)) {
-            Group groupInfo = SpringContext.getBean(GroupService.class).getGroup(memberId);
+            Group groupInfo = KimApiServiceLocator.getGroupService().getGroup(memberId);
             if (groupInfo == null) {
                 GlobalVariables.getMessageMap().putError(errorKeyPrefix + SecPropertyConstants.MEMBER_ID, SecKeyConstants.ERROR_MODEL_MEMBER_ID_NOT_VALID, memberId, memberTypeCode);
                 isValid = false;
@@ -292,5 +295,13 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
         return isValid;
     }
 
-
+    /**
+     * @return the default implementation of the business object service
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
 }

@@ -401,7 +401,7 @@ public class DepositWizardAction extends KualiAction {
             Map keyMap = new HashMap();
             keyMap.put(KFSPropertyConstants.BANK_CODE, bankCode);
 
-            Bank bank = boService.findByPrimaryKey(Bank.class, keyMap);
+            Bank bank = (Bank) boService.findByPrimaryKey(Bank.class, keyMap);
             if (bank == null) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
             }

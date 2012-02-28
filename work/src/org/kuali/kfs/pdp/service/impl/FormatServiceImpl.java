@@ -129,7 +129,7 @@ public class FormatServiceImpl implements FormatService {
 
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PHYS_CAMPUS_PROCESS_CODE, campus);
-        FormatProcess formatProcess = this.businessObjectService.findByPrimaryKey(FormatProcess.class, primaryKeys);
+        FormatProcess formatProcess = (FormatProcess) this.businessObjectService.findByPrimaryKey(FormatProcess.class, primaryKeys);
 
         if (formatProcess != null) {
             LOG.debug("getFormatProcessStartDate() found");
@@ -254,7 +254,7 @@ public class FormatServiceImpl implements FormatService {
         @SuppressWarnings("rawtypes")
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
-        PaymentProcess paymentProcess = this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
+        PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
         if (paymentProcess == null) {
             LOG.error("performFormat() Invalid proc ID " + processId);
             throw new RuntimeException("Invalid proc ID");
@@ -593,7 +593,7 @@ public class FormatServiceImpl implements FormatService {
 
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
-        PaymentProcess paymentProcess = this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
+        PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
         if (LOG.isDebugEnabled()) {
             LOG.debug("clearUnfinishedFormat() Process: " + paymentProcess);
         }

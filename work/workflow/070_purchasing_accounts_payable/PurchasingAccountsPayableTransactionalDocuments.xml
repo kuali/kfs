@@ -568,7 +568,7 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="HasNewUnorderedItems" nextAppDocStatus="Awaiting New Unordered Item Review"/>
-          <split name="HasNewUnorderedItems" nextNode="Account">
+          <split name="HasNewUnorderedItems">
             <branch name="True">
               <role name="NewUnorderedItems" nextNode="Join"/>
             </branch>
@@ -577,7 +577,6 @@
             </branch>
             <join name="Join"/>
           </split>
-          <role name="Account"/>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -598,11 +597,6 @@
             org.kuali.rice.kew.engine.node.NoOpNode
           </type>
         </simple>
-        <role name="Account">
-          <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-          </qualifierResolverClass>
-        </role>
       </routeNodes>
     </documentType>
 	

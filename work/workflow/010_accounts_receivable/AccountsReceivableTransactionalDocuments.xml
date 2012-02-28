@@ -183,19 +183,20 @@
       </routingVersion>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Account"/>
-          <role name="Account"/>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+		  <role name="AccountingOrganizationHierarchy"/>
         </routePath>
       </routePaths>
       <routeNodes>
-        <start name="AdHoc"/>
+        <start name="AdHoc" />
         <role name="Account">
-          <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-          </qualifierResolverClass>
-          <activationType>
-            P
-          </activationType>
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+		<role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
       </routeNodes>
     </documentType>

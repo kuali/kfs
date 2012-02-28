@@ -340,8 +340,8 @@
     <bean id="thresholdLookupableHelperService" parent="thresholdLookupableHelperService-parentBean" scope="prototype" />
 	
 	<bean id="thresholdLookupableHelperService-parentBean" class="org.kuali.kfs.module.purap.businessobject.lookup.ThresholdLookupableHelperService" parent="lookupableHelperService" scope="prototype" abstract="true" />
-	
-	<bean id="thresholdLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	<bean id="thresholdLookupable" parent="thresholdLookupable-parentBean" scope="prototype" />
+	<bean id="thresholdLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 	    <property name="lookupableHelperService" ref="thresholdLookupableHelperService" />
 	</bean>
 	<bean id="b2BShoppingService" parent="b2BShoppingService-parentBean"/>

@@ -132,8 +132,6 @@
 			type="org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryForm" />
 		<form-bean name="LaborGLLaborEntrySummarizationInquiryForm"
 			type="org.kuali.kfs.module.ld.web.struts.GLLaborEntrySummarizationInquiryForm"/>
--->
-
 
 		<!-- Budget Construction Bean Definitions -->
 

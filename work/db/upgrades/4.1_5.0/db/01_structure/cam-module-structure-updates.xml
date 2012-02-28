@@ -108,4 +108,172 @@
   <replace replace="SYS_GUID" with="sys_guid()" />
  </modifySql>
 </changeSet>
+
+	<changeSet author="schoo" id="KFSMI-KFSMI-6629_STRUCTURE_CHANGES">
+		<modifyColumn tableName='CM_CPTLAST_DTL_T'>
+      		<column name='AST_OFFCMP_ADDR' type='VARCHAR2(45)' />
+    	</modifyColumn>
+    	<modifyColumn tableName='CM_AST_TRNFR_DOC_T'>
+      		<column name='AST_OFFCMP_ADDR' type='VARCHAR2(45)' />
+    	</modifyColumn>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSMI7058_ASSET_PMT_DOC_TABLE_AND_SAMPLE_DATA">
+		<createSequence sequenceName="CM_AST_PMT_DOC_TYP_SEQ" startValue="20" incrementBy="1" />
+		<createTable tableName="CM_AST_PMT_DOC_TYP_T">
+            <column name="DOC_TYP_ID" type="NUMBER(7,0)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CM_AST_PMT_DOC_TYP_T_TP1"/>
+            </column>
+            <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="CM_AST_PMT_DOC_TYP_T_TC0" />
+            </column>
+            <column name="DOC_TYP_NM" type="VARCHAR2(4)" />
+            <column name="ACTV_IND" type="VARCHAR2(1)" />
+        </createTable>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="1" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="AA" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="2" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="MPAY" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="3" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="AD" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="4" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="CR" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="5" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="CCR" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="6" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="DI" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="7" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="DV" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="8" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="GEC" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="9" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="IB" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="10" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="JV" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="11" />
+        	<column name="OBJ_ID" value="sys_guid()"/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="SB" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="12" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="YEDI" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="13" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="YEGE" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="14" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="PCDO" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="15" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="PREQ" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="16" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="CM" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="CM_AST_PMT_DOC_TYP_T">
+        	<column name="DOC_TYP_ID" value="17" />
+        	<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1"/>
+        	<column name="DOC_TYP_NM" value="ND" />
+        	<column name="ACTV_IND" value="Y"/>
+        </insert>
+	</changeSet>
+
+	<changeSet author="jksmith" id="KFSCNTRB641_ADD_ACTIVE_INDICATORS_TO_CAMS_TABLES">
+		<comment>Adds active indicators to three CAMS tables.</comment>
+		<addColumn tableName="CM_AST_COMPONENT_T">
+			<column name="ACTV_IND" type="VARCHAR2(1)"/>
+		</addColumn>
+		<update tableName="CM_AST_COMPONENT_T">
+			<column name="ACTV_IND" value="Y"/>
+		</update>
+		<addColumn tableName="CM_AST_WRNTY_T">
+			<column name="ACTV_IND" type="VARCHAR2(1)"/>
+		</addColumn>
+		<update tableName="CM_AST_WRNTY_T">
+			<column name="ACTV_IND" value="Y"/>
+		</update>
+		<addColumn tableName="CM_AST_RPR_HIST_T">
+			<column name="ACTV_IND" type="VARCHAR2(1)"/>
+		</addColumn>
+		<update tableName="CM_AST_RPR_HIST_T">
+			<column name="ACTV_IND" value="Y"/>
+		</update>
+	</changeSet>
+	
 </databaseChangeLog>

@@ -104,4 +104,64 @@
         <dropNotNullConstraint tableName="AP_PMT_RQST_T" columnName="PMT_RQST_STAT_CD" columnDataType="VARCHAR(4)"/>
         <dropNotNullConstraint tableName="AP_CRDT_MEMO_T" columnName="CRDT_MEMO_STAT_CD" columnDataType="VARCHAR(4)"/>
       </changeSet>
+
+	<changeSet author="jksmith" id="KFSCNTRB162_DEBARRED_VENDOR_TABLES">
+		<comment>Alters and creates tables as necessary for the debarred vendor tracking process.</comment>
+		<addColumn tableName="PUR_REQS_T">
+			<column name="VNDR_DEBRD_REAS_TXT" type="VARCHAR2(255)"/>
+		</addColumn>
+		<addColumn tableName="PUR_PO_T">
+			<column name="VNDR_DEBRD_REAS_TXT" type="VARCHAR2(255)"/>
+		</addColumn>
+		<createSequence sequenceName="PUR_VNDR_EXCL_MTCH_T_SEQ" startValue="1" incrementBy="1" minValue="1"/>
+		<createTable tableName="PUR_VNDR_EXCL_MT">
+			<column name="VNDR_EXCL_ID" type="NUMBER(10,0)">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="VNDR_EXCL_LOAD_DT" type="DATE"/>
+			<column name="VNDR_EXCL_NM" type="VARCHAR2(200)"/>
+			<column name="VNDR_EXCL_LN1_ADDR" type="VARCHAR2(150)"/>
+			<column name="VNDR_EXCL_LN2_ADDR" type="VARCHAR2(50)"/>
+			<column name="VNDR_EXCL_CTY_NM" type="VARCHAR2(50)"/>
+			<column name="VNDR_EXCL_ST_CD" type="VARCHAR2(2)"/>
+			<column name="VNDR_EXCL_PRVN_NM" type="VARCHAR2(20)"/>
+			<column name="VNDR_EXCL_ZIP_CD" type="VARCHAR2(20)"/>
+			<column name="VNDR_EXCL_OTHR_NM" type="VARCHAR2(1000)"/>
+			<column name="VNDR_EXCL_DESC_TXT" type="VARCHAR2(1000)"/>
+		</createTable>
+		<createTable tableName="PUR_VNDR_EXCL_MTCH_T">
+			<column name="VNDR_EXCL_ID" type="NUMBER(10,0)">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"/>
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="VNDR_HDR_GNRTD_ID" type="NUMBER(10,0)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="VNDR_DTL_ASND_ID" type="NUMBER(10,0)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="VNDR_ADDR_GNRTD_ID" type="NUMBER(10,0)"/>
+			<column name="VNDR_EXCL_CFRM_STAT_CD" type="VARCHAR2(10)"/>
+			<column name="VNDR_EXCL_LOAD_DT" type="DATE"/>
+			<column name="VNDR_EXCL_NM" type="VARCHAR2(200)"/>
+			<column name="VNDR_EXCL_LN1_ADDR" type="VARCHAR2(150)"/>
+			<column name="VNDR_EXCL_LN2_ADDR" type="VARCHAR2(50)"/>
+			<column name="VNDR_EXCL_CTY_NM" type="VARCHAR2(50)"/>
+			<column name="VNDR_EXCL_ST_CD" type="VARCHAR2(2)"/>
+			<column name="VNDR_EXCL_PRVN_NM" type="VARCHAR2(20)"/>
+			<column name="VNDR_EXCL_ZIP_CD" type="VARCHAR2(20)"/>
+			<column name="VNDR_EXCL_OTHR_NM" type="VARCHAR2(1000)"/>
+			<column name="VNDR_EXCL_DESC_TXT" type="VARCHAR2(1000)"/>
+			<column name="LST_UPDT_TS" type="DATE"/>
+			<column name="LST_UPDT_PRNCPL_NM" type="VARCHAR2(100)"/>
+		</createTable>
+		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TP1" baseTableName="PUR_VNDR_EXCL_MTCH_T" baseColumnNames="VNDR_HDR_GNRTD_ID" referencedTableName="PUR_VNDR_HDR_T" referencedColumnNames="VNDR_HDR_GNRTD_ID"/>
+		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TP2" baseTableName="PUR_VNDR_EXCL_MTCH_T" baseColumnNames="VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID" referencedTableName="PUR_VNDR_DTL_T" referencedColumnNames="VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID"/>
+	</changeSet>
+
 </databaseChangeLog>

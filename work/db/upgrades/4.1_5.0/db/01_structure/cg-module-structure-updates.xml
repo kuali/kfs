@@ -146,5 +146,9 @@
     </modifySql>
   </changeSet>
   
+	<changeSet author="jksmith" id="KFSMI6999_RENAME_CFDA_REF_T">
+		<renameTable oldTableName="CG_CFDA_REF_T" newTableName="CA_CFDA_REF_T"/>
+	</changeSet>
+	
  
 </databaseChangeLog>

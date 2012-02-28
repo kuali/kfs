@@ -428,4 +428,75 @@
 			<replace replace='NUMBER' with='DECIMAL' />
 		</modifySql>
 	</changeSet>
+
+    <changeSet author="jksmith" id="KFSMI6285_STRUCTURE_CHANGES">
+		<createTable tableName="FP_PRCRMNT_CARD_DFLT_T">
+            <column name="CC_NBR" type="VARCHAR2(16)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="FP_PRCRMNT_CARD_DFLT_TP1"/>
+            </column>
+            <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="FP_PRCRMNT_CARD_DFLT_TC0" />
+            </column>
+            <column name="CARD_HLDR_NM" type="VARCHAR2(123)" />
+            <column name="CARD_HLDR_ALTRNT_NM" type="VARCHAR2(123)" />
+            <column name="CARD_HLDR_LN1_ADDR" type="VARCHAR2(45)" />
+            <column name="CARD_HLDR_LN2_ADDR" type="VARCHAR2(45)" />
+            <column name="CARD_HLDR_CTY_NM" type="VARCHAR2(45)" />
+            <column name="CARD_HLDR_ST_CD" type="VARCHAR2(2)" />
+            <column name="CARD_HLDR_ZIP_CD" type="VARCHAR2(20)" />
+            <column name="CARD_HLDR_WRK_PHN_NBR" type="VARCHAR2(10)" />
+            <column name="CARD_LMT" type="NUMBER(19,2)" />
+            <column name="CARD_CYCLE_AMT_LMT" type="NUMBER(19,2)" />
+            <column name="CARD_CYCLE_VOL_LMT" type="NUMBER(19,2)" />
+            <column name="CARD_STAT_CD" type="VARCHAR2(2)" />
+            <column name="CARD_NTE_TXT" type="VARCHAR2(50)" />
+            <column name="FIN_COA_CD" type="VARCHAR2(2)" />
+            <column name="ACCOUNT_NBR" type="VARCHAR2(7)" />
+            <column name="SUB_ACCT_NBR" type="VARCHAR2(5)" />
+            <column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
+            <column name="FIN_SUB_OBJ_CD" type="VARCHAR2(3)" />
+            <column name="PROJECT_CD" type="VARCHAR2(10)" />
+            <column name="ROW_ACTV_IND" type="VARCHAR2(1)" />
+        </createTable>
+        <addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR1"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD"
+    		referencedTableName="CA_CHART_T" referencedColumnNames="FIN_COA_CD"
+		/>
+		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR2"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD, ACCOUNT_NBR"
+    		referencedTableName="CA_ACCOUNT_T" referencedColumnNames="FIN_COA_CD, ACCOUNT_NBR"
+		/>
+		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR3"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR"
+    		referencedTableName="CA_SUB_ACCT_T" referencedColumnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR"
+		/>
+		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR4"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="PROJECT_CD"
+    		referencedTableName="CA_PROJECT_T" referencedColumnNames="PROJECT_CD"
+		/>
+	</changeSet>
+
+	<changeSet author="jksmith" id="KFSMI307_STRUCTURE_CHANGES">
+		<addColumn tableName="FP_DV_DOC_T">
+			<column name="IMD_PMT_IND" type="VARCHAR2(1)"/>
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="kekanaya" id="KFSMI4123_STRUCTURE_CHANGES">
+		<addColumn tableName="FP_CASH_RCPT_DOC_T">
+			<column name="FDOC_BNK_CD" type="VARCHAR2(4)"/>
+		</addColumn>
+	</changeSet>
+
+	<changeSet author="jksmith" id="KFSMI6965_PCDO_ACCT_LINES_DESC">
+		<comment>Adds column to hold description to PCDO accounting lines</comment>
+		<addColumn tableName="FP_PRCRMNT_ACCT_LINES_T">
+			<column name="FDOC_LINE_DESC" type="VARCHAR2(40)" />
+		</addColumn>
+	</changeSet>
+	
+
 </databaseChangeLog>

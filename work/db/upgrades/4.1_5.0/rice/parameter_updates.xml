@@ -426,6 +426,8 @@
     		<where>NMSPC_CD='KFS-COA' AND CMPNT_CD='ObjectCode' AND PARM_NM='ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND'</where>
 		</delete>
 	</changeSet>
+
+<!-- JHK: Up to here in inclusion in master data scripts -->
 	
 	<changeSet author="jksmith" id="KFSMI6342_UNORDERED_LINE_ITEM_MESSAGE_PARAMETER">
 		<comment>Adds parameter for warning message for when user clicks "add unordered item" button</comment>

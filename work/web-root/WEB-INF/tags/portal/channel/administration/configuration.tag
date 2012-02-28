@@ -34,8 +34,7 @@
 	<strong>Technical</strong></br>
    	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Workflow Attribute" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.rule.bo.RuleAttribute&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<%-- RICE20 - fixme - needs parameter for core module --%>
-		<li><portal:portalLink displayTitle="true" title="XML Ingester" url="core/Ingester.do" /></li>
+		<li><portal:portalLink displayTitle="true" title="XML Ingester" url="${ConfigProperties.core.url}/Ingester.do" /></li>
 	</ul>
 </div>
 <channel:portalChannelBottom />

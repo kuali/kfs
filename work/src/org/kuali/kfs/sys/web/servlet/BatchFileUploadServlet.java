@@ -34,6 +34,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -42,6 +43,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.AuthenticationService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -57,7 +59,7 @@ public class BatchFileUploadServlet extends HttpServlet {
     protected void checkAuthorization( HttpServletRequest request ) {
         boolean authorized = false;
 //        String principalName = GlobalVariables.getUserSession().getPrincipalName();
-        String principalName = SpringContext.getBean(AuthenticationService.class).getPrincipalName(request);
+        String principalName = ((AuthenticationService) GlobalResourceLoader.getResourceLoader().getService(new QName("kimAuthenticationService"))).getPrincipalName(request);
         LOG.info("Logged In User: " + principalName);
         if ( StringUtils.isNotBlank(principalName) ) {
             Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName( principalName );

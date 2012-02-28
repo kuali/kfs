@@ -411,7 +411,7 @@
 		<comment>KFSMI-7165 correct ACCOUNT_ADDRESS_TYPE name and description</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PURAP" />
-			<column name="CMPNT_CD" value="Purchase Order Amendment" />
+			<column name="CMPNT_CD" value="PurchaseOrderAmendment" />
 			<column name="PARM_NM" value="UNORDERED_ITEM_DEFAULT_COMMODITY_CODE" />
 			<column name="OBJ_ID" value="KFSPURAP7172" />
 			<column name="VER_NBR" valueNumeric="1" />

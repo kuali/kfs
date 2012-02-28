@@ -23,7 +23,7 @@ function EffortAmountUpdator(){
 	fiscalYearFieldNameSuffix = ".universityFiscalYear";
 	objectCodeFieldNameSuffix = ".financialObjectCode";
 	chartOfAccountsCodeFieldNameSuffix = ".chartOfAccountsCode";
-	
+	chartOfAccountDescSuffix = ".chartOfAccounts.finChartOfAccountDescription";
 	accountNumberSuffix = ".accountNumber";
 	accountNameSuffix = ".account.accountName";
 	chartCodeSuffix = ".chartOfAccountsCode";
@@ -153,6 +153,12 @@ EffortAmountUpdator.prototype.recalculateFringeBenefit = function(fieldNamePrefi
 	}
 };
 
+/**
+	* Loads account info and chart info when ACCOUNT_CAN_CROSS_CHART is true.
+	* @param accountCodeFieldName
+	* @param accountNameFieldName
+	* @return
+	*/
 EffortAmountUpdator.prototype.loadAccountInfo = function( accountCodeFieldName, accountNameFieldName ) {
     var elPrefix = findElPrefix( accountCodeFieldName );
     var accountCode = DWRUtil.getValue( accountCodeFieldName );
@@ -182,6 +188,53 @@ EffortAmountUpdator.prototype.loadAccountInfo = function( accountCodeFieldName, 
 			}
 		};
 		EffortCertificationForm.loadAccountInfo( coaCode, accountCode, dwrReply );
+	}	
+}
+
+/**
+* Loads account info and chart info when ACCOUNT_CAN_CROSS_CHART is false.
+* @param accountCodeFieldName
+* @param accountNameFieldName
+* @return
+*/
+EffortAmountUpdator.prototype.loadChartAccountInfo = function( accountCodeFieldName, accountNameFieldName ) {
+    var elPrefix = findElPrefix( accountCodeFieldName );
+    var accountCode = DWRUtil.getValue( accountCodeFieldName );
+    var coaCodeFieldName =  elPrefix + chartCodeSuffix ;
+    var coaNameFieldName =  elPrefix + chartOfAccountDescSuffix ;
+
+    if (valueChanged( accountCodeFieldName )) {
+        setRecipientValue( elPrefix + subAccountNumberSuffix, "" );
+        setRecipientValue( elPrefix + subAccountNameSuffix, "" );
+        setRecipientValue( elPrefix + subObjectCodeSuffix, "" );
+        setRecipientValue( elPrefix + subObjectCodeNameSuffix, "" );
+    }
+    
+    if (accountCode=='') {
+		clearRecipients(accountNameFieldName);
+		clearRecipients(coaCodeFieldName);
+		clearRecipients(coaNameFieldName);    
+		
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue( accountNameFieldName, data.accountName  );
+				setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
+			    setRecipientValue( coaNameFieldName, data.chartOfAccounts.finChartOfAccountDescription );
+			} else {
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );	
+				clearRecipients(coaCodeFieldName);  
+				clearRecipients(coaNameFieldName);
+			} },
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );
+				clearRecipients(coaCodeFieldName);  
+				clearRecipients(coaNameFieldName);
+			}
+		};
+		//EffortCertificationForm.loadAccountInfo( coaCode, accountCode, dwrReply );
+		 AccountService.getUniqueAccountForAccountNumber( accountCode, dwrReply ); 
 	}	
 }
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,10 @@ import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -34,10 +38,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class CreditCardReceiptAction extends CapitalAccountingLinesActionBase {
     /**
      * Adds handling for credit card receipt amount updates.
-     * 
+     *
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CreditCardReceiptForm ccrForm = (CreditCardReceiptForm) form;
 
@@ -46,6 +51,9 @@ public class CreditCardReceiptAction extends CapitalAccountingLinesActionBase {
 
             ccrDoc.setTotalCreditCardAmount(ccrDoc.calculateCreditCardReceiptTotal()); // recalc b/c changes to the amounts could
             // have happened
+
+            //set bank
+            ccrDoc.setBank(SpringContext.getBean(BankService.class).getByPrimaryId(ccrDoc.getCreditCardReceiptBankCode()));
         }
 
         // proceed as usual
@@ -54,7 +62,7 @@ public class CreditCardReceiptAction extends CapitalAccountingLinesActionBase {
 
     /**
      * Adds a CreditCardDetail instance created from the current "new creditCardReceipt" line to the document
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -84,7 +92,7 @@ public class CreditCardReceiptAction extends CapitalAccountingLinesActionBase {
 
     /**
      * Deletes the selected creditCardReceipt (line) from the document
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -105,7 +113,7 @@ public class CreditCardReceiptAction extends CapitalAccountingLinesActionBase {
 
     /**
      * This method validates a new credit card receipt detail record.
-     * 
+     *
      * @param creditCardReceipt
      * @return boolean
      */
@@ -114,5 +122,16 @@ public class CreditCardReceiptAction extends CapitalAccountingLinesActionBase {
         boolean isValid = CreditCardReceiptDocumentRuleUtil.validateCreditCardReceipt(creditCardReceipt);
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.NEW_CREDIT_CARD_RECEIPT);
         return isValid;
+    }
+
+    /**
+     * Do initialization for a new credit card receipt
+     *
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+        ((CreditCardReceiptDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
     }
 }

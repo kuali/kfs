@@ -18,7 +18,7 @@ package org.kuali.kfs.module.external.kc.document;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
+import org.kuali.kfs.coa.businessobject.CFDA;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
@@ -34,7 +34,7 @@ public class KualiAccountMaintainableImpl extends org.kuali.kfs.coa.document.Kua
 
     protected String lookupAccountCfda(String accountNumber, String currentCfda) {
         Account account = (Account) this.getBusinessObject();
-        ContractsAndGrantsCfda cfda = account.getCfda();
+        CFDA cfda = account.getCfda();
         if (cfda != null) return cfda.getCfdaNumber();
         return "";
     }

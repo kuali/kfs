@@ -340,6 +340,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyBeginningDate" p:noLookup="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyEndingDate" p:noLookup="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyText" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.active" p:noLookup="true" />
       </list>
     </property>
   </bean>
@@ -365,6 +366,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="repairSolutionDescription" p:readOnlyAfterAdd="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="repairNoteText" p:readOnlyAfterAdd="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" />
             </list>
           </property>
         </bean>
@@ -406,6 +408,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyEndingDate" p:readOnlyAfterAdd="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyText" p:readOnlyAfterAdd="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active"/>
             </list>
           </property>
         </bean>

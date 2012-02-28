@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,14 +57,15 @@ public class FaxServiceImpl implements FaxService {
 
     /**
      * Create the Purchase Order Pdf document and send it via fax to the recipient in the PO
-     * 
+     *
      * @param po PurchaseOrder that holds the Quote
      * @param isRetransmit if passed true then PO is being retransmitted
      * @return Collection of ServiceError objects
      */
+    @Override
     public void faxPurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit) {
         LOG.debug("faxPurchaseOrderPdf(po,reTransmit) started");
-        String pdfFileLocation = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+        String pdfFileLocation = getPdfFileLocation();
         if (pdfFileLocation == null) {
             throw new RuntimeException("Application Setting PDF_DIRECTORY is missing.");
         }
@@ -78,18 +79,19 @@ public class FaxServiceImpl implements FaxService {
         this.faxPurchaseOrderPdf(po, pdfFileLocation, imageTempLocation, isRetransmit);
     }
 
-  
+
 
     /**
      * Create the Purchase Order Pdf document and send it via fax to the recipient in the PO
-     * 
+     *
      * @param po PurchaseOrder that holds the Quote
      * @param isRetransmit if passed true then PO is being retransmitted
      * @return Collection of ServiceError objects
      */
+    @Override
     public void faxPurchaseOrderPdf(PurchaseOrderDocument po, String pdfFileLocation, String imageTempLocation, boolean isRetransmit) {
         LOG.debug("faxPurchaseOrderPdf() started with locations");
-     
+
         // Get the vendor's country name.
         if (po.getVendorCountryCode() != null) {
             Country vendorCountry = countryService.getCountry(po.getVendorCountryCode());
@@ -103,11 +105,11 @@ public class FaxServiceImpl implements FaxService {
         else {
             po.setVendorCountryCode("NA");
         }
-        
-       
+
+
         PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
         purchaseOrderParameters.setPurchaseOrderPdfAndFaxParameters(po);
-        
+
         PurchaseOrderPdf poPdf = null;
         try {
             String environment = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
@@ -131,7 +133,7 @@ public class FaxServiceImpl implements FaxService {
         files[0] = transmitParameters.getPdfFileName();
 
         try {
-            this.faxPDF(files,purchaseOrderParameters); 
+            this.faxPDF(files,purchaseOrderParameters);
         }
         catch (FaxSubmissionError e) {
             GlobalVariables.getMessageMap().putError("errors", "error.blank");
@@ -164,20 +166,21 @@ public class FaxServiceImpl implements FaxService {
         LOG.debug("faxPurchaseOrderPdf() ended");
     }
 
+    @Override
     public void faxPurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq) {
         LOG.debug("faxPurchaseOrderQuotePdf() started");
-        
-       
+
+
         PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
         purchaseOrderParameters.setPurchaseOrderPdfAndFaxParameters(po,povq);
         String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
-        
+
         PurchaseOrderQuotePdf poQuotePdf = new PurchaseOrderQuotePdf();
         Collection errors = new ArrayList();
-        
-        
+
+
         try {
-          
+
           // Get the vendor's country name.
           if (povq.getVendorCountryCode() != null) {
               Country vendorCountry = countryService.getCountry(po.getVendorCountryCode());
@@ -196,7 +199,7 @@ public class FaxServiceImpl implements FaxService {
         } catch (PurError e) {
           GlobalVariables.getMessageMap().putError("errors", "error.blank");
           LOG.debug("faxPurchaseOrderQuotePdf() ended");
-          
+
         } catch (Throwable e) {
           LOG.error("faxPurchaseOrderQuotePdf() Faxing Failed on PDF creation - Exception was " + e.getMessage(), e);
           LOG.error("faxPurchaseOrderQuotePdf() Faxing Failed on PDF creation - Exception was " + e.getMessage(), e);
@@ -206,48 +209,48 @@ public class FaxServiceImpl implements FaxService {
         if (LOG.isDebugEnabled()) {
             LOG.debug("faxPurchaseOrderQuotePdf() Quote PDF saved successfully for PO " + po.getPurapDocumentIdentifier() + " and Quote ID " + povq.getPurchaseOrderVendorQuoteIdentifier());
         }
-        
+
         PurchaseOrderTransmitParameters transmitParameters =  (PurchaseOrderTransmitParameters)purchaseOrderParameters;
         String pdfFileLocation = transmitParameters.getPdfFileLocation();
         String pdfFileName     = transmitParameters.getPdfFileName();
         String[] files = new String[1];
         files[0] = pdfFileName;
-        
+
         try {
           this.faxPDF(files,transmitParameters);
         } catch (FaxSubmissionError e) {
             LOG.error("faxPurchaseOrderQuotePdf() Error faxing Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
             GlobalVariables.getMessageMap().putError("errors", "error.blank");
-            
+
         } catch (FaxServerUnavailableError e) {
             LOG.error("faxPurchaseOrderQuotePdf() Error faxing Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
             GlobalVariables.getMessageMap().putError("errors", "error.blank","The document did not successfully transmit to the fax server. Report this to the Procurement Services Technology group, make note of the document you attempted to transmit and try again when the issue has been resolved");
-            
+
         } catch (PurError e) {
             LOG.error("faxPurchaseOrderQuotePdf() Error faxing Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
             GlobalVariables.getMessageMap().putError("errors", "error.blank","The document did not successfully transmit to the fax server. Report this to the Procurement Services Technology group, make note of the document you attempted to transmit and try again when the issue has been resolved");
-            
+
         } catch (Throwable e) {
             LOG.error("faxPurchaseOrderQuotePdf() Error faxing Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
             GlobalVariables.getMessageMap().putError("errors", "error.blank","The document did not successfully transmit to the fax server. Report this to the Procurement Services Technology group, make note of the document you attempted to transmit and try again when the issue has been resolved");
-            
+
         } finally {
           try {
             poQuotePdf.deletePdf(pdfFileLocation, pdfFileName);
           } catch (Throwable e) {
             LOG.error("faxPurchaseOrderQuotePdf() Error deleting Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
             GlobalVariables.getMessageMap().putError("errors", "error.blank","Your fax was sent successfully but an error occurred that is unrelated to faxing. Please report this problem to Purchasing");
-        
+
           }
         }
-        
-        
+
+
         LOG.debug("faxPurchaseOrderQuotePdf() ended");
-        
-    
+
+
     }
- 
-    
+
+
     /**
      * Here is where the PDF is actually faxed, needs to be implemented at each institution
      */
@@ -255,9 +258,9 @@ public class FaxServiceImpl implements FaxService {
         LOG.info("faxPDF() NEEDS TO BE IMPLEMENTED!");
         throw new RuntimeException("faxPDF() NEEDS TO BE IMPLEMENTED!");
     }
-    
-  
-    
+
+
+
     public ConfigurationService getConfigurationService() {
         return kualiConfigurationService;
     }
@@ -293,7 +296,7 @@ public class FaxServiceImpl implements FaxService {
     public CountryService getCountryService() {
         return countryService;
     }
-    
+
     public PurchaseOrderParameters getPurchaseOrderParameters() {
         return SpringContext.getBean(PurchaseOrderParameters.class);
     }
@@ -301,5 +304,10 @@ public class FaxServiceImpl implements FaxService {
     public void setCountryService(CountryService countryService) {
         this.countryService = countryService;
     }
+
+    public String getPdfFileLocation() {
+        return parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+    }
+
 
 }

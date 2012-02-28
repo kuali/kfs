@@ -1185,6 +1185,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                     capitalizationEntry.setFinancialObject(accountingCycleCachingService.getObjectCode(capitalizationEntry.getUniversityFiscalYear(), capitalizationEntry.getChartOfAccountsCode(), capitalizationEntry.getFinancialObjectCode()));
                 }
 
+                // financialSubObjectCode should always be changed to dashes for capitalization entries
+                capitalizationEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+                
                 capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinancialObjectTypeAssetsCd());
                 capitalizationEntry.setTransactionLedgerEntryDescription(capitalizationDescription);
 

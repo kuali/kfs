@@ -583,7 +583,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
         else {
             // make sure special disabled fields are allowed to be populated
-            if (requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_AMOUNT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_FUNDING_REASON_AMOUNT)) {
+            if (requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_AMOUNT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_FUNDING_REASON_AMOUNT) 
+                    || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_CHART_OF_ACCOUNT)) {
                 return true;
             }
             else {

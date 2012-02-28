@@ -70,7 +70,7 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="organizationReversionGlobalOrganizations"/>
           <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalOrganization"/>
-          <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+          <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.OrganizationReversion"/>
           <property name="summaryTitle" value="Organization"/>
           <property name="summaryFields">
             <list>

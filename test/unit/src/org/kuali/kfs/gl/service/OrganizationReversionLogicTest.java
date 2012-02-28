@@ -255,7 +255,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         clearBatchFiles();
         persistenceService.clearCache();
         
-        Map jobParameters = organizationReversionProcessService.getJobParameters();
+        Map<String, ?> jobParameters = organizationReversionProcessService.getJobParameters();
         currentFiscalYear = new Integer(((Number)jobParameters.get(KFSConstants.UNIV_FISCAL_YR)).intValue() + 1);
         previousFiscalYear = new Integer(((Number)jobParameters.get(KFSConstants.UNIV_FISCAL_YR)).intValue());
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();

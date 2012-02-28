@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="BenefitInquiry" parent="BenefitsType-parentBean"/>
+
+  <bean id="BenefitInquiry-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.BenefitInquiry"/>
+    <property name="objectLabel" value="Benefits Inquiry"/>
+    <property name="titleAttribute" value=""/>
+    <property name="attributes">
+      <list>
+        <ref bean="BenefitInquiry-benefitAmount"/>
+        <ref bean="BenefitInquiry-fringeBenefitObjectCode"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="BenefitInquiry-benefitAmount" parent="BenefitInquiry-benefitAmount-parentBean"/>
+
+  <bean id="BenefitInquiry-benefitAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="benefitAmount"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Benefit Amount"/>
+    <property name="shortLabel" value="amount"/>
+    <property name="maxLength" value="12"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
+    </property>
+  </bean>
+  <bean id="BenefitInquiry-fringeBenefitObjectCode" parent="BenefitInquiry-fringeBenefitObjectCode-parentBean"/>
+
+  <bean id="BenefitInquiry-fringeBenefitObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fringeBenefitObjectCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Object Code"/>
+    <property name="shortLabel" value="Object Cd"/>
+    <property name="maxLength" value="4"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+  </bean>
+
+</beans>

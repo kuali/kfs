@@ -470,7 +470,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Builds actual error message from error key and parameters.
-     * @param messageMap a map of messages
+     * @param errorMap a map of errors
      * @return List<String> of error message text
      */
     protected List<String> translateErrorsFromMessageMap(MessageMap messageMap) {
@@ -505,13 +505,16 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         LOG.debug("sendValidationEmail() starting");
         MailMessage message = new MailMessage();
 
-        message.setFromAddress(mailService.getBatchMailingList());
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.GL, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
 
         String subject = parameterService.getParameterValueAsString(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
-        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
-        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            subject = environmentCode + ": " + subject;
+        //KFSMI-5918
+        if (errorMessages.size() >0){
+            subject = parameterService.getParameterValueAsString(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_VALIDATOR_ERROR_EMAIL_SUBJECT_PARAMETER_NAME);
         }
         message.setSubject(subject);
 
@@ -553,7 +556,11 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         }
         MailMessage message = new MailMessage();
 
-        message.setFromAddress(mailService.getBatchMailingList());
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.GL, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
 
         String subject = parameterService.getParameterValueAsString(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME);
         String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
@@ -589,7 +596,11 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     protected void sendEmailSendFailureNotice(CollectorReportData collectorReportData) {
         MailMessage message = new MailMessage();
 
-        message.setFromAddress(mailService.getBatchMailingList());
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.GL, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
 
         String subject = configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT);
         String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);

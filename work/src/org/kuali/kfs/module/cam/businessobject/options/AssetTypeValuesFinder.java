@@ -43,7 +43,9 @@ public class AssetTypeValuesFinder extends KeyValuesBase {
         labels.add(new ConcreteKeyValue("", ""));
         for (Object code : codes) {
             AssetType at = (AssetType) code;
-            labels.add(new ConcreteKeyValue(at.getCapitalAssetTypeCode(), at.getCapitalAssetTypeDescription()));
+            if(at.isActive()) {
+                labels.add(new ConcreteKeyValue(at.getCapitalAssetTypeCode(), at.getCapitalAssetTypeDescription()));
+            }
         }
 
         // sort alphabetically by asset type description

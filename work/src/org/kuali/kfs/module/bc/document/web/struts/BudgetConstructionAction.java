@@ -103,15 +103,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
 
-        Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
-        if (isBCHeartBeating == null) {
-            if (budgetConstructionForm.isPickListMode()) {
-                budgetConstructionForm.setPickListClose(true);
-                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
-            }
-
+        // we lost the session now recover back to the selection screen
+        if (budgetConstructionForm.getMethodToCall() != null && budgetConstructionForm.getMethodToCall().equals("performLost")) {
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
 
@@ -119,6 +112,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             return new ActionForward(lookupUrl, true);
         }
+
+        // check for lost session and display an alert message and recovery control
+        Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
+        if (isBCHeartBeating == null) {
+                budgetConstructionForm.setPickListClose(true);
+                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
+            }
 
         // this is only used to indicate to the rules the user has clicked save or close save-yes
         // which forces tighter checks (nonZeroRequest amount) when access is cleanup mode
@@ -1189,7 +1191,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * HttpServletResponse response) throws Exception { BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm)
      * form; String documentNumber = request.getParameter("documentNumber"); BudgetConstructionDocument budgetConstructionDocument =
      * (BudgetConstructionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
-     * budgetConstructionForm.setDocument(budgetConstructionDocument); WorkflowDocument workflowDoc =
+     * budgetConstructionForm.setDocument(budgetConstructionDocument); KualiWorkflowDocument workflowDoc =
      * budgetConstructionDocument.getDocumentHeader().getWorkflowDocument();
      * budgetConstructionForm.setDocTypeName(workflowDoc.getDocumentType()); // KualiDocumentFormBase.populate() needs this updated
      * in the session GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc); return

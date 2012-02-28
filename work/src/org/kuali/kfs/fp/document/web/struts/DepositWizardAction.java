@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -83,7 +83,7 @@ public class DepositWizardAction extends KualiAction {
     /**
      * Overrides the parent to validate the document state of the cashManagementDocument which will be updated and redisplayed after
      * the DepositWizard builds and attaches the new Deposit.
-     * 
+     *
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -123,7 +123,7 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * Initializes the given form using the given values
-     * 
+     *
      * @param dform
      * @param cmDoc
      * @param depositTypeCode
@@ -169,7 +169,7 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * Loads the CashReceipt information, re/setting the related form fields
-     * 
+     *
      * @param dform
      */
     private void loadCashReceipts(DepositWizardForm dform) {
@@ -211,7 +211,7 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * This loads any cashiering checks which have not yet been deposited into the DepositWizardForm
-     * 
+     *
      * @param dform a form to load undeposited checks into
      */
     private void loadUndepositedCashieringChecks(DepositWizardForm dform) {
@@ -240,12 +240,11 @@ public class DepositWizardAction extends KualiAction {
      */
     private FinancialSystemTransactionalDocumentEntry getCashManagementDataDictionaryEntry() {
         final DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
-        return (FinancialSystemTransactionalDocumentEntry) ddService.getDataDictionary().getDocumentEntry(getCashManagementDocumentTypeName());
+        return (FinancialSystemTransactionalDocumentEntry)ddService.getDataDictionary().getDocumentEntry(getCashManagementDocumentTypeName());
     }
 
     /**
      * Returns an instance of the document presentation controller for the cash management class
-     * 
      * @param cashManagementEntry the data dictionary entry for the cash management document
      * @return an instance of the proper document presentation controller
      */
@@ -253,7 +252,7 @@ public class DepositWizardAction extends KualiAction {
         final Class presentationControllerClass = cashManagementEntry.getDocumentPresentationControllerClass();
         TransactionalDocumentPresentationController presentationController = null;
         try {
-            presentationController = (TransactionalDocumentPresentationController) presentationControllerClass.newInstance();
+            presentationController = (TransactionalDocumentPresentationController)presentationControllerClass.newInstance();
         }
         catch (InstantiationException ie) {
             throw new RuntimeException("Could not instantiate cash management presentation controller of class " + presentationControllerClass.getName(), ie);
@@ -266,7 +265,6 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * Returns an instance of the document authorizer for the cash management class
-     * 
      * @param cashManagementEntry the data dictionary entry for the cash management document
      * @return an instance of the proper document authorizer
      */
@@ -274,7 +272,7 @@ public class DepositWizardAction extends KualiAction {
         final Class docAuthorizerClass = cashManagementEntry.getDocumentAuthorizerClass();
         TransactionalDocumentAuthorizer docAuthorizer = null;
         try {
-            docAuthorizer = (TransactionalDocumentAuthorizer) docAuthorizerClass.newInstance();
+            docAuthorizer = (TransactionalDocumentAuthorizer)docAuthorizerClass.newInstance();
         }
         catch (InstantiationException ie) {
             throw new RuntimeException("Could not instantiate cash management document authorizer of class " + docAuthorizerClass.getName(), ie);
@@ -287,7 +285,6 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * Retrieves the edit modes for the given cash management document
-     * 
      * @param cashManagementDocId the id of the cash management document to check
      * @param presentationController the presentation controller of the cash management document
      * @param docAuthorizer the cash management document authorizer
@@ -296,7 +293,7 @@ public class DepositWizardAction extends KualiAction {
     private Map retrieveEditingModes(String cashManagementDocId, TransactionalDocumentPresentationController presentationController, TransactionalDocumentAuthorizer docAuthorizer) {
         Map editModeMap = null;
         try {
-            final CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
+            final CashManagementDocument cmDoc = (CashManagementDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
             Set<String> editModes = presentationController.getEditModes(cmDoc);
             editModes = docAuthorizer.getEditModes(cmDoc, GlobalVariables.getUserSession().getPerson(), editModes);
             editModeMap = convertSetToMap(editModes);
@@ -309,7 +306,6 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * Retrieves the document actions for the given cash management document
-     * 
      * @param cashManagementDocId the id of the cash management document to check
      * @param presentationController the presentation controller of the cash management document
      * @param docAuthorizer the cash management document authorizer
@@ -318,7 +314,7 @@ public class DepositWizardAction extends KualiAction {
     private Map retrieveDocumentActions(String cashManagementDocId, TransactionalDocumentPresentationController presentationController, TransactionalDocumentAuthorizer docAuthorizer) {
         Map documentActionsMap = null;
         try {
-            final CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
+            final CashManagementDocument cmDoc = (CashManagementDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
             Set<String> documentActions = presentationController.getDocumentActions(cmDoc);
             documentActions = docAuthorizer.getEditModes(cmDoc, GlobalVariables.getUserSession().getPerson(), documentActions);
             documentActionsMap = convertSetToMap(documentActions);
@@ -330,16 +326,14 @@ public class DepositWizardAction extends KualiAction {
     }
 
     /**
-     * Converts a set into a map, where each value in the set becomes a key and each value becomes
-     * KRADConstants.KUALI_DEFAULT_TRUE_VALUE
-     * 
+     * Converts a set into a map, where each value in the set becomes a key and each value becomes KNSConstants.KUALI_DEFAULT_TRUE_VALUE
      * @param s a set
      * @return a map
      */
-    protected Map convertSetToMap(Set s) {
+    protected Map convertSetToMap(Set s){
         Map map = new HashMap();
         Iterator i = s.iterator();
-        while (i.hasNext()) {
+        while(i.hasNext()) {
             Object key = i.next();
             map.put(key, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
@@ -348,7 +342,7 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * Reloads the CashReceipts, leaving everything else unchanged
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -363,7 +357,7 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * This method is the starting point for the deposit document wizard.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -377,7 +371,7 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * This method is the action method for creating the new deposit document from the information chosen by the user in the UI.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -407,7 +401,7 @@ public class DepositWizardAction extends KualiAction {
             Map keyMap = new HashMap();
             keyMap.put(KFSPropertyConstants.BANK_CODE, bankCode);
 
-            Bank bank = (Bank) boService.findByPrimaryKey(Bank.class, keyMap);
+            Bank bank = boService.findByPrimaryKey(Bank.class, keyMap);
             if (bank == null) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
             }
@@ -592,7 +586,7 @@ public class DepositWizardAction extends KualiAction {
     /**
      * Checks that the currency amount requested to be part of a deposit can be fulfilled by the amount of currency in the cash
      * drawer
-     * 
+     *
      * @param depositForm the deposit form we are checking against
      * @param detail the currency detail to check against the drawer
      * @return true if enough currency, false if otherwise
@@ -662,7 +656,7 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * Checks that the coin amount requested by the deposit does not exceed the amount actually in the drawer
-     * 
+     *
      * @param depositForm the deposit form we are checking against
      * @param detail the coin detail to check against the drawer
      * @return true if there is enough coin, false if otherwise
@@ -727,7 +721,7 @@ public class DepositWizardAction extends KualiAction {
 
     /**
      * This method handles canceling (closing) the deposit wizard.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -759,3 +753,4 @@ public class DepositWizardAction extends KualiAction {
         return new ActionForward(cmActionUrl, true);
     }
 }
+

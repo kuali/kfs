@@ -198,7 +198,18 @@
                    <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbExcptAttachedIndicator}"/>
                    <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbExcptAttachedIndicator}" property="document.disbExcptAttachedIndicator" readOnly="true"/><br>          
                  </c:otherwise>
-				</c:choose>                 
+				</c:choose>     
+
+				<c:choose>
+                 <c:when test="${immediateDisbursementEntryMode}">        
+                   <kul:htmlControlAttribute attributeEntry="${dvAttributes.immediatePaymentIndicator}" property="document.immediatePaymentIndicator" readOnly="false"/>
+                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.immediatePaymentIndicator}" noColon="true" /><br>
+                 </c:when>
+                 <c:otherwise>
+                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.immediatePaymentIndicator}"/>
+                   <kul:htmlControlAttribute attributeEntry="${dvAttributes.immediatePaymentIndicator}" property="document.immediatePaymentIndicator" readOnly="true"/><br>          
+                 </c:otherwise>
+				</c:choose>
                  </td>
             </tr>
             

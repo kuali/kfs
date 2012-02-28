@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+  	<!-- KFSMI-5343 -->
+    <documentType>
+      <name>CRM</name>
+      <parent>AR</parent>
+      <label>Customer Credit Memo</label>
+      <docHandler>${application.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+		  <role name="AccountingOrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+		<role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PCDM</name>
+      <parent>FPSM</parent>
+      <label>Procurement Card Default</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <!-- KFSMI-4606 -->
+     <documentType>
+      <name>ECD</name>
+      <parent>EC</parent>
+      <docHandler>${application.url}/effortEffortCertification.do?methodToCall=docHandler</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="ProjectManagement"/>
+          <requests name="ProjectManagement" nextNode="Account"/>
+          <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <requests name="AccountingOrganizationHierarchy" nextNode="DoAwardSplit"/>
+          
+          <!-- FSKD-632 iu-custom: added routeNode -->
+          <split name="DoAwardSplit" nextNode="RequiresWorkstudyReview">
+            <branch name="True">
+              <role name="Award" nextNode="AwardJoin" />
+            </branch>
+            <branch name="False">
+              <simple name="AwardDoNothing" nextNode="AwardJoin" />
+            </branch>
+            <join name="AwardJoin" />
+          </split>
+		  <split name="RequiresWorkstudyReview" nextNode="DoRecreateSplit"> 
+  			<branch name="True"> 
+    			<requests name="Workstudy" nextNode="JoinRequiresWorkstudyReview" /> 
+  			</branch> 
+  			<branch name="False"> 
+    			<simple name="RequiresWorkstudyNoOp" nextNode="JoinRequiresWorkstudyReview" /> 
+  			</branch> 
+  			<join name="JoinRequiresWorkstudyReview" /> 
+		  </split>
+          
+          <split name="DoRecreateSplit">
+            <branch name="True">
+              <requests name="Management" nextNode="RecreateJoin"/>
+            </branch>
+            <branch name="False">
+              <simple name="RecreateDoNothing" nextNode="RecreateJoin"/>
+            </branch>
+            <join name="RecreateJoin"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="ProjectManagement">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Management">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="DoAwardSplit">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <split name="DoRecreateSplit">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="AwardDoNothing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="RecreateDoNothing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        
+        <!-- FSKD-632 iu-custom: added routeNode -->
+        <split name="RequiresWorkstudyReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="RequiresWorkstudyNoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinRequiresWorkstudyReview"/>
+        <role name="Workstudy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        
+        <join name="AwardJoin"/>
+        <join name="RecreateJoin"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PCDM</name>
+      <parent>FPSM</parent>
+      <label>Procurement Card Default</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcreditcardtype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    </documentTypes>
+<!-- KFSMI-6901 -->
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>POA</name>
+      <parent>PO</parent>
+      <label>Purchase Order Amendment</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderamend.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="HasNewUnorderedItems" />
+          <split name="HasNewUnorderedItems" nextNode="Join">
+            <branch name="True">
+              <role name="NewUnorderedItems" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="HasNewUnorderedItems">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="NewUnorderedItems">
+          <!--<ruleTemplate>KualiNewUnorderedItemsTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <!-- KFSMI-7058 -->
+    <documentType>
+      <name>APDT</name>
+      <parent>CMSM</parent>
+      <label>Asset Payment Document Type</label>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+    </documentType>
+  </documentTypes>
+</data>

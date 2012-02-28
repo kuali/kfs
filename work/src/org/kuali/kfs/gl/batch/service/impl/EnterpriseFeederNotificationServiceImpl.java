@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -46,7 +47,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
     /**
      * Performs notification about the status of the upload (i.e. feeding) of a single file set (i.e. done file, data file, and
      * recon file).
-     * 
+     *
      * @param feederProcessName The name of the feeder process; this may correspond to the name of the Spring definition of the
      *        feeder step, but each implementation may define how to use the value of this parameter and/or restrictions on its
      *        value.
@@ -58,6 +59,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService#notifyFileFeedStatus(java.lang.String,
      *      org.kuali.module.gl.util.EnterpriseFeederEvent, java.io.File, java.io.File, java.io.File, java.util.List)
      */
+    @Override
     public void notifyFileFeedStatus(String feederProcessName, EnterpriseFeederStatus status, File doneFile, File dataFile, File reconFile, List<Message> errorMessages) {
         String doneFileDescription = doneFile == null ? "Done file missing" : doneFile.getAbsolutePath();
         String dataFileDescription = dataFile == null ? "Data file missing" : dataFile.getAbsolutePath();
@@ -69,7 +71,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
 
     /**
      * Performs notifications
-     * 
+     *
      * @param feederProcessName The name of the feeder process; this may correspond to the name of the Spring definition of the
      *        feeder step, but each implementation may define how to use the value of this parameter and/or restrictions on its
      *        value.
@@ -85,14 +87,18 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      *      org.kuali.module.gl.util.EnterpriseFeederEvent, java.lang.String, java.io.InputStream, java.lang.String,
      *      java.io.InputStream, java.lang.String, java.io.InputStream, java.util.List)
      */
+    @Override
     public void notifyFileFeedStatus(String feederProcessName, EnterpriseFeederStatus status, String doneFileDescription, InputStream doneFileContents, String dataFileDescription, InputStream dataFileContents, String reconFileDescription, InputStream reconFileContents, List<Message> errorMessages) {
         try {
             if (isStatusNotifiable(feederProcessName, status, doneFileDescription, dataFileDescription, reconFileDescription, errorMessages)) {
                 Set<String> toEmailAddresses = generateToEmailAddresses(feederProcessName, status, doneFileDescription, dataFileDescription, reconFileDescription, errorMessages);
-                String fromEmailAddress = mailService.getBatchMailingList();
 
                 MailMessage mailMessage = new MailMessage();
-                mailMessage.setFromAddress(fromEmailAddress);
+                String returnAddress = parameterService.getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+                if(StringUtils.isEmpty(returnAddress)) {
+                    returnAddress = mailService.getBatchMailingList();
+                }
+                mailMessage.setFromAddress(returnAddress);
                 mailMessage.setToAddresses(toEmailAddresses);
                 mailMessage.setSubject(getSubjectLine(doneFileDescription, dataFileDescription, reconFileDescription, errorMessages, feederProcessName, status));
                 mailMessage.setMessage(buildFileFeedStatusMessage(doneFileDescription, dataFileDescription, reconFileDescription, errorMessages, feederProcessName, status));
@@ -109,7 +115,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
 
     /**
      * Generates the destination address(s) for the email notifications, possibly depending on the parameter values
-     * 
+     *
      * @param feederProcessName The name of the feeder process; this may correspond to the name of the Spring definition of the
      *        feeder step, but each implementation may define how to use the value of this parameter and/or restrictions on its
      *        value.
@@ -131,7 +137,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
 
     /**
      * Generates the "From:" address for the email
-     * 
+     *
      * @param feederProcessName The name of the feeder process; this may correspond to the name of the Spring definition of the
      *        feeder step, but each implementation may define how to use the value of this parameter and/or restrictions on its
      *        value.
@@ -148,7 +154,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
 
     /**
      * Generates the status message that would be generated by a call to notifyFileFeedStatus with the same parameters.
-     * 
+     *
      * @param feederProcessName The name of the feeder process; this may correspond to the name of the Spring definition of the
      *        feeder step, but each implementation may define how to use the value of this parameter and/or restrictions on its
      *        value.
@@ -160,6 +166,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService#getFileFeedStatusMessage(java.lang.String,
      *      org.kuali.module.gl.util.EnterpriseFeederEvent, java.io.File, java.io.File, java.io.File, java.util.List)
      */
+    @Override
     public String getFileFeedStatusMessage(String feederProcessName, EnterpriseFeederStatus status, File doneFile, File dataFile, File reconFile, List<Message> errorMessages) {
         String doneFileDescription = doneFile.getAbsolutePath();
         String dataFileDescription = dataFile.getAbsolutePath();
@@ -173,13 +180,14 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      *      org.kuali.module.gl.util.EnterpriseFeederEvent, java.lang.String, java.io.InputStream, java.lang.String,
      *      java.io.InputStream, java.lang.String, java.io.InputStream, java.util.List)
      */
+    @Override
     public String getFileFeedStatusMessage(String feederProcessName, EnterpriseFeederStatus status, String doneFileDescription, InputStream doneFileContents, String dataFileDescription, InputStream dataFileContents, String reconFileDescription, InputStream reconFileContents, List<Message> errorMessages) {
         return buildFileFeedStatusMessage(doneFileDescription, dataFileDescription, reconFileDescription, errorMessages, feederProcessName, status);
     }
 
     /**
      * Builds the status message for the status of a feed.
-     * 
+     *
      * @param doneFileDescription the name of the done file
      * @param dataFileDescription the name of the file to read data from
      * @param reconFileDescription the name of the reconciliation file
@@ -202,7 +210,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
 
     /**
      * Builds the status message for the status of a feed.
-     * 
+     *
      * @param doneFileName the name of the done file
      * @param dataFileName the name of the file to get data from
      * @param reconFileName the reconciliation file
@@ -252,7 +260,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
 
     /**
      * Returns whether a notification is necessary given the values of the parameters
-     * 
+     *
      * @param feederProcessName the name of the process that invoked the feeder
      * @param status the status of the feed
      * @param doneFileDescription the done file description
@@ -271,7 +279,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
 
     /**
      * Sets the mailService attribute value.
-     * 
+     *
      * @param mailService The mailService to set.
      */
     public void setMailService(MailService mailService) {

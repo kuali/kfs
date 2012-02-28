@@ -37,12 +37,12 @@ public class AccountsPayableBankCodeValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
-
+        
         AccountsPayableDocumentBase apDocument = (AccountsPayableDocumentBase) accountingDocumentForValidation;
 
         boolean isValid = true;
         if (isDocumentTypeUsingBankCode(apDocument)) {
-            isValid = BankCodeValidation.validate(apDocument.getBankCode(), PurapPropertyConstants.BANK_CODE, false, true);
+            isValid = BankCodeValidation.validate(apDocument, apDocument.getBankCode(), PurapPropertyConstants.BANK_CODE, false, true);
         }
 
         return isValid;
@@ -62,7 +62,6 @@ public class AccountsPayableBankCodeValidation extends GenericValidation {
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
-     * 
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
@@ -70,8 +69,7 @@ public class AccountsPayableBankCodeValidation extends GenericValidation {
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute.
-     * 
+     * Gets the accountingDocumentForValidation attribute. 
      * @return Returns the accountingDocumentForValidation.
      */
     public AccountingDocument getAccountingDocumentForValidation() {

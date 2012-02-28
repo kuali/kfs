@@ -21,6 +21,7 @@
     
     <property name="documentTypeName" value="ECR"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.CorporateReorganizationDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.CorporateReorganizationDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.CorporateReorganizationDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.CorporateReorganizationDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.CorporateReorganizationDocumentPresentationController"/>

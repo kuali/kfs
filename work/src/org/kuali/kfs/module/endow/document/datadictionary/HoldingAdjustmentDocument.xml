@@ -20,6 +20,7 @@
   <bean id="HoldingAdjustmentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="documentTypeName" value="EHA"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.HoldingAdjustmentDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.HoldingAdjustmentDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.HoldingAdjustmentDocumentPresentationController"/>

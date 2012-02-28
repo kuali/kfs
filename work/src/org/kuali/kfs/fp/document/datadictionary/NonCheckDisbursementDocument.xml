@@ -21,8 +21,10 @@
     <property name="allowsErrorCorrection" value="true"/>
     <property name="documentTypeName" value="ND"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.NonCheckDisbursementDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.NonCheckDisbursementDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.NonCheckDisbursementDocumentPresentationController"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementDocumentPreRules"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.NonCheckDisbursementDocumentAccountingLineParser" />
     <property name="sessionDocument" value="true"/>

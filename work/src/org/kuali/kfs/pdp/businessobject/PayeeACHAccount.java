@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,10 +16,22 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.pdp.PdpConstants.PayeeIdTypeCodes;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class PayeeACHAccount extends PersistableBusinessObjectBase implements MutableInactivatable {
@@ -48,7 +60,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the achAccountGeneratedIdentifier attribute.
-     * 
+     *
      * @return Returns the achAccountGeneratedIdentifier
      */
     public KualiInteger getAchAccountGeneratedIdentifier() {
@@ -57,7 +69,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the achAccountGeneratedIdentifier attribute.
-     * 
+     *
      * @param achAccountGeneratedIdentifier The achAccountGeneratedIdentifier to set.
      */
     public void setAchAccountGeneratedIdentifier(KualiInteger achAccountGeneratedIdentifier) {
@@ -67,7 +79,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the bankRoutingNumber attribute.
-     * 
+     *
      * @return Returns the bankRoutingNumber
      */
     public String getBankRoutingNumber() {
@@ -76,7 +88,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the bankRoutingNumber attribute.
-     * 
+     *
      * @param bankRoutingNumber The bankRoutingNumber to set.
      */
     public void setBankRoutingNumber(String bankRoutingNumber) {
@@ -86,7 +98,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the bankAccountNumber attribute.
-     * 
+     *
      * @return Returns the bankAccountNumber
      */
     public String getBankAccountNumber() {
@@ -95,7 +107,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the bankAccountNumber attribute.
-     * 
+     *
      * @param bankAccountNumber The bankAccountNumber to set.
      */
     public void setBankAccountNumber(String bankAccountNumber) {
@@ -104,36 +116,104 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
 
     /**
-     * Gets the payeeName attribute.
-     * 
-     * @return Returns the payeeName
+     * Gets the payee's name from KIM or Vendor data, if the payee type is Employee, Entity or Vendor;
+     * otherwise returns the stored field value.
+     *
+     * @return Returns the payee name
      */
     public String getPayeeName() {
+        // for Employee, retrieves from Person table by employee ID
+        if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.EMPLOYEE)) {
+            Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+            if (ObjectUtils.isNotNull(person)) {
+                return person.getName();
+            }
+            else {
+                return null;
+            }
+        }
+        // for Entity, retrieve from Entity table by entity ID
+        else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
+            EntityDefault entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
+            if (ObjectUtils.isNotNull(entity)) {
+                return entity.getName().getCompositeName();
+            }
+            else {
+                return null;
+            }
+        }
+        // for Vendor, retrieves from Vendor table by vendor number
+        else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.VENDOR_ID)) {
+            VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(payeeIdNumber);
+            if (ObjectUtils.isNotNull(vendor)) {
+                return vendor.getVendorName();
+            }
+            else {
+                return null;
+            }
+        }
+
+        // otherwise return field value
         return payeeName;
     }
 
     /**
      * Sets the payeeName attribute.
-     * 
+     *
      * @param payeeName The payeeName to set.
      */
     public void setPayeeName(String payeeName) {
         this.payeeName = payeeName;
     }
 
-
     /**
-     * Gets the payeeEmailAddress attribute.
-     * 
+     * Gets the payee's email address from KIM data if the payee type is Employee or Entity;
+     * otherwise, returns the stored field value.
+     *
      * @return Returns the payeeEmailAddress
      */
     public String getPayeeEmailAddress() {
+        // for Employee, retrieve from Person table by employee ID
+        if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.EMPLOYEE)) {
+            Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+            if (ObjectUtils.isNotNull(person)) {
+                return person.getEmailAddress();
+            }
+            else {
+                return null;
+            }
+        }
+        // for Entity, retrieve from Entity table by entity ID then from Person table
+        else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
+            EntityDefault entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
+            if (ObjectUtils.isNotNull(entity)) {
+                List<Principal> principals = entity.getPrincipals();
+                if (principals.size() > 0 && ObjectUtils.isNotNull(principals.get(0))) {
+                    String principalId = principals.get(0).getPrincipalId();
+                    Person person = SpringContext.getBean(PersonService.class).getPerson(principalId);
+                    if (ObjectUtils.isNotNull(person)) {
+                        return person.getEmailAddress();
+                    }
+                    else {
+                        return null;
+                    }
+                }
+                else {
+                    return null;
+                }
+            }
+            else {
+                return null;
+            }
+        }
+
+        // otherwise returns the field value
         return payeeEmailAddress;
     }
 
     /**
-     * Sets the payeeEmailAddress attribute.
-     * 
+     * Sets the payeeEmailAddress attribute if the payee is not Employee or Entity.
+     *
      * @param payeeEmailAddress The payeeEmailAddress to set.
      */
     public void setPayeeEmailAddress(String payeeEmailAddress) {
@@ -142,7 +222,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the payeeIdentifierTypeCode attribute.
-     * 
+     *
      * @return Returns the payeeIdentifierTypeCode
      */
     public String getPayeeIdentifierTypeCode() {
@@ -151,7 +231,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the payeeIdentifierTypeCode attribute.
-     * 
+     *
      * @param payeeIdentifierTypeCode The payeeIdentifierTypeCode to set.
      */
     public void setPayeeIdentifierTypeCode(String payeeIdentifierTypeCode) {
@@ -160,7 +240,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the achTransactionType attribute.
-     * 
+     *
      * @return Returns the achTransactionType.
      */
     public String getAchTransactionType() {
@@ -169,7 +249,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the achTransactionType attribute value.
-     * 
+     *
      * @param achTransactionType The achTransactionType to set.
      */
     public void setAchTransactionType(String achTransactionType) {
@@ -178,7 +258,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the transactionType attribute.
-     * 
+     *
      * @return Returns the transactionType.
      */
     public ACHTransactionType getTransactionType() {
@@ -187,7 +267,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the transactionType attribute value.
-     * 
+     *
      * @param transactionType The transactionType to set.
      */
     public void setTransactionType(ACHTransactionType transactionType) {
@@ -196,25 +276,27 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
      * Gets the bankAccountTypeCode attribute.
-     * 
+     *
      * @return Returns the bankAccountTypeCode.
      */
     public String getBankAccountTypeCode() {
@@ -223,7 +305,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the bankAccountTypeCode attribute value.
-     * 
+     *
      * @param bankAccountTypeCode The bankAccountTypeCode to set.
      */
     public void setBankAccountTypeCode(String bankAccountTypeCode) {
@@ -232,7 +314,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the bankRouting attribute.
-     * 
+     *
      * @return Returns the bankRouting.
      */
     public ACHBank getBankRouting() {
@@ -241,10 +323,11 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the bankRouting attribute value.
-     * 
+     *
      * @param bankRouting The bankRouting to set.
      * @deprecated
      */
+    @Deprecated
     public void setBankRouting(ACHBank bankRouting) {
         this.bankRouting = bankRouting;
     }
@@ -252,7 +335,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the payeeIdNumber attribute.
-     * 
+     *
      * @return Returns the payeeIdNumber.
      */
     public String getPayeeIdNumber() {
@@ -261,7 +344,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the payeeIdNumber attribute value.
-     * 
+     *
      * @param payeeIdNumber The payeeIdNumber to set.
      */
     public void setPayeeIdNumber(String payeeIdNumber) {
@@ -271,7 +354,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the achPayee attribute.
-     * 
+     *
      * @return Returns the achPayee.
      */
     public ACHPayee getAchPayee() {
@@ -280,7 +363,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the achPayee attribute value.
-     * 
+     *
      * @param achPayee The achPayee to set.
      */
     public void setAchPayee(ACHPayee achPayee) {

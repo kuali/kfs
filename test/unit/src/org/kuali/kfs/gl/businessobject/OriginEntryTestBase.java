@@ -254,7 +254,7 @@ public class OriginEntryTestBase extends KualiTestBase {
      * Deletes everything in the expenditure transaction table
      */
     protected void clearExpenditureTable() {
-        unitTestSqlDao.sqlCommand("delete from GL_EXPEND_TRN_T");
+        unitTestSqlDao.sqlCommand("delete from GL_EXPEND_TRN_MT");
     }
 
     /**
@@ -413,7 +413,7 @@ public class OriginEntryTestBase extends KualiTestBase {
      * @throws Exception if the parameters could not be reset for some reason
      */
     protected void resetAllEnhancementFlags() throws Exception {
-        setApplicationConfigurationFlag((Class) FLEXIBLE_OFFSET_ENABLED_FLAG[0], (String) FLEXIBLE_OFFSET_ENABLED_FLAG[1], false);
+        setApplicationConfigurationFlag((Class<?>) FLEXIBLE_OFFSET_ENABLED_FLAG[0], (String) FLEXIBLE_OFFSET_ENABLED_FLAG[1], false);
     }
 
     /**
@@ -424,7 +424,7 @@ public class OriginEntryTestBase extends KualiTestBase {
      * @param value the new value for the parameter
      * @throws Exception thrown if some vague thing goes wrong
      */
-    protected void setApplicationConfigurationFlag(Class componentClass, String name, boolean value) throws Exception {
+    protected void setApplicationConfigurationFlag(Class<?> componentClass, String name, boolean value) throws Exception {
         TestUtils.setSystemParameter(componentClass, name, value ? "Y" : "N");
     }
 
@@ -435,10 +435,10 @@ public class OriginEntryTestBase extends KualiTestBase {
      * @param list a List, presumably of Origin entries, but really, it could be anything
      * @param name the name of the list to display in the output
      */
-    protected void traceList(List list, String name) {
+    protected void traceList(List<?> list, String name) {
         trace("StartList " + name + "( " + list.size() + " elements): ", 0);
 
-        for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+        for (Iterator<?> iterator = list.iterator(); iterator.hasNext();) {
             trace(iterator.next(), 1);
         }
 

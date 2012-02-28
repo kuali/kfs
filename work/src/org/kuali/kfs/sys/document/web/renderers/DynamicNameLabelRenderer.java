@@ -79,7 +79,7 @@ public class DynamicNameLabelRenderer implements Renderer {
         valuePersistingTag.setPageContext(pageContext);
         valuePersistingTag.setParent(parentTag);
         valuePersistingTag.setProperty(fieldName);
-        valuePersistingTag.setValue(HtmlUtils.htmlEscape(fieldValue));
+        valuePersistingTag.setValue(fieldValue);
         
         valuePersistingTag.doStartTag();
         valuePersistingTag.doEndTag();

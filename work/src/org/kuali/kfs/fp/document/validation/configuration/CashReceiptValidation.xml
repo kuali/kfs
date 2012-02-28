@@ -118,6 +118,13 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="CashReceipt-cashManagerValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="cashRecieptDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
 				<bean parent="CashReceipt-cashDrawerOpenValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -144,6 +151,13 @@
 				
 				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
 				
+				<bean parent="CashReceipt-cashManagerValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="cashRecieptDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
 				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
 			</list>
 		</property>

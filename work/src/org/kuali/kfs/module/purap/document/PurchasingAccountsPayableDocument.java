@@ -204,7 +204,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
 
     public List<PurApItem> getItems();
 
-    public void setItems(List items);
+    public void setItems(List<PurApItem> items);
 
     public String getVendorNumber();
 

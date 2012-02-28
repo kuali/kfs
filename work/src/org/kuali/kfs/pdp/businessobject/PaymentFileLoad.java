@@ -37,7 +37,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
     private String chart;
     private String unit;
     private String subUnit;
-    private Timestamp creationDate;
+    protected Timestamp creationDate;
 
     // trailer fields
     private int paymentCount;

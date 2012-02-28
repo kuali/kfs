@@ -23,17 +23,26 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
 		p:callbackService-ref="employeeDerivedRoleTypeService" p:localServiceName="employeeDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+
 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
 		p:callbackService-ref="batchJobModifierRoleTypeService" p:localServiceName="batchJobModifierRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+
 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
 		p:callbackService-ref="financialSystemDocumentTypePermissionTypeService" p:localServiceName="financialSystemDocumentTypePermissionTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
+
 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
 		p:callbackService-ref="financialSystemUserRoleTypeService" p:localServiceName="financialSystemUserRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
                            	 
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
+		p:callbackService-ref="excludeSingleActorSeparationOfDutiesRoleTypeService" p:localServiceName="excludeSingleActorSeparationOfDutiesRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+
+
 </beans>

@@ -544,7 +544,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public void resummarize(CashManagementDocument cmDoc) {
             //
             // get all interesting CRs
-            String campusCode = cmDoc.getCampusCode(); 
+            String campusCode = cmDoc.getCampusCode();
             List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(campusCode, INTERESTING_STATII);
 
 
@@ -1155,7 +1155,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#postprocessRequestParameters(java.util.Map)
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#postprocessRequestParameters(java.util.Map)
      */
     @Override
     public void postprocessRequestParameters(Map requestParameters) {

@@ -21,6 +21,7 @@
     
     <property name="documentTypeName" value="ELD"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.LiabilityDecreaseDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.LiabilityDecreaseDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.LiabilityDecreaseDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.LiabilityDecreaseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.LiabilityDecreaseDocumentPresentationController"/>

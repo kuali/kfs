@@ -54,7 +54,7 @@ public class TextAreaRenderer extends FieldRendererBase {
         tag.setPageContext(pageContext);
         tag.setParent(parentTag);
         tag.setProperty(getFieldName());
-        tag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
+        tag.setValue(getField().getPropertyValue());
         tag.setTitle(this.getAccessibleTitle());
         tag.setRows(Integer.toString(getField().getRows()));
         tag.setCols(Integer.toString(getField().getCols()));

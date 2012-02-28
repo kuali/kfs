@@ -21,6 +21,7 @@
     
     <property name="documentTypeName" value="EHVA"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.HoldingHistoryValueAdjustmentDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.HoldingHistoryValueAdjustmentDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.HoldingHistoryValueAdjustmentDocumentPresentationController"/>

@@ -211,6 +211,17 @@
                     	readOnly="${(readOnlyForPREQ) or not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or (lockB2BEntry and (displayRequisitionFields or displayPurchaseOrderFields))}" tabindexOverride="${tabindexOverrideBase + 3}"/>
             	</td>
             </tr>
+            <c:if test="${(not empty KualiForm.document.vendorDetail) and KualiForm.document.vendorDetail.vendorHeader.vendorDebarredIndicator}">
+            <tr>
+            	<th align=right valign=middle class="bord-l-b" >
+            		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.justification}" /></div>
+            	</th>
+            	<td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute 
+                    	attributeEntry="${documentAttributes.justification}" property="document.justification" tabindexOverride="${tabindexOverrideBase + 0}"/>
+            	</td>
+            </tr>
+            </c:if>
 
             <tr>
                 <td colspan="4" class="subhead">Vendor Info</td>

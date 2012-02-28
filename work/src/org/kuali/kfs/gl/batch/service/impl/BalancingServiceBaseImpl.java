@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -88,6 +88,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#runBalancing()
      */
+    @Override
     public boolean runBalancing() {
         // Prepare date constants used throughout the process
         Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
@@ -157,6 +158,11 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         LOG.debug("Comparing custom, if any, history table with the PRD counterpart.");
         Map<String, Integer> countCustomComparisionFailures = this.customCompareHistory();
 
+        if (!historyTablesPopulated) {
+            reportWriterService.writeNewLines(1);
+            reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FILE_LISTING), this.getFilenames());
+        }
+
         LOG.debug("Writing statistics section");
         reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_FISCAL_YEARS_INCLUDED), ledgerBalanceHistoryBalancingDao.findDistinctFiscalYears());
         reportWriterService.writeStatisticLine(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Balancing.REPORT_HISTORY_TABLES_INITIALIZED), historyTablesPopulated ? "Yes" : "No");
@@ -194,7 +200,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Deletes data for the given fiscal year of entries from persistentClass.
-     * 
+     *
      * @param universityFiscalYear the given university fiscal year
      * @param persistentClass table for which to delete the history
      */
@@ -207,7 +213,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Gets count for given fiscal year of entries from persistentClass.
-     * 
+     *
      * @param fiscalYear parameter may be null which will get count for all years
      * @param persistentClass table for which to get the count
      * @return count
@@ -224,7 +230,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * This is a helper method that wraps parsing poster entries for updateEntryHistory and updateBalanceHistory.
-     * 
+     *
      * @param startUniversityFiscalYear fiscal year for which to accept the earlier parsed lines from the input file
      * @return indicated whether records where ignored due to being older then startUniversityFiscalYear
      */
@@ -296,7 +302,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Possible override if sub class has additional history tables. Populates custom history tables.
-     * 
+     *
      * @param fiscalYear fiscal year populate should start from
      */
     public void customPopulateHistoryTables(Integer fiscalYear) {
@@ -305,7 +311,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Possible override if sub class has additional history tables. This returns true if value populated in any such tables.
-     * 
+     *
      * @param fiscalYear given fiscal year
      * @return if data exists for any such table for given year
      */
@@ -316,7 +322,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     /**
      * Possible override if sub class has additional history tables. Deletes data in history table. Also should print message to
      * that affect to be consistent with rest of functionality.
-     * 
+     *
      * @param fiscalYear given fiscal year
      */
     protected void deleteCustomHistory(Integer fiscalYear) {
@@ -325,7 +331,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Possible override if sub class has additional history tables. Updates history data for custom table(s).
-     * 
+     *
      * @param originEntry representing the update details
      */
     protected void updateCustomHistory(Integer postMode, OriginEntryInformation originEntry) {
@@ -334,7 +340,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Possible override if sub class has additional history tables.
-     * 
+     *
      * @return compare failures. As a HashMap of key: businessObjectName, value: count
      */
     protected Map<String, Integer> customCompareHistory() {
@@ -343,7 +349,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Possible override if sub class has additional history tables. Prints the row count history for STATISTICS section.
-     * 
+     *
      * @param fiscalYear starting from which fiscal year the comparision should take place
      */
     protected void customPrintRowCountHistory(Integer fiscalYear) {
@@ -352,7 +358,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the ParameterService
-     * 
+     *
      * @param parameterService The ParameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -361,7 +367,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the ConfigurationService
-     * 
+     *
      * @param kualiConfigurationService The ConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -370,7 +376,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the BusinessObjectService
-     * 
+     *
      * @param businessObjectService The BusinessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -379,7 +385,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the DateTimeService
-     * 
+     *
      * @param dateTimeService The DateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -388,7 +394,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the UniversityDateService
-     * 
+     *
      * @param universityDateService The UniversityDateService to set.
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {
@@ -397,7 +403,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the LedgerBalancingDao
-     * 
+     *
      * @param ledgerBalancingDao The LedgerBalancingDao to set.
      */
     public void setLedgerBalancingDao(LedgerBalancingDao ledgerBalancingDao) {
@@ -406,7 +412,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the LedgerEntryBalancingDao
-     * 
+     *
      * @param ledgerEntryBalancingDao The LedgerEntryBalancingDao to set.
      */
     public void setLedgerEntryBalancingDao(LedgerEntryBalancingDao ledgerEntryBalancingDao) {
@@ -415,7 +421,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the LedgerBalanceBalancingDao
-     * 
+     *
      * @param ledgerBalanceBalancingDao The LedgerBalanceBalancingDao to set.
      */
     public void setLedgerBalanceBalancingDao(LedgerBalanceBalancingDao ledgerBalanceBalancingDao) {
@@ -424,7 +430,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the ledgerBalanceHistoryBalancingDao
-     * 
+     *
      * @param ledgerBalanceHistoryBalancingDao The LedgerBalanceHistoryBalancingDao to set.
      */
     public void setLedgerBalanceHistoryBalancingDao(LedgerBalanceHistoryBalancingDao ledgerBalanceHistoryBalancingDao) {
@@ -433,7 +439,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the LedgerEntryHistoryBalancingDao
-     * 
+     *
      * @param ledgerEntryHistoryBalancingDao The LedgerEntryHistoryBalancingDao to set.
      */
     public void setLedgerEntryHistoryBalancingDao(LedgerEntryHistoryBalancingDao ledgerEntryHistoryBalancingDao) {
@@ -442,7 +448,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the reportWriterService
-     * 
+     *
      * @param reportWriterService The reportWriterService to set.
      */
     public void setReportWriterService(ReportWriterService reportWriterService) {
@@ -451,7 +457,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the batchFileDirectoryName
-     * 
+     *
      * @param batchFileDirectoryName The batchFileDirectoryName to set.
      */
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
@@ -460,7 +466,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the ledgerEntryBalanceCachingDao attribute value.
-     * 
+     *
      * @param ledgerEntryBalanceCachingDao The ledgerEntryBalanceCachingDao to set.
      */
     public void setLedgerEntryBalanceCachingDao(LedgerEntryBalanceCachingDao ledgerEntryBalanceCachingDao) {
@@ -469,7 +475,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     /**
      * Sets the persistenceStructureService.
-     * 
+     *
      * @param persistenceStructureService
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {

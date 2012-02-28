@@ -65,7 +65,7 @@ public class TextRenderer extends FieldRendererBase {
         }
         tag.setStyleClass(getField().getStyleClass());
 
-        tag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
+        tag.setValue(getField().getPropertyValue());
         tag.setStyleId(getFieldName());
         
         tag.doStartTag();

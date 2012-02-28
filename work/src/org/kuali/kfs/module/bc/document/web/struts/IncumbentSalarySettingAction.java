@@ -28,6 +28,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService;
@@ -163,5 +164,13 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
      */
     protected String getFundingAwareObjectName() {
         return BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#getSynchronizationCheckType()
+     */
+    @Override
+    public SynchronizationCheckType getSynchronizationCheckType() {
+        return SynchronizationCheckType.POSN;
     }
 }

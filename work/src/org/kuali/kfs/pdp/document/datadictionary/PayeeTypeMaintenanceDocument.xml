@@ -32,9 +32,6 @@
       </list>
     </property>
     
-    
-    
-    
     <property name="documentTypeName" value="PYTP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="allowsNewOrCopy" value="false"/>
@@ -55,6 +52,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="achEligible" p:required="true"/>
       </list>
     </property>
   </bean>

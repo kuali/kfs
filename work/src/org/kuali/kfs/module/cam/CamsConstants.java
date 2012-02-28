@@ -104,7 +104,7 @@ public class CamsConstants {
         public static final String ASSET_PAYMENT_FROM_CAB = "MPAYCAB";
         public static final String ASSET_FP_INQUIRY = "AFPINQ";
         public static final String ASSET_PREQ_INQUIRY = "APREQINQ";
-        // Below used for view related document links
+        // Below used for view related document links 
         public static final String COMPLEX_MAINTENANCE_DOC_BASE = "CAMM";
     }
 
@@ -138,6 +138,7 @@ public class CamsConstants {
         public static final String NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES = "NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES";
         public static final String CAPITALIZATION_LIMIT_AMOUNT = "CAPITALIZATION_LIMIT_AMOUNT";
         public static final String DEFAULT_FABRICATION_ASSET_TYPE_CODE = "DEFAULT_FABRICATION_ASSET_TYPE";
+        public static final String DEFAULT_FABRICATION_ASSET_MANUFACTURER = "DEFAULT_FABRICATION_ASSET_MANUFACTURER";
         public static final String DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE = "DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE";
         public static final String MERGE_SEPARATE_RETIREMENT_REASONS = "MERGE_SEPARATE_RETIREMENT_REASONS";
         public static final String RAZE_RETIREMENT_REASONS = "RAZE_RETIREMENT_REASONS";
@@ -145,6 +146,12 @@ public class CamsConstants {
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS = "IGNORES_LOCKS_IND";
         public static final String MAX_NUMBER_OF_RECORDS_PER_DOCUMENT = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
         public static final String FISCAL_YEAR_END_DAY_AND_MONTH = "FISCAL_YEAR_END_MONTH_AND_DAY";
+        public static final String BLANK_OUT_BEGIN_MMDD = "BLANK_OUT_BEGIN_MMDD";
+        public static final String BLANK_OUT_PERIOD_RUN_DATE = "BLANK_OUT_PERIOD_RUN_DATE";
+        public static final String RUN_DATE_NOTIFICATION_EMAIL_ADDRESSES = "RUN_DATE_NOTIFICATION_EMAIL_ADDRESSES";
+        
+        public static final String BLANK_OUT_END_MMDD = "BLANK_OUT_END_MMDD";
+        public static final String MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND = "MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND";
     }
 
     public static class Report {

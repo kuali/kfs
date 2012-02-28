@@ -110,19 +110,28 @@ public class ElectronicInvoiceItem {
   }
   
   public BigDecimal getInvoiceLineUnitCostBigDecimal() {
+    BigDecimal unitprice = BigDecimal.ZERO;
     if (StringUtils.isNotEmpty(unitPrice)) {
-      return new BigDecimal(this.unitPrice);
-    } else {
-      return BigDecimal.ZERO;
+        try {
+             unitprice = new BigDecimal(this.unitPrice);
+        } catch(NumberFormatException nfe) {
+            LOG.info("invalid unit price" + this.unitPrice) ;
+        }
     }
+    return unitprice;
   }
   
   public BigDecimal getInvoiceLineSubTotalAmountBigDecimal() {
-    if (StringUtils.isNotEmpty(subTotalAmount)) {
-      return new BigDecimal(this.subTotalAmount);
-    } else {
-      return BigDecimal.ZERO;
+    BigDecimal subTotalAmount = BigDecimal.ZERO;
+    if (StringUtils.isNotEmpty(this.subTotalAmount)) {
+        try {
+            subTotalAmount = new BigDecimal(this.subTotalAmount);
+        }
+        catch (NumberFormatException nfe) {
+            LOG.info("invalid sub Total Amount " + this.subTotalAmount) ;
+        }
     }
+        return subTotalAmount;
   }
 
   public BigDecimal getInvoiceLineTaxAmountBigDecimal() {

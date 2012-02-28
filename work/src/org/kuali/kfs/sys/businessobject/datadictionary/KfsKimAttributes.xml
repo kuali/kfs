@@ -39,10 +39,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KfsKimAttributes-purchasingCommodityCode" />
         <ref bean="KfsKimAttributes-contractManagerCode" />
         <ref bean="KfsKimAttributes-customerProfileId" />
+        <ref bean="KfsKimAttributes-achTransactionTypeCode" />
         <ref bean="KfsKimAttributes-vendorTypeCode" />
         <ref bean="KfsKimAttributes-contractsAndGrantsAccountResponsibilityId" />
         <ref bean="KfsKimAttributes-disbursementVoucherPaymentMethodCode" />
         <ref bean="KfsKimAttributes-subAccountNumber" />
+        <ref bean="KfsKimAttributes-filePath" />
       </list>
     </property>
     <property name="relationships">
@@ -113,6 +115,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     p:shortLabel="Id" 
     p:required = "false" />
 
+  <bean id="KfsKimAttributes-achTransactionTypeCode" parent="KfsKimAttributes-achTransactionTypeCode-parentBean" />
+  <bean id="KfsKimAttributes-achTransactionTypeCode-parentBean" abstract="true" parent="PayeeACHAccount-achTransactionType"
+  	p:name="achTransactionTypeCode" 
+    p:required = "false" >
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.AchTransactionTypeCodeValuesFinder"
+            p:includeKeyInLabel="true" />
+    </property>
+  </bean>
 
   <bean id="KfsKimAttributes-vendorTypeCode" parent="VendorType-vendorTypeCode">
     <property name="control">
@@ -150,5 +161,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     p:label="Descends Hierarchy"
     p:shortLabel="Descends Hierarchy"
     p:required="true" />
+    
+  <bean id="KfsKimAttributes-filePath" parent="BatchFile-path" 
+  	p:name="filePath" 
+	p:label="File Path"
+    p:shortLabel="File Path" />
 
 </beans>

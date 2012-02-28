@@ -31,5 +31,6 @@ public class VendorParameterConstants {
     public static final String PHONE_NUMBER_FORMATS = "GENERIC_PHONE_NUMBER_FORMATS";
     public static final String DEFAULT_PHONE_NUMBER_DIGITS = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
     public static final String OVERRIDE_VENDOR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
+    public static final String EXCLUSION_AND_DEBARRED_VENDOR_TYPES = "EXCLUSION_AND_DEBARRED_VENDOR_TYPES";
     
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,11 +16,14 @@
 package org.kuali.kfs.module.cam.document.authorization;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetComponent;
+import org.kuali.kfs.module.cam.businessobject.AssetRepairHistory;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,6 +35,7 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
@@ -55,6 +59,10 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
 
         // Hide payment sequence numbers
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+        hideInactiveAssetComponent(fields, asset);
+        hideInactiveAssetRepairHistory(fields, asset);
+        hideInactiveAssetWarranty(fields, asset);
+
         int size = asset.getAssetPayments().size();
         for (int i = 0; i < size; i++) {
             fields.add(CamsPropertyConstants.Asset.ASSET_PAYMENTS + "[" + i + "]." + CamsPropertyConstants.AssetPayment.PAYMENT_SEQ_NUMBER);
@@ -92,9 +100,9 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
             boolean isAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.EDIT_WHEN_TAGGED_PRIOR_FISCAL_YEAR, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             if (!isAuthorized) {
                 fields.addAll(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR));
-            }                
+            }
         }
-        
+
         return fields;
     }
 
@@ -172,35 +180,35 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
         Asset asset = (Asset) maitDocument.getOldMaintainableObject().getBusinessObject();
         return !getAssetService().isAssetRetired(asset) & super.canEdit(document);
     }
-    
-    
+
+
     @Override
     public boolean canBlanketApprove(Document document) {
         return true;
     }
-    
+
     @Override
     public boolean canRoute(Document document) {
         MaintenanceDocument maitDocument = (MaintenanceDocument) document;
         Asset asset = (Asset) maitDocument.getOldMaintainableObject().getBusinessObject();
         return !getAssetService().isAssetRetired(asset) & super.canRoute(document);
     }
-    
+
     @Override
     public boolean canSave(Document document) {
         MaintenanceDocument maitDocument = (MaintenanceDocument) document;
         Asset asset = (Asset) maitDocument.getOldMaintainableObject().getBusinessObject();
         return !getAssetService().isAssetRetired(asset) & super.canSave(document);
     }
-    
+
     protected AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
-    
+
     @Override
     public Set<String> getDocumentActions(Document document) {
         Set<String> actions = super.getDocumentActions(document);
-        
+
         if (document instanceof LedgerPostingDocument) {
             // check accounting period is enabled for doc type in system parameter
             String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
@@ -210,7 +218,37 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
                 actions.add(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
             }
         }
-        
+
         return actions;
+    }
+
+    private void hideInactiveAssetWarranty(Set<String> fields , Asset asset){
+        if(ObjectUtils.isNotNull(asset.getAssetWarranty())) {
+            if(!asset.getAssetWarranty().isActive()) {
+                fields.add(CamsPropertyConstants.Asset.ASSET_WARRANTY);
+            }
+        }
+    }
+
+    private  void hideInactiveAssetComponent(Set<String> fields , Asset asset){
+      List<AssetComponent> components = asset.getAssetComponents();
+      int i=0;
+      for(AssetComponent component : components ) {
+          if(!component.isActive()) {
+              fields.add(CamsPropertyConstants.Asset.ASSET_COMPONENTS + "[" + i + "]");
+          }
+          i++;
+      }
+    }
+
+
+    private  void hideInactiveAssetRepairHistory(Set<String> fields , Asset asset) {
+        int i=0;
+        for(AssetRepairHistory assetRepairHistory : asset.getAssetRepairHistory()) {
+            if(!assetRepairHistory.isActive()) {
+                fields.add(CamsPropertyConstants.Asset.ASSET_REPAIR_HISTORY+ "[" + i + "]");
+            }
+           i++;
+        }
     }
 }

@@ -145,6 +145,8 @@
 					p:name="payrollEndDateFiscalPeriodCode" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="payrollTotalHours" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="fringeBenefitView" p:useShortLabel="true" p:unconditionallyReadOnly="true" />	
 			</list>
 		</property>
 	</bean>

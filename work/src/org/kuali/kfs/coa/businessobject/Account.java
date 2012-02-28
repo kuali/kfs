@@ -30,7 +30,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
+import org.kuali.kfs.coa.businessobject.CFDA;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.sys.KFSConstants;
@@ -126,7 +126,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     protected PostalCodeEbo postalZipCode;
     protected BudgetRecordingLevel budgetRecordingLevel;
     protected SufficientFundsCode sufficientFundsCode;
-    protected ContractsAndGrantsCfda cfda;
+    protected CFDA cfda;
 
     protected Chart fringeBenefitsChartOfAccount;
     protected Chart continuationChartOfAccount;
@@ -686,8 +686,16 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return a CFDA record
      */
-    public ContractsAndGrantsCfda getCfda() {
-        return cfda = (ContractsAndGrantsCfda) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class).retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
+    public CFDA getCfda() {
+        return cfda ;
+    }
+    
+    /**
+     * Sets the given related CFDA object
+     * @param cfda the related CFDA object.
+     */
+    public void setCfda(CFDA cfda) {
+        this.cfda = cfda;
     }
     
     public List<ContractsAndGrantsAccountAwardInformation> getAwards() {
@@ -1013,7 +1021,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
     
     /**
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
+     * This fix is temporary until Jonathan's fix is reflected to Rice
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
      */
     public void refreshReferenceObject(String referenceObjectName) {
         if (referenceObjectName.equals("accountFiscalOfficerUser") ||
@@ -1506,7 +1515,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
@@ -1764,7 +1773,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setContractsAndGrantsAccountResponsibilityId(Integer contractsAndGrantsAccountResponsibilityId) {
         this.contractsAndGrantsAccountResponsibilityId = contractsAndGrantsAccountResponsibilityId;
     }
-
+    
     /**
      * Gets the laborBenefitRateCategoryCode attribute. 
      * @return Returns the laborBenefitRateCategoryCode.
@@ -1870,9 +1879,11 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
    public void setContractControlChartOfAccounts(Chart contractControlChartOfAccounts) {
        this.contractControlChartOfAccounts = contractControlChartOfAccounts;
    }    
-
+   
    /**
-    * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+    * Gets the indirectCostRcvyChartOfAccounts attribute.
+    * 
+    * @return Returns the indirectCostRcvyChartOfAccounts.
     */
    @Override
    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {

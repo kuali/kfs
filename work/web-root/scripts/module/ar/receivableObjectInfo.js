@@ -15,6 +15,7 @@
  */
 
 var receivableChartCodeSuffix = ".paymentChartOfAccountsCode";
+var receivableChartNameSuffix = ".paymentChartOfAccounts.finChartOfAccountDescription";
 var receivableAccountNumberSuffix = ".paymentAccountNumber";
 var receivableSubAccountNumberSuffix = ".paymentSubAccountNumber";
 var receivableSubAccountNameSuffix = ".paymentSubAccount.subAccountName";
@@ -22,6 +23,57 @@ var receivableObjectCodeSuffix = ".paymentFinancialObjectCode";
 var receivableSubObjectCodeSuffix = ".paymentFinancialSubObjectCode";
 var receivableSubObjectCodeNameSuffix = ".paymentSubObjectCode.financialSubObjectCodeName";
 
+/**
+ * Loads account info and chart info when ACCOUNT_CAN_CROSS_CHART is false.
+ * @param accountCodeFieldName
+ * @param accountNameFieldName
+ * @return
+ */
+function loadReceivableChartAccountInfo( accountCodeFieldName, accountNameFieldName ) {
+    var elPrefix = findElPrefix( accountCodeFieldName );
+	var coaCodeFieldName = elPrefix + receivableChartCodeSuffix;
+	var coaNameFieldName = elPrefix + receivableChartNameSuffix;
+	var accountCode = DWRUtil.getValue( accountCodeFieldName );
+    
+    if (valueChanged( accountCodeFieldName )) {
+        setRecipientValue( elPrefix + receivableSubAccountNumberSuffix, "" );
+        setRecipientValue( elPrefix + receivableSubAccountNameSuffix, "" );
+        setRecipientValue( elPrefix + receivableSubObjectCodeSuffix, "" );
+        setRecipientValue( elPrefix + receivableSubObjectCodeNameSuffix, "" );
+    }
+    
+    if (accountCode=='') {
+		clearRecipients(accountNameFieldName);
+		clearRecipients(coaCodeFieldName);    		
+		clearRecipients(coaNameFieldName);    		
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue( accountNameFieldName, data.accountName );
+				setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
+				setRecipientValue( coaNameFieldName, data.chartOfAccounts.finChartOfAccountDescription );
+			} else {
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
+				clearRecipients(coaCodeFieldName);    		
+				clearRecipients(coaNameFieldName);
+			} },
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );
+				clearRecipients(coaCodeFieldName);    		
+				clearRecipients(coaNameFieldName);  
+			}
+		};
+		AccountService.getUniqueAccountForAccountNumber( accountCode, dwrReply );	  
+	}	
+}
+
+/**
+ * Loads account info and chart info when ACCOUNT_CAN_CROSS_CHART is true.
+ * @param accountCodeFieldName
+ * @param accountNameFieldName
+ * @return
+ */
 function loadReceivableAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     var elPrefix = findElPrefix( accountCodeFieldName );
     var accountCode = DWRUtil.getValue( accountCodeFieldName );

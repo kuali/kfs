@@ -215,6 +215,9 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (requisition.getVendorRestrictedIndicator() != null && requisition.getVendorRestrictedIndicator()) {
                 return "Selected vendor is marked as restricted.";
             }
+            if (vendorDetail.isVendorDebarred()) {
+                return "Selected vendor is marked as a debarred vendor";
+            }
             requisition.setVendorDetail(vendorDetail);
 
             if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && ObjectUtils.isNull(requisition.getVendorContractGeneratedIdentifier())) {

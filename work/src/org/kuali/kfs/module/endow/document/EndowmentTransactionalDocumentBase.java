@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,6 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -40,8 +39,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
 
     protected EndowmentTransactionSubType transactionSubType;
     protected EndowmentTransactionSourceType transactionSourceType;
-    
-    protected static transient BusinessObjectService businessObjectService;
+
     protected static transient DateTimeService dateTimeService;
 
     protected boolean noRouteIndicator;
@@ -52,13 +50,13 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     public EndowmentTransactionalDocumentBase() {
         super();
         this.transactionPosted = false;
-        
-        //set noRouteIndicator = false by default to make sure when a user initiates 
-        //the eDoc manually through UI, it goes through the routing path defined in 
+
+        //set noRouteIndicator = false by default to make sure when a user initiates
+        //the eDoc manually through UI, it goes through the routing path defined in
         //the workflow xml file.
         this.noRouteIndicator= false;
         this.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
-        initializeSourceTypeObj();        
+        initializeSourceTypeObj();
     }
 
     /**
@@ -90,6 +88,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#getTransactionSubTypeCode()
      */
+    @Override
     public String getTransactionSubTypeCode() {
         return transactionSubTypeCode;
     }
@@ -97,6 +96,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#setTransactionSubTypeCode(java.lang.String)
      */
+    @Override
     public void setTransactionSubTypeCode(String transactionSubTypeCode) {
         this.transactionSubTypeCode = transactionSubTypeCode;
     }
@@ -104,6 +104,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#getTransactionSourceTypeCode()
      */
+    @Override
     public String getTransactionSourceTypeCode() {
         return transactionSourceTypeCode;
     }
@@ -111,6 +112,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#setTransactionSourceTypeCode(java.lang.String)
      */
+    @Override
     public void setTransactionSourceTypeCode(String transactionSourceTypeCode) {
         this.transactionSourceTypeCode = transactionSourceTypeCode;
     }
@@ -118,6 +120,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#isTransactionPosted()
      */
+    @Override
     public boolean isTransactionPosted() {
         return transactionPosted;
     }
@@ -125,13 +128,14 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#setTransactionPosted(boolean)
      */
+    @Override
     public void setTransactionPosted(boolean transactionPosted) {
         this.transactionPosted = transactionPosted;
     }
 
     /**
      * Gets the transactionSubType.
-     * 
+     *
      * @return transactionSubType
      */
     public EndowmentTransactionSubType getTransactionSubType() {
@@ -140,7 +144,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
 
     /**
      * Sets the transactionSubType.
-     * 
+     *
      * @param transactionSubType
      */
     public void setTransactionSubType(EndowmentTransactionSubType transactionSubType) {
@@ -149,7 +153,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
 
     /**
      * Gets the transactionSourceType.
-     * 
+     *
      * @return transactionSourceType
      */
     public EndowmentTransactionSourceType getTransactionSourceType() {
@@ -158,34 +162,36 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
 
     /**
      * Sets the transactionSourceType.
-     * 
+     *
      * @param transactionSourceType
      */
     public void setTransactionSourceType(EndowmentTransactionSourceType transactionSourceType) {
         this.transactionSourceType = transactionSourceType;
     }
-    
+
     /**
      * Gets the noRouteIndicator.
-     * 
+     *
      * @return noRouteIndicator
      */
     public boolean getNoRouteIndicator(){
         return noRouteIndicator;
     }
-    
+
     /**
      * Sets the noRouteIndicator.
-     * 
+     *
      * @param noRouteIndicator
      */
+    @Override
     public void setNoRouteIndicator(boolean noRouteIndicator){
         this.noRouteIndicator = noRouteIndicator;
-    }        
+    }
 
     /**
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
      */
+    @Override
     public void toErrorCorrection() throws WorkflowException, IllegalStateException {
         super.toErrorCorrection();
 
@@ -202,13 +208,14 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#isErrorCorrectedDocument()
      */
+    @Override
     public boolean isErrorCorrectedDocument() {
         if (StringUtils.isEmpty(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber()))
             return false;
         else
             return true;
     }
-    
+
     /**
      * When document is processed or in the final status, create an PendingTransactionDocumentEntry object
      * and persist documentId, documentType and the approved date to END_PENDING_TRAN_DOC_T.
@@ -217,43 +224,43 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent){
-        super.doRouteStatusChange(statusChangeEvent);        
-          
+        super.doRouteStatusChange(statusChangeEvent);
+
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            
+
             String documentId = getDocumentHeader().getDocumentNumber();
             String documentType = getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
             Date approvedDate =  getDateTimeService().getCurrentSqlDate();
-        
-            //persist documentId, documentType and the approved date to END_PENDING_TRAN_DOC_T 
+
+            //persist documentId, documentType and the approved date to END_PENDING_TRAN_DOC_T
             PendingTransactionDocumentEntry entry = new PendingTransactionDocumentEntry();
             entry.setDocumentNumber(documentId);
             entry.setDocumentType(documentType);
             entry.setApprovedDate(approvedDate);
-            
-            getBusinessObjectService().save(entry);    
+
+            getBusinessObjectService().save(entry);
         }
-    }       
-   
+    }
+
+    @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (nodeName.equals(this.CHECK_IF_ROUTE_SPLIT))
             return this.noRouteIndicator;
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
 
-    protected BusinessObjectService getBusinessObjectService() {
-        if ( businessObjectService == null ) {
-            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        }
-        return businessObjectService;
-    }
-
-    public DateTimeService getDateTimeService() {
+    protected DateTimeService getDateTimeService() {
         if ( dateTimeService == null ) {
             dateTimeService = SpringContext.getBean(DateTimeService.class);
         }
         return dateTimeService;
     }
-    
 
+//    protected BusinessObjectService getBusinessObjectService() {
+//        if ( businessObjectService == null ) {
+//            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+//        }
+//        return businessObjectService;
+//    }
+//
 }

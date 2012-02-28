@@ -1,5 +1,6 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
+
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +15,14 @@
  * limitations under the License.
  */
  
+
+var chartCodeSuffix = ".chartOfAccountsCode";
+var chartNameSuffix = ".chartOfAccounts.finChartOfAccountDescription";
+var accountNumberSuffix = ".accountNumber";
+var accountNameSuffix = ".account.accountName";
+var subAccountNumberSuffix = ".subAccountNumber";
+var subAccountNameSuffix = ".subAccount.subAccountName";
+
 /**
  * import the given javascript into the hosting document
  * 
@@ -290,4 +299,51 @@ BudgetObjectInfoUpdator.prototype.recalculateFTE = function(payMonthsFieldName, 
 	}
 }
 
+/**
+* Loads account info and chart info when ACCOUNT_CAN_CROSS_CHART is false.
+* @param accountCodeFieldName
+* @param accountNameFieldName
+* @return
+*/
+BudgetObjectInfoUpdator.prototype.loadChartAccountInfo = function( accountCodeFieldName, accountNameFieldName ) {
+    var elPrefix = findElPrefix( accountCodeFieldName );
+    var accountCode = DWRUtil.getValue( accountCodeFieldName );
+    var coaCodeFieldName =  elPrefix + chartCodeSuffix ;
+    var coaNameFieldName =  elPrefix + chartNameSuffix ;
+
+    if (valueChanged( accountCodeFieldName )) {
+        setRecipientValue( elPrefix + subAccountNumberSuffix, "" );
+        setRecipientValue( elPrefix + subAccountNameSuffix, "" );
+    }
+    
+    if (accountCode=='') {
+		clearRecipients(accountNameFieldName);
+		clearRecipients(coaCodeFieldName);
+		clearRecipients(coaNameFieldName);    
+		
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue( accountNameFieldName, data.accountName  );
+				setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
+			    setRecipientValue( coaNameFieldName, data.chartOfAccounts.finChartOfAccountDescription );
+			    
+			} else {
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );	
+				clearRecipients(coaCodeFieldName);  
+				clearRecipients(coaNameFieldName);
+			} },
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );
+				clearRecipients(coaCodeFieldName);  
+				clearRecipients(coaNameFieldName);
+			}
+		};
+		
+		 AccountService.getUniqueAccountForAccountNumber( accountCode, dwrReply ); 
+	}	
+}
+
 var budgetObjectInfoUpdator = new BudgetObjectInfoUpdator();
+

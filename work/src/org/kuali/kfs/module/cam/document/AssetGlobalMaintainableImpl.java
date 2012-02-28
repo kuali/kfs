@@ -23,7 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -100,15 +102,14 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (REQUIRES_REVIEW.equals(nodeName))
-            return !isAccountAndOrganizationReviewRequired();
+        if (REQUIRES_REVIEW.equals(nodeName)) return !isAccountAndOrganizationReviewRequired();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
     /**
      * check whether or not isCapitalAssetBuilderOriginIndicator
      */
-    protected boolean isAccountAndOrganizationReviewRequired() {
+    protected boolean isAccountAndOrganizationReviewRequired(){
         return ((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator();
     }
 
@@ -584,10 +585,6 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         setAssetTotalAmountFromPersistence(assetGlobal);
     }
 
-   
-
-
-
     private void setAssetTotalAmountFromPersistence(AssetGlobal assetGlobal) {
         KualiDecimal minAssetTotalAmount = getAssetGlobalService().totalPaymentByAsset(assetGlobal, false);
         KualiDecimal maxAssetTotalAmount = getAssetGlobalService().totalPaymentByAsset(assetGlobal, true);
@@ -697,8 +694,8 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         }
     }
 
-    /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
+    /** 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
@@ -731,7 +728,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             }
         }
 
-        // release lock for separate source asset...We don't include isFinal since document always go to 'processed' first.
+        // release lock for separate source asset...We don't include stateIsFinal since document always go to 'processed' first.
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed())) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
@@ -771,8 +768,6 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         assetSharedDetail.setBuildingCode(asset.getBuildingCode());
         assetSharedDetail.setBuildingRoomNumber(asset.getBuildingRoomNumber());
     }
-    
-
     // CSU 6702 BEGIN
     /**
      * Checks for Accounting Period 13
@@ -848,4 +843,33 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         assetGlobal.setLastInventoryDate(getDateTimeService().getCurrentSqlDate());
     }
     // CSU 6702 END
+
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#populateChartOfAccountsCodeFields()
+     * 
+     * Special treatment is needed to populate the chart code from the account number field in AssetPaymentDetails, 
+     * as these fields aren't PKs of BO class in the collection.  
+     */
+    @Override
+    protected void populateChartOfAccountsCodeFields() {
+        super.populateChartOfAccountsCodeFields();
+              
+        AccountService acctService = SpringContext.getBean(AccountService.class);    
+        PersistableBusinessObject newAccount = getNewCollectionLine(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS);
+        String accountNumber = (String)ObjectUtils.getPropertyValue(newAccount, KFSPropertyConstants.ACCOUNT_NUMBER);
+        String coaCode = null;
+        
+        Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
+        if (ObjectUtils.isNotNull(account)) {
+            coaCode = account.getChartOfAccountsCode();
+        }
+        
+        try {
+            ObjectUtils.setObjectProperty(newAccount, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode); 
+        }
+        catch (Exception e) {
+            LOG.error("Error in setting property value for " + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        } 
+    }        
+
 }

@@ -25,6 +25,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
@@ -40,6 +41,7 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business Object for the Effort Certification Detail Table.
@@ -53,6 +55,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String financialObjectCode;
     private String sourceChartOfAccountsCode;
     private String sourceAccountNumber;
+
 
     private KualiDecimal effortCertificationPayrollAmount;
     private KualiDecimal effortCertificationOriginalPayrollAmount;
@@ -69,7 +72,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String overrideCode = AccountingLineOverride.CODE.NONE;
 
     private boolean newLineIndicator; // to indicate if this detail line has been persisted or not
-    
+
     // holds last saved updated payroll amount so business rule can check if it has been updated at the route level
     private KualiDecimal persistedPayrollAmount;
     private Integer persistedEffortPercent;
@@ -122,6 +125,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
             this.effortCertificationOriginalPayrollAmount = effortCertificationDetail.getEffortCertificationOriginalPayrollAmount();
             this.originalFringeBenefitAmount = effortCertificationDetail.getOriginalFringeBenefitAmount();
             this.effectiveDate = effortCertificationDetail.getEffectiveDate();
+
+
         }
     }
 
@@ -177,6 +182,18 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+        // if accounts can't cross charts, set chart code whenever account number is set
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (!accountService.accountsCanCrossCharts()) {
+            Account account = accountService.getUniqueAccountForAccountNumber(accountNumber);
+            if (ObjectUtils.isNotNull(account)) {
+                setChartOfAccountsCode(account.getChartOfAccountsCode());
+                setChartOfAccounts(account.getChartOfAccounts());
+
+            }
+
+
+        }           
     }
 
     /**
@@ -232,7 +249,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public void setEffectiveDate(String effectiveDate) {
         this.effectiveDate = effectiveDate;
     }    
-    
+
     /**
      * Gets the financialObjectCode attribute.
      * 
@@ -551,7 +568,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public void setPositionData(PositionData positionData) {
         this.positionData = positionData;
     }    
-    
+
     /**
      * Gets the newLineIndicator attribute.
      * 
@@ -579,7 +596,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         if (this.getAccount() != null && !this.getAccount().isActive()) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -770,7 +787,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
         return totalEffortPercent;
     }
-    
+
     /**
      * calculate the total persised effort percent of the given detail lines
      * 
@@ -818,7 +835,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
         return totalPayrollAmount;
     }
-    
+
     /**
      * calculate the total payroll amount of the given detail lines
      * 
@@ -946,4 +963,9 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
+
+
+
+
+
 }

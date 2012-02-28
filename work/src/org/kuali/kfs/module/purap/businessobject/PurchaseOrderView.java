@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,12 +29,12 @@ import org.kuali.rice.krad.bo.Note;
  */
 public class PurchaseOrderView extends AbstractRelatedView {
 
-    private Boolean purchaseOrderCurrentIndicator;    
+    private Boolean purchaseOrderCurrentIndicator;
     private String recurringPaymentTypeCode;
     private String vendorChoiceCode;
     private Timestamp recurringPaymentEndDate;
     private Timestamp purchaseOrderInitialOpenTimestamp;
-    
+
     private List<Note> notes;
 
     public boolean isPurchaseOrderCurrentIndicator() {
@@ -54,7 +54,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
 
     @Deprecated
-    public void setPurchaseOrderStatusCode(String purchaseOrderStatusCode) {        
+    public void setPurchaseOrderStatusCode(String purchaseOrderStatusCode) {
     }
 
     public String getRecurringPaymentTypeCode() {
@@ -115,7 +115,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
     /**
      * The next four methods are overridden but shouldn't be! If they aren't overridden, they don't show up in the tag, not sure why at
      * this point! (AAP)
-     * 
+     *
      * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getPurapDocumentIdentifier()
      */
     @Override
@@ -143,7 +143,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
     public String getUrl() {
         return super.getUrl();
     }
-        
+
     /**
      * Checks whether the purchase order view needs a warning to be displayed, i.e. it never has been opened.
      * @return true if the purchase order needs a warning; false otherwise.

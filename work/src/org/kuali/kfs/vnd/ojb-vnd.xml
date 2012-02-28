@@ -597,4 +597,50 @@
     </reference-descriptor>    
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.vnd.businessobject.DebarredVendorDetail" table="PUR_VNDR_EXCL_MT">
+	<field-descriptor name="debarredVendorId" column="VNDR_EXCL_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PUR_VNDR_EXCL_MTCH_T_SEQ"/>
+    <field-descriptor name="loadDate" column="VNDR_EXCL_LOAD_DT" jdbc-type="DATE" />
+	<field-descriptor name="name" column="VNDR_EXCL_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="address1" column="VNDR_EXCL_LN1_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="address2" column="VNDR_EXCL_LN2_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="city" column="VNDR_EXCL_CTY_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="state" column="VNDR_EXCL_ST_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="province" column="VNDR_EXCL_PRVN_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="zip" column="VNDR_EXCL_ZIP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="aliases" column="VNDR_EXCL_OTHR_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="description" column="VNDR_EXCL_DESC_TXT" jdbc-type="VARCHAR" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.vnd.businessobject.DebarredVendorMatch" table="PUR_VNDR_EXCL_MTCH_T">
+	<field-descriptor name="debarredVendorId" column="VNDR_EXCL_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="PUR_VNDR_EXCL_MTCH_T_SEQ"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="addressGeneratedId" column="VNDR_ADDR_GNRTD_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="confirmStatusCode" column="VNDR_EXCL_CFRM_STAT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="loadDate" column="VNDR_EXCL_LOAD_DT" jdbc-type="DATE" />
+	<field-descriptor name="name" column="VNDR_EXCL_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="address1" column="VNDR_EXCL_LN1_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="address2" column="VNDR_EXCL_LN2_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="city" column="VNDR_EXCL_CTY_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="state" column="VNDR_EXCL_ST_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="province" column="VNDR_EXCL_PRVN_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="zip" column="VNDR_EXCL_ZIP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="aliases" column="VNDR_EXCL_OTHR_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="description" column="VNDR_EXCL_DESC_TXT" jdbc-type="VARCHAR" />
+	<field-descriptor name="lastUpdatedTimeStamp" column="LST_UPDT_TS" jdbc-type="DATE" />
+	<field-descriptor name="lastUpdatedPrincipalName" column="LST_UPDT_PRNCPL_NM" jdbc-type="VARCHAR" />
+	<reference-descriptor auto-delete="false" auto-retrieve="true" auto-update="false" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" name="vendorDetail">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier"/>
+        <foreignkey field-ref="vendorDetailAssignedIdentifier"/>
+    </reference-descriptor>
+    <reference-descriptor auto-delete="false" auto-retrieve="true" auto-update="false" class-ref="org.kuali.kfs.vnd.businessobject.VendorHeader" name="vendorHeader">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier"/>
+    </reference-descriptor>
+    <reference-descriptor auto-delete="false" auto-retrieve="true" auto-update="false" class-ref="org.kuali.kfs.vnd.businessobject.VendorAddress" name="vendorAddress" proxy="true">
+        <foreignkey field-ref="addressGeneratedId"/>
+    </reference-descriptor>
+</class-descriptor>
+
 </descriptor-repository>

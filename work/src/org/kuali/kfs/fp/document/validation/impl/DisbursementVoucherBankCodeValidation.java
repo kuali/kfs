@@ -35,7 +35,7 @@ public class DisbursementVoucherBankCodeValidation extends GenericValidation {
         
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
         
-        boolean isValid = BankCodeValidation.validate(dvDocument.getDisbVchrBankCode(), KFSPropertyConstants.DISB_VCHR_BANK_CODE, false, true);
+        boolean isValid = BankCodeValidation.validate(dvDocument, dvDocument.getDisbVchrBankCode(), KFSPropertyConstants.DISB_VCHR_BANK_CODE, false, true);
 
         return isValid;
     }

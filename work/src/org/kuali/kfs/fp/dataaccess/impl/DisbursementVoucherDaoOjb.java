@@ -40,14 +40,17 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getDocumentsByHeaderStatus(java.lang.String)
+     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getDocumentsByHeaderStatus(java.lang.String, boolean)
      */
-    public Collection getDocumentsByHeaderStatus(String statusCode) {
+    public Collection getDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
         LOG.debug("getDocumentsByHeaderStatus() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", statusCode);
         criteria.addEqualTo("disbVchrPaymentMethodCode", DisbursementVoucherConstants.PAYMENT_METHOD_CHECK);
+        if (immediatesOnly) {
+            criteria.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
+        }
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
     }

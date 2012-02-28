@@ -7,6 +7,7 @@
     
     <property name="documentTypeName" value="INVW"/>
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffDocumentRule"/>
 <!-- the following businessRuleClass should be used for granular validations, if implemented
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />

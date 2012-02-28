@@ -449,20 +449,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         }
     }
 
-    /**
-     * Clear all overrides that are not needed.
-     * 
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#clearOverridesThatBecameUnneeded(org.kuali.kfs.sys.businessobject.AccountingLine)
-     */
-    @Override
-    protected void clearOverridesThatBecameUnneeded(AccountingLine formLine) {
-        AccountingLineOverride currentlyNeeded = LaborAccountingLineOverride.determineNeededOverrides(formLine);
-        AccountingLineOverride currentOverride = AccountingLineOverride.valueOf(formLine.getOverrideCode());
-        if (!currentOverride.isValidMask(currentlyNeeded)) {
-            // todo: handle unsupported combinations of overrides (not a problem until we allow certain multiple overrides)
-        }
-        formLine.setOverrideCode(currentOverride.mask(currentlyNeeded).getCode());
-    }
+
 
     /**
      * For given accounting line, set the corresponding override code

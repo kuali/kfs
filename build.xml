@@ -51,16 +51,8 @@
 		</if>
 	</target>
 	
-	<target name="dist-local" if="is.local.build" depends="check-rice-lib,clean,filter-project,filter-local,dist-local-rice,overlay-additional-web-content,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="check-rice-lib,clean,filter-project,filter-local,dist-local-rice,overlay-additional-web-content,overlay-additional-schema,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/kfs-${build.environment}.xml" overwrite="true" />
-		<if>
-			<isset property="institution.lib.directory" />
-			<then>
-				<copy todir="${lib.directory}" overwrite="true">
-					<fileset dir="${institution.lib.directory}" includes="*.jar" />
-				</copy>
-			</then>
-		</if>
 	</target>
 	
 	<target name="dist-local-rice" if="is.local.build" depends="init-properties">
@@ -74,6 +66,27 @@
 	</target>
 
 	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
+	
+	<target name="filter-libraries" depends="init-properties" description="Copies over institutional lib libraries to the application's library directory">
+		<mkdir dir="${lib.directory}" />
+				
+		<copy todir="${lib.directory}" verbose="true">
+			<fileset dir="${build.rice.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+			<fileset dir="${build.kfs.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+		</copy>
+		<if>
+			<isset property="institution.lib.directory" />
+			<then>
+				<copy todir="${lib.directory}" overwrite="true">
+					<fileset dir="${institution.lib.directory}" includes="*.jar" />
+				</copy>
+			</then>
+		</if>
+	</target>
 
 	<target name="echo-properties" depends="init-properties" description="Print all build properties that have been set">
 		<echoproperties />
@@ -325,6 +338,18 @@
 		</condition>
 		<condition property="rice.kew.exception.routing.immediate" value="true" else="false"><isfalse value="${use.quartz.scheduling}" /></condition>
 
+		<if>
+			<and>
+				<isset property="institution.log4j.properties.file" />
+					<not>	        	
+						<equals arg1="" arg2="${institution.log4j.properties.file}" trim="true" />
+					</not>
+			</and>
+			<then>
+				<loadfile property="institutional.log4j" srcfile="${institution.log4j.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>
+			</then>
+		</if>
+		
 		<loadfile property="rice.config" srcfile="${build.appserver.directory}/standalone-rice-config.xml"><filterchain><expandproperties/></filterchain></loadfile>
 	
 	</target>
@@ -395,7 +420,7 @@
 		
 	</target>
 
-	<target name="init-make-references" depends="init-properties,check-rice-lib">
+	<target name="init-make-references" depends="init-properties,check-rice-lib,filter-libraries">
 		<path id="compile.source.classpath">
 			<fileset dir="${build.kfs.lib.directory}" includes="*.jar" />
 			<fileset dir="${build.rice.lib.directory}" includes="*.jar" />
@@ -511,13 +536,7 @@
 	</target>
 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
-	    <if> <!-- we can only copy this file to the app server IF we are running a local build.  Otherwise, we need to assume that it is
-	    already there. -->
-	        <isset property="is.local.build" />
-	        <then>
-        		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
-            </then>
-        </if>
+		<copy file="${build.directory}/${log4j.library.file}" todir="${lib.directory}" />
 	</target>
 
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
@@ -535,7 +554,7 @@
 	</target>
 
 	<target name="filter-project-rice" unless="dont.filter.project.rice" depends="init-properties,clean-rice">
-		<echo message="Copying Rice Web Content from ${build.appserver.directory}/${rice.server.war.file.name}" />
+		<echo message="Copying Rice Web Content from ${rice.server.war.directory}/${rice.server.war.file.name}" />
 		<!--
 		<if>
 			<isset property="rice.standalone.flag" />
@@ -564,18 +583,8 @@
 	</target>
 	
 	
-	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,check-rice-lib">
-		<mkdir dir="${lib.directory}" />
-		
-		<copy todir="${lib.directory}" verbose="true">
-			<fileset dir="${build.rice.lib.directory}">
-			    <include name="*.jar"/>
-			</fileset>
-			<fileset dir="${build.kfs.lib.directory}">
-			    <include name="*.jar"/>
-			</fileset>
-		</copy>
-		
+	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,check-rice-lib,filter-libraries">
+	
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 	    <if>
 	        <isset property="institutional.configuration" />
@@ -641,6 +650,12 @@
 		</if>
 		<mkdir dir="${settings.directory}" />
 		<echo file="${log4j.settings.file}" message="${log4j}" />
+		<if>
+			<isset property="institutional.log4j"/>
+			<then>
+				<echo append="true" file="${log4j.settings.file}" message="${line.separator}${institutional.log4j}"/>
+			</then>
+		</if>
 		<if>
 			<isset property="institution.settings.directory" />
 			<then>
@@ -708,9 +723,6 @@
             <classpath>
                 <pathelement location="${war.classes.directory}"/>
                 <path refid="compile.source.classpath" />
-                <fileset dir="${institution.lib.directory}">
-                    <include name="*.jar"/>
-                </fileset>
             </classpath>
         </javac>
         <copy todir="${war.classes.directory}" overwrite="true" verbose="true">
@@ -831,6 +843,10 @@ Excludes: ${tests.compile.excludes}
 				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
 				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
 			</batchtest>
+			<!-- run institution tests if possible -->
+			<batchtest todir="${test.xml.results.directory}" if="institution.test.source.directory">
+				<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
+			</batchtest>
 			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<mkdir dir="${test.html.results.directory}" />
@@ -862,6 +878,12 @@ Excludes: ${tests.compile.excludes}
 	<target name="dist-external" depends="init-properties">
 		<mkdir dir="temp"/>
 		<echo file="temp/${log4j.file}" message="${log4j}" />
+		<if>
+			<isset property="institutional.log4j"/>
+			<then>
+				<echo append="true" file="temp/${log4j.file}" message="${line.separator}${institutional.log4j}"/>
+			</then>
+		</if>
 		<if>
 			<isset property="institution.settings.directory" />
 			<then>
@@ -895,18 +917,10 @@ Excludes: ${tests.compile.excludes}
 		<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
 	</target>
 	
-	<target name="dist" depends="make-source,overlay-additional-web-content,filter-project-schema">
+	<target name="dist" depends="make-source,overlay-additional-web-content,overlay-additional-schema,filter-project-schema">
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>
-		<if>
-			<isset property="institution.lib.directory" />
-			<then>
-				<copy todir="${war.directory}/WEB-INF/lib" overwrite="true">
-					<fileset dir="${institution.lib.directory}" includes="*.jar" />
-				</copy>
-			</then>
-		</if>
 		<jar jarfile="kfs-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
@@ -917,7 +931,15 @@ Excludes: ${tests.compile.excludes}
             </fileset>
         </copy>
     </target>
-	
+
+	<target name="overlay-additional-schema" depends="init-properties" if="institution.schema.directory">
+	        <copy todir="${build.project.directory}/xsd" preservelastmodified="true" overwrite="true">
+	            <fileset dir="${institution.schema.directory}">
+	                <include name="**/*" />
+	            </fileset>
+	        </copy>
+	 </target>
+
 	<target name="continuous-integration" depends="clean-all,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>

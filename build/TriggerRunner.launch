@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<stringAttribute key="bad_container_name" value="BatchStepRunnerEclipseLauncher"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/iu/src/edu/iu/ebs/kfs/sys/context/BatchStepTrigger.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.kuali.kfs.sys.context.BatchStepTrigger"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="nightlyOutStep nightlyOutJob 1 /java/work/kfs/snd/staging/sys/batchContainer 5"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="kfs"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dcatalina.base=&quot;/java/servers/apache-tomcat-5.5.16&quot; -Dcatalina.home=&quot;/java/servers/apache-tomcat-5.5.16&quot; -Dwtp.deploy=&quot;/java/projects&quot; -Djava.endorsed.dirs=&quot;/java/servers/apache-tomcat-5.5.16/common/endorsed&quot; -Xmx2g -Xms768m -XX:MaxPermSize=384m -XX:PermSize=256m -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false"/>
+</launchConfiguration>

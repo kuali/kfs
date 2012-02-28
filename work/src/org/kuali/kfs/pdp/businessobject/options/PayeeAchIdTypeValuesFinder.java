@@ -18,7 +18,6 @@ package org.kuali.kfs.pdp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -35,9 +34,8 @@ public class PayeeAchIdTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<PayeeType> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(PayeeType.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", ""));
         for (PayeeType element : boList) {
-            if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(element.getCode()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE.equals(element.getCode()) || PdpConstants.PayeeIdTypeCodes.ENTITY.equals(element.getCode())) {
+            if (element.isAchEligible()) {
                 keyValues.add(new ConcreteKeyValue(element.getCode(), element.getName()));
             }
         }

@@ -99,6 +99,8 @@
 <!-- ********* Begin of depreciation batch beans ********** -->
 	<bean id="assetDepreciationService"  parent="assetDepreciationService-parentBean"/>
 	<bean id="assetDepreciationService-parentBean" class="org.kuali.kfs.module.cam.batch.service.impl.AssetDepreciationServiceImpl" abstract="true">											       
+	    <property name="cronExpression" value="0 * * ? * 5#3"/>
+	    <property name="mailService" ref="mailService" />											       
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
@@ -120,18 +122,12 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
-	    <property name="optionsService">
-			<ref bean="optionsService" />
-		</property>			
     </bean>
 
 	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciableAssetsDaoOjb">

@@ -48,8 +48,8 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
     }
 
     @Override
-    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, Collection<String> notAcceptedAssetStatus, Collection<String> federallyOwnedObjectSubTypes) {
-        return impl.getListOfDepreciableAssetPaymentInfo(fiscalYear, fiscalMonth, depreciationDate, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
+    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+        return impl.getListOfDepreciableAssetPaymentInfo(fiscalYear, fiscalMonth, depreciationDate);
     }
 
     @Override
@@ -64,8 +64,8 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
     }
 
     @Override
-    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear, final java.util.Date lastFiscalYearDate, Collection<String> movableEquipmentObjectSubTypes) {
-        impl.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear, lastFiscalYearDate, movableEquipmentObjectSubTypes);
+    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear) {
+        impl.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
 
     }
 
@@ -111,13 +111,13 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
     }
 
     @Override
-    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includePending, Collection<String> notAcceptedAssetStatus, Collection<String> federallyOwnedObjectSubTypes) {
-        return impl.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, includePending, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
+    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includePending) {
+        return impl.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, includePending);
     }
 
     @Override
-    public Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, Collection<String> notAcceptedAssetStatus, Collection<String> federallyOwnedObjectSubTypes) {
-        return impl.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
+    public Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+        return impl.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
     }
 
     @Override

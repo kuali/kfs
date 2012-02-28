@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -81,22 +81,23 @@ public class TempListLookupAction extends KualiLookupAction {
 
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
 
-        // check for session heart beat only if running inside BC system
-        if (tempListLookupForm.getTempListLookupMode() != BCConstants.TempListLookupMode.DEFAULT_LOOKUP_MODE) {
-            Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
-            if (isBCHeartBeating == null) {
-                if (tempListLookupForm.isMainWindow()) {
-                    Properties parameters = new Properties();
-                    parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
+        // we lost the session now recover back to the selection screen
+        if (tempListLookupForm.getMethodToCall() != null && tempListLookupForm.getMethodToCall().equals("performLost")) {
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
 
                     String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
 
-                    return new ActionForward(lookupUrl, true);
-                }
-                else {
-                    KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-                    return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
-                }
+            return new ActionForward(lookupUrl, true);
+        }
+
+        // check for lost session and display an alert message and recovery control
+        // this also dumps the special incumbent and position lookups back into BC selection
+        if (tempListLookupForm.getMethodToCall() == null || tempListLookupForm.getTempListLookupMode() != BCConstants.TempListLookupMode.DEFAULT_LOOKUP_MODE) {
+            Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
+            if (isBCHeartBeating == null) {
+                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
             }
         }
 
@@ -106,7 +107,7 @@ public class TempListLookupAction extends KualiLookupAction {
     /**
      * Does not supress actions if in position or incumbent lookup mode in the BC application, otherwise calls on
      * KualiLookupAction.supressActions
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#supressActionsIfNeeded(org.apache.struts.action.ActionForm)
      */
     @Override
@@ -139,7 +140,7 @@ public class TempListLookupAction extends KualiLookupAction {
      * TempListLookupAction can be called to build and display different lists. This method determines what the requested behavior
      * is and either makes a build call for that list or sets up a message (if the list has already been built). If the request
      * parameter showInitialResults is true, an initial search will be performed before display of the screen.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -215,13 +216,9 @@ public class TempListLookupAction extends KualiLookupAction {
     /**
      * This differs from KualiLookupAction.clearValues in that any atributes marked hidden will not be cleared. This is to support
      * BC temp tables that use principalId to operate on the set of rows associated with the current user.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#clearValues(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     *
-     * KRAD Conversion: Lookupable performs customization of the fields of the search results.
-     *
-     * Data dictionary is not used.
      */
     @Override
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -270,7 +267,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
     /**
      * Forwards to budget position lookup.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -310,7 +307,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
     /**
      * Validates the get new action for position then calls BudgetPositionService to pull the new position record.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -347,7 +344,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
     /**
      * Forwards to intended incumbent lookup.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -384,7 +381,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
     /**
      * Validates the get new action for incumbent then calls BudgetPositionService to pull the new incumbent record.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -421,7 +418,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
     /**
      * Continues the organization report action after viewing the account list.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -449,7 +446,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
     /**
      * Unlocks a current budget lock and returns back to lock monitor with refreshed locks.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -496,7 +493,7 @@ public class TempListLookupAction extends KualiLookupAction {
      * Gives a confirmation first time called. The next time will check the confirmation result. If the returned forward is not
      * null, that indicates we are fowarding to the question or they selected No to the confirmation and we should return to the
      * unlock page.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -525,7 +522,7 @@ public class TempListLookupAction extends KualiLookupAction {
     /**
      * Parses the methodToCall parameter which contains the lock information in a known format. Populates a
      * BudgetConstructionLockSummary that represents the record to unlock.
-     *
+     * 
      * @param methodToCallString - request parameter containing lock information
      * @return lockSummary populated from request parameter
      */
@@ -559,7 +556,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
     /**
      * Retrieves the message text for the lock key and fills in message parameters based on the lock type.
-     *
+     * 
      * @return lockKey built from given parameters
      */
     protected String buildLockKeyMessage(String lockType, String lockUserId, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String positionNumber) {

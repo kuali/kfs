@@ -66,6 +66,8 @@ public class KfsParameterConstants  {
     public static final String PURCHASING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PURAP";
     public static final String VENDOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "VND";
     public static final String ENDOWMENT_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "ENDOW";
+    public static final String PARAMETER_CONFIG_TYPE_CODE = "CONFG";
+    public static final String PARAMETER_ALL_DETAIL_TYPE = "All";
 
     @NAMESPACE(namespace = FINANCIAL_SYSTEM_NAMESPACE)
     @COMPONENT(component = ALL_COMPONENT)

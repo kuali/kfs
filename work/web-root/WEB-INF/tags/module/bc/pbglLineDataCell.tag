@@ -26,7 +26,6 @@
               description="The DataDictionary entry containing attributes for the field in this cell." %>
 <%@ attribute name="readOnly" required="true" %>
 <%@ attribute name="disabled" required="false" %>
-
 <%@ attribute name="fieldAlign" required="false"
               description="div alignment. default is align=left" %>
 
@@ -130,6 +129,7 @@
 <%@ attribute name="displayMask" required="false"
 			  description="when a field is not to be displayed in clear text and encrypted as hidden, the
 			  string to display." %>
+<%@ attribute name="divId" required="false"  %>			  
 
 
 <c:if test="${empty fieldAlign}">
@@ -196,7 +196,8 @@
     	<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
     </c:if>
     <c:if test="${!excludedFromTotal}">
-    <kul:htmlControlAttribute
+    <div id="${divId}" >
+    	<kul:htmlControlAttribute
         property="${cellProperty}"
         attributeEntry="${attributes[field]}"
         onblur="${onblur}"
@@ -217,6 +218,7 @@
             inquiryExtraKeyValues="${inquiryExtraKeyValues}"
             formattedNumberValue="${formattedNumberValue}"
             />
+    </div>
     </kul:htmlControlAttribute>
     </c:if>
     <c:if test="${excludedFromTotal}">

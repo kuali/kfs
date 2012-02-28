@@ -536,7 +536,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.gl.businessobject.ExpenditureTransaction" table="GL_EXPEND_TRN_T">
+<class-descriptor class="org.kuali.kfs.gl.businessobject.ExpenditureTransaction" table="GL_EXPEND_TRN_MT">
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -98,10 +98,11 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     /**
      * This method extracts all payments from a disbursement voucher with a status code of "A" and uploads them as a batch for
      * processing.
-     * 
+     *
      * @return Always returns true if the method completes.
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#extractPayments()
      */
+    @Override
     public boolean extractPayments() {
         LOG.debug("extractPayments() started");
 
@@ -136,9 +137,43 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
+     * Pulls all disbursement vouchers with status of "A" and marked for immediate payment from the database and builds payment records for them
+     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#extractImmediatePayments()
+     */
+    @Override
+    public void extractImmediatePayments() {
+        LOG.debug("extractImmediatePayments() started");
+
+        Date processRunDate = dateTimeService.getCurrentDate();
+
+        String noteLines = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
+
+        try {
+            maxNoteLines = Integer.parseInt(noteLines);
+        }
+        catch (NumberFormatException nfe) {
+            throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
+        }
+
+        Person uuser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        if (uuser == null) {
+            LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
+            throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
+        }
+
+        // Get a list of campuses that have documents with an 'A' (approved) status.
+        Set<String> campusList = getImmediatesCampusListByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
+
+        // Process each campus one at a time
+        for (String campusCode : campusList) {
+            extractImmediatePaymentsForCampus(campusCode, uuser, processRunDate);
+        }
+    }
+
+    /**
      * This method extracts all outstanding payments from all the disbursement vouchers in approved status for a given campus and
      * adds these payments to a batch file that is uploaded for processing.
-     * 
+     *
      * @param campusCode The id code of the campus the payments will be retrieved for.
      * @param user The user object used when creating the batch file to upload with outstanding payments.
      * @param processRunDate This is the date that the batch file is created, often this value will be today's date.
@@ -147,12 +182,39 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         if (LOG.isDebugEnabled()) {
             LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
         }
-        
+
         Batch batch = createBatch(campusCode, user, processRunDate);
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
-        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode);
+        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, false);
+        for (DisbursementVoucherDocument document : dvd) {
+            addPayment(document, batch, processRunDate);
+            count++;
+            totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount());
+        }
+
+        batch.setPaymentCount(new KualiInteger(count));
+        batch.setPaymentTotalAmount(totalAmount);
+
+        businessObjectService.save(batch);
+        paymentFileEmailService.sendLoadEmail(batch);
+    }
+
+    /**
+     * Builds payment batch for Disbursement Vouchers marked as immediate
+     * @param campusCode the campus code the disbursement vouchers should be associated with
+     * @param user the user responsible building the payment batch (typically the System User, kfs)
+     * @param processRunDate the time that the job to build immediate payments is run
+     */
+    protected void extractImmediatePaymentsForCampus(String campusCode, Person user, Date processRunDate) {
+        LOG.debug("extractImmediatesPaymentsForCampus() started for campus: " + campusCode);
+
+        Batch batch = createBatch(campusCode, user, processRunDate);
+        Integer count = 0;
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, true);
         for (DisbursementVoucherDocument document : dvd) {
             addPayment(document, batch, processRunDate);
             count++;
@@ -168,7 +230,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This method creates a payment group from the disbursement voucher and batch provided and persists that group to the database.
-     * 
+     *
      * @param document The document used to build a payment group detail.
      * @param batch The batch file used to build a payment group and detail.
      * @param processRunDate The date the batch file is to post.
@@ -201,7 +263,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * voucher are used to assign appropriate attributes to the payment group, including address and vendor detail information. The
      * information added to the payment group includes tax encoding to identify if taxes should be taken out of the payment. The tax
      * rules vary depending on the type of individual or entity being paid
-     * 
+     *
      * @param document The document to be used for retrieving the information about the vendor being paid.
      * @param batch The batch that the payment group will be associated with.
      * @return A PaymentGroup object fully populated with all the values necessary to make a payment.
@@ -234,16 +296,16 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             String vendorOwnerCode = vendDetail.getVendorHeader().getVendorOwnershipCode();
             String vendorOwnerCategoryCode = vendDetail.getVendorHeader().getVendorOwnershipCategoryCode();
             String payReasonCode = pd.getDisbVchrPaymentReasonCode();
-            
+
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
-            
+
             // Assume it is not taxable until proven otherwise
             pg.setTaxablePayment(Boolean.FALSE);
             pg.setPayeeOwnerCd(vendorOwnerCode);
 
             ParameterEvaluator parameterEvaluator1 = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_BY_OWNERSHIP_CODES_PARAMETER_NAME, PdpParameterConstants.NON_TAXABLE_PAYMENT_REASON_CODES_BY_OWNERSHIP_CODES_PARAMETER_NAME, vendorOwnerCode, payReasonCode);
             ParameterEvaluator parameterEvaluator2 = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY_PARAMETER_NAME, PdpParameterConstants.NON_TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY_PARAMETER_NAME, vendorOwnerCategoryCode, payReasonCode);
-            
+
             if ( parameterEvaluator1.evaluationSucceeds() ) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
@@ -258,7 +320,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 pg.setTaxablePayment(Boolean.TRUE);
             }
         }
-        
+
         pg.setCity(pd.getDisbVchrPayeeCityName());
         pg.setCountry(pd.getDisbVchrPayeeCountryCode());
         pg.setLine1Address(pd.getDisbVchrPayeeLine1Addr());
@@ -284,7 +346,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     /**
      * This method builds a payment detail object from the disbursement voucher document provided and links that detail file to the
      * batch and process run date given.
-     * 
+     *
      * @param document The disbursement voucher document to retrieve payment information from to populate the PaymentDetail.
      * @param batch The batch file associated with the payment.
      * @param processRunDate The date of the payment detail invoice.
@@ -414,7 +476,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         String paymentReasonCode = dvpd.getDisbVchrPaymentReasonCode();
         if (/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode).evaluationSucceeds()) {
             DisbursementVoucherNonEmployeeTravel dvnet = document.getDvNonEmployeeTravel();
-            
+
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Reimbursement associated with " + dvnet.getDisbVchrServicePerformedDesc());
@@ -481,10 +543,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             }
         }
 
-        // Get the original, raw form, note text from the DV document. 
+        // Get the original, raw form, note text from the DV document.
         String text = document.getDisbVchrCheckStubText();
         if (text != null && text.length() > 0) {
-            
+
             // The WordUtils should be sufficient for the majority of cases.  This method will
             // word wrap the whole string based on the MAX_NOTE_LINE_SIZE, separating each wrapped
             // word by a newline character.  The 'wrap' method adds line feeds to the end causing
@@ -492,16 +554,16 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             // method before splitting.
             String   wrappedText = WordUtils.wrap(text, DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE);
             String[] noteLines   = wrappedText.replaceAll("[\r]", "").split("\\n");
-            
+
             // Loop through all the note lines.
             for (String noteLine : noteLines) {
                 if (line < (maxNoteLines - 3) && !StringUtils.isEmpty(noteLine)) {
-                    
+
                     // This should only happen if we encounter a word that is greater than the max length.
                     // The only concern I have for this occurring is with URLs/email addresses.
                     if (noteLine.length() > DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE) {
                         for (String choppedWord : chopWord(noteLine, DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE)) {
-                            
+
                             // Make sure we're still under the maximum number of note lines.
                             if (line < (maxNoteLines - 3) && !StringUtils.isEmpty(choppedWord)) {
                                 pnt = new PaymentNoteText();
@@ -522,7 +584,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                         pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
                         pnt.setCustomerNoteText(noteLine.replaceAll("\\n", "").trim());
                     }
-                    
+
                     // Logging...
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Creating check stub text note: " + pnt.getCustomerNoteText());
@@ -531,24 +593,24 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 }
             }
         }
-        
+
         return pd;
     }
-    
+
     /**
      * This method will take a word and simply chop into smaller
      * text segments that satisfy the limit requirements.  All words
      * brute force chopped, with no regard to preserving whole words.
-     * 
+     *
      * For example:
-     * 
+     *
      *      "Java is a fun programming language!"
-     * 
+     *
      * Might be chopped into:
-     * 
+     *
      *      "Java is a fun prog"
      *      "ramming language!"
-     *  
+     *
      * @param word The word that needs chopping
      * @param limit Number of character that should represent a chopped word
      * @return String [] of chopped words
@@ -557,34 +619,34 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     {
         StringBuilder builder = new StringBuilder();
         if (word != null && word.trim().length() > 0) {
-            
+
             char[] chars = word.toCharArray();
             int index = 0;
-            
+
             // First process all the words that fit into the limit.
             for (int i = 0; i < chars.length/limit; i++) {
                 builder.append(String.copyValueOf(chars, index, limit));
                 builder.append("\n");
-                
+
                 index += limit;
             }
-            
+
             // Not all words will fit perfectly into the limit amount, so
             // calculate the modulus value to determine any remaining characters.
             int modValue =  chars.length%limit;
             if (modValue > 0) {
                 builder.append(String.copyValueOf(chars, index, modValue));
             }
-            
+
         }
-        
+
         // Split the chopped words into individual segments.
         return builder.toString().split("\\n");
     }
 
     /**
      * This method creates a Batch instance and populates it with the information provided.
-     * 
+     *
      * @param campusCode The campus code used to retrieve a customer profile to be set on the batch.
      * @param user The user who submitted the batch.
      * @param processRunDate The date the batch was submitted and the date the customer profile was generated.
@@ -618,7 +680,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     /**
      * This method retrieves a collection of campus instances representing all the campuses which currently have disbursement
      * vouchers with the status code provided.
-     * 
+     *
      * @param statusCode The status code to retrieve disbursement vouchers by.
      * @return A collection of campus codes of all the campuses with disbursement vouchers in the status given.
      */
@@ -627,7 +689,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Set<String> campusSet = new HashSet<String>();
 
-        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
+        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode, false);
         for (DisbursementVoucherDocument element : docs) {
             String dvdCampusCode = element.getCampusCode();
             campusSet.add(dvdCampusCode);
@@ -637,13 +699,34 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
+     * Retrieves a list of campuses which have Disbursement Vouchers ready to be process which are marked for immediate processing
+     * @param statusCode the status code of the documents to retrieve
+     * @return the Set of campuses which have DV which are up for immediate disbursement
+     */
+    protected Set<String> getImmediatesCampusListByDocumentStatusCode(String statusCode) {
+        LOG.debug("getCampusListByDocumentStatusCode() started");
+
+        Set<String> campusSet = new HashSet<String>();
+
+        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode, true);
+        for (DisbursementVoucherDocument element : docs) {
+
+            final String dvdCampusCode = element.getCampusCode();
+            campusSet.add(dvdCampusCode);
+        }
+
+        return campusSet;
+    }
+
+    /**
      * This method retrieves a list of disbursement voucher documents that are in the status provided for the campus code given.
-     * 
+     *
      * @param statusCode The status of the disbursement vouchers to be retrieved.
      * @param campusCode The campus code that the disbursement vouchers will be associated with.
+     * @param immediatesOnly only retrieve Disbursement Vouchers marked for immediate payment
      * @return A collection of disbursement voucher objects that meet the search criteria given.
      */
-    protected Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode) {
+    protected Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode, boolean immediatesOnly) {
         LOG.debug("getListByDocumentStatusCodeCampus() started");
 
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
@@ -654,7 +737,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 String dvdCampusCode = element.getCampusCode();
 
                 if (dvdCampusCode.equals(campusCode) && DisbursementVoucherConstants.PAYMENT_METHOD_CHECK.equals(element.getDisbVchrPaymentMethodCode())) {
-                    list.add(element);
+                    if ((immediatesOnly && element.isImmediatePaymentIndicator()) || !immediatesOnly) {
+                        list.add(element);
+                    }
                 }
             }
         }
@@ -668,11 +753,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This cancels the disbursement voucher
-     * 
+     *
      * @param dv the disbursement voucher document to cancel
      * @param processDate the date of the cancelation
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#cancelExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
+    @Override
     public void cancelExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate) {
         if (dv.getCancelDate() == null) {
             try {
@@ -722,7 +808,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     /**
      * Updates the given general ledger pending entry so that it will have the opposite effect of what it was created to do; this,
      * in effect, undoes the entries that were already posted for this document
-     * 
+     *
      * @param glpe the general ledger pending entry to undo
      */
     protected void oppositifyEntry(GeneralLedgerPendingEntry glpe, BusinessObjectService boService, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper) {
@@ -740,11 +826,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This updates the disbursement voucher so that when it is re-extracted, information about it will be accurate
-     * 
+     *
      * @param dv the disbursement voucher document to reset
      * @param processDate the date of the reseting
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#resetExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
+    @Override
     public void resetExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate) {
         try {
             // 1. reset the extracted date
@@ -761,11 +848,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * Looks up the document using document service, and deals with any nasty WorkflowException or ClassCastExceptions that pop up
-     * 
+     *
      * @param documentNumber the number of the document to look up
      * @return the dv doc if found, or null otherwise
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#getDocumentById(java.lang.String)
      */
+    @Override
     public DisbursementVoucherDocument getDocumentById(String documentNumber) {
         DisbursementVoucherDocument dv = null;
         try {
@@ -780,11 +868,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * Marks the disbursement voucher as paid by setting its paid date
-     * 
+     *
      * @param dv the dv document to mark as paid
      * @param processDate the date when the dv was paid
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#markDisbursementVoucherAsPaid(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
+    @Override
     public void markDisbursementVoucherAsPaid(DisbursementVoucherDocument dv, java.sql.Date processDate) {
         try {
             dv.setPaidDate(processDate);
@@ -796,9 +885,47 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
     }
 
+
+
+    /**
+     * Extracts a single DisbursementVoucherDocument
+     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#extractImmediatePayment(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
+    @Override
+    public void extractImmediatePayment(DisbursementVoucherDocument disbursementVoucher) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("extractImmediatePayment(DisbursementVoucherDocument) started");
+        }
+        Date processRunDate = dateTimeService.getCurrentDate();
+        String noteLines = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
+        try {
+            maxNoteLines = Integer.parseInt(noteLines);
+        }
+        catch (NumberFormatException nfe) {
+            throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
+        }
+        Person user = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        if (user == null) {
+            LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
+            throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
+        }
+
+        Batch batch = createBatch(disbursementVoucher.getCampusCode(), user, processRunDate);
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        addPayment(disbursementVoucher, batch, processRunDate);
+        totalAmount = totalAmount.add(disbursementVoucher.getDisbVchrCheckTotalAmount());
+
+        batch.setPaymentCount(new KualiInteger(1));
+        batch.setPaymentTotalAmount(totalAmount);
+
+        businessObjectService.save(batch);
+        paymentFileEmailService.sendDisbursementVoucherImmediateExtractEmail(disbursementVoucher, user);
+    }
+
     /**
      * This method sets the disbursementVoucherDao instance.
-     * 
+     *
      * @param disbursementVoucherDao The DisbursementVoucherDao to be set.
      */
     public void setDisbursementVoucherDao(DisbursementVoucherDao disbursementVoucherDao) {
@@ -807,7 +934,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This method sets the ParameterService instance.
-     * 
+     *
      * @param parameterService The ParameterService to be set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -816,7 +943,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This method sets the dateTimeService instance.
-     * 
+     *
      * @param dateTimeService The DateTimeService to be set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -825,7 +952,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This method sets the customerProfileService instance.
-     * 
+     *
      * @param customerProfileService The CustomerProfileService to be set.
      */
     public void setCustomerProfileService(CustomerProfileService customerProfileService) {
@@ -834,7 +961,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This method sets the paymentFileService instance.
-     * 
+     *
      * @param paymentFileService The PaymentFileService to be set.
      */
     public void setPaymentFileService(PaymentFileService paymentFileService) {
@@ -843,7 +970,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This method sets the paymentGroupService instance.
-     * 
+     *
      * @param paymentGroupService The PaymentGroupService to be set.
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
@@ -852,7 +979,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -861,7 +988,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * Sets the paymentFileEmailService attribute value.
-     * 
+     *
      * @param paymentFileEmailService The paymentFileEmailService to set.
      */
     public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {

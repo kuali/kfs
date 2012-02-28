@@ -62,6 +62,7 @@ public class GlLineServiceImpl implements GlLineService {
     protected BusinessObjectService businessObjectService;
     protected AssetGlobalService assetGlobalService;
 
+
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(java.util.List,
      *      org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
@@ -91,8 +92,7 @@ public class GlLineServiceImpl implements GlLineService {
     }
 
     /**
-     * Marks the capital asset information as "processed" so that it won't be picked up again
-     * for processing.
+     * De-activate the GL Entries
      * 
      * @param primary
      * @param capitalAssetLineNumber
@@ -258,6 +258,7 @@ public class GlLineServiceImpl implements GlLineService {
         entryAsset.setCapitalAssetManagementDocumentNumber(document.getDocumentNumber());
         entry.getGeneralLedgerEntryAssets().add(entryAsset);
     }
+
 
     /**
      * Creates asset global

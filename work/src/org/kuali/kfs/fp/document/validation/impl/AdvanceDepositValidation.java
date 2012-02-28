@@ -29,7 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class...
  */
 public class AdvanceDepositValidation extends GenericValidation {
-    private AdvanceDepositDetail advanceDepositDetailForValidation;
+    protected AdvanceDepositDetail advanceDepositDetailForValidation;
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */

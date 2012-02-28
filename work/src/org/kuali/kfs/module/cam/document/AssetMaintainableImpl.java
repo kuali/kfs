@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,9 +54,9 @@ import org.kuali.rice.krad.service.DocumentService;
  */
 
 public class AssetMaintainableImpl extends FinancialSystemMaintainable {
-    
+
     private static final Logger LOG = Logger.getLogger(AssetMaintainableImpl.class);
-    
+
     private Asset asset;
     private Asset copyAsset;
     private boolean fabricationOn;
@@ -76,7 +76,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
      * this method.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#generateMaintenanceLocks()
      */
     @Override
@@ -107,6 +107,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
      * @param document Maintenance Document used for editing
      * @param parameters Parameters available
      */
+    @Override
     public void processAfterEdit(MaintenanceDocument document, Map parameters) {
         initializeAttributes(document);
         // Identifies the latest location information
@@ -141,9 +142,9 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
-     * 
+     *
      * KRAD Conversion: Performs customization of the core sections.
-     * 
+     *
      * Uses data dictionary for bo Asset to get the core section ids to set section titles.
      */
     @Override
@@ -158,13 +159,13 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
                 }
             }
         }
-        
+
         return sections;
     }
 
     /**
      * This method gets old and new maintainable objects and creates convenience handles to them
-     * 
+     *
      * @param document Asset Edit Document
      */
     private void initializeAttributes(MaintenanceDocument document) {
@@ -178,22 +179,22 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
 
         setFabricationOn(document.getNewMaintainableObject().getBusinessObject() instanceof AssetFabrication);
     }
-    
+
     /**
      * KFSMI-5964: added refresh to Asset object after retrieve to prevent updated depreciation data from
      * wiped on existing saved/enrouted maint. doc
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
-        
+
         //Asset only
         if (this.getBusinessObject() instanceof Asset && MaintainableWorkflowUtils.isDocumentSavedOrEnroute(getDocumentNumber())) {
 
             Asset asset = (Asset)getBusinessObject();
             asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
-            
+
             PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
             paymentSummaryService.calculateAndSetPaymentSummary(asset);
         }
@@ -226,6 +227,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
             asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
             asset.setPrimaryDepreciationMethodCode(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
             asset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
+            asset.setManufacturerName(SpringContext.getBean(ParameterService.class).getParameterValueAsString(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_MANUFACTURER));
             getAssetService().setFiscalPeriod(asset);
         }
         // setup offCampusLocation

@@ -54,6 +54,12 @@
 		<property name="jobNames">
 			<list>
 				<value>populatePriorYearDataJob</value>
+				<value>cfdaJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list>
+				<value>cfdaJobTrigger</value>
 			</list>
 		</property>
         <property name="fiscalYearMakers">
@@ -94,12 +100,24 @@
 			<ref bean="parameterService" />
 		</property>
 	</bean>
+	
+	<bean id="AccountReferenceExemption" abstract="true" parent="AccountReferenceExemption-parentBean"/>
+	<bean id="AccountReferenceExemption-parentBean" abstract="true" class="org.kuali.kfs.coa.service.impl.AccountReferencePersistenceExemption">
+		<property name="chartOfAccountsCodePropertyName" value="chartOfAccountsCode"/>
+		<property name="accountNumberPropertyName" value="accountNumber"/>
+	</bean>
 
-	<bean id="AccountPersistenceStructureService"  parent="AccountPersistenceStructureService-parentBean"/>
-	<bean id="AccountPersistenceStructureService-parentBean" class="org.kuali.kfs.coa.service.impl.AccountPersistenceStructureServiceImpl" abstract="true">
+	<bean id="AccountPersistenceStructureService" parent="AccountPersistenceStructureService-parentBean" />
+	
+	<bean id="AccountPersistenceStructureService-parentBean" abstract="true" class="org.kuali.kfs.coa.service.impl.AccountPersistenceStructureServiceImpl">
 		<property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa" />
     	<property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
     	<property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
+    	<property name="accountReferencePersistenceExemptions">
+    		<list>
+    			<bean parent="AccountReferenceExemption" p:parentBusinessObjectClass="org.kuali.kfs.coa.businessobject.Organization" p:accountNumberPropertyName="organizationDefaultAccountNumber"/> 
+    		</list>
+    	</property>
 	</bean>
 
 	<bean id="projectCodeService"  parent="projectCodeService-parentBean"/>
@@ -118,6 +136,7 @@
 
 	<bean id="subObjectCodeService"  parent="subObjectCodeService-parentBean"/>
 	<bean id="subObjectCodeService-parentBean" class="org.kuali.kfs.coa.service.impl.SubObjectCodeServiceImpl" abstract="true">
+
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
@@ -329,7 +348,7 @@
 		</property>
 	</bean>
 	
-	<bean id="populatePriorYearDataJob" parent="unscheduledJobDescriptor">
+	<bean id="populatePriorYearDataJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="updatePriorYearDataStep" />
@@ -580,9 +599,39 @@
     	
 	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
 
-	<bean id="orgReviewRoleService"  parent="orgReviewRoleService-parentBean"/>
-	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" >
-		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
+	<bean id="orgReviewRoleService" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" />
+	 <bean id="cfdaService" class="org.kuali.kfs.coa.service.impl.CfdaServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+       
+	
+    <bean id="cfdaBatchStep" class="org.kuali.kfs.coa.batch.CfdaBatchStep" parent="step">
+        <property name="cfdaService">
+            <ref bean="cfdaService" />
+        </property>
+        <property name="mailService">
+            <ref bean="mailService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+        <property name="configurationService" ref="kualiConfigurationService" />
+    </bean>
+
+    <bean id="cfdaJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="cfdaBatchStep" />
+			</list>
+		</property>
 	</bean>
+
+	<bean id="cfdaJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="cfdaJob" />
+		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
+	</bean>
+	 
 	 <import resource="spring-coa-bus-exports.xml"/>
 </beans>

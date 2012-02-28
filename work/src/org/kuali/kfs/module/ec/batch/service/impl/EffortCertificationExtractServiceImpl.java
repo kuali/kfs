@@ -388,7 +388,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         for (String key : ledgerBalanceMap.keySet()) {
             LaborLedgerBalance ledgerBalance = ledgerBalanceMap.get(key);
 
-            KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
+            KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods, false);
             if (totalAmount.isNonZero()) {
                 cosolidatedLedgerBalances.add(ledgerBalance);
             }

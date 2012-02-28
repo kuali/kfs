@@ -41,12 +41,4 @@ public interface AssetDepreciationService {
      */
     public void setDepreciationBatchDao(DepreciationBatchDao depreciationBatchDao);
 
-    /**
-     * This method retrieves a list of valid asset object codes for a particular fiscal year
-     * 
-     * @param fiscalYear
-     * @return Collection<AssetObjectCode>
-     */
-    public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear);
-
 }

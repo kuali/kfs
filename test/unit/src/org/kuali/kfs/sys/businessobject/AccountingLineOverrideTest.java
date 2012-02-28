@@ -216,7 +216,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
-        AccountingLineOverride.processForOutput(line);
+        AccountingLineOverride.processForOutput(null,line);
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
@@ -229,7 +229,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
-        AccountingLineOverride.processForOutput(line);
+        AccountingLineOverride.processForOutput(null,line);
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
@@ -242,7 +242,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
         line.setAccount(getExpiredAccount());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
-        AccountingLineOverride.processForOutput(line);
+        AccountingLineOverride.processForOutput(null,line);
         assertEquals(true, line.getAccountExpiredOverride());
         assertEquals(true, line.getAccountExpiredOverrideNeeded());
         assertEquals(AccountingLineOverride.CODE.EXPIRED_ACCOUNT, line.getOverrideCode());
@@ -255,7 +255,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
-        AccountingLineOverride.processForOutput(line);
+        AccountingLineOverride.processForOutput(null,line);
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
@@ -268,7 +268,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
         line.setAccount(getExpiredAccount());
         line.setAccountExpiredOverride(true);
         line.setAccountExpiredOverrideNeeded(true);
-        AccountingLineOverride.processForOutput(line);
+        AccountingLineOverride.processForOutput(null,line);
         assertEquals(true, line.getAccountExpiredOverride());
         assertEquals(true, line.getAccountExpiredOverrideNeeded());
         assertEquals(AccountingLineOverride.CODE.EXPIRED_ACCOUNT, line.getOverrideCode());
@@ -281,7 +281,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
-        AccountingLineOverride.processForOutput(line);
+        AccountingLineOverride.processForOutput(null,line);
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(true, line.getAccountExpiredOverrideNeeded());
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
@@ -294,7 +294,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
         line.setAccount(getUnexpiredAccount());
         line.setAccountExpiredOverride(true);
         line.setAccountExpiredOverrideNeeded(true);
-        AccountingLineOverride.processForOutput(line);
+        AccountingLineOverride.processForOutput(null,line);
         assertEquals(true, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
         assertEquals(AccountingLineOverride.CODE.EXPIRED_ACCOUNT, line.getOverrideCode());
@@ -307,7 +307,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
-        AccountingLineOverride.processForOutput(line);
+        AccountingLineOverride.processForOutput(null,line);
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());

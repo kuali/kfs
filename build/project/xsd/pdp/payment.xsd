@@ -55,6 +55,7 @@
     <xsd:element name="payment_date" type="${xsd:date,dd:PaymentGroup.paymentDate}"/>
     <xsd:element name="invoice_date" type="${xsd:normalizedString,dd:PaymentDetail.invoiceDate}"/>
     <xsd:element name="attachment_ind" type="${xsd:normalizedString,dd:PaymentGroup.pymtAttachment}"/>
+	<xsd:element name="immediate_ind" type="${xsd:normalizedString,dd:PaymentGroup.processImmediate}"/>
     <xsd:element name="special_handling_ind" type="${xsd:normalizedString,dd:PaymentGroup.pymtSpecialHandling}"/>
     <xsd:element name="taxable_ind" type="${xsd:normalizedString,dd:PaymentGroup.taxablePayment}"/>
     <xsd:element name="orig_invoice_amt" type="${xsd:decimal,dd:PaymentDetail.origInvoiceAmount}"/>
@@ -146,6 +147,7 @@
                 <xsd:element maxOccurs="1" minOccurs="0" ref="campus_address_ind"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="payment_date"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="attachment_ind"/>
+				<xsd:element maxOccurs="1" minOccurs="0" ref="immediate_ind"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="special_handling_ind"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="taxable_ind"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="nra_ind"/>

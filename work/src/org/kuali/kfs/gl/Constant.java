@@ -43,6 +43,14 @@ public final class Constant {
     public static final String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";
     public static final String COST_SHARE_EXCLUDE = "Exclude";
     public static final String COST_SHARE_INCLUDE = "Include";
+    
+    public static final String DEBIT_CREDIT_OPTION = "dummyBusinessObject.debitCreditOption";
+    public static final String DEBIT_CREDIT_INCLUDE = "Include";
+    public static final String DEBIT_CREDIT_EXCLUDE = "Exclude";
+    
+    public static final String ZERO_ENCUMBRANCE_OPTION = "dummyBusinessObject.zeroEncumbranceOption";
+    public static final String ZERO_ENCUMBRANCE_INCLUDE = "Include";
+    public static final String ZERO_ENCUMBRANCE_EXCLUDE = "Exclude";
 
     public static final String SUB_ACCOUNT_OPTION = "subAccountNumber";
 

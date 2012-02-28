@@ -77,7 +77,9 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
      */
     @Override
     public boolean canEdit(Document document) {
-        if (document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) return false;
+        if (document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) {
+            return false;
+        }
         return super.canEdit(document);
     }
 

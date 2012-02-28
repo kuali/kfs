@@ -152,6 +152,11 @@
         <property name="bankService" ref="bankService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="lockedDocuments">
+        	<list>
+        		<value>PREQ</value>
+        	</list>
+        </property>
 	</bean>
     <bean id="requisitionService" parent="requisitionService-parentBean"/>
 
@@ -568,11 +573,6 @@
 				<ref bean="autoApprovePaymentRequestsStep" />
 			</list>
 		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="processPdpCancelsAndPaidJob" value="softDependency" />
-			</map>
-		</property>
 	</bean>
 	
 	<bean id="receivingPaymentRequestJob" parent="scheduledJobDescriptor">
@@ -640,7 +640,8 @@
     <property name="batchInputFileType" ref="electronicInvoiceInputFileType" />
 	</bean>
 	
-	<bean id="electronicInvoiceInputFileType" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType">
+	<bean id="electronicInvoiceInputFileType" parent="electronicInvoiceInputFileType-parentBean"/>
+	<bean id="electronicInvoiceInputFileType-parentBean" abstract="true" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType">
     	<property name="directoryPath">
 	       <value>${staging.directory}/purap/electronicInvoice</value>
 	    </property>

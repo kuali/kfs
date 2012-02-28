@@ -40,7 +40,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * A container which holds a single accounting line and the elements which will render it
  */
-public class RenderableAccountingLineContainer implements RenderableElement, AccountingLineRenderingContext {
+public class RenderableAccountingLineContainer implements AccountingLineRenderingContext {
     private List<AccountingLineTableRow> rows;
     private List<AccountingLineViewAction> actions;
     private AccountingLine accountingLine;
@@ -136,6 +136,21 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
         int maxCells = 0;
         for (AccountingLineTableRow row : rows) {
             final int maxRowCellCount = row.getChildCellCount();
+            if (maxCells < maxRowCellCount) {
+                maxCells = maxRowCellCount;
+            }
+        }
+        return maxCells;
+    }
+    
+    /**
+     * Determines how many cells this container will say it wants to render
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getRenderableCellCount()
+     */
+    public int getRenderableCellCount() {
+        int maxCells = 0;
+        for (AccountingLineTableRow row : rows) {
+            final int maxRowCellCount = row.getChildRenderableCount();
             if (maxCells < maxRowCellCount) {
                 maxCells = maxRowCellCount;
             }

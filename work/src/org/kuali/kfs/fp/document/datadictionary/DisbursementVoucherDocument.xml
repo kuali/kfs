@@ -20,7 +20,7 @@
   <bean id="DisbursementVoucherDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="documentTypeName" value="DV"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument"/>
-	   
+	<property name="baseDocumentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument"/>   
 	<property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules"/>   
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     
@@ -63,6 +63,7 @@
         <ref bean="DisbursementVoucherDocument-disbVchrBankCode"/>
         <ref bean="DisbursementVoucherDocument-disbVchrPdpBankCode"/>
         <ref bean="DisbursementVoucherDocument-disbExcptAttachedIndicator"/>
+        <ref bean="DisbursementVoucherDocument-immediatePaymentIndicator"/>
       </list>
     </property>
     
@@ -405,6 +406,19 @@
     <property name="shortLabel" value="Excpt Attchd"/>
     <property name="maxLength" value="1"/>
     <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+  </bean>
+  
+  <bean id="DisbursementVoucherDocument-immediatePaymentIndicator" parent="DisbursementVoucherDocument-immediatePaymentIndicator-parentBean"/>
+
+  <bean id="DisbursementVoucherDocument-immediatePaymentIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="immediatePaymentIndicator"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Immediate Payment Indicator"/>
+    <property name="shortLabel" value="Immediate Pay"/>
+    <property name="maxLength" value="1"/>
     <property name="control">
       <bean parent="CheckboxControlDefinition"/>
     </property>

@@ -32,6 +32,7 @@ import org.kuali.rice.kim.api.KimConstants;
  */
 // TODO: after DisbursementVoucherDocumentRule is remove, it is good to change this interface into a class
 public interface DisbursementVoucherConstants {
+    public static final String DOCUMENT_TYPE_CODE = "DV";
 
     // Text limits
     public static final int MAX_NOTE_LINE_SIZE = 90;
@@ -184,6 +185,9 @@ public interface DisbursementVoucherConstants {
     public static final String INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM = "INDIVIDUAL_OWNERSHIP_TYPES";
     public static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARM_NM = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
     public static final String CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARM_NM = "CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS";
+    
+    public static final String IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM = "IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS";
+    public static final String IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM = "IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES";
 
     public static final String TAX_TYPE_SSN = "1";
     public static final String TAX_TYPE_FEIN = "0";

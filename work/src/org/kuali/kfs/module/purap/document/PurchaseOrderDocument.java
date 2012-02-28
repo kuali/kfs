@@ -554,6 +554,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setVendorPostalCode(requisitionDocument.getVendorPostalCode());
         this.setVendorStateCode(requisitionDocument.getVendorStateCode());
         this.setVendorRestrictedIndicator(requisitionDocument.getVendorRestrictedIndicator());
+        this.setJustification(requisitionDocument.getJustification());
 
         this.setExternalOrganizationB2bSupplierIdentifier(requisitionDocument.getExternalOrganizationB2bSupplierIdentifier());
         this.setRequisitionSourceCode(requisitionDocument.getRequisitionSourceCode());

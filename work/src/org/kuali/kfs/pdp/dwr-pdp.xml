@@ -24,7 +24,7 @@
 	    	<param name="beanName" value="pdpAchBankService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
-        <convert converter="bean" match="org.kuali.kfs.pdp.businessobject.AchBank">
+        <convert converter="bean" match="org.kuali.kfs.pdp.businessobject.ACHBank">
             <param name="include" value="bankName" />
         </convert>
     </allow>

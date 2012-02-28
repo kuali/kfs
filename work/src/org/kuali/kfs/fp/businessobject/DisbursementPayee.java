@@ -55,8 +55,6 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
     
     private String principalId;
     
-    public final static String addressPattern = "{0}, {1}, {2} {3}";
-
     /**
      * Constructs a DisbursementPayee.java.
      */
@@ -65,7 +63,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
     }
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
@@ -75,96 +73,6 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
         map.put(KFSPropertyConstants.PAYEE_NAME, this.payeeName);
 
         return map;
-    }
-
-    /**
-     * convert the field names between Payee and Vendor
-     * 
-     * @return a field name map of Payee and Vendor. The map key is a field name of Payee, and its value is a field name of Vendor
-     */
-    public static Map<String, String> getFieldConversionBetweenPayeeAndVendor() {
-        Map<String, String> fieldConversionMap = new HashMap<String, String>();
-
-        fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, VendorPropertyConstants.VENDOR_TAX_NUMBER);
-
-        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NAME, KFSPropertyConstants.VENDOR_NAME);
-        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NUMBER, KFSPropertyConstants.VENDOR_NUMBER);
-
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, VendorPropertyConstants.VENDOR_FIRST_NAME);
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, VendorPropertyConstants.VENDOR_LAST_NAME);
-
-        fieldConversionMap.put(KRADPropertyConstants.ACTIVE, KFSPropertyConstants.ACTIVE_INDICATOR);
-
-        return fieldConversionMap;
-    }
-
-    /**
-     * convert the field names between Payee and Person
-     * 
-     * @return a field name map of Payee and Person. The map key is a field name of Payee, and its value is a field name of Person
-     */
-    public static Map<String, String> getFieldConversionBetweenPayeeAndPerson() {
-        Map<String, String> fieldConversionMap = new HashMap<String, String>();
-
-    //    fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
-
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KIMPropertyConstants.Person.FIRST_NAME);
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KIMPropertyConstants.Person.LAST_NAME);
-
-        fieldConversionMap.put(KFSPropertyConstants.EMPLOYEE_ID, KIMPropertyConstants.Person.EMPLOYEE_ID);
-        fieldConversionMap.put(KRADPropertyConstants.ACTIVE, KRADPropertyConstants.ACTIVE);
-
-        return fieldConversionMap;
-    }
-
-    /**
-     * build a payee object from the given vendor object
-     * 
-     * @param vendorDetail the given vendor object
-     * @return a payee object built from the given vendor object
-     */
-    public static DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail) {
-        DisbursementPayee disbursementPayee = new DisbursementPayee();
-
-        disbursementPayee.setActive(vendorDetail.isActiveIndicator());
-
-        disbursementPayee.setPayeeIdNumber(vendorDetail.getVendorNumber());
-        disbursementPayee.setPayeeName(vendorDetail.getAltVendorName());
-        disbursementPayee.setTaxNumber(vendorDetail.getVendorHeader().getVendorTaxNumber());
-
-        String vendorTypeCode = vendorDetail.getVendorHeader().getVendorTypeCode();
-        String payeeTypeCode = getVendorPayeeTypeCodeMapping().get(vendorTypeCode);
-        disbursementPayee.setPayeeTypeCode(payeeTypeCode);
-
-        String vendorAddress = MessageFormat.format(addressPattern, vendorDetail.getDefaultAddressLine1(), vendorDetail.getDefaultAddressCity(), vendorDetail.getDefaultAddressStateCode(), vendorDetail.getDefaultAddressCountryCode());
-        disbursementPayee.setAddress(vendorAddress);
-
-        return disbursementPayee;
-    }
-
-    /**
-     * build a payee object from the given person object
-     * 
-     * @param person the given person object
-     * @return a payee object built from the given person object
-     */
-    public static DisbursementPayee getPayeeFromPerson(Person person) {
-        DisbursementPayee disbursementPayee = new DisbursementPayee();
-
-        disbursementPayee.setActive(person.isActive());
-
-        disbursementPayee.setPayeeIdNumber(person.getEmployeeId());
-        disbursementPayee.setPrincipalId(person.getPrincipalId());
-        
-        disbursementPayee.setPayeeName(person.getName());
-        disbursementPayee.setTaxNumber(KFSConstants.BLANK_SPACE);
-        
-        disbursementPayee.setPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
-
-        String personAddress = MessageFormat.format(addressPattern, person.getAddressLine1(), person.getAddressCity(), person.getAddressPostalCode(), person.getAddressCountryCode());
-        disbursementPayee.setAddress(personAddress);
-
-        return disbursementPayee;
     }
 
     /**
@@ -419,15 +327,4 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
         this.principalId = principalId;
     }
 
-    // do mapping between vendor type code and payee type code 
-    private static Map<String, String> getVendorPayeeTypeCodeMapping() {
-        Map<String, String> payeeVendorTypeCodeMapping = new HashMap<String, String>();
-
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.PURCHASE_ORDER, DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.DISBURSEMENT_VOUCHER, DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.REVOLVING_FUND, DisbursementVoucherConstants.DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR);
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.SUBJECT_PAYMENT, DisbursementVoucherConstants.DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR);
-
-        return payeeVendorTypeCodeMapping;
-    }
 }

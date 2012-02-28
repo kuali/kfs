@@ -70,18 +70,22 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasActiveJob(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.rice.krad.util.MessageMap)
      */
-    public boolean hasActiveJob(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
+    public boolean hasActiveJob(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap, SynchronizationCheckType synchronizationCheckType) {
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
         String emplid = appointmentFunding.getEmplid();
         String positionNumber = appointmentFunding.getPositionNumber();
 
-        boolean hasActiveJob = humanResourcesPayrollService.isActiveJob(emplid, positionNumber, fiscalYear, SynchronizationCheckType.ALL);
-        if (!hasActiveJob) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_NO_ACTIVE_JOB_FOUND, appointmentFunding.getEmplid(), appointmentFunding.getPositionNumber());
-            return false;
-        }
+        if (synchronizationCheckType.equals(SynchronizationCheckType.EID) && emplid.equals("VACANT")){
+            return true;
+        } else {
+            boolean hasActiveJob = humanResourcesPayrollService.isActiveJob(emplid, positionNumber, fiscalYear, synchronizationCheckType);
+            if (!hasActiveJob) {
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_NO_ACTIVE_JOB_FOUND, appointmentFunding.getEmplid(), appointmentFunding.getPositionNumber());
+                return false;
+            }
 
-        return true;
+            return true;
+        }
     }
 
     /**

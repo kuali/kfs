@@ -1,88 +1,80 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	<!--
-		Copyright 2007-2009 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
-	<bean id="ExpenseTransferTargetAccountingLine" parent="ExpenseTransferTargetAccountingLine-parentBean" />
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
 
-	<bean id="ExpenseTransferTargetAccountingLine-parentBean"
-		abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
-		<property name="objectLabel" value="Expense Transfer Target Accounting Line" />
+  <bean id="ExpenseTransferTargetAccountingLine" parent="ExpenseTransferTargetAccountingLine-parentBean"/>
 
-		<property name="attributes">
-			<list>
-				<ref bean="ExpenseTransferTargetAccountingLine-emplid" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalYear" />
-				<ref bean="ExpenseTransferTargetAccountingLine-payrollTotalHours" />
-				<ref bean="ExpenseTransferTargetAccountingLine-positionNumber" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectTypeCode" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectSubTypeCode" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectLevelCode" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-account.financialHigherEdFunctionCd" />
-				<ref bean="ExpenseTransferTargetAccountingLine-account.subFundGroupCode" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-account.subFundGroup.fundGroupCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-balanceTypeCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-referenceNumber" />
-				<ref bean="ExpenseTransferTargetAccountingLine-sequenceNumber" />
-				<ref bean="ExpenseTransferTargetAccountingLine-financialObjectCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-accountNumber" />
-				<ref bean="ExpenseTransferTargetAccountingLine-organizationReferenceId" />
-				<ref bean="ExpenseTransferTargetAccountingLine-chartOfAccountsCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-postingYear" />
-				<ref bean="ExpenseTransferTargetAccountingLine-referenceOriginCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-overrideCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-amount" />
-				<ref bean="ExpenseTransferTargetAccountingLine-subAccountNumber" />
-				<ref bean="ExpenseTransferTargetAccountingLine-referenceTypeCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-projectCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-financialSubObjectCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-documentNumber" />
-				<ref bean="ExpenseTransferTargetAccountingLine-debitCreditCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-objectTypeCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-accountExpiredOverride" />
-				<ref bean="ExpenseTransferTargetAccountingLine-nonFringeAccountOverride" />
-				<ref bean="ExpenseTransferTargetAccountingLine-objectBudgetOverride" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-financialDocumentLineDescription" />
-				<ref bean="ExpenseTransferTargetAccountingLine-salesTaxRequired" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-salesTax.chartOfAccountsCode" />
-				<ref bean="ExpenseTransferTargetAccountingLine-salesTax.accountNumber" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
-				<ref
-					bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate" />
-			</list>
-		</property>
-	</bean>
+  <bean id="ExpenseTransferTargetAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine"/>
+    <property name="objectLabel" value="Expense Transfer Target Accounting Line"/>
+    
+     <property name="inquiryDefinition">
+      <ref bean="ExpenseTransferTargetAccountingLine-inquiryDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="ExpenseTransferTargetAccountingLine-emplid"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalYear"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-payrollTotalHours"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-positionNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectSubTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectLevelCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-account.financialHigherEdFunctionCd"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-account.subFundGroupCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-account.subFundGroup.fundGroupCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-balanceTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-referenceNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-sequenceNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-financialObjectCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-accountNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-organizationReferenceId"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-chartOfAccountsCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-postingYear"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-referenceOriginCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-overrideCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-amount"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-subAccountNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-referenceTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-projectCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-financialSubObjectCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-documentNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-debitCreditCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-accountExpiredOverride"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-nonFringeAccountOverride"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectBudgetOverride"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-financialDocumentLineDescription"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTaxRequired"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.chartOfAccountsCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.accountNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-fringeBenefitView"/>
+      </list>
+    </property>
+  </bean>
 
-	<!-- Attribute Definitions -->
+<!-- Attribute Definitions -->
 
 
-	<bean id="ExpenseTransferTargetAccountingLine-emplid" parent="ExpenseTransferTargetAccountingLine-emplid-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-emplid" parent="ExpenseTransferTargetAccountingLine-emplid-parentBean"/>
 
 	<bean id="ExpenseTransferTargetAccountingLine-emplid-parentBean"
 		abstract="true" parent="PersonImpl-employeeId">
@@ -244,19 +236,14 @@
 	<bean id="ExpenseTransferTargetAccountingLine-financialObjectCode"
 		parent="ExpenseTransferTargetAccountingLine-financialObjectCode-parentBean" />
 
-	<bean
-		id="ExpenseTransferTargetAccountingLine-financialObjectCode-parentBean"
-		abstract="true" parent="ObjectCode-financialObjectCode">
+  <bean id="ExpenseTransferTargetAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    
+  </bean>
+  <bean id="ExpenseTransferTargetAccountingLine-accountNumber" parent="ExpenseTransferTargetAccountingLine-accountNumber-parentBean"/>
 
-	</bean>
-	<bean id="ExpenseTransferTargetAccountingLine-accountNumber"
-		parent="ExpenseTransferTargetAccountingLine-accountNumber-parentBean" />
-
-	<bean id="ExpenseTransferTargetAccountingLine-accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber">
-	</bean>
-	<bean id="ExpenseTransferTargetAccountingLine-organizationReferenceId"
-		parent="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="ExpenseTransferTargetAccountingLine-organizationReferenceId" parent="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean"/>
 
 	<bean
 		id="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean"
@@ -279,16 +266,13 @@
 	<bean id="ExpenseTransferTargetAccountingLine-chartOfAccountsCode"
 		parent="ExpenseTransferTargetAccountingLine-chartOfAccountsCode-parentBean" />
 
-	<bean
-		id="ExpenseTransferTargetAccountingLine-chartOfAccountsCode-parentBean"
-		abstract="true" parent="Chart-chartOfAccountsCode">
-		<property name="control">
-			<ref bean="ChartSimpleSelectControl" />
-		</property>
-
-	</bean>
-	<bean id="ExpenseTransferTargetAccountingLine-postingYear"
-		parent="ExpenseTransferTargetAccountingLine-postingYear-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control">
+      <ref bean="ChartSimpleSelectControl" />
+    </property>
+    
+  </bean>
+  <bean id="ExpenseTransferTargetAccountingLine-postingYear" parent="ExpenseTransferTargetAccountingLine-postingYear-parentBean"/>
 
 	<bean id="ExpenseTransferTargetAccountingLine-postingYear-parentBean"
 		abstract="true" parent="GenericAttributes-genericFiscalYear">
@@ -345,12 +329,9 @@
 	<bean id="ExpenseTransferTargetAccountingLine-referenceTypeCode"
 		parent="ExpenseTransferTargetAccountingLine-referenceTypeCode-parentBean" />
 
-	<bean
-		id="ExpenseTransferTargetAccountingLine-referenceTypeCode-parentBean"
-		abstract="true" parent="GenericAttributes-referenceTypeCode" />
+  <bean id="ExpenseTransferTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
 
-	<bean id="ExpenseTransferTargetAccountingLine-projectCode"
-		parent="ExpenseTransferTargetAccountingLine-projectCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-projectCode" parent="ExpenseTransferTargetAccountingLine-projectCode-parentBean"/>
 
 	<bean id="ExpenseTransferTargetAccountingLine-projectCode-parentBean"
 		abstract="true" parent="ProjectCode-code">
@@ -571,11 +552,45 @@
 		id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate"
 		parent="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" />
 
-	<bean
-		id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean"
-		abstract="true" parent="SalesTax-financialDocumentSaleDate">
-		<property name="name" value="salesTax.financialDocumentSaleDate" />
-		<property name="label" value="Sale Date" />
+  <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
+    <property name="name" value="salesTax.financialDocumentSaleDate"/>
+    <property name="label" value="Sale Date"/>
+    
+  </bean>
+  
+  <bean id="ExpenseTransferTargetAccountingLine-fringeBenefitView" parent="ExpenseTransferTargetAccountingLine-fringeBenefitView-parentBean"/>
+  <bean id="ExpenseTransferTargetAccountingLine-fringeBenefitView-parentBean" abstract="true"  parent="AttributeDefinition">
+    <property name="name" value="fringeBenefitView"/>
+    <property name="label" value="Fringe Benefit"/>
+    <property name="shortLabel" value="Fringe Benefit"/>
+    <property name="maxLength" value="100"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="StandardNameTextControl" />
+    </property>
+  </bean>
+  
+  <!-- Business Object Inquiry Definition -->
 
-	</bean>
+
+  <bean id="ExpenseTransferTargetAccountingLine-inquiryDefinition" parent="ExpenseTransferTargetAccountingLine-inquiryDefinition-parentBean"/>
+
+  <bean id="ExpenseTransferTargetAccountingLine-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Fringe Benefit"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Fringe Benefit"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+            <bean parent="FieldDefinition" p:attributeName="fringeBenefitView"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="inquirableClass" value="org.kuali.kfs.module.ld.businessobject.inquiry.ExpenseTransferAccountingLineInquirable"/>
+  </bean>
+  
 </beans>

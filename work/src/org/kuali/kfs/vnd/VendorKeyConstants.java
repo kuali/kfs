@@ -78,5 +78,8 @@ public class VendorKeyConstants {
     // Vendor Maintenance Commodity Code
     public static final String ERROR_VENDOR_COMMODITY_CODE_REQUIRE_ONE_DEFAULT_IND = "error.vendorCommodityCode.require.one.defaultIndicator";
     public static final String ERROR_VENDOR_COMMODITY_CODE_IS_REQUIRED_FOR_THIS_VENDOR_TYPE = "error.vendorCommodityCode.is.required.for.vendorType";
+
+    // Vendor Exclude
+    public static final String MESSAGE_BATCH_UPLOAD_VENDOR_EXCLUDE = "message.batchUpload.title.vendor.exclude";
     
 }

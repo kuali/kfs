@@ -13,16 +13,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%@ page import="org.kuali.kfs.sys.context.SpringContext"%>
+<%@ page import="org.kuali.kfs.coa.service.AccountService"%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <c:set var="readOnly" value="${KualiForm.viewOnlyEntry || KualiForm.salarySettingClosed}" />
+<c:set var="accountsCanCrossCharts"
+	value="<%=SpringContext.getBean(AccountService.class).accountsCanCrossCharts()%>" />
+
 
 <kul:page showDocumentInfo="false" htmlFormAction="budgetPositionSalarySetting" renderMultipart="true"
 	showTabButtons="true" docTitle="${KualiForm.documentTitle}" transactionalDocument="false">
 	
     <html:hidden property="mainWindow" />
 
-    <bc:positionSalarySetting readOnly="${readOnly}" />
+    <bc:positionSalarySetting readOnly="${readOnly}" accountsCanCrossCharts="${accountsCanCrossCharts}"/>
 	<kul:panelFooter />
 
     <div id="globalbuttons" class="globalbuttons">

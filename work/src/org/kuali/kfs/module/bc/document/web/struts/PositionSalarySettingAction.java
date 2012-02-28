@@ -31,6 +31,7 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -318,5 +319,13 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         }
 
         return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#getSynchronizationCheckType()
+     */
+    @Override
+    public SynchronizationCheckType getSynchronizationCheckType() {
+        return SynchronizationCheckType.EID;
     }
 }

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="LedgerEntryGLSummary" parent="LedgerEntryGLSummary-parentBean"/>
+
+  <bean id="LedgerEntryGLSummary-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerEntryGLSummary"/>
+    <property name="objectLabel" value="Labor Ledger Entry" />
+    <property name="attributes">
+      <list>
+        <ref bean="LedgerEntryGLSummary-universityFiscalYear"/>
+        <ref bean="LedgerEntryGLSummary-universityFiscalPeriodCode"/>
+        <ref bean="LedgerEntryGLSummary-chartOfAccountsCode"/>
+        <ref bean="LedgerEntryGLSummary-accountNumber"/>
+        <ref bean="LedgerEntryGLSummary-subAccountNumber"/>
+        <ref bean="LedgerEntryGLSummary-financialObjectCode"/>
+        <ref bean="LedgerEntryGLSummary-financialSubObjectCode"/>
+        <ref bean="LedgerEntryGLSummary-financialBalanceTypeCode"/>
+        <ref bean="LedgerEntryGLSummary-financialObjectTypeCode"/>
+        <ref bean="LedgerEntryGLSummary-financialDocumentTypeCode"/>
+        <ref bean="LedgerEntryGLSummary-documentNumber"/>
+        <ref bean="LedgerEntryGLSummary-emplid"/>
+        <ref bean="LedgerEntryGLSummary-positionNumber"/>
+        <ref bean="LedgerEntryGLSummary-earnCode"/>
+        <ref bean="LedgerEntryGLSummary-transactionTotalHours"/>
+        <ref bean="LedgerEntryGLSummary-transactionLedgerEntryAmount"/>
+        <ref bean="LedgerEntryGLSummary-payPeriodEndDate"/>
+        <ref bean="LedgerEntryGLSummary-transactionLedgerEntryDescription"/>
+        <ref bean="LedgerEntryGLSummary-projectCode"/>
+        <ref bean="LedgerEntryGLSummary-organizationReferenceId"/>
+        <ref bean="LedgerEntryGLSummary-organizationDocumentNumber"/>
+        <ref bean="LedgerEntryGLSummary-financialSystemOriginationCode"/>
+        <ref bean="LedgerEntryGLSummary-employee.name" />
+      </list>
+    </property>
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialDocumentTypeCode" p:targetName="name"/>
+		            </list>
+		        </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="employee"/>
+		        <property name="primitiveAttributes">
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="emplid" p:targetName="employeeId"/>
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
+  	<property name="lookupDefinition">
+      <ref bean="LedgerEntryGLSummary-lookupDefinition"/>
+    </property>
+  </bean>
+  
+  <bean id="LedgerEntryGLSummary-universityFiscalYear" parent="LedgerEntryGLSummary-universityFiscalYear-parentBean"/>
+  <bean id="LedgerEntryGLSummary-universityFiscalYear-parentBean" abstract="true" parent="LedgerEntry-universityFiscalYear">
+  	<property name="label" value="Fiscal Year"/>
+  	<property name="shortLabel" value="Fiscal Year"/>
+  </bean>
+
+  <bean id="LedgerEntryGLSummary-subAccountNumber" parent="LedgerEntryGLSummary-subAccountNumber-parentBean"/>
+  <bean id="LedgerEntryGLSummary-subAccountNumber-parentBean" abstract="true" parent="LedgerEntry-subAccountNumber" />
+
+  <bean id="LedgerEntryGLSummary-accountNumber" parent="LedgerEntryGLSummary-accountNumber-parentBean"/>
+  <bean id="LedgerEntryGLSummary-accountNumber-parentBean" abstract="true" parent="LedgerEntry-accountNumber" />
+
+  <bean id="LedgerEntryGLSummary-chartOfAccountsCode" parent="LedgerEntryGLSummary-chartOfAccountsCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-chartOfAccountsCode-parentBean" abstract="true" parent="LedgerEntry-chartOfAccountsCode" />
+
+  <bean id="LedgerEntryGLSummary-financialBalanceTypeCode" parent="LedgerEntryGLSummary-financialBalanceTypeCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-financialBalanceTypeCode-parentBean" abstract="true" parent="LedgerEntry-financialBalanceTypeCode"/>
+
+  <bean id="LedgerEntryGLSummary-financialObjectCode" parent="LedgerEntryGLSummary-financialObjectCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
+
+  <bean id="LedgerEntryGLSummary-financialObjectTypeCode" parent="LedgerEntryGLSummary-financialObjectTypeCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-financialObjectTypeCode-parentBean" abstract="true" parent="LedgerEntry-financialObjectTypeCode"/>
+
+  <bean id="LedgerEntryGLSummary-financialSubObjectCode" parent="LedgerEntryGLSummary-financialSubObjectCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-financialSubObjectCode-parentBean" abstract="true" parent="LedgerEntry-financialSubObjectCode"/>
+
+  <bean id="LedgerEntryGLSummary-earnCode" parent="LedgerEntryGLSummary-earnCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-earnCode-parentBean" abstract="true" parent="LedgerEntry-earnCode"/>
+
+  <bean id="LedgerEntryGLSummary-emplid" parent="LedgerEntryGLSummary-emplid-parentBean"/>
+  <bean id="LedgerEntryGLSummary-emplid-parentBean" abstract="true" parent="LedgerEntry-emplid"/>
+
+  <bean id="LedgerEntryGLSummary-documentNumber" parent="LedgerEntryGLSummary-documentNumber-parentBean"/>
+  <bean id="LedgerEntryGLSummary-documentNumber-parentBean" abstract="true" parent="LedgerEntry-documentNumber"/>
+
+  <bean id="LedgerEntryGLSummary-financialDocumentTypeCode" parent="LedgerEntryGLSummary-financialDocumentTypeCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-financialDocumentTypeCode-parentBean" abstract="true" parent="LedgerEntry-financialDocumentTypeCode"/>
+
+  <bean id="LedgerEntryGLSummary-financialSystemOriginationCode" parent="LedgerEntryGLSummary-financialSystemOriginationCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-financialSystemOriginationCode-parentBean" abstract="true" parent="LedgerEntry-financialSystemOriginationCode"/>
+
+  <bean id="LedgerEntryGLSummary-organizationDocumentNumber" parent="LedgerEntryGLSummary-organizationDocumentNumber-parentBean"/>
+  <bean id="LedgerEntryGLSummary-organizationDocumentNumber-parentBean" abstract="true" parent="LedgerEntry-organizationDocumentNumber"/>
+
+  <bean id="LedgerEntryGLSummary-organizationReferenceId" parent="LedgerEntryGLSummary-organizationReferenceId-parentBean"/>
+  <bean id="LedgerEntryGLSummary-organizationReferenceId-parentBean" abstract="true" parent="LedgerEntry-organizationReferenceId"/>
+
+  <bean id="LedgerEntryGLSummary-payPeriodEndDate" parent="LedgerEntryGLSummary-payPeriodEndDate-parentBean"/>
+  <bean id="LedgerEntryGLSummary-payPeriodEndDate-parentBean" abstract="true" parent="LedgerEntry-payPeriodEndDate"/>
+
+  <bean id="LedgerEntryGLSummary-positionNumber" parent="LedgerEntryGLSummary-positionNumber-parentBean"/>
+  <bean id="LedgerEntryGLSummary-positionNumber-parentBean" abstract="true" parent="LedgerEntry-positionNumber" />
+
+  <bean id="LedgerEntryGLSummary-projectCode" parent="LedgerEntryGLSummary-projectCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-projectCode-parentBean" abstract="true" parent="LedgerEntry-projectCode"/>
+
+  <bean id="LedgerEntryGLSummary-transactionLedgerEntryAmount" parent="LedgerEntryGLSummary-transactionLedgerEntryAmount-parentBean"/>
+  <bean id="LedgerEntryGLSummary-transactionLedgerEntryAmount-parentBean" abstract="true" parent="LedgerEntry-transactionLedgerEntryAmount"/>
+  
+  <bean id="LedgerEntryGLSummary-transactionLedgerEntryDescription" parent="LedgerEntryGLSummary-transactionLedgerEntryDescription-parentBean"/>
+  <bean id="LedgerEntryGLSummary-transactionLedgerEntryDescription-parentBean" abstract="true" parent="LedgerEntry-transactionLedgerEntryDescription"/>
+
+  <bean id="LedgerEntryGLSummary-transactionTotalHours" parent="LedgerEntryGLSummary-transactionTotalHours-parentBean"/>
+  <bean id="LedgerEntryGLSummary-transactionTotalHours-parentBean" abstract="true" parent="LedgerEntry-transactionTotalHours" />
+
+  <bean id="LedgerEntryGLSummary-universityFiscalPeriodCode" parent="LedgerEntryGLSummary-universityFiscalPeriodCode-parentBean"/>
+  <bean id="LedgerEntryGLSummary-universityFiscalPeriodCode-parentBean" abstract="true" parent="LedgerEntry-universityFiscalPeriodCode"/>
+
+  <bean id="LedgerEntryGLSummary-employee.name" parent="LedgerEntryGLSummary-employee.name-parentBean"/>
+  <bean id="LedgerEntryGLSummary-employee.name-parentBean" abstract="true" parent="PersonImpl-name">
+  	<property name="name" value="employee.name"/>
+  	<property name="label" value="Employee Name"/>
+  	<property name="shortLabel" value="Emp. Name"/>
+  </bean>
+
+  <!-- look up definition -->  
+  <bean id="LedgerEntryGLSummary-lookupDefinition" parent="LedgerEntryGLSummary-lookupDefinition-parentBean"/>
+
+  <bean id="LedgerEntryGLSummary-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Ledger Entry Lookup"/>
+    <property name="lookupableID" value="laborLedgerEntryLookupable"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      	<property name="attributeNames">
+      		<list>
+      			<value>employee.name</value>
+      		</list>
+      	</property>
+      </bean>
+    </property>
+  	<property name="lookupFields">
+      <list>
+      	<bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+      	<bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
+      	<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+      	<bean parent="FieldDefinition" p:attributeName="employee.name"/>
+      	<bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+      	<bean parent="FieldDefinition" p:attributeName="earnCode"/>
+      	<bean parent="FieldDefinition" p:attributeName="transactionTotalHours"/>
+      	<bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount"/>
+      	<bean parent="FieldDefinition" p:attributeName="payPeriodEndDate"/>
+      	<bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription"/>
+      	<bean parent="FieldDefinition" p:attributeName="projectCode"/>
+      	<bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+      	<bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber"/>
+      	<bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+      	<bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+      	<bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+		<bean parent="FieldDefinition" p:attributeName="documentNumber"/>      	
+		<bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -79,7 +79,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
 
         // if org sal setting we need to initialize authorization
-        if (!salarySettingForm.isBudgetByAccountMode() && salarySettingForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD)) {
+        if (!salarySettingForm.isBudgetByAccountMode() && salarySettingForm.getMethodToCall() != null && salarySettingForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD)) {
             initAuthorization(salarySettingForm);
         }
 

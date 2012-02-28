@@ -16,6 +16,7 @@
 package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -28,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
@@ -157,6 +159,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
             }
 
             writeCloseTag(os, 0, "canceledChecks");
+            createDoneFile(filename);
         }
         catch (IOException ie) {
             LOG.error("extractCanceledChecks() Problem reading file:  " + filename, ie);
@@ -197,6 +200,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         BufferedWriter os = null;
 
         writeExtractAchFile(extractedStatus, filename, processDate, sdf);
+        createDoneFile(filename);
 
     }
 
@@ -321,6 +325,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
                 }
             }
             writeCloseTag(os, 0, "checks");
+            createDoneFile(filename);
         }
         catch (IOException ie) {
             LOG.error("extractChecks() Problem reading file:  " + filename, ie);
@@ -541,6 +546,31 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         }
         writeCloseTag(os, indent, "payee");
     }
+    
+    /**
+     * Creates a '.done' file with the name of the original file.
+     */
+    protected void createDoneFile(String filename) {
+        String doneFileName =  StringUtils.substringBeforeLast(filename,".") + ".done";
+        File doneFile = new File(doneFileName);
+        
+        if (!doneFile.exists()) {
+            boolean doneFileCreated = false;
+            try {
+                doneFileCreated = doneFile.createNewFile();
+            }
+            catch (IOException e) {
+                LOG.error("unable to create done file " + doneFileName, e);
+                throw new RuntimeException("Errors encountered while saving the file: Unable to create .done file " + doneFileName, e);
+            }
+
+            if (!doneFileCreated) {
+                LOG.error("unable to create done file " + doneFileName);
+                throw new RuntimeException("Errors encountered while saving the file: Unable to create .done file " + doneFileName);
+            }
+        }
+    }
+
 
     protected String escapeString(String input) {
         String output = input.replaceAll("\\&", "&amp;");

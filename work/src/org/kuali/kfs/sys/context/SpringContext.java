@@ -70,7 +70,7 @@ public class SpringContext {
      * NOT the service implementation. 1. there is only one bean of the specified type in our spring context 2. there is only one
      * bean of the specified type in our spring context, but you want the one whose bean id is the same as type.getSimpleName() with
      * the exception of the first letter being lower case in the former and upper case in the latter, For example, there are two
-     * beans of type DateTimeService in our context � dateTimeService and testDateTimeService. To retrieve the former, you should
+     * beans of type DateTimeService in our context dateTimeService and testDateTimeService. To retrieve the former, you should
      * specific DateTimeService.class as the type. To retrieve the latter, you should specify ConfigurableDateService.class as the
      * type. Unless you are writing a unit test and need to down cast to an implementation, you do not need to cast the result of
      * this method.
@@ -371,6 +371,14 @@ public class SpringContext {
                 LOG.error("Caught Exception while starting the scheduler", ex);
             }
         }
+    }
+    
+    public static void registerSingletonBean(String beanId, Object bean) {
+        applicationContext.getBeanFactory().registerSingleton(beanId, bean);
+        //Cleaning caches
+        SINGLETON_BEANS_BY_NAME_CACHE.clear();
+        SINGLETON_BEANS_BY_TYPE_CACHE.clear();
+        SINGLETON_BEANS_OF_TYPE_CACHE.clear();
     }
 
 //    private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {

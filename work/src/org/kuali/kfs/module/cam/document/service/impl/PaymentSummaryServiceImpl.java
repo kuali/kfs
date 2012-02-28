@@ -93,25 +93,24 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
     /**
      * @see org.kuali.kfs.module.cam.document.service.PaymentSummaryService#calculateFederalContribution(org.kuali.kfs.module.cam.businessobject.Asset)
-     */ 
+     */
     public KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);
         List<AssetPayment> assetPayments = asset.getAssetPayments();
 
         for (AssetPayment payment : assetPayments) {
             // Refresh the financial object
-            if (ObjectUtils.isNull(payment.getFinancialObject())) {
-                payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+            if (ObjectUtils.isNull(payment.getObjectCodeCurrent())) {
+                payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.OBJECT_CODE_CURRENT);
             }
-            Collection<String> fedContrTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES) );
-            if (!ObjectUtils.isNull(payment.getFinancialObject()) 
-                    && fedContrTypes.contains( payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+            Collection<String> fedContrTypes = parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES);
+            if (!ObjectUtils.isNull(payment.getObjectCodeCurrent()) 
+                    && fedContrTypes.contains( payment.getObjectCodeCurrent().getFinancialObjectSubTypeCode())) {
                 amount = addAmount(amount, payment.getAccountChargeAmount());
             }
         }
         return amount;
     }
-
 
     /**
      * Sums up total payment cost for an asset

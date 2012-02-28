@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,9 +32,13 @@ import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.InitializingBean;
 
-public class AccountPersistenceStructureServiceImpl extends PersistenceStructureServiceImpl implements AccountPersistenceStructureService {
-                
+public class AccountPersistenceStructureServiceImpl extends PersistenceStructureServiceImpl implements AccountPersistenceStructureService, InitializingBean {
+    
+    protected List<AccountReferencePersistenceExemption> accountReferencePersistenceExemptions;
+    protected Map<Class<?>, List<AccountReferencePersistenceExemption>> accountReferencePersistenceExemptionsMap;
+    
     /* 
      * The following list is commented out as it's not used in code anymore, but still can server as a reference for testing. 
      * The list causes problems when referencing AwardAccount.class, a class in optional module;
@@ -203,7 +208,12 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
                 // as it shall be editable when a new Account is being created; so we shall exclude such case 
                 List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
                 if (bo instanceof Account && pks.contains(coaCodeName) && pks.contains(acctNumName )) 
-                    continue;                
+                    continue;
+                
+                // if this relationship is specifically exempted then exempt it
+                if (isExemptedFromAccountsCannotCrossChartsRules(bo.getClass(), coaCodeName, acctNumName)) {
+                    continue;
+                }
                                 
                 // exclude non-maintainable account field
                 String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
@@ -249,7 +259,12 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
                 List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
                 if (bo instanceof Account && pks.contains(coaCodeName) && pks.contains(acctNumName )) 
                     continue;                
-                
+
+                // if this relationship is specifically exempted then exempt it
+                if (isExemptedFromAccountsCannotCrossChartsRules(bo.getClass(), coaCodeName, acctNumName)) {
+                    continue;
+                }
+
                 // exclude non-maintainable account field
                 String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
                 if (maintenanceDocumentDictionaryService.getMaintainableField(docTypeName, coaCodeName) == null ||
@@ -293,6 +308,53 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
             return super.listReferenceObjectFields(bo);
         }
         return Collections.emptyMap();
+    }
+
+    /**
+     * Determines if the relationship to an Account or Account-like business object, with keys of chartOfAccountsCodePropertyName and accountNumberPropertyName,
+     * is exempted from accounts cannot cross charts roles
+     * @param relationshipOwningClass the business object which possibly has an exempted relationship to Account
+     * @param chartOfAccountsCodePropertyName the property name of the relationshipOwningClass which represents the chart of accounts code part of the foreign key
+     * @param accountNumberPropertyName the property name of the relationshipOwningClass which represents the account number part of the foreign key
+     * @return true if the relationship is exempted, false otherwise
+     */
+    public boolean isExemptedFromAccountsCannotCrossChartsRules(Class<?> relationshipOwningClass, String chartOfAccountsCodePropertyName, String accountNumberPropertyName) {
+        final List<AccountReferencePersistenceExemption> exemptionList = accountReferencePersistenceExemptionsMap.get(relationshipOwningClass);
+        if (exemptionList != null) {
+            for (AccountReferencePersistenceExemption exemption : exemptionList) {
+                if (exemption.matches(chartOfAccountsCodePropertyName, accountNumberPropertyName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Sets the list of classes and relationships which are exempted from the accounts can't cross charts rules
+     * @param accountReferencePersistenceExemptions the list of classes and relationships which are exempted from the accounts can't cross charts rules
+     */
+    public void setAccountReferencePersistenceExemptions(List<AccountReferencePersistenceExemption> accountReferencePersistenceExemptions) {
+        this.accountReferencePersistenceExemptions = accountReferencePersistenceExemptions;
+    }
+
+    /**
+     * Implemented to build the AccountReferencePersistenceExemptionsMap from the AccoutnReferencePersistenceExemptions List after intialization
+     * @throws Exception well, we're not going to throw an exception
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        accountReferencePersistenceExemptionsMap = new HashMap<Class<?>, List<AccountReferencePersistenceExemption>>();
+        if (accountReferencePersistenceExemptions != null) {
+            for (AccountReferencePersistenceExemption exemption : accountReferencePersistenceExemptions) {
+                List<AccountReferencePersistenceExemption> exemptionList = accountReferencePersistenceExemptionsMap.get(exemption.getParentBusinessObjectClass());
+                if (exemptionList == null) {
+                    exemptionList = new ArrayList<AccountReferencePersistenceExemption>();
+                }
+                exemptionList.add(exemption);
+                accountReferencePersistenceExemptionsMap.put(exemption.getParentBusinessObjectClass(), exemptionList);
+            }
+        }
     }
     
 }

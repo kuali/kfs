@@ -229,6 +229,9 @@ public class PosterServiceImpl implements PosterService {
             reportSummary.put(poster.getDestinationName() + "," + GeneralLedgerConstants.UPDATE_CODE, new Integer(0));
         }
         int ecount = 0;
+        
+        OriginEntryFull tran = null;
+        Transaction reversalTransaction = null;
         try {
             if ((mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR)) {
                 LOG.debug("postEntries() Processing groups");
@@ -237,7 +240,7 @@ public class PosterServiceImpl implements PosterService {
                         ecount++;
 
                         GLEN_RECORD = org.apache.commons.lang.StringUtils.rightPad(GLEN_RECORD, 183, ' ');
-                        OriginEntryFull tran = new OriginEntryFull();
+                        tran = new OriginEntryFull();
 
                         // checking parsing process and stop poster when it has errors. 
                         List<Message> parsingError = new ArrayList();
@@ -272,13 +275,13 @@ public class PosterServiceImpl implements PosterService {
                 TransactionListingReport reversalListingReport = new TransactionListingReport();
                 while (reversalTransactions.hasNext()) {
                     ecount++;
-                    Transaction tran = (Transaction) reversalTransactions.next();
+                    reversalTransaction = (Transaction) reversalTransactions.next();
                     addReporting(reportSummary, GL_REVERSAL_T, GeneralLedgerConstants.SELECT_CODE);
 
-                    boolean posted = postTransaction(tran, mode, reportSummary, ledgerSummaryReport, OUTPUT_ERR_FILE_ps, runUniversityDate, GL_REVERSAL_T, OUTPUT_GLE_FILE_ps);
+                    boolean posted = postTransaction(reversalTransaction, mode, reportSummary, ledgerSummaryReport, OUTPUT_ERR_FILE_ps, runUniversityDate, GL_REVERSAL_T, OUTPUT_GLE_FILE_ps);
                     
                     if (posted) {
-                        reversalListingReport.generateReport(reversalReportWriterService, tran);
+                        reversalListingReport.generateReport(reversalReportWriterService, reversalTransaction);
                     }
                     
                     if (ecount % 1000 == 0) {
@@ -296,8 +299,8 @@ public class PosterServiceImpl implements PosterService {
             reportWriterService.writeStatisticLine("GLEN RECORDS INSERTED (GL_ENTRY_T)         %,9d", reportSummary.get("GL_ENTRY_T,I"));
             reportWriterService.writeStatisticLine("GLBL RECORDS INSERTED (GL_BALANCE_T)       %,9d", reportSummary.get("GL_BALANCE_T,I"));
             reportWriterService.writeStatisticLine("GLBL RECORDS UPDATED  (GL_BALANCE_T)       %,9d", reportSummary.get("GL_BALANCE_T,U"));
-            reportWriterService.writeStatisticLine("GLEX RECORDS INSERTED (GL_EXPEND_TRN_T)    %,9d", reportSummary.get("GL_EXPEND_TRN_T,I"));
-            reportWriterService.writeStatisticLine("GLEX RECORDS UPDATED  (GL_EXPEND_TRN_T)    %,9d", reportSummary.get("GL_EXPEND_TRN_T,U"));
+            reportWriterService.writeStatisticLine("GLEX RECORDS INSERTED (GL_EXPEND_TRN_MT)    %,9d", reportSummary.get("GL_EXPEND_TRN_MT,I"));
+            reportWriterService.writeStatisticLine("GLEX RECORDS UPDATED  (GL_EXPEND_TRN_MT)    %,9d", reportSummary.get("GL_EXPEND_TRN_MT,U"));
             reportWriterService.writeStatisticLine("GLEC RECORDS INSERTED (GL_ENCUMBRANCE_T)   %,9d", reportSummary.get("GL_ENCUMBRANCE_T,I"));
             reportWriterService.writeStatisticLine("GLEC RECORDS UPDATED  (GL_ENCUMBRANCE_T)   %,9d", reportSummary.get("GL_ENCUMBRANCE_T,U"));
             reportWriterService.writeStatisticLine("GLRV RECORDS INSERTED (GL_REVERSAL_T)      %,9d", reportSummary.get("GL_REVERSAL_T,I"));
@@ -310,6 +313,8 @@ public class PosterServiceImpl implements PosterService {
         }
         catch (RuntimeException re) {
             LOG.error("postEntries stopped due to: " + re.getMessage() + " on line number : " + ecount, re);
+            LOG.error("tran failure occured on: " + tran == null ? null : tran.toString());
+            LOG.error("reversalTransaction failure occured on: " + reversalTransaction == null ? null : reversalTransaction.toString());
             throw new RuntimeException("PosterService Stopped: " + re.getMessage(), re);
         }
         catch (IOException e) {
@@ -594,9 +599,9 @@ public class PosterServiceImpl implements PosterService {
                 }
             }
             OUTPUT_GLE_FILE_ps.close();
-            reportWriterService.writeStatisticLine("GLEX RECORDS READ               (GL_EXPEND_TRN_T) %,9d", reportExpendTranRetrieved);
-            reportWriterService.writeStatisticLine("GLEX RECORDS DELETED            (GL_EXPEND_TRN_T) %,9d", reportExpendTranDeleted);
-            reportWriterService.writeStatisticLine("GLEX RECORDS KEPT DUE TO ERRORS (GL_EXPEND_TRN_T) %,9d", reportExpendTranKept);
+            reportWriterService.writeStatisticLine("GLEX RECORDS READ               (GL_EXPEND_TRN_MT) %,9d", reportExpendTranRetrieved);
+            reportWriterService.writeStatisticLine("GLEX RECORDS DELETED            (GL_EXPEND_TRN_MT) %,9d", reportExpendTranDeleted);
+            reportWriterService.writeStatisticLine("GLEX RECORDS KEPT DUE TO ERRORS (GL_EXPEND_TRN_MT) %,9d", reportExpendTranKept);
             reportWriterService.writeStatisticLine("TRANSACTIONS GENERATED                            %,9d", reportOriginEntryGenerated);
         }
         catch (FileNotFoundException e) {
@@ -997,7 +1002,7 @@ public class PosterServiceImpl implements PosterService {
     protected void addReporting(Map reporting, String destination, String operation) {
         String key = destination + "," + operation;
         //TODO: remove this if block. Added to troubleshoot FSKD-194.
-        if("GL_EXPEND_TRN_T".equals(destination)){
+        if("GL_EXPEND_TRN_MT".equals(destination)){
             LOG.info("Counting GLEX operation: "+operation);
         }
         if (reporting.containsKey(key)) {

@@ -50,6 +50,9 @@ public class CamsPropertyConstants {
         public static final String CAPITAL_ASSET_DESCRIPTION = "capitalAssetDescription";
         public static final String ASSET_DEPRECIATION_DATE = "depreciationDate";
         public static final String ASSET_PAYMENTS = "assetPayments";
+        public static final String ASSET_COMPONENTS = "assetComponents";
+        public static final String ASSET_WARRANTY = "assetWarranty";
+        public static final String ASSET_REPAIR_HISTORY = "assetRepairHistory";
         public static final String ESTIMATED_SELLING_PRICE = "estimatedSellingPrice";
         public static final String ESTIMATED_FABRICATION_COMPLETION_DATE = "estimatedFabricationCompletionDate";
         public static final String FABRICATION_ESTIMATED_TOTAL_AMOUNT = "fabricationEstimatedTotalAmount";
@@ -115,6 +118,7 @@ public class CamsPropertyConstants {
         public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
         public static final String OBJECT_CODE = "financialObjectCode";
         public static final String FINANCIAL_OBJECT = "financialObject";
+        public static final String OBJECT_CODE_CURRENT ="objectCodeCurrent"; 
         public static final String SUB_OBJECT_CODE = "financialSubObjectCode";
         public static final String OBJECT_TYPE_CODE = "financialObject.financialObjectTypeCode";
         public static final String PROJECT_CODE = "projectCode";

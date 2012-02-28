@@ -51,6 +51,7 @@
         <ref bean="AssetComponent-governmentTagNumber"/>
         <ref bean="AssetComponent-nationalStockNumber"/>
         <ref bean="AssetComponent-newCollectionRecord"/>
+        <ref bean="AssetComponent-active"/>
       </list>
     </property>
   </bean>
@@ -340,6 +341,12 @@
   <bean id="AssetComponent-newCollectionRecord" parent="AssetComponent-newCollectionRecord-parentBean"/>
   <bean id="AssetComponent-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
+  
+  <bean id="AssetComponent-active" parent="AssetComponent-active-parentBean"/>
+  <bean id="AssetComponent-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
   <bean id="AssetComponent-inquiryDefinition" parent="AssetComponent-inquiryDefinition-parentBean"/>
@@ -374,6 +381,7 @@
               <bean parent="FieldDefinition" p:attributeName="componentWarrantyPhoneNumber"/>
               <bean parent="FieldDefinition" p:attributeName="governmentTagNumber"/>
               <bean parent="FieldDefinition" p:attributeName="nationalStockNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -415,6 +423,7 @@
         <bean parent="FieldDefinition" p:attributeName="componentWarrantyPhoneNumber"/>
         <bean parent="FieldDefinition" p:attributeName="governmentTagNumber"/>
         <bean parent="FieldDefinition" p:attributeName="nationalStockNumber"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
@@ -441,6 +450,7 @@
         <bean parent="FieldDefinition" p:attributeName="componentWarrantyPhoneNumber"/>
         <bean parent="FieldDefinition" p:attributeName="governmentTagNumber"/>
         <bean parent="FieldDefinition" p:attributeName="nationalStockNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

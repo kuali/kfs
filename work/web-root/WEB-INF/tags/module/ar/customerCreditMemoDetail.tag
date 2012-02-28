@@ -202,12 +202,14 @@
 	</c:if>
 	
 	<!--  CRM Tax Amount -->
+	<c:if test="${salesTaxEnabled}">
 	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTaxAmount}"
 			property="${crmPropertyName}.creditMemoItemTaxAmount"
 			readOnly="true" />
 	</td>
+	</c:if>
 	
 	<!--  CRM Total Amount -->
 	<td class="${cssClass}" style="text-align:right" colspan="1" >

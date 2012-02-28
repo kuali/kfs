@@ -210,7 +210,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * @param parameterMap the map of parameters that were sent in with the request
      */
     protected void repopulateOverrides(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {
-        AccountingLineOverride.determineNeededOverrides(line);
+        AccountingLineOverride.determineNeededOverrides(getFinancialDocument() , line);
         if (line.getAccountExpiredOverrideNeeded()) {
             if (LOG.isDebugEnabled()) {
                 StringUtils.join(parameterMap.keySet(), "\n");

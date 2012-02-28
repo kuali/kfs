@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +16,11 @@
 package org.kuali.kfs.module.cam.document.validation.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -56,13 +58,17 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.datadictionary.ReferenceDefinition;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -91,7 +97,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks reference fields when adding new payment into collection.
-     * 
+     *
      * @param assetGlobal
      * @param assetPaymentDetail
      * @return
@@ -232,7 +238,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks reference fields when adding one shared location information into collection.
-     * 
+     *
      * @param assetGlobalDetail
      * @return
      */
@@ -256,7 +262,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             Map<String, String> objectKeys = new HashMap<String, String>();
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode());
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode());
-            Building building = (Building) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, objectKeys);
+            Building building = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, objectKeys);
 
             if (ObjectUtils.isNull(building)) {
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getCampusCode());
@@ -274,7 +280,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode());
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode());
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, assetGlobalDetail.getBuildingRoomNumber());
-            Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
+            Room room = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
             if (ObjectUtils.isNull(room)) {
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getBuildingRoomNumber(), assetGlobalDetail.getCampusCode());
@@ -344,7 +350,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validated the location quantity
-     * 
+     *
      * @param line
      * @return boolean
      */
@@ -422,7 +428,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     protected boolean validatePaymentLine(MaintenanceDocument maintenanceDocument, AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean success = true;
-            
+
         // If Acquisition type is "New" or "non-capital", check required fields including Document number, Document type code,
         // Posted date.
 
@@ -443,7 +449,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * "Add Negative Payment" permission check.
-     * 
+     *
      * @param maintenanceDocument
      * @param assetPaymentDetail
      * @return
@@ -468,7 +474,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method check the required fields for acquisition type New .
-     * 
+     *
      * @param assetPaymentDetail
      * @return
      */
@@ -492,7 +498,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates the posted date payment posted date can't be a future date
-     * 
+     *
      * @param assetPaymentDetail
      * @return boolean
      */
@@ -514,7 +520,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     /**
      * When acquisition type code is Capital (Gifts, Transfer-in, State excess, and Found), payment document type code will be
      * assigned to AA for Add Asset Document.
-     * 
+     *
      * @param documentTypeCode
      * @return
      */
@@ -538,7 +544,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check object code is set to capital only when the status is capital.
-     * 
+     *
      * @param assetGlobal
      * @param assetPaymentDetail
      * @return valid
@@ -606,7 +612,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                     putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetSeparate.ERROR_NON_CAPITAL_ASSET_SEPARATE_REQUIRED);
                     success &= false;
                     }
-                }      
+                }
             }
 
             // validate required fields within "Asset Unique Information" tab
@@ -645,7 +651,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate all separate source amount is above the capital asset threshold amount.
-     * 
+     *
      * @param document
      * @return
      */
@@ -665,7 +671,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      * check if amount is above threshold for capital assets for normal user. minTotalPaymentByAsset and maxTotalPaymentByAsset are
      * used to check against threshold. Due to the decimal rounding, the asset total amount could have 1 cent difference with each
      * other. We need to pick up the right value for different threshold check.
-     * 
+     *
      * @param document
      * @return
      */
@@ -710,7 +716,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Get the capitalization threshold amount from the system parameter setting.
-     * 
+     *
      * @return
      */
     protected String getCapitalizationThresholdAmount() {
@@ -719,7 +725,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate Capital Asset Amount above the threshold or below the amount for authorized user only.
-     * 
+     *
      * @param document
      * @param assetAmount
      * @param capitalizationThresholdAmount
@@ -738,7 +744,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate non-capital asset amount below the threshold.
-     * 
+     *
      * @param assetAmount
      * @param capitalizationThresholdAmount
      * @return
@@ -754,7 +760,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate that the total cost of the source asset is not zero or a negative amount.
-     * 
+     *
      * @param assetGlobal
      * @return boolean
      */
@@ -769,7 +775,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates the capital asset type code. This only checks for the existence of some contents, not whether the contents are valid.
-     * 
+     *
      * @param uniqueLocationDetails
      * @return boolean
      */
@@ -784,7 +790,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates the asset description.
-     * 
+     *
      * @param uniqueLocationDetails
      * @return boolean
      */
@@ -799,7 +805,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates the manufacturer.
-     * 
+     *
      * @param uniqueLocationDetails
      * @return boolean
      */
@@ -814,7 +820,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates the separate source amount.
-     * 
+     *
      * @param uniqueLocationDetails
      * @return boolean
      */
@@ -903,7 +909,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Locking on separate source asset number
-     * 
+     *
      * @param document
      * @param assetGlobal
      * @return
@@ -919,7 +925,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate offset object code
-     * 
+     *
      * @param assetGlobal
      * @return
      */
@@ -1026,7 +1032,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     /**
      * Check if organization owner account is set from CAB. We honor all accounting lines from CAB are valid payments even thougth
      * they are expired.
-     * 
+     *
      * @param assetGlobal
      * @return
      */
@@ -1052,7 +1058,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate location
-     * 
+     *
      * @param assetGlobal
      * @return boolean
      */
@@ -1075,7 +1081,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate asset type at the AssetGlobal level. Only checks that there are contents in the object.
-     * 
+     *
      * @param assetGlobal
      * @return boolean
      */
@@ -1092,11 +1098,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate asset type in the AssetGlobalUniqueDetails level, and ensures the value is in the list of valid types.
-     * The incoming indices are for creation of the errorPath for the global variable message map, which will determine 
+     * The incoming indices are for creation of the errorPath for the global variable message map, which will determine
      * what text field to mark as having a problem. This was written to be called within a loop.
-     * 
+     *
      * @param assetGlobalUniqueDetails
-     * @param sharedIndex the index of the shared details within the AssetGlobal 
+     * @param sharedIndex the index of the shared details within the AssetGlobal
      * @param uniqueIndex the index of the unique details within the shared details
      * @return boolean
      */
@@ -1139,7 +1145,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Give an error if this asset can't be separated due to mismatching amount on asset and AssetPayment records
-     * 
+     *
      * @param assetGlobal
      * @return validation success of failure
      */
@@ -1159,7 +1165,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Give an error if this asset has already been separated
-     * 
+     *
      * @param assetGlobal
      * @return validation success of failure
      */
@@ -1174,6 +1180,70 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             return false;
         }
 
+        return true;
+    }
+
+
+    /**
+     *
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#dataDictionaryValidate(org.kuali.rice.kns.document.MaintenanceDocument)
+     * Override this method to only validate reference exists for asset separate , otherwise do default Existence Checks.
+     * KFSMI-6584
+     */
+    @Override
+    protected boolean dataDictionaryValidate(MaintenanceDocument document) {
+
+        AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
+        LOG.debug("MaintenanceDocument validation beginning");
+
+        // explicitly put the errorPath that the dictionaryValidationService requires
+        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
+
+        // document must have a newMaintainable object
+        Maintainable newMaintainable = document.getNewMaintainableObject();
+        if (newMaintainable == null) {
+            GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
+            throw new ValidationException("Maintainable object from Maintenance Document '" + document.getDocumentTitle() + "' is null, unable to proceed.");
+        }
+
+        // document's newMaintainable must contain an object (ie, not null)
+        PersistableBusinessObject businessObject = newMaintainable.getBusinessObject();
+        if (businessObject == null) {
+            GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.");
+            throw new ValidationException("Maintainable's component business object is null.");
+        }
+
+        // run required check from maintenance data dictionary
+        maintDocDictionaryService.validateMaintenanceRequiredFields(document);
+
+        //check for duplicate entries in collections if necessary
+        maintDocDictionaryService.validateMaintainableCollectionsForDuplicateEntries(document);
+
+        // run the DD DictionaryValidation (non-recursive)
+        dictionaryValidationService.validateBusinessObjectOnMaintenanceDocument(businessObject,
+                document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+
+        // do default (ie, mandatory) existence checks
+        if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
+            dictionaryValidationService.validateDefaultExistenceChecks(businessObject);
+        }
+        else {
+
+            Collection references = KNSServiceLocator.getMaintenanceDocumentDictionaryService().getDefaultExistenceChecks(businessObject.getClass());
+
+            // walk through the references, doing the tests on each
+            for (Iterator iter = references.iterator(); iter.hasNext();) {
+                ReferenceDefinition reference = (ReferenceDefinition) iter.next();
+                // do the existence and validation testing
+                dictionaryValidationService.validateReferenceExists(assetGlobal,reference );
+            }
+
+        }
+
+        // explicitly remove the errorPath we've added
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
+
+        LOG.debug("MaintenanceDocument validation ending");
         return true;
     }
 

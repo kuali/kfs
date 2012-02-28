@@ -26,6 +26,7 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFinder;
 import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
+import org.kuali.kfs.module.cg.service.CloseService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;

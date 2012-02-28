@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -447,7 +448,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     /**
-     * @see org.kuali.rice.krad.document.DocumentBase#postProcessSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     
     public void postProcessSave(KualiDocumentEvent event) {
@@ -724,6 +725,15 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public void setOrganizationOwnerAccountNumber(String organizationOwnerAccountNumber) {
         this.organizationOwnerAccountNumber = organizationOwnerAccountNumber;
+        
+        // if accounts can't cross charts, set chart code whenever account number is set
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (!accountService.accountsCanCrossCharts()) {
+            Account account = accountService.getUniqueAccountForAccountNumber(organizationOwnerAccountNumber);
+            if (ObjectUtils.isNotNull(account)) {
+                setOrganizationOwnerChartOfAccountsCode(account.getChartOfAccountsCode());
+            }
+        }
     }
 
 
@@ -788,7 +798,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
 
     /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();

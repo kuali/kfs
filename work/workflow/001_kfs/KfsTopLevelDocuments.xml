@@ -1,8 +1,14 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
+      <name>KFSDocumentSearchCustomizer</name>
+      <label>KFS Document Search Customizer</label>
+      <className>org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer</className>
+      <type>DocumentSearchCustomizer</type>
+    </ruleAttribute>
+    <ruleAttribute>
       <name>FinancialSystemSearchableAttribute</name>
-      <className>org.kuali.kfs.sys.document.workflow.FinancialSystemSearchableAttribute</className>
+      <className>org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer</className>
       <label>Financial System Searchable Attribute</label>
       <description>Financial System Searchable Attribute</description>
       <type>SearchableAttribute</type>
@@ -40,9 +46,10 @@
       </active>
       <attributes>
         <attribute>
-          <name>
-            FinancialSystemSearchableAttribute
-          </name>
+          <name>FinancialSystemSearchableAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KFSDocumentSearchCustomizer</name>
         </attribute>
       </attributes>
       <routingVersion>

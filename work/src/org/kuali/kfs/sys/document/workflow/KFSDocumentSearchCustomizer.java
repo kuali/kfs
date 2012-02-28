@@ -24,13 +24,19 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
+import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentStatusCategory;
+import org.kuali.rice.kew.api.document.DocumentWithContent;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeString;
+import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizerBase;
+import org.kuali.rice.kew.api.extension.ExtensionDefinition;
+import org.kuali.rice.kew.framework.document.attribute.SearchableAttribute;
+import org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultSetConfiguration;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValue;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues;
@@ -38,16 +44,16 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
+public class KFSDocumentSearchCustomizer implements SearchableAttribute, DocumentSearchCustomizer {
 
-    @Override
-    public DocumentSearchCriteria customizeCriteria(DocumentSearchCriteria documentSearchCriteria) {
-        return null;
+    protected SearchableAttribute searchableAttribute;
+
+    public KFSDocumentSearchCustomizer() {
+        this(new FinancialSystemSearchableAttribute());
     }
 
-    @Override
-    public DocumentSearchCriteria customizeClearCriteria(DocumentSearchCriteria documentSearchCriteria) {
-        return null;
+    public KFSDocumentSearchCustomizer(SearchableAttribute searchableAttribute) {
+        this.searchableAttribute = searchableAttribute;
     }
 
     @Override
@@ -57,6 +63,10 @@ public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
         if (!PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equalsIgnoreCase(documentSearchCriteria.getDocumentTypeName()) && !PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equalsIgnoreCase(documentSearchCriteria.getDocumentTypeName())) {
             return null;
         }
+
+        // since we know we are looking up POs at this time - add the warning about disclosing them
+        GlobalVariables.getMessageMap().putWarning(KFSPropertyConstants.DOCUMENT_NUMBER, PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE);
+
         org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues.Builder customResultsBuilder = DocumentSearchResultValues.Builder.create();
 
         List<DocumentSearchResultValue.Builder> customResultValueBuilders = new ArrayList<DocumentSearchResultValue.Builder>();
@@ -108,6 +118,50 @@ public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
     }
 
     @Override
+    public final String generateSearchContent(ExtensionDefinition extensionDefinition,
+            String documentTypeName,
+            WorkflowAttributeDefinition attributeDefinition) {
+        return getSearchableAttribute().generateSearchContent(extensionDefinition, documentTypeName,
+                attributeDefinition);
+    }
+
+    @Override
+    public final List<DocumentAttribute> extractDocumentAttributes(ExtensionDefinition extensionDefinition,
+            DocumentWithContent documentWithContent) {
+        return getSearchableAttribute().extractDocumentAttributes(extensionDefinition, documentWithContent);
+    }
+
+    @Override
+    public final List<RemotableAttributeField> getSearchFields(ExtensionDefinition extensionDefinition,
+            String documentTypeName) {
+        return getSearchableAttribute().getSearchFields(extensionDefinition, documentTypeName);
+    }
+
+    @Override
+    public final List<RemotableAttributeError> validateDocumentAttributeCriteria(ExtensionDefinition extensionDefinition,
+            DocumentSearchCriteria documentSearchCriteria) {
+        return getSearchableAttribute().validateDocumentAttributeCriteria(extensionDefinition, documentSearchCriteria);
+    }
+
+    protected SearchableAttribute getSearchableAttribute() {
+        return this.searchableAttribute;
+    }
+
+    public void setSearchableAttribute(SearchableAttribute searchableAttribute) {
+        this.searchableAttribute = searchableAttribute;
+    }
+
+    @Override
+    public DocumentSearchCriteria customizeCriteria(DocumentSearchCriteria documentSearchCriteria) {
+        return null;
+    }
+
+    @Override
+    public DocumentSearchCriteria customizeClearCriteria(DocumentSearchCriteria documentSearchCriteria) {
+        return null;
+    }
+
+    @Override
     public DocumentSearchResultSetConfiguration customizeResultSetConfiguration(DocumentSearchCriteria documentSearchCriteria) {
         return null;
     }
@@ -131,8 +185,6 @@ public class KFSDocumentSearchCustomizer extends DocumentSearchCustomizerBase {
     public boolean isCustomizeResultSetFieldsEnabled(String documentTypeName) {
         return false;
     }
-
-
 
 
 }

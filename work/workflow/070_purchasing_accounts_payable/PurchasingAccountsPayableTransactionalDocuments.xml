@@ -1,13 +1,4 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>NoFyiActionListAttribute</name>
-      <className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>
-      <label>No FYI</label>
-      <description>No FYI Action List Attribute</description>
-      <type>ActionListAttribute</type>
-    </ruleAttribute>
-  </ruleAttributes>
   
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>

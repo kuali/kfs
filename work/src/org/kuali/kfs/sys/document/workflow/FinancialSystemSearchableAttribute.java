@@ -20,9 +20,6 @@ import java.util.List;
 
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.kew.api.extension.ExtensionDefinition;
-import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.web.ui.Row;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute;
 
 //RICE20 This class needs to be fixed to support pre-rice2.0 features
@@ -30,20 +27,37 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
 
     @Override
     public List<RemotableAttributeField> getSearchFields(ExtensionDefinition extensionDefinition, String documentTypeName) {
-        List<Row> searchRows = getSearchingRows(documentTypeName);
-        List<RemotableAttributeField> attributeFields = new ArrayList<RemotableAttributeField>();
-        for (Row row : searchRows) {
-            List<RemotableAttributeField> rowAttributeFields = new ArrayList<RemotableAttributeField>();
-            for (Field field : row.getFields()) {
-                RemotableAttributeField remotableAttributeField = KRADServiceLocatorWeb.getDataDictionaryRemoteFieldService().buildRemotableFieldFromAttributeDefinition(field.getBusinessObjectClassName(), field.getPropertyName());
-                if (remotableAttributeField != null) {
-                    rowAttributeFields.add(remotableAttributeField);
-                }
-            }
-            attributeFields.addAll(rowAttributeFields);
+        // TODO Auto-generated method stub
+        List<RemotableAttributeField> fields = new ArrayList<RemotableAttributeField>( super.getSearchFields(extensionDefinition, documentTypeName) );
+        for ( RemotableAttributeField field : fields ) {
+            RemotableAttributeField.Builder newField = RemotableAttributeField.Builder.create(field);
+//            newField.setAttributeLookupSettings( AttributeLookupSettings.Builder.)
+//            newField.set
+//            newField.getWidgets().iterator().next().build().
+//            RemotableAbstractWidget
+            // TODO: create widgets
+//            RemotableQuickFinder
         }
-        return attributeFields;
+        return fields;
     }
+
+
+//    @Override
+//    public List<RemotableAttributeField> getSearchFields(ExtensionDefinition extensionDefinition, String documentTypeName) {
+//        List<Row> searchRows = getSearchingRows(documentTypeName);
+//        List<RemotableAttributeField> attributeFields = new ArrayList<RemotableAttributeField>();
+//        for (Row row : searchRows) {
+//            List<RemotableAttributeField> rowAttributeFields = new ArrayList<RemotableAttributeField>();
+//            for (Field field : row.getFields()) {
+//                RemotableAttributeField remotableAttributeField = KRADServiceLocatorWeb.getDataDictionaryRemoteFieldService().buildRemotableFieldFromAttributeDefinition(field.getBusinessObjectClassName(), field.getPropertyName());
+//                if (remotableAttributeField != null) {
+//                    rowAttributeFields.add(remotableAttributeField);
+//                }
+//            }
+//            attributeFields.addAll(rowAttributeFields);
+//        }
+//        return attributeFields;
+//    }
 /*
  * @@ -113,16 +113,19 @@
              Field chartField = FieldUtils.getPropertyField(alClass, "chartOfAccountsCode", true);

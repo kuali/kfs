@@ -71,7 +71,8 @@ public class BatchFileDirectoryPathValuesFinder extends KeyValuesBase {
             super.handleDirectoryStart(directory, depth, results);
             ConcreteKeyValue entry = new ConcreteKeyValue();
             entry.setKey(BatchFileUtils.pathRelativeToRootDirectory(directory.getAbsolutePath()));
-            entry.setValue( StringUtils.repeat("&nbsp;", 4 * this.recursiveDepth) + directory.getName());
+            // use the unicode literal for space....KFSMI-7392 fix
+            entry.setValue( StringUtils.repeat("\u00A0", 4 * this.recursiveDepth) + directory.getName());
             keyValues.add(entry);
             this.recursiveDepth++;
         }

@@ -99,7 +99,9 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
         AccountsPayableDocument apDoc = (AccountsPayableDocument) this.getDocument();
 
         // update po doc
-        apDoc.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(apDoc.getPurchaseOrderIdentifier()));
+        if (apDoc.getPurchaseOrderIdentifier() != null) {
+            apDoc.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(apDoc.getPurchaseOrderIdentifier()));
+        }
 
         // update counts after populate
         updateItemCounts();

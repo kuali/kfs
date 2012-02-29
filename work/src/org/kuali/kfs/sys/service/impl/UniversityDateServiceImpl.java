@@ -15,7 +15,11 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
@@ -80,7 +84,9 @@ public class UniversityDateServiceImpl implements UniversityDateService {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
         }
-        UniversityDate uDate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date( date.getTime() ));
+        Map<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put(KFSPropertyConstants.UNIVERSITY_DATE, new java.sql.Date( date.getTime() ));
+        UniversityDate uDate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class, pkMap);
         return (uDate == null) ? null : uDate.getUniversityFiscalYear();
     }
 

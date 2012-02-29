@@ -86,7 +86,7 @@
 		<field-descriptor name="active" column="ACTV_IND"
 			jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="laborBenefitRateCategoryCode"
-			column="LBR_BEN_RT_CAT_CD" primarykey="true" jdbc-type="VARCHAR"
+			column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR"
 			index="true" />
 		<field-descriptor name="laborBenefitRateCategoryCode"
 			column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR"  />

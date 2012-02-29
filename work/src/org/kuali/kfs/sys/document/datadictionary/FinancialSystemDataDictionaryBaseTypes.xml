@@ -25,7 +25,8 @@
     <bean id="RelationshipDefinition" class="org.kuali.kfs.sys.businessobject.datadictionary.KfsRelationshipDefinition" abstract="true"/>   
 
     <bean id="MaintenanceDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry" abstract="true">
-        <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase" />  
+        <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase" />
+        <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase"/>  
     </bean>
           	
     <bean id="TransactionalDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" abstract="true">

@@ -124,10 +124,17 @@
 
     var prevPortletResizeEvent = frame.onresize ? frame.onresize : function () {};
     var onresize = function () {prevPortletResizeEvent(); resizePortletContainer(); };
-    //IE may not raise an onresize event for frames...not a big deal b/c of the setInterval logic
-    frame.onresize = onresize;
-
-    //this is necessary because dynamically generated content on the page does not trigger
+    
+    var IE;
+    //IE conditional comment
+	  //@cc_on IE = navigator.appVersion;
+    
+	  if (IE < 9 || IE == null){
+	    //IE (version prior to 9) may not raise an onresize event for frames...not a big deal b/c of the setInterval logic
+	    frame.onresize = onresize;
+	  }
+    
+	  //this is necessary because dynamically generated content on the page does not trigger
     //an onresize event
     setInterval (onresize, 500);
 

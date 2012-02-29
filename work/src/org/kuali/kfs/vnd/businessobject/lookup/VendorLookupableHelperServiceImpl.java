@@ -263,7 +263,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         validateVendorNumber(fieldValues);
         validateTaxNumber(fieldValues);
 
-        if (!GlobalVariables.getMessageMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("Error(s) in search criteria");
         }
     }

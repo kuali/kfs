@@ -102,7 +102,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
 
         validateVendorNumber(fieldValues);
 
-        if (!GlobalVariables.getMessageMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("Error(s) in search criteria");
         }
     }

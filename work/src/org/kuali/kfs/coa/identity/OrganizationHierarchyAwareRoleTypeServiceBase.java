@@ -140,7 +140,7 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
         // sort it
         Collections.sort(listToSort);
         // restore them to the list in their sorted order
-        roleMembers.clear();
+        List<RoleMembership> newRoleMembers = new ArrayList<RoleMembership>(); // need a new list, because roleMembers is not mutable
         int group = 0; // counter for the group number to add to the roleSortingCode
         String lastRoleSortingCode = "";
         for ( SortableRoleMembershipHolder srmh : listToSort ) {
@@ -150,9 +150,9 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
             }
             Builder builder = RoleMembership.Builder.create( srmh.rmi);
             builder.setRoleSortingCode(StringUtils.leftPad(Integer.toString(group), 3, '0') + "/" + srmh.rmi.getRoleSortingCode() );
-            roleMembers.add(builder.build());
+            newRoleMembers.add(builder.build());
         }
-        return roleMembers;
+        return newRoleMembers;
     }
 
     protected class SortableRoleMembershipHolder implements Comparable<SortableRoleMembershipHolder> {

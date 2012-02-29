@@ -35,10 +35,6 @@
                 url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.Carrier&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
         </li>
 		<li>
-			<portal:portalLink displayTitle="true" title="Credit Memo Status"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.CreditMemoStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		<li>
 			<portal:portalLink displayTitle="true"
 				title="Delivery Required Date Reason"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
@@ -60,10 +56,6 @@
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.ItemType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
-			<portal:portalLink displayTitle="true" title="Line Item Receiving Status"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		<li>
 			<portal:portalLink displayTitle="true"
 				title="Method of PO Transmission"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
@@ -81,10 +73,6 @@
 			<portal:portalLink displayTitle="true"
 				title="Payment Request Auto Approve Exclusions"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.AutoApproveExclude&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		<li>
-			<portal:portalLink displayTitle="true" title="Payment Request Status"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
@@ -106,10 +94,6 @@
 				title="Purchase Order Quote Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>		
-        <li>
-			<portal:portalLink displayTitle="true" title="Purchase Order Status"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Purchase Order Vendor Choice"
@@ -136,10 +120,6 @@
 		<li>
 			<portal:portalLink displayTitle="true" title="Requisition Source"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.RequisitionSource&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		<li>
-			<portal:portalLink displayTitle="true" title="Requisition Status"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.RequisitionStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
         <li>
             <portal:portalLink displayTitle="true" title="Sensitive Data"

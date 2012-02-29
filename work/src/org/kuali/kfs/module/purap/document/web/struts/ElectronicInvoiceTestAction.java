@@ -28,6 +28,8 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -36,9 +38,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADUtils;
 
@@ -50,6 +55,8 @@ public class ElectronicInvoiceTestAction extends KualiAction {
     
     private static final String AREA_C0DE = "areaCode";
     private static final String PHONE_NUMBER = "phoneNumber";
+    
+    protected static volatile DocumentService documentService;
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
@@ -90,6 +97,16 @@ public class ElectronicInvoiceTestAction extends KualiAction {
         LOG.info("Generating Electronic Invoice XML file for Purchase Order Document " + poDocNumber);
         PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
         PurchaseOrderDocument po = null;
+        
+        if (StringUtils.isBlank(poDocNumber)) {
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_NUMBER_EMPTY, new String[] { poDocNumber} );
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
+        if (!getDocumentService().documentExists(poDocNumber)) {
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_DOES_NOT_EXIST, poDocNumber);
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
+        
         try {
             po = poService.getPurchaseOrderByDocumentNumber(poDocNumber);
         }
@@ -389,6 +406,14 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             return false;
         }
     }
-    
+ 
+    /**
+     * @return the default implementation of the KRAD DocumentService
+     */
+    protected DocumentService getDocumentService() {
+        if (documentService == null) {
+            documentService = KRADServiceLocatorWeb.getDocumentService();
+        }
+        return documentService;
+    }
 }
-

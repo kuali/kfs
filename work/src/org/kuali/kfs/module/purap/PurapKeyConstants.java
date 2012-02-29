@@ -346,6 +346,8 @@ public class PurapKeyConstants {
     public static final String ERROR_REJECT_POITEM_OUTSTANDING_EMCUMBERED_AMOUNT = "errors.reject.poitem.outstanding.amt";
     public static final String ERROR_REJECT_POITEM_LESS_OUTSTANDING_EMCUMBERED_AMOUNT = "errors.reject.poitem.less.outstanding.amt";
     public static final String ERROR_REJECT_INVOICE_DUPLICATE = "errors.reject.invoice.duplicate";
+    public static final String ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_NUMBER_EMPTY = "error.electronicInvoice.generate.purchase.order.number.empty";
+    public static final String ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_DOES_NOT_EXIST = "error.electronicInvoice.generate.purchase.order.nonexisting";
     
     //B2B
     public static final String B2B_MULTIPLE_REQUISITIONS = "message.b2b.multiple.requisitions";

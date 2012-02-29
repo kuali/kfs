@@ -412,7 +412,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
      * @return {@link HtmlData} representing inquiry URL
      */
     protected HtmlData getDocTypeInquiryUrl(String docTypeCode) {
-        DocumentType docTypeDTO = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeById(docTypeCode);// .getDocumentTypeVO(docTypeCode);
+        DocumentType docTypeDTO = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(docTypeCode);
         if ( docTypeDTO == null ) {
             return new AnchorHtmlData();
         }

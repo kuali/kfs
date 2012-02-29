@@ -19,6 +19,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.krad.bo.BusinessObject;
+
 /**
  * Builds an inquirable to build inquiry links for fields in the encumbrance lookup. That lookup
  * has no drill downs outside of chart attributes, so this class returns null for many classes.
@@ -120,4 +125,23 @@ public class EncumbranceInquirableImpl extends AbstractGeneralLedgerInquirableIm
     @Override
     protected void addMoreParameters(Properties parameter, String attributeName) {
     }
+    
+    /*
+     * Add inquiry url for encumbrance document type code
+     * 
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
+     *      java.lang.String)
+     */
+    @Override
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName) {
+        HtmlData url = null; 
+        if (KFSPropertyConstants.ENCUMBRANCE_DOCUMENT_TYPE_CODE.equals(attributeName)) {
+            String docTypeCode = ((Encumbrance)businessObject).getDocumentTypeCode();
+            url = getDocTypeInquiryUrl(docTypeCode);
+        }else{
+            url = super.getInquiryUrl(businessObject, attributeName);
+        }
+        return url;
+    }
+    
 }

@@ -17,49 +17,49 @@
 
 <channel:portalChannelTop channelTitle="Custom Document Searches" />
 <div class="body">
-	<portal:portalLink displayTitle="true" title="Financial Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=KFST" /><br /><br />
+	<portal:portalLink displayTitle="true" title="Financial Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=KFST" /><br /><br />
 	<c:if test="${ConfigProperties.module.accounts.receivable.enabled == 'true'}">
 	 	<strong>Accounts Receivable</strong><br/>
 	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=INV'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CRM'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=INVW'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CTRL'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=APP'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INV'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CRM'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INVW'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CTRL'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=APP'/></li>
 	    </ul>
 	</c:if>
 	<c:if test="${ConfigProperties.module.capital.asset.enabled == 'true'}">
 	    <strong>Capital Asset Management</strong><br/>
 	    <ul class="chan">
-			<li><portal:portalLink displayTitle="true" title='Asset Maintenance' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CAMM'/></li>
+			<li><portal:portalLink displayTitle="true" title='Asset Maintenance' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CAMM'/></li>
 		</ul>
 	</c:if>
 	<c:if test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true'} && 
 		${ConfigProperties['module.external.kuali.coeus.enabled'] == 'false'}">
 		<strong>Contracts & Grants</strong><br/>
 	   	 <ul class="chan">
-			<li><portal:portalLink displayTitle="true" title='Proposals' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PRPL'/></li>
+			<li><portal:portalLink displayTitle="true" title='Proposals' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=PRPL'/></li>
 		</ul>
 	</c:if>
 	<c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">
 	 	<strong>Effort Certification</strong><br/>
 	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title='Effort Certification' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=ECD'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Effort Certification' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=ECD'/></li>
 	    </ul>
 	</c:if>    
 	<strong>Financial Processing</strong><br/>
     <ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Disbursement Vouchers" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=DV" /></li>
+		<li><portal:portalLink displayTitle="true" title="Disbursement Vouchers" url="${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=DV" /></li>
 	</ul>
 	<c:if test="${ConfigProperties.module.purchasing.enabled == 'true'}">
 		<strong>Purchasing/Accounts Payable</strong><br/>
 	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title='Electronic Invoice Rejects' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=EIRT'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Payment Requests' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PREQ'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Purchase Orders' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PO'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Receiving' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=RCV'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Requisitions' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=REQS'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Vendor Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CM'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Electronic Invoice Rejects' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=EIRT'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Payment Requests' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=PREQ'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Purchase Orders' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=PO'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Receiving' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=RCV'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Requisitions' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=REQS'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Vendor Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CM'/></li>
 	     </ul>
 	</c:if>
     </div>

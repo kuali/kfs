@@ -74,17 +74,15 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
 
         rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        getPersistenceBrokerTemplate().clearCache();
+        if ( getPersistenceBrokerTemplate().getCount(rqbc) == 0) return null;
 
         Iterator<?> documentHeaderIdsIterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
 
-        if (documentHeaderIdsIterator.hasNext()) {
-            Object[] result = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(documentHeaderIdsIterator);
-            if (result[0] != null) {
-                return result[0].toString();
-            }
-            else {
-                return null;
-            }
+
+        Object[] result = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(documentHeaderIdsIterator);
+        if (result[0] != null) {
+            return result[0].toString();
         }
         else {
             return null;

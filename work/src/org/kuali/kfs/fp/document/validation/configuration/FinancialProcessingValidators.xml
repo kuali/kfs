@@ -198,6 +198,8 @@
 	<bean id="NonCheckDisbursement-requiredReferenceFieldValidation" class="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementRequiredReferenceFieldValidation" abstract="true" >
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
+	
+	<bean id="NonCheckDisbursement-bankCodeValidation" class="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementBankValidation" abstract="true"/>
 
 	<bean id="PreEncumbrance-reversalDateValidation" class="org.kuali.kfs.fp.document.validation.impl.PreEncumbranceReversalDateValidation" abstract="true" >
 		<property name="accountingDocumentRuleHelperService" ref="accountingDocumentRuleHelperService" />

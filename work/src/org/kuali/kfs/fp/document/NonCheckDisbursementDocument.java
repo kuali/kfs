@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the business object that represents the NonCheckDisbursementDocument in Kuali. The "Non-Check Disbursement" document is
@@ -169,23 +170,26 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
         }
         
         this.refreshReferenceObject(KFSPropertyConstants.BANK);
+        
+        if (!ObjectUtils.isNull(getBank())) {
 
-        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-
-        final KualiDecimal bankOffsetAmount = glpeService.getOffsetToCashAmount(this).negated();
-        GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-        success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KRADConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE);
-
-        if (success) {
-            AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
-            bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
-            getGeneralLedgerPendingEntries().add(bankOffsetEntry);
-            sequenceHelper.increment();
-
-            GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
-            success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-            getGeneralLedgerPendingEntries().add(offsetEntry);
-            sequenceHelper.increment();
+            GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+    
+            final KualiDecimal bankOffsetAmount = glpeService.getOffsetToCashAmount(this).negated();
+            GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
+            success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KRADConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE);
+    
+            if (success) {
+                AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+                bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
+                getGeneralLedgerPendingEntries().add(bankOffsetEntry);
+                sequenceHelper.increment();
+    
+                GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
+                success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+                getGeneralLedgerPendingEntries().add(offsetEntry);
+                sequenceHelper.increment();
+            }
         }
 
         return success;

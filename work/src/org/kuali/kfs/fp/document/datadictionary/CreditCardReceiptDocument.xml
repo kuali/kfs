@@ -67,7 +67,7 @@
   
   <bean id="CreditCardReceiptDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
-		<map>
+		<map key-type="java.lang.Class">
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>CreditCardReceipt-routeDocumentValidation</value>

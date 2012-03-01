@@ -54,7 +54,9 @@ public class ChartServiceImpl implements ChartService {
      */
     @Cacheable(value=Chart.CACHE_NAME,key="'chartOfAccountsCode='+#p0")
     public Chart getByPrimaryId(String chartOfAccountsCode) {
-        return businessObjectService.findBySinglePrimaryKey(Chart.class, chartOfAccountsCode);
+        Map<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        return businessObjectService.findByPrimaryKey(Chart.class, pkMap);
     }
 
     /**

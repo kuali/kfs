@@ -465,6 +465,17 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public String getCurrencyFormattedTotalCheckAmount() {
         return (String) new CurrencyFormatter().format(getTotalCheckAmount());
     }
+    
+    /**
+     * This method returns the confirmed check total amount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedTotalConfirmedCheckAmount() {
+        String amountString = (String) new CurrencyFormatter().format(getTotalConfirmedCheckAmount());        
+        return amountString;
+        
+    }
 
     /**
      * Sets the totalCheckAmount attribute value.

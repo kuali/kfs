@@ -200,8 +200,8 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
     protected List<String> getRoleLookupFields() {
         List<String> lookupFields = new ArrayList<String>();
 
-        lookupFields.add(KIMPropertyConstants.Role.ROLE_ID);
-        lookupFields.add(KIMPropertyConstants.Role.ROLE_NAME);
+        lookupFields.add(SecPropertyConstants.ROLE_ID);
+        lookupFields.add(SecPropertyConstants.ROLE_NAME);
         lookupFields.add(KimConstants.UniqueKeyConstants.NAMESPACE_CODE);
         lookupFields.add(KRADPropertyConstants.ACTIVE);
         lookupFields.add(SecPropertyConstants.MEMBER_TYPE_CODE);
@@ -217,8 +217,8 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
     protected List<String> getGroupLookupFields() {
         List<String> lookupFields = new ArrayList<String>();
 
-        lookupFields.add(KIMPropertyConstants.Group.GROUP_ID);
-        lookupFields.add(KIMPropertyConstants.Group.GROUP_NAME);
+        lookupFields.add(SecPropertyConstants.GROUP_ID);
+        lookupFields.add(SecPropertyConstants.GROUP_NAME);
         lookupFields.add(KRADPropertyConstants.ACTIVE);
         lookupFields.add(SecPropertyConstants.MEMBER_TYPE_CODE);
 
@@ -233,14 +233,14 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
     protected List<String> getPersonLookupFields() {
         List<String> lookupFields = new ArrayList<String>();
 
-        lookupFields.add(KIMPropertyConstants.Person.PRINCIPAL_NAME);
-        lookupFields.add(KIMPropertyConstants.Person.PRINCIPAL_ID);
-        lookupFields.add(KIMPropertyConstants.Person.ENTITY_ID);
-        lookupFields.add(KIMPropertyConstants.Person.FIRST_NAME);
-        lookupFields.add(KIMPropertyConstants.Person.MIDDLE_NAME);
-        lookupFields.add(KIMPropertyConstants.Person.LAST_NAME);
-        lookupFields.add(KIMPropertyConstants.Person.EMAIL_ADDRESS);
-        lookupFields.add(KIMPropertyConstants.Person.EMPLOYEE_ID);
+        lookupFields.add(SecPropertyConstants.PRINCIPAL_NAME);
+        lookupFields.add(SecPropertyConstants.PRINCIPAL_ID);
+        lookupFields.add(SecPropertyConstants.ENTITY_ID);
+        lookupFields.add(SecPropertyConstants.FIRST_NAME);
+        lookupFields.add(SecPropertyConstants.MIDDLE_NAME);
+        lookupFields.add(SecPropertyConstants.LAST_NAME);
+        lookupFields.add(SecPropertyConstants.EMAIL_ADDRESS);
+        lookupFields.add(SecPropertyConstants.EMPLOYEE_ID);
         lookupFields.add(KRADPropertyConstants.ACTIVE);
         lookupFields.add(SecPropertyConstants.MEMBER_TYPE_CODE);
 

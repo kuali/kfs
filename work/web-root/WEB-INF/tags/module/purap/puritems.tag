@@ -36,7 +36,7 @@
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 <c:set var="displayCommodityCodeFields" value="${KualiForm.editingMode['enableCommodityCode']}"/>
 
-<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="documentType" value="${KualiForm.documentType}" />
 <c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 <c:set var="isPurchaseOrder" value="${KualiForm.document.isPODoc}" />
 <c:set var="hasItems" value="${fn:length(KualiForm.document.items) > 0}" />

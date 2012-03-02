@@ -411,10 +411,12 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     }
 
     protected List<KfsKimDocDelegateMember> searchDelegations(Map<String, String> searchCriteriaDelegateMembers){
-        DelegateMemberQueryResults tempResults = KimApiServiceLocator.getRoleService().findDelegateMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(searchCriteriaDelegateMembers)));
-        ArrayList<KfsKimDocDelegateMember> results = new ArrayList<KfsKimDocDelegateMember>( tempResults.getTotalRowCount() );
-        if ( tempResults.getTotalRowCount() > 0 ) {
-            for ( DelegateMember dm : tempResults.getResults() ) {
+        DelegateMemberQueryResults queryResults = KimApiServiceLocator.getRoleService().findDelegateMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(searchCriteriaDelegateMembers)));
+        List<DelegateMember> tmpResults = queryResults.getResults();
+        Integer totalRowCount = tmpResults.size();
+        ArrayList<KfsKimDocDelegateMember> results = new ArrayList<KfsKimDocDelegateMember>(totalRowCount);
+        if ( totalRowCount > 0 ) {
+            for ( DelegateMember dm : tmpResults ) {
                 results.add( new KfsKimDocDelegateMember( dm ) );
             }
         }

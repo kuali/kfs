@@ -50,7 +50,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
@@ -72,7 +71,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
-    protected WorkflowDocumentService workflowDocumentService;
+    //protected WorkflowDocumentService workflowDocumentService;
     protected PaymentApplicationDocumentService paymentApplicationDocumentService;
     protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
     protected CustomerInvoiceDetailService customerInvoiceDetailService;
@@ -85,7 +84,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         super();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         documentService = SpringContext.getBean(DocumentService.class);
-        workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
+        //workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
         paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
         customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,6 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -51,9 +50,10 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     /**
      * Makes sure that the given document implements error correction, that error correction is turned on for the document in the
      * data dictionary, and that the document is in a workflow state that allows error correction.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
      */
+    @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
         if (!(document instanceof Correctable)) {
             return false;
@@ -79,8 +79,9 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         }
 
         final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (!isApprovalDateWithinFiscalYear(workflowDocument))
+        if (!isApprovalDateWithinFiscalYear(workflowDocument)) {
             return false;
+        }
 
         return (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal());
     }
@@ -120,8 +121,8 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         // rSmart-jkneal-KFSCSU-199-begin mod for adding accounting period view action
         if (document instanceof LedgerPostingDocument) {
             // check account period selection is enabled
-            boolean accountingPeriodEnabled = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_SELECTION_IND);
-            if (accountingPeriodEnabled) {
+            boolean accountingPeriodEnabled = getParameterService().getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_SELECTION_IND, false);
+            if ( accountingPeriodEnabled) {
                 // check accounting period is enabled for doc type in system parameter
                 String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
                 ParameterEvaluatorService parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
@@ -133,7 +134,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         }
         // rSmart-jkneal-KFSCSU-199-end mod
         // CSU 6702 END
-        
+
         return documentActions;
     }
 

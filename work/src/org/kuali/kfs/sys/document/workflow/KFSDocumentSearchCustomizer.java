@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -40,6 +41,7 @@ import org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultSetConfiguration;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValue;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues;
+import org.kuali.rice.kew.framework.document.search.StandardResultField;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -58,12 +60,6 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
 
     @Override
     public DocumentSearchResultValues customizeResults(DocumentSearchCriteria documentSearchCriteria, List<DocumentSearchResult> defaultResults) {
-
-        // do not mask the purapDocumentIdentifier field if the document is not PO or POSP..
-        if (!PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equalsIgnoreCase(documentSearchCriteria.getDocumentTypeName()) && !PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equalsIgnoreCase(documentSearchCriteria.getDocumentTypeName())) {
-            return null;
-        }
-
         // since we know we are looking up POs at this time - add the warning about disclosing them
         GlobalVariables.getMessageMap().putWarning(KFSPropertyConstants.DOCUMENT_NUMBER, PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE);
 
@@ -121,8 +117,7 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
     public final String generateSearchContent(ExtensionDefinition extensionDefinition,
             String documentTypeName,
             WorkflowAttributeDefinition attributeDefinition) {
-        return getSearchableAttribute().generateSearchContent(extensionDefinition, documentTypeName,
-                attributeDefinition);
+        return getSearchableAttribute().generateSearchContent(extensionDefinition, documentTypeName, attributeDefinition);
     }
 
     @Override
@@ -153,37 +148,69 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
 
     @Override
     public DocumentSearchCriteria customizeCriteria(DocumentSearchCriteria documentSearchCriteria) {
+        if ( documentSearchCriteria.getDocumentAttributeValues().containsKey( FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME ) ) {
+            DocumentSearchCriteria.Builder newCriteria = DocumentSearchCriteria.Builder.create(documentSearchCriteria);
+            newCriteria.getDocumentAttributeValues().remove( FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME );
+            return newCriteria.build();
+        }
         return null;
     }
 
     @Override
     public DocumentSearchCriteria customizeClearCriteria(DocumentSearchCriteria documentSearchCriteria) {
-        return null;
+        DocumentSearchCriteria.Builder newCriteria = DocumentSearchCriteria.Builder.create();
+        newCriteria.setDocumentTypeName(documentSearchCriteria.getDocumentTypeName());
+        return newCriteria.build();
+    }
+
+    protected static final List<StandardResultField> standardResultsToRemove = new ArrayList<StandardResultField>();
+    static {
+        standardResultsToRemove.add(StandardResultField.DOCUMENT_TYPE);
+        standardResultsToRemove.add(StandardResultField.TITLE);
+        standardResultsToRemove.add(StandardResultField.DATE_CREATED);
     }
 
     @Override
     public DocumentSearchResultSetConfiguration customizeResultSetConfiguration(DocumentSearchCriteria documentSearchCriteria) {
-        return null;
+        DocumentSearchResultSetConfiguration.Builder config = DocumentSearchResultSetConfiguration.Builder.create();
+        config.setOverrideSearchableAttributes(false);
+        config.setStandardResultFieldsToRemove(standardResultsToRemove);
+
+        List<String> displayTypeList = documentSearchCriteria.getDocumentAttributeValues().get(FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME);
+        if ( displayTypeList != null && !displayTypeList.isEmpty() ) {
+
+            String displayType =  displayTypeList.get(0);
+            if ( StringUtils.equals(displayType, FinancialSystemSearchableAttribute.WORKFLOW_DISPLAY_TYPE_VALUE)) {
+                config.setOverrideSearchableAttributes(true);
+                config.setStandardResultFieldsToRemove(null);
+            }
+        }
+        return config.build();
     }
 
     @Override
     public boolean isCustomizeCriteriaEnabled(String documentTypeName) {
-        return false;
-    }
-
-    @Override
-    public boolean isCustomizeClearCriteriaEnabled(String documentTypeName) {
-        return false;
-    }
-
-    @Override
-    public boolean isCustomizeResultsEnabled(String documentTypeName) {
         return true;
     }
 
     @Override
-    public boolean isCustomizeResultSetFieldsEnabled(String documentTypeName) {
+    public boolean isCustomizeClearCriteriaEnabled(String documentTypeName) {
+        return true;
+    }
+
+    @Override
+    public boolean isCustomizeResultsEnabled(String documentTypeName) {
+        // do not mask the purapDocumentIdentifier field if the document is not PO or POSP..
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equalsIgnoreCase(documentTypeName)
+                || PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equalsIgnoreCase(documentTypeName)) {
+            return true;
+        }
         return false;
+    }
+
+    @Override
+    public boolean isCustomizeResultSetFieldsEnabled(String documentTypeName) {
+        return true;
     }
 
 

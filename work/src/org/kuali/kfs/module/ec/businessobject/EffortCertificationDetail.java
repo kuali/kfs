@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,7 +41,7 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business Object for the Effort Certification Detail Table.
@@ -88,7 +88,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private SystemOptions options;
 
     protected PositionData positionData;
-    protected String effectiveDate; 
+    protected String effectiveDate;
     /**
      * Default constructor.
      */
@@ -132,7 +132,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -141,7 +141,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -150,7 +150,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -159,7 +159,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -168,7 +168,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -177,7 +177,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -193,12 +193,12 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
             }
 
 
-        }           
+        }
     }
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
@@ -207,7 +207,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the subAccountNumber attribute value.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -216,7 +216,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the positionNumber attribute.
-     * 
+     *
      * @return Returns the positionNumber.
      */
     public String getPositionNumber() {
@@ -225,7 +225,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the positionNumber attribute value.
-     * 
+     *
      * @param positionNumber The positionNumber to set.
      */
     public void setPositionNumber(String positionNumber) {
@@ -234,7 +234,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the effectiveDate attribute.
-     * 
+     *
      * @return Returns the effectiveDate.
      */
     public String getEffectiveDate() {
@@ -243,16 +243,16 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the effectiveDate attribute value.
-     * 
+     *
      * @param effectiveDate The effectiveDate to set.
      */
     public void setEffectiveDate(String effectiveDate) {
         this.effectiveDate = effectiveDate;
-    }    
+    }
 
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode.
      */
     public String getFinancialObjectCode() {
@@ -261,7 +261,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObjectCode attribute value.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -270,7 +270,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the sourceChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the sourceChartOfAccountsCode.
      */
     public String getSourceChartOfAccountsCode() {
@@ -279,7 +279,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the sourceChartOfAccountsCode attribute value.
-     * 
+     *
      * @param sourceChartOfAccountsCode The sourceChartOfAccountsCode to set.
      */
     public void setSourceChartOfAccountsCode(String sourceChartOfAccountsCode) {
@@ -288,7 +288,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the sourceAccountNumber attribute.
-     * 
+     *
      * @return Returns the sourceAccountNumber.
      */
     public String getSourceAccountNumber() {
@@ -297,7 +297,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the sourceAccountNumber attribute value.
-     * 
+     *
      * @param sourceAccountNumber The sourceAccountNumber to set.
      */
     public void setSourceAccountNumber(String sourceAccountNumber) {
@@ -306,7 +306,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the effortCertificationPayrollAmount attribute.
-     * 
+     *
      * @return Returns the effortCertificationPayrollAmount.
      */
     public KualiDecimal getEffortCertificationPayrollAmount() {
@@ -315,7 +315,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the effortCertificationPayrollAmount attribute value.
-     * 
+     *
      * @param effortCertificationPayrollAmount The effortCertificationPayrollAmount to set.
      */
     public void setEffortCertificationPayrollAmount(KualiDecimal effortCertificationPayrollAmount) {
@@ -324,7 +324,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the effortCertificationCalculatedOverallPercent attribute.
-     * 
+     *
      * @return Returns the effortCertificationCalculatedOverallPercent.
      */
     public Integer getEffortCertificationCalculatedOverallPercent() {
@@ -333,7 +333,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the effortCertificationCalculatedOverallPercent attribute value.
-     * 
+     *
      * @param effortCertificationCalculatedOverallPercent The effortCertificationCalculatedOverallPercent to set.
      */
     public void setEffortCertificationCalculatedOverallPercent(Integer effortCertificationCalculatedOverallPercent) {
@@ -342,7 +342,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the effortCertificationUpdatedOverallPercent attribute.
-     * 
+     *
      * @return Returns the effortCertificationUpdatedOverallPercent.
      */
     public Integer getEffortCertificationUpdatedOverallPercent() {
@@ -351,7 +351,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the effortCertificationUpdatedOverallPercent attribute value.
-     * 
+     *
      * @param effortCertificationUpdatedOverallPercent The effortCertificationUpdatedOverallPercent to set.
      */
     public void setEffortCertificationUpdatedOverallPercent(Integer effortCertificationUpdatedOverallPercent) {
@@ -360,7 +360,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the costShareSourceSubAccountNumber attribute.
-     * 
+     *
      * @return Returns the costShareSourceSubAccountNumber.
      */
     public String getCostShareSourceSubAccountNumber() {
@@ -369,7 +369,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the costShareSourceSubAccountNumber attribute value.
-     * 
+     *
      * @param costShareSourceSubAccountNumber The costShareSourceSubAccountNumber to set.
      */
     public void setCostShareSourceSubAccountNumber(String costShareSourceSubAccountNumber) {
@@ -378,7 +378,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the effortCertificationOriginalPayrollAmount attribute.
-     * 
+     *
      * @return Returns the effortCertificationOriginalPayrollAmount.
      */
     public KualiDecimal getEffortCertificationOriginalPayrollAmount() {
@@ -387,7 +387,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the effortCertificationOriginalPayrollAmount attribute value.
-     * 
+     *
      * @param effortCertificationOriginalPayrollAmount The effortCertificationOriginalPayrollAmount to set.
      */
     public void setEffortCertificationOriginalPayrollAmount(KualiDecimal effortCertificationOriginalPayrollAmount) {
@@ -397,7 +397,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialObject attribute.
-     * 
+     *
      * @return Returns the financialObject.
      */
     public ObjectCode getFinancialObject() {
@@ -406,7 +406,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObject attribute value.
-     * 
+     *
      * @param financialObject The financialObject to set.
      */
     @Deprecated
@@ -416,7 +416,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts.
      */
     public Chart getChartOfAccounts() {
@@ -425,7 +425,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chartOfAccounts attribute value.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      */
     @Deprecated
@@ -435,7 +435,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the effortCertificationDocument attribute.
-     * 
+     *
      * @return Returns the effortCertificationDocument.
      */
     public EffortCertificationDocument getEffortCertificationDocument() {
@@ -444,7 +444,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the effortCertificationDocument attribute value.
-     * 
+     *
      * @param effortCertificationDocument The effortCertificationDocument to set.
      */
     @Deprecated
@@ -454,7 +454,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account.
      */
     public Account getAccount() {
@@ -467,7 +467,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the account attribute value.
-     * 
+     *
      * @param account The account to set.
      */
     @Deprecated
@@ -477,7 +477,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the sourceChartOfAccounts attribute.
-     * 
+     *
      * @return Returns the sourceChartOfAccounts.
      */
     public Chart getSourceChartOfAccounts() {
@@ -486,7 +486,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the sourceChartOfAccounts attribute value.
-     * 
+     *
      * @param sourceChartOfAccounts The sourceChartOfAccounts to set.
      */
     @Deprecated
@@ -496,7 +496,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the sourceAccount attribute.
-     * 
+     *
      * @return Returns the sourceAccount.
      */
     public Account getSourceAccount() {
@@ -505,7 +505,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the sourceAccount attribute value.
-     * 
+     *
      * @param sourceAccount The sourceAccount to set.
      */
     @Deprecated
@@ -515,7 +515,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the subAccount attribute.
-     * 
+     *
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -524,7 +524,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the subAccount attribute value.
-     * 
+     *
      * @param subAccount The subAccount to set.
      */
     @Deprecated
@@ -534,7 +534,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the options attribute.
-     * 
+     *
      * @return Returns the options.
      */
     public SystemOptions getOptions() {
@@ -543,7 +543,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the options attribute value.
-     * 
+     *
      * @param options The options to set.
      */
     @Deprecated
@@ -553,7 +553,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the positionData attribute.
-     * 
+     *
      * @return Returns the positionData.
      */
     public PositionData getPositionData() {
@@ -562,16 +562,16 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the positionData attribute value.
-     * 
+     *
      * @param positionData The positionData to set.
      */
     public void setPositionData(PositionData positionData) {
         this.positionData = positionData;
-    }    
+    }
 
     /**
      * Gets the newLineIndicator attribute.
-     * 
+     *
      * @return Returns the newLineIndicator.
      */
     public boolean isNewLineIndicator() {
@@ -580,7 +580,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the newLineIndicator attribute value.
-     * 
+     *
      * @param newLineIndicator The newLineIndicator to set.
      */
     public void setNewLineIndicator(boolean newLineIndicator) {
@@ -589,7 +589,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * If the account of this detail line is closed, the line cannot be edited.
-     * 
+     *
      * @return Returns true if line can be edited, false otherwise
      */
     public boolean isEditable() {
@@ -603,7 +603,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     /**
      * Gets the federalOrFederalPassThroughIndicator attribute. If this line is associated with a valid account, the indicator will
      * be retrieved and updated.
-     * 
+     *
      * @return Returns the federalOrFederalPassThroughIndicator.
      */
     public boolean isFederalOrFederalPassThroughIndicator() {
@@ -624,7 +624,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the overrideCode attribute.
-     * 
+     *
      * @return Returns the overrideCode.
      */
     public String getOverrideCode() {
@@ -633,7 +633,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the overrideCode attribute value.
-     * 
+     *
      * @param overrideCode The overrideCode to set.
      */
     public void setOverrideCode(String overrideCode) {
@@ -642,7 +642,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the fringeBenefitAmount attribute.
-     * 
+     *
      * @return Returns the fringeBenefitAmount.
      */
     public KualiDecimal getFringeBenefitAmount() {
@@ -660,7 +660,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the originalFringeBenefitAmount attribute.
-     * 
+     *
      * @return Returns the originalFringeBenefitAmount.
      */
     public KualiDecimal getOriginalFringeBenefitAmount() {
@@ -672,7 +672,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the originalFringeBenefitAmount attribute value.
-     * 
+     *
      * @param originalFringeBenefitAmount The originalFringeBenefitAmount to set.
      */
     public void setOriginalFringeBenefitAmount(KualiDecimal originalFringeBenefitAmount) {
@@ -681,7 +681,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -690,7 +690,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the universityFiscalYear attribute value.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -699,7 +699,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the persistedPayrollAmount attribute.
-     * 
+     *
      * @return Returns the persistedPayrollAmount.
      */
     public KualiDecimal getPersistedPayrollAmount() {
@@ -708,7 +708,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the persistedPayrollAmount attribute value.
-     * 
+     *
      * @param persistedPayrollAmount The persistedPayrollAmount to set.
      */
     public void setPersistedPayrollAmount(KualiDecimal persistedPayrollAmount) {
@@ -731,14 +731,14 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         map.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, this.sourceAccountNumber);
         map.put(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, this.effortCertificationPayrollAmount);
         map.put(EffortPropertyConstants.EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT, this.effortCertificationOriginalPayrollAmount);
-        map.put(LaborPropertyConstants.EFFECTIVE_DATE, this.effectiveDate);        
+        map.put(LaborPropertyConstants.EFFECTIVE_DATE, this.effectiveDate);
 
         return map;
     }
 
     /**
      * Gets the accountExpiredOverride attribute.
-     * 
+     *
      * @return Returns the accountExpiredOverride.
      */
     public boolean isAccountExpiredOverride() {
@@ -747,7 +747,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountExpiredOverride attribute value.
-     * 
+     *
      * @param accountExpiredOverride The accountExpiredOverride to set.
      */
     public void setAccountExpiredOverride(boolean accountExpiredOverride) {
@@ -756,7 +756,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the accountExpiredOverrideNeeded attribute.
-     * 
+     *
      * @return Returns the accountExpiredOverrideNeeded.
      */
     public boolean isAccountExpiredOverrideNeeded() {
@@ -765,7 +765,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountExpiredOverrideNeeded attribute value.
-     * 
+     *
      * @param accountExpiredOverrideNeeded The accountExpiredOverrideNeeded to set.
      */
     public void setAccountExpiredOverrideNeeded(boolean accountExpiredOverrideNeeded) {
@@ -774,7 +774,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * calculate the total effort percent of the given detail lines
-     * 
+     *
      * @param the given detail lines
      * @return Returns the total effort percent
      */
@@ -790,7 +790,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * calculate the total persised effort percent of the given detail lines
-     * 
+     *
      * @param the given detail lines
      * @return Returns the total persisted effort percent
      */
@@ -806,7 +806,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * calculate the total original effort percent of the given detail lines
-     * 
+     *
      * @param the given detail lines
      * @return Returns the total original effort percent
      */
@@ -822,7 +822,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * calculate the total payroll amount of the given detail lines
-     * 
+     *
      * @param the given detail lines
      * @return Returns the total original payroll amount
      */
@@ -838,7 +838,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * calculate the total payroll amount of the given detail lines
-     * 
+     *
      * @param the given detail lines
      * @return Returns the total original payroll amount
      */
@@ -854,7 +854,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * calculate the total original payroll amount of the given detail lines
-     * 
+     *
      * @param the given detail lines
      * @return Returns the total original payroll amount
      */
@@ -870,7 +870,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the totalFringeBenefit attribute.
-     * 
+     *
      * @return Returns the totalFringeBenefit.
      */
     public static KualiDecimal getTotalFringeBenefit(List<EffortCertificationDetail> effortCertificationDetailLines) {
@@ -885,7 +885,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the totalOriginalFringeBenefit attribute.
-     * 
+     *
      * @return Returns the totalOriginalFringeBenefit.
      */
     public static KualiDecimal getTotalOriginalFringeBenefit(List<EffortCertificationDetail> effortCertificationDetailLines) {
@@ -900,7 +900,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * recalculate the payroll amount of the current detail line
-     * 
+     *
      * @param totalPayrollAmount the total payroll amount of the hosting document
      */
     public void recalculatePayrollAmount(KualiDecimal totalPayrollAmount) {
@@ -933,7 +933,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the persistedEffortPercent attribute. 
+     * Gets the persistedEffortPercent attribute.
      * @return Returns the persistedEffortPercent.
      */
     public Integer getPersistedEffortPercent() {
@@ -949,7 +949,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the groupId attribute. 
+     * Gets the groupId attribute.
      * @return Returns the groupId.
      */
     public String getGroupId() {

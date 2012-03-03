@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,15 +24,14 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * KFSMI-4553
- * This class is look for the members of the defined role and remove the single actor if one exists 
- * so that document will not route to the initiator or single approver. 
+ * This class is look for the members of the defined role and remove the single actor if one exists
+ * so that document will not route to the initiator or single approver.
  */
 public class ExcludeSingleActorSeparationOfDutiesRoleTypeService  extends ExclusionRoleTypeServiceBase {
     private static final Logger LOG = Logger.getLogger( ExcludeSingleActorSeparationOfDutiesRoleTypeService .class );
@@ -47,13 +46,13 @@ public class ExcludeSingleActorSeparationOfDutiesRoleTypeService  extends Exclus
         if(ObjectUtils.isNotNull(approverOrInitiator )) {
             return excludePrincipalAsNeeded(approverOrInitiator, qualification, membershipInfos);
         }
-        
+
         return membershipInfos;
     }
 
     /**
-     * 
-     * This method return initiator or approver principal Id 
+     *
+     * This method return initiator or approver principal Id
      * @param documentId
      * @return
      */
@@ -77,7 +76,7 @@ public class ExcludeSingleActorSeparationOfDutiesRoleTypeService  extends Exclus
         }
         return documentService;
     }
-    
+
     protected WorkflowDocumentService getWorkflowDocumentService() {
         if (workflowDocumentService == null) {
             workflowDocumentService = KewApiServiceLocator.getWorkflowDocumentService();

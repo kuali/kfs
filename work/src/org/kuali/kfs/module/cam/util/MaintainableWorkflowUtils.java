@@ -23,6 +23,7 @@ import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * In situation where the Maintainable does not have access to the document,  this class is a utility which
@@ -62,7 +63,7 @@ public final class MaintainableWorkflowUtils {
         WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
         try {
             Person person = null;
-            if(org.kuali.rice.kns.util.ObjectUtils.isNull(GlobalVariables.getUserSession())) {
+            if(ObjectUtils.isNull(GlobalVariables.getUserSession())) {
                 person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
             }
             else {

@@ -35,11 +35,11 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Presentation Controller for Asset Maintenance Documents
@@ -166,7 +166,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
 
         // for fabrication document, disallow edit when document routing to the 'Management' FYI users.
         if (assetService.isAssetFabrication((MaintenanceDocument) document)) {
-            WorkflowDocument workflowDocument = (WorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
             if (workflowDocument.isEnroute()) {
                 Set<String> nodeNames = assetService.getCurrentRouteLevels(workflowDocument);
 

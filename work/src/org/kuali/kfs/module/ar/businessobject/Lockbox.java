@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -41,10 +40,10 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 	private Integer batchSequenceNumber; //a batch of invoices/payments processed.
 	private String proxyInitiator;
 	private String bankCode; //a unique code used to identify the bank associated with this lockbox.
-	
+
     private PaymentMedium customerPaymentMedium;
     private Bank bank;
-    
+
 	/**
 	 * Default constructor.
 	 */
@@ -54,19 +53,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the invoiceSequenceNumber attribute.
-	 * 
+	 *
 	 * @return Returns the invoiceSequenceNumber
-	 * 
+	 *
 	 */
-	public Long getInvoiceSequenceNumber() { 
+	public Long getInvoiceSequenceNumber() {
 		return invoiceSequenceNumber;
 	}
 
 	/**
 	 * Sets the invoiceSequenceNumber attribute.
-	 * 
+	 *
 	 * @param invoiceSequenceNumber The invoiceSequenceNumber to set.
-	 * 
+	 *
 	 */
 	public void setInvoiceSequenceNumber(Long invoiceSequenceNumber) {
 		this.invoiceSequenceNumber = invoiceSequenceNumber;
@@ -75,19 +74,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the lockboxNumber attribute.
-	 * 
+	 *
 	 * @return Returns the lockboxNumber
-	 * 
+	 *
 	 */
-	public String getLockboxNumber() { 
+	public String getLockboxNumber() {
 		return lockboxNumber;
 	}
 
 	/**
 	 * Sets the lockboxNumber attribute.
-	 * 
+	 *
 	 * @param lockboxNumber The lockboxNumber to set.
-	 * 
+	 *
 	 */
 	public void setLockboxNumber(String lockboxNumber) {
 		this.lockboxNumber = lockboxNumber;
@@ -96,19 +95,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the customerNumber attribute.
-	 * 
+	 *
 	 * @return Returns the customerNumber
-	 * 
+	 *
 	 */
-	public String getCustomerNumber() { 
+	public String getCustomerNumber() {
 		return customerNumber;
 	}
 
 	/**
 	 * Sets the customerNumber attribute.
-	 * 
+	 *
 	 * @param customerNumber The customerNumber to set.
-	 * 
+	 *
 	 */
 	public void setCustomerNumber(String customerNumber) {
 		this.customerNumber = customerNumber;
@@ -117,19 +116,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the financialDocumentReferenceInvoiceNumber attribute.
-	 * 
+	 *
 	 * @return Returns the financialDocumentReferenceInvoiceNumber
-	 * 
+	 *
 	 */
-	public String getFinancialDocumentReferenceInvoiceNumber() { 
+	public String getFinancialDocumentReferenceInvoiceNumber() {
 		return financialDocumentReferenceInvoiceNumber;
 	}
 
 	/**
 	 * Sets the financialDocumentReferenceInvoiceNumber attribute.
-	 * 
+	 *
 	 * @param financialDocumentReferenceInvoiceNumber The financialDocumentReferenceInvoiceNumber to set.
-	 * 
+	 *
 	 */
 	public void setFinancialDocumentReferenceInvoiceNumber(String financialDocumentReferenceInvoiceNumber) {
 		this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
@@ -138,19 +137,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the billingDate attribute.
-	 * 
+	 *
 	 * @return Returns the billingDate
-	 * 
+	 *
 	 */
-	public Date getBillingDate() { 
+	public Date getBillingDate() {
 		return billingDate;
 	}
 
 	/**
 	 * Sets the billingDate attribute.
-	 * 
+	 *
 	 * @param billingDate The billingDate to set.
-	 * 
+	 *
 	 */
 	public void setBillingDate(Date billingDate) {
 		this.billingDate = billingDate;
@@ -159,19 +158,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the invoiceTotalAmount attribute.
-	 * 
+	 *
 	 * @return Returns the invoiceTotalAmount
-	 * 
+	 *
 	 */
-	public KualiDecimal getInvoiceTotalAmount() { 
+	public KualiDecimal getInvoiceTotalAmount() {
 		return invoiceTotalAmount;
 	}
 
 	/**
 	 * Sets the invoiceTotalAmount attribute.
-	 * 
+	 *
 	 * @param invoiceTotalAmount The invoiceTotalAmount to set.
-	 * 
+	 *
 	 */
 	public void setInvoiceTotalAmount(KualiDecimal invoiceTotalAmount) {
 		this.invoiceTotalAmount = invoiceTotalAmount;
@@ -180,19 +179,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the invoicePaidOrAppliedAmount attribute.
-	 * 
+	 *
 	 * @return Returns the invoicePaidOrAppliedAmount
-	 * 
+	 *
 	 */
-	public KualiDecimal getInvoicePaidOrAppliedAmount() { 
+	public KualiDecimal getInvoicePaidOrAppliedAmount() {
 		return invoicePaidOrAppliedAmount;
 	}
 
 	/**
 	 * Sets the invoicePaidOrAppliedAmount attribute.
-	 * 
+	 *
 	 * @param invoicePaidOrAppliedAmount The invoicePaidOrAppliedAmount to set.
-	 * 
+	 *
 	 */
 	public void setInvoicePaidOrAppliedAmount(KualiDecimal invoicePaidOrAppliedAmount) {
 		this.invoicePaidOrAppliedAmount = invoicePaidOrAppliedAmount;
@@ -201,19 +200,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the scannedInvoiceDate attribute.
-	 * 
+	 *
 	 * @return Returns the scannedInvoiceDate
-	 * 
+	 *
 	 */
-	public Date getScannedInvoiceDate() { 
+	public Date getScannedInvoiceDate() {
 		return scannedInvoiceDate;
 	}
 
 	/**
 	 * Sets the scannedInvoiceDate attribute.
-	 * 
+	 *
 	 * @param scannedInvoiceDate The scannedInvoiceDate to set.
-	 * 
+	 *
 	 */
 	public void setScannedInvoiceDate(Date scannedInvoiceDate) {
 		this.scannedInvoiceDate = scannedInvoiceDate;
@@ -222,19 +221,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the customerPaymentMediumCode attribute.
-	 * 
+	 *
 	 * @return Returns the customerPaymentMediumCode
-	 * 
+	 *
 	 */
-	public String getCustomerPaymentMediumCode() { 
+	public String getCustomerPaymentMediumCode() {
 		return customerPaymentMediumCode;
 	}
 
 	/**
 	 * Sets the customerPaymentMediumCode attribute.
-	 * 
+	 *
 	 * @param customerPaymentMediumCode The customerPaymentMediumCode to set.
-	 * 
+	 *
 	 */
 	public void setCustomerPaymentMediumCode(String customerPaymentMediumCode) {
 		this.customerPaymentMediumCode = customerPaymentMediumCode;
@@ -243,19 +242,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the processedInvoiceDate attribute.
-	 * 
+	 *
 	 * @return Returns the processedInvoiceDate
-	 * 
+	 *
 	 */
-	public Date getProcessedInvoiceDate() { 
+	public Date getProcessedInvoiceDate() {
 		return processedInvoiceDate;
 	}
 
 	/**
 	 * Sets the processedInvoiceDate attribute.
-	 * 
+	 *
 	 * @param processedInvoiceDate The processedInvoiceDate to set.
-	 * 
+	 *
 	 */
 	public void setProcessedInvoiceDate(Date processedInvoiceDate) {
 		this.processedInvoiceDate = processedInvoiceDate;
@@ -264,19 +263,19 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the batchSequenceNumber attribute.
-	 * 
+	 *
 	 * @return Returns the batchSequenceNumber
-	 * 
+	 *
 	 */
-	public Integer getBatchSequenceNumber() { 
+	public Integer getBatchSequenceNumber() {
 		return batchSequenceNumber;
 	}
 
 	/**
 	 * Sets the batchSequenceNumber attribute.
-	 * 
+	 *
 	 * @param batchSequenceNumber The batchSequenceNumber to set.
-	 * 
+	 *
 	 */
 	public void setBatchSequenceNumber(Integer batchSequenceNumber) {
 		this.batchSequenceNumber = batchSequenceNumber;
@@ -285,31 +284,33 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	/**
 	 * Gets the customerPaymentMedium attribute.
-	 * 
+	 *
 	 * @return Returns the customerPaymentMedium
-	 * 
+	 *
 	 */
-	public PaymentMedium getCustomerPaymentMedium() { 
+	public PaymentMedium getCustomerPaymentMedium() {
 		return customerPaymentMedium;
 	}
 
 	/**
 	 * Sets the customerPaymentMedium attribute.
-	 * 
+	 *
 	 * @param customerPaymentMedium The customerPaymentMedium to set.
 	 * @deprecated
 	 */
-	public void setCustomerPaymentMedium(PaymentMedium customerPaymentMedium) {
+	@Deprecated
+    public void setCustomerPaymentMedium(PaymentMedium customerPaymentMedium) {
 		this.customerPaymentMedium = customerPaymentMedium;
 	}
 
-	
-	public int compareTo(Lockbox lockbox) {
+
+	@Override
+    public int compareTo(Lockbox lockbox) {
 	    if (lockbox == null) {
 	        return -1;
 	    }
-	    if (ObjectUtils.nullSafeEquals(this.getBatchSequenceNumber(), lockbox.getBatchSequenceNumber())) {
-	        if (ObjectUtils.nullSafeEquals(this.getProcessedInvoiceDate(), lockbox.getProcessedInvoiceDate())) {
+	    if (org.springframework.util.ObjectUtils.nullSafeEquals(this.getBatchSequenceNumber(), lockbox.getBatchSequenceNumber())) {
+	        if (org.springframework.util.ObjectUtils.nullSafeEquals(this.getProcessedInvoiceDate(), lockbox.getProcessedInvoiceDate())) {
 	            return 0;
 	        }
 	    }
@@ -321,7 +322,7 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 	 */
     @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+	    LinkedHashMap m = new LinkedHashMap();
         if (this.invoiceSequenceNumber != null) {
             m.put("invoiceSequenceNumber", this.invoiceSequenceNumber.toString());
         }
@@ -329,7 +330,7 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
     }
 
     /**
-     * 
+     *
      * This method...
      * @return
      */
@@ -338,7 +339,7 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
     }
 
     /**
-     * 
+     *
      * This method...
      * @param proxyInitiator
      */
@@ -347,7 +348,7 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
     }
 
     /**
-     * Gets the bankCode attribute. 
+     * Gets the bankCode attribute.
      * @return Returns the bankCode.
      */
     public String getBankCode() {
@@ -369,5 +370,5 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
     public void setBank(Bank bank) {
         this.bank = bank;
     }
-    
+
 }

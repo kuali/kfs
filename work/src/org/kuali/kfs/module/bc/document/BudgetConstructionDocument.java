@@ -41,8 +41,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BudgetConstructionDocument extends FinancialSystemTransactionalDocumentBase {
 
@@ -401,6 +401,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
@@ -420,6 +421,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param account The account to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -435,6 +437,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param budgetLockUser The budgetLockUser to set.
      * @deprecated
      */
+    @Deprecated
     public void setBudgetLockUser(Person budgetLockUser) {
         this.budgetLockUser = budgetLockUser;
     }
@@ -450,6 +453,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param budgetTransactionLockUser The budgetTransactionLockUser to set.
      * @deprecated
      */
+    @Deprecated
     public void setBudgetTransactionLockUser(Person budgetTransactionLockUser) {
         this.budgetTransactionLockUser = budgetTransactionLockUser;
     }
@@ -469,6 +473,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param organizationLevelOrganization The organizationLevelOrganization to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationLevelOrganization(Organization organizationLevelOrganization) {
         this.organizationLevelOrganization = organizationLevelOrganization;
     }
@@ -527,6 +532,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param budgetConstructionAccountReports The budgetConstructionAccountReports to set.
      * @deprecated
      */
+    @Deprecated
     public void setBudgetConstructionAccountReports(BudgetConstructionAccountReports budgetConstructionAccountReports) {
         this.budgetConstructionAccountReports = budgetConstructionAccountReports;
     }

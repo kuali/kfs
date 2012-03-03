@@ -31,8 +31,8 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Implementation for InactivatePayeeAchAccountsService interface.

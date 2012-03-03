@@ -22,6 +22,6 @@
 		jdbc-level="3.0"
 		useAutoCommit="0">
         <attribute attribute-name="jdbc.defaultRowPrefetch" attribute-value="100" />
-		<sequence-manager className="org.kuali.rice.ojb.ConfigurableSequenceManager" />
+		<sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager" />
 	</jdbc-connection-descriptor>
 </descriptor-repository>

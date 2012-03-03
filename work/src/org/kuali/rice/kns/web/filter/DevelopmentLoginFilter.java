@@ -36,7 +36,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class DummyLoginFilter implements Filter {
+public class DevelopmentLoginFilter implements Filter {
 	
 	private String user;
 	

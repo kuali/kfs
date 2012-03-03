@@ -18,7 +18,7 @@
 <%@ attribute name="viewList" required="true" %>
 <%@ attribute name="limitByPoId" required="false" %>
 
-<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentTypeName}" />
 <c:set var="isRequisition" value="${KualiForm.document.isReqsDoc}" />
 
 <logic:notEmpty name="KualiForm" property="${viewList}">

@@ -18,7 +18,7 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" 
               description="The DataDictionary entry containing attributes for this row's fields."%>
               
-<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentTypeName}" />
 <c:set var="isATypeOfPurAPRecDoc" value="${KualiForm.document.isATypeOfPurAPRecDoc}" />
 <c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 <c:set var="isRequisition" value="${KualiForm.document.isReqsDoc}" />

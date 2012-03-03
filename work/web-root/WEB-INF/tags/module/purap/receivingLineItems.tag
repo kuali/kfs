@@ -21,7 +21,7 @@
 <script language="JavaScript" type="text/javascript" src="scripts/purap/objectInfo.js"></script>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentTypeName}" />
 <c:set var="colCount" value="12"/>
 
 <c:if test="${KualiForm.stateFinal}">

@@ -36,7 +36,7 @@
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 <c:set var="displayCommodityCodeFields" value="${KualiForm.editingMode['enableCommodityCode']}"/>
 
-<c:set var="documentType" value="${KualiForm.documentType}" />
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentTypeName}" />
 <c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 <c:set var="isPurchaseOrder" value="${KualiForm.document.isPODoc}" />
 <c:set var="hasItems" value="${fn:length(KualiForm.document.items) > 0}" />
@@ -629,7 +629,7 @@
 			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
-                        attributeEntry="${DataDictionary.RequisitionDocument.totalPreTaxDollarAmount}"
+                        attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalPreTaxDollarAmount}"
                         property="document.totalPreTaxDollarAmount"
                         readOnly="true" />&nbsp; </b>
                 </div>
@@ -646,7 +646,7 @@
 			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
-                        attributeEntry="${DataDictionary.RequisitionDocument.totalTaxAmount}"
+                        attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalTaxAmount}"
                         property="document.totalTaxAmount"
                         readOnly="true" />&nbsp; </b>
                 </div>
@@ -664,7 +664,7 @@
 			<td valign=middle class="datacell"  colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
-                        attributeEntry="${DataDictionary.RequisitionDocument.totalDollarAmount}"
+                        attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}"
                         property="document.totalDollarAmount"
                         readOnly="true" />&nbsp; </b>
                 </div>

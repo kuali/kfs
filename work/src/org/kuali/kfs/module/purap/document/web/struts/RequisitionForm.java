@@ -41,7 +41,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class RequisitionForm extends PurchasingFormBase {
 
     protected String shopUrl;
-    protected String documentType;
     
     /**
      * Constructs a RequisitionForm instance and sets up the appropriately casted document.
@@ -56,10 +55,6 @@ public class RequisitionForm extends PurchasingFormBase {
      * @return Returns the documentType
      */
     
-    public String getDocumentType() {
-        return "REQS";
-    }
-
     @Override
     protected String getDefaultDocumentTypeName() {
         return "REQS";

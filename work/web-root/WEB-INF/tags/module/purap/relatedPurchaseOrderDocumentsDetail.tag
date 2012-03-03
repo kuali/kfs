@@ -19,7 +19,7 @@
 <%@ attribute name="groupList" required="true" %>
 <%@ attribute name="limitByPoId" required="true" %>
 
-<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentTypeName}" />
 <c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 
 <c:if test="${KualiForm.document.needWarningRelatedPOs}">

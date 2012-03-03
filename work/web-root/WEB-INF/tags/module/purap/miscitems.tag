@@ -53,7 +53,7 @@
 <c:set var="amendmentEntry"
 	value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
 
-<c:set var="documentType" value="${KualiForm.documentType}" />
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentTypeName}" />
 <c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
   
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />

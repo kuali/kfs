@@ -287,9 +287,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -381,13 +378,6 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="requisitionSourceDescription" column="REQS_SRC_DESC" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.RequisitionStatus" table="PUR_REQS_STAT_T">
-    <field-descriptor name="statusCode" column="REQS_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="statusDescription" column="REQS_STAT_DESC" jdbc-type="VARCHAR" index="true"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason" table="PUR_DLVY_REQ_DT_REAS_T">
@@ -539,9 +529,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -777,9 +764,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -1017,9 +1001,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -1256,9 +1237,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -1497,9 +1475,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -1737,9 +1712,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -1977,9 +1949,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -2215,9 +2184,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -2453,9 +2419,6 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -2649,9 +2612,6 @@
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
         <query-customizer class="org.kuali.kfs.module.purap.dataaccess.impl.PurapItemQueryCustomizer">
@@ -2698,13 +2658,6 @@
 
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" table="PUR_PO_STAT_T">
-    <field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="statusDescription" column="PO_STAT_DESC" jdbc-type="VARCHAR"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" table="PUR_PO_VNDR_CHC_T">
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -2719,14 +2672,6 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="recurringPaymentFrequencyDescription" column="RECUR_PMT_FREQ_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-</class-descriptor>
-
-
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus" table="AP_PMT_RQST_STAT_T">
-    <field-descriptor name="statusCode" column="PMT_RQST_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="statusDescription" column="PMT_RQST_STAT_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude" table="AP_AUTO_APRV_EXCL_T">
@@ -3450,9 +3395,6 @@
     <field-descriptor name="paymentRequestPayDate" column="PMT_RQST_PAY_DT" jdbc-type="DATE"/>  
     <field-descriptor name="paymentExtractedTimestamp" column="PMT_EXTRT_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="paymentPaidTimestamp" column="PMT_PD_DT" jdbc-type="TIMESTAMP"/>
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -3475,9 +3417,6 @@
     <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountDistributionMethod" column="ACCT_DISTR_MTD_IND" jdbc-type="VARCHAR"/>
     
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="creditMemoStatusCode" />
-    </reference-descriptor>   
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -3564,9 +3503,6 @@
         <foreignkey field-ref="paymentRequestIdentifier" />
     </reference-descriptor>
 -->
-    <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="statusCode" />
-    </reference-descriptor>
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="bankCode" />
     </reference-descriptor>
@@ -3590,13 +3526,6 @@
         </query-customizer>
     </collection-descriptor>
 
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" table="AP_CRDT_MEMO_STAT_T">
-    <field-descriptor name="statusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="statusDescription" column="CRDT_MEMO_STAT_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.CreditMemoItem" table="AP_CRDT_MEMO_ITM_T">

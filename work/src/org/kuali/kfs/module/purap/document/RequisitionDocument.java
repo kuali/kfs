@@ -208,10 +208,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * Performs logic needed to initiate Requisition Document.
      */
-    public void initiateDocument() {
+    public void initiateDocument() throws WorkflowException {
         this.setupAccountDistributionMethod();
         this.setRequisitionSourceCode(PurapConstants.RequisitionSources.STANDARD_ORDER);
-        setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
+    //    setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
+        updateAndSaveAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);        
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
         this.setDocumentFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));

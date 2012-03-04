@@ -878,7 +878,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
 
         try {
-            if (ObjectUtils.isNull(workflowDocument)) {
+            if (workflowDocument != null) {
                 return workflowDocument;
             }
 

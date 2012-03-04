@@ -96,9 +96,11 @@
 						fieldConversions="id:document.${securityType}.securityID" />
 				</c:if>
 				<br/>
+				<%-- 
 				<div id="${securityType}.security.description" class="fineprint">
             		 <kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.${securityType}.security.description" readOnly="true" />
             	</div>	
+            	--%>
             </td>
             <td>
             	<div id="document.${securityType}.security.securityClassCode" >

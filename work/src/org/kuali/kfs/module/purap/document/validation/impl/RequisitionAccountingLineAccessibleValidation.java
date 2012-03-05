@@ -15,13 +15,10 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.List;
-
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not
@@ -34,8 +31,6 @@ public class RequisitionAccountingLineAccessibleValidation extends PurchasingAcc
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        WorkflowDocument workflowDocument = event.getDocument().getDocumentHeader().getWorkflowDocument();
-        List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
         RequisitionDocument requisitionDocument = (RequisitionDocument) event.getDocument();
         //for app doc status
         //to be removed

@@ -43,7 +43,6 @@
     	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     	<property name="webScriptFiles" >
 		      <list>
-			        <value>../dwr/interface/KEMService.js</value>
 			        <value>../scripts/module/endow/tickler.js</value>
 		      </list>
 	    </property>

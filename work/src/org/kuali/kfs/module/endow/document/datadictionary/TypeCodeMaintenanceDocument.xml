@@ -46,11 +46,8 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="webScriptFiles" >
       <list>
-        <value>../dwr/interface/FeeMethodService.js</value>
         <value>../scripts/module/endow/feeMethod.js</value>
-        <value>../dwr/interface/CashSweepModelService.js</value>
         <value>../scripts/module/endow/cashSweepModel.js</value>
-        <value>../dwr/interface/AutomatedCashInvestmentModelService.js</value>
         <value>../scripts/module/endow/automatedCashInvestmentModel.js</value>
       </list>
     </property> 

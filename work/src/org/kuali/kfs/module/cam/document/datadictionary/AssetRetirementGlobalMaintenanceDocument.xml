@@ -51,9 +51,7 @@
     </property>
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/AssetRetirementService.js</value>
         <value>../scripts/module/cams/assetRetirementGlobalMaintenanceDocument.js</value>
-        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>        
       </list>
     </property>

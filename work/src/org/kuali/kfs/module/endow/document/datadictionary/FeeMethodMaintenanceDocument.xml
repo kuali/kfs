@@ -61,15 +61,10 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.FeeMethodDocumentPresentationController" />    	
     <property name="webScriptFiles" >
       <list>
-        <value>../dwr/interface/FrequencyCodeService.js</value>
         <value>../scripts/module/endow/frequencyCode.js</value>
-        <value>../dwr/interface/EndowmentTransactionCodeService.js</value>
         <value>../scripts/module/endow/feeEndowmentTransactionCode.js</value>
-        <value>../dwr/interface/ClassCodeService.js</value>
         <value>../scripts/module/endow/classCode.js</value>
-        <value>../dwr/interface/SecurityService.js</value>
         <value>../scripts/module/endow/feeSecurity.js</value>
-        <value>../dwr/interface/FeeTypeService.js</value>
         <value>../scripts/module/endow/feeType.js</value>
       </list>
     </property> 

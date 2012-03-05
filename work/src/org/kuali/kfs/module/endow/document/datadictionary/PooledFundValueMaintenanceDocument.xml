@@ -40,9 +40,7 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.PooledFundValueDocumentPresentationController" /> 
     <property name="webScriptFiles" >
       <list>
-        <value>../dwr/interface/PooledFundControlService.js</value>
         <value>../scripts/module/endow/pooledFundControl.js</value>
-        <value>../dwr/interface/PooledFundValueService.js</value>
         <value>../scripts/module/endow/pooledFundValue.js</value>        
       </list>
     </property> 

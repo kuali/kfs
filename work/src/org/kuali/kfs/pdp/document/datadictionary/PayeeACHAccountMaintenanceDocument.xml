@@ -46,7 +46,6 @@
     </property>
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/AchBankService.js</value>
         <value>../scripts/pdp/objectInfo.js</value>
       </list>
     </property>

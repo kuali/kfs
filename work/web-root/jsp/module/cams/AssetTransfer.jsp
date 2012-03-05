@@ -18,7 +18,6 @@
 
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true" htmlFormAction="camsAssetTransfer" documentTypeName="AssetTransferDocument" renderMultipart="true" showTabButtons="true">
-	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
 	<script language="JavaScript" type="text/javascript" src="scripts/module/cams/assetTransfer.js"></script>   
 	<c:set var="assetTransferAttributes" value="${DataDictionary.AssetTransferDocument.attributes}" />
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />	

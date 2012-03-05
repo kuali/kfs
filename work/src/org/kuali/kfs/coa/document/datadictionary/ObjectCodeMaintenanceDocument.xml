@@ -50,7 +50,6 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodePreRules"/>
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/ChartService.js</value>
         <value>../scripts/sys/objectInfo.js</value>
       </list>
     </property>

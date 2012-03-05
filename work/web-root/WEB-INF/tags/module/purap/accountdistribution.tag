@@ -20,7 +20,6 @@
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="displayCommodityCodeFields" required="true" description="Boolean to indicate if commodity code relatedfields should be displayed"%>
 
-<script language="JavaScript" type="text/javascript" src="dwr/interface/CommodityCodeService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/vnd/objectInfo.js"></script>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />

@@ -50,7 +50,6 @@
     
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>

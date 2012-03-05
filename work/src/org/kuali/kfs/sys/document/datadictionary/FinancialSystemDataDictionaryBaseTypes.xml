@@ -137,14 +137,6 @@
 	<bean id="commonWebScriptFiles" class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
-				<value>dwr/interface/ChartService.js</value>
-				<value>dwr/interface/AccountService.js</value>
-				<value>dwr/interface/SubAccountService.js</value>
-				<value>dwr/interface/ObjectCodeService.js</value>
-				<value>dwr/interface/ObjectTypeService.js</value>
-				<value>dwr/interface/SubObjectCodeService.js</value>
-				<value>dwr/interface/ProjectCodeService.js</value>
-				<value>dwr/interface/OriginationCodeService.js</value>
 				<value>scripts/sys/objectInfo.js</value>
 			</list>
 		</property>

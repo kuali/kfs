@@ -49,9 +49,7 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.ACIModelDocumentPresentationController" />    	
     <property name="webScriptFiles" >
       <list>
-        <value>../dwr/interface/PooledFundControlService.js</value>
         <value>../scripts/module/endow/pooledFundControl.js</value>
-        <value>../dwr/interface/FrequencyCodeService.js</value>
         <value>../scripts/module/endow/frequencyCode.js</value>          
       </list>
     </property> 

@@ -27,7 +27,6 @@
 <%@ attribute name="headingTitle" required="true"
 	description="This is displayed as heading in H3 title."%>
 	
-<script type='text/javascript' src="dwr/interface/EndowmentTransactionDocumentService.js"></script>	
 <script language="JavaScript" type="text/javascript" src="scripts/module/endow/historyValueAdjustmentSecurityObjectInfo.js"></script>
 	
 <kul:tab tabTitle="${tabTitle}" defaultOpen="true"

@@ -31,7 +31,6 @@
               description="boolean indicating if this field is rendered as highlighted (to indicate old/new value change)" %>
                <%@ attribute name="forceRequired" required="false" %>
                
-<script language="JavaScript" type="text/javascript" src="dwr/interface/PersonService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
 
 <kul:htmlControlAttribute property="${userIdFieldName}" 

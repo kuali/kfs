@@ -69,9 +69,9 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAsse
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -533,7 +533,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         
         String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
         boolean valid = true;
- 
+        
+        //moved the springcontext out of for loop....
+        ParameterRepositoryService paramRepositoryService = SpringContext.getBean(ParameterRepositoryService.class);
+
         for (PurApItem item : purchasingDocument.getItems()) {
             String itemTypeCode = item.getItemTypeCode();
             List accountingLines = item.getSourceAccountingLines();
@@ -542,7 +545,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 String coa = accountingLine.getChartOfAccountsCode();
                 List<Parameter> results = new ArrayList<Parameter>();
                  //rice20  not sure if this will work trying to replace getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
-                ParameterRepositoryService paramRepositoryService = SpringContext.getBean(ParameterRepositoryService.class);
                 Builder qbc = QueryByCriteria.Builder.create();
                 qbc.setPredicates(and(
                             equal(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE),
@@ -550,8 +552,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                             PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType),
                             PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + coa + "%")));
                 
-                results = (List<Parameter>) paramRepositoryService.findParameters(qbc.build());
-                //results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
+                results = (List<Parameter>) (paramRepositoryService.findParameters(qbc.build())).getResults();
+
                 for (Parameter parameter : results) {
                     if (ObjectUtils.isNotNull(parameter)) {
                         if (parameter.getValue() != null) {

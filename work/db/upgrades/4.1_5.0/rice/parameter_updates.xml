@@ -88,18 +88,10 @@
 		<update tableName="KRCR_PARM_T">
 			<column name="VAL"
 				value="customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;customerLoadCSVInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm" />
-			<where>NMSPC_CD='KFS_SYS' AND PARM_NM='BATCH_UPLOAD_HELP_URL'</where>
+			<where>NMSPC_CD='KFS_SYS' AND PARM_NM='BATCH_UPLOAD_HELP_URL' AND APPL_ID = 'KFS'</where>
 		</update>
 
 		<!-- KFSMI-6867 -->
-		<insert tableName="KRNS_PARM_DTL_TYP_T">
-			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="CMPNT_CD" value="CustomerBillingStatement" />
-			<column name="OBJ_ID" value="KFSAR18" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="NM" value="Customer Billing Statement" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="CustomerBillingStatement" />
@@ -427,8 +419,6 @@
 		</delete>
 	</changeSet>
 
-<!-- JHK: Up to here in inclusion in master data scripts -->
-	
 	<changeSet author="jksmith" id="KFSMI6342_UNORDERED_LINE_ITEM_MESSAGE_PARAMETER">
 		<comment>Adds parameter for warning message for when user clicks "add unordered item" button</comment>
 		<insert tableName="KRCR_PARM_T">
@@ -473,22 +463,6 @@
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="knoreceipt-l@indiana.edu" />
 			<column name="PARM_DESC_TXT" value="The pdpSendAchAdviceNotificationsJob generates ACH payment summary email notifications for payees and copies of these emails are sent to the email address(es) specified in this parameter." />
-			<column name="EVAL_OPRTR_CD" value="A" />
-		</insert>
-	</changeSet>
-	
-	<changeSet author="jksmith" id="KFSMI6527_CHANGE_REQUEST_ENABLE_PARAMETER">
-		<comment>Adds parameter for KFSMI-6527 which enables or disables change request on the CR</comment>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-FP" />
-			<column name="CMPNT_CD" value="CashReceipt" />
-			<column name="PARM_NM" value="CHANGE_REQUEST_ENABLED_IND" />
-			<column name="APPL_ID" value="KFS" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
-			<column name="VER_NBR" value="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="Y" />
-			<column name="PARM_DESC_TXT" value="Indicator to turn Cash receipt change request ability on and off." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
 	</changeSet>
@@ -761,6 +735,7 @@
 		</insert>
 	</changeSet>
 	
+<!-- JHK: Up to here in inclusion in master data scripts -->
 	<changeSet author="jksmith" id="KFSMI6319_EINVOICE_OVERRIDE_CAMPUS">
 		<comment>Adds parameter for KFSMI-6319 to potentially override the campus used by the e-invoicing process. Megha did the original sql here.</comment>
 		<insert tableName="KRCR_PARM_T">
@@ -787,7 +762,7 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="LD;PL" />
+			<column name="VAL" value="" />
 			<column name="PARM_DESC_TXT" value="The list of origin codes which will cause a general ledger Entry’s document number on a lookup to form a link to the list of labor ledger entries which created that general ledger entry." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
@@ -804,7 +779,7 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="2:00:00" />
-			<column name="PARM_DESC_TXT" value="Time, in 24 hour time format (hh:mm:ss), after which it is considered to be the “next day” for the purposes of evaluating RUN_DATE parameters. For example: Today is 9/27/2011, RUN_DATE=9/27/2011, RUN_DATE_CUTOFF_TIME=2:00:00. Due to a slow running schedule a job triggered by RUN_DATE does not have its turn until 1:00 9/28/2011. The job will still run because the cutoff time is 2 hours after midnight. In this case, anything running after 2:00 is considered the next day." />
+			<column name="PARM_DESC_TXT" value="Time, in 24 hour time format (hh:mm:ss), after which it is considered to be the next day for the purposes of evaluating RUN_DATE parameters. For example: Today is 9/27/2011, RUN_DATE=9/27/2011, RUN_DATE_CUTOFF_TIME=2:00:00. Due to a slow running schedule a job triggered by RUN_DATE does not have its turn until 1:00 9/28/2011. The job will still run because the cutoff time is 2 hours after midnight. In this case, anything running after 2:00 is considered the next day." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
 	</changeSet>
@@ -820,7 +795,7 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="PO;DV" />
-			<column name="PARM_DESC_TXT" value="This parameter identifies the vendor types available as search criteria on the “Vendor Exclusion” and “Debarred Unmatched Vendor” lookups." />
+			<column name="PARM_DESC_TXT" value="This parameter identifies the vendor types available as search criteria on the Vendor Exclusion and Debarred Unmatched Vendor lookups." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
 		<insert tableName="KRCR_PARM_T">

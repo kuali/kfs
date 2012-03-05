@@ -338,8 +338,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
         // Set req status to INPR.
         //for app doc status
-        setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
-
+        updateAndSaveAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
 
         // Set fields from the user.
         if (ObjectUtils.isNotNull(purapChartOrg)) {

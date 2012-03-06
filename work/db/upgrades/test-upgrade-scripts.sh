@@ -4,17 +4,20 @@ IMPORT_OLD_PROJECT=${IMPORT_OLD_PROJECT:-true}
 RUN_UPGRADE_SCRIPTS=${RUN_UPGRADE_SCRIPTS:-true}
 EXPORT_UPGRADED_PROJECT=${EXPORT_UPGRADED_PROJECT:-true}
 
-# Check for WORKSPACE (a Hudson variable) and set if necessary so this script 
+# Check for WORKSPACE (a Jenkins variable) and set if necessary so this script 
 # can run outside of Hudson
 if [[ -z "$WORKSPACE" ]]; then
-	# Standard Variables from Hudson
+	# Standard Variables from Jenkins
 	ABSPATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 	WORKSPACE=`dirname $ABSPATH`
 	echo Working Directory: $WORKSPACE
-	ORACLE_TEST_DB_URL=${ORACLE_TEST_DB_URL:-jdbc:oracle:thin:@oraclerds.kfs.kuali.org:1521:KFS}
-	#MYSQL_TEST_DB_URL=jdbc:mysql://test.db.kfs.kuali.org:3306
-	MYSQL_TEST_DB_URL=${MYSQL_TEST_DB_URL:-jdbc:mysql://localhost:3306}
 fi
+ORACLE_TEST_DB_URL=${ORACLE_TEST_DB_URL:-jdbc:oracle:thin:@oraclerds.kfs.kuali.org:1521:KFS}
+#MYSQL_TEST_DB_URL=jdbc:mysql://test.db.kfs.kuali.org:3306
+MYSQL_TEST_DB_URL=${MYSQL_TEST_DB_URL:-jdbc:mysql://localhost:3306}
+
+PROJECT_DIR=$WORKSPACE/${PROJECT_NAME:-kfs}
+
 
 # Ensure we are in the right directory
 cd $WORKSPACE
@@ -22,7 +25,7 @@ cd $WORKSPACE
 # Parameters to job
 OLD_BRANCH_PATH=${OLD_BRANCH_PATH:-branches/release-4-1-1}
 #NEW_BRANCH_PATH=${NEW_BRANCH_PATH:-branches/rice-2-0-b1-merge2}
-UPGRADE_SCRIPT_DIR=$WORKSPACE/kfs/work/db/upgrades/${UPGRADE_SCRIPT_DIR:-4.1.1_5.0}
+UPGRADE_SCRIPT_DIR=$PROJECT_DIR/work/db/upgrades/${UPGRADE_SCRIPT_DIR:-4.1.1_5.0}
 RICE_UPGRADE_SCRIPT_DIR=""
 
 # Other parameters
@@ -43,23 +46,23 @@ if [[ "$CHECKOUT_CODE" == "true" ]]; then
 
 	echo Obtaining OLD Data Project from $PRIOR_SVN_DATA_PATH
 	# Check out the old data project
-	if [[ -d old_data ]]; then
-		svn -q revert -R old_data
-		svn -q switch $PRIOR_SVN_DATA_PATH old_data
-		svn -q update --non-interactive old_data
+	if [[ -d $PROJECT_DIR/build/temp/old_data ]]; then
+		svn -q revert -R $PROJECT_DIR/build/temp/old_data
+		svn -q switch $PRIOR_SVN_DATA_PATH $PROJECT_DIR/build/temp/old_data
+		svn -q update --non-interactive $PROJECT_DIR/build/temp/old_data
 	else
-		svn -q co $PRIOR_SVN_DATA_PATH old_data
+		svn -q co $PRIOR_SVN_DATA_PATH $PROJECT_DIR/build/temp/old_data
 	fi
 
 fi
 
 # Prepare a tomcat directory that can be written to
-rm -rf $WORKSPACE/tomcat
-mkdir -p $WORKSPACE/tomcat/common/lib
-mkdir -p $WORKSPACE/tomcat/common/classes
+rm -rf $PROJECT_DIR/build/temp/tomcat
+mkdir -p $PROJECT_DIR/build/temp/tomcat/common/lib
+mkdir -p $PROJECT_DIR/build/temp/tomcat/common/classes
 
 # Lower-case the table names in case we are running against MySQL on Amazon RDS
-perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' old_data/development/graphs/*.xml
+perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $PROJECT_DIR/build/temp/old_data/development/graphs/*.xml
 
 # TODO: may need to lower case in the upgrade scripts as well
 
@@ -88,7 +91,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 		import.torque.database.password=$DB_PASSWORD
 
 		torque.project=kfs
-		torque.schema.dir=$WORKSPACE/old_data/development
+		torque.schema.dir=$PROJECT_DIR/build/temp/old_data/development
 		torque.sql.dir=\${torque.schema.dir}/sql
 		torque.output.dir=\${torque.schema.dir}/sql
 
@@ -102,20 +105,20 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 
 		oracle.usermaint.user=kulusermaint
 	EOF
-	) > $WORKSPACE/impex-build.properties
+	) > $PROJECT_DIR/build/temp/impex-build.properties
 
 	if [[ "$DB_TYPE" == "MYSQL" ]]; then
-		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/development/graphs/*.xml
-		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $WORKSPACE/old_data/development/schema.xml
-		perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/development/schema.xml	
+		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $PROJECT_DIR/build/temp/old_data/development/graphs/*.xml
+		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $PROJECT_DIR/build/temp/old_data/development/schema.xml
+		perl -pi -e 's/&#[^;]*;/ /gi' $PROJECT_DIR/build/temp/old_data/development/schema.xml	
 	fi
 	
-	pushd $WORKSPACE/kul-cfg-dbs/impex
-	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" create-schema empty-schema create-ddl apply-ddl import-data apply-constraint-ddl
+	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
+	ant "-Dimpex.properties.file=$PROJECT_DIR/build/temp/impex-build.properties" create-schema empty-schema create-ddl apply-ddl import-data apply-constraint-ddl
 	popd
 fi
 
-set $WORKSPACE/kfs/build/drivers/*.jar
+set $PROJECT_DIR/build/drivers/*.jar
 DRIVER_CLASSPATH=$(IFS=:; echo "$*")
 
 if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
@@ -129,17 +132,17 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 		username=$DB_USER
 		password=$DB_PASSWORD		
 EOF
-	) > liquibase.properties
+	) > $PROJECT_DIR/build/temp/liquibase.properties
 	pushd $UPGRADE_SCRIPT_DIR
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=master-structure-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=master-data-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=master-constraint-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$PROJECT_DIR/build/temp/liquibase.properties --logLevel=finest --changeLogFile=master-structure-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$PROJECT_DIR/build/temp/liquibase.properties --logLevel=finest --changeLogFile=master-data-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$PROJECT_DIR/build/temp/liquibase.properties --logLevel=finest --changeLogFile=master-constraint-script.xml update
 	popd
 fi
 
 # run the export target
 if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
-	mkdir -p $WORKSPACE/upgraded_data
+	mkdir -p $PROJECT_DIR/build/temp/upgraded_data
 	(
 	cat <<-EOF
 		export.torque.database.user=$DB_USER
@@ -147,7 +150,7 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 		export.torque.database.password=$DB_PASSWORD
 
 		torque.project=kfs
-		torque.schema.dir=$WORKSPACE/upgraded_data
+		torque.schema.dir=$PROJECT_DIR/build/temp/upgraded_data
 		torque.sql.dir=\${torque.schema.dir}/sql
 		torque.output.dir=\${torque.schema.dir}/sql
 
@@ -155,14 +158,15 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 		export.torque.database.driver=$DRIVER
 		export.torque.database.url=$DATASOURCE
 	EOF
-	) > $WORKSPACE/impex-build.properties
-	pushd $WORKSPACE/kul-cfg-dbs/impex
-	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" jdbc-to-xml
+	) > $PROJECT_DIR/build/temp/impex-build.properties
+	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
+	ant "-Dimpex.properties.file=$PROJECT_DIR/build/temp/impex-build.properties" jdbc-to-xml
 	popd
 fi
 
 # Compare the schema.xml files
 
+pushd $PROJECT_DIR/build/temp
 # Sanitize the sequence next values
 perl -pi -e 's/nextval="[^"]*"/nextval="0"/g' upgraded_data/schema.xml
 perl -pi -e 's/nextval="[^"]*"/nextval="0"/g' new_data/schema.xml
@@ -185,3 +189,4 @@ if [[ "$DB_TYPE" == "MYSQL" ]]; then
 fi
 
 diff -b -U 3 upgraded_data/schema.xml new_data/schema.xml > compare-results.txt
+popd

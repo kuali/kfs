@@ -11,7 +11,7 @@ if [[ -z "$WORKSPACE" ]]; then
 	ABSPATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 	WORKSPACE=`dirname $ABSPATH`
 	echo Working Directory: $WORKSPACE
-	ORACLE_TEST_DB_URL=${ORACLE_TEST_DB_URL:-jdbc:oracle:thin:@ci.kfs.kuali.org:1521:XE}
+	ORACLE_TEST_DB_URL=${ORACLE_TEST_DB_URL:-jdbc:oracle:thin:@oraclerds.kfs.kuali.org:1521:KFS}
 	#MYSQL_TEST_DB_URL=jdbc:mysql://test.db.kfs.kuali.org:3306
 	MYSQL_TEST_DB_URL=${MYSQL_TEST_DB_URL:-jdbc:mysql://localhost:3306}
 fi
@@ -20,17 +20,17 @@ fi
 cd $WORKSPACE
 
 # Parameters to job
-OLD_BRANCH_PATH=${OLD_BRANCH_PATH:-branches/release-4-0}
-NEW_BRANCH_PATH=${NEW_BRANCH_PATH:-branches/release-4-0-1}
-UPGRADE_SCRIPT_DIR=${UPGRADE_SCRIPT_DIR:-4.0_4.0.1}
+OLD_BRANCH_PATH=${OLD_BRANCH_PATH:-branches/release-4-1-1}
+NEW_BRANCH_PATH=${NEW_BRANCH_PATH:-branches/rice-2-0-b1-merge2}
+UPGRADE_SCRIPT_DIR=${UPGRADE_SCRIPT_DIR:-4.1.1_5.0}
 RICE_UPGRADE_SCRIPT_DIR=""
 
 # Other parameters
-SVNREPO=${SVNREPO:-https://test.kuali.org/svn}
-BASE_SVN_DATA_PATH=$SVNREPO/kfs-cfg-dbs
+SVNREPO=${SVNREPO:-https://svn.kuali.org/repos}
+BASE_SVN_DATA_PATH=$SVNREPO/kfs/legacy/cfg-dbs
 BASE_SVN_PROJECT_PATH=$SVNREPO/kfs
 BASE_SVN_RICE_PROJECT_PATH=$SVNREPO/rice
-IMPEX_SVN_PATH=$SVNREPO/kul-cfg-dbs/branches/clover-integration
+IMPEX_SVN_PATH=$SVNREPO/foundation/db-utils/branches/clover-integration
 
 PRIOR_SVN_DATA_PATH=$BASE_SVN_DATA_PATH/$OLD_BRANCH_PATH
 NEW_SVN_DATA_PATH=$BASE_SVN_DATA_PATH/$NEW_BRANCH_PATH

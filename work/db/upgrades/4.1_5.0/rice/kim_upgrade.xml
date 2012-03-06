@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet author="KFS50" id="NEW_KRIM_PARAMETERS">
+	<changeSet author="KFS50" id="KFSAR-6012">
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSAR6012" />
 			<column name="OBJ_ID" value="KFSAR6012" />
@@ -32,7 +32,8 @@
 			<column name="PERM_ID" value="KFSAR6012" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
-
+	</changeSet>
+	<changeSet author="KFS50" id="KFSMI-6808">
 		<!-- KFSMI 6808 Allow Sub-Account routing by Chart/Org/Sub-account -->
 		<update tableName="krim_typ_attr_t">
 			<column name="sort_cd" value="e" />
@@ -53,6 +54,7 @@
 			nm = 'organizationCode'),
 			'Y');
 		</sql>
+	</changeSet>
 
 		<!-- KFSMI 6842 remove bad data from sub account review role -->
 		<!-- JHK: these should not be here - they are only applicable to the demo dataset
@@ -66,6 +68,7 @@
 		</delete>
 		 -->
 
+	<changeSet author="KFS50" id="KFSPURAP-6940">
 		<!--KFSMI-KFSMI-6940 Establish permission for fully Unmask Field for purapDocumentIdentifier 
 			attribute -->
 		<insert tableName='KRIM_PERM_T'>
@@ -105,6 +108,8 @@
 			<column name='PERM_ID' value='KFSPURAP6940' />
 			<column name='ACTV_IND' value='Y' />
 		</insert>
+	</changeSet>
+	<changeSet author="KFS50" id="KFSPURAP-7037">		
 		<insert tableName='KRIM_RSP_T'>
 			<column name='RSP_ID' value='126' />
 			<column name='OBJ_ID' value='KFSPURAP7037' />
@@ -170,9 +175,11 @@
 			<column name='ROLE_RSP_ID' value='KFSFP7037A' />
 			<column name='FRC_ACTN' value='N' />
 		</insert>
+	</changeSet>
+	<changeSet author="KFS50" id="KFSMI-6987">	
 		<comment>KFSMI-KFSMI-6987 Employee Benefit Expense Calculation</comment>
 		<insert tableName='KRIM_PERM_T'>
-			<column name='PERM_ID' value='15001' />
+			<column name='PERM_ID' value='KFSLD6987' />
 			<column name='OBJ_ID' value='KFSLD6987h' />
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='PERM_TMPL_ID' value='33' />
@@ -183,22 +190,24 @@
 			<column name='ACTV_IND' value='Y' />
 		</insert>
 		<insert tableName='KRIM_PERM_ATTR_DATA_T'>
-			<column name='ATTR_DATA_ID' value='15001' />
+			<column name='ATTR_DATA_ID' value='KFSLD6987' />
 			<column name='OBJ_ID' value='KFSLD6987i' />
 			<column name='VER_NBR' valueNumeric='1' />
-			<column name='PERM_ID' value='15001' />
+			<column name='PERM_ID' value='KFSLD6987' />
 			<column name='KIM_TYP_ID' value='15' />
 			<column name='KIM_ATTR_DEFN_ID' value='1' />
 			<column name='ATTR_VAL' value='laborEnterpriseFeederFileSetType' />
 		</insert>
 		<insert tableName='KRIM_ROLE_PERM_T'>
-			<column name='ROLE_PERM_ID' value='15001' />
+			<column name='ROLE_PERM_ID' value='45_KFSLD6987' />
 			<column name='OBJ_ID' value='KFSLD6987j' />
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='ROLE_ID' value='45' />
-			<column name='PERM_ID' value='15001' />
+			<column name='PERM_ID' value='KFSLD6987' />
 			<column name='ACTV_IND' value='Y' />
 		</insert>
+	</changeSet>
+	<changeSet author="KFS50" id="KFSMI-7145">
 		<insert tableName='KRIM_PERM_T'>
 			<column name='PERM_ID' value='KFSSYS7145a' />
 			<column name='OBJ_ID' value='KFSSYS7145a' />
@@ -226,7 +235,7 @@
 			<column name='OBJ_ID' value='KFSSYS7145' />
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='ROLE_NM' value='YearEnd' />
-			<column name='NMSPC_CD' value='KR_WKFLW' />
+			<column name='NMSPC_CD' value='KR-WKFLW' />
 			<column name='DESC_TXT' value='Year End' />
 			<column name='KIM_TYP_ID' value='1' />
 			<column name='ACTV_IND' value='Y' />
@@ -280,7 +289,6 @@
 			<column name='PERM_ID' value='KFSSYS7145b' />
 			<column name='ACTV_IND' value='Y' />
 		</insert>
-
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI307_IMMEDIATE_DV_DISBURSEMENT_PERMISSION">
@@ -331,7 +339,6 @@
 		</insert>
 	</changeSet>
 
-<!-- JHK: Up to here in inclusion in master data scripts -->
 	<changeSet author="jksmith" id="KFSMI4553_NEW_ROLE_FOR_VENDOR_REVIEWER">
 		<comment>New KIM role type, role, and responsibility action for KFS-VND Exclude Single Actor Reviewer.  This one is ugly, sorry about that...</comment>
 		<insert tableName="KRIM_TYP_T">
@@ -396,7 +403,7 @@
 			<column name="VER_NBR" value="1"/>
 			<column name="PERM_TMPL_ID" valueNumeric="(select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Edit Document') "/>
 			<column name="NMSPC_CD" value="KFS-AR"/>
-			<column name="NM" value="Edit Document"/>
+			<column name="NM" value="Edit APP Document-PreRoute"/>
 			<column name="DESC_TXT" value="Edit permission for the Payment Application document prior to the document being submitted."/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -454,8 +461,8 @@
 			<column name="VER_NBR" value="1"/>
 			<column name="PERM_TMPL_ID" valueNumeric="(select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
 			<column name="NMSPC_CD" value="KFS-AR"/>
-			<column name="NM" value="Use Transactional Document"/>
-			<column name="DESC_TXT" value="KFS-AR', 'Use Transactional Document', 'Users who can edit the Processing Chart Code and the processing organization fields on the Customer Invoice Document."/>
+			<column name="NM" value="Edit Invoice Processing Organization"/>
+			<column name="DESC_TXT" value="Users who can edit the Processing Chart Code and the processing organization fields on the Customer Invoice Document."/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
@@ -485,6 +492,7 @@
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 	</changeSet>
+<!-- JHK: Up to here in inclusion in master data scripts -->
 	
 	<changeSet author="jksmith" id="KFSMI6886_PAYEE_ACH_ADMIN_ROLE">
 		<comment>New role for administration of Payee ACH Accounts, with attendant new KIM role type and permissions.  SQL contributed by Ying.</comment>

@@ -683,7 +683,7 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	    <modifySql dbms='mysql'>
-	      <replace replace='SYS_GUID' with='uuid()' />
+	      <replace replace="sys_guid()" with="uuid()" />
 	    </modifySql>
 	</changeSet>
 	
@@ -717,7 +717,7 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	    <modifySql dbms='mysql'>
-	      <replace replace='SYS_GUID' with='uuid()' />
+	      <replace replace="sys_guid()" with="uuid()" />
 	    </modifySql>
 	</changeSet>
 	
@@ -751,7 +751,7 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	    <modifySql dbms='mysql'>
-	      <replace replace='SYS_GUID' with='uuid()' />
+	      <replace replace="sys_guid()" with="uuid()" />
 	    </modifySql>
 	</changeSet>
 	

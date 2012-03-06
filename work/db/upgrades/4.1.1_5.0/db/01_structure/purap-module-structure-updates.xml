@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-	<changeSet author="KFS50" id="pur_po_itm_tot_amt_v">
+	<changeSet author="KFS50" id="pur_po_itm_tot_amt_v_KFSMI-6745">
 		<comment>KFSMI-6745</comment>
 		<createView viewName="PUR_PO_ITM_TOT_AMT_V"
 			replaceIfExists="true">
@@ -33,7 +33,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author='KFS50' id='addCol_PUR_REQS_T'>
+	<changeSet author='KFS50' id='KFSMI-6951'>
 		<comment>KFSMI-6951 Need to add new columns to the existing tables</comment>
 		<addColumn tableName='PUR_REQS_T'>
 			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
@@ -42,14 +42,10 @@
 			</column>
 		</addColumn>
 		<modifyColumn tableName='PUR_REQS_ACCT_T'>
-			<column name='ACLN_PCT' type='NUMBER(35,20)'>
-				<constraints nullable='true' />
-			</column>
+			<column name='ACLN_PCT' type='NUMBER(35,20)' />
 		</modifyColumn>
 		<addColumn tableName='PUR_REQS_ACCT_T'>
-			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)'>
-				<constraints nullable='false' />
-			</column>
+			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
 		<addColumn tableName='PUR_PO_T'>
 			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
@@ -58,14 +54,10 @@
 			</column>
 		</addColumn>
 		<modifyColumn tableName='PUR_PO_ACCT_T'>
-			<column name='ACLN_PCT' type='NUMBER(35,20)'>
-				<constraints nullable='true' />
-			</column>
+			<column name='ACLN_PCT' type='NUMBER(35,20)' />
 		</modifyColumn>
 		<addColumn tableName='PUR_PO_ACCT_T'>
-			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)'>
-				<constraints nullable='false' />
-			</column>
+			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
 		<addColumn tableName='AP_PMT_RQST_T'>
 			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
@@ -75,9 +67,7 @@
 		</addColumn>
 
 		<addColumn tableName='AP_PMT_RQST_ACCT_T'>
-			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)'>
-				<constraints nullable='false' />
-			</column>
+			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
 		<addColumn tableName='AP_CRDT_MEMO_T'>
 			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
@@ -86,24 +76,25 @@
 			</column>
 		</addColumn>
 		<addColumn tableName='AP_CRDT_MEMO_ACCT_T'>
-			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)'>
-				<constraints nullable='false' />
-			</column>
+			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
-		</modifySql>
-		<modifySql dbms='mysql'>
 			<replace replace='NUMBER' with='DECIMAL' />
 		</modifySql>
 	</changeSet>
-     <changeSet author="KFS50" id="KFSMI7256">
-       <comment>Status Code column from REQ, PO, PREQ tables need to be made to accept nulls.</comment>
-        <dropNotNullConstraint tableName="PUR_REQS_T" columnName="REQS_STAT_CD"  columnDataType="VARCHAR(4)"/>
-        <dropNotNullConstraint tableName="PUR_PO_T" columnName="PO_STAT_CD" columnDataType="VARCHAR(4)"/>
-        <dropNotNullConstraint tableName="AP_PMT_RQST_T" columnName="PMT_RQST_STAT_CD" columnDataType="VARCHAR(4)"/>
-        <dropNotNullConstraint tableName="AP_CRDT_MEMO_T" columnName="CRDT_MEMO_STAT_CD" columnDataType="VARCHAR(4)"/>
-      </changeSet>
+
+	<changeSet author="KFS50" id="KFSMI-7256">
+		<comment>Status Code column from REQ, PO, PREQ tables need to be made to accept nulls.</comment>
+		<dropNotNullConstraint tableName="PUR_REQS_T"
+			columnName="REQS_STAT_CD" columnDataType="VARCHAR(4)" />
+		<dropNotNullConstraint tableName="PUR_PO_T"
+			columnName="PO_STAT_CD" columnDataType="VARCHAR(4)" />
+		<dropNotNullConstraint tableName="AP_PMT_RQST_T"
+			columnName="PMT_RQST_STAT_CD" columnDataType="VARCHAR(4)" />
+		<dropNotNullConstraint tableName="AP_CRDT_MEMO_T"
+			columnName="CRDT_MEMO_STAT_CD" columnDataType="VARCHAR(4)" />
+	</changeSet>
 
 	<changeSet author="jksmith" id="KFSCNTRB162_DEBARRED_VENDOR_TABLES">
 		<comment>Alters and creates tables as necessary for the debarred vendor tracking process.</comment>
@@ -116,7 +107,7 @@
 		<createSequence sequenceName="PUR_VNDR_EXCL_MTCH_T_SEQ" startValue="1" incrementBy="1" minValue="1"/>
 		<createTable tableName="PUR_VNDR_EXCL_MT">
 			<column name="VNDR_EXCL_ID" type="NUMBER(10,0)">
-				<constraints primaryKey="true" nullable="false"/>
+				<constraints primaryKey="true" />
 			</column>
 			<column name="VNDR_EXCL_LOAD_DT" type="DATE"/>
 			<column name="VNDR_EXCL_NM" type="VARCHAR2(200)"/>
@@ -131,20 +122,16 @@
 		</createTable>
 		<createTable tableName="PUR_VNDR_EXCL_MTCH_T">
 			<column name="VNDR_EXCL_ID" type="NUMBER(10,0)">
-				<constraints primaryKey="true" nullable="false"/>
+				<constraints primaryKey="true" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR2(36)">
 				<constraints nullable="false" unique="true"/>
 			</column>
-			<column name="VER_NBR" type="NUMBER(8,0)">
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false"/>
 			</column>
-			<column name="VNDR_HDR_GNRTD_ID" type="NUMBER(10,0)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="VNDR_DTL_ASND_ID" type="NUMBER(10,0)">
-				<constraints nullable="false"/>
-			</column>
+			<column name="VNDR_HDR_GNRTD_ID" type="NUMBER(10,0)" />
+			<column name="VNDR_DTL_ASND_ID" type="NUMBER(10,0)" />
 			<column name="VNDR_ADDR_GNRTD_ID" type="NUMBER(10,0)"/>
 			<column name="VNDR_EXCL_CFRM_STAT_CD" type="VARCHAR2(10)"/>
 			<column name="VNDR_EXCL_LOAD_DT" type="DATE"/>

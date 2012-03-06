@@ -3,82 +3,42 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet author="KFS50" id="Drop_FP_CPTL_AST_INFO_DTL_Oracle"
-		dbms="oracle">
-		<sql>
-			DROP
-			TABLE FP_CPTL_AST_INFO_DTL_T CASCADE CONSTRAINTS;
-			DROP TABLE
-			FP_CPTL_AST_INFO_T CASCADE CONSTRAINTS;
-		</sql>
+	<changeSet author="KFS50" id="Drop_FP_CPTL_AST_INFO_DTL">
+		<dropTable tableName="FP_CPTL_AST_INFO_DTL_T" cascadeConstraints="true" />
+		<dropTable tableName="FP_CPTL_AST_INFO_T" cascadeConstraints="true" />
 	</changeSet>
 
-	<changeSet author="KFS50" id="Drop_FP_CPTL_AST_INFO_DTL_Mysql"
-		dbms="mysql">
-		<sql>
-			DROP
-			TABLE IF EXISTS FP_CPTL_AST_INFO_DTL_T CASCADE;
-			DROP TABLE IF EXISTS
-			FP_CPTL_AST_INFO_T CASCADE;
-		</sql>
-	</changeSet>
-
-	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_T">
+	<changeSet author="KFS50" id="FP_CPTL_AST_INFO_T">
 		<comment>KFSMI-7021, 5999</comment>
-		<createTable tableName="FP_CPTL_AST_INFO_T">
+		<createTable tableName="FP_CPTL_AST_INFO_T" >
 			<column name="FDOC_NBR" type="VARCHAR2(14)">
-				<constraints nullable="false" />
+				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_INFO_TP1"/>
+			</column>
+			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValue="1">
+				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_INFO_TP1"/>
 			</column>
 			<column name="OBJ_ID" type="VARCHAR2(36)">
-				<constraints nullable="false" />
+				<constraints nullable="false" unique="true" uniqueConstraintName="FP_CPTL_AST_INFO_TC0" />
 			</column>
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)"
-				defaultValue="1">
+			<column name="VNDR_HDR_GNRTD_ID" type="NUMBER(10,0)" />
+			<column name="VNDR_DTL_ASND_ID" type="NUMBER(10,0)" />
+			<column name="CPTLAST_NBR" type="NUMBER(12,0)" />
+			<column name="CPTLAST_TYP_CD" type="VARCHAR2(7)" />
+			<column name="CPTLAST_MFR_NM" type="VARCHAR2(45)" />
+			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
+			<column name="CPTLAST_MFRMDL_NBR" type="VARCHAR2(25)" />
+			<column name="CPTLAST_LINE_QTY" type="NUMBER(7,0)" defaultValue="0" />
+			<column name="CPTLAST_LINE_AMT" type="NUMBER(19,2)" defaultValue="0.00" />
+			<column name="CPTLAST_ACTION_IND" type="VARCHAR2(1)" defaultValue="C">
 				<constraints nullable="false" />
 			</column>
-			<column name="VNDR_HDR_GNRTD_ID" type="NUMBER(10,0)">
-				<constraints nullable="true" />
-			</column>
-			<column name="VNDR_DTL_ASND_ID" type="NUMBER(10,0)">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_NBR" type="NUMBER(12,0)">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_TYP_CD" type="VARCHAR2(7)">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_MFR_NM" type="VARCHAR2(45)">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_DESC" type="VARCHAR2(4000)">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_MFRMDL_NBR" type="VARCHAR2(25)">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_LINE_QTY" type="NUMBER(7,0)"
-				defaultValue="0">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_LINE_AMT" type="NUMBER(19,2)"
-				defaultValue="0.00">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_ACTION_IND" type="VARCHAR2(1)"
-				defaultValue="C">
-				<constraints nullable="false" />
-			</column>
-			<column name="CPTLAST_PROCESSED_IND" type="VARCHAR2(1)"
-				defaultValue="N">
+			<column name="CPTLAST_PROCESSED_IND" type="VARCHAR2(1)" defaultValue="N">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<addPrimaryKey tableName="FP_CPTL_AST_INFO_T"
-			constraintName="pk_cptl_ast_info" columnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
 
 		<createTable tableName="FP_CPTL_AST_INFO_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)">
@@ -179,14 +139,11 @@
 		<addColumn tableName='FP_ICR_ADJ_DOC_T'>
 			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
 		</addColumn>
-
+	</changeSet>
+	
+	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_T">
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T" newTableName="FP_PRCRMNT_CARD_TRN_MT" />
-		
-		<modifySql dbms="mysql">
-			<replace replace="VARCHAR2" with="VARCHAR" />
-			<replace replace="NUMBER" with="DECIMAL" />
-		</modifySql>
 	</changeSet>
 
 
@@ -230,47 +187,19 @@
 		<comment>KFSMI-KFSMI-6966 Need the ability to recategorize checks/currency/coins from CRs</comment>
 		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_100_DLR_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_50_DLR_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_20_DLR_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_10_DLR_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_5_DLR_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_2_DLR_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_1_DLR_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_OTHR_DLR_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_100_CENT_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_50_CENT_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_25_CENT_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_10_CENT_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_5_CENT_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_1_CENT_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_OTHR_CENT_AMT' type='NUMBER(19,2)' />
 		</addColumn>
 		<addColumn tableName='FP_COIN_DTL_T'>
@@ -393,23 +322,26 @@
 			<column name='CSHR_STAT_CD' value='R' />
 			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'I'</where>
 		</update>
+
 		<dropPrimaryKey tableName="FP_CURRENCY_DTL_T" />
 		<addPrimaryKey tableName='FP_CURRENCY_DTL_T'
 			constraintName='FP_CURRENCY_DTL_T_TP1' columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />
+
 		<dropPrimaryKey tableName="FP_CHECK_DTL_T" />
 		<addPrimaryKey tableName='FP_CHECK_DTL_T'
 			constraintName='FP_CHECK_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, CSHR_STAT_CD, FDOC_LINE_NBR' />
+
 		<dropPrimaryKey tableName="FP_COIN_DTL_T" />
 		<addPrimaryKey tableName='FP_COIN_DTL_T' constraintName='FP_COIN_DTL_T_TP1'
 			columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />
+
 		<dropColumn tableName='FP_DEPOSIT_HDR_T' columnName='FDOC_REF_NBR' />
 		<addColumn tableName='FP_CASH_RCPT_DOC_T'>
 			<column name='FDOC_CNFRMD_CASH_AMT' type='NUMBER(19,2)' />
 		</addColumn>
+
 		<addColumn tableName='FP_CASH_RCPT_DOC_T'>
 			<column name='FDOC_CNFRMD_CHCK_AMT' type='NUMBER(19,2)' />
-		</addColumn>
-		<addColumn tableName='FP_CASH_RCPT_DOC_T'>
 			<column name='FDOC_CNFRMD_COIN_AMT' type='NUMBER(19,2)' />
 		</addColumn>
 		<dropColumn tableName="FP_CURRENCY_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
@@ -481,7 +413,7 @@
 
 	<changeSet author="jksmith" id="KFSMI307_STRUCTURE_CHANGES">
 		<addColumn tableName="FP_DV_DOC_T">
-			<column name="IMD_PMT_IND" type="VARCHAR2(1)"/>
+			<column name="IMD_PMT_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</addColumn>
 	</changeSet>
 	

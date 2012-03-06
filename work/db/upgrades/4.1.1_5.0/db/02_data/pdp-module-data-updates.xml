@@ -6,7 +6,7 @@
       <column name='PMT_CHG_CD' value='RC' />
       <column name='PMT_CHG_CD_DESC' value='REISSUE CANCEL' />
       <column name='VER_NBR' valueNumeric='0' />
-      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID ' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='SYS_GUID' with='uuid()' />

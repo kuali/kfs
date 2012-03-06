@@ -3,86 +3,42 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet author="KFS50" id="Drop_FP_CPTL_AST_INFO_DTL">
-		<dropTable tableName="FP_CPTL_AST_INFO_DTL_T" cascadeConstraints="true" />
-		<dropTable tableName="FP_CPTL_AST_INFO_T" cascadeConstraints="true" />
-	</changeSet>
+	<changeSet author="KFS50" id="KFSMI-7011_tables">
+		<dropForeignKeyConstraint baseTableName="FP_CPTL_AST_INFO_DTL_T" constraintName="FP_CPTL_AST_INFO_DTL_TR1" />	
+		<dropPrimaryKey tableName="FP_CPTL_AST_INFO_T" />	
+		<dropPrimaryKey tableName="FP_CPTL_AST_INFO_DTL_T" />
 
-	<changeSet author="KFS50" id="FP_CPTL_AST_INFO_T">
-		<comment>KFSMI-7021, 5999</comment>
-		<createTable tableName="FP_CPTL_AST_INFO_T" >
-			<column name="FDOC_NBR" type="VARCHAR2(14)">
-				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_INFO_TP1"/>
-			</column>
-			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValue="1">
-				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_INFO_TP1"/>
-			</column>
-			<column name="OBJ_ID" type="VARCHAR2(36)">
-				<constraints nullable="false" unique="true" uniqueConstraintName="FP_CPTL_AST_INFO_TC0" />
-			</column>
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="VNDR_HDR_GNRTD_ID" type="NUMBER(10,0)" />
-			<column name="VNDR_DTL_ASND_ID" type="NUMBER(10,0)" />
-			<column name="CPTLAST_NBR" type="NUMBER(12,0)" />
-			<column name="CPTLAST_TYP_CD" type="VARCHAR2(7)" />
-			<column name="CPTLAST_MFR_NM" type="VARCHAR2(45)" />
-			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
-			<column name="CPTLAST_MFRMDL_NBR" type="VARCHAR2(25)" />
+		<addColumn tableName="FP_CPTL_AST_INFO_T">
+			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValue="1" />
 			<column name="CPTLAST_LINE_QTY" type="NUMBER(7,0)" defaultValue="0" />
 			<column name="CPTLAST_LINE_AMT" type="NUMBER(19,2)" defaultValue="0.00" />
-			<column name="CPTLAST_ACTION_IND" type="VARCHAR2(1)" defaultValue="C">
-				<constraints nullable="false" />
-			</column>
-			<column name="CPTLAST_PROCESSED_IND" type="VARCHAR2(1)" defaultValue="N">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
+			<column name="CPTLAST_ACTION_IND" type="VARCHAR2(1)" defaultValue="C" />
+			<column name="CPTLAST_PROCESSED_IND" type="VARCHAR2(1)" defaultValue="N" />
+		</addColumn>
+		
+		<addColumn tableName="FP_CPTL_AST_INFO_DTL_T">
+			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValue="1" />
+		</addColumn>
 
-		<createTable tableName="FP_CPTL_AST_INFO_DTL_T">
-			<column name="FDOC_NBR" type="VARCHAR2(14)">
-				<constraints nullable="false" />
-			</column>
-			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)">
-				<constraints nullable="false" />
-			</column>
-			<column name="ITM_LN_NBR" type="NUMBER(7,0)">
-				<constraints nullable="false" />
-			</column>
-			<column name="OBJ_ID" type="VARCHAR2(36)">
-				<constraints nullable="false" />
-			</column>
-			<column name="VER_NBR" type="NUMBER(8,0)">
-				<constraints nullable="false" />
-			</column>
-			<column name="CAMPUS_CD" type="VARCHAR2(2)">
-				<constraints nullable="true" />
-			</column>
-			<column name="BLDG_CD" type="VARCHAR2(10)">
-				<constraints nullable="true" />
-			</column>
-			<column name="BLDG_ROOM_NBR" type="VARCHAR2(8)">
-				<constraints nullable="true" />
-			</column>
-			<column name="BLDG_SUB_ROOM_NBR" type="VARCHAR2(2)">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_TAG_NBR" type="VARCHAR2(8)">
-				<constraints nullable="true" />
-			</column>
-			<column name="CPTLAST_SERIAL_NBR" type="VARCHAR2(25)">
-				<constraints nullable="true" />
-			</column>
-		</createTable>
+		<modifyColumn tableName="FP_CPTL_AST_INFO_DTL_T">
+			<column name="ITM_LN_NBR" type="NUMBER(7,0)" />
+		</modifyColumn>
 
-		<addPrimaryKey tableName="FP_CPTL_AST_INFO_DTL_T"
-			constraintName="pk_cptl_ast_info_dtl" columnNames="FDOC_NBR, ITM_LN_NBR, CPTLAST_LINE_NBR" />
+		<modifyColumn tableName="FP_CPTL_AST_INFO_T">
+			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
+		</modifyColumn>
 
-		<addForeignKeyConstraint constraintName="FP_CPTL_AST_INFO_DTL_TR1"
-			baseTableName="FP_CPTL_AST_INFO_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
-			referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
+		<addPrimaryKey tableName="FP_CPTL_AST_INFO_T" constraintName="FP_CPTL_AST_INFO_TP1" 
+					   columnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
 
+		<addPrimaryKey tableName="FP_CPTL_AST_INFO_DTL_T" constraintName="FP_CPTL_AST_INFO_DTL_TP1" 
+					   columnNames="FDOC_NBR, CPTLAST_LINE_NBR, ITM_LN_NBR" />
+
+		<addForeignKeyConstraint 
+						constraintName="FP_CPTL_AST_INFO_DTL_TR1"
+						baseTableName="FP_CPTL_AST_INFO_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
+						referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
+					   
 		<createTable tableName="FP_CPTL_AST_ACCT_GRP_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)">
 				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_ACCT_GRP_DTL_TP1" />
@@ -109,10 +65,15 @@
 			<column name="FDOC_LINE_AMT" type="NUMBER(19,2)" defaultValueNumeric="0.00" />
 		</createTable>
 
-		<addForeignKeyConstraint constraintName="FP_CPTL_AST_ACCT_GRP_DTL_TR1"
-			baseTableName="FP_CPTL_AST_ACCT_GRP_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
-			referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
+		<addForeignKeyConstraint 
+						constraintName="FP_CPTL_AST_ACCT_GRP_DTL_TR1"
+						baseTableName="FP_CPTL_AST_ACCT_GRP_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
+						referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
 
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace='NUMBER' with='DECIMAL' />
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFS50" id="KSMI-6702_FDOC_POST_PRD_CD_columns">
@@ -126,14 +87,12 @@
 		<addColumn tableName='FP_ICR_ADJ_DOC_T'>
 			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
 		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace='NUMBER' with='DECIMAL' />
+		</modifySql>
 	</changeSet>
 	
-	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_T">
-		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
-		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T" newTableName="FP_PRCRMNT_CARD_TRN_MT" />
-	</changeSet>
-
-
 	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T'>
 		<comment>KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
 		
@@ -149,6 +108,11 @@
 		<addPrimaryKey tableName='FP_CR_CARD_DTL_T'
 			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
 			
+	</changeSet>
+
+	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_T">
+		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
+		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T" newTableName="FP_PRCRMNT_CARD_TRN_MT" />
 	</changeSet>
 
 	<changeSet author='KFS50' id='KFS_50_FP_PRCRMNT_CARD_TRN_T_SEQ_oracle' dbms="oracle">
@@ -370,22 +334,6 @@
             <column name="PROJECT_CD" type="VARCHAR2(10)" />
             <column name="ROW_ACTV_IND" type="VARCHAR2(1)" />
         </createTable>
-        <addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR1"
-    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD"
-    		referencedTableName="CA_CHART_T" referencedColumnNames="FIN_COA_CD"
-		/>
-		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR2"
-    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD, ACCOUNT_NBR"
-    		referencedTableName="CA_ACCOUNT_T" referencedColumnNames="FIN_COA_CD, ACCOUNT_NBR"
-		/>
-		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR3"
-    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR"
-    		referencedTableName="CA_SUB_ACCT_T" referencedColumnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR"
-		/>
-		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR4"
-    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="PROJECT_CD"
-    		referencedTableName="CA_PROJECT_T" referencedColumnNames="PROJECT_CD"
-		/>
 	</changeSet>
 
 	<changeSet author="jksmith" id="KFSMI307_STRUCTURE_CHANGES">

@@ -114,7 +114,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	fi
 	
 	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
-	ant "-Dimpex.properties.file=$PROJECT_DIR/build/temp/impex-build.properties" create-schema empty-schema create-ddl apply-ddl import-data apply-constraint-ddl
+	ant "-Dimpex.properties.file=$PROJECT_DIR/build/temp/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
 	popd
 fi
 

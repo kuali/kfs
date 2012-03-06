@@ -105,8 +105,11 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
         }
     }
     
-    
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
+    /**
+     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, java.util.Map)
+     */
+    @Override
+    public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         if (getFinancialSystemUserService().isActiveFinancialSystemUser(principalId)) {
             ChartOrgHolder userOrg = getFinancialSystemUserService().getPrimaryOrganization(principalId, ArConstants.AR_NAMESPACE_CODE);

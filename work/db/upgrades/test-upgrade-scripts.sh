@@ -21,21 +21,16 @@ cd $WORKSPACE
 
 # Parameters to job
 OLD_BRANCH_PATH=${OLD_BRANCH_PATH:-branches/release-4-1-1}
-NEW_BRANCH_PATH=${NEW_BRANCH_PATH:-branches/rice-2-0-b1-merge2}
-UPGRADE_SCRIPT_DIR=${UPGRADE_SCRIPT_DIR:-4.1.1_5.0}
+#NEW_BRANCH_PATH=${NEW_BRANCH_PATH:-branches/rice-2-0-b1-merge2}
+UPGRADE_SCRIPT_DIR=$WORKSPACE/kfs/work/db/upgrades/${UPGRADE_SCRIPT_DIR:-4.1.1_5.0}
 RICE_UPGRADE_SCRIPT_DIR=""
 
 # Other parameters
 SVNREPO=${SVNREPO:-https://svn.kuali.org/repos}
 BASE_SVN_DATA_PATH=$SVNREPO/kfs/legacy/cfg-dbs
-BASE_SVN_PROJECT_PATH=$SVNREPO/kfs
 BASE_SVN_RICE_PROJECT_PATH=$SVNREPO/rice
-IMPEX_SVN_PATH=$SVNREPO/foundation/db-utils/branches/clover-integration
 
 PRIOR_SVN_DATA_PATH=$BASE_SVN_DATA_PATH/$OLD_BRANCH_PATH
-NEW_SVN_DATA_PATH=$BASE_SVN_DATA_PATH/$NEW_BRANCH_PATH
-NEW_SVN_PROJECT_PATH=$BASE_SVN_PROJECT_PATH/$NEW_BRANCH_PATH
-NEW_SVN_UPGRADE_SCRIPT_PATH=$NEW_SVN_PROJECT_PATH/work/db/upgrades/$UPGRADE_SCRIPT_DIR
 
 DB_TYPE=${DB_TYPE:-MYSQL}
 DB_USER=${DB_USER:-dbtest}
@@ -45,15 +40,6 @@ DB_PASSWORD=${DB_PASSWORD:-$DB_USER}
 DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD:-}
 
 if [[ "$CHECKOUT_CODE" == "true" ]]; then
-	echo Obtaining Impex tool from $IMPEX_SVN_PATH
-	# Check out the impex tool
-	if [[ -d kul-cfg-dbs ]]; then
-		svn -q revert -R kul-cfg-dbs
-		svn -q switch $IMPEX_SVN_PATH kul-cfg-dbs
-		svn -q update --non-interactive kul-cfg-dbs
-	else
-		svn -q co $IMPEX_SVN_PATH kul-cfg-dbs
-	fi
 
 	echo Obtaining OLD Data Project from $PRIOR_SVN_DATA_PATH
 	# Check out the old data project
@@ -65,25 +51,6 @@ if [[ "$CHECKOUT_CODE" == "true" ]]; then
 		svn -q co $PRIOR_SVN_DATA_PATH old_data
 	fi
 
-	echo Obtaining NEW Data Project from $NEW_SVN_DATA_PATH
-	# Check out the new data project
-	if [[ -d new_data ]]; then
-		svn -q revert -R --depth files new_data
-		svn -q switch $NEW_SVN_DATA_PATH/development --depth files new_data
-		svn -q update --non-interactive --depth files new_data
-	else
-		svn -q co $NEW_SVN_DATA_PATH/development --depth files new_data
-	fi
-
-	# Check out the main project's upgrade scripts
-	echo Obtaining NEW Source Project from $NEW_SVN_UPGRADE_SCRIPT_PATH
-	if [[ -e upgrade ]]; then
-		svn -q revert -R upgrade
-		svn -q switch $NEW_SVN_UPGRADE_SCRIPT_PATH upgrade
-		svn -q update --non-interactive upgrade
-	else
-		svn -q co $NEW_SVN_UPGRADE_SCRIPT_PATH upgrade
-	fi
 fi
 
 # Prepare a tomcat directory that can be written to
@@ -138,9 +105,9 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	) > $WORKSPACE/impex-build.properties
 
 	if [[ "$DB_TYPE" == "MYSQL" ]]; then
-		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' old_data/development/graphs/*.xml
-		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' old_data/development/schema.xml
-		perl -pi -e 's/&#[^;]*;/ /gi' old_data/development/schema.xml	
+		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/development/graphs/*.xml
+		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $WORKSPACE/old_data/development/schema.xml
+		perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/development/schema.xml	
 	fi
 	
 	pushd $WORKSPACE/kul-cfg-dbs/impex
@@ -148,7 +115,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	popd
 fi
 
-set $WORKSPACE/kul-cfg-dbs/drivers/*.jar
+set $WORKSPACE/kfs/build/drivers/*.jar
 DRIVER_CLASSPATH=$(IFS=:; echo "$*")
 
 if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
@@ -163,7 +130,7 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 		password=$DB_PASSWORD		
 EOF
 	) > liquibase.properties
-	pushd $WORKSPACE/upgrade/db
+	pushd $UPGRADE_SCRIPT_DIR
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=master-structure-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=master-data-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=master-constraint-script.xml update

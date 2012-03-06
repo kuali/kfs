@@ -188,5 +188,9 @@ if [[ "$DB_TYPE" == "MYSQL" ]]; then
 	perl -pi -e 's/<view .+?\/>//g' new_data/schema.xml
 fi
 
-diff -b -U 3 upgraded_data/schema.xml new_data/schema.xml > compare-results.txt
+cp old_data/development/schema.xml $WORKSPACE/old_schema.xml
+cp upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
+cp new_data/schema.xml $WORKSPACE/new_schema.xml
 popd
+cd $WORKSPACE
+diff -b -U 3 upgraded_schema.xml new_schema.xml > $WORKSPACE/compare-results.txt

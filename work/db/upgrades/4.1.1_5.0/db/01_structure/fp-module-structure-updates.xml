@@ -85,50 +85,37 @@
 
 		<createTable tableName="FP_CPTL_AST_ACCT_GRP_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)">
-				<constraints nullable="false" />
+				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_ACCT_GRP_DTL_TP1" />
 			</column>
-			<column name="OBJ_ID" type="VARCHAR2(36)">
-				<constraints nullable="false" />
+			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValue="1">
+				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_ACCT_GRP_DTL_TP1" />
 			</column>
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)"
-				defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="CPTLAST_ACCTLINE_NBR" type="NUMBER(7,0)"
-				defaultValue="1">
-				<constraints nullable="false" />
+			<column name="CPTLAST_ACCTLINE_NBR" type="NUMBER(7,0)" defaultValue="1">
+				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_ACCT_GRP_DTL_TP1" />
 			</column>
 			<column name="FDOC_LINE_NBR" type="NUMBER(7,0)" defaultValue="1">
+				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_ACCT_GRP_DTL_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="FP_CPTL_AST_ACCT_GRP_DTL_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="FDOC_LN_TYP_CD" type="VARCHAR2(1)">
-				<constraints nullable="false" />
-			</column>
-			<column name="FIN_COA_CD" type="VARCHAR2(2)">
-				<constraints nullable="false" />
-			</column>
-			<column name="ACCOUNT_NBR" type="VARCHAR2(7)">
-				<constraints nullable="false" />
-			</column>
-			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)">
-				<constraints nullable="false" />
-			</column>
-			<column name="FDOC_LINE_AMT" type="NUMBER(19,2)" defaultValue="0.00">
-				<constraints nullable="true" />
-			</column>
+			<column name="FDOC_LN_TYP_CD" type="VARCHAR2(1)" />
+			<column name="FIN_COA_CD" type="VARCHAR2(2)" />
+			<column name="ACCOUNT_NBR" type="VARCHAR2(7)" />
+			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
+			<column name="FDOC_LINE_AMT" type="NUMBER(19,2)" defaultValueNumeric="0.00" />
 		</createTable>
-
-		<addPrimaryKey tableName="FP_CPTL_AST_ACCT_GRP_DTL_T"
-			constraintName="pk_fp_cptl_ast_acct_grp_dtl"
-			columnNames="FDOC_NBR, CPTLAST_LINE_NBR, CPTLAST_ACCTLINE_NBR, FDOC_LINE_NBR" />
 
 		<addForeignKeyConstraint constraintName="FP_CPTL_AST_ACCT_GRP_DTL_TR1"
 			baseTableName="FP_CPTL_AST_ACCT_GRP_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
 			referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
 
+	</changeSet>
+
+	<changeSet author="KFS50" id="KSMI-6702_FDOC_POST_PRD_CD_columns">
 		<comment>Add fields, create parameters, permissions, and roles for KSMI-6702 Contribution</comment>
 		<addColumn tableName='FP_INT_BILL_DOC_T'>
 			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
@@ -147,44 +134,37 @@
 	</changeSet>
 
 
-	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_Oracle'
-		dbms="oracle">
-		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
+	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T'>
+		<comment>KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
+		
 		<dropTable tableName='FP_REVOLVFND_DTL_T' />
+		
 		<dropPrimaryKey tableName="FP_ADV_DPST_DTL_T" />
 		<dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
 		<addPrimaryKey tableName='FP_ADV_DPST_DTL_T'
 			constraintName='FP_ADV_DPST_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+			
 		<dropPrimaryKey tableName="FP_CR_CARD_DTL_T" />
 		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
 		<addPrimaryKey tableName='FP_CR_CARD_DTL_T'
 			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+			
+	</changeSet>
+
+	<changeSet author='KFS50' id='KFS_50_FP_PRCRMNT_CARD_TRN_T_SEQ_oracle' dbms="oracle">
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
 		<sql>
 			RENAME FP_PRCRMNT_CARD_TRN_T_SEQ TO FP_PRCRMNT_CARD_TRN_MT_SEQ;
 		</sql>
 	</changeSet>
 
-	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_mysql'
-		dbms="mysql">
-		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
-		<dropTable tableName='FP_REVOLVFND_DTL_T' />
-		<sql>ALTER TABLE FP_ADV_DPST_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY
-			(FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
-		</sql>
-		<dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-		<sql>ALTER TABLE FP_CR_CARD_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY
-			(FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
-		</sql>
-		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-		
+	<changeSet author='KFS50' id='KFS_50_FP_PRCRMNT_CARD_TRN_T_SEQ_mysql' dbms="mysql">
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
-		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ" newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ" />
-		
+		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ" newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ" />		
 	</changeSet>
 
 	<changeSet author='KFS50' id='KFS_50_FP_DEPOSIT_HDR_T'>
-		<comment>KFSMI-KFSMI-6966 Need the ability to recategorize checks/currency/coins from CRs</comment>
+		<comment>KFSMI-6966 Need the ability to recategorize checks/currency/coins from CRs</comment>
 		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_100_DLR_AMT' type='NUMBER(19,2)' />
 			<column name='FDOC_MSTR_50_DLR_AMT' type='NUMBER(19,2)' />
@@ -348,12 +328,9 @@
 		<dropColumn tableName="FP_COIN_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
 		<dropColumn tableName="FP_CHECK_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
 
-		<comment>KFSMI-KFSMI-7175 We need to add a column to FP_CPTL_AST_INFO_T and CM_AST_PMT_DOC_T tables for enhancement work on KFSMI-7106</comment>
+		<comment>KFSMI-7175 We need to add a column to FP_CPTL_AST_INFO_T and CM_AST_PMT_DOC_T tables for enhancement work on KFSMI-7106</comment>
 		<addColumn tableName='FP_CPTL_AST_INFO_T'>
-			<column name='CPTLAST_DST_AMT_CD' type='VARCHAR2(1)'
-				defaultValue="1">
-				<constraints nullable="true" />
-			</column>
+			<column name='CPTLAST_DST_AMT_CD' type='VARCHAR2(1)' defaultValue="1" />
 		</addColumn>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />

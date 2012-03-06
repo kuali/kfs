@@ -96,6 +96,21 @@
 			columnName="CRDT_MEMO_STAT_CD" columnDataType="VARCHAR(4)" />
 	</changeSet>
 
+	<changeSet author="KFS50" id="KFSCNTRB162_DEBARRED_VENDOR_SEQUENCE_mysql" dbms="mysql">
+	  	<createTable tableName="PUR_VNDR_EXCL_MTCH_T_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true" >
+	  			<constraints primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE = MyISAM AUTO_INCREMENT = 1 "/>
+	  	</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSCNTRB162_DEBARRED_VENDOR_SEQUENCE_oracle" dbms="oracle">
+		<createSequence sequenceName="PUR_VNDR_EXCL_MTCH_T_SEQ" startValue="1" incrementBy="1" minValue="1"/>
+	</changeSet>
+	
 	<changeSet author="jksmith" id="KFSCNTRB162_DEBARRED_VENDOR_TABLES">
 		<comment>Alters and creates tables as necessary for the debarred vendor tracking process.</comment>
 		<addColumn tableName="PUR_REQS_T">
@@ -104,7 +119,6 @@
 		<addColumn tableName="PUR_PO_T">
 			<column name="VNDR_DEBRD_REAS_TXT" type="VARCHAR2(255)"/>
 		</addColumn>
-		<createSequence sequenceName="PUR_VNDR_EXCL_MTCH_T_SEQ" startValue="1" incrementBy="1" minValue="1"/>
 		<createTable tableName="PUR_VNDR_EXCL_MT">
 			<column name="VNDR_EXCL_ID" type="NUMBER(10,0)">
 				<constraints primaryKey="true" />

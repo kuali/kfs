@@ -125,8 +125,22 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSMI7058_ASSET_PMT_DOC_TABLE_AND_SAMPLE_DATA">
+	<changeSet author="KFS50" id="KFSMI7058_ASSET_PMT_DOC_SEQUENCE_mysql" dbms="mysql">
+	  	<createTable tableName="CM_AST_PMT_DOC_TYP_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true" >
+	  			<constraints primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE = MyISAM AUTO_INCREMENT = 20 "/>
+	  	</modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS50" id="KFSMI7058_ASSET_PMT_DOC_SEQUENCE_oracle" dbms="oracle">
 		<createSequence sequenceName="CM_AST_PMT_DOC_TYP_SEQ" startValue="20" incrementBy="1" />
+	</changeSet>
+
+	<changeSet author="jksmith" id="KFSMI7058_ASSET_PMT_DOC_TABLE">
 		<createTable tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" type="NUMBER(7,0)">
 				<constraints primaryKey="true" primaryKeyName="CM_AST_PMT_DOC_TYP_T_TP1" />

@@ -294,3 +294,5 @@ KFSAR5340P,KFSAR5340P,1,31,KFS-AR,Edit Invoice Processing Organization,Users who
 KFSMI6886-PRM1,KFSMI6886-PRM1,1,42,KFS-PDP,Maintain ACH Accounts,Allows to view and update Payee ACH Accounts of a certain transaction type.,Y
 KFSMI6886-PRM2,KFSMI6886-PRM2,1,23,KFS-PDP,Lookup ACH Accounts,Allows the lookup of Payee ACH Account records of certain transaction type(s).,Y
 KFSMI6886-PRM3,KFSMI6886-PRM3,1,10,KFS-PDP,Initiate ACH Account Document,Allows initiation the PDP Payee ACH Account maintenance document.,Y
+KFSMI7041-PRM,KFSMI7041-PRM,1,29,KFS-LD,View Fringe Benefit Inquiry,Permits access to screens controlled by org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction,Y
+KFSCNTRB162-PRM,KFSCNTRB162-PRM,1,33,KFS-VND,Use Vendor Exclude File Upload Screen,Authorizes users to access the Vendor Exclude File Upload page.,Y

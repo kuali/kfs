@@ -669,7 +669,6 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>
-<!-- JHK: Up to here in inclusion in master data scripts -->
 	
 	<changeSet author="jksmith" id="KFSMI7041_PERM_TO_USE_FRINGE_BENEFIT_INQUIRY_ACTION">
 		<comment>Create a KR-NS Use Screen template permission for the org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction.</comment>
@@ -679,7 +678,7 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="(select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Screen') " />
 			<column name="NMSPC_CD" value="KFS-LD" />
-			<column name="NM" value="Use Screen" />
+			<column name="NM" value="View Fringe Benefit Inquiry" />
 			<column name="DESC_TXT" value="Permits access to screens controlled by org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -710,7 +709,7 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" value="select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Upload Batch Input File(s)'" />
 			<column name="NMSPC_CD" value="KFS-VND" />
-			<column name="NM" value="Use Screen" />
+			<column name="NM" value="Use Vendor Exclude File Upload Screen" />
 			<column name="DESC_TXT" value="Authorizes users to access the Vendor Exclude File Upload page." />
 			<column name="ACTV_IND" value="Y" />
 		</insert>

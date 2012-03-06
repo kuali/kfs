@@ -337,6 +337,9 @@
 			<column name="PERM_ID" value="KFSSYS6007"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 
 	<changeSet author="jksmith" id="KFSMI4553_NEW_ROLE_FOR_VENDOR_REVIEWER">
@@ -393,6 +396,9 @@
 			<column name="ROLE_RSP_ID" value="KFSMI4553-4"/>
 			<column name="FRC_ACTN" value="Y"/>
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6732_PREROUTE_EDIT_DOCUMENT_PERMISSION_FOR_PAYMENT_APPLICATION">
@@ -441,6 +447,9 @@
 			<column name="PERM_ID" value="KFSAR6732"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI5340_ROLE_FOR_INVOICE_PROCESSING_EDITORS">
@@ -491,6 +500,9 @@
 			<column name="PERM_ID" value="KFSAR5340P"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6886_PAYEE_ACH_ADMIN_ROLE">
@@ -534,6 +546,7 @@
 			<column name="LAST_UPDT_DT" value="SYSDATE" />
 		</insert>
 		<!-- DEMO DATA - SHOULD NOT BE IN UPGRADE SCRIPTS -->
+		<!-- 
 		<insert tableName="KRIM_ROLE_MBR_T">
 			<column name="ROLE_MBR_ID" value="KFSMI6886-ROLE-P1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
@@ -561,6 +574,7 @@
 			<column name="KIM_ATTR_DEFN_ID" value="KFSMI6886-ATTRDEF" />
 			<column name="ATTR_VAL" value="E" />
 		</insert>
+		-->
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSMI6886-PRM1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
@@ -668,6 +682,9 @@
 			<column name="PERM_ID" value="KFSMI6886-PRM3" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+	    <modifySql dbms='mysql'>
+	      <replace replace='SYS_GUID' with='uuid()' />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI7041_PERM_TO_USE_FRINGE_BENEFIT_INQUIRY_ACTION">
@@ -699,6 +716,9 @@
 			<column name="PERM_ID" value="KFSMI7041-PRM" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+	    <modifySql dbms='mysql'>
+	      <replace replace='SYS_GUID' with='uuid()' />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSCNTRB162_DEBARRED_VENDOR_TRACKING_PERMS">
@@ -730,6 +750,9 @@
 			<column name="PERM_ID" value="KFSCNTRB162-PRM" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+	    <modifySql dbms='mysql'>
+	      <replace replace='SYS_GUID' with='uuid()' />
+	    </modifySql>
 	</changeSet>
 	
 </databaseChangeLog>

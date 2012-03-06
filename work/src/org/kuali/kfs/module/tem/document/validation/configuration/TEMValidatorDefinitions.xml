@@ -167,6 +167,9 @@
         </property>                     
     </bean>
 		
+	<bean id="TravelModule-expenseTotalsValidation"
+		class="org.kuali.kfs.module.tem.document.validation.impl.TEMExpenseTotalsValidation"/>
+		
     <import resource="AuthorizationValidatorDefinitions.xml"/>
     <import resource="ReimbursementValidatorDefinitions.xml"/>
     <import resource="RelocationValidatorDefinitions.xml"/>

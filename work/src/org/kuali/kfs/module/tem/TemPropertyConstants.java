@@ -56,7 +56,7 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String NEW_ACTUAL_EXPENSE_LINES = "newActualExpenseLines";
     
 
-    public static final String TRVL_OTHER_EXP_DATE = "expenseDate";
+    public static final String EXPENSE_DATE = "expenseDate";
 
     public static final String TRVL_IDENTIFIER_PROPERTY = "travelDocumentIdentifier";
 
@@ -71,8 +71,8 @@ public class TemPropertyConstants extends JSTLConstants {
 
     // fields for adding a new authorization other expense line
     public static final String TRVL_AUTH_OTHER_EXP_CODE = "travelExpenseTypeCodeId";
-    public static final String TRVL_AUTH_OTHER_EXP_AMT = "expenseAmount";
-    public static final String TRVL_REIMB_CUR_RATE = "currencyRate";
+    public static final String EXPENSE_AMOUNT = "expenseAmount";
+    public static final String CURRENCY_RATE = "currencyRate";
     public static final String TRVL_AUTH_OTHER_EXP_DATE = "expenseDate";
     public static final String TEM_ACTUAL_EXPENSE_MILES = "miles";
     public static final String TEM_ACTUAL_EXPENSE_NOTCE = "description";

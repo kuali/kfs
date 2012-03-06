@@ -58,13 +58,17 @@
 		  			<c:if test="${(currentLine.cardType != TemConstants.CARD_TYPE_CTS && KualiForm.canShowImportExpenseDetails)}">
 		  				<kul:subtab lookedUpCollectionName="details${ctr}" 
 					  		width="${tableWidth}" 
-					  		subTabTitle="Expense Details - ${currentLine.travelExpenseTypeCode.name} - ${lineCounter}" 
+					  		subTabTitle="Imported Expense Details - ${currentLine.travelExpenseTypeCode.name} - ${lineCounter}" 
 					  		noShowHideButton="false"
 					  		open="${'' }${(fn:length(KualiForm.document.importedExpenses[ctr].expenseDetails) > 0) }">
 					  		<table cellpadding="0" cellspacing="0" class="datatable">
 				  				<tem-exp:importedExpenseDetailHeader />						            
 						        <c:if test="${fullEntryMode}">
-									<tem-exp:importedExpenseDetailLine lineNumber="${ctr}" detail="newImportedExpenseLines[${ctr}]" detailObject="${KualiForm.document.importedExpenses[ctr]}" />
+									<tem-exp:importedExpenseDetailLine 
+										lineNumber="${ctr}" 
+										detail="newImportedExpenseLines[${ctr}]" 
+										parentObject="${KualiForm.document.importedExpenses[ctr]}"
+										detailObject="${KualiForm.document.importedExpenses[ctr]}" />
 								</c:if>
 								<logic:iterate indexId="ctrDetail" name="currentLine"
 									property="expenseDetails" id="currentLineDetails">
@@ -72,7 +76,8 @@
 									<tem-exp:importedExpenseDetailLine 
 										detail="document.importedExpenses[${ctr}].expenseDetails[${ctrDetail}]" 
 										lineNumber="${ctr}" 
-										detailObject="${KualiForm.document.importedExpenses[ctr]}"
+										parentObject="${KualiForm.document.importedExpenses[ctr]}"
+										detailObject="${KualiForm.document.importedExpenses[ctr].expenseDetails[ctrDetail]}"
 										detailLineNumber="${ctrDetail}" />							           
 								</logic:iterate>
 							</table>

@@ -18,11 +18,16 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
@@ -35,6 +40,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class TEMAccountingLineTotalsValidation extends GenericValidation {
@@ -43,69 +49,72 @@ public class TEMAccountingLineTotalsValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean rulePassed = true;
         TravelDocument travelDocument = (TravelDocument) event.getDocument();
-        GlobalVariables.getMessageMap().clearErrorPath();
-        
-        // If the Accounting Distribution tab is enabled, use it for validation
-        boolean showAccountDistribution = false;
-        
-        if (!(event.getDocument() instanceof TravelAuthorizationDocument)) {
-            showAccountDistribution = SpringContext.getBean(ParameterService.class).getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelReimbursementParameters.ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND);
-        }
-        
-        if (showAccountDistribution) {
-            List<AccountingDistribution> distributions = SpringContext.getBean(AccountingDistributionService.class).buildDistributionFrom(travelDocument);
-            KualiDecimal totalRemaining = KualiDecimal.ZERO;
-            for (final AccountingDistribution dist : distributions) {
-                totalRemaining = totalRemaining.add(dist.getRemainingAmount());                
-            }
-            
-            if (totalRemaining.isGreaterThan(KualiDecimal.ZERO)) {
-                GlobalVariables.getMessageMap().putError(TemKeyConstants.TRVL_REIMB_ACCOUNTING_DISTRIBUTION_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Total Remaining amount should be zero.");
-                rulePassed = false;
-            }
-        }
-        else {
-            // Accounting Distribution tab is disabled, use the accounting lines for validation
-            KualiDecimal reimbursableAmount = travelDocument.getDocumentGrandTotal();
-            //KualiDecimal actualReimbursable = travelDocument.getExpenseLimit();
-            KualiDecimal sourceAmount = travelDocument.getSourceTotal();
-
-            if (reimbursableAmount != null && reimbursableAmount.isGreaterThan(KualiDecimal.ZERO)) {
-                List<SourceAccountingLine> sourceAccountingLines = travelDocument.getSourceAccountingLines();
                 
-                if (sourceAccountingLines == null || !sourceAmount.isGreaterThan(KualiDecimal.ZERO)) {
-                    GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.NEW_SOURCE_ACCTG_LINE);
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.PAYMENT_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_CUSTOM, "Accounting Line is required");
-                    GlobalVariables.getMessageMap().removeFromErrorPath(TemPropertyConstants.NEW_SOURCE_ACCTG_LINE);
-                    rulePassed = false;
+        List<AccountingDistribution> distributions = SpringContext.getBean(AccountingDistributionService.class).buildDistributionFrom(travelDocument);
+        KualiDecimal totalRemaining = KualiDecimal.ZERO;
+        Map<String,KualiDecimal> amounts = new HashMap<String, KualiDecimal>();
+        Map<String,KualiDecimal> finalAmounts = new HashMap<String, KualiDecimal>();
+        Map<String,Integer> lineIndexes = new HashMap<String, Integer>();
+        
+        for (final AccountingDistribution dist : distributions) {
+            String key = dist.getObjectCode() + "_" + dist.getCardType();
+            if (amounts.containsKey(key)){
+                KualiDecimal tempAmount = dist.getSubTotal().add(amounts.get(key));
+                amounts.put(key, tempAmount);
+                finalAmounts.put(key, tempAmount);
+            }
+            else{
+                amounts.put(key, dist.getSubTotal());
+                finalAmounts.put(key, dist.getSubTotal());
+            }                
+        }
+        
+        if (travelDocument.getSourceAccountingLines() != null && !travelDocument.getSourceAccountingLines().isEmpty()) {
+            for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
+                String key = line.getFinancialObjectCode() + "_" + line.getCardType();
+                if (amounts.containsKey(key)){
+                    if (amounts.get(key).isGreaterEqual(line.getAmount())){
+                        KualiDecimal tempAmount = amounts.get(key).subtract(line.getAmount());
+                        amounts.put(key, tempAmount);
+                        lineIndexes.put(key, line.getSequenceNumber());
+                    }
+                    else{
+                        String[] parts = key.split("_");
+                        GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (line.getSequenceNumber().intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, parts[0], parts[1], finalAmounts.get(key).toString());
+                        rulePassed = false;
+                    }
                 }
-                else {                
-                    if (sourceAccountingLines != null || sourceAmount.isGreaterThan(KualiDecimal.ZERO)) {
-//                        if(actualReimbursable != null && actualReimbursable.isGreaterThan(new KualiDecimal(0)) && actualReimbursable.isLessEqual(reimbursableAmount)) {
-//                            if (actualReimbursable.equals(sourceAmount)) {
-//                                rulePassed = true;
-//                            } else {
-//                                GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-//                                GlobalVariables.getMessageMap().putError(TemPropertyConstants.NEW_SOURCE_ACCTG_LINE, KFSKeyConstants.ERROR_CUSTOM, "Accounting Line total should match reimbursable total of $" + actualReimbursable);
-//                                GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-//                                rulePassed = false;
-//                            }
-//                        } else {
-                            if (reimbursableAmount.equals(travelDocument.getDocumentGrandTotal())) {
-                                rulePassed = true;
-                            } else {
-                                GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-                                GlobalVariables.getMessageMap().putError(TemPropertyConstants.NEW_SOURCE_ACCTG_LINE, KFSKeyConstants.ERROR_CUSTOM, "Accounting Line total should match document total of $" + travelDocument.getDocumentGrandTotal());
-                                GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-                                rulePassed = false;
-                            }
-//                        }
+                else{
+                    if (!(event.getDocument() instanceof TravelAuthorizationDocument)) {
+                        GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (line.getSequenceNumber().intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE, line.getFinancialObjectCode(), line.getCardType());
+                        rulePassed = false;
                     }
                 }
             }
+            
+            List errors = GlobalVariables.getMessageMap().getErrorPath();
+            if (rulePassed){
+                GlobalVariables.getMessageMap().clearErrorPath();
+                Iterator<String> it = amounts.keySet().iterator();
+                while(it.hasNext()){
+                    String key = it.next();
+                    KualiDecimal tempAmount = amounts.get(key);
+                    if (!tempAmount.isZero()){
+                        String[] parts = key.split("_");
+                        if (lineIndexes.containsKey(parts)){
+                            GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (lineIndexes.get(key).intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, parts[0], parts[1], finalAmounts.get(key).toString());                             
+                        }
+                        else{
+                            GlobalVariables.getMessageMap().putError(TemPropertyConstants.NEW_SOURCE_ACCTG_LINE + "." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, parts[0], parts[1], finalAmounts.get(key).toString());                            
+                        }
+                        rulePassed = false;
+                    }
+                }
+                GlobalVariables.getMessageMap().getErrorPath().addAll(errors);
+            }
         }
-
+        
+        GlobalVariables.getMessageMap().clearErrorPath();
         return rulePassed;
     }
-
 }

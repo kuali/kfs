@@ -48,7 +48,7 @@ public class RemoveImportedExpenseEvent implements Observer {
             return;
         }
         final TravelMvcWrapperBean wrapper = (TravelMvcWrapperBean) args[WRAPPER_ARG_IDX];
-
+        
         final TravelDocument document = wrapper.getTravelDocument();
         final Integer deleteIndex = (Integer) args[SELECTED_LINE_ARG_IDX];
         
@@ -59,11 +59,7 @@ public class RemoveImportedExpenseEvent implements Observer {
         ExpenseUtils.assignExpense(line.getHistoricalTravelExpenseId(), null,null,null, false);
         List<ImportedExpense> importedExpenses = wrapper.getNewImportedExpenseLines();
         
-        //Remove detail lines which are associated with parentId
-        int nextIndex = -1;        
-        while((nextIndex = getNextDetailIndex(importedExpenses, line.getId())) !=-1){
-            final ImportedExpense detailLine = importedExpenses.remove(nextIndex);            
-        }
+        
         if (wrapper.getNewImportedExpenseLines().size() > deleteIndex.intValue()){
             wrapper.getNewImportedExpenseLines().remove(deleteIndex.intValue());
         }

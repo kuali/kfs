@@ -43,7 +43,8 @@ public interface AccountingDistributionService {
     
     public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, Integer sequenceNumber);
     
-    public void normalizeAmountAndPercents(List<TemDistributionAccountingLine> lines, KualiDecimal remainingTotal);
+    //TODO: remove when sure.
+    //public void normalizeAmountAndPercents(List<TemDistributionAccountingLine> lines, KualiDecimal remainingTotal);
 
     public KualiDecimal getTotalAmount(List<TemDistributionAccountingLine> lines);
     

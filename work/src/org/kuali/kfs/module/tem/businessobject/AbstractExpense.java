@@ -123,7 +123,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      */
     @Column(name="NON_REIM_IND",nullable=true,length=1)
     public Boolean getNonReimbursable() {
-        return nonReimbursable;
+        return nonReimbursable != null ? nonReimbursable : false;
     }
 
     /**
@@ -354,6 +354,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public String getTravelCompanyCodeCode() {
         if (travelCompanyCodeCode == null && travelExpenseTypeCode != null){
             travelCompanyCodeCode = travelExpenseTypeCode.getCode();
+        }
+        else if (travelExpenseTypeCodeId != null && travelCompanyCodeCode == null){
+            setTravelCompanyCodeCode(getTravelExpenseTypeCode().getCode());
         }
         return travelCompanyCodeCode;
     }

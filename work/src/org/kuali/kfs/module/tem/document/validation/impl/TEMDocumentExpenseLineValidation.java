@@ -86,8 +86,8 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
 
     protected Boolean isPerDiemLodgingEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
-            if (ObjectUtils.isNotNull(perDiemExpenseLine.getLodging()) 
-                    && perDiemExpenseLine.getLodging().isGreaterThan(KualiDecimal.ZERO)) {
+            if (ObjectUtils.isNotNull(perDiemExpenseLine.getLodgingTotal()) 
+                    && perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
                 return Boolean.TRUE;
             }
         }

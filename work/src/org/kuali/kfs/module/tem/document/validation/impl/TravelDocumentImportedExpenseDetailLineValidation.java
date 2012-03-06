@@ -52,7 +52,7 @@ public class TravelDocumentImportedExpenseDetailLineValidation extends GenericVa
         
         if (success){
             if (importedExpenseDetail.getExpenseAmount().isLessEqual(KualiDecimal.ZERO)){
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_TEM_IMPORT_DETAIL_LESS_THAN_ZERO);
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_LESS_THAN_ZERO);
                 return false;
             }
             
@@ -66,7 +66,7 @@ public class TravelDocumentImportedExpenseDetailLineValidation extends GenericVa
                 }
                 KualiDecimal remainder = importedExpense.getConvertedAmount().subtract(total);
                 if (importedExpenseDetail.getConvertedAmount().isGreaterThan(remainder)){
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_TEM_IMPORT_DETAIL_GREATER_THAN_EXPENSE);
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_GREATER_THAN_EXPENSE);
                     return false;
                 }
             }
@@ -74,7 +74,7 @@ public class TravelDocumentImportedExpenseDetailLineValidation extends GenericVa
         }
         
         if (success && !importedExpenseDetail.getCurrencyRate().equals(new KualiDecimal(1))){
-            GlobalVariables.getMessageMap().putInfo(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.INFO_TEM_IMPORT_CURRENCY_CONVERSION);
+            GlobalVariables.getMessageMap().putInfo(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.INFO_TEM_IMPORT_CURRENCY_CONVERSION);
         }
         return success;
     }

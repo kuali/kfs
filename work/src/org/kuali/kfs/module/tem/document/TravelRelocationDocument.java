@@ -22,6 +22,7 @@ import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -38,6 +39,9 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -54,6 +58,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
@@ -63,11 +68,10 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.DV_DEFAULT_PAYMENT_METHOD_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.DV_PAYEE_TYPE_CODE_V;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.VENDOR_PAYMENT_DV_REASON_CODE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.VENDOR_PAYMENT_DV_REASON_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_RELO_MANAGER;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_TAX_MANAGER;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_EXECUTIVE;
@@ -111,6 +115,9 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     private String titleCode;
     private String comments;
         
+    public TravelRelocationDocument() {
+    }
+    
     public void setFromAddress1(String fromAddress1){
         this.fromAddress1 = fromAddress1;
     }
@@ -291,8 +298,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
             if(temProfile != null) {
                 setTemProfile(temProfile);
             }
-        }
-        
+        }        
     }
     
     public TEMProfile retrieveTravelerProfile(){
@@ -311,8 +317,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         
         debug("Handling route status change");
         debug("route status is ", statusChangeEvent.getNewRouteStatus());
-        
-        
+               
         // in this case the status has already been updated and we need to update the internal status code
         String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
         
@@ -355,7 +360,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
             
                 if(getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)){
                     try{
-                        getTravelRelocationService().createDVForReimbursement(this);
+                        getTravelRelocationService().createDVReimbursement(this);
                     }
                     catch(Exception ex){
                         error("Could not spawn DV for reimbursement.");
@@ -367,8 +372,6 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
                 }
             }
         }
-        
-        super.doRouteStatusChange(statusChangeEvent);
     }
     
     /**
@@ -436,37 +439,30 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     }
     
     @Override
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument dvDocument){
-        super.populateDisbursementVoucherFields(dvDocument);
+    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument){
+        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
         
-        dvDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());
-        dvDocument.getDvPayeeDetail().setDocumentNumber(dvDocument.getDocumentNumber());                
-        dvDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(this.getTraveler().getPrincipalId());
-        dvDocument.getDvPayeeDetail().setDisbVchrPayeePersonName(this.getTraveler().getFirstName() + " " + this.getTraveler().getLastName());
+        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle() != null ? this.getDocumentTitle() : "");               
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for RELO doc: " + this.getDocumentTitle() != null ? this.getDocumentTitle() : this.getTravelDocumentIdentifier());
+        if (disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
+            String truncatedDocumentDescription = disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
+            disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
+        }
         
-        dvDocument.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(this.getTraveler().getStreetAddressLine1());
-        dvDocument.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(this.getTraveler().getStreetAddressLine2());
-        dvDocument.getDvPayeeDetail().setDisbVchrPayeeCityName(this.getTraveler().getCityName());
-        dvDocument.getDvPayeeDetail().setDisbVchrPayeeStateCode(this.getTraveler().getStateCode());
-        dvDocument.getDvPayeeDetail().setDisbVchrPayeeZipCode(this.getTraveler().getZipCode());
-        dvDocument.getDvPayeeDetail().setDisbVchrPayeeCountryCode(this.getTraveler().getCountryCode());
-        dvDocument.setDisbVchrCheckStubText(this.getTravelDocumentIdentifier() + ", " + this.getTripBegin().toString() +" - "+this.getTripEnd().toString() +", "+this.getToCity() +", "+ this.getToStateCode());
+        try {
+            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(this.getDocumentHeader().getDocumentDescription());
+        }
+        catch (WorkflowException ex) {
+            ex.printStackTrace();
+        }
         
-        dvDocument.setDisbVchrPaymentMethodCode(DV_DEFAULT_PAYMENT_METHOD_CODE);
-        dvDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, RELOCATION_DOCUMENTATION_LOCATION_CODE));
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        dvDocument.setDisbursementVoucherDueDate(new java.sql.Date(calendar.getTimeInMillis()));
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, RELOCATION_DOCUMENTATION_LOCATION_CODE));
         
-        dvDocument.getDocumentHeader().setDocumentDescription("Created by RELO document");        
-        final String dvReasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, VENDOR_PAYMENT_DV_REASON_CODE);
-        dvDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(dvReasonCode);
-        dvDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DV_PAYEE_TYPE_CODE_V);
-        dvDocument.setDisbVchrCheckTotalAmount(this.getDocumentGrandTotal());
-        
-     // add relationship
-        String relationDescription = "RELO - DV";
-        getTravelRelocationService().getAccountingDocumentRelationshipService().save(new AccountingDocumentRelationship(dvDocument.getDocumentNumber(), this.getDocumentNumber(), relationDescription));
+        final String dvReasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, VENDOR_PAYMENT_DV_REASON_CODE);
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(dvReasonCode);
+        //disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DV_PAYEE_TYPE_CODE_V);
+        //disbursementVoucherDocument.setDisbVchrCheckTotalAmount(this.getDocumentGrandTotal());
     }
     
     @Override
@@ -535,16 +531,39 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     }
 
     @Override
-    public boolean isBoNotesSupport() {
-        return true;
-    }
-    
-    @Override
     public String getReportPurpose() {
         if (reason != null) {
             return reason.getReloReasonName();
         }
         
         return null;
+    }
+
+    @Override
+    public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
+        super.populateVendorPayment(disbursementVoucherDocument);
+        
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
+        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelRelocationParameters.PARAM_DTL_TYPE, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
+        String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
+        String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
+        String checkStubText = this.getTravelDocumentIdentifier() + ", " + startDate + " - " + endDate + ", " + this.getToCity() + ", " + this.getToStateCode();
+        
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
+        
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
+        disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
+    }
+    
+    @Override
+    public KualiDecimal getPerDiemAdjustment() {
+        // Never Used
+        return null;
+    }
+
+    @Override
+    public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment) {
+        // Never Used
+        
     }
 }

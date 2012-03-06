@@ -159,6 +159,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         // update the list of related documents
         refreshRelatedDocuments(reqForm);
+        
         if (((TravelFormBase) form).getMethodToCall().equalsIgnoreCase("docHandler") && travelReqDoc.getPrimaryDestinationId() != null){
             if (travelReqDoc.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 travelReqDoc.getPrimaryDestination().setPrimaryDestinationName(travelReqDoc.getPrimaryDestinationName());
@@ -190,8 +191,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
             travelerID = document.getTraveler().getPrincipalId();
             if (travelerID != null){
                 //traveler must accept policy, if initiator is arranger, the traveler will have to accept later.
-                showPolicy = initiator.equals(travelerID) 
-                || GlobalVariables.getUserSession().getPrincipalId().equals(travelerID);
+                showPolicy = initiator.equals(travelerID) || GlobalVariables.getUserSession().getPrincipalId().equals(travelerID);
             }
             else{ //Non-kim traveler, arranger accepts policy
                 showPolicy = true;
@@ -318,20 +318,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
         
         reqForm.setCanRemoveHold(can);
-    }
-
-    protected void refreshRelatedDocuments(TravelAuthorizationForm form) {
-        Map<String, List<Document>> relatedDocuments;
-        try {
-            relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(form.getTravelDocument());
-            form.setRelatedDocuments(relatedDocuments);
-            form.setRelatedDocumentNotes(null);
-            form.setRelatedDocumentNotes(form.getRelatedDocumentNotes());
-        }
-        catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
-        }
     }
 
     /**

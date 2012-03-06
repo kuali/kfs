@@ -23,12 +23,14 @@ import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.PRIMARY_DESTINATION_LOOKUPABLE;
 import static org.kuali.kfs.module.tem.TemConstants.RETURN_TO_FO_QUESTION;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
+import static org.kuali.kfs.module.tem.TemConstants.SHOW_ADVANCES_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TRAVEL_ARRANGER_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TRAVEL_MANAGER_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_CERTIFICATION_STATEMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_CERTIFICATION_STATEMENT;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_INFO_UPDATE_TRIP_DTL;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
@@ -277,8 +279,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             }
         }
         
-        
-        
         return retval;
     }
 
@@ -367,7 +367,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward retval = super.docHandler(mapping, form, request, response);
         final TravelFormBase travelForm = (TravelFormBase) form;
-
 
         initializeNewActualExpenseLines(travelForm.getNewActualExpenseLines(), travelForm.getTravelDocument().getActualExpenses());
 
@@ -548,14 +547,9 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         TravelDocument document = reqForm.getTravelDocument();
         ParameterService paramService = (ParameterService) SpringContext.getBean(ParameterService.class);
 
-        boolean rulePassed = true;
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateTripDetailsEvent(TRIP_INFO_UPDATE_TRIP_DTL, reqForm.getDocument()));
-
-        if (!rulePassed) {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        if (SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateTripDetailsEvent(TRIP_INFO_UPDATE_TRIP_DTL, reqForm.getDocument()))) {
+            getTravelDocumentService().updatePerDiemItemsFor(document, document.getPerDiemExpenses(), document.getPrimaryDestinationId(), document.getTripBegin(), document.getTripEnd());
         }
-
-        getTravelDocumentService().updatePerDiemItemsFor(document, document.getPerDiemExpenses(), document.getPrimaryDestinationId(), document.getTripBegin(), document.getTripEnd());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -751,6 +745,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 expense.setBreakfastValue(new KualiDecimal(perDiem.getBreakfast()));
                 expense.setLunchValue(new KualiDecimal(perDiem.getLunch()));
                 expense.setDinnerValue(new KualiDecimal(perDiem.getDinner()));
+                expense.setLodging(perDiem.getLodging());
                 return null;
             }
         }
@@ -832,10 +827,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             amount = encTotal.subtract(accountingTotal);
         }
 
-        if (travelDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
-            amount = amount.subtract(getTravelDocumentService().getAdvancesTotalFor(travelDocument));
-        }
-
         return amount;
     }
 
@@ -856,11 +847,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         TravelFormBase travelReqForm = (TravelFormBase) form;
         TravelDocumentBase travelReqDoc = (TravelDocumentBase) travelReqForm.getDocument();
 
-        boolean rulePassed = true;
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateTripDetailTotalEvent("", travelReqForm.getDocument()));
-
         // Added to set values to zero when personal box checked to display correct values and totals
-        if (rulePassed) {
+        if (SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateTripDetailTotalEvent("", travelReqForm.getDocument()))) {
             List<PerDiemExpense> estimates = travelReqDoc.getPerDiemExpenses();
             if (estimates != null && !estimates.isEmpty()) {
                 getTravelDocumentService().updatePerDiemItemsFor(travelReqDoc, estimates, null, travelReqDoc.getTripBegin(), travelReqDoc.getTripEnd());
@@ -880,6 +868,11 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         GlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_RECALCULATE_SUCCESSFUL);
         
         showAccountDistribution(request, travelReqForm.getDocument());
+        
+        if (travelReqForm.getDocument() instanceof TravelReimbursementDocument) {
+            final boolean showAdvances = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND);
+            request.setAttribute(SHOW_ADVANCES_ATTRIBUTE, showAdvances);
+        }
                 
         // Flag to display reports (TR, ENT, RELO)
         request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !travelReqDoc.getDocumentHeader().getWorkflowDocument().stateIsInitiated());
@@ -1471,5 +1464,19 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      */
     protected boolean isProcessed(TravelFormBase reqForm) {
         return reqForm.getTransactionalDocument().getDocumentHeader().getWorkflowDocument().stateIsProcessed();
+    }
+    
+    protected void refreshRelatedDocuments(TravelFormBase form) {
+        Map<String, List<Document>> relatedDocuments;
+        try {
+            relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(form.getTravelDocument());
+            form.setRelatedDocuments(relatedDocuments);
+            form.setRelatedDocumentNotes(null);
+            form.setRelatedDocumentNotes(form.getRelatedDocumentNotes());
+        }
+        catch (WorkflowException ex) {
+            // TODO Auto-generated catch block
+            ex.printStackTrace();
+        }
     }
 }

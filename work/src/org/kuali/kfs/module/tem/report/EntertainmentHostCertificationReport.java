@@ -47,7 +47,6 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     private String documentId;
     private String eventId;
     private String eventTitle;
-    private String entertainmentType;
     private String businessPurpose;
     private String entertainmentHostName;
     private Date beginDate;
@@ -305,14 +304,6 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
 
     public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
-    }
-
-    public String getEntertainmentType() {
-        return entertainmentType;
-    }
-
-    public void setEntertainmentType(String entertainmentType) {
-        this.entertainmentType = entertainmentType;
     }
 
     public String getBusinessPurpose() {

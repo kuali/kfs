@@ -16,9 +16,7 @@
 package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.FOREIGN_DRAFT_PAYMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.WIRE_TRANSFER_PAYMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_DV_IN_ACTION_LIST;
@@ -517,8 +515,8 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
             boolean rulePassed = getRuleService().applyRules(new AttributedRouteDocumentEvent("", disbursementVoucherDocument));
             
-            if (rulePassed && !(WIRE_TRANSFER_PAYMENT.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
-                  || FOREIGN_DRAFT_PAYMENT.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode()))) {
+            if (rulePassed && !(TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
+                  || TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode()))) {
             	
             	KualiWorkflowDocument originalWorkflowDocument = disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument();
                 
@@ -532,7 +530,8 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                     disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
                 
                     String annotation = "Blanket Approved by system in relation to Travel Auth Document: " + travelAuthorizationDocument.getDocumentNumber();
-                    getWorkflowDocumentService().blanketApprove(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), annotation, null); 
+                    //getWorkflowDocumentService().blanketApprove(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), annotation, null);
+                    getDocumentService().blanketApproveDocument(disbursementVoucherDocument, annotation, null);
             	}
                 finally {
                     GlobalVariables.setUserSession(new UserSession(currentUser));
@@ -544,8 +543,8 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                 getDocumentService().addNoteToDocument(travelAuthorizationDocument, noteToAdd);
             }
             
-            if (!rulePassed || WIRE_TRANSFER_PAYMENT.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
-                || FOREIGN_DRAFT_PAYMENT.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())) {
+            if (!rulePassed || TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
+                || TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())) {
                 businessObjectService.save(disbursementVoucherDocument);
                 String annotation = "Saved by system in relation to Travel Auth Document: " + travelAuthorizationDocument.getDocumentNumber();
                 getWorkflowDocumentService().save(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), annotation);

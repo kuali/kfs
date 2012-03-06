@@ -143,7 +143,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
             // TODO Auto-generated catch block
             ex.printStackTrace();
         }
-
     }
 
     protected void initializeNewAttendeeLines(final List<Attendee> newAttendeeLines, List<Attendee> attendees) {
@@ -188,20 +187,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
         return retval;
     }
 
-    protected void refreshRelatedDocuments(TravelEntertainmentForm form) {
-        Map<String, List<Document>> relatedDocuments;
-        try {
-            relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(form.getTravelDocument());
-            form.setRelatedDocuments(relatedDocuments);
-            form.setRelatedDocumentNotes(null);
-            form.setRelatedDocumentNotes(form.getRelatedDocumentNotes());
-        }
-        catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
-        }
-
-    }
     private void initializeNames(final TravelEntertainmentForm entForm, final TravelEntertainmentDocument document) {
         if (document.getHostProfile() != null) {
             document.setHostName(document.getHostProfile().getLastName() + KFSConstants.COMMA + document.getHostProfile().getFirstName() + KFSConstants.BLANK_SPACE +
@@ -220,15 +205,15 @@ public class TravelEntertainmentAction extends TravelActionBase {
     }
     
     private boolean validateTravelerDetailName(TravelerDetail travelerdetail){
-        if(travelerdetail == null)
+        if (travelerdetail == null)
             return false;
-        if(travelerdetail.getLastName()==null)
+        if (travelerdetail.getLastName() == null)
             return false;
-        if(travelerdetail.getFirstName()==null)
+        if (travelerdetail.getFirstName() == null)
             return false;
-        if(travelerdetail.getLastName().equals(KFSConstants.EMPTY_STRING)&&travelerdetail.getFirstName().equals(KFSConstants.EMPTY_STRING))
+        if (travelerdetail.getLastName().equals(KFSConstants.EMPTY_STRING) && travelerdetail.getFirstName().equals(KFSConstants.EMPTY_STRING))
             return false;
-        
+
         return true;
     }
     
@@ -246,10 +231,9 @@ public class TravelEntertainmentAction extends TravelActionBase {
                 }
             }
             
-            if(document.getHostProfile()!=null&&document.getTemProfile()!=null&&!document.getHostProfile().getProfileId().equals(document.getTemProfile().getProfileId())){
+            if (document.getHostProfile() != null && document.getTemProfile() != null && !document.getHostProfile().getProfileId().equals(document.getTemProfile().getProfileId())) {
                 GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
-                
-            }               
+            }            
         }
     }
     

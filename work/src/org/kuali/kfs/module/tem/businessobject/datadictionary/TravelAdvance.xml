@@ -151,6 +151,7 @@
 		<property name="shortLabel" value="Payment Due Date" />
 		<property name="summary" value="Payment Due Date" />
 		<property name="description" value="Payment Due Date" />
+		<property name="required" value="true" />
 	</bean>
 	<bean id="TravelAdvance-paymentMethod" parent="TravelAdvance-paymentMethod-parentBean" />
 	<bean id="TravelAdvance-paymentMethod-parentBean" parent="AttributeDefinition">

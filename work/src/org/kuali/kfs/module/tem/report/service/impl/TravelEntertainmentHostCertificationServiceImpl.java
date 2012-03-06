@@ -95,7 +95,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         report.setBeginDate(document.getTripBegin());
         report.setEndDate(document.getTripEnd());
         report.setEventId(document.getTravelDocumentIdentifier());
-        report.setEventTitle(document.getDocumentTitle());
+        report.setEventTitle(document.getEventTitle());
         report.setTotalExpense(document.getDocumentGrandTotal());
         report.setCertificationDescription(getTravelDocumentService().getMessageFrom(TemKeyConstants.TEM_ENT_HOST_CERTIFICATION,report.getInstitution() ));
         report.setEntertainmentHostName(document.getHostName());

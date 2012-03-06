@@ -171,17 +171,16 @@ public class TravelRelocationAction extends TravelActionBase {
         setButtonPermissions(reloForm);
         setContactMasking(reloForm);
         setTaxSelectable(reloForm);
-        debug("Found ", document.getActualExpenses().size(), " other expenses");
 
-        if (reloForm.getBoNotes() == null || reloForm.getBoNotes().size() == 0) {
-            reloForm.setBoNotes(getNoteService().getByRemoteObjectId(document.getDocumentHeader().getObjectId()));
-            // document.getDocumentHeader().setBoNotes(reloForm.getBoNotes());
-            document.setBoNotes(reloForm.getBoNotes());
+        if (document.getTraveler() != null && document.getTraveler().getPrincipalId() != null) {
+            document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
         }
-
+        
         if (ObjectUtils.isNotNull(document.getActualExpenses())) {
             document.enableExpenseTypeSpecificFields(document.getActualExpenses());
         }
+        
+        refreshRelatedDocuments(reloForm);
 
         if (!reloForm.getMethodToCall().equalsIgnoreCase("dochandler")) {
             if (!getCalculateIgnoreList().contains(reloForm.getMethodToCall())) {

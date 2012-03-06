@@ -109,8 +109,8 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
                 perDiemMilageList.add(perDiemMilage);
             }
 
-            if (perDiemExpense.getLodging().isGreaterThan(KualiDecimal.ZERO)) {
-                ExpenseSummaryReport.Detail perDiemLodging = new ExpenseSummaryReport.Detail("Per Diem Lodging", "LODGING", perDiemExpense.getLodging(), perDiemExpense.getMileageDate());
+            if (perDiemExpense.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
+                ExpenseSummaryReport.Detail perDiemLodging = new ExpenseSummaryReport.Detail("Per Diem Lodging", "LODGING", perDiemExpense.getLodgingTotal(), perDiemExpense.getMileageDate());
                 perDiemLodgingList.add(perDiemLodging);
             }
 

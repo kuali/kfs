@@ -56,7 +56,7 @@ import org.kuali.rice.kns.web.ui.Column;
 public class TravelEntertainmentDocumentSearchResultProcessor extends AbstractDocumentSearchResultProcessor implements TravelDocumentSearchResultsProcessor {
     
     private String createPaymentsURL(DocSearchDTO docCriteriaDTO, String tripID) {
-        String links = createDisbursementVoucherLink(docCriteriaDTO, TemConstants.TravelCustomSearchLinks.PRE_TRIP_VENDOR_PAYMENT);
+        String links = createDisbursementVoucherLink(docCriteriaDTO, TemConstants.TravelCustomSearchLinks.VENDOR_PAYMENT);
         links += "<br />" + createRequisitionLink(docCriteriaDTO, TemConstants.TravelCustomSearchLinks.REQUISITION);
         String agencyLinks = createAgencySitesLinks(tripID);
         links += (StringUtils.isEmpty(agencyLinks)?"":"<br />") + agencyLinks;

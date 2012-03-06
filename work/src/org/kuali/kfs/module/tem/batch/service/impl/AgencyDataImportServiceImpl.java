@@ -143,42 +143,52 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     public List<AgencyStagingData> validateAgencyData(AgencyImportData agencyData, String dataFileName) {
         PrintStream reportDataStream = this.getReportPrintStream();
  
-        this.writeReportHeader(reportDataStream, dataFileName, agencyData.getImportBy());
-        List<AgencyStagingData> validData = new ArrayList<AgencyStagingData>();
-        int count = 1;
-        for (AgencyStagingData agency : agencyData.getAgencies()) {
-            agency.setImportBy(agencyData.getImportBy());
-            AgencyStagingData validAgency = null;
-            List<String> errorMessages=new ArrayList<String>();
-            if (agencyData.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
-                // validate by Traveler ID (UCD method)
-                LOG.info("Validating agency import by traveler. Record# " + count + " of " + agencyData.getAgencies().size());
-                expenseImportByTravelerService.setErrorMessages(errorMessages);
-                if (expenseImportByTravelerService.areMandatoryFieldsPresent(agency)) {
-                    validAgency = expenseImportByTravelerService.validateAgencyData(agency);
+        List<AgencyStagingData> validData;
+        try {
+            this.writeReportHeader(reportDataStream, dataFileName, agencyData.getImportBy());
+            validData = new ArrayList<AgencyStagingData>();
+            int count = 1;
+            for (AgencyStagingData agency : agencyData.getAgencies()) {
+                agency.setImportBy(agencyData.getImportBy());
+                AgencyStagingData validAgency = null;
+                List<String> errorMessages=new ArrayList<String>();
+                if (agencyData.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
+                    // validate by Traveler ID (UCD method)
+                    LOG.info("Validating agency import by traveler. Record# " + count + " of " + agencyData.getAgencies().size());
+                    expenseImportByTravelerService.setErrorMessages(errorMessages);
+                    if (expenseImportByTravelerService.areMandatoryFieldsPresent(agency)) {
+                        validAgency = expenseImportByTravelerService.validateAgencyData(agency);
+                    }
+                    errorMessages = expenseImportByTravelerService.getErrorMessages();
                 }
-                errorMessages = expenseImportByTravelerService.getErrorMessages();
-            }
-             
-            if (agencyData.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRIP)) {
-                // validate by Trip ID (IU method)
-                LOG.info("Validating agency import by trip. Record# " + count + " of " + agencyData.getAgencies().size());
-                expenseImportByTripService.setErrorMessages(errorMessages);
-                if (expenseImportByTripService.areMandatoryFieldsPresent(agency)) {
-                    validAgency = expenseImportByTripService.validateAgencyData(agency);
+                 
+                if (agencyData.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRIP)) {
+                    // validate by Trip ID (IU method)
+                    LOG.info("Validating agency import by trip. Record# " + count + " of " + agencyData.getAgencies().size());
+                    expenseImportByTripService.setErrorMessages(errorMessages);
+                    if (expenseImportByTripService.areMandatoryFieldsPresent(agency)) {
+                        validAgency = expenseImportByTripService.validateAgencyData(agency);
+                    }
+                    errorMessages = expenseImportByTripService.getErrorMessages();
                 }
-                errorMessages = expenseImportByTripService.getErrorMessages();
-            }
 
-            if (ObjectUtils.isNotNull(validAgency)) {
-                validData.add(validAgency);
-            }
-            if(errorMessages.size()>0){
-               writeErrorToReport(reportDataStream,agency,getMessage(getErrorMessageAsString(errorMessages), agency), agency.getImportBy());
-            }
-            count++;
+                if (ObjectUtils.isNotNull(validAgency)) {
+                    validData.add(validAgency);
+                }
+                if(errorMessages.size()>0){
+                   writeErrorToReport(reportDataStream,agency,getMessage(getErrorMessageAsString(errorMessages), agency), agency.getImportBy());
+                }
+                count++;
 
+            }
         }
+        finally {
+            if (reportDataStream != null) {
+                reportDataStream.flush();
+                reportDataStream.close();
+            }
+        }
+
         return validData;
         
     }

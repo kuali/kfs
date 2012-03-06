@@ -242,4 +242,10 @@ public interface TEMExpense {
     public boolean isRentalCar();
 
     public Boolean getRentalCarInsurance();
+
+    public String getTravelCompanyCodeCode();
+    
+    public Long getTravelExpenseTypeCodeId();
+
+    public void setTravelExpenseTypeCodeId(Long travelExpenseTypeCodeId);
 }

@@ -15,6 +15,10 @@
  */
 package org.kuali.kfs.integration.tem;
 
+import java.util.List;
+
+import org.kuali.rice.kim.bo.Person;
+
 public class TravelEntertainmentMovingModuleServiceNoOp implements TravelEntertainmentMovingModuleService {
 
 	@Override
@@ -36,5 +40,35 @@ public class TravelEntertainmentMovingModuleServiceNoOp implements TravelEnterta
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean isTravelManager(Person user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<String> getTravelReasonCodes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Override
+    public String getTravelReimbursementPaymentReasonCode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean isTravelReimbursementDocument(TravelEntertainmentMovingTravelDocument document) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void createAccountingDocumentRelationship(String documentNumber, String relDocumentNumber, String relationDescription) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

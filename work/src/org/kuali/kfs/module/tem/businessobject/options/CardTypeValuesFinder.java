@@ -39,11 +39,12 @@ public class CardTypeValuesFinder extends KeyValuesBase {
 
         List<ImportedExpense> importedExpenses = ((TravelFormBase)GlobalVariables.getKualiForm()).getTravelDocument().getImportedExpenses();
         Map<String,String> map = new HashMap<String, String>();
-        keyValues.add(new KeyLabelPair(TemConstants.NOT_APPLICABLE, "None"));
+        keyValues.add(new KeyLabelPair(TemConstants.NOT_APPLICABLE, TemConstants.NOT_APPLICABLE));
         for (ImportedExpense expense : importedExpenses) {
-            if (!map.containsKey(expense.getCardType())){
-                keyValues.add(new KeyLabelPair(expense.getCardType(),expense.getCardType()));
-                map.put(expense.getCardType(), expense.getCardType());
+            String cardType = expense.getCardType();
+            if (cardType != null && !map.containsKey(cardType)){
+                keyValues.add(new KeyLabelPair(cardType,cardType));
+                map.put(cardType, cardType);
             }
         }
 

@@ -58,11 +58,7 @@ import org.kuali.rice.kns.web.format.FormatException;
 public class UploadParser {
 
     protected static final String[] DEFAULT_FILE_EXTENSIONS = {"csv"};
-    
-    public static String[] getFileFormat(Class<?> c) {
-        return (String[]) TemObjectUtils.getSettableFieldNames(c).toArray();
-    }
-    
+        
     public static List<String> getDefaultAcceptableFileExtensions() {
         return Arrays.asList(DEFAULT_FILE_EXTENSIONS);
     }    

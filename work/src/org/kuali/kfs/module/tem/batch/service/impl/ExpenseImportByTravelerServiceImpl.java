@@ -355,6 +355,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         if (entries.size() > 0 && allGlpesCreated) {
             businessObjectService.save(expense);
             businessObjectService.save(entries);
+            agencyData.setMoveToHistoryIndicator(true);
             agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
         }
         else {

@@ -50,7 +50,7 @@
 				<tr>
 				  	<td colspan="12">
 			  			<kul:subtab lookedUpCollectionName="expenseDetails${ctr}" width="${tableWidth}" 
-			  				subTabTitle="Expense Details - ${KualiForm.document.actualExpenses[ctr].travelExpenseTypeCode.name} - ${lineCounter}" 
+			  				subTabTitle="Actual Expense Details - ${KualiForm.document.actualExpenses[ctr].travelExpenseTypeCode.name} - ${lineCounter}" 
 			  				noShowHideButton="false" 
 			  				open="${(fn:length(KualiForm.document.actualExpenses[ctr].expenseDetails) > 0)|| KualiForm.document.actualExpenses[ctr].mileageIndicator || KualiForm.document.actualExpenses[ctr].airfareIndicator || KualiForm.document.actualExpenses[ctr].rentalCarIndicator }">
 			  				<table cellpadding="0" cellspacing="0" class="datatable">

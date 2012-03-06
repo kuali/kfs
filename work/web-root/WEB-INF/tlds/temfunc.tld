@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2010 The Kuali Foundation
  
@@ -14,28 +14,32 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd" version="2.0">
-
-    <description>TEM functions library</description>
-    <display-name>TEM functions</display-name>
-    <tlib-version>1.0</tlib-version>
-    <short-name>fn</short-name>
-    <uri>http://www.kuali.org/jsp/jstl/functions</uri>
-
-    <function>
-        <description>Parameterized Values Finder List!!</description>
-        <name>getOptionList</name>
-        <function-class>org.kuali.kfs.module.tem.web.JstlFunctions</function-class>
-        <function-signature>java.util.List getOptionList(java.lang.String, java.util.Map)</function-signature>
-        <example>&lt;c:forEach items="${tem-fn:getOptionList()}"&gt;></example>
-    </function>
-    
-    <function>
-        <description>Can Delete A Related Document</description>
-        <name>canDeleteDocumentRelationship</name>
-        <function-class>org.kuali.kfs.module.tem.web.JstlFunctions</function-class>
-        <function-signature>java.lang.Boolean canDeleteDocumentRelationship(java.lang.String, java.lang.String)</function-signature>
-        <example>&lt;c:if test="${tem-fn:canDeleteDocumentRelationship(documentNumber, relDocumentNumber)}"&gt;></example>
-    </function>
-        
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+ <description>TEM functions library</description>
+ <display-name>TEM functions</display-name>
+ <tlib-version>1.0</tlib-version>
+ <short-name>fn</short-name>
+ <uri>http://www.kuali.org/jsp/jstl/functions</uri>
+ <function>
+  <description>Parameterized Values Finder List!!</description>
+  <name>getOptionList</name>
+  <function-class>org.kuali.kfs.module.tem.web.JstlFunctions</function-class>
+  <function-signature>java.util.List getOptionList(java.lang.String, java.util.Map)</function-signature>
+  <example>&lt;c:forEach items="${tem-fn:getOptionList()}"&gt;&gt;</example>
+ </function>
+ <function>
+  <description>Can Delete A Related Document</description>
+  <name>canDeleteDocumentRelationship</name>
+  <function-class>org.kuali.kfs.module.tem.web.JstlFunctions</function-class>
+  <function-signature>java.lang.Boolean canDeleteDocumentRelationship(java.lang.String, java.lang.String)</function-signature>
+  <example>&lt;c:if test="${tem-fn:canDeleteDocumentRelationship(documentNumber, relDocumentNumber)}"&gt;&gt;</example>
+ </function>
+ <function>
+  <description>Add Numbers, return KualiDecimal</description>
+  <name>add</name>
+  <function-class>org.kuali.kfs.module.tem.web.JstlFunctions</function-class>
+  <function-signature>org.kuali.rice.kns.util.KualiDecimal add(java.lang.Object, java.lang.Object)</function-signature>
+  <example>&lt;c:if test="${tem-fn:add(number1, number2)}"&gt;&gt;</example>
+ </function>
 </taglib>

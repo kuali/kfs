@@ -63,9 +63,10 @@ public interface TravelExpenseService {
      * This method creates a new {@link HistoricalTravelExpense} from the {@link AgencyStagingData} and {@link CreditCardStagingData}.
      * @param agency
      * @param creditCard
+     * @param travelExpenseType
      * @return
      */
-    public HistoricalTravelExpense createHistoricalTravelExpense(AgencyStagingData agency, CreditCardStagingData creditCard);
+    public HistoricalTravelExpense createHistoricalTravelExpense(AgencyStagingData agency, CreditCardStagingData creditCard, TemTravelExpenseTypeCode travelExpenseType);
 
     /**
      * 

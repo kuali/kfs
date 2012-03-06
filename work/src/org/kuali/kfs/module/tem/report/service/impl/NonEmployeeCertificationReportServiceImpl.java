@@ -91,7 +91,8 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
             report.setDestination(getDestination((TravelRelocationDocument) travelDocument));
             report.setEventType(TravelRelocationParameters.PARAM_DTL_TYPE);
         }else if (travelDocument instanceof TravelEntertainmentDocument) {
-            report.setEventType(TravelEntertainmentParameters.PARAM_DTL_TYPE);
+            report.setEventType(((TravelEntertainmentDocument)travelDocument).getPurpose().getPurposeName());
+            report.setEventName(((TravelEntertainmentDocument)travelDocument).getEventTitle());
         }
                        
         //Lookup the Organization Name of the initiator's primary department for the Approving Department

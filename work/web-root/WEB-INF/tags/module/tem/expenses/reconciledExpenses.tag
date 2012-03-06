@@ -71,7 +71,7 @@
 				<div align="center">
 					<c:choose>
 						<c:when test="${KualiForm.document.historicalTravelExpenses[ctr].agencyStagingDataId != null}">
-							${KualiForm.document.historicalTravelExpenses[0].agencyStagingData.agency}
+							${KualiForm.document.historicalTravelExpenses[ctr].agencyStagingData.agency}
 						</c:when>
 						<c:otherwise>
 							${KualiForm.document.historicalTravelExpenses[ctr].creditCardAgency.creditCardType.financialDocumentCreditCardCompanyName}

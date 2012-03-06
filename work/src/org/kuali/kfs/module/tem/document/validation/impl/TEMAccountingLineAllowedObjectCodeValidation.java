@@ -25,7 +25,10 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
+import org.kuali.kfs.module.tem.businessobject.AbstractExpense;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
+import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -33,6 +36,7 @@ import org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentatio
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
+import org.kuali.kfs.module.tem.util.SourceAccountingLineComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -76,10 +80,13 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
         
         boolean valid = true;
         String errorPath = TemPropertyConstants.NEW_SOURCE_ACCTG_LINE;
-        if (travelDocument.getSourceAccountingLines().contains(line)) {
-            errorPath = "document." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + travelDocument.getSourceAccountingLines().indexOf(line) + "]";
+        for (TemSourceAccountingLine sourceLine : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
+            if (line.equals(sourceLine)){
+                errorPath = "document." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + travelDocument.getSourceAccountingLines().indexOf(line) + "]";
+                break;
+            }
         }
-        
+                
         // Test added accounting lines for null values and if there is an access change.
         valid = SpringContext.getBean(TravelDocumentService.class).validateSourceAccountingLines(travelDocument, false);
 
@@ -111,47 +118,92 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
             }
         }
         
-        //Fly America validation
-        if (event.getDocument() instanceof TravelAuthorizationDocument) {
-            TravelAuthorizationDocument document = (TravelAuthorizationDocument) event.getDocument();
-            if (document.getImportedExpenses().size() > 0){
+
+        if (line.getAmount().isLessEqual(KualiDecimal.ZERO)) {
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_CUSTOM, "Amount must be greater than zero.");
+            valid &= false;
+        }
+        
+        if (valid){
+          //Fly America validation
+            TravelDocument document = (TravelDocument) event.getDocument();
+            List<TEMExpense> allExpenses = new ArrayList<TEMExpense>();
+            allExpenses.addAll(document.getImportedExpenses());
+            allExpenses.addAll(document.getActualExpenses());
+            if (allExpenses.size() > 0){
                 boolean hasAttachment = false;
+                boolean showFlyAmerica = false;
                 for (Note note : (List<Note>)document.getBoNotes()){
                     if (note.getAttachment() != null){
                         hasAttachment = true;
                         break;
                     }
                 }
-                for (ImportedExpense importedExpense : document.getImportedExpenses()){
-                    if (importedExpense.getTravelCompanyCodeCode().equals(TemConstants.ExpenseTypes.PREPAID_AIRFARE)){
-                        Map<String,Object> fieldValues = new HashMap<String, Object>();
-                        fieldValues.put(KNSPropertyConstants.CODE,TemConstants.ExpenseTypes.PREPAID_AIRFARE);
-                        fieldValues.put(KNSPropertyConstants.NAME,importedExpense.getTravelCompanyCodeName());
-                        TravelCompanyCode travelCompany = (TravelCompanyCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TravelCompanyCode.class, fieldValues);
-                        if (travelCompany != null && travelCompany.isForeignCompany()){
-                            String financialObjectCode = importedExpense.getTravelExpenseTypeCode() != null ? importedExpense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
-                            if (financialObjectCode != null && financialObjectCode.equals(line.getFinancialObjectCode())){
-                                boolean isAccount = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.ParameterNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
-                                if (isAccount){
-                                    String cgAccount = SpringContext.getBean(ParameterService.class).getParameterValue(KFSConstants.ParameterNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
-                                    if (cgAccount.equals(line.getAccountNumber())){
-                                        if (!hasAttachment){
-                                            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, TemKeyConstants.ERROR_ACCOUNTING_LINE_CG);
-                                            valid &= false;
-                                        }
+                boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.ParameterNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
+                if (isCGEnabled){   
+                    for (TEMExpense expense : allExpenses){
+                        if (expense.getTravelCompanyCodeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
+                            Map<String,Object> fieldValues = new HashMap<String, Object>();
+                            fieldValues.put(KNSPropertyConstants.CODE,TemConstants.ExpenseTypes.AIRFARE);
+                            fieldValues.put(KNSPropertyConstants.NAME,expense.getTravelCompanyCodeName());
+                            TravelCompanyCode travelCompany = (TravelCompanyCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TravelCompanyCode.class, fieldValues);
+                            if (travelCompany != null && travelCompany.isForeignCompany()){
+                                String financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
+                                if (travelDocument instanceof TravelAuthorizationDocument && expense instanceof ActualExpense){
+                                    if (document.getTripType() != null) {
+                                        financialObjectCode = document.getTripType().getEncumbranceObjCode();
+                                    }
+                                }
+                                if (financialObjectCode != null && financialObjectCode.equals(line.getFinancialObjectCode())){
+                                    String cg = SpringContext.getBean(ParameterService.class).getParameterValue(KFSConstants.ParameterNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
+                                    if (line.getAccount() == null){
+                                        line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+                                    }
+                                    if (line.getAccount().getSubFundGroup() == null){
+                                        line.refreshReferenceObject(KFSPropertyConstants.SUB_FUND_GROUP);
+                                    }
+                                    if (line.getAccount().getSubFundGroup().getFundGroupCode().equals(cg)){
+                                        showFlyAmerica = true;
                                     }
                                 }
                             }
                         }
                     }
                 }
+                
+                //Fly America error has been triggered, determine what accounting line to show it on.
+                if (showFlyAmerica && !hasAttachment){
+                    boolean newLine = true;
+                    for (TemSourceAccountingLine sourceLine : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
+                        if (line.equals(sourceLine)){
+                            newLine = false;
+                        }
+                    }
+                    //if line is a new accounting line or a current one being saved/submitted in the document.
+                    //figure out where the new accounting line will be added and set the error to that line #
+                    if (newLine) {
+                        GlobalVariables.getMessageMap().clearErrorPath();
+                        SourceAccountingLineComparator comparator = new SourceAccountingLineComparator();
+                        
+                        int newIndex = 0;
+                        for (TemSourceAccountingLine sourceLine : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
+                            if (comparator.compare(line,sourceLine) < 0){
+                                newIndex = sourceLine.getSequenceNumber().intValue() - 1;
+                                break;
+                            }
+                            else{
+                                newIndex++;
+                            }
+                        }
+                        errorPath = "document." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + newIndex + "]";
+                        GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+                    }
+                    
+                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, TemKeyConstants.ERROR_ACCOUNTING_LINE_CG);
+                }
             }
         }
         
-        if (line.getAmount().isLessEqual(KualiDecimal.ZERO)) {
-            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_CUSTOM, "Amount must be greater than zero.");
-            valid &= false;
-        }
         
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().getErrorPath().addAll(errors);

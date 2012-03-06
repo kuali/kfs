@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-
+<%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
 
 <c:set var="documentAttributes" value="${DataDictionary.TravelReimbursementDocument.attributes}" />
 <c:set var="distributionAttributes" value="${DataDictionary.AccountingDistribution.attributes}" />
@@ -40,8 +40,7 @@
 				<c:set var="selectedValue" value="${0.00}" />
 				<c:choose>
 					<c:when test="${fn:length(KualiForm.distribution) > 0}">
-						<logic:iterate indexId="ctr" name="KualiForm"
-							property="distribution" id="dist">
+						<logic:iterate indexId="ctr" name="KualiForm" property="distribution" id="dist">
 							<tr>
 								<c:set var="disabled" value="${(dist.remainingAmount == 0 || !fullEntryMode)?'disabled=disabled':''}" />
 								<c:set var="checked" value="${(dist.selected && !(dist.remainingAmount == 0 || !fullEntryMode))?'checked=checked':''}" />
@@ -56,8 +55,7 @@
 										<c:otherwise>
 											&nbsp;
 										</c:otherwise>
-									</c:choose>
-									
+									</c:choose>									
 								</td>
 								<td class="bord-1-b">
 									<kul:htmlControlAttribute
@@ -89,9 +87,9 @@
 										property="distribution[${ctr}].remainingAmount"
 										readOnly="true" />
 								</td>
-								<c:set var="tempValue" value="${dist.remainingAmount + tempValue}" />
+								<c:set var="tempValue" value="${temfunc:add(dist.remainingAmount,tempValue)}" />
 								<c:set var="selectedCount" value="${selectedCount + (dist.selected?1:0)}" />
-								<c:set var="selectedValue" value="${selectedValue + (dist.selected?dist.subTotal:0)}" />
+								<c:set var="selectedValue" value="${temfunc:add(selectedValue,(dist.selected?dist.subTotal:0))}" />
 							</tr>
 						</logic:iterate>
 					</c:when>

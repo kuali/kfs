@@ -93,7 +93,7 @@ public class AddActualExpenseDetailEvent implements Observer {
                 // TODO Auto-generated catch block
                 ex.printStackTrace();
             }
-            if (detailTotal.isLessThan(line.getExpenseAmount())){
+            if (detailTotal.isLessEqual(line.getExpenseAmount())){
                 KualiDecimal remainderExpense = line.getExpenseAmount().subtract(detailTotal);
                 KualiDecimal remainderConverted = line.getConvertedAmount().subtract(detailTotal.multiply(line.getCurrencyRate()));
                 newExpense.setExpenseAmount(remainderExpense);

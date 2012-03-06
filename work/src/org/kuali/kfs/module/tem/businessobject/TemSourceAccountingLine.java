@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -72,5 +73,18 @@ public class TemSourceAccountingLine extends SourceAccountingLine implements Tem
         // TODO Auto-generated method stub
         Map temp = super.getValuesMap();
         return temp;
+    }
+    
+    /**
+     * Override needed for PURAP GL entry creation (hjs) - please do not add "amount" to this method
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AccountingLine)) {
+            return false;
+        }
+        AccountingLine accountingLine = (AccountingLine) obj;
+        return new EqualsBuilder().append(this.getChartOfAccountsCode(), accountingLine.getChartOfAccountsCode()).append(this.getAccountNumber(), accountingLine.getAccountNumber()).append(this.getSubAccountNumber(), accountingLine.getSubAccountNumber()).append(this.getFinancialObjectCode(), accountingLine.getFinancialObjectCode()).append(this.getFinancialSubObjectCode(), accountingLine.getFinancialSubObjectCode()).append(this.getProjectCode(), accountingLine.getProjectCode()).append(this.getOrganizationReferenceId(), accountingLine.getOrganizationReferenceId()).append(this.getAmount(), accountingLine.getAmount()).isEquals();
     }
 }

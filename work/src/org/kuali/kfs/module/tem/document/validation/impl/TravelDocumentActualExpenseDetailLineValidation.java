@@ -35,8 +35,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocumentExpenseLineValidation {
-
-    
+   
     public TravelDocumentActualExpenseDetailLineValidation() {
         super();
         // TODO Auto-generated constructor stub
@@ -59,8 +58,7 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocument
     }
 
     public boolean validateDetail(ActualExpense actualExpense, ActualExpense actualExpenseDetail, TravelDocument travelDocument){
-        boolean success = true;
-        success = getDictionaryValidationService().isBusinessObjectValid(actualExpenseDetail, "");
+        boolean success = getDictionaryValidationService().isBusinessObjectValid(actualExpenseDetail, "");
 
         if (success) {
             if (actualExpense.isMileage()) {
@@ -68,32 +66,30 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocument
             }
             else {
                 if (actualExpenseDetail.getExpenseAmount().isLessEqual(KualiDecimal.ZERO)) {
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_TEM_IMPORT_DETAIL_LESS_THAN_ZERO);
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_LESS_THAN_ZERO);
                     return false;
                 }
-                //Will be true if this method occurs in the routing vallidation
+                //Will be true if this method occurs in the routing validation
                 if (actualExpense.getExpenseDetails().contains(actualExpenseDetail)){
                     return success;
                 }
-                if (actualExpenseDetail.getCurrencyRate().equals(new KualiDecimal(1))) {
-                    /*
-                     * Determine if the detail is an amount that doesn't go over the threshold 
-                     */
-                    KualiDecimal total = KualiDecimal.ZERO;
-                    for (TEMExpense detail : actualExpense.getExpenseDetails()) {
-                        total = total.add(detail.getConvertedAmount()); 
-                    }
-                    KualiDecimal remainder = actualExpense.getConvertedAmount().subtract(total);
-                    if (actualExpenseDetail.getConvertedAmount().isGreaterThan(remainder)) {
-                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_TEM_IMPORT_DETAIL_GREATER_THAN_EXPENSE);
-                        return false;
-                    }
+                /*
+                 * Determine if the detail is an amount that doesn't go over the threshold 
+                 */
+                KualiDecimal total = KualiDecimal.ZERO;
+                for (TEMExpense detail : actualExpense.getExpenseDetails()) {
+                    total = total.add(detail.getExpenseAmount()); 
+                }
+                KualiDecimal remainder = actualExpense.getExpenseAmount().subtract(total);
+                if (actualExpenseDetail.getExpenseAmount().isGreaterThan(remainder)) {
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_GREATER_THAN_EXPENSE);
+                    return false;
                 }
             }
         }
 
         if (success && !actualExpenseDetail.getCurrencyRate().equals(new KualiDecimal(1))) {
-            GlobalVariables.getMessageMap().putInfo(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.INFO_TEM_IMPORT_CURRENCY_CONVERSION);
+            GlobalVariables.getMessageMap().putInfo(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.INFO_TEM_IMPORT_CURRENCY_CONVERSION);
         }
         
         return success;

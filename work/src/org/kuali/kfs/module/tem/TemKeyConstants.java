@@ -61,7 +61,7 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String WARNING_NOTES_JUSTIFICATION = "warning.document.tem.actualexpense.notesJustification";
 
     // errors
-    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "newTravelAdvanceLine.*,document.travelAdvances.*";
+    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "newTravelAdvanceLine.*,document.travelAdvances*";
 
     public static final String TRVL_AUTH_TRIP_OVERVIEW_ERRORS = "tripInfoUpdateTripDetails.*,document.tripBegin,document.tripEnd,document.tripTypeCode,document.primaryDestinationName," +
                                                                 "document.travelerTypeCode,document.firstName,document.lastName,document.streetAddressLine1,"+
@@ -100,6 +100,7 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String ERROR_TA_TRVL_ADV_DUE_DATE_INVALID = "error.document.tem.travel.advance.due.date.invalid";
     public static final String ERROR_TA_TRVL_ADV_POLICY = "error.document.tem.travel.advance.policy";
     public static final String ERROR_TA_TRVL_ADV_ADD_JUST = "error.document.tem.travel.advance.additional.justification";
+    public static final String ERROR_TA_TRVL_ADV_DUE_DATE_MISSING = "error.document.tem.travel.advance.due.date.missing";
     public static final String ERROR_TA_TRIP_BEGIN_EMPTY = "error.document.tem.tripBeginEmpty";
     public static final String ERROR_TA_TRIP_END_EMPTY= "error.document.tem.tripEndEmpty";
     public static final String ERROR_TA_TRIP_TYPE_CD_EMPTY = "error.document.tem.tripTypeCodeEmpty";
@@ -215,6 +216,8 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_TOTAL="error.tem.distribution.accountingline.total";
     public static final String ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_AMOUNT_OR_PERCENT="error.tem.distribution.accountingline.amount.or.percent";
     public static final String ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE="error.tem.accountingline.objectcode";
+    public static final String ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL="error.tem.accountingline.objectcode.total";
+
     
     public static final String ERROR_TEM_IMPORT_EXPENSES_PROFILE_MISSING="error.document.tem.travel.import.profile.missing";
     public static final String ERROR_TEM_IMPORT_EXPENSES_PRIMARY_DESTINATION_MISSING="error.document.tem.travel.import.primary.destination.missing";
@@ -222,8 +225,9 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String INFO_TEM_IMPORT_CURRENCY_CONVERSION="info.document.tem.travel.import.currency.conversion";
     public static final String INFO_TEM_IMPORT_DOCUMENT_SAVE="info.document.auto.save";
     
-    public static final String ERROR_TEM_IMPORT_DETAIL_GREATER_THAN_EXPENSE="error.document.import.detail.greater.than.expense";
-    public static final String ERROR_TEM_IMPORT_DETAIL_LESS_THAN_ZERO="error.document.import.detail.less.than.zero";
+    public static final String ERROR_TEM_DETAIL_GREATER_THAN_EXPENSE="error.document.detail.greater.than.expense";
+    public static final String ERROR_TEM_DETAIL_LESS_THAN_EXPENSE="error.document.detail.less.than.expense";
+    public static final String ERROR_TEM_DETAIL_LESS_THAN_ZERO="error.document.detail.less.than.zero";
     
     //TMCP errors
     public static final String ERROR_TMCP_SYSTEMFIELD_REQUIRED = "error.tem.correction.systemfield.required";

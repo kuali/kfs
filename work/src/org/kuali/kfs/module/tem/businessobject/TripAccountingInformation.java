@@ -24,6 +24,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -42,6 +45,9 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     private String projectCode;
     private String organizationReference;
     private KualiDecimal amount;
+    
+    private Account account;
+    private SubAccount subAccount;
     
     public TripAccountingInformation() {
     }
@@ -223,6 +229,38 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
      */
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;
+    }
+
+    /**
+     * Gets the account attribute. 
+     * @return Returns the account.
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute value.
+     * @param account The account to set.
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the subAccount attribute. 
+     * @return Returns the subAccount.
+     */
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    /**
+     * Sets the subAccount attribute value.
+     * @param subAccount The subAccount to set.
+     */
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
     }
 
 }

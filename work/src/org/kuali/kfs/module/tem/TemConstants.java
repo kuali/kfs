@@ -158,9 +158,6 @@ public class TemConstants extends JSTLConstants {
         public static final String TEM_BARCODE_STYLE = "TEM_BARCODE_STYLE";
         public static final String UPLOAD_PARSER_INSTRUCTIONS_URL = "UPLOAD_PARSER_INSTRUCTIONS_URL";
 
-
-        public static final String CHECK_ACH_PAYMENT = "P";
-
         public static final String TRAVEL_AUTHORIZATION_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION = "TRAVEL_AUTHORIZATION_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION";
         public static final String TRAVEL_EXPENSE_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION = "TRAVEL_EXPENSE_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION";
 
@@ -168,6 +165,8 @@ public class TemConstants extends JSTLConstants {
         public static final String ON_CHANGE_NOTIFICATION_ENABLED_IND = "ON_CHANGE_NOTIFICATION_ENABLED_IND";
         public static final String TRAVEL_DOCUMENT_NOTIFICATION_SUBJECT = "TRAVEL_DOCUMENT_NOTIFICATION_SUBJECT";
         public static final String TEM_EMAIL_SENDER_PARAM_NAME = "TEM_EMAIL_SENDER";
+
+        public static final String VENDOR_PAYMENT_DV_REASON_CODE = "VENDOR_PAYMENT_DV_REASON_CODE";
     }
 
     public static class TravelAuthorizationParameters {
@@ -177,8 +176,6 @@ public class TemConstants extends JSTLConstants {
         public static final String TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR = "TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR";
         public static final String TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE = "TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE";
         // public static final String VALID_OBJECT_CODES = "VALID_OBJECT_CODES";
-        public static final String WIRE_TRANSFER_PAYMENT = "W";
-        public static final String FOREIGN_DRAFT_PAYMENT = "F";
         public static final String ENABLE_DV_FOR_TRAVEL_ADVANCE_IND = "ENABLE_DV_FOR_TRAVEL_ADVANCE_IND";
         public static final String ENABLE_CONTACT_INFORMATION_IND = "ENABLE_CONTACT_INFORMATION_IND";
         public static final String TRAVELER_AR_CUSTOMER_TYPE = "TRAVELER_AR_CUSTOMER_TYPE";
@@ -237,10 +234,8 @@ public class TemConstants extends JSTLConstants {
         public static final String DEFAULT_CHART_CODE = "DEFAULT_CHART_CODE";
         public static final String RELOCATION_DOCUMENTATION_LOCATION_CODE = "RELOCATION_DOCUMENTATION_LOCATION_CODE";
         public static final String RELO_REIMBURSEMENT_DV_REASON_CODE = "RELO_REIMBURSEMENT_DV_REASON_CODE";
-        public static final String VENDOR_PAYMENT_DV_REASON_CODE = "VENDOR_PAYMENT_DV_REASON_CODE";
         public static final String DV_PAYEE_TYPE_CODE_C = "C";
         public static final String DV_PAYEE_TYPE_CODE_V = "V";
-        public static final String DV_DEFAULT_PAYMENT_METHOD_CODE = "P";
     }
 
     public static class TravelEntertainmentParameters {
@@ -408,6 +403,10 @@ public class TemConstants extends JSTLConstants {
     public static final String TEM_PROFILE_HOME_DEPARTMENT = "homeDepartment";
     public static final String TEM_PROFILE_HOME_DEPT_ORG_CODE = "homeDeptOrgCode";
     public static final String TEM_PROFILE_HOME_DEPT_COA_CODE = "homeDeptChartOfAccountsCode";
+    
+    public static final String TEM_AGENCY_DATA_SEARCH_ACCOUNT = "searchAccountNumber";
+    public static final String TEM_AGENCY_DATA_SEARCH_SUB_ACCOUNT = "searchSubAccountNumber";
+    public static final String TEM_AGENCY_DATA_SEARCH_CHART_CODE = "searchChartOfAccountsCode";
 
     public static final class AttachmentTypeCodes {
         public static final String ATTACHMENT_TYPE_RECEIPT = "Receipt";
@@ -690,5 +689,17 @@ public class TemConstants extends JSTLConstants {
     
     public static final String TRAVEL_EXPENSES_KEY = "travelExpenses";
     public static final String TRAVELER_PROFILE_KEY = "travelerProfile";
+    
+    public static final class DisbursementVoucherPaymentMethods {
+        public static final String CHECK_ACH_PAYMENT_METHOD_CODE = "P";
+        public static final String WIRE_TRANSFER_PAYMENT_METHOD_CODE = "W";
+        public static final String FOREIGN_DRAFT_PAYMENT_METHOD_CODE = "F";
+    }
+    
+    public static final class ExpenseTypeReimbursementCodes {
+        public static final String ALL = "A";
+        public static final String NON_REIMBURSABLE = "N";
+        public static final String REIMBURSABLE = "R";
+    }
 
 }

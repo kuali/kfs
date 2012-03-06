@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,9 +25,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -36,14 +42,36 @@ public class TravelDisbursementVoucherAction extends org.kuali.kfs.fp.document.w
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
-        TravelDisbursementVoucherForm travelDVForm = (TravelDisbursementVoucherForm) form;
-        if (travelDVForm.getTemDocID() != null) {
-            TravelDocumentBase document = (TravelDocumentBase) getDocumentService().getByDocumentHeaderId(travelDVForm.getTemDocID().toString());
-            DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) travelDVForm.getDocument();
-            document.populateDisbursementVoucherFields(dvDoc);
+        TravelDisbursementVoucherForm travelDisbursementVoucherForm = (TravelDisbursementVoucherForm) form;
+        if (travelDisbursementVoucherForm.getTemDocID() != null) {
+            TravelDocumentBase document = (TravelDocumentBase) getDocumentService().getByDocumentHeaderId(travelDisbursementVoucherForm.getTemDocID().toString());
+            DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) travelDisbursementVoucherForm.getDocument();
+            document.populateVendorPayment(disbursementVoucherDocument);
+            if (document.getTemProfile() == null) {
+                document.setProfileId(document.getTemProfileId());
+            }
+            if (document.getTemProfile() != null) {
+                travelDisbursementVoucherForm.getNewSourceLine().setChartOfAccountsCode(document.getTemProfile().getDefaultChartCode());
+                travelDisbursementVoucherForm.getNewSourceLine().setAccountNumber(document.getTemProfile().getDefaultAccount());
+                
+                SourceAccountingLine line = new SourceAccountingLine();
+                disbursementVoucherDocument.addSourceAccountingLine(line);
+            }
+            if (document.getSourceAccountingLines() != null) {
+                List<TemSourceAccountingLine> newList = new ArrayList<TemSourceAccountingLine>();
+                int sequence = 1;
+                for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
+                    if (!line.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
+                        line.setSequenceNumber(new Integer(sequence));
+                        sequence++;
+                        newList.add(line);
+                    }
+                }
+                disbursementVoucherDocument.setSourceAccountingLines(newList);
+            }
             
             String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentType() + " - DV";
-            SpringContext.getBean(AccountingDocumentRelationshipService.class).save(new AccountingDocumentRelationship(document.getDocumentNumber(), travelDVForm.getDocument().getDocumentNumber(), relationDescription));
+            SpringContext.getBean(AccountingDocumentRelationshipService.class).save(new AccountingDocumentRelationship(document.getDocumentNumber(), travelDisbursementVoucherForm.getDocument().getDocumentNumber(), relationDescription));
         }
         return forward;
     }

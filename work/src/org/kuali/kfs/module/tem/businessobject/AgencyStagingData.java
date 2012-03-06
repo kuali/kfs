@@ -28,6 +28,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -47,11 +50,14 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
     // Agency Information
     private Integer agencyDataId;
     private String creditCardOrAgencyCode;
+    private Integer cardId; 
     private String agency;
     private String otherCompanyName;
     private String agencyFileName;
     private String merchantName;
     private Date billingCycleDate;
+    
+    private CreditCardAgency creditCardAgency;
     
     // Trip Information
     private String tripId;
@@ -71,6 +77,16 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
     private ArrayList<TripAccountingInformation> tripAccountingInformation;
     private String groupObjectCode;
     private String distributionCode; // diCode
+
+
+    //Used strictly for searching, never stored in the db
+    private String searchChartOfAccountsCode;
+    private String searchAccountNumber;
+    private String searchSubAccountNumber;
+    
+    private Chart searchChart;
+    private Account searchAccount;
+    private SubAccount searchSubAccount;
     
     // Airline Information
     private Date tripDepartureDate;
@@ -1467,6 +1483,27 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
     }
 
     /**
+     * 
+     * This method returns the expense type name based on whether the Air Ticket Number, 
+     * Lodging Itinerary Number or Rental Car Itinerary Number is set.
+     * @return
+     */
+    public String getExpenseTypeName() {
+        
+        String expenseType = ExpenseTypes.AIRFARE;
+        if (StringUtils.isNotEmpty(this.getAirTicketNumber())) {
+            expenseType = ExpenseTypes.AIRFARE;
+        }
+        else if (StringUtils.isNotEmpty(this.getLodgingItineraryNumber())) {
+            expenseType = ExpenseTypes.LODGING;
+        }
+        else if (StringUtils.isNotEmpty(this.getRentalCarItineraryNumber())) {
+            expenseType = ExpenseTypes.RENTAL_CAR;
+        }
+        return expenseType;
+    }
+
+    /**
      * Gets the profile attribute. 
      * @return Returns the profile.
      */
@@ -1496,6 +1533,134 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
      */
     public void setImportBy(String importBy) {
         this.importBy = importBy;
+    }
+
+    /**
+     * Gets the creditCardAgency attribute. 
+     * @return Returns the creditCardAgency.
+     */
+    public CreditCardAgency getCreditCardAgency() {
+        return creditCardAgency;
+    }
+
+    /**
+     * Sets the creditCardAgency attribute value.
+     * @param creditCardAgency The creditCardAgency to set.
+     */
+    public void setCreditCardAgency(CreditCardAgency creditCardAgency) {
+        this.creditCardAgency = creditCardAgency;
+    }
+
+    /**
+     * Gets the cardId attribute. 
+     * @return Returns the cardId.
+     */
+    public Integer getCardId() {
+        return cardId;
+    }
+
+    /**
+     * Sets the cardId attribute value.
+     * @param cardId The cardId to set.
+     */
+    public void setCardId(Integer cardId) {
+        this.cardId = cardId;
+    }
+
+    /**
+     * Gets the searchChartOfAccountsCode attribute. 
+     * @return Returns the searchChartOfAccountsCode.
+     */
+    public String getSearchChartOfAccountsCode() {
+        return searchChartOfAccountsCode;
+    }
+
+    /**
+     * Sets the searchChartOfAccountsCode attribute value.
+     * @param searchChartOfAccountsCode The searchChartOfAccountsCode to set.
+     */
+    public void setSearchChartOfAccountsCode(String searchChartOfAccountsCode) {
+        this.searchChartOfAccountsCode = searchChartOfAccountsCode;
+    }
+
+    /**
+     * Gets the searchAccountNumber attribute. 
+     * @return Returns the searchAccountNumber.
+     */
+    public String getSearchAccountNumber() {
+        return searchAccountNumber;
+    }
+
+    /**
+     * Sets the searchAccountNumber attribute value.
+     * @param searchAccountNumber The searchAccountNumber to set.
+     */
+    public void setSearchAccountNumber(String searchAccountNumber) {
+        this.searchAccountNumber = searchAccountNumber;
+    }
+
+    /**
+     * Gets the searchSubAccountNumber attribute. 
+     * @return Returns the searchSubAccountNumber.
+     */
+    public String getSearchSubAccountNumber() {
+        return searchSubAccountNumber;
+    }
+
+    /**
+     * Sets the searchSubAccountNumber attribute value.
+     * @param searchSubAccountNumber The searchSubAccountNumber to set.
+     */
+    public void setSearchSubAccountNumber(String searchSubAccountNumber) {
+        this.searchSubAccountNumber = searchSubAccountNumber;
+    }
+
+    /**
+     * Gets the searchChart attribute. 
+     * @return Returns the searchChart.
+     */
+    public Chart getSearchChart() {
+        return searchChart;
+    }
+
+    /**
+     * Sets the searchChart attribute value.
+     * @param searchChart The searchChart to set.
+     */
+    public void setSearchChart(Chart searchChart) {
+        this.searchChart = searchChart;
+    }
+
+    /**
+     * Gets the searchAccount attribute. 
+     * @return Returns the searchAccount.
+     */
+    public Account getSearchAccount() {
+        return searchAccount;
+    }
+
+    /**
+     * Sets the searchAccount attribute value.
+     * @param searchAccount The searchAccount to set.
+     */
+    public void setSearchAccount(Account searchAccount) {
+        this.searchAccount = searchAccount;
+    }
+
+    /**
+     * Gets the searchSubAccount attribute. 
+     * @return Returns the searchSubAccount.
+     */
+    public SubAccount getSearchSubAccount() {
+        return searchSubAccount;
+    }
+
+    /**
+     * Sets the searchSubAccount attribute value.
+     * @param searchSubAccount The searchSubAccount to set.
+     */
+    public void setSearchSubAccount(SubAccount searchSubAccount) {
+        this.searchSubAccount = searchSubAccount;
     }
 
 }

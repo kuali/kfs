@@ -22,7 +22,7 @@
 
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Moving And Relocation Information">     	
 		<tr>
-            <th class="bord-l-b">
+            <th class="bord-l-b" >
 	            <div align="right">
 	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.reasonCode}" />
 	           	</div>
@@ -32,16 +32,16 @@
             </td>            
        </tr>
        <tr>
-            <th>
+            <th width="25%">
             	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.tripBegin}" readOnly="true" /></div>
             </th>
-            <td class="datacell">
+            <td class="datacell" width="25%">
             	<kul:htmlControlAttribute attributeEntry="${documentAttributes.tripBegin}" property="document.tripBegin"  readOnly="${!fullEntryMode}"/>
 			</td>
-			<th>
+			<th width="25%">
             	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.tripEnd}" readOnly="true" /></div>
             </th>
-            <td class="datacell">
+            <td class="datacell" width="25%">
             	<kul:htmlControlAttribute attributeEntry="${documentAttributes.tripEnd}" property="document.tripEnd"  readOnly="${!fullEntryMode}"/>
 			</td>            
        </tr>       	

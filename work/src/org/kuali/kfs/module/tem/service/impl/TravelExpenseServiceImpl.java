@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ReconciledCodes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -150,8 +151,9 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         
         CreditCardAgency ccAgency = this.getCreditCardAgency(agency.getCreditCardOrAgencyCode());
         expense.setCreditCardAgencyId(ccAgency.getId());
-        expense.setCreditCardAgency(ccAgency);               
-        expense.setTravelExpenseType(agency.getExpenseType());        
+        expense.setCreditCardAgency(ccAgency); 
+        expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
+        expense.setTravelExpenseType(agency.getExpenseType());     
         expense.setTravelCompany(agency.getMerchantName());
         expense.setAmount(agency.getTripExpenseAmount());
         expense.setTransactionPostingDate(agency.getTransactionPostingDate());
@@ -161,8 +163,28 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         
         expense.setReconciled(ReconciledCodes.UNRECONCILED);
         expense.setReconciliationDate(dateTimeService.getCurrentSqlDate());
-        
+
+        // Imports by Traveler don't have access to TemTravelExpenseType due to not having a doc type or trip type, so use TravelExpenseTypeCode. 
+        if (agency.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
+            TravelExpenseTypeCode travelExpense = getTravelExpenseTypeCode(expense.getTravelExpenseType());
+            if (ObjectUtils.isNotNull(travelExpense)) {
+                expense.setTravelExpenseTypeString(travelExpense.getName());
+            }
+        }
+
         return expense;
+    }
+    
+    /**
+     * 
+     * This method returns a {@link TravelExpenseTypeCode}. This is needed to convert from the code to the name for imports by traveler.
+     * @param expenseType
+     * @return
+     */
+    protected TravelExpenseTypeCode getTravelExpenseTypeCode(String expenseType) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put(KFSPropertyConstants.CODE, expenseType);
+        return (TravelExpenseTypeCode) getBusinessObjectService().findByPrimaryKey(TravelExpenseTypeCode.class, primaryKeys);
     }
 
     @Override
@@ -178,6 +200,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         
         CreditCardAgency ccAgency = this.getCreditCardAgency(creditCard.getCreditCardOrAgencyCode());
         expense.setCreditCardAgencyId(ccAgency.getId());
+        expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
 
         expense.setTravelExpenseType(creditCard.getExpenseTypeCode()); 
         expense.setDescription(creditCard.getExpenseTypeCode());
@@ -192,14 +215,24 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         expense.setReconciled(ReconciledCodes.UNRECONCILED);
         expense.setReconciliationDate(dateTimeService.getCurrentSqlDate());
 
+        // Imports by Traveler don't have access to TemTravelExpenseType due to not having a doc type or trip type, so use TravelExpenseTypeCode. 
+        if (creditCard.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
+            TravelExpenseTypeCode travelExpense = getTravelExpenseTypeCode(expense.getTravelExpenseType());
+            if (ObjectUtils.isNotNull(travelExpense)) {
+                expense.setTravelExpenseTypeString(travelExpense.getName());
+            }
+        }
+
         return expense;
     }
 
     @Override
-    public HistoricalTravelExpense createHistoricalTravelExpense(AgencyStagingData agency, CreditCardStagingData creditCard) {
+    public HistoricalTravelExpense createHistoricalTravelExpense(AgencyStagingData agency, CreditCardStagingData creditCard, TemTravelExpenseTypeCode travelExpenseType) {
         HistoricalTravelExpense expense = createHistoricalTravelExpense(agency);
         expense.setLocation(creditCard.getLocation());
         expense.setCreditCardStagingDataId(creditCard.getId());
+        expense.setReconciled(ReconciledCodes.AUTO_RECONCILED);
+        expense.setTravelExpenseTypeString(travelExpenseType.getName());
         return expense;
     }
     

@@ -18,13 +18,13 @@ package org.kuali.kfs.module.tem.document.service.impl;
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.DV_DEFAULT_PAYMENT_METHOD_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.DV_PAYEE_TYPE_CODE_C;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.DV_PAYEE_TYPE_CODE_V;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELO_REIMBURSEMENT_DV_REASON_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.VENDOR_PAYMENT_DV_REASON_CODE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.VENDOR_PAYMENT_DV_REASON_CODE;
+import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_DV_IN_ACTION_LIST;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_RELO_DV_IN_ACTION_LIST;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
@@ -292,10 +292,46 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         return cover;
     }
     
+    public void createDVReimbursement(TravelRelocationDocument document){
+        // change current user to be the submitter of the original doc
+//        String principalName = SpringContext.getBean(PersonService.class).getPerson(relocation.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
+//        GlobalVariables.setUserSession(new UserSession(principalName));
+//        
+//        DisbursementVoucherDocument dvDocument = null;
+//        try {
+//            dvDocument = (DisbursementVoucherDocument) documentService.getNewDocument(DisbursementVoucherDocument.class);
+//        }
+//        catch (Exception e) {
+//            error("Error creating new disbursement voucher document: ", e.getMessage());
+//            throw new RuntimeException("Error creating new disbursement voucher document: " + e.getMessage(), e);
+//        }
+//        
+//        populateDisbursementVoucherFieldsForReimbursement(dvDocument, relocation);
+//        try{
+//            dvDocument.prepareForSave();
+//            businessObjectService.save(dvDocument);
+//            
+//            String annotation = "Saved by system in relation to Travel Relocation Document: " + relocation.getDocumentNumber();
+//            getWorkflowDocumentService().save(dvDocument.getDocumentHeader().getWorkflowDocument(), annotation);
+//            
+//            getMessageList().add(MESSAGE_RELO_DV_IN_ACTION_LIST, dvDocument.getDocumentNumber());
+//        }
+//        catch (Exception ex1) {
+//            // if we can't save DV, need to stop processing
+//            error("cannot save DV ", dvDocument.getDocumentNumber(), ex1);
+//            throw new RuntimeException("cannot save DV " + dvDocument.getDocumentNumber(), ex1);
+//        }
+        DisbursementVoucherDocument disbursementVoucherDocument = getTravelDocumentService().createDVReimbursementDocument(document);
+        String relationDescription = "RELO - DV";
+        accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
+        getMessageList().add(MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
+    }
+    
+    /*    
     public void createDVForVendor(TravelRelocationDocument relocation){
         DisbursementVoucherDocument dvDocument = null;
         try {
-         // change current user to be the submitter of the original doc
+            // change current user to be the submitter of the original doc
             String principalName = SpringContext.getBean(PersonService.class).getPerson(relocation.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
             GlobalVariables.setUserSession(new UserSession(principalName));
             dvDocument = (DisbursementVoucherDocument) documentService.getNewDocument(DisbursementVoucherDocument.class);
@@ -310,7 +346,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
             dvDocument.prepareForSave();
             businessObjectService.save(dvDocument);
             
-         // add relationship
+            // add relationship
             String relationDescription = "RELO - DV";
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(relocation.getDocumentNumber(), dvDocument.getDocumentNumber(), relationDescription));
             getMessageList().add(MESSAGE_RELO_DV_IN_ACTION_LIST, dvDocument.getDocumentNumber());
@@ -320,41 +356,10 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
             error("cannot save Relationship ", dvDocument.getDocumentNumber(), ex1);
             throw new RuntimeException("cannot save Relationship " + dvDocument.getDocumentNumber(), ex1);
         }
-    }
-    
-    public void createDVForReimbursement(TravelRelocationDocument relocation){
-     // change current user to be the submitter of the original doc
-        String principalName = SpringContext.getBean(PersonService.class).getPerson(relocation.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
-        GlobalVariables.setUserSession(new UserSession(principalName));
-        
-        DisbursementVoucherDocument dvDocument = null;
-        try {
-            dvDocument = (DisbursementVoucherDocument) documentService.getNewDocument(DisbursementVoucherDocument.class);
-        }
-        catch (Exception e) {
-            error("Error creating new disbursement voucher document: ", e.getMessage());
-            throw new RuntimeException("Error creating new disbursement voucher document: " + e.getMessage(), e);
-        }
-        
-        populateDisbursementVoucherFieldsForReimbursement(dvDocument, relocation);
-        try{
-            dvDocument.prepareForSave();
-            businessObjectService.save(dvDocument);
-            
-            String annotation = "Saved by system in relation to Travel Relocation Document: " + relocation.getDocumentNumber();
-            getWorkflowDocumentService().save(dvDocument.getDocumentHeader().getWorkflowDocument(), annotation);
-            
-            getMessageList().add(MESSAGE_RELO_DV_IN_ACTION_LIST, dvDocument.getDocumentNumber());
-        }
-        catch (Exception ex1) {
-            // if we can't save DV, need to stop processing
-            error("cannot save DV ", dvDocument.getDocumentNumber(), ex1);
-            throw new RuntimeException("cannot save DV " + dvDocument.getDocumentNumber(), ex1);
-        }
-    }
-    
+    }          
+
     protected void populateCommonDVFields(final DisbursementVoucherDocument dvDocument, TravelRelocationDocument reloDocument){
-     // init document
+        // init document
         dvDocument.initiateDocument();
         Person initiator = SpringContext.getBean(PersonService.class).getPerson(reloDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         if (initiator == null) {
@@ -386,8 +391,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         dvDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, RELOCATION_DOCUMENTATION_LOCATION_CODE));
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
-        dvDocument.setDisbursementVoucherDueDate(new java.sql.Date(calendar.getTimeInMillis()));
-        
+        dvDocument.setDisbursementVoucherDueDate(new java.sql.Date(calendar.getTimeInMillis()));      
     }
     
     public void populateDisbursementVoucherFieldsForVendor(final DisbursementVoucherDocument dvDocument, TravelRelocationDocument reloDocument){
@@ -430,7 +434,6 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
             accountingLine.setOrganizationReferenceId("");
             dvDocument.addSourceAccountingLine(accountingLine);
         }        
-
     }
     
     protected void populateDisbursementVoucherFieldsForReimbursement(final DisbursementVoucherDocument dvDocument, TravelRelocationDocument reloDocument){
@@ -488,7 +491,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
             reqsDocument.prepareForSave();
             businessObjectService.save(reqsDocument);
             
-         // add relationship
+            // add relationship
             String relationDescription = "RELO - DV";
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(relocation.getDocumentNumber(), reqsDocument.getDocumentNumber(), relationDescription));
             getMessageList().add(MESSAGE_RELO_DV_IN_ACTION_LIST, reqsDocument.getDocumentNumber());
@@ -512,7 +515,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         
      // init document
         reqsDocument.initiateDocument();
-    }
+    }*/
     
     public static DateTimeService getDateTimeService() {
         return SpringContext.getBean(DateTimeService.class);

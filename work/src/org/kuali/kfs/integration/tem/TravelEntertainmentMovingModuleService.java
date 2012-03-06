@@ -15,6 +15,10 @@
  */
 package org.kuali.kfs.integration.tem;
 
+import java.util.List;
+
+import org.kuali.rice.kim.bo.Person;
+
 public interface TravelEntertainmentMovingModuleService {
 	
 	public boolean isTEMDocument(String docId);
@@ -23,4 +27,13 @@ public interface TravelEntertainmentMovingModuleService {
 	
 	public boolean isTEMProfileEmployee(TravelEntertainmentMovingTravelDocument document);
 
+    public boolean isTravelManager(final Person user);
+    
+    public List<String> getTravelReasonCodes();
+
+    public String getTravelReimbursementPaymentReasonCode();
+
+    public boolean isTravelReimbursementDocument(TravelEntertainmentMovingTravelDocument document);
+
+    public void createAccountingDocumentRelationship(String documentNumber, String relDocumentNumber, String relationDescription);
 }

@@ -56,9 +56,7 @@ public class ExpenseUtils {
     public static KualiDecimal getExpenseDetailsTotal(TEMExpense expense){
         KualiDecimal detailTotal = KualiDecimal.ZERO;
         for (TEMExpense tempExpense : expense.getExpenseDetails()){
-            if (!tempExpense.getNonReimbursable()){
-                detailTotal = detailTotal.add(tempExpense.getExpenseAmount());
-            }
+            detailTotal = detailTotal.add(tempExpense.getExpenseAmount());
         } 
         
         return detailTotal;

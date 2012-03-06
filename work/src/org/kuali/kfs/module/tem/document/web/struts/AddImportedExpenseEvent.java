@@ -85,15 +85,13 @@ public class AddImportedExpenseEvent implements Observer {
                 ex.printStackTrace();
             }
             
-            //ExpenseUtils.disableImportNonReimbursable(wrapper, newImportedExpenseLine, false);
-            
+            //ExpenseUtils.disableImportNonReimbursable(wrapper, newImportedExpenseLine, false);           
             wrapper.setNewImportedExpenseLine(new ImportedExpense());
             wrapper.getNewImportedExpenseLines().add(newExpense);
             wrapper.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
             
             //Add the appropriate source accounting line
-            if (newImportedExpenseLine.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
-                
+            if (newImportedExpenseLine.getCardType() != null && newImportedExpenseLine.getCardType().equals(TemConstants.CARD_TYPE_CTS)){                
                 HistoricalTravelExpense historicalTravelExpense = getBusinessObjectService().findBySinglePrimaryKey(HistoricalTravelExpense.class, newImportedExpenseLine.getHistoricalTravelExpenseId());
                 historicalTravelExpense.refreshReferenceObject("agencyStagingData");
                 List<TripAccountingInformation> tripAccountinfoList = historicalTravelExpense.getAgencyStagingData().getTripAccountingInformation();

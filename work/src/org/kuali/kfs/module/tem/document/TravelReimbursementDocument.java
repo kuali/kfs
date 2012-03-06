@@ -27,6 +27,7 @@ import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -106,6 +107,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     private KualiDecimal perDiemAdjustment;
     private KualiConfigurationService kualiConfigurationService;
     private DocumentDao documentDao;
+    private KualiDecimal travelAdvanceAmount = KualiDecimal.ZERO;
 
     public TravelReimbursementDocument() {
     }
@@ -313,8 +315,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                 }
             }
         }
-        
-        super.doRouteStatusChange(statusChangeEvent);
     }
 
     protected String getActualExpenseSequenceName() {
@@ -360,11 +360,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             }
         }
         return retval;
-    }
-
-    @Override
-    public boolean isBoNotesSupport() {
-        return true;
     }
     
     /**
@@ -520,8 +515,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         }
         if (getTravelAdvances() != null && getTravelAdvances().size() > 0) {
             for (TravelAdvance advance : getTravelAdvances()) {
-                if (advance.getPaymentMethod().equals(TemConstants.TravelAuthorizationParameters.WIRE_TRANSFER_PAYMENT)
-                        || advance.getPaymentMethod().equals(TemConstants.TravelAuthorizationParameters.FOREIGN_DRAFT_PAYMENT)) {
+                if (advance.getPaymentMethod().equals(TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE)
+                        || advance.getPaymentMethod().equals(TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE)) {
                     return true;
                 }
             }
@@ -604,6 +599,10 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return SpringContext.getBean(TravelReimbursementService.class);
     }
 
+    protected TravelAuthorizationService getTravelAuthorizationService() {
+        return SpringContext.getBean(TravelAuthorizationService.class);
+    }
+
     protected EncumbranceService getEncumbranceService() {
         return SpringContext.getBean(EncumbranceService.class);
     }
@@ -653,7 +652,20 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         Calendar dueDate = Calendar.getInstance();
         dueDate.add(Calendar.DATE, 1);
         disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(dueDate.getTimeInMillis()));
-        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle());
+        
+        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle() != null ? this.getDocumentTitle() : "");               
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for TR doc: " + this.getDocumentTitle() != null ? this.getDocumentTitle() : this.getTravelDocumentIdentifier());
+        if (disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
+            String truncatedDocumentDescription = disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
+            disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
+        }
+        
+        try {
+            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(this.getDocumentHeader().getDocumentDescription());
+        }
+        catch (WorkflowException ex) {
+            ex.printStackTrace();
+        }
         
         for (Object accountingLineObj : this.getSourceAccountingLines()) {
             SourceAccountingLine sourceccountingLine=(SourceAccountingLine)accountingLineObj;
@@ -678,12 +690,62 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
 
             disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-        }
-        
+        }        
     }
     
     public KualiDecimal getAdvancesTotal() {
-        return getTravelDocumentService().getAdvancesTotalFor(this);
+        KualiDecimal retval = KualiDecimal.ZERO;
+        if (getTravelAdvanceAmount().isZero()) {
+            // Add up the total of the travel advances for this trip
+            KualiDecimal advanceTotal = KualiDecimal.ZERO;
+            if (getTravelAdvances() != null) {
+                for (final TravelAdvance advance : getTravelAdvances()) {
+                    advanceTotal = advanceTotal.add(advance.getTravelAdvanceRequested());
+                }
+            }else {
+                advanceTotal = getTravelDocumentService().getAdvancesTotalFor(this);
+            }
+            
+            // Calculate the amount previously applied on the trip (i.e. there are multiple TRs on the TA and the 
+            // first TR did not use all of the Travel Advance amount)
+            KualiDecimal previouslyAppliedAmount = KualiDecimal.ZERO;
+            try {
+                List<TravelAuthorizationDocument> taDocs = (List<TravelAuthorizationDocument>) getTravelAuthorizationService().find(travelDocumentIdentifier);
+                if (ObjectUtils.isNotNull(taDocs) && taDocs.size() == 1) {
+                    Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(taDocs.get(0));
+                    List<Document> trDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+                    if (ObjectUtils.isNotNull(trDocs) && trDocs.size() > 0) {
+                        for (Document doc : trDocs) {
+                            TravelReimbursementDocument trDoc = (TravelReimbursementDocument) doc;
+                            previouslyAppliedAmount = trDoc.getTravelAdvanceAmount().add(previouslyAppliedAmount);
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex) {
+                error("Could not get related documents to determine advances total previously applied");
+                if (logger().isDebugEnabled()) {
+                    ex.printStackTrace();
+                }
+            }
+
+            retval = advanceTotal.subtract(previouslyAppliedAmount);
+            
+            // Note that the travelAdvanceAmount is not set here. It is only set when the APP doc is created. 
+        }
+        else
+        {
+            retval = getTravelAdvanceAmount();
+        }
+        return retval;
+    }
+    
+    @Override
+    public KualiDecimal getReimbursableGrandTotal() {
+        KualiDecimal grandTotal = super.getReimbursableGrandTotal();
+        
+        return grandTotal.subtract(getAdvancesTotal());
     }
     
     @Override
@@ -693,5 +755,33 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public String getReportPurpose() {
         return getTripDescription();
+    }
+
+    @Override
+    public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
+        super.populateVendorPayment(disbursementVoucherDocument);
+        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
+        String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
+        String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getPrimaryDestinationName() + ", " + startDate + " - " + endDate;
+        
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
+        disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
+    }
+
+    /**
+     * Gets the travelAdvanceAmount attribute. This is the travel advance amount applied on this TR.
+     * @return Returns the travelAdvanceAmount.
+     */
+    public KualiDecimal getTravelAdvanceAmount() {
+        return travelAdvanceAmount;
+    }
+
+    /**
+     * Sets the travelAdvanceAmount attribute value. This is the travel advance amount applied on this TR.
+     * @param travelAdvanceAmount The travelAdvanceAmount to set.
+     */
+    public void setTravelAdvanceAmount(KualiDecimal travelAdvanceAmount) {
+        this.travelAdvanceAmount = travelAdvanceAmount;
     }
 }

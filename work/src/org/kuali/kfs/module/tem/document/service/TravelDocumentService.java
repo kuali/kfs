@@ -379,4 +379,12 @@ public interface TravelDocumentService {
     public boolean validateSourceAccountingLines(TravelDocument travelDocument, boolean addToErrorPath);
 
     public String getDocumentType(TravelDocument document);
+
+    /**
+     * 
+     * This method creates a key-value pair of MileageRates that are valid for the searchDate.
+     * @param searchDate
+     * @return
+     */
+    List getMileageRateKeyValues(Date searchDate);
 }

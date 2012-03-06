@@ -124,21 +124,21 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
                 success = actualExpense.getExpenseAmount().isGreaterThan(new KualiDecimal(0));
                 List errorpath = GlobalVariables.getMessageMap().getErrorPath();
                 if (!success) {
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Expense Amount");
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Expense Amount");
                 }
                 else {
                     if (actualExpense.getCurrencyRate().isLessEqual(new KualiDecimal(0))) {
-                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_REIMB_CUR_RATE, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Currency Rate");
+                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Currency Rate");
                         success = false;
                     }
                     
                     else if (isDuplicateEntry(actualExpense, document)) {
                         success = false;
                         if (expenseTypeCode != null && expenseTypeCode.isPerDaily()) {
-                            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY_DAILY, actualExpense.getTravelExpenseTypeCodeCode());
+                            GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY_DAILY, actualExpense.getTravelExpenseTypeCodeCode());
                         }
                         else {
-                            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY, actualExpense.getTravelExpenseTypeCodeCode(), actualExpense.getExpenseDate().toString());
+                            GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY, actualExpense.getTravelExpenseTypeCodeCode(), actualExpense.getExpenseDate().toString());
                         }
                     }
                 }
@@ -164,11 +164,11 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         if (maxAmount.isNonZero() && maxAmount.subtract(getTotalExpenseAmount(actualExpense, document)).isNegative()) {
             if (expenseTypeCode.isPerDaily()) {
                 success = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY, expenseTypeCode.getMaximumAmount().toString());
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY, expenseTypeCode.getMaximumAmount().toString());
             }
             else if (expenseTypeCode.isPerOccurrence()) {
                 success = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU, expenseTypeCode.getMaximumAmount().toString());
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU, expenseTypeCode.getMaximumAmount().toString());
             }
         }
         return success;
@@ -187,7 +187,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         if (actualExpense.isLodging()) {
             if (isLodgingAllowanceEntered(actualExpense, document)) {
                 success = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_REIMB_CUR_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
             }
         }
 
@@ -213,7 +213,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
 
             if (isLodgingEntered(actualExpense, document)) {
                 success = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_REIMB_CUR_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
             }
         }
 

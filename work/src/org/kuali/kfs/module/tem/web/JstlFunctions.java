@@ -27,6 +27,7 @@ import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipS
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Full of static methods for JSTL function access.
@@ -176,5 +177,36 @@ public final class JstlFunctions {
         }
         
         return false;
-    }    
+    }  
+    
+    public static KualiDecimal add(Object a, Object b){
+        KualiDecimal tempA = new KualiDecimal(0);
+        KualiDecimal tempB = new KualiDecimal(0);
+        if (a instanceof Double){
+            tempA = new KualiDecimal((Double)a);
+        }
+        else if (a instanceof Integer){
+            tempA = new KualiDecimal((Integer)a);
+        }
+        else if (a instanceof String){
+            tempA = new KualiDecimal((String)a);
+        }
+        else if (a instanceof KualiDecimal){
+            tempA = (KualiDecimal)a;
+        }
+        
+        if (b instanceof Double){
+            tempB = new KualiDecimal((Double)b);
+        }
+        else if (b instanceof Integer){
+            tempB = new KualiDecimal((Integer)b);
+        }
+        else if (a instanceof String){
+            tempB = new KualiDecimal((String)b);
+        }
+        else if (b instanceof KualiDecimal){
+            tempB = (KualiDecimal)b;
+        }
+        return tempA.add(tempB);
+    }
 }

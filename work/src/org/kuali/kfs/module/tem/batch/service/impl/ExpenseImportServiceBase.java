@@ -358,7 +358,7 @@ public class ExpenseImportServiceBase {
                 return true;
             }
         }
-        LOG.warn("Invalid Credit Card Agency Code in Agency Data record");
+        LOG.error("Invalid Credit Card Agency Code in Agency Data record");
         setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_CC_AGENCY);
         return false;
     }

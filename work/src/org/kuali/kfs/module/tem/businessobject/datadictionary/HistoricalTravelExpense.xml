@@ -30,6 +30,8 @@
 			<ref bean="HistoricalTravelExpense-agencyStagingDataId" />
 			<ref bean="HistoricalTravelExpense-profileId" />
 			<ref bean="HistoricalTravelExpense-tripId" />
+			<ref bean="HistoricalTravelExpense-creditCardOrAgencyCode" />
+			<ref bean="HistoricalTravelExpense-travelExpenseTypeString" />
 			<ref bean="HistoricalTravelExpense-versionNumber" />
 		</list>
 		</property>
@@ -239,6 +241,26 @@
 		<property name="description" value="Trip Id" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
 	</bean>
+	<bean id="HistoricalTravelExpense-creditCardOrAgencyCode" parent="HistoricalTravelExpense-creditCardOrAgencyCode-parentBean" />
+	<bean id="HistoricalTravelExpense-creditCardOrAgencyCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="creditCardOrAgencyCode" />
+		<property name="label" value="Credit Card or Agency Code" />
+		<property name="shortLabel" value="Credit Card or Agency Code" />
+		<property name="maxLength" value="4" />
+		<property name="summary" value="Credit Card or Agency Code" />
+		<property name="description" value="Credit Card or Agency Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
+	</bean>
+	<bean id="HistoricalTravelExpense-travelExpenseTypeString" parent="HistoricalTravelExpense-travelExpenseTypeString-parentBean" />
+	<bean id="HistoricalTravelExpense-travelExpenseTypeString-parentBean" parent="AttributeDefinition">
+		<property name="name" value="travelExpenseTypeString" />
+		<property name="label" value="Travel Expense Type" />
+		<property name="shortLabel" value="Travel Expense Type" />
+		<property name="maxLength" value="25" />
+		<property name="summary" value="Travel Expense Type" />
+		<property name="description" value="Travel Expense Type" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="25"/></property>
+	</bean>
 	<bean id="HistoricalTravelExpense-versionNumber" parent="HistoricalTravelExpense-versionNumber-parentBean" />
 	<bean id="HistoricalTravelExpense-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
@@ -292,6 +314,7 @@
 		</bean>
 		</property>
 		<property name="lookupFields"><list>
+			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
 			<bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
 			<bean parent="FieldDefinition" p:attributeName="importDate" />
 			<bean parent="FieldDefinition" p:attributeName="travelCompany" />
@@ -303,11 +326,12 @@
 		</property>
 		<property name="resultFields">
 		<list>
+			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
 			<bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
 			<bean parent="FieldDefinition" p:attributeName="importDate" />
 			<bean parent="FieldDefinition" p:attributeName="travelCompany" />
 			<bean parent="FieldDefinition" p:attributeName="location" />
-			<bean parent="FieldDefinition" p:attributeName="travelExpenseType" />
+			<bean parent="FieldDefinition" p:attributeName="travelExpenseTypeString" />
 			<bean parent="FieldDefinition" p:attributeName="amount" />
 			<bean parent="FieldDefinition" p:attributeName="assigned" />
 		</list>

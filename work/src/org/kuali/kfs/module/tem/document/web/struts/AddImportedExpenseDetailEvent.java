@@ -69,7 +69,10 @@ public class AddImportedExpenseDetailEvent implements Observer {
         
         if (rulePassed){
             if(newImportedExpenseLine != null && line != null){
+                newImportedExpenseLine.setTemExpenseTypeCode(null);
+                newImportedExpenseLine.setCardType(line.getCardType());
                 document.addExpenseDetail(newImportedExpenseLine, index);
+                newImportedExpenseLine.setExpenseDetails(null);
             }
             
             KualiDecimal detailTotal = ExpenseUtils.getExpenseDetailsTotal(line);

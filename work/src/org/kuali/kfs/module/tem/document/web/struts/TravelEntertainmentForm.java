@@ -41,7 +41,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 public class TravelEntertainmentForm extends TravelFormBase implements TravelEntertainmentMVCWrapperBean {
 
     private Date startDate;
-    private Date endDate;;
+    private Date endDate;
     private boolean canPrintHostCertification;
     private boolean displayNonEmployeeCheckBox;
     private boolean canUnmask = false;
@@ -73,7 +73,6 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-
 
     public Date getEndDate() {
         return endDate;

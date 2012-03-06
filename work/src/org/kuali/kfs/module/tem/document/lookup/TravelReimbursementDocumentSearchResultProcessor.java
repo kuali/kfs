@@ -68,6 +68,13 @@ public class TravelReimbursementDocumentSearchResultProcessor extends AbstractDo
             && docCriteriaDTO.getAppDocStatus().equals(TravelReimbursementStatusCodeKeys.DEPT_APPROVED);
     }
     
+    private boolean otherPaymentMethodsAllowed(DocSearchDTO docCriteriaDTO) {
+        final String documentStatus = docCriteriaDTO.getDocRouteStatusCode();
+        return (getParameterService().getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE, TemConstants.TravelReimbursementParameters.ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND) 
+                || documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD) 
+                || documentStatus.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD));
+    }
+    
     private String createPaymentsURL(DocSearchDTO docCriteriaDTO, String tripID) {
         String links = createDisbursementVoucherLink(docCriteriaDTO, TemConstants.TravelCustomSearchLinks.VENDOR_PAYMENT);
         links += "<br />" + createRequisitionLink(docCriteriaDTO, TemConstants.TravelCustomSearchLinks.REQUISITION);
@@ -75,6 +82,7 @@ public class TravelReimbursementDocumentSearchResultProcessor extends AbstractDo
         links += (StringUtils.isEmpty(agencyLinks)?"":"<br />") + agencyLinks;
         return links;
     }
+    
     @Override
     public DocumentSearchResult addActionsColumn(DocSearchDTO docCriteriaDTO, DocumentSearchResult result) {
         final String columnName = TemPropertyConstants.TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS;
@@ -83,10 +91,12 @@ public class TravelReimbursementDocumentSearchResultProcessor extends AbstractDo
         if (showReimbursementURL(docCriteriaDTO)){
             actionsHTML += createTravelReimbursementLink(tripID);
         }
-        if (!StringUtils.isBlank(actionsHTML)){
-            actionsHTML += "<br />";
+        if (otherPaymentMethodsAllowed(docCriteriaDTO)) {
+            if (!StringUtils.isBlank(actionsHTML)) {
+                actionsHTML += "<br />";
+            }
+            actionsHTML += createPaymentsURL(docCriteriaDTO, tripID);
         }
-        actionsHTML += createPaymentsURL(docCriteriaDTO,tripID);
    
         
         final KeyValueSort actions = new KeyValueSort(columnName, "", actionsHTML, actionsHTML,null);

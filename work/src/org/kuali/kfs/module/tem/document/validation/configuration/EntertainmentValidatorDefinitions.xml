@@ -47,6 +47,7 @@
    			<bean parent="TravelModule-travelerValidation" scope="prototype" /> 
    			<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />
    			<bean parent="TravelModule-expensesValidation" scope="prototype" />
+   			<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />
 		    <bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
    		</list>
    	</property>

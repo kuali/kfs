@@ -37,7 +37,13 @@
              <th class="bord-l-b">Amount</th>
            </tr>
            <c:forEach var="reimbursement" items="${KualiForm.history}">
-             
+           
+             <td><c:out value="${reimbursement.documentNumber}"/></td>
+             <td><c:out value="${reimbursement.date}"/></td>
+             <td><c:out value="${reimbursement.status}"/></td>
+             <td><c:out value="${reimbursement.onHold}"/></td>
+             <td><c:out value="${reimbursement.cancel}"/></td>
+             <td><c:out value="${reimbursement.amount}"/></td>
            </c:forEach>
            </tbody>
         </table>

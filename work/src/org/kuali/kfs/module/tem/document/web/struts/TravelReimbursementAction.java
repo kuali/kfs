@@ -149,11 +149,12 @@ public class TravelReimbursementAction extends TravelActionBase {
             document.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(authorization.getGroupTravelers(), document.getDocumentNumber()));
             document.setDelinquentTRException(authorization.getDelinquentTRException());
             document.setMealWithoutLodgingReason(authorization.getMealWithoutLodgingReason());
-            document.setupTraveler(authorization.getTemProfileId(), authorization.getTraveler());
+            document.configureTraveler(authorization.getTemProfileId(), authorization.getTraveler());
             document.setExpenseLimit(authorization.getExpenseLimit());
             document.setPerDiemAdjustment(authorization.getPerDiemAdjustment());
+            document.setTravelAdvances(authorization.getTravelAdvances());
             
-            if (document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
+            if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
                 document.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
                 document.getPrimaryDestination().setCountryState(document.getPrimaryDestinationCountryState());
@@ -175,10 +176,22 @@ public class TravelReimbursementAction extends TravelActionBase {
                 for (int i = 0; i < document.getActualExpenses().size(); i++) {
                     reimbForm.getNewActualExpenseLines().add(new ActualExpense());
                 }
-            }
-            
+            }           
             //initializeSpecialCircumstances(document , authorization);
-        }        
+        }else {
+            TravelAuthorizationDocument authorization = null;
+            try {
+                authorization = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
+                addTravelAdvancesTo(reimbForm, authorization);
+                if (authorization != null) {
+                    document.setTravelAdvances(authorization.getTravelAdvances());
+                }
+            }
+            catch (WorkflowException ex) {
+                // TODO Auto-generated catch block
+                ex.printStackTrace();
+            }
+        }
                  
         final List<String> perDiemCats = getParameterService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
         reimbForm.parsePerDiemCategories(perDiemCats);
@@ -313,7 +326,9 @@ public class TravelReimbursementAction extends TravelActionBase {
      * @param authorization {@link TravelAuthorization} instance to get travel advances from
      */
     protected void addTravelAdvancesTo(final TravelReimbursementForm form, final TravelAuthorizationDocument authorization) {
-        form.getInvoices().addAll(authorization.getTravelAdvances());
+        if (authorization != null) {
+            form.getInvoices().addAll(authorization.getTravelAdvances());
+        }
     }
 
     protected void initializePerDiem(final TravelReimbursementDocument reimbursement, final TravelAuthorizationDocument authorization) {
@@ -399,8 +414,6 @@ public class TravelReimbursementAction extends TravelActionBase {
         document.getTraveler().refreshReferenceObject(TemPropertyConstants.TRAVELER_TYPE);
         return null;
     }
-
-   
 
     protected Integer getPerDiemActionLineNumber(final HttpServletRequest request) {
         for (final String parameterKey : ((Map<String,String>) request.getParameterMap()).keySet()) {
@@ -545,6 +558,8 @@ public class TravelReimbursementAction extends TravelActionBase {
             document.enableExpenseTypeSpecificFields(document.getActualExpenses());
         }
         
+        refreshRelatedDocuments(reimbForm);
+        
         if (!reimbForm.getMethodToCall().equalsIgnoreCase("dochandler")) {            
             if (document.getTripType() != null) {
                 
@@ -678,7 +693,6 @@ public class TravelReimbursementAction extends TravelActionBase {
         if (ObjectUtils.isNotNull(docId)) {
             TravelAuthorizationDocument taDoc = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(trDoc);
             if (ObjectUtils.isNotNull(taDoc)) {
-                getTravelReimbursementService().addDateChangedNote(trDoc, taDoc);
                 // add relationship
                 String relationDescription = "TA - TR";
                 SpringContext.getBean(AccountingDocumentRelationshipService.class).save(new AccountingDocumentRelationship(taDoc.getDocumentNumber(), trDoc.getDocumentNumber(), relationDescription));          
@@ -715,6 +729,8 @@ public class TravelReimbursementAction extends TravelActionBase {
         
         ActionForward forward = super.route(mapping, form, request, response);
         
+        addDateChangedNote(form);
+
         addTATRRelationship(form);
         
         return forward;
@@ -730,6 +746,24 @@ public class TravelReimbursementAction extends TravelActionBase {
         
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
         
+        addDateChangedNote(form);
+        
+        addTATRRelationship(form);
+
+        return forward;
+    }
+    
+    /**
+     * This method calls addDateChangedNote() if this TR is created from a TA.
+     * 
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#addDateChangedNote(org.kuali.kfs.module.tem.document.TravelReimbursementDocument, 
+     * org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)
+     * 
+     * @param form
+     * @throws Exception
+     */
+    protected void addDateChangedNote(ActionForm form) throws Exception {
+
         TravelReimbursementForm reqForm = (TravelReimbursementForm) form;
         TravelReimbursementDocument travelReqDoc = reqForm.getTravelReimbursementDocument();
         String docId = travelReqDoc.getTravelDocumentIdentifier();
@@ -739,10 +773,6 @@ public class TravelReimbursementAction extends TravelActionBase {
                 getTravelReimbursementService().addDateChangedNote(travelReqDoc, taDoc);
             }
         }
-        
-        addTATRRelationship(form);
-
-        return forward;
     }
 
     protected TravelDocumentService getTravelDocumentService() {
@@ -784,130 +814,4 @@ public class TravelReimbursementAction extends TravelActionBase {
     }
 }
 
-class HistoryValueObject implements Serializable {
-    private String documentNumber;
-    private String date;
-    private String status;
-    private String onHold;
-    private String cancel;
-    private KualiDecimal amount;
-    
-    public HistoryValueObject(final TravelReimbursementDocument document) {
-        setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
-        if (document.getTripBegin() != null) {
-            setDate(document.getTripBegin().toString());
-        }
-        setStatus(document.getAppDocStatus());
-        setOnHold("" + false);
-        setCancel("" + false);
-        setAmount(KualiDecimal.ZERO);
-    }
-    
-    /**
-     * Gets the value of documentNumber
-     *
-     * @return the value of documentNumber
-     */
-    public final String getDocumentNumber() {
-        return this.documentNumber;
-    }
-    
-    /**
-     * Sets the value of documentNumber
-     *
-     * @param argDocumentNumber Value to assign to this.documentNumber
-     */
-    public final void setDocumentNumber(final String argDocumentNumber) {
-        this.documentNumber = argDocumentNumber;
-    }
-    
-    /**
-     * Gets the value of date
-     *
-     * @return the value of date
-     */
-    public final String getDate() {
-        return this.date;
-    }
-    
-    /**
-     * Sets the value of date
-     *
-     * @param argDate Value to assign to this.date
-     */
-    public final void setDate(final String argDate) {
-        this.date = argDate;
-    }
-    
-    /**
-     * Gets the value of status
-     *
-     * @return the value of status
-     */
-    public final String getStatus() {
-        return this.status;
-    }
-    
-    /**
-     * Sets the value of status
-     *
-     * @param argStatus Value to assign to this.status
-     */
-    public final void setStatus(final String argStatus) {
-        this.status = argStatus;
-    }
-    
-    /**
-     * Gets the value of onHold
-     *
-     * @return the value of onHold
-     */
-    public final String getOnHold() {
-        return this.onHold;
-    }
-    
-    /**
-     * Sets the value of onHold
-     *
-     * @param argOnHold Value to assign to this.onHold
-     */
-    public final void setOnHold(final String argOnHold) {
-        this.onHold = argOnHold;
-    }
-    
-    /**
-     * Gets the value of cancel
-     *
-     * @return the value of cancel
-     */
-    public final String getCancel() {
-        return this.cancel;
-    }
-    
-    /**
-     * Sets the value of cancel
-     *
-     * @param argCancel Value to assign to this.cancel
-     */
-    public final void setCancel(final String argCancel) {
-        this.cancel = argCancel;
-    }
-    
-    /**
-     * Gets the value of amount
-     *
-     * @return the value of amount
-     */
-    public final KualiDecimal getAmount() {
-        return this.amount;
-    }
-    
-    /**
-     * Sets the value of amount
-     *
-     * @param argAmount Value to assign to this.amount
-     */
-    public final void setAmount(final KualiDecimal argAmount) {
-        this.amount = argAmount;
-    }
-}
+

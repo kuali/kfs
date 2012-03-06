@@ -49,24 +49,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.Purpose;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -84,9 +80,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -153,40 +147,27 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         return false;
     }
 
-    @Override
-    public void toCopy() throws WorkflowException {
-        super.toCopy();
-        this.setBoNotes(new ArrayList());
-
-    }
-
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
-        String title = (this.getEventTitle() == null?"":this.getEventTitle());
         
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + title);
+        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getTravelDocumentIdentifier() + " " + (this.getEventTitle() != null ? this.getEventTitle() : "") + this.getTripBegin());              
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + this.getDocumentTitle() != null ? this.getDocumentTitle() : this.getTravelDocumentIdentifier());
         if (disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
             String truncatedDocumentDescription = disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
             disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
         }
+
+        try {
+            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(this.getDocumentHeader().getDocumentDescription());
+        }
+        catch (WorkflowException ex) {
+            ex.printStackTrace();
+        }
         
-        disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, ENTERTAINMENT_DOCUMENT_LOCATION));
-        title = (this.getEventTitle() == null?"":this.getEventTitle() + " ");
-        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getTravelDocumentIdentifier() + " " + title + this.getTripBegin());
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, ENTERTAINMENT_DOCUMENT_LOCATION));        
         String paymentReasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TemConstants.TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        
-        if(ObjectUtils.isNotNull(this.getTemProfileId())) {
-            primaryKeys.put(TEMProfileProperties.PROFILE_ID, this.getTemProfileId().toString());
-            TEMProfile profile = (TEMProfile) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TEMProfile.class, primaryKeys);
-            this.setTemProfile(profile);
-        }
-        if (this.getTemProfile().getTravelerType().getCode().equals(TemConstants.EMP_TRAVELER_TYP_CD)){
-            disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
-        }
-
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(this.getPaymentMethod());
     }
 
     public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
@@ -197,7 +178,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.setTime(entDocument.getTripBegin());
         reqsDoc.setPostingYear(calendar.get(calendar.YEAR));
-
     }
 
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
@@ -209,6 +189,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         if (ObjectUtils.isNotNull(currStatus)) {
             updateAppDocStatus(currStatus);
         }
+        
         if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
             // first we need to see where we were so we can change the app doc status
             String currAppDocStatus = getAppDocStatus();
@@ -234,13 +215,15 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
                 updateAppDocStatus(DAPRVD_ENT_MANAGER);
             }
         }
+        
         String s = statusChangeEvent.getNewRouteStatus();
         if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
             debug("New route status is ", statusChangeEvent.getNewRouteStatus());
             // for some reason when it goes to final it never updates to the last status
             updateAppDocStatus(EntertainmentStatusCodeKeys.ENT_MANAGER_APPROVED);
-            if (getDocumentGrandTotal() != null && getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO))
+            if (getDocumentGrandTotal() != null && getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)) {
                 getEntertainmentDocumentService().createDVReimbursementDocument(this);
+            }
 
             // If the hold new fiscal year encumbrance indicator is true and the trip end date
             // is after the current fiscal year end date then mark all the gl pending entries
@@ -291,7 +274,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     }
 
     public void initiateDocument() {
-
         updateAppDocStatus(TemConstants.TravelReimbursementStatusCodeKeys.IN_PROCESS);
         setActualExpenses(new ArrayList<ActualExpense>());
         setPerDiemExpenses(new ArrayList<PerDiemExpense>());
@@ -301,6 +283,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
             this.setTraveler(new TravelerDetail());
             this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
         }
+        
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         if (this.getTripBegin() == null) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -399,11 +382,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     public void removeAttendee(final Integer index) {
         final Attendee line = getAttendee().remove((int) index);
         notifyChangeListeners(new PropertyChangeEvent(this, "attendee", line, null));
-    }
-
-    @Override
-    public boolean isBoNotesSupport() {
-        return true;
     }
 
     @Column(name = "HOST_TEM_PROFILE_ID", length = 50, nullable = true)
@@ -594,5 +572,31 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         }
         
         return null;
+    }
+
+    @Override
+    public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
+        super.populateVendorPayment(disbursementVoucherDocument);
+        
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
+        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelRelocationParameters.PARAM_DTL_TYPE, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
+        String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getEventTitle();
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
+        
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
+        disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
+        
+    }
+
+    @Override
+    public KualiDecimal getPerDiemAdjustment() {
+        // Never Used
+        return null;
+    }
+
+    @Override
+    public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment) {
+        // Never Used
+        
     }
 }

@@ -15,12 +15,17 @@
  */
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -30,11 +35,55 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<AgencyStagingData> agencyData = new ArrayList<AgencyStagingData>();
+        if (fieldValues != null) {
+            String searchAccount = fieldValues.get(TemConstants.TEM_AGENCY_DATA_SEARCH_ACCOUNT).trim();
+            String searchSubAccount = fieldValues.get(TemConstants.TEM_AGENCY_DATA_SEARCH_SUB_ACCOUNT).trim();
+            
+            fieldValues.remove(TemConstants.TEM_AGENCY_DATA_SEARCH_ACCOUNT);
+            fieldValues.remove(TemConstants.TEM_AGENCY_DATA_SEARCH_SUB_ACCOUNT);
+            fieldValues.remove(TemConstants.TEM_AGENCY_DATA_SEARCH_CHART_CODE);
+            
+            agencyData = (List<AgencyStagingData>) super.getSearchResults(fieldValues);
+            
+            if(StringUtils.isNotBlank(searchAccount) || StringUtils.isNotBlank(searchSubAccount)) {
+                //loop through and find any records that have matching account and subaccount
+                List<AgencyStagingData> temp = new ArrayList<AgencyStagingData>();
+                for(AgencyStagingData agency: agencyData) {
+                    for (TripAccountingInformation acctgInfo: agency.getTripAccountingInformation() ) {
+                        String acct = acctgInfo.getTripAccountNumber();
+                        String subAcct = acctgInfo.getTripSubAccountNumber();
+                        if(StringUtils.isNotBlank(searchAccount) && StringUtils.isNotBlank(acct) && acct.equals(searchAccount)) {
+                            if(StringUtils.isNotBlank(searchSubAccount) && StringUtils.isNotBlank(subAcct) && subAcct.equals(searchSubAccount)) {
+                                temp.add(agency);
+                            } else if(searchSubAccount == null) {
+                                temp.add(agency);
+                            }
+                            
+                        } else if(StringUtils.isNotBlank(searchSubAccount) && StringUtils.isNotBlank(subAcct) && subAcct.equals(searchSubAccount)) {
+                            temp.add(agency);
+                        }
+                    }
+                }
+                agencyData = temp;
+                
+            }
+        } else {
+            agencyData = (List<AgencyStagingData>) super.getSearchResults(fieldValues); 
+        }
+        
+        return agencyData;
+        
+    }
+    
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         List<HtmlData> anchorHtmlDataList = super.getCustomActionUrls(bo, pkNames);
         AgencyStagingData agencyStagingData = (AgencyStagingData) bo;
@@ -65,12 +114,15 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
         anchorHtmlData.setTarget("blank");
         return anchorHtmlData;
     }
+    
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        if(isUserTravelManager())
-        lookupForm.setSuppressActions(false);
-        else
-        lookupForm.setSuppressActions(true);
+        if(isUserTravelManager()) {
+            lookupForm.setSuppressActions(false);
+        } else {
+            lookupForm.setSuppressActions(true);
+        }
+        
         return super.performLookup(lookupForm, resultTable, bounded);
     }
     

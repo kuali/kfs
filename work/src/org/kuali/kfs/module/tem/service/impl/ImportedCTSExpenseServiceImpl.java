@@ -64,8 +64,8 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
         
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
         for (ImportedExpense expense : document.getImportedExpenses()){
-            if (expense.getCardType().equals(TemConstants.CARD_TYPE_CTS) 
-                && !expense.getNonReimbursable()){
+            String cardType = expense.getCardType();
+            if (cardType != null && cardType.equals(TemConstants.CARD_TYPE_CTS) && !expense.getNonReimbursable()){
                 expense.refreshReferenceObject("travelExpenseTypeCode");
                 String financialObjectCode= "";
                 expense.getTravelExpenseTypeCode();
@@ -94,7 +94,7 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
                         distribution = new AccountingDistribution();
                         distribution.setObjectCode(objCode.getCode());
                         distribution.setObjectCodeName(objCode.getName());
-                        distribution.setCardType(expense.getCardType());
+                        distribution.setCardType(cardType);
                         distribution.setRemainingAmount(expense.getConvertedAmount());
                         distribution.setSubTotal(expense.getConvertedAmount());
                         distributionMap.put(key, distribution);
@@ -102,6 +102,7 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
                 }
             }
         }
+        
         return distributionMap;
     }
 
@@ -146,20 +147,47 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
     @Override
     public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable) {
         KualiDecimal total = KualiDecimal.ZERO;
-        
-        for (ImportedExpense expense : document.getImportedExpenses()){
-            if (expense.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
-                total = total.add(expense.getExpenseAmount());
-            }
+
+        if (includeNonReimbursable){
+            total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.ALL);
+        }
+        else{
+            total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE);
         }
         return total;
     }
 
     @Override
     public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
-        return KualiDecimal.ZERO;
+        KualiDecimal total = KualiDecimal.ZERO;
+        total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE);
+        return total;
     }
 
+    private KualiDecimal calculateTotals(KualiDecimal total, List expenses, String code){
+        for (TEMExpense expense : (List<TEMExpense>)expenses){
+            if (expense instanceof ImportedExpense
+                    && ((ImportedExpense)expense).getCardType() != null
+                    && ((ImportedExpense)expense).getCardType().equals(TemConstants.CARD_TYPE_CTS)){
+                if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.ALL)){
+                    total = total.add(expense.getConvertedAmount());
+                }
+                else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE)){
+                    if ((expense.getTravelExpenseTypeCode() != null && expense.getTravelExpenseTypeCode().isPrepaidExpense()) || expense.getNonReimbursable()) {
+                        total = total.add(expense.getExpenseAmount());
+                    }
+                }
+                else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE)){
+                    if ((expense.getTravelExpenseTypeCode() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense()) && !expense.getNonReimbursable()) {
+                        total = total.add(expense.getExpenseAmount());
+                    }
+                }
+            }
+            
+        }
+        return total;
+    }
+    
 
     /**
      * Used to create GLPE's for CTS imports.

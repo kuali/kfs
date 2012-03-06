@@ -40,6 +40,7 @@ import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -88,6 +89,7 @@ import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -133,8 +135,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         this.ojbConcreteClass = ojbConcreteClass;
     }
 
-    
-
     public TravelAuthorizationAmendmentDocument toCopyTAA() throws WorkflowException {
         TravelAuthorizationAmendmentDocument doc = (TravelAuthorizationAmendmentDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
         String documentID = doc.getDocumentNumber();
@@ -170,9 +170,16 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             ex.printStackTrace();
         }
         
-        TemObjectUtils.copyProperties(doc, this);
-        if (doc.getTraveler() == null){
-            doc.setTraveler(new TravelerDetail());
+        try {
+            BeanUtils.copyProperties(doc, this);
+        }
+        catch (IllegalAccessException ex) {
+            // TODO Auto-generated catch block
+            ex.printStackTrace();
+        }
+        catch (InvocationTargetException ex) {
+            // TODO Auto-generated catch block
+            ex.printStackTrace();
         }
         /*
          * Replace all list objects with copies and update the copy's document number to the doc number of the TAA
@@ -501,7 +508,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.ACTUAL);
         encTotal = service.getAllExpenseTotal(this, false).add(encTotal);
 
-        if (ObjectUtils.isNotNull(this.perDiemAdjustment)) {
+        if (ObjectUtils.isNotNull(this.perDiemAdjustment) && perDiemAdjustment.isPositive()) {
             encTotal = encTotal.subtract(this.perDiemAdjustment);
         }
         
@@ -822,7 +829,20 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         Calendar dueDate = Calendar.getInstance();
         dueDate.add(Calendar.DATE, 1);
         disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(dueDate.getTimeInMillis()));
-        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle());
+        
+        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle() != null ? this.getDocumentTitle() : "");               
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for TA doc: " + this.getTravelDocumentIdentifier());
+        if (disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
+            String truncatedDocumentDescription = disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
+            disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
+        }
+        
+        try {
+            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(this.getDocumentHeader().getDocumentDescription());
+        }
+        catch (WorkflowException ex) {
+            ex.printStackTrace();
+        }
         
         for (Object accountingLineObj : this.getSourceAccountingLines()) {
             SourceAccountingLine sourceccountingLine=(SourceAccountingLine)accountingLineObj;
@@ -831,8 +851,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             accountingLine.setChartOfAccountsCode(sourceccountingLine.getChartOfAccountsCode());
             accountingLine.setAccountNumber(sourceccountingLine.getAccountNumber());
             if (StringUtils.isNotBlank(sourceccountingLine.getFinancialObjectCode())) {
-                    accountingLine.setFinancialObjectCode(sourceccountingLine.getFinancialObjectCode());
-               
+                accountingLine.setFinancialObjectCode(sourceccountingLine.getFinancialObjectCode());
             }
 
             if (StringUtils.isNotBlank(sourceccountingLine.getFinancialSubObjectCode())) {
@@ -848,18 +867,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
 
             disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-
-        }
-        
+        }        
     }
     
     @Override
     public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
-    }
-
-    @Override
-    public boolean isBoNotesSupport() {
-        return true;
     }
     
     /**
@@ -875,5 +887,17 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     @Override
     public String getReportPurpose() {
         return getTripDescription();
+    }
+
+    @Override
+    public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
+        super.populateVendorPayment(disbursementVoucherDocument);
+        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
+        String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
+        String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getPrimaryDestinationName() + ", " + startDate + " - " + endDate;
+        
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
+        disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }
 }

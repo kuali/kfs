@@ -28,6 +28,7 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.businessobject.AbstractExpense;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
@@ -54,10 +55,21 @@ public class ActualExpenseServiceImpl implements TEMExpenseService {
     
         // Actual expenses
         if (document.getActualExpenses() != null) {
-            for (final ActualExpense expense : document.getActualExpenses()) {
-                if (expense.getTravelExpenseTypeCodeId() != null) {
-                    final KualiDecimal currencyRate = expense.getCurrencyRate();
+            calculateDistributionTotals(document, distributionMap, document.getActualExpenses());
+        }
+        return distributionMap;
+    }
     
+    private void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List expenses){
+        String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
+        for (TEMExpense expense : (List<TEMExpense>)expenses) {
+            if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
+                calculateDistributionTotals(document, distributionMap, expense.getExpenseDetails());
+            }
+            else {
+                if (expense.getTravelExpenseTypeCodeId() != null
+                        && !expense.getTravelExpenseTypeCode().isPrepaidExpense() && !expense.getNonReimbursable()) {
+
                     TemTravelExpenseTypeCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeId());
                     expense.setTravelExpenseTypeCode(code);
                     
@@ -71,11 +83,11 @@ public class ActualExpenseServiceImpl implements TEMExpenseService {
                     else {
                         financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : code != null ? code.getFinancialObjectCode() : null;
                     }
-    
+
                     final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, financialObjectCode);
-                    if (objCode != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense() && !expense.getNonReimbursable()) {                    
+                    if (objCode != null) {                    
                         AccountingDistribution distribution = null;
-    
+
                         String key = objCode.getCode() + "-" + TemConstants.NOT_APPLICABLE;
                         if (distributionMap.containsKey(key)){
                             distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getConvertedAmount()));
@@ -89,14 +101,13 @@ public class ActualExpenseServiceImpl implements TEMExpenseService {
                             distribution.setRemainingAmount(expense.getConvertedAmount());
                             distribution.setSubTotal(expense.getConvertedAmount());
                             distributionMap.put(key, distribution);
-    
+
                             debug("Subtotal distribution ", distribution.getSubTotal());
                         }
                     }
                 }
             }
         }
-        return distributionMap;
     }
 
     @Override
@@ -138,13 +149,13 @@ public class ActualExpenseServiceImpl implements TEMExpenseService {
     @Override
     public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable) {
         KualiDecimal total = KualiDecimal.ZERO;
-
-        for (ActualExpense expense : document.getActualExpenses()) {
-            if ((expense.getNonReimbursable().booleanValue() && includeNonReimbursable) 
-                    || !expense.getNonReimbursable().booleanValue()) {
-                total = total.add(expense.getExpenseAmount());
-            }
+        if (includeNonReimbursable){
+            total = calculateTotals(total, document.getActualExpenses(), TemConstants.ExpenseTypeReimbursementCodes.ALL);
         }
+        else{
+            total = calculateTotals(total, document.getActualExpenses(), TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE);
+        }
+        
         return total;
     }
 
@@ -152,14 +163,35 @@ public class ActualExpenseServiceImpl implements TEMExpenseService {
     public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
         KualiDecimal total = KualiDecimal.ZERO;
 
-        for (ActualExpense expense : document.getActualExpenses()) {
-            if ((expense.getTravelExpenseTypeCode() != null && expense.getTravelExpenseTypeCode().isPrepaidExpense()) || expense.getNonReimbursable()) {
-                total = total.add(expense.getExpenseAmount());
+        total = calculateTotals(total, document.getActualExpenses(), TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE);
+        return total;
+    }
+
+    private KualiDecimal calculateTotals(KualiDecimal total, List expenses, String code){
+        for (TEMExpense expense : (List<TEMExpense>)expenses){
+            if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
+                total = total.add(calculateTotals(total, expense.getExpenseDetails(), code));
+            }
+            else{
+                if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.ALL)){
+                    total = total.add(expense.getConvertedAmount());
+                }
+                else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE)){
+                    if ((expense.getTravelExpenseTypeCode() != null && expense.getTravelExpenseTypeCode().isPrepaidExpense()) || expense.getNonReimbursable()) {
+                        total = total.add(expense.getExpenseAmount());
+                    }
+                }
+                else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE)){
+                    if ((expense.getTravelExpenseTypeCode() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense()) && !expense.getNonReimbursable()) {
+                        total = total.add(expense.getExpenseAmount());
+                    }
+                }
             }
         }
         return total;
     }
-
+    
+    
     @Override
     public void processExpense(TravelDocument travelDocument) {
         // TODO Auto-generated method stub

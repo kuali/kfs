@@ -44,13 +44,17 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
@@ -83,6 +87,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -616,8 +621,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
      */
     @Override
-    public void toCopy() throws WorkflowException {
-        this.setBoNotes(new ArrayList());
+    public void toCopy() throws WorkflowException {      
         super.toCopy();
         cleanTravelDocument();
 
@@ -637,6 +641,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         setGroupTravelers(getTravelDocumentService().copyGroupTravelers(this.getGroupTravelers(), this.getDocumentNumber()));               
         setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(this.getActualExpenses(), this.getDocumentNumber()));
         setImportedExpenses(new ArrayList<ImportedExpense>());
+        this.setBoNotes(new ArrayList());
     }
 
     /**
@@ -648,7 +653,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         this.getTraveler().setId(null);
         this.getDocumentHeader().setOrganizationDocumentNumber("");
         this.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-
     }
 
     protected String getSpecialCircumstancesSequenceName() {
@@ -707,7 +711,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);
                 GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.ACTUAL_EXPENSES + "[" + counter + "]");
                 if(detailAmount.isGreaterThan(actualExpense.getExpenseAmount()) && !actualExpense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.MILEAGE)){     
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_AMOUNT_EXCEED, detailAmount.toString(), actualExpense.getExpenseAmount().toString());
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_AMOUNT_EXCEED, detailAmount.toString(), actualExpense.getExpenseAmount().toString());
                     return false;
                 }
                 GlobalVariables.getMessageMap().clearErrorPath();
@@ -1061,8 +1065,10 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 setTemProfileId(temProfile.getProfileId());
             }
             
-            traveler.setDocumentNumber(this.documentNumber);            
-            getTravelerService().convertTEMProfileToTravelerDetail(temProfile,(traveler == null?new TravelerDetail():traveler));
+            if (traveler != null) {
+                traveler.setDocumentNumber(this.documentNumber);            
+                getTravelerService().convertTEMProfileToTravelerDetail(temProfile,(traveler == null?new TravelerDetail():traveler));
+            }
         }
     }
     
@@ -1073,7 +1079,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @param temProfileId
      * @param traveler
      */
-    public void setupTraveler(Integer temProfileId, TravelerDetail traveler) {
+    public void configureTraveler(Integer temProfileId, TravelerDetail traveler) {
         
         if (traveler != null && traveler.getId() != null) {
             // There's a traveler, which means it needs to copy the traveler, rather than 
@@ -1279,18 +1285,16 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             if (!requiresAccountApprovalRouting()){
                 return false;
             }
+            
             if (getTraveler().getPrincipalId() != null){
                 return getTravelDocumentService().isResponsibleForAccountsOn(this, this.getTraveler().getPrincipalId());
-            }
-            else{
-                return false;
-            }
-            
+            }           
         }
         else if (code.equals(TemConstants.SEP_OF_DUTIES_DR)){
             if (!requiresDivisionApprovalRouting()){
                 return false;
             }
+            
             if (getTraveler().getPrincipalId() != null){
                 RoleService service = SpringContext.getBean(RoleManagementService.class);
                 List<String> principalIds = (List<String>) service.getRoleMemberPrincipalIds(PARAM_NAMESPACE, TemConstants.TEMRoleNames.DIVISION_REVIEWER, null);
@@ -1299,12 +1303,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                         return true;
                     }
                 }
-            }
-            else{
-                return false;
-            }
-            
+            }         
         }
+        
         return false;
     }
     
@@ -1503,7 +1504,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     public boolean checkMealWithoutLodging(PerDiemExpense pde) {        
-        return pde.getMealsTotal().isGreaterThan(KualiDecimal.ZERO) && pde.getLodging().isLessEqual(KualiDecimal.ZERO);
+        return pde.getMealsTotal().isGreaterThan(KualiDecimal.ZERO) && pde.getLodgingTotal().isLessEqual(KualiDecimal.ZERO);
     }
     
     public boolean checkMealWithoutLodging(ActualExpense actualExpense) {
@@ -1674,5 +1675,32 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
     public boolean canCreateREQSForVendor() {
         return (getDocumentHeader() != null && !(getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsInitiated() || getDocumentHeader().getWorkflowDocument().stateIsException() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || getDocumentHeader().getWorkflowDocument().stateIsSaved()));
-    } 
+    }
+    
+    @Override
+    public boolean isBoNotesSupport() {
+        return true;
+    }
+    
+    public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Created by " + this.getDocumentTypeName() + " document" + (this.getTravelDocumentIdentifier() == null?".":": " + this.getTravelDocumentIdentifier()));
+        disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());
+        String reasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE ,TravelParameters.VENDOR_PAYMENT_DV_REASON_CODE);
+        
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(reasonCode);
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
+        disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());
+              
+        Calendar dueDate = Calendar.getInstance();
+        dueDate.add(Calendar.DATE, 1);
+        disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(dueDate.getTimeInMillis()));
+        
+        Person initiator = SpringContext.getBean(PersonService.class).getPerson(this.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        if (initiator == null) {
+            throw new RuntimeException("Initiator could not be found in KIM!");
+        }
+        
+        disbursementVoucherDocument.setDisbVchrContactPersonName(initiator.getPrincipalName());
+        disbursementVoucherDocument.setDisbVchrContactPhoneNumber(initiator.getPhoneNumber());       
+    }
 }

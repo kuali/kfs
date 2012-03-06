@@ -74,14 +74,16 @@ public class ImportedExpenseLookupableHelperServiceImpl extends KualiLookupableH
         Iterator<HistoricalTravelExpense> it = results.iterator();
         while (it.hasNext()){
             HistoricalTravelExpense historicalTravelExpense = it.next();
-            if (value.equals(TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT)){
+            //removing filtering as part of KUALITEM-1220
+            newResults.add(historicalTravelExpense);
+            /*if (value.equals(TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT)){
                 if (historicalTravelExpense.getAgencyStagingDataId() != null){
                     newResults.add(historicalTravelExpense);
                 }
             }
             else{
                 newResults.add(historicalTravelExpense);
-            }
+            }*/
         }
         CollectionIncomplete collection = null;
         Integer limit = LookupUtils.getSearchResultsLimit(HistoricalTravelExpense.class);

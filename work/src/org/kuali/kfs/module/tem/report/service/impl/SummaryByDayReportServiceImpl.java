@@ -142,14 +142,14 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
             SummaryByDayReport.Detail perDiemMilage = new SummaryByDayReport.Detail("Per Diem Milage", perDiemExpense.getMileageTotal(), expenseDate);
             transportation.add(perDiemMilage);
             
-            SummaryByDayReport.Detail perDiemLodging = new SummaryByDayReport.Detail("Per Diem Lodging", perDiemExpense.getLodging(), expenseDate);
+            SummaryByDayReport.Detail perDiemLodging = new SummaryByDayReport.Detail("Per Diem Lodging", perDiemExpense.getLodgingTotal(), expenseDate);
             lodging.add(perDiemLodging);
             
             SummaryByDayReport.Detail perDiemMeal = new SummaryByDayReport.Detail("Per Diem Meals & Incidentals", perDiemExpense.getMealsAndIncidentals(), expenseDate);
             meals.add(perDiemMeal);
             
             milageWeekTotal = milageWeekTotal.add(perDiemExpense.getMileageTotal());
-            lodgingWeekTotal = lodgingWeekTotal.add(perDiemExpense.getLodging());
+            lodgingWeekTotal = lodgingWeekTotal.add(perDiemExpense.getLodgingTotal());
             mealWeekTotal = mealWeekTotal.add(perDiemExpense.getMealsAndIncidentals());
 
             incrementSummary(summaryData, expenseDate, perDiemExpense.getDailyTotal());

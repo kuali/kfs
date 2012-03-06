@@ -1275,5 +1275,9 @@
 	</bean>
 	
 	<bean id="travelEntertainmentMovingModuleService" class="org.kuali.kfs.module.tem.service.impl.TravelEntertainmentMovingModuleServiceImpl">
+		<property name="parameterService" ref="parameterService"/>
+		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelerService" ref="travelerService" />
+		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
     </bean>
 </beans>

@@ -16,17 +16,12 @@
 package org.kuali.kfs.module.tem.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DEFAULT_CHART_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.CHECK_ACH_PAYMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,21 +33,21 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -63,7 +58,6 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.rule.service.RuleService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
@@ -84,41 +78,59 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
         String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
         
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
-        for (ImportedExpense expense : document.getImportedExpenses()){
-            if (!expense.getCardType().equals(TemConstants.CARD_TYPE_CTS) 
-                && !expense.getNonReimbursable()){
-                expense.refreshReferenceObject("travelExpenseTypeCode");
-                TemTravelExpenseTypeCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeCode(), 
-                        document.getFinancialDocumentTypeCode(), document.getTripTypeCode(), document.getTraveler().getTravelerTypeCode());
-                expense.setTravelExpenseTypeCode(code);
-                String financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
-                debug("Refreshed importedExpense with expense type code ", expense.getTravelExpenseTypeCode(),
-                        " and financialObjectCode ", financialObjectCode);
 
-                final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, financialObjectCode);
-                if (objCode != null && code != null && !code.isPrepaidExpense()){
-                    AccountingDistribution distribution = null;
-                    String key = objCode.getCode() + "-" + expense.getCardType();
-                    if (distributionMap.containsKey(key)){
-                        distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getConvertedAmount()));
-                        distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getConvertedAmount()));
-                    }
-                    else{
-                        distribution = new AccountingDistribution();
-                        distribution.setObjectCode(objCode.getCode());
-                        distribution.setObjectCodeName(objCode.getName());
-                        distribution.setCardType(expense.getCardType());
-                        distribution.setRemainingAmount(expense.getConvertedAmount());
-                        distribution.setSubTotal(expense.getConvertedAmount());
-                        distributionMap.put(key, distribution);
-                    }
-                }
-                
-                
-            }
+        if (document.getImportedExpenses() != null){
+            calculateDistributionTotals(document, distributionMap, document.getImportedExpenses(), null);
         }
+        
         return distributionMap;
     }
+
+    private void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List expenses, String cardType){
+        String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
+        for (ImportedExpense expense : (List<ImportedExpense>)expenses) {
+            if (expense.getExpenseParentId() != null && expense.getCardType() == null){
+                expense.setCardType(cardType);
+            }
+            if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
+                calculateDistributionTotals(document, distributionMap, expense.getExpenseDetails(), expense.getCardType());
+            }
+            else {
+                if (expense.getCardType() != null 
+                        && !expense.getCardType().equals(TemConstants.CARD_TYPE_CTS) 
+                        && !expense.getNonReimbursable()){
+                    expense.refreshReferenceObject("travelExpenseTypeCode");
+                    TemTravelExpenseTypeCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeCode(), 
+                            document.getFinancialDocumentTypeCode(), document.getTripTypeCode(), document.getTraveler().getTravelerTypeCode());
+                    
+                    expense.setTravelExpenseTypeCode(code);
+                    String financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
+                    
+                    debug("Refreshed importedExpense with expense type code ", expense.getTravelExpenseTypeCode(),
+                            " and financialObjectCode ", financialObjectCode);
+
+                    final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, financialObjectCode);
+                    if (objCode != null && code != null && !code.isPrepaidExpense()){
+                        AccountingDistribution distribution = null;
+                        String key = objCode.getCode() + "-" + expense.getCardType();
+                        if (distributionMap.containsKey(key)){
+                            distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getConvertedAmount()));
+                            distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getConvertedAmount()));
+                        }
+                        else{
+                            distribution = new AccountingDistribution();
+                            distribution.setObjectCode(objCode.getCode());
+                            distribution.setObjectCodeName(objCode.getName());
+                            distribution.setCardType(expense.getCardType());
+                            distribution.setRemainingAmount(expense.getConvertedAmount());
+                            distribution.setSubTotal(expense.getConvertedAmount());
+                            distributionMap.put(key, distribution);
+                        }
+                    }
+                }
+            }
+        }
+    }      
 
     @Override
     public String getExpenseType() {
@@ -127,9 +139,7 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
     }
 
     @Override
-    public List<TEMExpense> getExpenseDetails(TravelDocument document) {
-       
-        
+    public List<TEMExpense> getExpenseDetails(TravelDocument document) {      
         return null;
     }
     
@@ -161,14 +171,12 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
     @Override
     public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable) {
         KualiDecimal total = KualiDecimal.ZERO;
-        
-        for (ImportedExpense expense : document.getImportedExpenses()){
-            if (!expense.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
-                if ((expense.getNonReimbursable().booleanValue() && includeNonReimbursable)
-                        || !expense.getNonReimbursable().booleanValue()){
-                    total = total.add(expense.getExpenseAmount());
-                }
-            }
+
+        if (includeNonReimbursable){
+            total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.ALL);
+        }
+        else{
+            total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE);
         }
         return total;
     }
@@ -176,17 +184,39 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
     @Override
     public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
         KualiDecimal total = KualiDecimal.ZERO;
-        
-        for (ImportedExpense expense : document.getImportedExpenses()){
-            if (!expense.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
-                if (expense.getNonReimbursable().booleanValue()){
-                    total = total.add(expense.getExpenseAmount());
-                }
-            }
-        }
+
+        total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE);
         return total;
     }
 
+    private KualiDecimal calculateTotals(KualiDecimal total, List expenses, String code){
+        for (TEMExpense expense : (List<TEMExpense>)expenses){
+            if (expense instanceof ImportedExpense
+                    && ((ImportedExpense)expense).getCardType() != null
+                    && !((ImportedExpense)expense).getCardType().equals(TemConstants.CARD_TYPE_CTS)){
+                if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
+                    total = total.add(calculateTotals(total, expense.getExpenseDetails(), code));
+                }
+                else{
+                    if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.ALL)){
+                        total = total.add(expense.getConvertedAmount());
+                    }
+                    else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE)){
+                        if ((expense.getTravelExpenseTypeCode() != null && expense.getTravelExpenseTypeCode().isPrepaidExpense()) || expense.getNonReimbursable()) {
+                            total = total.add(expense.getExpenseAmount());
+                        }
+                    }
+                    else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE)){
+                        if ((expense.getTravelExpenseTypeCode() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense()) && !expense.getNonReimbursable()) {
+                            total = total.add(expense.getExpenseAmount());
+                        }
+                    }
+                }
+            }           
+        }
+        
+        return total;
+    }
     
     @Override
     public void processExpense(TravelDocument travelDocument) {
@@ -197,8 +227,7 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
                     && !line.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
                 ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, line, sequenceHelper, false, travelDocument.getFinancialDocumentTypeCode());
             }
-        }
-        
+        }       
     }
 
     /**
@@ -210,7 +239,6 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
         String principalName = personService.getPerson(travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
         String principalPhoneNumber = personService.getPerson(travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPhoneNumber();
         
-
         //build map of the accounting line info and amount
         List<TemSourceAccountingLine> lines = travelDocument.getSourceAccountingLines();
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(travelDocument.getGeneralLedgerPendingEntries().size()+1);
@@ -300,13 +328,12 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
             disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
             disbursementVoucherDocument.setDisbVchrContactPersonName(principalName);
             disbursementVoucherDocument.setDisbVchrContactPhoneNumber(principalPhoneNumber);
-            disbursementVoucherDocument.setDisbVchrPaymentMethodCode(CHECK_ACH_PAYMENT);
+            disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
             disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TRAVEL_DOCUMENTATION_LOCATION_CODE));
             Calendar calendar = getDateTimeService().getCurrentCalendar();
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(calendar.getTimeInMillis()));
-            
-            
+                        
             //Attempt to blanket approve the document.
             try {
                 try {
@@ -353,9 +380,7 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
                     finally {
                         disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
                         GlobalVariables.setUserSession(new UserSession(currentUser));
-                    }
-                    
-                    
+                    }            
                 }
                 else{
                     saveDisbursementVoucher(disbursementVoucherDocument,travelDocument);

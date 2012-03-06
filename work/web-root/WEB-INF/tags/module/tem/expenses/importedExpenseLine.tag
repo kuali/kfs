@@ -74,9 +74,9 @@
 					<c:if test="${fullEntryMode }">
 			            <kul:lookup 
 			            	boClassName="org.kuali.kfs.fp.businessobject.TravelCompanyCode" 
-			            	fieldConversions="name:${expense}.travelCompanyCodeName,code:${expense}.travelExpenseTypeCodeId" 
+			            	fieldConversions="name:${expense}.travelCompanyCodeName,code:${expense}.travelCompanyCodeCode" 
 			            	fieldLabel="${importedExpenseAttributes.travelCompanyCodeName.label}" 
-			            	lookupParameters="'Y':importedExpenseAttributes.travelExpenseTypeCodeId" 
+			            	lookupParameters="${expense}.travelCompanyCodeCode:code,${expense}.travelCompanyCodeName:name" 
 			            	readOnlyFields="travelExpenseTypeCode.prepaidExpense"/> 	
 			    	</c:if>
 				</td>
@@ -86,6 +86,12 @@
 							attributeEntry="${importedExpenseAttributes.expenseAmount}"
 							property="${expense}.expenseAmount" 
 							readOnly="true" />
+						<c:set var="fullPath" value="document.importedExpenses[${lineNumber-1}].expenseAmount" />
+						<c:forEach items="${ErrorPropertyList}" var="key">
+							<c:if test="${key == fullPath}">
+								<kul:fieldShowErrorIcon />
+							</c:if>
+						</c:forEach>
 					</div>
 				</td>
 				<td valign="top" nowrap class="infoline">

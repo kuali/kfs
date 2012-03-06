@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.businessobject;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 
 import java.sql.Timestamp;
@@ -32,6 +33,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -292,13 +294,13 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
 
     /**
-     * This method gets the lodging cost for this day
+     * This method gets the lodging cost for this day. This method does not take into account personal expenses. Use getLodgingTotal() for that.
      * 
      * @return lodging cost
      */
     @Column(name = "LODGING", precision = 19, scale = 2)
     public KualiDecimal getLodging() {
-        if ((!personal) && ObjectUtils.isNotNull(lodging) && this.lodging.isGreaterThan(KualiDecimal.ZERO)) {
+        if (ObjectUtils.isNotNull(lodging) && this.lodging.isGreaterThan(KualiDecimal.ZERO)) {
             return lodging;
         }
         
@@ -316,7 +318,11 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     @Column(name = "MILES", nullable = false)
     public Integer getMiles() {
-        return miles;
+        if (ObjectUtils.isNotNull(miles) && miles > 0) {
+            return miles;
+        }
+        
+        return 0;
     }
 
     public void setMiles(Integer miles) {
@@ -329,7 +335,11 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
      * @return Returns the breakfastValue.
      */
     public KualiDecimal getBreakfastValue() {
-        return breakfastValue != null ? breakfastValue : KualiDecimal.ZERO;
+        if (ObjectUtils.isNotNull(breakfastValue) && this.breakfastValue.isGreaterThan(KualiDecimal.ZERO)) {
+            return breakfastValue;
+        }
+        
+        return KualiDecimal.ZERO;
     }
 
     /**
@@ -347,7 +357,11 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
      * @return Returns the lunchValue.
      */
     public KualiDecimal getLunchValue() {
-        return lunchValue != null ? lunchValue : KualiDecimal.ZERO;
+        if (ObjectUtils.isNotNull(lunchValue) && this.lunchValue.isGreaterThan(KualiDecimal.ZERO)) {
+            return lunchValue;
+        }
+        
+        return KualiDecimal.ZERO;
     }
 
     /**
@@ -365,7 +379,11 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
      * @return Returns the dinnerValue.
      */
     public KualiDecimal getDinnerValue() {
-        return dinnerValue != null ? dinnerValue : KualiDecimal.ZERO;
+        if (ObjectUtils.isNotNull(dinnerValue) && this.dinnerValue.isGreaterThan(KualiDecimal.ZERO)) {
+            return dinnerValue;
+        }
+        
+        return KualiDecimal.ZERO;
     }
 
     /**
@@ -375,13 +393,6 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
      */
     public void setDinnerValue(KualiDecimal dinnerValue) {
         this.dinnerValue = dinnerValue;
-    }
-
-    @Transient
-    public Integer getMilesTotal() {
-        refreshReferenceObject("mileageRate");
-
-        return ObjectUtils.isNotNull(this.miles) ? this.miles : 0;
     }
 
     @ManyToOne
@@ -446,6 +457,18 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
             }
         }
         return total;
+    }
+    
+    /**
+     * 
+     * This method gets the Lodging Total if it is not a personal expense.
+     * @return
+     */
+    public KualiDecimal getLodgingTotal() {
+        if (!personal) {
+            return this.getLodging();
+        }
+        return KualiDecimal.ZERO;        
     }
 
     /**
@@ -582,7 +605,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     public Boolean getIncidentalsWithMealsOnly() {
         if (incidentalsWithMealsOnly == null) {
             String incidentalsWithMealsOnlyParam = SpringContext.getBean(ParameterService.class).getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.INCIDENTALS_WITH_MEALS_ONLY_IND);
-            incidentalsWithMealsOnly = incidentalsWithMealsOnlyParam != null && incidentalsWithMealsOnlyParam.equals(KFSConstants.ParameterValues.YES);
+            incidentalsWithMealsOnly = incidentalsWithMealsOnlyParam != null && incidentalsWithMealsOnlyParam.equals(KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE);
         }
 
         return incidentalsWithMealsOnly;
@@ -599,7 +622,9 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
      */
     public KualiDecimal getIncidentalsValue() {
         if (getIncludeIncidentals()) {
-            return incidentalsValue != null ? incidentalsValue : KualiDecimal.ZERO;
+            if (ObjectUtils.isNotNull(incidentalsValue) && this.incidentalsValue.isGreaterThan(KualiDecimal.ZERO)) {
+                return incidentalsValue;
+            }
         }
 
         return KualiDecimal.ZERO;

@@ -19,6 +19,7 @@ import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TA_TRVL_REQ_GRTR_THAN_ZERO;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,8 @@ import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddTravelAdvanceLineEvent;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent;
@@ -39,7 +42,9 @@ import org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocum
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class TravelAuthTravelAdvanceValidation extends GenericValidation {
@@ -77,7 +82,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         boolean success = true;
         String temp = "";
         if (index > -1){
-            GlobalVariables.getMessageMap().addToErrorPath("document");
+            GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);
             temp = TravelAuthorizationFields.TRVL_ADV + "[" + index + "].";
         }
              
@@ -95,13 +100,26 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
             GlobalVariables.getMessageMap().putError(temp+TravelAuthorizationFields.TRVL_ADV_REQUESTED, ERROR_TA_TRVL_REQ_GRTR_THAN_ZERO);            
         }
         
+        if (advance.getDueDate() == null) {
+            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_MISSING);
+            success = false;            
+        }
+        else {
+            Date dueDate = DateUtils.clearTimeFields(advance.getDueDate());
+            Date today = DateUtils.clearTimeFields(new Date());
+            
+            if (dueDate != null && dueDate.before(today)) {
+                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "The Payment Due Date cannot be in the past.");
+                success = false;
+            }
+        }
+
         if (advance.getDueDate() != null && document.getTripEnd() == null){
             GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRIP_END_DT, TemKeyConstants.ERROR_TA_TRVL_TRIP_END_MISSING);
             success = false;
         }
-        else if (advance.getDueDate() != null 
-                && advance.getDueDate().after(document.getTripEnd())){
-            GlobalVariables.getMessageMap().putError(temp+TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_INVALID);
+        else if (advance.getDueDate() != null && advance.getDueDate().after(document.getTripEnd())) {
+            GlobalVariables.getMessageMap().putError(temp + TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_INVALID);
             success = false;
         }
         

@@ -98,12 +98,15 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
      */
     public Boolean getEnableNonReimbursable() {
         String cardTypes  = SpringContext.getBean(ParameterService.class).getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.ALWAYS_REIMBURSABLE_CARD_TYPE);
-        String[] cards = cardTypes.split(",");
-        for (String cardStr : cards){
-            if (getCardType().equalsIgnoreCase(cardStr)){
-                enableNonReimbursable = false;
+        if (cardTypes != null) {
+            String[] cards = cardTypes.split(",");
+            for (String cardStr : cards){
+                if (getCardType() != null && getCardType().equalsIgnoreCase(cardStr)){
+                    enableNonReimbursable = false;
+                }
             }
         }
+        
         return enableNonReimbursable;
     }
 

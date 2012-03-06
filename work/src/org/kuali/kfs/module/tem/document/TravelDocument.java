@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.document;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
@@ -291,4 +292,10 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     public String getDocumentTypeName();
     
     public String getReportPurpose();
+    
+    public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument);
+    
+    public KualiDecimal getPerDiemAdjustment();
+
+    public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment);
 }

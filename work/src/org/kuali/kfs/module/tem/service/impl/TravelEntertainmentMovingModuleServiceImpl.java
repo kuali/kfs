@@ -15,21 +15,36 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
+import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService;
 import org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument;
-import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
+import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
+import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class TravelEntertainmentMovingModuleServiceImpl implements TravelEntertainmentMovingModuleService {
 
+	private ParameterService parameterService;
+	private TravelDocumentService travelDocumentService;
+	private TravelerService travelerService;
+	private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+	
 	@Override
 	public boolean isTEMDocument(String docId) {
 		boolean isTEMDoc = false;
@@ -53,7 +68,7 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 	private Document find(String temDocId) {
 		TravelReimbursementDocument doc = null;
 		try {
-			List<TravelReimbursementDocument> results = SpringContext.getBean(TravelDocumentService.class).find(TravelReimbursementDocument.class, temDocId);
+			List<TravelReimbursementDocument> results = travelDocumentService.find(TravelReimbursementDocument.class, temDocId);
 			if(results != null && !results.isEmpty()) {
 				doc = results.get(0);
 			}
@@ -65,7 +80,97 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 
 	@Override
 	public boolean isTEMProfileEmployee(TravelEntertainmentMovingTravelDocument document) {
-		return SpringContext.getBean(TravelerService.class).isEmployee(document.getTraveler());
+		return travelerService.isEmployee(document.getTraveler());
 	}
+
+	@Override
+	public boolean isTravelManager(Person user) {
+		return travelDocumentService.isTravelManager(user);
+	}
+
+	@Override
+	public List<String> getTravelReasonCodes() {
+		//Create list of travel reason codes
+        List<String> travelReasonCodes = new ArrayList<String>();
+        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelAuthorizationParameters.PARAM_DTL_TYPE, TravelAuthorizationParameters.TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE));
+        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE));
+        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.VENDOR_PAYMENT_DV_REASON_CODE));
+        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelEntertainmentParameters.PARAM_DTL_TYPE, TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE));
+        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelRelocationParameters.PARAM_DTL_TYPE, TravelRelocationParameters.RELO_REIMBURSEMENT_DV_REASON_CODE));
+        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.CORP_CARD_BANK_PAYMENT_REASON_CODE));
+        
+        return travelReasonCodes;
+	}
+	
+    @Override
+    public void createAccountingDocumentRelationship(String documentNumber, String relDocumentNumber, String relationDescription) {
+        accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(documentNumber, relDocumentNumber, relationDescription));
+    }
+	
+	@Override 
+	public String getTravelReimbursementPaymentReasonCode() {
+	    return getParameterService().getParameterValue(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE);
+	}
+	
+    @Override 
+    public boolean isTravelReimbursementDocument(TravelEntertainmentMovingTravelDocument document) {
+        return document instanceof TravelReimbursementDocument;
+    }	
+
+	/**
+	 * Sets the parameterService attribute value.
+	 * @param parameterService The parameterService to set.
+	 */
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
+
+	/**
+	 * Gets the parameterService attribute. 
+	 * @return Returns the parameterService.
+	 */
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	/**
+	 * Sets the travelDocumentService attribute value.
+	 * @param travelDocumentService The travelDocumentService to set.
+	 */
+	public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
+		this.travelDocumentService = travelDocumentService;
+	}
+
+	/**
+	 * Gets the travelDocumentService attribute. 
+	 * @return Returns the travelDocumentService.
+	 */
+	public TravelDocumentService getTravelDocumentService() {
+		return travelDocumentService;
+	}
+
+	/**
+	 * Sets the travelerService attribute value.
+	 * @param travelerService The travelerService to set.
+	 */
+	public void setTravelerService(TravelerService travelerService) {
+		this.travelerService = travelerService;
+	}
+
+	/**
+	 * Gets the travelerService attribute. 
+	 * @return Returns the travelerService.
+	 */
+	public TravelerService getTravelerService() {
+		return travelerService;
+	}
+
+    public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
+        return accountingDocumentRelationshipService;
+    }
+
+    public void setAccountingDocumentRelationshipService(AccountingDocumentRelationshipService accountingDocumentRelationshipService) {
+        this.accountingDocumentRelationshipService = accountingDocumentRelationshipService;
+    }
 
 }

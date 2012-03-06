@@ -48,28 +48,19 @@ public interface TravelRelocationService {
     
     /**
      * 
-     * This method initiates Disbursement Voucher
-     * @param relocation
-     */
-    public void createDVForVendor(TravelRelocationDocument relocation);
-    
-    /**
-     * 
      * This method initiates Disbursement Voucher for Reimbursement
      * @param relocation
      */
-    public void createDVForReimbursement(TravelRelocationDocument relocation);
+    public void createDVReimbursement(TravelRelocationDocument relocation);    
     
-    /**
-     * 
-     * This method initiates Requisition document
-     * @param relocation
-     */
-    public void createREQS(TravelRelocationDocument relocation);
+    // TODO: remove this when sure.
+    //public void createDVForVendor(TravelRelocationDocument relocation);
     
-    public void populateDisbursementVoucherFieldsForVendor(final DisbursementVoucherDocument dvDocument, TravelRelocationDocument reloDocument);
+    //public void createREQS(TravelRelocationDocument relocation);
     
-    public void populateRequisitionFields(final RequisitionDocument reqsDocument, TravelRelocationDocument reloDocument);
+    //public void populateDisbursementVoucherFieldsForVendor(final DisbursementVoucherDocument dvDocument, TravelRelocationDocument reloDocument);
+    
+    //public void populateRequisitionFields(final RequisitionDocument reqsDocument, TravelRelocationDocument reloDocument);
     
     public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService();
 

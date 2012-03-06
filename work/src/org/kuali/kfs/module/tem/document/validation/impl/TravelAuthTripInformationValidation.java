@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
@@ -22,6 +24,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -31,6 +34,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -49,6 +53,16 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
             String errorMessage = getTravelService().validatePhoneNumber(document.getTraveler().getCountryCode(), document.getTraveler().getPhoneNumber(), TemKeyConstants.ERROR_PHONE_NUMBER);
             if (!StringUtils.isBlank(errorMessage)) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TravelAuthorizationFields.TRAVELER_PHONENUMBER, errorMessage, new String[] { "Traveler Phone Number" });
+                rulePassed = false;
+            }
+        }
+        
+        if (event.getDocument() instanceof TravelReimbursementDocument) {
+            Date endDate = DateUtils.clearTimeFields(document.getTripEnd());
+            Date today = DateUtils.clearTimeFields(new Date());
+            
+            if (endDate != null && today.before(endDate)) {
+                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Travel Reimbursement Document cannot be submitted before the trip end date has passed.");
                 rulePassed = false;
             }
         }

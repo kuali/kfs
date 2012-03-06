@@ -616,6 +616,11 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
                     }
                 }
                 
+                if (document.getPerDiemAdjustment() != null 
+                        && document.getPerDiemAdjustment().isPositive()){
+                    distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().subtract(document.getPerDiemAdjustment()));
+                    distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().subtract(document.getPerDiemAdjustment()));
+                }
                 distributeLodging(distributionMap, document);
                 distributeMileage(distributionMap, document);
             }
@@ -653,8 +658,8 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
                     accountingDistribution.setObjectCodeName(lodgingObjCode.getName());
                     distributionMap.put(key, accountingDistribution);
                 }
-                distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getLodging()));
-                distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getLodging()));       
+                distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getLodgingTotal()));
+                distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getLodgingTotal()));       
             }
         }
     }
@@ -755,6 +760,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
                 total = total.add(expense.getDailyTotal());
             }
         }
+        
         return total;
     }
 
@@ -783,7 +789,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
         KualiDecimal lodgingTotal = KualiDecimal.ZERO;
         for (PerDiemExpense perDiemExpense : travelDocument.getPerDiemExpenses()) {
             if (!perDiemExpense.getPersonal()) {
-                lodgingTotal = lodgingTotal.add(perDiemExpense.getLodging());
+                lodgingTotal = lodgingTotal.add(perDiemExpense.getLodgingTotal());
             }
         }
         return lodgingTotal;
@@ -808,7 +814,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     public Integer getMilesGrandTotal(TravelDocument travelDocument) {
         Integer milesTotal = 0;
         for (PerDiemExpense perDiemExpense : travelDocument.getPerDiemExpenses()) {
-            milesTotal = milesTotal + perDiemExpense.getMilesTotal();
+            milesTotal = milesTotal + perDiemExpense.getMiles();
         }
         return milesTotal;
     }

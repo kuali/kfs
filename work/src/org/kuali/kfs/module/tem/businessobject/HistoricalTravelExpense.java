@@ -44,6 +44,8 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     
     private String tripId;
     private String documentType;
+    private String creditCardOrAgencyCode;
+    private String travelExpenseTypeString;
     
     private CreditCardStagingData creditCardStagingData;
     private AgencyStagingData agencyStagingData;
@@ -170,5 +172,37 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /**
+     * Gets the creditCardOrAgencyCode attribute. 
+     * @return Returns the creditCardOrAgencyCode.
+     */
+    public String getCreditCardOrAgencyCode() {
+        return creditCardOrAgencyCode;
+    }
+
+    /**
+     * Sets the creditCardOrAgencyCode attribute value.
+     * @param creditCardOrAgencyCode The creditCardOrAgencyCode to set.
+     */
+    public void setCreditCardOrAgencyCode(String creditCardOrAgencyCode) {
+        this.creditCardOrAgencyCode = creditCardOrAgencyCode;
+    }
+
+    /**
+     * Gets the travelExpenseTypeString attribute. 
+     * @return Returns the travelExpenseTypeString.
+     */
+    public String getTravelExpenseTypeString() {
+        return travelExpenseTypeString;
+    }
+
+    /**
+     * Sets the travelExpenseTypeString attribute value.
+     * @param travelExpenseTypeString The travelExpenseTypeString to set.
+     */
+    public void setTravelExpenseTypeString(String travelExpenseTypeString) {
+        this.travelExpenseTypeString = travelExpenseTypeString;
     }
 }

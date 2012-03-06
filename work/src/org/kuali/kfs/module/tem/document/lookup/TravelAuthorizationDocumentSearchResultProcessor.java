@@ -53,38 +53,20 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
         // KUALITEM check if document is on hold or cancelled. If on hold, no link.
 
         final String documentStatus = docCriteriaDTO.getDocRouteStatusCode();
+        final String appDocStatus = docCriteriaDTO.getAppDocStatus();
         return (documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD)
                 || (documentStatus.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD)))
-                && (!docCriteriaDTO.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD))
-                && (!docCriteriaDTO.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.CANCELLED))
-                && (!docCriteriaDTO.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT))
-                && (!docCriteriaDTO.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION));
+                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD))
+                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED))
+                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT))
+                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION));
     }
 
     private boolean otherPaymentMethodsAllowed(DocSearchDTO docCriteriaDTO) {
-        boolean enablePayments = getParameterService().getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND);
-        if (enablePayments) {
-            return true;
-        }
-        else {
-            String date = docCriteriaDTO.getSearchableAttribute("tripBegin").getUserDisplayValue();
-            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-            try {
-                Date tripBegin = dateTimeService.convertToDate(date);
-                Date now = dateTimeService.getCurrentDate();
-
-                if (now != null && tripBegin != null) {
-                    if (now.before(tripBegin)) {
-                        return true;
-                    }
-                }
-            }
-            catch (ParseException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
-            }
-        }
-        return false;
+        final String documentStatus = docCriteriaDTO.getDocRouteStatusCode();
+        return (getParameterService().getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND) 
+                || documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD) 
+                || documentStatus.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD));
     }
 
     private String createPaymentsURL(DocSearchDTO docCriteriaDTO, String tripID) {

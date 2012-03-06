@@ -30,7 +30,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationBase{
     
- 
     @Override
     public boolean doPrompts(Document document) {
         boolean continueRoute = true;
@@ -49,7 +48,6 @@ public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationB
                 if (ObjectUtils.isNotNull(note.getAttachment())&& TemConstants.AttachmentTypeCodes.NON_EMPLOYEE_FORM.equals(note.getAttachment().getAttachmentTypeCode())) {
                     nonEmployeeFormAttached = true;
                 }
-
             }
         }
         
@@ -71,5 +69,4 @@ public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationB
         }
         return continueRoute ? true : userClickedYes;
     }
-
 }

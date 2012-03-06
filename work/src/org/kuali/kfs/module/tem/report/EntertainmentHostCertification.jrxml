@@ -88,50 +88,44 @@
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{report}.getEventTitle()]]></textFieldExpression>
 			</textField>
+			
 			<staticText>
 				<reportElement x="38" y="126" width="128" height="20"/>
-				<textElement>
-					<font fontName="Arial" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Entertainment Type]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="38" y="146" width="128" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Business Purpose]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="38" y="166" width="149" height="20"/>
+				<reportElement x="38" y="146" width="149" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Entertainment Host Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="38" y="186" width="110" height="20"/>
+				<reportElement x="38" y="166" width="110" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Employee Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="38" y="206" width="146" height="20"/>
+				<reportElement x="38" y="186" width="146" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Approving Department]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="38" y="226" width="71" height="20"/>
+				<reportElement x="38" y="206" width="71" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Event Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="38" y="246" width="85" height="20"/>
+				<reportElement x="38" y="226" width="85" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
@@ -146,37 +140,32 @@
 				<text><![CDATA[Report Expenses]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="205" y="126" width="347" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$P{report}.getEventTitle()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="205" y="146" width="165" height="20"/>
+				<reportElement x="205" y="126" width="165" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{report}.getPurpose()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="205" y="166" width="165" height="20"/>
+				<reportElement x="205" y="146" width="165" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{report}.getEntertainmentHostName()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="205" y="186" width="165" height="20"/>
+				<reportElement x="205" y="166" width="165" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{report}.getEmployeeName()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="205" y="206" width="165" height="20"/>
+				<reportElement x="205" y="186" width="165" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{report}.getApprovingDepartment()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="205" y="226" width="165" height="20"/>
+				<reportElement x="205" y="206" width="165" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{report}.getBeginDate().toString()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="205" y="246" width="165" height="20"/>
+				<reportElement x="205" y="226" width="165" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{report}.getTotalExpense().toString()]]></textFieldExpression>
 			</textField>
@@ -255,13 +244,6 @@
 			</staticText>
 			<staticText>
 				<reportElement x="189" y="226" width="16" height="20"/>
-				<textElement>
-					<font fontName="Arial" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[: ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="189" y="246" width="16" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>

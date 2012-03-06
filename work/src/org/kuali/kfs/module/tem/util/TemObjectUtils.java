@@ -54,55 +54,5 @@ public class TemObjectUtils {
         }
            
         return nonStaticFields;        
-    }
-    
-    public static List<String> getSettableFieldNames(Class<?> c){
-        Method[] methods = c.getMethods();
-        List<String> settableFields = new ArrayList<String>();
-        for (Method m : methods) {
-            if(Modifier.isPublic(m.getModifiers())){
-                String methodName = m.getName();
-                if (methodName.startsWith(SET_PREFIX)) {
-                    String tmpFirstLetter = methodName.charAt(SET_PREFIX.length()) +"";
-                    settableFields.add(tmpFirstLetter.toLowerCase()+methodName.substring(SET_PREFIX.length()+1));
-                }
-            }
-        }
-           
-        return settableFields;        
-    }    
-    
-    /**
-     * 
-     * This method copies all properties based on the destination object's settable fields
-     * @param dest
-     * @param orig
-     */
-    public static void copyProperties(Object dest, Object orig){
-        if(dest != null && orig != null){
-            List<String> destFieldNames =  getSettableFieldNames(dest.getClass());
-            
-            for(String fieldName : destFieldNames){
-                try {
-                    ObjectUtils.setObjectProperty(dest, fieldName, ObjectUtils.getPropertyValue(orig,fieldName));
-                }
-                catch (FormatException ex) {
-                    LOG.warn("Class: "+ dest.getClass().getSimpleName() + " - fieldName: " + fieldName);
-                    ex.printStackTrace();
-                }
-                catch (IllegalAccessException ex) {
-                    LOG.warn("Class: "+ dest.getClass().getSimpleName() + " - fieldName: " + fieldName);
-                    ex.printStackTrace();
-                }
-                catch (InvocationTargetException ex) {
-                    LOG.warn("Class: "+ dest.getClass().getSimpleName() + " - fieldName: " + fieldName);
-                    ex.printStackTrace();
-                }
-                catch (NoSuchMethodException ex) {
-                    LOG.warn("Class: "+ dest.getClass().getSimpleName() + " - fieldName: " + fieldName);
-                    ex.printStackTrace();
-                }
-            }
-        }
-    }    
+    }   
 }

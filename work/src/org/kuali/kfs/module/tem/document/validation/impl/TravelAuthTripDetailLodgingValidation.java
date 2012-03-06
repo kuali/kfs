@@ -28,14 +28,13 @@ public class TravelAuthTripDetailLodgingValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean rulePassed = true;
         TravelAuthorizationDocument taDocument = (TravelAuthorizationDocument)event.getDocument();
-
         
-      //check for negative amounts
+        // check for negative amounts
         for (PerDiemExpense estimate : taDocument.getPerDiemExpenses()) {
             if (estimate.getLodging() != null) {
                 if (estimate.getLodging().isNegative()) {
                     GlobalVariables.getMessageMap().putError("document.perDiemExpenses", TemKeyConstants.ERROR_TA_NO_NEGATIVE_AMOUNT);
-                    rulePassed = false;    
+                    rulePassed = false;
                 }
             }
         }

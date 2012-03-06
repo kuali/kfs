@@ -371,17 +371,25 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         UserSession originalUser = GlobalVariables.getUserSession();
         KualiWorkflowDocument originalWorkflowDocument = paymentApplication.getDocumentHeader().getWorkflowDocument();
         
-    	try {
+        try {
             // original initiator may not have permission to blanket approve the APP
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-            
+
             KualiWorkflowDocument newWorkflowDocument = getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(paymentApplication.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
             newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
-            
+
             paymentApplication.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
 
             getAccountsReceivableModuleService().blanketApprovePaymentApplicationDocument(paymentApplication, reimbursement.getTravelDocumentIdentifier());
-    	}
+
+            final String noteText = String.format("Application Document %s was system generated.", paymentApplication.getDocumentNumber());
+            final Note noteToAdd = getDocumentService().createNoteFromDocument(reimbursement, noteText);
+            getDocumentService().addNoteToDocument(reimbursement, noteToAdd);
+        }
+        catch (Exception ex) {
+            // TODO Auto-generated catch block
+            ex.printStackTrace();
+        }
         finally {
             GlobalVariables.setUserSession(originalUser);
             paymentApplication.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
@@ -523,6 +531,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         retval.setAccountsReceivableInvoicePaidApplieds(accountsReceivableInvoicePaidApplieds);
         
         debug("The applied total is now ", appliedTotal);
+        reimbursement.setTravelAdvanceAmount(appliedTotal);
 
         return retval;
     }
@@ -548,8 +557,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         for (final AccountReceivableCustomerInvoice invoice : invoices) {
             debug("Remaining cash control total is ", remaining);
             if (remaining.isGreaterThan(KualiDecimal.ZERO)) {
-                KualiDecimal applyAmount = invoice.getTotalDollarAmount();
-                debug("Got invoice with ", applyAmount);
+                KualiDecimal applyAmount = invoice.getOpenAmount();
+                debug("Got invoice with open amount ", applyAmount, " docNbr: ", invoice.getDocumentNumber());
 
                 if (applyAmount.isGreaterThan(remaining)) {
                     applyAmount = KualiDecimal.ZERO.add(remaining);

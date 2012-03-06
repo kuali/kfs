@@ -178,11 +178,11 @@ public class ActualExpenseRequiredInfoValidation extends GenericValidation {
         if (maxAmount.isNonZero() && maxAmount.subtract(getTotalExpenseAmount(actualExpense, document)).isNegative()) {
             if (expenseTypeCode.isPerDaily()) {
                 valid = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY, expenseTypeCode.getMaximumAmount().toString());
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY, expenseTypeCode.getMaximumAmount().toString());
             }
             else if (expenseTypeCode.isPerOccurrence()) {
                 valid = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_AMT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU, expenseTypeCode.getMaximumAmount().toString());
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU, expenseTypeCode.getMaximumAmount().toString());
             }
         }
         return valid;
@@ -218,7 +218,7 @@ public class ActualExpenseRequiredInfoValidation extends GenericValidation {
         if (actualExpense.isLodging()) {
             if (isLodgingAllowanceEntered(actualExpense, document)) {
                 valid = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_REIMB_CUR_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
             }
         }
 
@@ -243,7 +243,7 @@ public class ActualExpenseRequiredInfoValidation extends GenericValidation {
 
             if (isLodgingEntered(actualExpense, document)) {
                 valid = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_REIMB_CUR_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
             }
         }
 
@@ -340,7 +340,7 @@ public class ActualExpenseRequiredInfoValidation extends GenericValidation {
 
     private Boolean isPerDiemLodgingEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
-            if (ObjectUtils.isNotNull(perDiemExpenseLine.getLodging()) && perDiemExpenseLine.getLodging().isGreaterThan(KualiDecimal.ZERO)) {
+            if (ObjectUtils.isNotNull(perDiemExpenseLine.getLodgingTotal()) && perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
                 return Boolean.TRUE;
             }
         }

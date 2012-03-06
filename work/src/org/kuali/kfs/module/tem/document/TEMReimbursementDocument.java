@@ -103,11 +103,13 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     }
 
     public KualiDecimal getReimbursableGrandTotal() {
-        KualiDecimal entertainmentGrandTotal = KualiDecimal.ZERO;
-        entertainmentGrandTotal = getApprovedAmount().add(getTotalPaidAmountToVendor()).add(getTotalPaidAmountToRequests());
-        if (KualiDecimal.ZERO.isGreaterThan(entertainmentGrandTotal)) {
+        KualiDecimal grandTotal = KualiDecimal.ZERO;
+        grandTotal = getApprovedAmount().add(getTotalPaidAmountToVendor()).add(getTotalPaidAmountToRequests());
+               
+        if (KualiDecimal.ZERO.isGreaterThan(grandTotal)) {
             return KualiDecimal.ZERO;
         }
-        return entertainmentGrandTotal;
+        
+        return grandTotal;
     }   
 }

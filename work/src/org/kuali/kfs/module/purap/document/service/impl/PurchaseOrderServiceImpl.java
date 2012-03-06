@@ -94,6 +94,7 @@ import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
@@ -335,7 +336,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     po.setDefaultValuesForAPO();
                     po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
                     documentService.routeDocument(po, null, null);
-                    final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = SpringContext.getBean(DocumentAttributeIndexingQueue.class);
+                    final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();                            
                     documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());
                      return null;
                 }

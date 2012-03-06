@@ -77,7 +77,7 @@
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='PERM_TMPL_ID' value='27' />
 			<column name='NMSPC_CD' value='KFS-PURAP' />
-			<column name='NM' value='Full Unmask Field' />
+			<column name='NM' value='Unmask PO # On PO Document' />
 			<column name='DESC_TXT'
 				value='Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry' />
 			<column name='ACTV_IND' value='Y' />
@@ -116,7 +116,7 @@
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='RSP_TMPL_ID' value='1' />
 			<column name='NMSPC_CD' value='KFS-FP' />
-			<column name='NM' value='Review' />
+			<column name='NM' value='DV Separation of Duties' />
 			<column name='DESC_TXT' value='' />
 			<column name='ACTV_IND' value='Y' />
 		</insert>
@@ -184,7 +184,7 @@
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='PERM_TMPL_ID' value='33' />
 			<column name='NMSPC_CD' value='KFS-LD' />
-			<column name='NM' value='Upload Batch Input File(s)' />
+			<column name='NM' value='Upload Labor Enterprise Feed Batch Files' />
 			<column name='DESC_TXT'
 				value='Allows access to the Labor Enterprise Feed Upload Batch Upload page.' />
 			<column name='ACTV_IND' value='Y' />

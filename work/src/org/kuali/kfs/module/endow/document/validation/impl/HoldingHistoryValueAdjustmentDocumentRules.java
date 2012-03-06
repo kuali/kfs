@@ -29,6 +29,7 @@ import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
@@ -42,7 +43,6 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-
         HoldingHistoryValueAdjustmentDocument holdingHistoryValueAdjustmentDocument = (HoldingHistoryValueAdjustmentDocument) document;
 
         boolean isValid = true;

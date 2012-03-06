@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -327,7 +328,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public void toCopy() throws WorkflowException, ValidationException {
         super.toCopy();
-
+        
         // Clear related views
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         this.setRelatedViews(null);
@@ -388,6 +389,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             RequisitionItem item = (RequisitionItem) iter.next();
             item.setPurapDocumentIdentifier(null);
             item.setItemIdentifier(null);
+            item.setObjectId(UUID.randomUUID().toString()); 
+            
             for (Iterator acctIter = item.getSourceAccountingLines().iterator(); acctIter.hasNext();) {
                 RequisitionAccount account = (RequisitionAccount) acctIter.next();
                 account.setAccountIdentifier(null);

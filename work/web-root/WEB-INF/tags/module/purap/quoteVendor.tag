@@ -143,7 +143,7 @@
 			readOnly="${!quoteEditable}" tabindexOverride="${tabindexOverrideBase + 8}"/>/ 
 		<kul:htmlControlAttribute 
 			attributeEntry="${vendorQuoteAttributes.vendorCountryCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorCountryCode" 
-			readOnly="${!quoteEditable}" extraReadOnlyProperty="document.purchaseOrderVendorQuote[${ctr}].vendorCountry.postalCountryName" 
+			readOnly="${!quoteEditable}" extraReadOnlyProperty="document.purchaseOrderVendorQuote[${ctr}].vendorCountry.name" 
 			tabindexOverride="${tabindexOverrideBase + 8}"/>
 	</td>
 	<th align=right valign=middle class="bord-l-b">

@@ -74,7 +74,7 @@
 				<td class="grid" width="25%">
 					<kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationCountry.postalCountryName" attributeEntry="${assetLocationAttributes.assetLocationCountryCode}" readOnly="true" readOnlyBody="true">
 						<kul:inquiry boClassName="org.kuali.rice.krad.bo.Country" keyValues="postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
-                			<html:hidden write="true" property="document.asset.offCampusLocation.assetLocationCountry.postalCountryName" />
+                			<html:hidden write="true" property="document.asset.offCampusLocation.assetLocationCountry.name" />
                 		</kul:inquiry>&nbsp;
             		</kul:htmlControlAttribute>
 				</td>

@@ -226,7 +226,7 @@
 	            	</th>
 	            	<td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode"
-	                    extraReadOnlyProperty="document.vendorCountry.postalCountryName" 
+	                    extraReadOnlyProperty="document.vendorCountry.name" 
 	                    readOnly="${not fullEntryMode}" 
 	                    tabindexOverride="${tabindexOverrideBase + 5}"/>
 	            	</td>

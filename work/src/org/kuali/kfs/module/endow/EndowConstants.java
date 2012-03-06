@@ -294,7 +294,7 @@ public class EndowConstants {
     public static final class HistoryHoldingValueAdjustmentValuationCodes {
         public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE = "U";
         public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE = "M";
-        public static final String HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS = "holdingHistory*";
+        public static final String HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS = "document.holdingHistoryValueAdjustment.";
     }
 
     // Consolidated Object Code Constants

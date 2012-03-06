@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document;
 
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
@@ -218,6 +219,8 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     public void toCopy() throws WorkflowException, IllegalStateException {
         FinancialSystemDocumentHeader oldDocumentHeader = getFinancialSystemDocumentHeader();
         super.toCopy();
+        
+        setObjectId(UUID.randomUUID().toString());        
         getFinancialSystemDocumentService().prepareToCopy(oldDocumentHeader, this);
     }
 }

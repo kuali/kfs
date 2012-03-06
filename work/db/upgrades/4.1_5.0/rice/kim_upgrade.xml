@@ -492,7 +492,6 @@
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 	</changeSet>
-<!-- JHK: Up to here in inclusion in master data scripts -->
 	
 	<changeSet author="jksmith" id="KFSMI6886_PAYEE_ACH_ADMIN_ROLE">
 		<comment>New role for administration of Payee ACH Accounts, with attendant new KIM role type and permissions.  SQL contributed by Ying.</comment>
@@ -534,6 +533,7 @@
 			<column name="ACTV_IND" value="Y" />
 			<column name="LAST_UPDT_DT" value="SYSDATE" />
 		</insert>
+		<!-- DEMO DATA - SHOULD NOT BE IN UPGRADE SCRIPTS -->
 		<insert tableName="KRIM_ROLE_MBR_T">
 			<column name="ROLE_MBR_ID" value="KFSMI6886-ROLE-P1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
@@ -567,12 +567,12 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="(select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS') " />
 			<column name="NMSPC_CD" value="KFS-PDP" />
-			<column name="NM" value="Create / Maintain Record(s) " />
+			<column name="NM" value="Maintain ACH Accounts" />
 			<column name="DESC_TXT" value="Allows to view and update Payee ACH Accounts of a certain transaction type." />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSMI6886-AT2" />
+			<column name="ATTR_DATA_ID" value="KFSMI6886-AT1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="KFSMI6886-PRM1" />
@@ -603,7 +603,7 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="(select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
 			<column name="NMSPC_CD" value="KFS-PDP" />
-			<column name="NM" value="Look Up Records" />
+			<column name="NM" value="Lookup ACH Accounts" />
 			<column name="DESC_TXT" value="Allows the lookup of Payee ACH Account records of certain transaction type(s)." />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -639,7 +639,7 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="(select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Initiate Document' and nmspc_cd = 'KR-SYS') " />
 			<column name="NMSPC_CD" value="KFS-PDP" />
-			<column name="NM" value="Initiate Document" />
+			<column name="NM" value="Initiate ACH Account Document" />
 			<column name="DESC_TXT" value="Allows initiation the PDP Payee ACH Account maintenance document." />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -669,6 +669,7 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>
+<!-- JHK: Up to here in inclusion in master data scripts -->
 	
 	<changeSet author="jksmith" id="KFSMI7041_PERM_TO_USE_FRINGE_BENEFIT_INQUIRY_ACTION">
 		<comment>Create a KR-NS Use Screen template permission for the org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction.</comment>

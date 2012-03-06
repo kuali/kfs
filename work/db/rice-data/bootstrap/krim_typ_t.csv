@@ -37,3 +37,4 @@
 "KFSSEC3","KFSSEC3","1","Attribute Name & Namespace","securityAttributeNamespacePermissionTypeService","Y","KFS-SEC"
 "KFSSEC4","KFSSEC4","1","Constraint, Operator, & Value","securityAttributeRoleTypeService","Y","KFS-SEC"
 KFSMI4553-1,KFSMI4553-1,1,Exclude Single Actor Separation Of Duties,excludeSingleActorSeparationOfDutiesRoleTypeService,Y,KFS-SYS
+KFSMI6886-TYP,KFSMI6886-TYP,1,Payee ACH Account,payeeACHAccountRoleTypeService,Y,KFS-PDP

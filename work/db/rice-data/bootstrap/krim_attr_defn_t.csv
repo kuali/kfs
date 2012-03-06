@@ -22,3 +22,4 @@
 "KFSSEC101","KFSSEC101","1","propertyValue","","Y","KFS-SEC","org.kuali.kfs.sec.identity.SecKimAttributes"
 "KFSSEC102","KFSSEC102","1","constraintCode","","Y","KFS-SEC","org.kuali.kfs.sec.identity.SecKimAttributes"
 "KFSSEC103","KFSSEC103","1","overrideDeny","","Y","KFS-SEC","org.kuali.kfs.sec.identity.SecKimAttributes"
+KFSMI6886-ATTRDEF,KFSMI6886-ATTRDEF,1,achTransactionTypeCode,"",Y,KFS-PDP,org.kuali.kfs.sys.identity.KfsKimAttributes

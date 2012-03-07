@@ -536,7 +536,7 @@
 	</target>
 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
-		<copy file="${build.directory}/${log4j.library.file}" todir="${lib.directory}" />
+		<copy file="${build.directory}/log4j*.jar" todir="${lib.directory}" />
 	</target>
 
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
@@ -544,7 +544,7 @@
 	    already there. -->
 	        <isset property="is.local.build" />
 	        <then>
-        		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
+        		<copy file="${build.directory}/log4j*.jar" todir="${appserver.lib.dir}"/>
             </then>
         </if>
 	</target>

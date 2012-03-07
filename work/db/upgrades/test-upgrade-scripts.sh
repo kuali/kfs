@@ -173,7 +173,7 @@ if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 	perl -pi -e 's/nextval="[^"]*"/nextval="0"/g' new_schema.xml
 
 	# Remove some extra control characters from the view
-	perl -pi -e 's/&#xa;//g' upgraded_data/schema.xml
+	perl -pi -e 's/&#xa;//g' upgraded_schema.xml
 	perl -pi -e 's/&#xa;//g' new_schema.xml
 
 	if [[ "$DB_TYPE" == "MYSQL" ]]; then

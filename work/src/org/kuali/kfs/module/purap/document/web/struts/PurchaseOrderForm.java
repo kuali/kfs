@@ -362,21 +362,21 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
-    @Override
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
-
-        PurchaseOrderDocument po = (PurchaseOrderDocument)getDocument();
+//    @Override
+ //   public void populate(HttpServletRequest request) {
+ //       super.populate(request);
+//
+ //       PurchaseOrderDocument po = (PurchaseOrderDocument)getDocument();
 
         // RICE20 : need to determine what to do about documentBusinessObject
 //        if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
 //            po.refreshDocumentBusinessObject();
 //        }
-        NoteService noteService = SpringContext.getBean(NoteService.class);
-        for (Note note : noteService.getByRemoteObjectId(po.getObjectId())) {
-            note.refreshReferenceObject("attachment");
-        }        
-    }
+ //       NoteService noteService = SpringContext.getBean(NoteService.class);
+//        for (Note note : noteService.getByRemoteObjectId(po.getObjectId())) {
+ //           note.refreshReferenceObject("attachment");
+  //      }        
+  //  }
     
     /**
      * Processes validation rules having to do with any payment requests that the given purchase order may have. Specifically,

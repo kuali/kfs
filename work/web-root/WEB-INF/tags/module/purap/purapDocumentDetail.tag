@@ -118,7 +118,7 @@
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute 
                     property="document.contractManager.contractManagerName" 
-                    attributeEntry="${documentAttributes.contractManager.contractManagerName}" 
+                    attributeEntry="${documentAttributes.contractManagerName}" 
                     readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}" />
                 <c:if test="${preRouteChangeMode}" >
                     <kul:lookup

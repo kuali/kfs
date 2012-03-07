@@ -45,6 +45,7 @@
     <purap:puritems itemAttributes="${DataDictionary.RequisitionItem.attributes}"
     	accountingLineAttributes="${DataDictionary.RequisitionAccount.attributes}" 
     	displayRequisitionFields="true"/>
+    	
  	<purap:purCams documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
 		itemAttributes="${DataDictionary.RequisitionItem.attributes}" 
 		camsItemAttributes="${DataDictionary.RequisitionCapitalAssetItem.attributes}" 
@@ -52,7 +53,6 @@
 		camsAssetAttributes="${DataDictionary.RequisitionItemCapitalAsset.attributes}"
 		camsLocationAttributes="${DataDictionary.RequisitionCapitalAssetLocation.attributes}" 
 		isRequisition="true" />
-
 
     <purap:paymentinfo
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />

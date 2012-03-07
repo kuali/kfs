@@ -49,14 +49,6 @@ public class PurchaseOrderView extends AbstractRelatedView {
         this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
     }
 
-    public String getPurchaseOrderStatusCode() {
-        return SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderAppDocStatus(this.getPurapDocumentIdentifier());
-    }
-
-    @Deprecated
-    public void setPurchaseOrderStatusCode(String purchaseOrderStatusCode) {
-    }
-
     public String getRecurringPaymentTypeCode() {
         return recurringPaymentTypeCode;
     }

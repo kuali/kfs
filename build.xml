@@ -534,9 +534,14 @@
 			<fileset dir="${appserver.localhost.dir}" includes="kfs-*.xml" />
 		</delete>
 	</target>
-
+ 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
-		<copy file="${build.directory}/log4j*.jar" todir="${lib.directory}" />
+		<copy todir="${lib.directory}">
+	            <fileset dir="${build.directory}">
+                	<include name="**/log4j*.jar" />
+           		 </fileset>
+        </copy>
+			
 	</target>
 
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">

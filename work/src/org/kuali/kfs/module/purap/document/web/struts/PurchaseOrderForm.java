@@ -335,8 +335,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             //principalId is not authorized to see the PO number so mask the value.
             if (!isAuthorized) {
                 DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-                AttributeSecurity attributeSecurity = dataDictionaryService.getAttributeSecurity(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
-                attributeSecurity.setMask(false);
                 if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
                     poIDstr = "";
                     int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);

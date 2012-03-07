@@ -70,7 +70,9 @@
     
     <purap:paymentHistory
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
-	            
+	     
+	<kul:notes /> 	            
+
 	<kul:adHocRecipients />
 
 	<kul:routeLog />

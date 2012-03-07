@@ -57,10 +57,10 @@
 	
 	    <gl:generalLedgerPendingEntries />
 
-	    <kul:notes 
+<%--	    <kul:notes 
 	    	notesBo="${KualiForm.document.documentBusinessObject.boNotes}" 
 	    	noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" 	    	
-	    	attachmentTypesValuesFinderClass="${DataDictionary.VendorCreditMemoDocument.attachmentTypesValuesFinderClass}"/> 
+	    	attachmentTypesValuesFinderClass="${DataDictionary.VendorCreditMemoDocument.attachmentTypesValuesFinderClass}"/>  --%>
 	
 	    <kul:adHocRecipients />
 	    

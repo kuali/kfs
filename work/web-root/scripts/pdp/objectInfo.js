@@ -16,7 +16,7 @@
 
 
 function loadAchBankInfo(bankRoutingField) {
-    var bankRoutingNumber = DWRUtil.getValue( bankRoutingField.name ).trim();
+    var bankRoutingNumber = dwr.util.getValue( bankRoutingField.name ).trim();
     var targetFieldName = findElPrefix( bankRoutingField.name ) + ".bankRouting.bankName";
 
 	if (bankRoutingNumber=="") {
@@ -43,7 +43,7 @@ function submit(payeeIdTypeCodeField) {
 	document.forms[0].submit();
 	/*
 	alert("payeeIdTypeCodeFieldName = " + payeeIdTypeCodeField.name);
-	var payeeIdTypeCode = DWRUtil.getValue(payeeIdTypeCodeField.name).trim();
+	var payeeIdTypeCode = dwr.util.getValue(payeeIdTypeCodeField.name).trim();
 	alert("payeeIdTypeCode = " + payeeIdTypeCode);
 	if (payeeIdTypeCode == "E" || payeeIdTypeCode == "T") {
 		var form = document.forms[0];

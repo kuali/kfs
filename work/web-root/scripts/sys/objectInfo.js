@@ -27,7 +27,7 @@ var subObjectCodeNameSuffix = ".subObjectCode.financialSubObjectCodeName";
 var universityFiscalYearSuffix =".universityFiscalYear";
 
 function loadChartInfo(coaCodeFieldName, coaNameFieldName ) {
-    var coaCode = DWRUtil.getValue( coaCodeFieldName );
+    var coaCode = dwr.util.getValue( coaCodeFieldName );
 
 	if (coaCode=="") {
 		clearRecipients(coaNameFieldName, ""); 
@@ -50,7 +50,7 @@ function loadChartInfo(coaCodeFieldName, coaNameFieldName ) {
 function setReportsToChartCode() {
 	// TODO: detect if in lookup or document mode
 	// make AJAX call to get reports-to chart
-	var coaCode = DWRUtil.getValue( "document.newMaintainableObject" + chartCodeSuffix );
+	var coaCode = dwr.util.getValue( "document.newMaintainableObject" + chartCodeSuffix );
 
 	if (coaCode!="") {
 		var dwrReply = {
@@ -71,7 +71,7 @@ function setReportsToChartCode() {
 
 function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     var elPrefix = findElPrefix( accountCodeFieldName );
-    var accountCode = DWRUtil.getValue( accountCodeFieldName );
+    var accountCode = dwr.util.getValue( accountCodeFieldName );
 	var coaCodeFieldName = elPrefix + chartCodeSuffix;
 	var coaNameFieldName = elPrefix + chartNameSuffix;
 
@@ -85,7 +85,7 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     var dwrResult = {
     	callback:function(param) {
     	if ( typeof param == "boolean" && param == true) {	
-    		var coaCode = DWRUtil.getValue( coaCodeFieldName );
+    		var coaCode = dwr.util.getValue( coaCodeFieldName );
     		//alert("Account Can Cross Chart: coaCode = " + coaCode + ", accountCode = " + accountCode);
     		if (accountCode == "") {
     			clearRecipients(accountNameFieldName);
@@ -119,7 +119,7 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     				if ( data != null && typeof data == "object" ) {    				
     					setRecipientValue( accountNameFieldName, data.accountName );
     					setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
-    					//alert("coaCode = " + DWRUtil.getValue(coaCodeFieldName+".div"));
+    					//alert("coaCode = " + dwr.util.getValue(coaCodeFieldName+".div"));
     					setRecipientValue( coaNameFieldName, data.chartOfAccounts.finChartOfAccountDescription );
     				} else {
     					setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
@@ -340,21 +340,21 @@ function loadOriginationInfo(originationCodeFieldName, originationCodeNameFieldN
 }
 
 function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
-    var userId = DWRUtil.getValue( emplIdFieldName );
+    var userId = dwr.util.getValue( emplIdFieldName );
     var containerDiv = document.getElementById(userNameFieldName + divSuffix);
 
     if (userId == "") {
-        DWRUtil.setValue( containerDiv.id, "" );
+        dwr.util.setValue( containerDiv.id, "" );
     } else {
         var dwrReply = {
             callback:function(data) {
             if ( data != null && typeof data == "object" ) {
-                DWRUtil.setValue(containerDiv.id, data.name, {escapeHtml:true} );
+                dwr.util.setValue(containerDiv.id, data.name, {escapeHtml:true} );
             } else {
-                DWRUtil.setValue(containerDiv.id, wrapError( "person not found" ));
+                dwr.util.setValue(containerDiv.id, wrapError( "person not found" ));
             } },
             errorHandler:function( errorMessage ) { 
-                DWRUtil.setValue(containerDiv.id, wrapError( "person not found" ));
+                dwr.util.setValue(containerDiv.id, wrapError( "person not found" ));
             }
         };
         PersonService.getPersonByEmployeeId( userId, dwrReply );
@@ -381,7 +381,7 @@ function getChartCode(coaCodeFieldName) {
 	}
 	else {
 		// otherwise chart code field is readOnly and its id is coaCodeFieldName+".div" 
-		coaCode = DWRUtil.getValue(coaCodeFieldName + ".div");
+		coaCode = dwr.util.getValue(coaCodeFieldName + ".div");
 		//alert("DWR getValue coaCode = " + coaCode);
 		
 		// after accounting line is added chart code is rendered with a URL link, need to strip that off
@@ -402,7 +402,7 @@ function getChartCode(coaCodeFieldName) {
 
 /** searchs for all child nodes recursively and executes the specified function **/
 function NodeIterator() {
-	this.iterate = fucntion iterate(func, node) {
+	this.iterate = function iterate(func, node) {
 		for (var x in node) {
 			var childNode = node.childNodes[x];
 			if (childNode[x].id && childNode[x].id.substring(0, 4) === 'tab-' 

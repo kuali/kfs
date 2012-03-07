@@ -189,5 +189,5 @@ if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 		perl -pi -e 's/<view .+?\/>//g' new_schema.xml
 	fi
 
-	diff -b -U 3 upgraded_schema.xml new_schema.xml > compare-results.txt
+	diff -b -i -B -U 3 upgraded_schema.xml new_schema.xml > compare-results.txt
 fi

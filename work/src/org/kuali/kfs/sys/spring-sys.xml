@@ -37,23 +37,29 @@
 		        <value>classpath:org/kuali/rice/location/web/campus/CampusType.xml</value>
 		        <value>classpath:org/kuali/rice/location/web/country/Country.xml</value>
 		        <value>classpath:org/kuali/rice/location/web/county/County.xml</value>
-		        <value>classpath:org/kuali/rice/coreservice/web/parameter/Parameter.xml</value>
-		        <value>classpath:org/kuali/rice/coreservice/web/component/Component.xml</value>
-		        <value>classpath:org/kuali/rice/coreservice/web/namespace/Namespace.xml</value>
-		        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterType.xml</value>
-		        <value>classpath:org/kuali/rice/krad/bo/datadictionary/PessimisticLock.xml</value>
 		        <value>classpath:org/kuali/rice/location/web/postalcode/PostalCode.xml</value>
 		        <value>classpath:org/kuali/rice/location/web/state/State.xml</value>
 		        <value>classpath:org/kuali/rice/location/web/campus/CampusMaintenanceDocument.xml</value>
 		        <value>classpath:org/kuali/rice/location/web/campus/CampusTypeMaintenanceDocument.xml</value>
 		        <value>classpath:org/kuali/rice/location/web/country/CountryMaintenanceDocument.xml</value>
 		        <value>classpath:org/kuali/rice/location/web/county/CountyMaintenanceDocument.xml</value>
+		        <value>classpath:org/kuali/rice/location/web/postalcode/PostalCodeMaintenanceDocument.xml</value>
+		        <value>classpath:org/kuali/rice/location/web/state/StateMaintenanceDocument.xml</value>
+
+		        <value>classpath:org/kuali/rice/coreservice/web/parameter/Parameter.xml</value>
+		        <value>classpath:org/kuali/rice/coreservice/web/component/Component.xml</value>
+		        <value>classpath:org/kuali/rice/coreservice/web/namespace/Namespace.xml</value>
+		        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterType.xml</value>
 		        <value>classpath:org/kuali/rice/coreservice/web/component/ComponentMaintenanceDocument.xml</value>
 		        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterMaintenanceDocument.xml</value>
-		
+		        <value>classpath:org/kuali/rice/coreservice/web/namespace/NamespaceMaintenanceDocument.xml</value>
+		        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterTypeMaintenanceDocument.xml</value>
+
 		        <value>classpath:org/kuali/rice/core/web/cache/CacheAdmin.xml</value>
-		
+
 				<value>classpath:org/kuali/rice/kew/bo/datadictionary/DocumentType.xml</value>
+		
+				<value>classpath:org/kuali/rice/kim/bo/datadictionary/KimAttributes.xml</value>
 				<value>classpath:org/kuali/rice/kim/impl/type/KimType.xml</value>
 				<value>classpath:org/kuali/rice/kim/impl/group/Group.xml</value>
 				<value>classpath:org/kuali/rice/kim/impl/role/RoleBo.xml</value>
@@ -61,10 +67,7 @@
 				<value>classpath:org/kuali/rice/kim/impl/permission/PermissionBo.xml</value>
 				<value>classpath:org/kuali/rice/kim/impl/responsibility/Responsibility.xml</value>		
 		
-		        <value>classpath:org/kuali/rice/coreservice/web/namespace/NamespaceMaintenanceDocument.xml</value>
-		        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterTypeMaintenanceDocument.xml</value>
-		        <value>classpath:org/kuali/rice/location/web/postalcode/PostalCodeMaintenanceDocument.xml</value>
-		        <value>classpath:org/kuali/rice/location/web/state/StateMaintenanceDocument.xml</value>
+		        <value>classpath:org/kuali/rice/krad/bo/datadictionary/PessimisticLock.xml</value>
 		        <value>classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml</value>
 		        <value>classpath:org/kuali/rice/krad/uif/UifFieldDefinitions.xml</value>
 		        <value>classpath:org/kuali/rice/krad/uif/UifGroupDefinitions.xml</value>
@@ -72,6 +75,7 @@
 		        <value>classpath:org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml</value>
 		        <value>classpath:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml</value>
 		        <value>classpath:org/kuali/rice/krad/uif/UifViewPageDefinitions.xml</value>
+
                 <value>org/kuali/kfs/sys/businessobject/datadictionary</value>
                 <value>org/kuali/kfs/sys/document/datadictionary</value>
             </list>

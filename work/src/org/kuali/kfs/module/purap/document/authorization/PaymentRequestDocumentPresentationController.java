@@ -154,8 +154,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         if (canRemoveRequestCancel(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.REMOVE_REQUEST_CANCEL);
         }
-
-        if (paymentRequestDocument.getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE)) {
+        if (canProcessorInit(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.DISPLAY_INIT_TAB);
         }
         
@@ -234,10 +233,19 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         return editModes;
     }
 
-
+    protected boolean canProcessorInit(PaymentRequestDocument paymentRequestDocument) {
+        // if Payment Request is in INITIATE status or NULL returned from getAppDocStatus
+        String status = paymentRequestDocument.getAppDocStatus();
+        if (StringUtils.equals(status, PaymentRequestStatuses.APPDOC_INITIATE)) {
+            return true;
+        }
+         return false;
+    }
+    
+    
     protected boolean canProcessorCancel(PaymentRequestDocument paymentRequestDocument) {
         // if Payment Request is in INITIATE status, user cannot cancel doc
-        if (StringUtils.equals(paymentRequestDocument.getAppDocStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
+        if (canProcessorInit(paymentRequestDocument)) {
             return false;
         }
         
@@ -274,7 +282,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
     protected boolean canManagerCancel(PaymentRequestDocument paymentRequestDocument) {
         // if Payment Request is in INITIATE status, user cannot cancel doc
-        if (StringUtils.equals(paymentRequestDocument.getAppDocStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
+        if (canProcessorInit(paymentRequestDocument)) {
             return false;
         }
         

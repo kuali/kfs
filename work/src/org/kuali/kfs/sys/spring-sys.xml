@@ -53,6 +53,7 @@
 		
 		        <value>classpath:org/kuali/rice/core/web/cache/CacheAdmin.xml</value>
 		
+				<value>classpath:org/kuali/rice/kew/bo/datadictionary/DocumentType.xml</value>
 				<value>classpath:org/kuali/rice/kim/impl/type/KimType.xml</value>
 				<value>classpath:org/kuali/rice/kim/impl/group/Group.xml</value>
 				<value>classpath:org/kuali/rice/kim/impl/role/RoleBo.xml</value>

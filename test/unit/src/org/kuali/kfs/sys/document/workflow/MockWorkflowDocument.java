@@ -609,11 +609,11 @@ public abstract class MockWorkflowDocument implements WorkflowDocument {
     /**
      * @see org.kuali.rice.kew.api.WorkflowDocument#returnToPreviousNode(org.kuali.rice.kew.api.action.ReturnPoint, java.lang.String)
      */
-    @Override
-    public void returnToPreviousNode(ReturnPoint returnPoint, String annotation) {
-        // TODO Auto-generated method stub
-
-    }
+  //  @Override
+  //  public void returnToPreviousNode(ReturnPoint returnPoint, String annotation) {
+  //      // TODO Auto-generated method stub
+//
+  //  }
 
     /**
      * @see org.kuali.rice.kew.api.WorkflowDocument#move(org.kuali.rice.kew.api.action.MovePoint, java.lang.String)

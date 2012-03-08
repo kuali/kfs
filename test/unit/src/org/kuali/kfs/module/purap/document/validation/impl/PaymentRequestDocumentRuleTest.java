@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.document.workflow.MockWorkflowDocument;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ReturnPoint;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -240,6 +241,12 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
 
             }
 
+            @Override
+            public void returnToPreviousNode(String annotation, ReturnPoint returnPoint) {
+                // TODO Auto-generated method stub
+                
+            }
+
 
         };
 
@@ -325,6 +332,12 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
 
             public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) {
 
+            }
+
+            @Override
+            public void returnToPreviousNode(String annotation, ReturnPoint returnPoint) {
+                // TODO Auto-generated method stub
+                
             }
         };
 

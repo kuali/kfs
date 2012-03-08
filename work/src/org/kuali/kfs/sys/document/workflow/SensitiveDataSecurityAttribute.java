@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute;
@@ -43,7 +44,7 @@ public class SensitiveDataSecurityAttribute implements DocumentSecurityAttribute
         if (docEntry instanceof FinancialSystemTransactionalDocumentEntry) {
             if (((FinancialSystemTransactionalDocumentEntry)docEntry).isPotentiallySensitive()) {
 
-                WorkflowDocumentService workflowDocService = SpringContext.getBean(WorkflowDocumentService.class);
+                WorkflowDocumentService workflowDocService = KewApiServiceLocator.getWorkflowDocumentService();
                 List<String> sensitiveDataCodeArray = workflowDocService.getSearchableAttributeStringValuesByKey(document.getDocumentId(),"sensitive");
                 if (sensitiveDataCodeArray != null && sensitiveDataCodeArray.size() > 0) {
                     List<String> sensitiveDataCode = sensitiveDataCodeArray;

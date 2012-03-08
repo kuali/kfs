@@ -59,6 +59,7 @@
 
 				<value>classpath:org/kuali/rice/kew/bo/datadictionary/DocumentType.xml</value>
 		
+				<value>classpath:org/kuali/rice/kim/bo/datadictionary/KimBaseBeans.xml</value>
 				<value>classpath:org/kuali/rice/kim/bo/datadictionary/KimAttributes.xml</value>
 				<value>classpath:org/kuali/rice/kim/impl/identity/PersonImpl.xml</value>
 				<value>classpath:org/kuali/rice/kim/impl/type/KimType.xml</value>

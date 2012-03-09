@@ -395,6 +395,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 RequisitionAccount account = (RequisitionAccount) acctIter.next();
                 account.setAccountIdentifier(null);
                 account.setItemIdentifier(null);
+                account.setObjectId(null);
+                account.setVersionNumber(null);
             }
         }
 

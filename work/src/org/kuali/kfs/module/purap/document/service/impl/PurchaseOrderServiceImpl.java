@@ -1298,6 +1298,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Override
     public List<Note> getPurchaseOrderNotes(Integer id) {
         List<Note> notes = new ArrayList<Note>();
+
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(id));
         if (ObjectUtils.isNotNull(po)) {
             notes = noteService.getByRemoteObjectId(po.getObjectId());

@@ -152,8 +152,9 @@
 		            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 		
 		    <gl:generalLedgerPendingEntries />
-		
-			<kul:notes attachmentTypesValuesFinderClass="${DataDictionary.PurchaseOrderDocument.attachmentTypesValuesFinderClass}" />
+			
+			<kul:notes />
+
 		    <html:messages id="warnings" property="noteWarning" message="true">
 		            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
 		    </html:messages>

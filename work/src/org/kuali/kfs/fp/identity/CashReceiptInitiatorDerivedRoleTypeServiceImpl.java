@@ -37,7 +37,7 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends DerivedRoleT
     
     /**
      * Overridden to check principal id is in KFS-SYS User and not in KFS-FP Cash Manager
-     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
     public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {

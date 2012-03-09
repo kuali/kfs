@@ -165,5 +165,8 @@
 
   <alias name="riceDataSource${connection.pool.impl}" alias="riceDataSource"/>
   <alias name="kfsDataSource${connection.pool.impl}" alias="dataSource"/>
-                           
+  <alias name="riceDataSource${connection.pool.impl}" alias="serverDatasource"/>
+  <alias name="kfsDataSource${connection.pool.impl}" alias="datasource"/>
+  <alias name="riceNonTransactionalDataSource" alias="nonTransactionalDatasource" />
+	                           
 </beans>

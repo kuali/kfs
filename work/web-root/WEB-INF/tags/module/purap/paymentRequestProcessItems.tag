@@ -80,7 +80,7 @@
 			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
-                        attributeEntry="${DataDictionary.PaymentRequestDocument.lineItemTotal}"
+                        attributeEntry="${documentAttributes.lineItemTotal}"
                         property="document.lineItemPreTaxTotal"
                         readOnly="true" />&nbsp; </b>
                 </div>
@@ -164,7 +164,7 @@
 			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
-                        attributeEntry="${DataDictionary.PaymentRequestDocument.grandPreTaxTotal}"
+                        attributeEntry="${documentAttributes.grandPreTaxTotal}"
                         property="document.grandPreTaxTotal"
                         readOnly="true" />&nbsp; </b>
                 </div>
@@ -183,7 +183,7 @@
 			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
-                        attributeEntry="${DataDictionary.PaymentRequestDocument.grandTaxAmount}"
+                        attributeEntry="${documentAttributes.grandTaxAmount}"
                         property="document.grandTaxAmount"
                         readOnly="true" />&nbsp; </b>
                 </div>
@@ -207,7 +207,7 @@
 			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
-                        attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotal}"
+                        attributeEntry="${documentAttributes.grandTotal}"
                         property="document.grandTotal"
                         readOnly="true" />&nbsp; </b>
                 </div>

@@ -73,13 +73,13 @@
 	<bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
 		<property name="driverClassName" value="${datasource.driver.name}" />
-		<property name="url" value="${datasource.url}" />
-		<property name="maxSize" value="${datasource.pool.maxSize}" />
-		<property name="minSize" value="${datasource.pool.minSize}" />
-		<property name="maxWait" value="${datasource.pool.maxWait}" />
-		<property name="validationQuery" value="${datasource.pool.validationQuery}" />
-		<property name="username" value="${datasource.username}" />
-		<property name="password" value="${datasource.password}" />
+		<property name="url" value="${rice.datasource.url}" />
+		<property name="maxSize" value="${rice.datasource.pool.maxSize}" />
+		<property name="minSize" value="${rice.datasource.pool.minSize}" />
+		<property name="maxWait" value="${rice.datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${rice.datasource.pool.validationQuery}" />
+		<property name="username" value="${rice.datasource.username}" />
+		<property name="password" value="${rice.datasource.password}" />
 	</bean>
 
  <!-- 

@@ -94,7 +94,7 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
         String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
 
         String preqId = request.getParameter("document.paymentRequestIdentifier");
-        if (ObjectUtils.isNotNull(preqId)) {
+        if (! StringUtils.isEmpty(preqId)) {
             //get the po document and get the account distribution method code....
             String distributionCode = getDistributionMethodFromPReq(preqId);
             if (ObjectUtils.isNotNull(distributionCode)) {
@@ -102,7 +102,7 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
             }
         } else {
             String poId = request.getParameter("document.purchaseOrderIdentifier");
-            if (ObjectUtils.isNotNull(poId)) {
+            if (! StringUtils.isEmpty(poId)) {
                 //get the po document and get the account distribution method code....
                 String distributionCode = getDistributionMethodFromPO(poId);
                 if (ObjectUtils.isNotNull(distributionCode)) {
